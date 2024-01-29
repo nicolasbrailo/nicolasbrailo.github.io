@@ -6,11 +6,11 @@ import os
 
 SAVE_TO_FILES=True
 
-template_comment = """## In reply to (this post)[{{in_reply_to}}], ({{author_name}})[{{author_uri}}] commented @ {{published}}:
+template_comment = """## In reply to [this post]({{in_reply_to}}), ({{author_name}})[{{author_uri}}] commented @ {{published}}:
 
 {{content}}
 
-Original (published here)[{{link}}].
+Original [published here]({{link}}).
 """
 
 template_post = """# {{title}}
@@ -21,7 +21,8 @@ template_post = """# {{title}}
 ---
 
 Published {{published}} by {{author_name}}
-Original (published here)[{{link}}].
+
+Original [published here]({{link}}).
 """
 
 def guess_code_block_txt(txt):
@@ -114,10 +115,7 @@ def parse_post_txt(txt):
 def ok_parse_entry(post):
     if post['is_comment']:
         tmpl = template_comment
-        print("XXXXXXXXXXXXXXXXXXXXX")
-        print(post)
-        print("XXXXXXXXXXXXXXXXXXXXX")
-        raise RuntimeError("X")
+        # TODO Match to post
     else:
         tmpl = template_post
 
