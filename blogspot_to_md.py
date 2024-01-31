@@ -6,7 +6,9 @@ import os
 
 SAVE_TO_FILES=True
 
-template_comment = """## In reply to [this post]({{in_reply_to}}), ({{author_name}})[{{author_uri}}] commented @ {{published}}:
+template_comment = """
+---
+## In reply to [this post]({{in_reply_to}}), ({{author_name}})[{{author_uri}}] commented @ {{published}}:
 
 {{content}}
 
@@ -24,6 +26,50 @@ Published {{published}} by {{author_name}}
 
 Original [published here]({{link}}).
 """
+
+
+BASE_URL = 'http://monkeywritescode.blogspot.com/'
+
+def get_md_file_for_comment_url(url):
+    # Try to match a comment url to a post in md format
+    if url.startswith(BASE_URL):
+        url = url[len(BASE_URL):]
+
+    try:
+        year = int(url[0:4])
+    except:
+        pos = url.find('20')
+        year = int(url[pos:pos+4])
+
+    try:
+        year_end = len('2000/')
+        month = int(url[year_end:year_end+2])
+    except:
+        month_start = url.find(f'{year}/') + len(f'{year}/')
+        month = int(url[month_start:month_start+2])
+
+    out_path = sys.argv[2]
+    candidates = []
+    for root, dirs, files in os.walk(f"{out_path}/{year}"):
+        for f in files:
+            if f.startswith(f'{month:02d}'):
+                candidates.append(f)
+
+    url = url[len(f"{year}/{month:02d}/"):url.find('.html?')]
+    stripurl = re.sub(r'[^_.a-zA-Z0-9]', '', url)
+    kwds = re.split('-|_', url)
+    for f in candidates:
+        stripfn = f[len(f"{month:02d}MM_"):f.find('.md')].lower()
+        if stripurl.lower() == stripfn.lower():
+            return f'{year}/{f}'
+        has_all_kwds = True
+        morestripfn = re.sub(r'[^a-zA-Z0-9]', '', stripfn)
+        for kwd in kwds:
+            if not kwd.isdigit():
+                has_all_kwds = has_all_kwds and (kwd.lower() in stripfn or kwd.lower() in morestripfn)
+        if has_all_kwds:
+            return f'{year}/{f}'
+    return None
 
 def guess_code_block_txt(txt):
     if 'class="c++"' in txt:
@@ -112,13 +158,8 @@ def parse_post_txt(txt):
     #mdd = re.sub(r'^\s+', '', mdd, flags=re.MULTILINE) # Remove whitespace at the start of lines
     return txt
 
-def ok_parse_entry(post, outdirprefix):
-    if post['is_comment']:
-        tmpl = template_comment
-        # TODO Match to post
-    else:
-        tmpl = template_post
-
+def on_post_found(post, outdirprefix):
+    tmpl = template_post
     post['content'] = parse_post_txt(post['content'])
     for key, value in post.items():
         token = "{{" + key + "}}"
@@ -137,6 +178,20 @@ def ok_parse_entry(post, outdirprefix):
             file.write(tmpl)
     else:
         print(f"# {post_fn}")
+        print(tmpl)
+
+def append_comment(comment, md_fpath, outdirprefix):
+    tmpl = template_comment
+    comment['content'] = parse_post_txt(comment['content'])
+    for key, value in comment.items():
+        token = "{{" + key + "}}"
+        tmpl = tmpl.replace(token, str(value))
+
+    if SAVE_TO_FILES:
+        with open(f'{outdirprefix}/{md_fpath}', 'a') as fp:
+            fp.write(tmpl)
+    else:
+        print(f"# Comment for {md_fpath}")
         print(tmpl)
 
 def failed_parse_entry(post):
@@ -168,7 +223,7 @@ def get_text_between_tokens(text, start_token, end_token):
 
     return text[start_index:end_index]
 
-def process_entry(text, outdirprefix):
+def process_entry(text):
     author = get_text_between_tokens(text, '<author>', '</author>')
     post = {
         'published': get_text_between_tokens(text, '<published>', '</published>'),
@@ -191,12 +246,11 @@ def process_entry(text, outdirprefix):
         return False
     if failed(post, 'published') or failed(post, 'title') or failed(post, 'content'):
         failed_parse_entry(text)
-    else:
-        ok_parse_entry(post, outdirprefix)
-
-
+        return None
+    return post
 
 def process_file(filename, outdirprefix):
+    comments = []
     with open(filename, 'r') as file:
         content = file.read()
         start_token = '<entry>'
@@ -206,14 +260,27 @@ def process_file(filename, outdirprefix):
             end_index = content.find(end_token, start_index + len(start_token))
             if end_index != -1:
                 entry_content = content[start_index + len(start_token):end_index]
-                process_entry(entry_content.strip(), outdirprefix)
+                post = process_entry(entry_content.strip())
+                if post is not None:
+                    if post['is_comment']:
+                        comments.append(post)
+                    else:
+                        on_post_found(post, outdirprefix)
                 start_index = content.find(start_token, end_index + len(end_token))
             else:
                 break
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python script.py <filename> <output dir>")
-        sys.exit(1)
+    for com in comments:
+        com_url = com['in_reply_to'] if len(com['in_reply_to']) > 0 else com['link']
+        try:
+            md_fpath = get_md_file_for_comment_url(com_url)
+        except:
+            sys.stderr.write(f'** Cant parse comment{com}\n\n')
+            continue
+        if md_fpath is None:
+            sys.stderr.write(f'** Failed to match to an md file {com_url}\n\n')
+        else:
+            append_comment(com, md_fpath, outdirprefix)
 
-    process_file(sys.argv[1], sys.argv[2])
+
+process_file(sys.argv[1], sys.argv[2])
