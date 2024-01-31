@@ -112,7 +112,7 @@ def parse_post_txt(txt):
     #mdd = re.sub(r'^\s+', '', mdd, flags=re.MULTILINE) # Remove whitespace at the start of lines
     return txt
 
-def ok_parse_entry(post):
+def ok_parse_entry(post, outdirprefix):
     if post['is_comment']:
         tmpl = template_comment
         # TODO Match to post
@@ -125,13 +125,14 @@ def ok_parse_entry(post):
         tmpl = tmpl.replace(token, str(value))
 
     pub_yr = post['published'][0:len('2023')]
+    dirpath = f"{outdirprefix}/{pub_yr}"
     pubd = post['published'][len('2023-'):len('2023-12-16')].replace('-', '')
     post_fn = f"{pubd}_{post['title']}.md"
-    post_fn = f"{pub_yr}/" + re.sub(r'[^_.a-zA-Z0-9]', '', post_fn)
+    post_fn = f"{dirpath}/" + re.sub(r'[^_.a-zA-Z0-9]', '', post_fn)
 
     if SAVE_TO_FILES:
-        if not os.path.exists(pub_yr):
-            os.makedirs(pub_yr)
+        if not os.path.exists(dirpath):
+            os.makedirs(dirpath)
         with open(post_fn, 'w') as file:
             file.write(tmpl)
     else:
@@ -167,7 +168,7 @@ def get_text_between_tokens(text, start_token, end_token):
 
     return text[start_index:end_index]
 
-def process_entry(text):
+def process_entry(text, outdirprefix):
     author = get_text_between_tokens(text, '<author>', '</author>')
     post = {
         'published': get_text_between_tokens(text, '<published>', '</published>'),
@@ -191,11 +192,11 @@ def process_entry(text):
     if failed(post, 'published') or failed(post, 'title') or failed(post, 'content'):
         failed_parse_entry(text)
     else:
-        ok_parse_entry(post)
+        ok_parse_entry(post, outdirprefix)
 
 
 
-def process_file(filename):
+def process_file(filename, outdirprefix):
     with open(filename, 'r') as file:
         content = file.read()
         start_token = '<entry>'
@@ -205,14 +206,14 @@ def process_file(filename):
             end_index = content.find(end_token, start_index + len(start_token))
             if end_index != -1:
                 entry_content = content[start_index + len(start_token):end_index]
-                process_entry(entry_content.strip())
+                process_entry(entry_content.strip(), outdirprefix)
                 start_index = content.find(start_token, end_index + len(end_token))
             else:
                 break
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <filename>")
+    if len(sys.argv) != 3:
+        print("Usage: python script.py <filename> <output dir>")
         sys.exit(1)
 
-    process_file(sys.argv[1])
+    process_file(sys.argv[1], sys.argv[2])
