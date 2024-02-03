@@ -138,7 +138,6 @@ def parse_post_txt(txt):
 
         txt = txt[0:match_i] + f'<P#R#E class="c++">{escaped}</P#R#E>' + txt[match_f:]
     txt = txt.replace('P#R#E', 'pre')
-
     txt = CustomMd().convert(txt)
 
     # Clean \n's
@@ -261,22 +260,29 @@ def process_file(filename, outdirprefix):
     comments = []
     with open(filename, 'r') as file:
         content = file.read()
-        start_token = '<entry>'
-        end_token = '</entry>'
-        start_index = content.find(start_token)
-        while start_index != -1:
-            end_index = content.find(end_token, start_index + len(start_token))
-            if end_index != -1:
-                entry_content = content[start_index + len(start_token):end_index]
-                post = process_entry(entry_content.strip())
-                if post is not None:
-                    if post['is_comment']:
-                        comments.append(post)
-                    else:
-                        on_post_found(post, outdirprefix)
-                start_index = content.find(start_token, end_index + len(end_token))
-            else:
-                break
+
+    content = content.replace('&gt;', '>') \
+                     .replace('&lt;', '<') \
+                     .replace('&amp;', '&') \
+                     .replace('&quot;', '"') \
+                     .replace('&nbsp;', '"')
+
+    start_token = '<entry>'
+    end_token = '</entry>'
+    start_index = content.find(start_token)
+    while start_index != -1:
+        end_index = content.find(end_token, start_index + len(start_token))
+        if end_index != -1:
+            entry_content = content[start_index + len(start_token):end_index]
+            post = process_entry(entry_content.strip())
+            if post is not None:
+                if post['is_comment']:
+                    comments.append(post)
+                else:
+                    on_post_found(post, outdirprefix)
+            start_index = content.find(start_token, end_index + len(end_token))
+        else:
+            break
 
     for com in comments:
         com_url = com['in_reply_to'] if len(com['in_reply_to']) > 0 else com['link']

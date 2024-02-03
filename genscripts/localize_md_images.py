@@ -80,6 +80,7 @@ def try_localize(img_local_dir, broken_image_local_path, fpath, img_tag_search_s
     if img_tok_i == -1:
         # No image in this post
         return False
+    print(fpath)
     img_tok_f = post_txt.find(']', img_tok_i+1)
     if (post_txt[img_tok_f+1] != '('):
         print(f"Failed to parse image url in {fpath}")
