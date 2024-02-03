@@ -10,9 +10,9 @@ BLOG_HEADER = """
 # Blog title
 
 # Menu
-* [Home](../)
-* [Blog](./index.html)
-* [History](./history.html)
+* [Home](/)
+* [Blog](/blog/index.html)
+* [History](/blog/history.html)
 
 """
 
