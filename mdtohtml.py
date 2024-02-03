@@ -1,48 +1,81 @@
+from markdown.blockprocessors import BlockProcessor
+from markdown.extensions import Extension
+from markdown.inlinepatterns import InlineProcessor
+from markdown.treeprocessors import Treeprocessor
+import html
+import re
 import markdown
-import os
-import sys
+import xml.etree.ElementTree as etree
 
-def get_all_posts(src_path):
-    posts = []
-    for root, dirs, files in os.walk(src_path):
-        if len(files) > 0:
-            posts.extend([f"{root}/{x}" for x in files if x.endswith(".md")]);
-    posts.sort()
-    return posts
 
-def date_index(posts):
-    idx = {}
-    for p in posts:
-        year = int(p[len(src_path):len(src_path) + 4])
-        year_start_pos = len(src_path) + len('1999') + len('/')
-        month = int(p[year_start_pos : year_start_pos + 2])
-        if year not in idx:
-            idx[year] = {}
-        if month not in idx[year]:
-            idx[year][month] = []
-        idx[year][month].append(p)
-    return idx
+class CodeProcessor(BlockProcessor):
+    def test(self, parent, block):
+        return ('```' in block)
 
-def build_month(out_path, year, month, posts):
-    month_md = f"# Posts for {year}-{month}\n\n"
-    for post in posts:
-        with open(post, 'r') as fp:
-            month_md += fp.read()
+    def run(self, parent, blocks):
+        original_block = blocks[0]
 
-    prefix = f'{out_path}/{year}'
-    if not os.path.exists(prefix):
-        os.makedirs(prefix)
-    with open(f'{prefix}/{month}.html', 'w') as fp:
-        fp.write(markdown.markdown(month_md))
+        tok_start = blocks[0].find('```')
+        if tok_start == -1:
+            raise "Something bad happened"
 
-def build_year(post):
-    pass
+        tok_end = blocks[0].find('\n', tok_start)
+        if tok_end == -1:
+            tok_end = blocks[0].find(' ', tok_start)
+        if tok_end == -1:
+            tok_end = len(blocks[0])
+        else:
+            tok_end = tok_end + 1
 
-src_path = sys.argv[1]
-dst_path = sys.argv[2]
-posts = date_index(get_all_posts(src_path))
-for year in posts:
-    build_year(posts[year])
-    for month in posts[year]:
-        build_month(dst_path, year, month, posts[year][month])
+        lang = None
+        has_lang = (tok_end - tok_start) != len('```')
+        if has_lang:
+            lang = blocks[0][tok_start + len('```'):tok_end].strip()
+
+        text_before_tok = blocks[0][:tok_start]
+        if len(text_before_tok.strip()) != 0:
+            raise RuntimeError("Bad code block: ``` seems to have been used as inline code block, please use `<code>` instead")
+
+        blocks[0] = blocks[0][tok_end:]
+
+        # Find block with ending fence
+        for block_num, block in enumerate(blocks):
+            finish_here = '```' in block
+            if finish_here:
+                blocks_split_by_marker = block.split('```')
+                block_before_marker = blocks_split_by_marker[0]
+                block_after_marker = '```'.join(blocks_split_by_marker[1:])
+                # render fenced area inside a new div
+                e = etree.SubElement(parent, 'pre')
+                e.set('style', 'display: inline-block; border: 1px solid red;')
+                if lang is not None:
+                    e.set('lang', lang)
+                # No html parsing: self.parser.parseBlocks(e, blocks[0:block_num + 1])
+                e.text = html.escape('\n'.join(blocks[0:block_num] + [block_before_marker]))
+                # remove used blocks
+                for i in range(0, block_num + 1):
+                    blocks.pop(0)
+                if len(block_after_marker) > 0:
+                    blocks.append(block_after_marker)
+                return True  # or could have had no return statement
+        # No closing marker!  Restore and do nothing
+        blocks[0] = original_block
+        return False  # equivalent to our test() routine returning False
+
+def build_anchor_for_title(title):
+    return re.sub(r'[^_.a-zA-Z0-9]', '', title).lower()
+
+class Anchorize(Treeprocessor):
+    def run(self, root):
+        for elem in root.iter():
+            if elem.tag in ['h1', 'h2', 'h3']:
+                anchor = etree.SubElement(elem, 'a')
+                anchor.set('name', build_anchor_for_title(elem.text))
+
+markdowner = markdown.Markdown()
+markdowner.parser.blockprocessors.register(CodeProcessor(markdowner.parser), 'code', 175)
+markdowner.treeprocessors.register(Anchorize(markdowner), 'anchorize', 185)
+
+def mdtohtml(md):
+    return markdowner.convert(md)
 

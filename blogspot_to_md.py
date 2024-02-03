@@ -8,7 +8,7 @@ SAVE_TO_FILES=True
 
 template_comment = """
 ---
-## In reply to [this post]({{in_reply_to}}), ({{author_name}})[{{author_uri}}] commented @ {{published}}:
+## In reply to [this post]({{in_reply_to}}), [{{author_name}}]({{author_uri}}) commented @ {{published}}:
 
 {{content}}
 
@@ -18,7 +18,6 @@ Original [published here]({{link}}).
 template_post = """# {{title}}
 
 {{content}}
-
 
 ---
 
@@ -108,7 +107,7 @@ class CustomMd(MarkdownConverter):
         lang = guess_code_block_lang(el)
 
         if not convert_as_inline:
-            return f'```{lang}\n{text}\n```'
+            return f'\n```{lang}\n{text}\n```\n'
 
         if '&lt;br&gt;' in str(el) or '&lt;br/&gt;' in str(el):
             txt = str(el)
@@ -117,7 +116,7 @@ class CustomMd(MarkdownConverter):
             txt = txt.replace('&lt;br&gt;', '\n')
             txt = txt.replace('&lt;br/&gt;', '\n')
             txt = txt.replace('&lt;/pre&gt;', '')
-            return f'```{lang}\n{txt}\n```'
+            return f'\n```{lang}\n{txt}\n```\n'
 
         # Unimpl
         raise 42
@@ -154,7 +153,7 @@ def parse_post_txt(txt):
         del lines[len(lines)-1]
     txt = '\n'.join(lines)
     txt = re.sub(r'\n{2,}', '\n\n', txt)
-    txt = re.sub(r'\s+$', '', txt, flags=re.MULTILINE) # Remove whitespace at the end of lines
+    #txt = re.sub(r'\s+$', '', txt, flags=re.MULTILINE) # Remove whitespace at the end of lines
     #mdd = re.sub(r'^\s+', '', mdd, flags=re.MULTILINE) # Remove whitespace at the start of lines
     return txt
 
