@@ -11,7 +11,7 @@ DEADLINE_MD_TMPL = """
 
 This blog is, by Internet standards, ancient. The link you clicked probably worked a few years (decades) ago, but is now broken. Its content may be irretrievably lost forever. Or maybe the link still works, but I broke it in one of the many, many, blog migrations. Or maybe a random cosmic ray flipped a bit somewhere. We will never know, so here is the image of a kitten.
 
-![Original: https://commons.wikimedia.org/wiki/Category:Kittens#/media/File:Six_weeks_old_cat_(aka).jpg](/blog_img/kitten.jpg)
+![Original: https://commons.wikimedia.org/wiki/Category:Kittens#/media/File:Six_weeks_old_cat_(aka).jpg](/blog_img/cat.jpg)
 
 """
 
@@ -96,7 +96,7 @@ def knownbroken(url):
                 'monoinfinito.files.wordpress.com/2010/04/pantallazo-keywords', 'www.wulffmorgenthaler.com',
                 'abstrusegoose.com', 'monosinfinitos.com.ar', 'codecomics.com', 'ubuntu-ar.org',
                 'yuvi.in', 'paulallcock.org', 'thisisabore.net', 'www.copyquery.com',
-                'www.programfaqs.com', 'gnutn.org.ar', 'gnutn.com.ar', 'feeds.feedburner.com'
+                'mentorembedded.github.com', 'www.programfaqs.com', 'gnutn.org.ar', 'gnutn.com.ar', 'feeds.feedburner.com'
               ]
     for p in oklist:
         if p in url:
@@ -166,11 +166,11 @@ for fpath in get_all_posts(md_src_path):
                 if knownmoved(url) is not None:
                     updated = True
                     post_txt = replace_moved(post_txt, url)
-                elif allowlisted(url):
-                    pass
                 elif knownbroken(url):
                     updated = True
                     post_txt = replace_broken(post_txt, url)
+                elif allowlisted(url):
+                    pass
                 elif islocalblog(md_src_path, url):
                     updated = True
                     post_txt = localize_url(post_txt, url)

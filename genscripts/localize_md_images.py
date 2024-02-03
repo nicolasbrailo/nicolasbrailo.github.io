@@ -11,7 +11,8 @@ def get_all_posts(src_path):
     return posts
 
 def prefetch_kitten(kitten_local_path):
-    kitten_img_url = 'https://commons.wikimedia.org/wiki/Category:Kittens#/media/File:Six_weeks_old_cat_(aka).jpg'
+    #kitten_img_url = 'https://commons.wikimedia.org/wiki/Category:Kittens#/media/File:Six_weeks_old_cat_(aka).jpg'
+    kitten_img_url = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Six_weeks_old_cat_%28aka%29.jpg'
     response = requests.get(kitten_img_url)
     if response.status_code != 200:
         raise RuntimeError("Can't download kitten image")
@@ -121,7 +122,7 @@ if not os.path.exists(img_local_dir):
 
 broken_image_local_path = f'{img_local_dir}/img_lost.png'
 prefetch_broken_image(broken_image_local_path)
-prefetch_kitten(f'{img_local_dir}/kitten.jpg')
+prefetch_kitten(f'{img_local_dir}/cat.jpg')
 
 for fpath in get_all_posts(md_src_path):
     # Apply try_localize in a loop so it will pick up all images, if a post has more than 1

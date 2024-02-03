@@ -65,11 +65,16 @@ def month_num_str(m):
 
 def get_all_posts(src_path):
     posts = []
+    root_pages = []
     for root, dirs, files in os.walk(src_path):
         if len(files) > 0:
-            posts.extend([f"{root}/{x}" for x in files if x.endswith(".md")]);
+            files_here = [f"{root}/{x}" for x in files if x.endswith(".md")]
+            if root == src_path:
+                root_pages.extend(files_here)
+            else:
+                posts.extend(files_here);
     posts.sort(reverse=True)
-    return posts
+    return posts, root_pages
 
 def date_index(src_path, posts):
     idx = {}
@@ -198,10 +203,15 @@ if mode == 'full':
 
 if src_path[:-1] != '/':
     src_path = f'{src_path}/'
-all_posts = get_all_posts(src_path)
+all_posts, root_pages  = get_all_posts(src_path)
 
 if build_index:
     write_md_to_html_file(f'{dst_path}/index.html', build_index_md(all_posts))
+    for md_f in root_pages:
+        html_f = md_f.replace(src_path, dst_path).replace('.md', '.html')
+        with open(md_f, 'r') as fp:
+            md = fp.read()
+        write_md_to_html_file(html_f, md)
 
 if build_history:
     date_indexed_posts = date_index(src_path, all_posts)
