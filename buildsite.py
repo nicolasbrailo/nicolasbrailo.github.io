@@ -1,5 +1,4 @@
-from mdtohtml import build_anchor_for_title
-from mdtohtml import mdtohtml
+from mdtohtml import build_anchor_for_title, apply_template, write_md_to_html_file
 
 from datetime import datetime
 import os
@@ -24,16 +23,26 @@ BLOG_INDEX_TMPL = BLOG_HEADER + """
 
 ---
 
-Blog built @ {{generated_date}}
+Blog built @ {{generatedDate}}
 
 """
 
-POSTS_IDX_TMPL = BLOG_HEADER + """
-# Posts for {{date_period}}
+POSTS_IDX_TMPL = """
+# Posts for {{datePeriod}}
 
-{{post_idx}}
+{{postsIdx}}
 
 
+"""
+
+POST_TMPL = """
+# {{title}}
+
+By {{author}} @ {{publishDate}}
+
+{{content}}
+
+---
 """
 
 
@@ -62,55 +71,56 @@ def get_all_posts(src_path):
     posts.sort(reverse=True)
     return posts
 
-def date_index(posts):
+def date_index(src_path, posts):
     idx = {}
     for p in posts:
-        year = int(p[len(src_path):len(src_path) + 4])
-        year_start_pos = len(src_path) + len('1999') + len('/')
-        month = int(p[year_start_pos : year_start_pos + 2])
-        if year not in idx:
-            idx[year] = {}
-        if month not in idx[year]:
-            idx[year][month] = []
-        idx[year][month].append(p)
+        try:
+            year = int(p[len(src_path):len(src_path) + 4])
+            year_start_pos = len(src_path) + len('1999') + len('/')
+            month = int(p[year_start_pos : year_start_pos + 2])
+            if year not in idx:
+                idx[year] = {}
+            if month not in idx[year]:
+                idx[year][month] = []
+            idx[year][month].append(p)
+        except:
+            print("FAIL PARSING " + p)
+            raise
     return idx
 
-def apply_template(tmpl, repl):
-    for key, value in repl.items():
-        token = "{{" + key + "}}"
-        tmpl = tmpl.replace(token, str(value))
-    return tmpl
+def read_post_md_file(fpath):
+    with open(fpath, 'r') as fp:
+        post_txt = fp.read()
 
-def write_md_to_html(fpath, md_txt):
-    dirn = os.path.dirname(fpath)
-    if len(dirn) > 0 and not os.path.exists(dirn):
-        os.makedirs(dirn)
-    with open(fpath, 'w') as fp:
-        fp.write(mdtohtml(md_txt))
+    # Extract title out of post (needs to be the first line)
+    # eg: '## foo bar\n'
+    title = post_txt[post_txt.find(' '):post_txt.find('\n')]
+    post_txt = post_txt[post_txt.find('\n')+1:]
+
+    pre_procd = POST_TMPL.replace('{{content}}', post_txt)
+    txt = apply_template(pre_procd, {'title': title})
+    return txt, title
 
 def build_month(out_path, year, month, posts):
     post_titles = []
     post_idx = ""
     for post in posts:
-        with open(post, 'r') as fp:
-            post_txt = fp.read()
-            # eg: '## foo bar\n'
-            title = post_txt[post_txt.find(' '):post_txt.find('\n')]
-            post_titles.append(title)
-            post_idx += post_txt
+        content, title = read_post_md_file(post)
+        post_titles.append(title)
+        post_idx += content
 
-    month_md = apply_template(POSTS_IDX_TMPL, {
-        'date_period': f'{year} {month_num_str(month)}',
+    month_md = apply_template(BLOG_HEADER + POSTS_IDX_TMPL, {
+        'datePeriod': f'{year} {month_num_str(month)}',
         'year': year,
         'month': month,
-        'post_idx': post_idx,
+        'postsIdx': post_idx,
     })
 
     fpath = f'{out_path}/{year}/{month}.html'
-    write_md_to_html(fpath, month_md)
+    write_md_to_html_file(fpath, month_md)
     return (fpath, post_titles)
 
-def build_year_md(link_base, year, month_idxs):
+def build_year_md(link_base, year, month_idxs, include_header=True):
     post_idx = []
     for (month, p, post_titles) in month_idxs:
         post_idx.append(f' * [{month_num_str(month)}]({link_base}{month}.html)')
@@ -118,10 +128,11 @@ def build_year_md(link_base, year, month_idxs):
             anchor = build_anchor_for_title(pt)
             post_idx.append(f'    * [{pt}]({link_base}{month}.html#{anchor})\n')
 
-    return apply_template(POSTS_IDX_TMPL, {
-        'date_period': year,
+    tmpl = BLOG_HEADER + POSTS_IDX_TMPL if include_header else BLOG_HEADER
+    return apply_template(tmpl, {
+        'datePeriod': year,
         'year': year,
-        'post_idx': '\n'.join(post_idx),
+        'postsIdx': '\n'.join(post_idx),
     })
 
 
@@ -139,8 +150,8 @@ def build_history_md(year_idx):
                 year_lst.append(ln)
 
     return apply_template(POSTS_IDX_TMPL, {
-        'date_period': 'the entire history of this site',
-        'post_idx': '\n'.join(year_lst),
+        'datePeriod': 'the entire history of this site',
+        'postsIdx': '\n'.join(year_lst),
     })
 
 
@@ -149,18 +160,16 @@ def build_index_md(posts):
     BLOG_INDEX_TMPL
     txt = []
     for post_fn in posts[0:POSTS_IN_INDEX]:
-        with open(post_fn, 'r') as fp:
-            txt.append(fp.read())
+        content, title = read_post_md_file(post_fn)
+        txt.append(content)
 
     return apply_template(BLOG_INDEX_TMPL, {
-                'generated_date': datetime.now().strftime('%Y-%m-%d'),
-                'content': ('\n---\n').join(txt),
+                'generatedDate': datetime.now().strftime('%Y-%m-%d'),
+                'content': ('\n').join(txt),
            })
 
 
-def rebuild_history(all_posts):
-    date_indexed_posts = date_index(all_posts)
-
+def rebuild_history(dst_path, date_indexed_posts):
     year_idx = []
     for year in date_indexed_posts:
         month_idx = []
@@ -169,14 +178,32 @@ def rebuild_history(all_posts):
             month_idx.append((month, fpath, post_titles))
 
         year_idx_path = f'{dst_path}/{year}/index.html'
-        write_md_to_html(year_idx_path, build_year_md('', year, month_idx))
+        write_md_to_html_file(year_idx_path, build_year_md('', year, month_idx))
         year_idx.append((year, year_idx_path, month_idx))
 
-    write_md_to_html(f'{dst_path}/history.html', build_history_md(year_idx))
+    write_md_to_html_file(f'{dst_path}/history.html', build_history_md(year_idx))
 
 
 src_path = sys.argv[1]
 dst_path = sys.argv[2]
+mode = sys.argv[3]
+
+if mode == 'index':
+    build_index = True
+    build_history = False
+if mode == 'full':
+    build_index = True
+    build_history = True
+
+
+if src_path[:-1] != '/':
+    src_path = f'{src_path}/'
 all_posts = get_all_posts(src_path)
-# rebuild_history(all_posts)
-write_md_to_html(f'{dst_path}/index.html', build_index_md(all_posts))
+
+if build_index:
+    write_md_to_html_file(f'{dst_path}/index.html', build_index_md(all_posts))
+
+if build_history:
+    date_indexed_posts = date_index(src_path, all_posts)
+    rebuild_history(dst_path, date_indexed_posts)
+

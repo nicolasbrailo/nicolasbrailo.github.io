@@ -17,13 +17,12 @@ Original [published here]({{link}}).
 
 template_post = """# {{title}}
 
+@meta publishDatetime {{published}}
+@meta author {{author_name}}
+@meta originalUrl {{link}}
+
 {{content}}
 
----
-
-Published {{published}} by {{author_name}}
-
-Original [published here]({{link}}).
 """
 
 
@@ -147,14 +146,15 @@ def parse_post_txt(txt):
     for i in range(len(lines)):
         if lines[i].strip() == '':
             lines[i] = '\n'
+        lines[i] = re.sub(r'[ \t]+$', '', lines[i]) # Remove spaces at end of line
+        # This breaks code indent, for it to work it needs to be aware of the parse context:
+        # lines[i] = re.sub(r'^[ \t]+', '', lines[i]) # Remove spaces at start of line
     while lines[0] == '\n':
         del lines[0]
     while lines[len(lines)-1] == '\n':
         del lines[len(lines)-1]
     txt = '\n'.join(lines)
     txt = re.sub(r'\n{2,}', '\n\n', txt)
-    #txt = re.sub(r'\s+$', '', txt, flags=re.MULTILINE) # Remove whitespace at the end of lines
-    #mdd = re.sub(r'^\s+', '', mdd, flags=re.MULTILINE) # Remove whitespace at the start of lines
     return txt
 
 def on_post_found(post, outdirprefix):
@@ -197,6 +197,8 @@ def failed_parse_entry(post):
     sys.stderr.write('** FAIL\n\n')
     sys.stderr.write(post)
 
+def parsed_entry_missing_content(post):
+    sys.stderr.write(f'** Ignoring empty entry, title: {post["title"]}\n\n')
 
 def get_text_between_tokens(text, start_token, end_token):
     """
@@ -240,11 +242,18 @@ def process_entry(text):
         #'original': text,
     }
     def failed(post, tag):
-        if tag not in post or not post[tag] or len(post[tag].strip()) == 0:
+        if tag not in post:
+            return True
+        return False
+    def empty(post, tag):
+        if len(post[tag].strip()) == 0:
             return True
         return False
     if failed(post, 'published') or failed(post, 'title') or failed(post, 'content'):
         failed_parse_entry(text)
+        return None
+    if empty(post, 'published') or empty(post, 'title') or empty(post, 'content'):
+        parsed_entry_missing_content(post)
         return None
     return post
 
