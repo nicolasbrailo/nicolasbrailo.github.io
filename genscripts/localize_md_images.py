@@ -20,12 +20,16 @@ def prefetch_broken_image(broken_image_local_path):
     with open(broken_image_local_path, 'wb') as file:
         file.write(response.content)
 
+def absolute_url(url):
+    if url.startswith('./'):
+        return url[1:]
+    return url
 
 def wget(broken_image_local_path, img_local_dir, url):
     local_path = os.path.join(img_local_dir, os.path.basename(url))
     if os.path.exists(local_path):
         print(f"Reusing image at {local_path}")
-        return local_path
+        return absolute_url(local_path)
 
     try:
         response = requests.get(url)
@@ -36,9 +40,7 @@ def wget(broken_image_local_path, img_local_dir, url):
             print(f"Fetched {url}")
             with open(local_path, 'wb') as file:
                 file.write(response.content)
-            if local_path.startswith('./'):
-                local_path = local_path[1:]
-            return local_path
+            return absolute_url(local_path)
         else:
             print(f"Failed to fetch content from '{url}'. Status code: {response.status_code}")
             return None
@@ -56,6 +58,7 @@ def should_skip_attribution(url):
     if 'monoinfinito' in url:
         return True
     return False
+
 
 def try_localize(img_local_dir, broken_image_local_path, fpath, img_tag_search_start_pos=0):
     with open(fpath, 'r') as fp:
@@ -76,7 +79,7 @@ def try_localize(img_local_dir, broken_image_local_path, fpath, img_tag_search_s
     # lbl = post_txt[img_tok_i+len('![') : img_tok_f]
     url = post_txt[img_url_i : img_url_f]
 
-    if url.startswith(img_local_dir):
+    if url.startswith(absolute_url(img_local_dir)):
         # Already has a local img, try to parse the rest of this content
         return try_localize(img_local_dir, broken_image_local_path, fpath, img_url_f)
 
