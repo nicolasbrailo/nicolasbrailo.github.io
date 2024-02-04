@@ -2,6 +2,7 @@ from markdown.blockprocessors import BlockProcessor
 from markdown.extensions import Extension
 from markdown.inlinepatterns import InlineProcessor
 from markdown.treeprocessors import Treeprocessor
+from markdown.preprocessors import Preprocessor
 
 from datetime import datetime
 import html
@@ -90,9 +91,34 @@ class Anchorize(Treeprocessor):
                 anchor = etree.SubElement(elem, 'a')
                 anchor.set('name', build_anchor_for_title(elem.text))
 
-markdowner = markdown.Markdown()
+class EscapeMoreChars(Preprocessor):
+    rpls = {
+        '¿': '&iquest;',
+        '“': '&ldquo;',
+        '”': '&rdquo;',
+        'Ú': '&Uacute;',
+        'ú': '&uacute;',
+        'Ó': '&Oacute;',
+        'ó': '&oacute;',
+        'Í': '&Iacute;',
+        'í': '&iacute;',
+        'á': '&aacute;',
+        'Á': '&Aacute;',
+        'É': '&Eacute;',
+        'é': '&eacute;',
+        'ñ': '&ntilde;',
+        'Ñ': '&Ntilde;',
+    }
+    def run(self, lines: list[str]) -> list[str]:
+        for i in range(len(lines)):
+            for k,v in self.rpls.items():
+                lines[i] = lines[i].replace(k, v)
+        return lines
+
+markdowner = markdown.Markdown(extensions=['smarty', 'sane_lists'])
 markdowner.parser.blockprocessors.register(CodeProcessor(markdowner.parser), 'code', 175)
 markdowner.treeprocessors.register(Anchorize(markdowner), 'anchorize', 185)
+markdowner.preprocessors.register(EscapeMoreChars(markdowner), 'escapemorechars', 195)
 
 def extract_md_metadata(md):
     metadata = {}
@@ -117,7 +143,7 @@ def mdtohtml(md):
     for ln in md.split('\n'):
         if not ln.startswith('@meta '):
             content.append(ln)
-    return markdowner.convert('\n'.join(content))
+    return markdowner.reset().convert('\n'.join(content))
 
 def apply_template(tmpl, repl):
     for key, value in extract_md_metadata(tmpl).items():
@@ -128,16 +154,51 @@ def apply_template(tmpl, repl):
         tmpl = tmpl.replace(token, str(value))
     return tmpl
 
-def write_md_to_html_file(fpath, md_txt):
-    dirn = os.path.dirname(fpath)
-    if len(dirn) > 0 and not os.path.exists(dirn):
-        os.makedirs(dirn)
-    try:
-        md = mdtohtml(md_txt)
-    except:
-        print(f"Failed to convert md to html for {fpath}")
-        raise
-    with open(fpath, 'w') as fp:
-        fp.write(md)
+class MdToHtml:
+    def __init__(self, src_path, dst_path):
+        self.src_path = src_path
+        self.dst_path = dst_path
 
+        src = self.src_path
+        if src[0] == '.':
+            src = src[1:]
+        if src[0] != '/':
+            src = '/' + src
+        if src[len(src)-1] != '/':
+            src = src + '/'
+        self.link_abs_src = src
+
+        dst = self.dst_path
+        if dst[0] == '.':
+            dst = dst[1:]
+        if dst[0] != '/':
+            dst = '/' + dst
+        if dst[len(dst)-1] != '/':
+            dst = dst + '/'
+        self.link_abs_dst = dst
+
+    def write_file(self, relpath, md_txt):
+        if self.src_path in relpath:
+            fpath = relpath.replace(self.src_path, self.dst_path).replace('.md', '.html')
+        elif self.dst_path in relpath:
+            fpath = relpath
+        else:
+            fpath = os.path.join(self.dst_path, relpath).replace('.md', '.html')
+        dirn = os.path.dirname(fpath)
+        if len(dirn) > 0 and not os.path.exists(dirn):
+            os.makedirs(dirn)
+
+        try:
+            html = mdtohtml(md_txt)
+        except:
+            print(f"Failed to convert md to html for {fpath}")
+            raise
+
+        # Convert links to local md files into html
+        pattern = r'href="' + re.escape(self.link_abs_src) + r'(.*?).md"'
+        repl = r'href="' + re.escape(self.link_abs_dst) + r'\1.html"'
+        html = re.sub(pattern, repl, html)
+
+        with open(fpath, 'w') as fp:
+            fp.write(html)
 

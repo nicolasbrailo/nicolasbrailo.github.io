@@ -11,11 +11,14 @@ def get_all_posts(src_path):
     return posts
 
 def prefetch_kitten(kitten_local_path):
+    if os.path.exists(kitten_local_path):
+        return
     #kitten_img_url = 'https://commons.wikimedia.org/wiki/Category:Kittens#/media/File:Six_weeks_old_cat_(aka).jpg'
-    kitten_img_url = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Six_weeks_old_cat_%28aka%29.jpg'
+    kitten_img_url = 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Six_weeks_old_cat_(aka).jpg'
     response = requests.get(kitten_img_url)
     if response.status_code != 200:
-        raise RuntimeError("Can't download kitten image")
+        print(response)
+        raise RuntimeError("Can't download kitten image " + str(response))
 
     with open(kitten_local_path, 'wb') as file:
         file.write(response.content)

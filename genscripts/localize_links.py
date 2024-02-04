@@ -9,7 +9,7 @@ DEADLINK_MD = '/blog_md/youfoundadeadlink.md'
 DEADLINE_MD_TMPL = """
 # You found a dead link!
 
-This blog is, by Internet standards, ancient. The link you clicked probably worked a few years (decades) ago, but is now broken. Its content may be irretrievably lost forever. Or maybe the link still works, but I broke it in one of the many, many, blog migrations. Or maybe a random cosmic ray flipped a bit somewhere. We will never know, so here is the image of a kitten.
+This blog is, by Internet standards, ancient. The link you clicked probably worked a few years (decades) ago, but is now broken. Its content may be irretrievably lost forever. Or maybe the link still works, but I broke it in one of the many, many, blog migrations. We will never know, so here is the image of a kitten.
 
 ![Original: https://commons.wikimedia.org/wiki/Category:Kittens#/media/File:Six_weeks_old_cat_(aka).jpg](/blog_img/cat.jpg)
 
@@ -22,6 +22,34 @@ def get_all_posts(src_path):
             posts.extend([f"{root}/{x}" for x in files if x.endswith(".md")]);
     posts.sort(reverse=True)
     return posts
+
+def guess_local_md(local_guess_path, page):
+    fs = [f for f in glob.glob(local_guess_path)]
+    fs_options = []
+    for fname in fs:
+        cleanfname = fname.lower().replace('_', '')
+        maybesubpage = True
+        for kw_in_page in page.split('-'):
+            if kw_in_page.isdigit():
+                continue
+            if len(kw_in_page.strip()) == 0:
+                continue
+            if not kw_in_page.lower() in cleanfname:
+                maybesubpage = False
+                break
+        if maybesubpage:
+            fs_options.append(fname)
+
+    if len(fs_options) > 1:
+        print("Have multiple options, selecting first randomly. Options: ", fs_options)
+        fs_options = [fs_options[0]]
+    if len(fs_options) == 1:
+        localurl = fs_options[0]
+        if localurl[0] == '.':
+            localurl = localurl[1:]
+        return localurl
+    print("Failed to match URL", url, "options are", fs_options)
+    exit(0)
 
 def islocalblog(md_src, url):
     if url == 'https://monoinfinito.wordpress.com':
@@ -56,32 +84,7 @@ def islocalblog(md_src, url):
         looks_parseable = True
     if looks_parseable:
         page = url_chunks[2].split('.html')[0].split('_')[0]
-        fs = [f for f in glob.glob(f'{md_src}/{url_chunks[0]}/{url_chunks[1]}*')]
-        fs_options = []
-        for fname in fs:
-            cleanfname = fname.lower().replace('_', '')
-            maybesubpage = True
-            for kw_in_page in page.split('-'):
-                if kw_in_page.isdigit():
-                    continue
-                if len(kw_in_page.strip()) == 0:
-                    continue
-                if not kw_in_page.lower() in cleanfname:
-                    maybesubpage = False
-                    break
-            if maybesubpage:
-                fs_options.append(fname)
-
-        if len(fs_options) > 1:
-            print("Have multiple options, selecting first randomly. Options: ", fs_options)
-            fs_options = [fs_options[0]]
-        if len(fs_options) == 1:
-            localurl = fs_options[0]
-            if localurl[0] == '.':
-                localurl = localurl[1:]
-            return localurl
-        print("Failed to match URL", url, "options are", fs_options)
-        exit(0)
+        return guess_local_md(f'{md_src}/{url_chunks[0]}/{url_chunks[1]}*', page)
 
     return None
 
@@ -148,6 +151,32 @@ def replace_broken(txt, url):
             fp.write(DEADLINE_MD_TMPL)
     return txt.replace(url, DEADLINK_MD)
 
+def fix_rel_link(fpath, md_src, post_txt, url):
+    if url == '/2009/04/ubuntu-jj.html':
+        return post_txt.replace(url, 'blog_md/2009/0427_UbuntuJ.J..md')
+    if url == '/2009/05/everything-is-file-aka-battery-state-on.html':
+        return post_txt.replace(url, 'blog_md/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.md')
+    if url == '/2008/10/selfstart.html':
+        return post_txt.replace(url, 'blog_md/2008/1009_self.start.md')
+    if url == '/2009/04/flisol-presentacion.html':
+        return post_txt.replace(url, 'blog_md/2009/0416_FLISOL.md')
+    if url == '/2009/03/introduccion-gnu-linux.html':
+        return post_txt.replace(url, 'blog_md/2009/0306_IntroduccinaGNULinux.md')
+    if url == '/2009/05/fixing-keyboard-problems-in-ubuntu-jj.html':
+        return post_txt.replace(url, 'blog_md/2009/0505_FixingkeyboardproblemsinUbuntuJ.J..md')
+    if url.startswith('/blog_md/youfoundadeadlink.md') or url.startswith('/p/'):
+        return post_txt.replace(url, '/blog_md/youfoundadeadlink.md')
+    try:
+        url_chunks = url.split('/')
+        page = url_chunks[3].split('.html')[0].split('_')[0]
+        fixed_url = guess_local_md(f'{md_src}/{url_chunks[1]}/{url_chunks[2]}*', page)
+        fixed = post_txt.replace(url, fixed_url)
+        print(f"Fix link {url} to {fixed_url}")
+        return fixed
+    except:
+        print(f"FAILED: can't fix {url} in {fpath}")
+        return None
+
 md_src_path = sys.argv[1]
 for fpath in get_all_posts(md_src_path):
     with open(fpath, 'r') as fp:
@@ -178,6 +207,19 @@ for fpath in get_all_posts(md_src_path):
                     print("FOUND @", fpath, url)
                     exit(0)
             url_i = post_txt.find('(http', url_f)
+
+        # [lbl](/page.html)
+        url_i = post_txt.find('](/', meta_url_f)
+        while url_i != -1:
+            url_f = post_txt.find(')', url_i)
+            if url_f != -1:
+                url = post_txt[url_i+len(']('):url_f]
+                if url.endswith('.html'):
+                    fixed = fix_rel_link(fpath, md_src_path, post_txt, url)
+                    if fixed is not None:
+                        post_txt = fixed
+                        updated = True
+            url_i = post_txt.find('](/', url_f)
 
         if updated:
             print(fpath, " needs update")

@@ -1,4 +1,4 @@
-from mdtohtml import build_anchor_for_title, apply_template, write_md_to_html_file
+from mdtohtml import build_anchor_for_title, apply_template, MdToHtml
 
 from datetime import datetime
 import os
@@ -106,7 +106,7 @@ def read_post_md_file(fpath):
     txt = apply_template(pre_procd, {'title': title})
     return txt, title
 
-def build_month(out_path, year, month, posts):
+def build_month(mdconvert, out_path, year, month, posts):
     post_titles = []
     post_idx = ""
     for post in posts:
@@ -122,7 +122,7 @@ def build_month(out_path, year, month, posts):
     })
 
     fpath = f'{out_path}/{year}/{month}.html'
-    write_md_to_html_file(fpath, month_md)
+    mdconvert.write_file(fpath, month_md)
     return (fpath, post_titles)
 
 def build_year_md(link_base, year, month_idxs, include_header=True):
@@ -133,7 +133,7 @@ def build_year_md(link_base, year, month_idxs, include_header=True):
             anchor = build_anchor_for_title(pt)
             post_idx.append(f'    * [{pt}]({link_base}{month}.html#{anchor})\n')
 
-    tmpl = BLOG_HEADER + POSTS_IDX_TMPL if include_header else BLOG_HEADER
+    tmpl = BLOG_HEADER + POSTS_IDX_TMPL if include_header else POSTS_IDX_TMPL
     return apply_template(tmpl, {
         'datePeriod': year,
         'year': year,
@@ -146,7 +146,7 @@ def build_history_md(year_idx):
     for year, idx_path, months_idx in year_idx:
         year_lst.append(f'# All [posts for year {year}](../{idx_path})')
         # Skip lines until title
-        for ln in build_year_md(f'{year}/', year, months_idx).split('\n')[2:]:
+        for ln in build_year_md(f'{year}/', year, months_idx, False).split('\n')[2:]:
             if len(ln) > 0 and ln[0] == '#':
                 year_lst.append('#' + ln)
             #elif re.match(r' {4,}.*', ln):
@@ -174,24 +174,26 @@ def build_index_md(posts):
            })
 
 
-def rebuild_history(dst_path, date_indexed_posts):
+def rebuild_history(mdconvert, dst_path, date_indexed_posts):
     year_idx = []
     for year in date_indexed_posts:
         month_idx = []
         for month in date_indexed_posts[year]:
-            fpath, post_titles = build_month(dst_path, year, month, date_indexed_posts[year][month])
+            fpath, post_titles = build_month(mdconvert, dst_path, year, month, date_indexed_posts[year][month])
             month_idx.append((month, fpath, post_titles))
 
         year_idx_path = f'{dst_path}/{year}/index.html'
-        write_md_to_html_file(year_idx_path, build_year_md('', year, month_idx))
+        mdconvert.write_file(year_idx_path, build_year_md('', year, month_idx))
         year_idx.append((year, year_idx_path, month_idx))
 
-    write_md_to_html_file(f'{dst_path}/history.html', build_history_md(year_idx))
+    mdconvert.write_file('history.html', build_history_md(year_idx))
 
 
 src_path = sys.argv[1]
 dst_path = sys.argv[2]
 mode = sys.argv[3]
+
+mdconvert = MdToHtml(src_path, dst_path)
 
 if mode == 'index':
     build_index = True
@@ -206,14 +208,14 @@ if src_path[:-1] != '/':
 all_posts, root_pages  = get_all_posts(src_path)
 
 if build_index:
-    write_md_to_html_file(f'{dst_path}/index.html', build_index_md(all_posts))
+    mdconvert.write_file('index.html', build_index_md(all_posts))
     for md_f in root_pages:
-        html_f = md_f.replace(src_path, dst_path).replace('.md', '.html')
+        print(md_f)
         with open(md_f, 'r') as fp:
             md = fp.read()
-        write_md_to_html_file(html_f, md)
+        mdconvert.write_file(md_f, md)
 
 if build_history:
     date_indexed_posts = date_index(src_path, all_posts)
-    rebuild_history(dst_path, date_indexed_posts)
+    rebuild_history(mdconvert, dst_path, date_indexed_posts)
 
