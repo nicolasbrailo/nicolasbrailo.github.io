@@ -1,0 +1,41 @@
+<h1>Watchpoints in gdb: wake me up when foo changes<a name="watchpointsingdbwakemeupwhenfoochanges"></a></h1>
+<p>I&rsquo;ve noticed a lot of people claim gdb is not a good debugger because it doesn&rsquo;t support feature X. X is many times the ability to monitor changes to a memory location (ie when the value of a variable changes). Most times, though, people believe gdb doesn&rsquo;t implement X only because not enough time was spent reading its manual.</p>
+<p>In gdb it&rsquo;s very easy to monitor variable changes using watchpoints. Here&rsquo;s a very simple example session:</p>
+<pre style="display: inline-block; border: 1px solid red;">(gdb) list
+1   int main()
+2   {
+3       int a = 1;
+4       int b;
+5       a = b;
+6       b = 42;
+7       return 0;
+8   }
+</pre>
+<p>Of course we need to be in the proper scope to set a watchpoint:</p>
+<pre style="display: inline-block; border: 1px solid red;">(gdb) run
+Breakpoint 1, main () at test.cpp:3
+</pre>
+<p>Let&rsquo;s try to catch when b changes value:</p>
+<pre style="display: inline-block; border: 1px solid red;">(gdb) watch b
+Hardware watchpoint 2: b
+</pre>
+<p>Interesting: a hardware watchpoint was set. What might that be?</p>
+<pre style="display: inline-block; border: 1px solid red;">(gdb) continue
+Hardware watchpoint 2: b
+  Old value = 0
+  New value = 42
+main () at test.cpp:7
+</pre>
+<p>Nice! gdb alerted us of the value change by breaking program execution. This can come in handy to fix race conditions.</p>
+<h2>Hardware and software watchpoints<a name="hardwareandsoftwarewatchpoints"></a></h2>
+<p>Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing &ldquo;step&rdquo; continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.</p>
+<p>As usual, <a href="http://sourceware.org/gdb/current/onlinedocs/gdbint/Algorithms.html#Algorithms">gdb&rsquo;s manual</a> has a lot more info.</p>
+<p>PS: Once you find your bug with the aid of a watchpoint, please go and read some books about encapsulation!</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2013/1105_Automagicallysetupbreakpointswithgdb.html">Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2013-11-05T08:00:59.000+01:00:<a name="inreplytothispostautomagicallysetupbreakpointswithgdbaninfinitemonkeynicolasbrailovsky39sblogblog_md20131105_automagicallysetupbreakpointswithgdb.mdcommented20131105t080059.0000100"></a></h2>
+<p>[&hellip;] debugging session. This can be quite frustrating, when you have gdb workset full of breakpoints, watch expressions and all that [&hellip;]</p>
+<p>Original <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">Gdb hit count: ignoring breakpoints (for a while) | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2014-11-18T13:24:38.000+01:00:<a name="inreplytothispostgdbhitcountignoringbreakpointsforawhileaninfinitemonkeynicolasbrailovsky39sblogblog_md20141118_gdbhitcountignoringbreakpointsforawhile.mdcommented20141118t132438.0000100"></a></h2>
+<p>[&hellip;] way would be to set up a watch expression. If you can’t setup a watch expression, say, because you’re using an iterator and [&hellip;]</p>
+<p>Original <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">published here</a>.</p>

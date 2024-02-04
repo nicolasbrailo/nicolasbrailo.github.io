@@ -1,0 +1,89 @@
+<h1>gcc: Optimization levels and templates<a name="gccoptimizationlevelsandtemplates"></a></h1>
+<p>Analyzing the assembly output for template devices can be a bit discouragging at times, specially when we spend hours trying to tune a mean looking template class only to find out the compiler is not able to reduce it&rsquo;s value like we expected. But hold on, before throwing all your templates away you might want to figure out why they are not optimized.</p>
+<p>Let&rsquo;s start with a simple example: a template device to return the next power of 2:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int n, long curr_pow, bool stop&amp;gt;
+struct Impl_Next_POW2 {
+    static const bool is_smaller = n &amp;lt; curr_pow;
+    static const long next_pow = _Next_POW2&amp;lt;n, curr_pow*2, is_smaller&amp;gt;::pow;
+    static const long pow = is_smaller? curr_pow : next_pow;
+};
+template &amp;lt;int n, long curr_pow&amp;gt;
+struct Impl_Next_POW2&amp;lt;n, curr_pow, true&amp;gt; {
+    // This specializtion is important to stop the expansion
+    static const long pow = curr_pow;
+};
+template &amp;lt;int n&amp;gt;
+struct Next_POW2 {
+    // Just a wrapper for _Next_POW2, to hide away some
+    // implementation details
+    static const long pow = _Next_POW2&amp;lt;n, 1, false&amp;gt;::pow;
+};
+</pre>
+<p>Gcc can easily optimize that away, if you compile with &ldquo;g++ foo.cpp -c -S -o /dev/stdout&rdquo; you&rsquo;ll just see the whole thing is replaced by a compile time constant. Let&rsquo;s make gcc&rsquo;s life a bit more complicated now:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int n, long curr_pow, bool stop&amp;gt;
+struct Impl_Next_POW2 {
+    static long get_pow() {
+        static const bool is_smaller = n &amp;lt; curr_pow;
+        return is_smaller?
+                    curr_pow :
+                    _Next_POW2&amp;lt;n, curr_pow*2, is_smaller&amp;gt;::get_pow();
+    }
+};
+template &amp;lt;int n, long curr_pow&amp;gt;
+struct Impl_Next_POW2&amp;lt;n, curr_pow, true&amp;gt; {
+    static long get_pow() {
+        return curr_pow;
+    }
+};
+template &amp;lt;int n&amp;gt;
+struct Next_POW2 {
+    static long get_pow() {
+        return _Next_POW2&amp;lt;n, 1, false&amp;gt;::get_pow();
+    }
+};
+</pre>
+<p>Same code but instead of using plain static values we wrap everything in a method. Compile with &ldquo;g++ foo.cpp -c -S -fverbose-asm -o /dev/stdout | c++filt&rdquo; and you&rsquo;ll see something like this now:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">main:
+    call    Next_POW2&lt;17&gt;::get_pow()
+Next_POW2&lt;17&gt;::get_pow():
+    call    _Next_POW2&lt;17, 1l, false&gt;::get_pow()
+_Next_POW2&lt;17, 1l, false&gt;::get_pow():
+    call    _Next_POW2&lt;17, 2l, false&gt;::get_pow()
+_Next_POW2&lt;17, 2l, false&gt;::get_pow():
+    call    _Next_POW2&lt;17, 4l, false&gt;::get_pow()
+_Next_POW2&lt;17, 4l, false&gt;::get_pow():
+    call    _Next_POW2&lt;17, 8l, false&gt;::get_pow()
+_Next_POW2&lt;17, 8l, false&gt;::get_pow():
+    call    _Next_POW2&lt;17, 16l, false&gt;::get_pow()
+_Next_POW2&lt;17, 16l, false&gt;::get_pow():
+    call    _Next_POW2&lt;17, 32l, false&gt;::get_pow()
+_Next_POW2&lt;17, 32l, false&gt;::get_pow():
+    movl    $32, %eax    #, D.2171
+</pre>
+<p>What went wrong? It&rsquo;s very clear for us the whole thing is just a chain of calls which could be replaced by the last one, however that information is now only available if you &ldquo;inspect&rdquo; the body of each function, and this is something the template instanciator (at least in gcc) can&rsquo;t do. Luckily you just need to enable optimizations, -O1 is enough, to have gcc output the reduced version again.</p>
+<p>Keep it in mind for the next time you&rsquo;re optimizing your code with template metaprogramming: some times the template expander needs some help from the optimizer too.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Griwes</a> commented @ 2015-04-22T10:44:15.000+02:00:<a name="inreplytothispostgriwesblog_mdyoufoundadeadlink.mdcommented20150422t104415.0000200"></a></h2>
+<p>So&hellip; you don&rsquo;t like that GCC doesn&rsquo;t optimize when you don&rsquo;t pass optimization flags or what?</p>
+<p>Original <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2015-04-22T10:52:45.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20150422t105245.0000200"></a></h2>
+<p>While in hindsight it may be obvious that optimization and template instantiation are two different and orthogonal features, I&rsquo;ve seen many people assume that &ldquo;templates&rdquo; means &ldquo;optimal code&rdquo;. It&rsquo;s always good to understand how different features of a compiler interact.</p>
+<p>Original <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Eric</a> commented @ 2015-04-22T14:21:43.000+02:00:<a name="inreplytothispostericcommented20150422t142143.0000200"></a></h2>
+<p>You should stop using reserved identifiers.</p>
+<p>Original <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2015-04-23T14:02:57.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20150423t140257.0000200"></a></h2>
+<p>Indeed, good observation. I&rsquo;ll probably replace the underscores once I get some free time.</p>
+<p>Original <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">robdesbois</a> commented @ 2015-05-07T10:13:44.000+02:00:<a name="inreplytothispostrobdesboisblog_mdyoufoundadeadlink.mdcommented20150507t101344.0000200"></a></h2>
+<p>I&rsquo;m not sure this is the optimization level affecting template expansion at this point: collapsing the get_pow calls isn&rsquo;t an optimization specific to templates but general to any function calls.</p>
+<p>It would be interesting to see if making the get_pow calls constexpr caused collapsing to take place even without optimization enabled.</p>
+<p>Original <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2015-05-27T11:44:39.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20150527t114439.0000200"></a></h2>
+<p>Indeed that&rsquo;s (more or less) the point of the article: templates != optimization. I haven&rsquo;t thought about playing around with constexpr&rsquo;s, I guess mostly because I&rsquo;m limited to 03 nowadays due to my job. I&rsquo;ll probably try it out some day.</p>
+<p>Original <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">published here</a>.</p>

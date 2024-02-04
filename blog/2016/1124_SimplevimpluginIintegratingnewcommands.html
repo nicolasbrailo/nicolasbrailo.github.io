@@ -1,0 +1,69 @@
+<h1>Simple vim plugin I: integrating new commands<a name="simplevimpluginiintegratingnewcommands"></a></h1>
+<p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here&rsquo;s some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
+<p>Longer version:
+We can extend our quick grep integration to other commands, quite easily. Since we defined a few wrappers to request input, get it from visual mode or just guess it, we can also have a helper function to create a scratch buffer and read a system command into it:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Find&amp;amp;Grep command wrapper: execute cmd, shows the results in a scratch buffer
+function! FG_EvalSysCmdInNewBuff(cmd)
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    execute &#x27;$read !&#x27; . a:cmd
+    setlocal nomodifiable
+endfunction
+&quot; Wrap a normal action: ask the user for input, then call func with it
+function! FG_RequestInputAction(msg, func)
+    let needle = input(a:msg)
+    if strlen(needle) &amp;gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+&quot; Wrap a visual action: call func with whatever is selected under the cursor
+function! FG_VAction(func)
+    &quot; Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv&quot;ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    &quot; Remove whitespaces
+    let needle = substitute(needle, &quot;\n\+&quot;,&quot;&quot;,&quot;g&quot;)
+    let needle = substitute(needle, &quot;\r\+&quot;,&quot;&quot;,&quot;g&quot;)
+    let needle = substitute(needle, &quot;^\s\+\|\s\+$&quot;,&quot;&quot;,&quot;g&quot;)
+    if strlen(needle) &amp;gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+&quot; Wrap a normal action: call func with whatever is under the cursor
+function! FG_NAction(func)
+    let needle = expand(&quot;&amp;lt;cword&amp;gt;&quot;)
+    if strlen(needle) &amp;gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+</pre>
+<p>Integrating any new command into our plugin is now trivial. Let&rsquo;s do it for grep and for find:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Wrap a find command: search for file &quot;needle&quot;, show results in a new window
+function! FG_DoFindFile(needle)
+    let cmd = &#x27;find -type f -iname &quot;<em>&#x27; . a:needle . &#x27;</em>&quot;&#x27;
+    call FG_EvalSysCmdInNewBuff(cmd)
+endfunction
+&quot; Wrap a grep command: search for needle, show results in a new window
+function! FG_DoSearchText(needle)
+    let cmd = &#x27;grep -nri &quot;&#x27; . a:needle . &#x27;&quot; *&#x27;
+    call FG_EvalSysCmdInNewBuff(cmd)
+endfunction
+</pre>
+<p>Then just add a few key bindings and you&rsquo;re good to go:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">gt;f :call FG_NAction(&quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
+vmap &amp;lt;leader&amp;gt;f :call FG_VAction(&quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
+map  &amp;lt;leader&amp;gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
+nmap &amp;lt;leader&amp;gt;s :call FG_NAction(&quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
+vmap &amp;lt;leader&amp;gt;s :call FG_VAction(&quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
+map  &amp;lt;leader&amp;gt;F :call FG_RequestInputAction(&quot;Find file: &quot;, &quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
+</pre>
+<p>This is an actual plugin I use in my Vim setup. You can grab the <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">latest version from my Github repo.</a></p>
+<p>Extra tip: add these too if you want to have a <a href="/blog/2015/0402_VimTipIwantmoremenus.html">GUI menu</a> for your new commands as well.</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">menu Project.Find\ File :call FG_RequestInputAction(&quot;FG_DoFindFile&quot;)
+menu Project.Text\ Search :call FG_RequestInputAction(&quot;FG_DoSearchText&quot;)
+</pre>

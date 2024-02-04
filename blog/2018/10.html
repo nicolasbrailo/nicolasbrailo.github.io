@@ -1,0 +1,22 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2018 October<a name="postsfor2018october"></a></h1>
+<h1>std::byte - great idea. Meh execution?<a name="stdbytegreatidea.mehexecution"></a></h1>
+<p>By Nico Brailovsky @ 2018-10-02</p>
+<p>I love the idea of C++17&rsquo;s <a href="https://en.cppreference.com/w/cpp/types/byte">std::byte</a>. A data-type that makes it explicit we&rsquo;re dealing with ugly low-level details? What&rsquo;s there not to love! One thing only, turns out.</p>
+<p>First, the good part: separating character (human) representation from binary (low-level) representation is brilliant. No implicit conversion between the two separates the domains very well and creates a much clearer interface.</p>
+<p>The bad part: std::byte is really really strict. It only accepts other std::bytes as operands(*). You&rsquo;d hope this would work</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto f() {
+  byte b{42};
+  return b &amp;amp; 0b11;
+}
+</pre>
+<p>It doesn&rsquo;t. std::byte only accepts other std::byte&rsquo;s as operands. The design goal behind it is good, sure. In practice, I&rsquo;ve noticed this means casts are not limited to the interface between low-level and rest-of-the-world: casts and explicit byte&rsquo;s get sprinkled all over the place.</p>
+<p>My prediction: most people will dislike the boilerplate std::byte adds and fall back to unsinged char&rsquo;s, until the type restrictions in std::byte are relaxed. I hope I&rsquo;m wrong though!</p>
+<p>(*) Yes, with the exception of shift operations. That was a good design decision!</p>
+<hr />

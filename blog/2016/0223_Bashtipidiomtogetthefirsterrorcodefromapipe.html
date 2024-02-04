@@ -1,0 +1,16 @@
+<h1>Bash tip: idiom to get the first error code from a pipe<a name="bashtipidiomtogetthefirsterrorcodefromapipe"></a></h1>
+<p>When writing a bash script, often times you&rsquo;ll end up with something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">real_command | filter_stuff | prettify | do_something_else
+</pre>
+<p>The problem arises when you try to figure out if your command succeeded or not. If you <code>echo $?</code> you&rsquo;ll get the return code for the last chain in the pipe. You don&rsquo;t really care about the output value of do_something_else, do you?</p>
+<p>I haven&rsquo;t found a solution I really like to this problem, but this idiom is handy:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">out=<code>real_command
+</code> &amp;amp;&amp;amp; echo $out | filter_stuff | prettify | do_something_else
+echo $?
+</pre>
+<p>Now $? will hold the value of real_command, and you can actually use it to diagnose the real problem.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">denisss025</a> commented @ 2016-03-15T06:00:04.000+01:00:<a name="inreplytothispostdenisss025commented20160315t060004.0000100"></a></h2>
+<p>Have you tried set -o pipefail? Here is the description.</p>
+<p>If set, the return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully. This option is disabled by default.</p>
+<p>Original <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">published here</a>.</p>

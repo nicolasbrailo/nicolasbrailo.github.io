@@ -1,0 +1,19 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2019 February<a name="postsfor2019february"></a></h1>
+<h1>VimTip: Search and f(replace)<a name="vimtipsearchandfreplace"></a></h1>
+<p>By Nico Brailovsky @ 2019-02-26</p>
+<p>Pre-tip: When using search and replace in Vim, <a href="/blog/2015/0507_VimtipStopescapingslashes.html">you don&rsquo;t need to use slashes</a>
+This works just fine:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">%s#search#replace
+</pre>
+<p>Did you know $replace doesn&rsquo;t have to be a literal expression? You can also use Vim functions! For example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">%s#bar#\=line(&amp;#x27;.&amp;#x27;)
+</pre>
+<p>will replace every occurrence of &lsquo;bar&rsquo; for its line number. You can get creative and use any other Vimscript function.</p>
+<hr />

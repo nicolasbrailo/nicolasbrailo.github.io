@@ -1,0 +1,53 @@
+<h1>Simple vim plugin II: a psychic project greper<a name="simplevimpluginiiapsychicprojectgreper"></a></h1>
+<p>We have been working on a quick grep integration for Vim, and it&rsquo;s looking decent enough for a quick plugin. There&rsquo;s one more easy thing we can improve, though: let&rsquo;s make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That&rsquo;s so old fashioned. Let&rsquo;s make grep guess what to look for.</p>
+<p>In vim you have a psychic function, expand(&ldquo;&rdquo;). If you call expand(&ldquo;&rdquo;), it will return whatever word is under the cursor. No need to visually select it. If you&rsquo;re still using the same vimrc definitions, you can do something like</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">nmap s :call FG_DoSearch(expand(&quot;&quot;))
+</pre>
+<p>Let&rsquo;s clean things up a little bit:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Wrap a grep command: search for needle, show results in a new window
+function! FG_DoSearch(needle)
+    let grepbin = &#x27;grep -nri &#x27;
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    let cmd = grepbin . &#x27; &quot;&#x27; . a:needle . &#x27;&quot; *&#x27;
+    echom cmd
+    execute &#x27;$read !&#x27; . cmd
+    setlocal nomodifiable
+endfunction
+&quot; Wrap a normal action: ask the user for input, then call func with it
+function! FG_RequestInputAction(msg, func)
+    let needle = input(a:msg)
+    if strlen(needle) &gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+&quot; Wrap a visual action: call func with whatever is selected under the cursor
+function! FG_VAction(func)
+    &quot; Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv&quot;ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    &quot; Remove whitespaces
+    let needle = substitute(needle, &quot;\n\+&quot;,&quot;&quot;,&quot;g&quot;)
+    let needle = substitute(needle, &quot;\r\+&quot;,&quot;&quot;,&quot;g&quot;)
+    let needle = substitute(needle, &quot;^\s\+\|\s\+$&quot;,&quot;&quot;,&quot;g&quot;)
+    if strlen(needle) &gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+&quot; Wrap a normal action: call func with whatever is under the cursor
+function! FG_NAction(func)
+    let needle = expand(&quot;&lt;cword&gt;&quot;)
+    if strlen(needle) &gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+nmap &lt;leader&gt;s :call FG_NAction(&quot;FG_DoSearchText&quot;)&lt;CR&gt;
+vmap &lt;leader&gt;s :call FG_VAction(&quot;FG_DoSearchText&quot;)&lt;CR&gt;
+map  &lt;leader&gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quot;FG_DoSearchText&quot;)&lt;CR&gt;
+</pre>
+<p>Just copy paste that in your vimrc, now you can grep your project in three different ways: press s (,s) to look for the word currently under the cursor, S to type in a search term or select something in visual mode, then S to grep it.</p>

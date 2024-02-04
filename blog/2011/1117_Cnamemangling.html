@@ -1,0 +1,23 @@
+<h1>C++ name mangling<a name="cnamemangling"></a></h1>
+<p>There is a topic I have referred to several times on this blog, yet in four years I still haven&rsquo;t explained what it is. I plan to correct this by explaining a little bit about C++ name mangling, and although I won&rsquo;t expect to write anything you couldn&rsquo;t learn by reading <a href="http://en.wikipedia.org/wiki/Name_mangling">Wikipedia</a>, I&rsquo;ll try to have a more practical approach.</p>
+<p>Whenever you compile and link something, there is a lot of information the compiler deduces that you don&rsquo;t really care about. Things like calling conventions, overloads or namespaces. Yet this information is crucial for other stages of the compiler (or linker) to work. For this reason, the compiler will create a decorated version of any object&rsquo;s or function&rsquo;s name.</p>
+<p>In its most simple case, it would be something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void overloaded_function(int);
+void overloaded_function(string);
+</pre>
+<p>Which would then be translated to something like:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void fastcall_int_overloaded_function(int);
+void fastcall_string_overloaded_function(string);
+</pre>
+<p>Of course, for more complex functions (like class methods) the mangling is much more complicated. Also, remember that&rsquo;s just a mangling convention I just invented, and most likely not used by any compiler in existence.</p>
+<p>Although for the most part we can just ignore name mangling, this has a couple of consequences of which we should be aware:</p>
+<h3>Creating a name for anonymous objects/functions<a name="creatinganameforanonymousobjectsfunctions"></a></h3>
+<p>I will not explain much about this, it might be the topic of another post, but there are certain cases in which you can have a struct or a function defined inside another object anonymously. In these cases, the mangler will assign some sort of denomination for this anonymous object.</p>
+<h3>Linking with C symbols<a name="linkingwithcsymbols"></a></h3>
+<p>C has no mangling. It just doesn&rsquo;t need it. This has a very important consequence, whenever you use C code in C++ you need to specify that your doing so, by using an extern &ldquo;C&rdquo; declaration.</p>
+<h3>Debugging<a name="debugging"></a></h3>
+<p>gdb already takes care of this so it may be transparent to you, but if you are using a debugger not aware of how your compiler mangles names, you may end up with a lot of very difficult to understand names.</p>
+<h3>Bonus: Demangling C++ names<a name="bonusdemanglingcnames"></a></h3>
+<p>If you find yourself in the last case, for example when running an nm to get the names defined in a (compiled) object, you can use c++ filt. Like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">nm foo.o | c++filt
+</pre>

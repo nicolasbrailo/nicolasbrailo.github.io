@@ -1,0 +1,16 @@
+<h1>Changing default shortcuts in gnome<a name="changingdefaultshortcutsingnome"></a></h1>
+<p>Another of those thing I usually forget: changing default shortcut actions in gnome. In this case, I&rsquo;m using
+<a href="http://moc.daper.net/">MOC</a> as my music player (see
+<a href="/blog/2008/1228_aptgetinstallnewcomputerII.html">apt-get install new computer II</a> and while it&rsquo;s great it won&rsquo;t integrate nicely with gnome. Fortunately (as most GNU/Linux applications do) it can be commanded via CLI so it isn&rsquo;t hard to change this.</p>
+<p>Now, gnome keyboard shortcuts already have defined actions, so how can we change them to invoke &ldquo;a custom command? Easy enough:</p>
+<ol>
+<li>Open gconf-editor</li>
+<li>Go to apps &gt; metacity &gt; keybinding_commands</li>
+<li>Set a command from the list. In my case I&rsquo;m going to set command_1 to &ldquo;mocp -S&rdquo;, command_2 to &ldquo;mocp -f&rdquo; and command_3 to &ldquo;mocp -r&rdquo;</li>
+<li>Go to&rdquo;apps &gt; metacity &gt; global_keybinding</li>
+<li>Set the corresponding run_command_* to the keyboard shortcut. For me that&rsquo;s 0xA2 for run_command_1, 0xE9 for run_command_2 and 0xEA for run_command_3; beware it changes between keyboards.</li>
+</ol>
+<p><strong>Troubleshooting tips:</strong>
+* If you use gconf-editor for a key binding don&rsquo;t use it again System &gt; Preferences &gt; Key bindings
+* For hex value keybindings (like the ones I used on the example) use uppercase
+* If it&rsquo;s not working and you can&rsquo;t figure out why try with an already working command and a simple keybinding (e.g. gnome-screenshot and ctrl-p) then change each one in turn, see where it breaks. Divide and conquer!!</p>

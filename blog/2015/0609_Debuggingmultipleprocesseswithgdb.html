@@ -1,0 +1,3 @@
+<h1>Debugging multiple processes with gdb<a name="debuggingmultipleprocesseswithgdb"></a></h1>
+<p>If your buggy program generates lots of child processes, gdb will keep attached to the parent program and let all the children run loose. If you&rsquo;re having problems to find what causes&nbsp; your crash this is probably not what you want: for those occasions gdb has a very helpful flag called detach on fork.</p>
+<p>With <a href="https://sourceware.org/gdb/onlinedocs/gdb/Forks.html">detach on fork</a> you can tell gdb to keep debugging the parent, follow the children, or keep track of all processes. Must be nice to troubleshoot forkbombs with this option.</p>

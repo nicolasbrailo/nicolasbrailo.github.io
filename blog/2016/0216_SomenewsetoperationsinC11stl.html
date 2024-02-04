@@ -1,0 +1,27 @@
+<h1>Some new set operations in C++11 stl<a name="somenewsetoperationsinc11stl"></a></h1>
+<p>The std header has a few cool additions that make life easier in C++11:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
+  vector&amp;lt;int&amp;gt; v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
+  auto less_than_10 = <a href="int x"></a>{ return x &amp;lt; 10; };
+  if (all_of(v.begin(), v.end(), less_than_10)) {
+    cout &amp;lt;&amp;lt; &quot;Yay!&quot;;
+  }
+}
+</pre>
+<p>Besides all_of, in you can also find any_of and none_of.</p>
+<p>Bonus: do you find that initializer list hideous? Just use std::iota, from stl too:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">vector&amp;lt;int&amp;gt; v(100, 0);
+iota(v.begin(), v.end(), 0);
+</pre>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">pauljurczak</a> commented @ 2016-02-18T05:27:58.000+01:00:<a name="inreplytothispostpauljurczakblog_mdyoufoundadeadlink.mdcommented20160218t052758.0000100"></a></h2>
+<p>Inequality symbols are rendered as &lt; and &gt; in your post. I checked with Chrome and Explorer.</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">pauljurczak</a> commented @ 2016-02-18T05:28:56.000+01:00:<a name="inreplytothispostpauljurczakblog_mdyoufoundadeadlink.mdcommented20160218t052856.0000100"></a></h2>
+<p>I meant as &amp; l t ; (without spaces) etc.</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2016-02-18T05:48:49.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20160218t054849.0000100"></a></h2>
+<p>Well, it&rsquo;s quite ironic that your coment was more successful than my post. Thanks for the heads up, I&rsquo;ll try to fix it as soon as I get a chance!</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>

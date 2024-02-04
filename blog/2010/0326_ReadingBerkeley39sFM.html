@@ -1,0 +1,19 @@
+<h1>Reading Berkeley&#39;s FM<a name="readingberkeley39sfm"></a></h1>
+<p>I got this from <a href="http://www.oracle.com/technology/documentation/berkeley-db/db/programmer_reference/BDB_Prog_Reference.pdf">Oracle Berkely DB&rsquo;s</a> <a href="/blog/youfoundadeadlink.html">FM</a>:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  skey-&amp;gt;size = sizeof((struct student_record *)pdata-&amp;gt;data)-&amp;gt;last_name;
+</pre>
+<p>Take a good look at that pice of code:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  a_number = sizeof((T*)pdata-&amp;gt;data)-&amp;gt;last_name;
+</pre>
+<p>Again:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  a_number = sizeof(Whatever)-&amp;gt;field;
+</pre>
+<p>Wait a minute. typeof(sizeof(x)) == const unsigned int. Right? So, again:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  a_number = 42-&amp;gt;field;
+</pre>
+<p>There&rsquo;s no way that first line can compile. Go and check it (in the example, not the last line please). I&rsquo;ll wait. Done? Yeap, I was surprised to, it does indeed compile. Mi first reaction towards this discovery went something like this:</p>
+<p>What is going on there? It took me a while to figure out how evil Berkely &lsquo;s manual can be. The answer next time.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Nicol&aacute;s Brailovsky » Blog Archive » Operator sizeof (AKA Reading Berkeley’s FM, take II)</a> commented @ 2010-03-29T11:57:18.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchiveoperatorsizeofakareadingberkeleysfmtakeiiblog_md20100329_operatorsizeofakareadingberkeleysfmtakeii.mdcommented20100329t115718.0000200"></a></h2>
+<p>[&hellip;] Last time I told you about an evil snipet I found on Oracle Berkeley DB’s manual: [&hellip;]</p>
+<p>Original <a href="/blog/2010/0326_ReadingBerkeley39sFM.html">published here</a>.</p>

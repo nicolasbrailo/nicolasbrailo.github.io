@@ -1,0 +1,15 @@
+<h1>Cofeeeeeee<a name="cofeeeeeee"></a></h1>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+int main() {
+    otl_connect db;
+    otl_connect::otl_initialize();
+    db.rlogon(&quot;whatever&quot;);
+    int cuarentaydos;
+    const char *sql = &quot;select 42 drom dual&quot;;
+    otl_stream stmt(1, sql, db);
+    if (!stmt.eof()) stmt &amp;gt;&amp;gt; cuarentaydos;
+    std::cout &amp;lt;&amp;lt; &quot;En la base 42 == &quot; &amp;lt;&amp;lt; cuarentaydos &amp;lt;&amp;lt; &quot;n&quot;;
+    db.logoff();
+}
+</pre>
+<p>I spent half an hour looking for the error. How come drom is not a standard sql keyword? Damn!</p>

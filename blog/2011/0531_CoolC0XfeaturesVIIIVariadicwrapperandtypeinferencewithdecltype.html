@@ -1,0 +1,72 @@
+<h1>Cool C++0X features VIII: Variadic wrapper and type inference with<a name="coolc0xfeaturesviiivariadicwrapperandtypeinferencewith"></a></h1>
+<p>decltype</p>
+<p>The wrapper function we built last time looks something like this now:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
+void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+void do_something(const char*) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+template &amp;lt;class&hellip; Args&amp;gt;
+void wrap(Args&hellip; a) {
+    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
+    do_something(a&hellip;);
+}
+int main() {
+    wrap();
+    wrap(&quot;nice&quot;);
+    return 0;
+}
+</pre>
+<p>But, as we saw last time, this approach has the problem of requiring the return type of do_something to be known before hand. What can we do to remove this dependency? In C++, not much. You can&rsquo;t really declare a type based on the return type of another function. You do have the option of using lots of metaprogramming wizardy, but this is both error prone and ugly (see <a href="/blog/youfoundadeadlink.html">Stroustroup&rsquo;s C++0x FAQ</a>).</p>
+<p>C++0x lets you do some magic with type inference using decltype; decltype(expr) will yield the type of that expression. It works quite similarly as sizeof does; decltype is resolved at compile time and the expression with which it&rsquo;s being called is not evaluated (more on this later).</p>
+<p>How would this work on our example?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
+void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+void do_something(const char*) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+int do_something(int) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; return 123; }
+template &amp;lt;class&hellip; Args&amp;gt;
+auto wrap(Args&hellip; a) -&amp;gt; decltype( do_something(a&hellip;) ) {
+    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
+    return do_something(a&hellip;);
+}
+int main() {
+    wrap();
+    wrap(&quot;nice&quot;);
+    int x = wrap(42);
+    std::cout &amp;lt;&amp;lt; x &amp;lt;&amp;lt; &quot;n&quot;;
+    return 0;
+}
+</pre>
+<p>Try it (remember to add -std=c++0x) it works great! The syntax is not so terribly difficult to grasp as it was with variadic templates. The auto keywords says &ldquo;hey, compiler, the return type for this method will be defined later&rdquo;, and then the -&gt; actually declares the return type. This means that the auto-gt idiom isn&rsquo;t part of typedecl but a helper, which in turns means that even if not useful, this is valid C++0x code:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto wrap() -&amp;gt; void {
+}
+</pre>
+<p>This means that we have three interesting components to analyze in this scenario:
+* -&gt; (delayed declaration)
+* auto
+* decltype</p>
+<p>We&rsquo;ll go over each one the next time.</p>
+<p>Closing remark: At first I choose the following example to introduce delayed return types and decltype (warning, untested code ahead):</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
+struct Foo {
+    void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+    void do_something(const char*) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+    int do_something(int) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; return 123; }
+};
+// Untested code ahead
+// This makes g++ coredump (v 4.4.5)
+template &amp;lt;class T&amp;gt;
+struct Wrap : public T {
+    template &amp;lt;class&hellip; Args&amp;gt;
+    auto wrap(Args&hellip; a) -&amp;gt; decltype( T::do_something(a&hellip;) ) {
+        std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
+        return T::do_something(a&hellip;);
+    }
+};
+int main() {
+    Wrap&amp;lt;Foo&amp;gt; w;
+    w.wrap();
+    w.wrap(&quot;nice&quot;);
+    std::cout &amp;lt;&amp;lt; w.wrap(42) &amp;lt;&amp;lt; &quot;n&quot;;
+    return 0;
+}
+</pre>
+<p>Though this looks MUCH better (and useful), at the time of writing this article mixing variadic templates with decltypes in a template class makes g++ segfault. It should be valid C++, but I can&rsquo;t assure it&rsquo;s correct code since I&rsquo;ve never tried it.</p>

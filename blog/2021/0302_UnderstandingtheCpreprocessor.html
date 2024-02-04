@@ -1,0 +1,160 @@
+<h1>Understanding the C preprocessor<a name="understandingthecpreprocessor"></a></h1>
+<hr />
+<h2>C preprocessor: Just a simple replacer?<a name="cpreprocessorjustasimplereplacer"></a></h2>
+<p>Lately, out of curiosity, I spent some time to better understand how the C preprocessor works. I admit it, I thought it was a very dumb copy-paste based replace mechanism, only capable of doing the simpler keyword matching and replacement. Boy, was I wrong. Turns out the preprocessor is actually an organically grown pseudo language (as opposed to a properly designed language feature) inside C, which later got standardized through an incredibly complex set of rules and definitions. Rules for recursion, expansion, pattern matching and crazy operators like # and ## are some of the things that I never before knew existed in the preprocessor.</p>
+<p>During my time toying with the preprocessor I learned a few things about recursion, the different operators supported by it and some crazy things about the order of conditional evaluation. I&rsquo;ll summarize some of the things I learned in the next few posts: you might want to check 16.3 in the C++ standard, since the next few articles will be only explanations about different paragraphs on this section.
+Disclaimer: if you find any real-world utility to these bits of preprocessor trivia, you are probably doing something horribly wrong or horribly evil!</p>
+<hr />
+<h2>C preprocessor II: stringify operator<a name="cpreprocessoriistringifyoperator"></a></h2>
+<p>We all more or less know the list of operators that C++ provides for &ldquo;normal code&rdquo; but not everyone is aware that the preprocessor also has special operators we can use. Small difference: an operator like &lsquo;+&rsquo; will usually operate on numbers, but the preprocessor operates only on a single concept: source code tokens. What kind of operators could a preprocessor have, then? Two, actually. Let&rsquo;s start with the simpler one:</p>
+<p><strong>Stringify</strong>
+The &lsquo;#&rsquo; operator is the simplest operator of the preprocessor: it converts the next token to string. Something like this, for example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define f(x) to_str(x) == #x
+f(123)
+</pre>
+<p>Would print</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">to_str(123) == &quot;123&quot;
+</pre>
+<p>A restriction applies to the stringify operator: it can only be applied to a macro param, not just any token. So this, for example, is an illegal macro:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define f(x) #123 == #x
+</pre>
+<p>There&rsquo;s another operator, which is a bit more &ldquo;esoteric&rdquo;. We&rsquo;ll talk about token pasting next time.</p>
+<hr />
+<h2>C preprocessor III: Token pasting<a name="cpreprocessoriiitokenpasting"></a></h2>
+<p>A stringify operator is good but the token pasting operator goes off the awesomeness chart (if you&rsquo;re working on an ioccc entry, that is). Actually, what token pasting does is conceptually simple: it will paste together two tokens to form a new one. So, for example, PASTE(foo, bar) would result in the &ldquo;foobar&rdquo; token. Looks simple enough, doesn&rsquo;t it? The token pasting operator is invoked via &lsquo;##&rsquo;. For example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define PASTE(x, y) x ## y
+#define FOOBAR 42
+int main() { return PASTE(FOO, BAR); }
+</pre>
+<p>The previous code would just return 42. So what&rsquo;s the usefulness of a paste operator? Other than obfuscating stuff, you can use it to create classes with similar interfaces but different method names (I&rsquo;m not saying it&rsquo;s a good idea, I&rsquo;m saying you can). For example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define MAKE_GET_SET(x, T) \
+               void set_ ## x (T o) { this-&amp;gt;x = o; } \
+               T get_ ## x () { return this-&amp;gt;x; }
+class Foo {
+  MAKE_GET_SET(foo, int);
+</pre>
+<p>The token pasting operator doesn&rsquo;t have the limitation of being applicable only to a macro parameter, so code like &ldquo;12 ## 34&rdquo; is a perfectly valid operation which results in &ldquo;1234&rdquo;. It does have a catch: if the resulting token is not valid the behavior is undefined. This means that, for example, pasting &ldquo;12&rdquo; and &ldquo;foo&rdquo; together produces &ldquo;12foo&rdquo;, which is not a valid token. Being the operation undefined means that a compiler might reject this operation (I&rsquo;m pretty sure gcc does) or that it might do a completely different thing (it could choose to ignore the token pasting operator and it would still be standard compliant).</p>
+<p>Nasal demons FTW!</p>
+<hr />
+<h2>C preprocessor IV: VA Args<a name="cpreprocessorivvaargs"></a></h2>
+<p>And things just got even more awesome in our preprocessor series: if just passing a known number of parameters is not cool enough for you you can use a variable number of arguments on a macro definition too. This is very useful to implement printf style debug macros which get replaced by no tokens on a release build. Or to make debugging a bit more complicated, your choice.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define DEBUG(fmt, &hellip;) printf(fmt, <strong>VA_ARGS</strong>);
+</pre>
+<p>Combining this with stringify will provide you hours of fun. Combining this with token pasting&hellip; well, that&rsquo;s just evil.</p>
+<hr />
+<h2>C preprocessor V: Conditionals<a name="cpreprocessorvconditionals"></a></h2>
+<p>While walking around the c preprocessor we came to know the stringify operator, the crazy token pasting operator and a __VA_ARGS__ macro. All very weird, but at least the #if&rsquo;s work in a sane way&hellip; or do they? They do, but there&rsquo;s some room for unexpected behavior if you don&rsquo;t know some implementation details. Take this code for example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#if 0
+#  if 0
+#  else
+#  elif true
+#  endif
+#endif
+</pre>
+<p>Clearly the inner if is wrong because the else clause comes before the elseif, however you might think it doesn&rsquo;t matter because it&rsquo;s surrounded by an #if 0. Surprise: it does matter, that&rsquo;s not valid preprocessor input. Even if the outer #if is not &ldquo;taken&rdquo;, whatever preprocessing directives are inside it should still be valid (though anything that&rsquo;s not a preprocessing directive will indeed be ignored).</p>
+<p>Even though at first it might seem weird for things inside an #if 0 to be important, it makes sense if you think that should an internal #if not respect the proper structure then the preprocessor wouldn&rsquo;t know when to end the first #if 0. Then again, if you find any real-world utility to this bit of preprocessor implementation trivia, you are doing something horribly wrong!</p>
+<hr />
+<h2>C preprocessor VI: Recursive macro expansion rules<a name="cpreprocessorvirecursivemacroexpansionrules"></a></h2>
+<p>What happens if you define a recursive macro? This might seem like a silly question, but by asking it we can gain some insight on the inner working of the preprocessor.</p>
+<p>Let&rsquo;s start with a simple example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define foo bar 1
+#define bar foo 2
+foo
+</pre>
+<p>Luckily the preprocessor is smart enough not to trip up on this simple piece of code. When expanding foo on line three it will do something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define foo bar
+#define bar foo
+foo
+// Applies foo -&amp;gt; bar 1
+bar 1
+// Applies bar -&amp;gt; foo 2
+foo 2 1
+// Scans foo again&hellip; but doesn&#x27;t expand it
+</pre>
+<p>The second time the preprocessor scans foo it won&rsquo;t expand it: it &ldquo;knows&rdquo; foo was already expanded, so it won&rsquo;t do it again. But how does it know that foo was already expanded? Let&rsquo;s try something a bit more complicated:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define foo bar a baz b
+#define bar foo 1
+#define baz bar 2
+foo
+</pre>
+<p>And then let&rsquo;s see how foo is expanded, step by step:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define foo foo a bar b baz c
+#define bar foo 1
+#define baz bar 2
+foo
+</pre>
+<p>First the rule &ldquo;foo -&gt; foo a bar b baz c&rdquo; will be applied and the results rescanned: let&rsquo;s call this scope 1. We&rsquo;ll end up with:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">foo a bar b baz c
+</pre>
+<p>Now the results of this expansion will be scanned, in a new scope. Let&rsquo;s call it scope 2. The first token the preporcessor will see is &ldquo;foo&rdquo;, which was already expanded on scope 1: it will be ignored and it will continue to the next expandable token, &ldquo;bar&rdquo;, and it will expand it like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">foo a foo 1 b bar 2 c
+</pre>
+<p>On the scope that baz&rsquo;s expansion creates (scope 4), the parent&rsquo;s scope expansion rules are &ldquo;inherited&rdquo;, so for scope 4 &ldquo;foo&rdquo; was already expanded but &ldquo;bar&rdquo; was not, because bar&rsquo;s expansion happened on scope 3 and scope 3 is not scope&rsquo;s 4 parent. Not following me? Try following this diagram:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">foo -&amp;gt; foo a bar b baz c
+    foo -&amp;gt; already expanded, ignore
+    a   -&amp;gt; not a macro, ignore
+    bar -&amp;gt; expand to &quot;foo 1&quot;
+        foo -&amp;gt; expanded at parent scope, ignore
+        1   -&amp;gt; not a macro, ignore
+    b   -&amp;gt; not a macro, ignore
+    baz -&amp;gt; expand to &quot;bar 2&quot;
+        bar -&amp;gt; expand to &quot;foo 1&quot;
+            foo -&amp;gt; already expanded at parent scope, ignore
+            1   -&amp;gt; not a macro, ignore
+        2   -&amp;gt; not a macro, ignore
+    c   -&amp;gt; not a macro, ignore
+</pre>
+<p>Hopefully the preprocessor expansion rules should be a bit more clear now: each expansion creates a scope, each scope inherits from parent&rsquo;s scopes whether a rule was applied or not and if it was then said rule is ignored in the current scope.</p>
+<p>Of course these rules get more complicated when dealing with token pasting and stringifying operators, because each phase (stringifying, token pasting, rescanning and expansion) will happen in a specific order. Things get even more complicated when you realize (by reading the standard) that said order is not the same when you deal with argument replacement.</p>
+<p>Then again, it&rsquo;s probably a good idea if your macros don&rsquo;t rely on the recursive expansion rules of the preprocessor.</p>
+<hr />
+<h2>C preprocessor VII: Recursive expansion on function macros<a name="cpreprocessorviirecursiveexpansiononfunctionmacros"></a></h2>
+<p>The last time we talked about recursive expansion rules on C&rsquo;s preprocessor: to sum it up, each expansion creates a scope, that contains a list of all macros which have already been expanded in said scope, or in a parent scope. That gives us a very nice and easy to understand tree of already-expanded rules.</p>
+<p>Clearly that&rsquo;s too easy for C. We need more complexity: we need to make the expansion rules interact with the argument substitution process and the preprocessor operators too!</p>
+<p>How exactly? The whole process is specified by a very tiny paragraph, 16.3.1, on the standard, which despite being tiny contains a lot of information. Actually, it contains all the expansion and precedence rules for the preprocessor. And it&rsquo;s more or less like this:</p>
+<ol>
+<li>Argument scanning: the perprocessor binds a set of tokens to each argument name. If there are extra arguments and the token &ldquo;&hellip;&rdquo; is part of the macro&rsquo;s signature, a __VA_ARGS__ argument is created. (to put it simply: it will bind a set of tokens like &ldquo;(a,b)&rdquo; to an identifier like &ldquo;ARG1&rdquo;).</li>
+<li>Stringify and token pasting is applied ONLY to the arguments, not to the body function.</li>
+<li>Each argument is recursively scanned for macro expansion, as if each argument was on a file on its own (imagine a new file is created with only preprocessor directives and the argument, then apply the expansion algorithm recursively to that file).</li>
+<li>After the arguments have been fully expanded, they are substituted on the macro&rsquo;s body.</li>
+<li>The resulting definition is then rescanned for macro expansions or token pasting operators.</li>
+<li>A side effect of this multi-phase macro expansion is that the nice expansion tree we used to have no longer works.</li>
+</ol>
+<p>Let&rsquo;s take this example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define str(&hellip;) #<strong>VA_ARGS</strong>
+#define foo(a, b) foo a bar str(b)
+#define bar foo bar 1
+foo(bar, (1, 2, 3))
+</pre>
+<p>How can we expand this macro call? Like this:</p>
+<pre style="display: inline-block; border: 1px solid red;">expand{ foo(bar) }
+        Match foo with definition of macro: foo(a)
+            Bind a to bar
+            Macro expand argument a -&gt; expand{ bar }
+                    bar takes no arguments, no binding is done
+                    Apply rule bar -&gt; foo bar 1
+                    Scan the result for new expanions
+                            foo was already expanded, no further expansion
+            Bind b to (1, 2, 3)
+            Macro expand argument b -&gt; nothing to expand
+        Replace macro expanded arguments in body definition:
+            -&gt; foo foo bar 1 bar str((1, 2, 3))
+        Rescan the body for further expansion:
+                foo: Already expanded on current scope
+                foo: Already expanded on current scope
+                bar: Already expanded (The compiler will have too keep a map of expanded macros for each identifier in a definition!)
+                bar: Needs expansion
+                        Apply rule bar -&gt; foo bar 1
+                        Rescan for further expansion
+                                foo: Already expanded on parent scope
+                                bar: Already expanded on current scope
+                str((1, 2, 3)): Expand macro call
+                        Bind (1, 2, 3) to <strong>VA_ARGS</strong>
+                            Analyze (1, 2, 3) for further expansion
+                            Apply operator &#x27;#&#x27; to (1, 2, 3) -&gt; &quot;(1, 2, 3)&quot;
+                        Replace #<strong>VA_ARGS</strong>
+                Replace the result of str((1,2,3)) -&gt; &quot;(1, 2, 3)&quot;
+        Replace the original call &quot;foo(bar, (1, 2, 3))&quot; for the result
+            -&gt; foo foo bar 1 foo bar 1 &quot;(1, 2, 3)&quot;
+</pre>
+<p>This last example should be a good representative of the complexities involved in a macro expansion; hopefully now you know more than you ever wanted to know about macros.</p>

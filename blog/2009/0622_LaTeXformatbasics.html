@@ -1,0 +1,68 @@
+<h1>LaTeX: format basics<a name="latexformatbasics"></a></h1>
+<h3>Basic structure<a name="basicstructure"></a></h3>
+<p>So, what&rsquo;s the most basic structural elements for any document you write? <strong>Paragraphs</strong>, of course. I ussualy use LyX for writing paragraph-based documents (i.e. most of them) and presentations don&rsquo;t have many, so perhaps this is the structural element I use the least. Oh, wait, there&rsquo;s no element, just a &ldquo;nn&rdquo;. Point for LaTeX (take that, HTML).</p>
+<p>You&rsquo;ll also need to put titles, sections, subtitles and all that stuff to give your document a nice structure. Well, that&rsquo;s easy too, just use</p>
+<ul>
+<li>section{name}</li>
+<li>subsection{name}</li>
+<li>subsubsection{name}</li>
+</ul>
+<p>Easy, right? Check the example at the end of the post.</p>
+<p>There are some other commands you&rsquo;ll use in any LaTeX document:
+* <strong>Footnotes</strong>:
+</p>
+<pre style="display: inline-block; border: 1px solid red;">footnote{ Footnote text }
+</pre>
+<p>Just write your text, it&rsquo;ll be there when you compile the document
+* <strong>Vertical skip</strong>:
+</p>
+<pre style="display: inline-block; border: 1px solid red;">bigskip
+</pre>
+<p>Because, some times, LaTeX default formatting won&rsquo;t be enough.
+* <strong>Align text</strong> Center:
+</p>
+<pre style="display: inline-block; border: 1px solid red;">begin{center}TEXTend{center}
+</pre>
+<p>Right:
+</p>
+<pre style="display: inline-block; border: 1px solid red;">begin{flushright}TEXTend{flushright}
+</pre>
+<p>Again, some times you may need it. Not too often, though.</p>
+<p>You should now be able to write your first LaTeX document, starting from a template (always start with a template&hellip; it&rsquo;s easier). I&rsquo;m attaching to this post an example document in LyX, LaTeX and its compiled pdf, in case you&rsquo;re wondering what does it look like in the end. For the next entry: some &ldquo;advanced&rdquo; tips and tricks, now let&rsquo;s see an example LaTeX document:</p>
+<pre style="display: inline-block; border: 1px solid red;">documentstyle[11pt]{article}
+title{LaTeX Example}
+author{Nicol&#x27;as Brailovsky}
+setlength{topmargin}{-.5in}
+setlength{oddsidemargin}{.125in}
+setlength{textwidth}{6.25in}
+begin{document}
+maketitle
+This is just a LaTeX kick off, with some basic commands.
+section {Section one}
+For example, this is a paragraph.
+begin{quotation}
+{ em Lorem ipsum dolor sit amet, consectetur adipiscing elit.}
+Donec porta, enim eget tempus tempor, eros sem dapibus diam, vitae lacinia mauris metus id nulla.
+end{quotation}
+subsection{Subsection}
+You can have subsections too ldots
+subsection{Subsection&#x27;}
+ldots as many as you want
+subsection{Random stuff}
+You can even create a shopping list in LaTeX, if you wish
+begin{center}
+begin{itemize}
+item Beer
+item Beer
+  begin{itemize}
+    item (Another brand of beer)
+  end{itemize}
+item Pizza
+item Beer
+end{itemize}
+end{center}
+Or even better, use it to do the homework. \
+Math is a breeze in LaTeX: $x_n = sqrt{a + b}$ can be typeset inline.
+end{document}
+</pre>
+<p>You can download the compiled document from <a href="https://example.net/brokenlink/2009/06/simple1.pdf">this link.</a> May be it doesn&rsquo;t look too useful (I&rsquo;d use <a href="http://www.lyx.org">LyX</a> instead) but soon we&rsquo;ll start doing some cool stuff LyX can&rsquo;t handle. Keep tuned for the next LaTeX article.</p>

@@ -1,0 +1,79 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2011 November<a name="postsfor2011november"></a></h1>
+<h1>svn tip: branch stable version, then use externals<a name="svntipbranchstableversionthenuseexternals"></a></h1>
+<p>By Nico Brailovsky @ 2011-11-24</p>
+<p>Even though the title says svn, this tip is applicable probably for any version control system. Imagine the following scenario: You have project BestAppEver. BestAppEver depends on BestLibEver. Both are using svn. How do you handle this on your version control system?</p>
+<p>One way, the wrong way, that I have seen lots of times is to just include a copy of BestLibEver inside BestAppEver, like this:</p>
+<p><img alt="" src="/blog_img/svn_externals11.png" />
+This is horrible, whenever BestLibEver is updated you need to manually update BestAppEver. Thus, we come to the second (but not quite the best) solution: <a href="http://svnbook.red-bean.com/en/1.0/ch07s03.html">svn externals</a>. They work like this:</p>
+<p><img alt="" src="/blog_img/svn_externals21.png" />
+Again, although I said svn externals, most version control systems have their own externals version. For a detailed explanation on how externals work you should read the link above, for the moment let&rsquo;s just say this is enough to setup the external:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">$ svn pe svn:externals .
+# This will open your default editor. Now write this:
+LibName           LibURL
+</pre>
+<p>Now every time you run an svn update, it will fetch the latest version of BestLibEver. We have a problem though: BestLibEver may be a project with a lot of commits, and the head revision may be very unstable. Not only it may crash (being a development version, it wouldn&rsquo;t be a strange thing) but also its interfaces may be constantly changing. And we certainly don&rsquo;t want to spend all day just changing our wrappers to make the project compile again.</p>
+<p>There is a solution for this, and we don&rsquo;t have to go back to the first method of just copying the trunk to our repository: we can ask the maintainer of BestLibEver to just create a branch (or a tag, for this case it&rsquo;s pretty much the same) for a stable version and then use an external to that branch. Like this:</p>
+<p><img alt="" src="/blog_img/svn_externals31.png" />
+Now the team developing BestLibEver can work without complaints from their users and BestAppEver can have a stable svn, with controlled lib upgrades whenever they want.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Ezequiel</a> commented @ 2011-11-29T16:32:06.000+01:00:<a name="inreplytothispostezequielcommented20111129t163206.0000100"></a></h2>
+<p>An alternative is setting the revision number when defining the external using -r{revision number}</p>
+<p>Original <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">published here</a>.</p>
+<hr />
+<h1>Fixing some annoying GTK Warnings<a name="fixingsomeannoyinggtkwarnings"></a></h1>
+<p>By Nico Brailovsky @ 2011-11-22</p>
+<p>So, new Buguntu upgrade, new problems. The usual deal. I don&rsquo;t like Unity so I installed the usual gnome desktop. Now when I start gVim I get a bunch of errors like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gvim:7189): Gtk-WARNING **: Unable to locate theme engine in module_path: &quot;pixmap&quot;
+</pre>
+<p>OK, not errors, just warnings. I don&rsquo;t like them anyway, so I did this to fix it:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install gtk2-engines-pixbuf
+</pre>
+<p>Now it works. One problem less, NaN to go&hellip; time to move back to Debian?</p>
+<hr />
+<h1>C++ name mangling<a name="cnamemangling"></a></h1>
+<p>By Nico Brailovsky @ 2011-11-17</p>
+<p>There is a topic I have referred to several times on this blog, yet in four years I still haven&rsquo;t explained what it is. I plan to correct this by explaining a little bit about C++ name mangling, and although I won&rsquo;t expect to write anything you couldn&rsquo;t learn by reading <a href="http://en.wikipedia.org/wiki/Name_mangling">Wikipedia</a>, I&rsquo;ll try to have a more practical approach.</p>
+<p>Whenever you compile and link something, there is a lot of information the compiler deduces that you don&rsquo;t really care about. Things like calling conventions, overloads or namespaces. Yet this information is crucial for other stages of the compiler (or linker) to work. For this reason, the compiler will create a decorated version of any object&rsquo;s or function&rsquo;s name.</p>
+<p>In its most simple case, it would be something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void overloaded_function(int);
+void overloaded_function(string);
+</pre>
+<p>Which would then be translated to something like:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void fastcall_int_overloaded_function(int);
+void fastcall_string_overloaded_function(string);
+</pre>
+<p>Of course, for more complex functions (like class methods) the mangling is much more complicated. Also, remember that&rsquo;s just a mangling convention I just invented, and most likely not used by any compiler in existence.</p>
+<p>Although for the most part we can just ignore name mangling, this has a couple of consequences of which we should be aware:</p>
+<h3>Creating a name for anonymous objects/functions<a name="creatinganameforanonymousobjectsfunctions"></a></h3>
+<p>I will not explain much about this, it might be the topic of another post, but there are certain cases in which you can have a struct or a function defined inside another object anonymously. In these cases, the mangler will assign some sort of denomination for this anonymous object.</p>
+<h3>Linking with C symbols<a name="linkingwithcsymbols"></a></h3>
+<p>C has no mangling. It just doesn&rsquo;t need it. This has a very important consequence, whenever you use C code in C++ you need to specify that your doing so, by using an extern &ldquo;C&rdquo; declaration.</p>
+<h3>Debugging<a name="debugging"></a></h3>
+<p>gdb already takes care of this so it may be transparent to you, but if you are using a debugger not aware of how your compiler mangles names, you may end up with a lot of very difficult to understand names.</p>
+<h3>Bonus: Demangling C++ names<a name="bonusdemanglingcnames"></a></h3>
+<p>If you find yourself in the last case, for example when running an nm to get the names defined in a (compiled) object, you can use c++ filt. Like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">nm foo.o | c++filt
+</pre>
+<hr />
+<h1>New Buguntu, new GUI, new problems<a name="newbuguntunewguinewproblems"></a></h1>
+<p>By Nico Brailovsky @ 2011-11-01</p>
+<p>I updated Ubuntu to 11.10 in one of three computers I regularely use. Lot&rsquo;s of problems and very little improvements. Granted, sound now works by default (finally) but dual screen suport is still less than what I would expect from Windows 98. On top of that, the biggest change is the GUi.</p>
+<p>WTF! My computer is not a tablet, give me back my menu. While using my phone it&rsquo;s nice to have only a couple of icons to click. With two big monitors, I miss my launch bar, a propper clock, my custom applets and the applications menu&hellip; everything that makes the GUI usable.</p>
+<p>Luckly Ubuntu provides a way to revert to the &ldquo;classic&rdquo; desktop, you just need to apt-get install gnome-session-fallback (WTF? I need to INSTALL it? If you plan to roll out a new experimental GUI, at least let me opt-out without downloading more stuff). Of course, since now Ubuntu comes with Gnome 3 even more fun ensues.</p>
+<p>Did you plan to customize your toolbars? Well, good luck with that. Apparently now the applets that work for the old Gnome won&rsquo;t work for Gnome 3. Yes, they implemented a new cool applet system, whatever, I just want a port of the old ones I had.</p>
+<p>Oh, if you plan to move things around you&rsquo;ll have to do some research first. See that hideous clock up there, in the top bar? How would you get it to the lower-right corner? Why, hold alt and then right click to see the move menu. Super intuitive. I wonder if they inspired themselves on ribbon.</p>
+<p>I don&rsquo;t understand the tablet-interface-ftw fad, I was happy with my console multiplexer and I want to keep it unobtrusive, as gnome 2 was. Time to switch to XFCE?</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Leonardo Comerci</a> commented @ 2011-12-21T11:39:30.000+01:00:<a name="inreplytothispostleonardocomercicommented20111221t113930.0000100"></a></h2>
+<p>Seh, yo uso Kubuntu 11.10 en el laburo y de un d&iacute;a para el otro, entre tanto update autom&aacute;tico, me dej&oacute; de andar el AUDIO. Por defecto &eacute;sta distro viene con Pulseaudio e intent&eacute; rajarlo a la mierda y poner ALSA pero no funcaba, as&iacute; que tuve que volver a poner Pulseaudio y hacer indecibles malabares para que termine solamente funcando el Banshee y el sonido del Pidgin. Chau otras app (ni VLC ni nada) ni tampoco el sonido en el browser (chau Youtubem chau etc) que es lo que m&aacute;s me da por las bolas&hellip;</p>
+<p>Pero bueno&hellip; obvio que al Unity lo mand&eacute; al demonio y puse XFCE, aunque bien podr&iacute;a haber puesto Fluxbox (pero no quer&iacute;a TANTO minimalismo).</p>
+<p>Ahora anda todo (algo) m&aacute;s r&aacute;pido.</p>
+<p>Original <a href="/blog/2011/1101_NewBuguntunewGUInewproblems.html">published here</a>.</p>
+<hr />

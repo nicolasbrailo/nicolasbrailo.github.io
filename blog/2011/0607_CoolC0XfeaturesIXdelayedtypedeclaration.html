@@ -1,0 +1,35 @@
+<h1>Cool C++0X features IX: delayed type declaration<a name="coolc0xfeaturesixdelayedtypedeclaration"></a></h1>
+<p>In the last two entries we worked on a wrapper object which allows us to decorate a method before or after calling (hello aspects!), or at least that&rsquo;s what it should do when g++ fully implements decltypes and variadic templates. Our wrapper function looks something like this (check out the previous entry for the wrapper object):</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
+void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+void do_something(const char*) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+int do_something(int) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; return 123; }
+template &amp;lt;class&hellip; Args&amp;gt;
+auto wrap(Args&hellip; a) -&amp;gt; decltype( do_something(a&hellip;) ) {
+    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
+    return do_something(a&hellip;);
+}
+int main() {
+    wrap();
+    wrap(&quot;nice&quot;);
+    int x = wrap(42);
+    std::cout &amp;lt;&amp;lt; x &amp;lt;&amp;lt; &quot;n&quot;;
+    return 0;
+}
+</pre>
+<p>After the example, we were left with three new syntax changes to analyze:
+* -&gt; (delayed declaration)
+* decltype
+* auto</p>
+<p>Let&rsquo;s study the -&gt; operator this time: <strong>-&gt; (delayed declaration)</strong>
+This is the easiest one. When a method is declared auto (I&rsquo;ve left this one for the end because auto is used for other things too) it means its return type will be defined somewhere else. Note that in this regard the final implementation differs from <a href="/blog/youfoundadeadlink.html">Stroustroup&rsquo;s FAQ</a>.</p>
+<p>The -&gt; operator in a method&rsquo;s definition says &ldquo;Here&rsquo;s the return type&rdquo;. I&rsquo;ll paste the same simple example we had last time, the following two snippets of code are equivalent:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void foo() {}
+</pre>
+<p>Is the same as:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto foo() -&amp;gt; void {}
+</pre>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.html">Nicol&aacute;s Brailovsky » Blog Archive » Cool C++0X features XII: type inference with auto</a> commented @ 2011-10-04T09:23:29.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivecoolc0xfeaturesxiitypeinferencewithautoblog_md20111004_coolc0xfeaturesxiitypeinferencewithauto.mdcommented20111004t092329.0000200"></a></h2>
+<p>[&hellip;] like the one I’m pasting below, of type inference with decltype, which led us to learn about delayed type declaration and decltypes with auto. This time I want to focus just on the auto keyword [&hellip;]</p>
+<p>Original <a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">published here</a>.</p>

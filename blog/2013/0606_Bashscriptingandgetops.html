@@ -1,0 +1,16 @@
+<h1>Bash scripting and getops<a name="bashscriptingandgetops"></a></h1>
+<p>Did you ever write a bash script and thought it looked too clean? Yeah, me neither. Anyway, now you can make it look even worse by using getopt. As an upside, you&rsquo;ll be able to read command line options from a user without having to resort to nasty hacks, like hardcoding the switch position into the argv.</p>
+<p>getopt should be installed by default in most Linux distros, and you can even run it as a command line program. It&rsquo;s quite easy to use on a bashcript. For example, something like:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+while getopts &quot;bar&quot; opt; do
+    case &quot;$opt&quot; in
+        b) echo &quot;Option b is set&quot;
+           ;;
+        a) echo &quot;Option a is set&quot;
+           ;;
+        r) echo &quot;Option r is set&quot;
+           ;;
+    esac
+done
+</pre>
+<p>It won&rsquo;t look pretty but it does get the job done. According to &ldquo;man getopt&rdquo; it supports things like short &amp; long options and defaults; if you need something more complex, you should probably be using a proper language instead of a bash script.</p>

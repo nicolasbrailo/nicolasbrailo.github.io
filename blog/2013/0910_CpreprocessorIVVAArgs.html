@@ -1,0 +1,5 @@
+<h1>C preprocessor IV: VA Args<a name="cpreprocessorivvaargs"></a></h1>
+<p>And things just got even more awesome in our preprocessor series: if just passing a known number of parameters is not cool enough for you you can use a variable number of arguments on a macro definition too. This is very useful to implement printf style debug macros which get replaced by no tokens on a release build. Or to make debugging a bit more complicated, your choice.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define DEBUG(fmt, &hellip;) printf(fmt, <strong>VA_ARGS</strong>);
+</pre>
+<p>Combining this with stringify will provide you hours of fun. Combining this with token pasting&hellip; well, that&rsquo;s just evil.</p>

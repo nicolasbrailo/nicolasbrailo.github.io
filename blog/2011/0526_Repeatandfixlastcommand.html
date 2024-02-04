@@ -1,0 +1,18 @@
+<h1>Repeat (and fix) last command<a name="repeatandfixlastcommand"></a></h1>
+<p>How many times have you run a command but forgot to add sudo at the beginning? How many times did you open vim instead of gvim? All that has an easy fix, instead of pressing up-left-left-left-left-left&hellip; (almost like a Konami code, isn&rsquo;t it?) just use
+</p>
+<pre style="display: inline-block; border: 1px solid red;">!!
+</pre>
+<pre style="display: inline-block; border: 1px solid red;">!!
+</pre>
+<p>Another common problem, you mistype vim for vmi (hey, it may be a common problem if you&rsquo;re dyslexic). Just type fc, short for fix command, to open the last command in your configured editor. Fix it (lxp, bonus points if anyone understand this :D) then write and save. The fixed command will be executed.</p>
+<p>.</p>
+<p>expands to the previous command, so for example
+</p>
+<pre style="display: inline-block; border: 1px solid red;">vim foo
+</pre>
+<p>, then
+</p>
+<pre style="display: inline-block; border: 1px solid red;">g!!
+</pre>
+<p>will execute &ldquo;gvim foo&rdquo;.</p>

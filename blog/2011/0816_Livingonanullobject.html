@@ -1,0 +1,26 @@
+<h1>Living on a null object<a name="livingonanullobject"></a></h1>
+<p>Check this out:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct S {
+   int f(){ return 42; }
+};
+int main() {
+   S <em>x = (S</em>) NULL;
+   return x-&amp;gt;f();
+}
+</pre>
+<p>What does this do? Does it compile? Does it crash? I&rsquo;ll give you a second.</p>
+<p>Ready? It does compile, OK</p>
+<p>But it doesn&rsquo;t crash.</p>
+<p>Why, you may ask</p>
+<p>Think about it, you must.</p>
+<p>The compiler will mangle S::f and translate this into something like:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct S {};
+int mangled_S_f(struct S <em>this){
+   return 42;
+}
+int main() {
+   S </em>x = (S*) NULL;
+   mangled_S_f(x);
+}
+</pre>
+<p>Now, in this new &ldquo;translated&rdquo; code, what do you think? Will it crash? It won&rsquo;t, since no one is going to dereference &ldquo;this&rdquo;. Crazy, huh? This crazy idiom also allows even crazier things, like <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">C++ objects committing sepuku</a></p>

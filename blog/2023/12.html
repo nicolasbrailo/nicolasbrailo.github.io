@@ -1,0 +1,20 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2023 December<a name="postsfor2023december"></a></h1>
+<h1>Fix Spotify deeplinking in Linux + custom SpotiWeb UI<a name="fixspotifydeeplinkinginlinuxcustomspotiwebui"></a></h1>
+<p>By Nico Brailovsky @ 2023-12-16</p>
+<p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn&rsquo;t working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here&rsquo;s my fix:</p>
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
+sudo echo &#x27;/usr/share/spotify/spotify.real &ndash;uri=&quot;$1&quot;&#x27; &gt; /usr/share/spotify/spotify
+</pre>
+<p>Seems old versions of spotify would try to open anything as a deeplink, but new versions require a <code>--uri</code> parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I&rsquo;m too lazy to read manuals.</p>
+<p>In the &ldquo;reminder to myself&rdquo; category, as there is zero chance I&rsquo;ll remember this next time I&rsquo;m setting up a computer.</p>
+<h3>(*) SpotiWeb: custom Spotify UI<a name="spotiwebcustomspotifyui"></a></h3>
+<p>I don&rsquo;t like&rdquo;recent&rdquo; changes (recent being the last 3 or 4 years!) to Spotify&rsquo;s UI, <a href="https://nicolasbrailo.github.io/SpotiWeb/">so I rolled out my own</a>. It&rsquo;s a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn&rsquo;t even have a search function: you can use the browser&rsquo;s search if you need one!)</p>
+<p>The app is hosted in github pages, and because it&rsquo;s entirely client side it doesn&rsquo;t need any kind of server side support to run. Check out the source here and <a href="https://github.com/nicolasbrailo/SpotiWeb">either run your own, or check out there&rsquo;s no server side processing involved.</a></p>
+<hr />

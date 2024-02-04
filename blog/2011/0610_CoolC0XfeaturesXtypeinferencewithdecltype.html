@@ -1,0 +1,51 @@
+<h1>Cool C++0X features X: type inference with decltype<a name="coolc0xfeaturesxtypeinferencewithdecltype"></a></h1>
+<p>After creating a <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">wrapper object</a> on the last entries, we were left with three syntax changes two analyze:</p>
+<ul>
+<li><a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">-&gt; (delayed declaration)</a></li>
+<li>decltype</li>
+<li>auto</li>
+</ul>
+<p>We already saw the first, and we&rsquo;ll be talking about the other two this time. This was the original wrapper function which led us here:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class&hellip; Args&amp;gt;
+auto wrap(Args&hellip; a) -&amp;gt; decltype( do_something(a&hellip;) ) {
+    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
+    return do_something(a&hellip;);
+}
+</pre>
+<p>Back on topic: <strong>decltype</strong>
+This operator (yes, decltype is an operator) is a cousin of sizeof which will yield the type of an expression. Why do I say it&rsquo;s a cousin of sizeof? Because it&rsquo;s been in the compilers for a long time, only in disguise. This is because you can&rsquo;t get the size of an expression without knowing it&rsquo;s type, so even though it&rsquo;s implementation has existed for a long time only now it&rsquo;s available to the programmer.</p>
+<p>One of it&rsquo;s interesting features is that the expression with which you call decltype won&rsquo;t be evaluated, so you can safely use a function call within a decltype, like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto foo(int x) -&amp;gt; decltype( bar(x) ) {
+    return bar(x);
+}
+</pre>
+<p>Doing this with, say, a macro, would get bar(x) evaluated twice, yet with decltype it will be evaluated only once. Any valid C++ expression can go within a decltype operator, so for example this is valid too:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename A, typename B&amp;gt;
+auto multiply(A x, B y) -&amp;gt; decltype( x<em>y )
+{
+    return x</em>y;
+}
+</pre>
+<p>What&rsquo;s the type of A and B? What&rsquo;s the type of A*B? We don&rsquo;t care, the compiler will take care of that for us. Let&rsquo;s look again at that example, more closely:</p>
+<p><strong>-&gt; (delayed declaration) and decltype</strong>
+Why bother creating a delayed type declaration at all and not just use the decltype in place of the auto? That&rsquo;s because of a scope problem, see this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">// Declare a template function receiving two types as param
+template &amp;lt;typename A, typename B&amp;gt;
+// If we are declaring a multiplication operation, what&amp;#x27;s the return type of A<em>B?
+// We can&amp;#x27;t multiply classes, and we don&amp;#x27;t know any instances of them
+auto multiply(A x, B y)
+// Luckily, the method signature now defined both parameters, meaning
+// we don&amp;#x27;t need to expressly know the type of A</em>B, we just evaluate
+// x<em>y and use whatever type that yields
+    -&amp;gt; decltype( x</em>y )
+{
+    return x*y;
+}
+</pre>
+<p><strong>decltype</strong>
+As you see, decltype can be a very powerful tool if the return type of a function is not known for the programmer when writing the code, but you can use it to declare any type, anywhere, if you are too lazy to type. If you, for example, are very bad at math and don&rsquo;t remember that the integers group is closed for multiplication, you could write this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    int x = 2;
+    int y = 3;
+    decltype(x<em>y) z = x</em>y;
+</pre>
+<p>Yes, you can use it as VB&rsquo;s dim! (kidding, just kidding, please don&rsquo;t hit me). Even though this works and it&rsquo;s perfectly legal, auto is a better option for this. We&rsquo;ll see that on the next entry.</p>

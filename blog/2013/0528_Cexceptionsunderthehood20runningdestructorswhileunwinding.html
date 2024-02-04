@@ -1,0 +1,27 @@
+<h1>C++ exceptions under the hood 20: running destructors while unwinding<a name="cexceptionsunderthehood20runningdestructorswhileunwinding"></a></h1>
+<p>The <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v11">mini ABI version 11</a> we have written last time was able to handle pretty much all the basics to handle an exception: we have an (almost working) ABI capable of throwing and catching exceptions, but it is still unable to properly run destructors. That&rsquo;s quite important if we want to write exception safe code. With what we know about .gcc_except_table running destructors is a piece of cake, we only need to see a bit of assembly:</p>
+<pre style="display: inline-block; border: 1px solid red;"># Call site table
+.LLSDACSB2:
+    # Call site 1
+    .uleb128 ip_range_start
+    .uleb128 ip_range_len
+    .uleb128 landing_pad_ip
+    .uleb128 (action_offset+1) =&gt; 0x3
+    # Rest of call site table
+# Action table start
+.LLSDACSE2:
+    # Action 1
+    .byte   0
+    .byte   0
+    # Action 2
+    .byte   0x1
+    .byte   0x7d
+    .align 4
+    .long   _ZTI14Fake_Exception
+.LLSDATT2:
+# Types table start
+</pre>
+<p>On a regular landing pad, when an action has a type index greater than 0 it means we&rsquo;re seeing an index to a type tables, and we can use that to know which types the catch can handle; for a type index with a value of 0 it means we are instead seeing a cleanup block and we should run it anyway. Although the landing pad can&rsquo;t handle the exception it will still be able to perform the cleanup that&rsquo;s supposed to happen while unwinding. Of course the landing pad will call _Unwind_Resume when the cleanup is done and that will continue the regular stack unwinding process.</p>
+<p>I&rsquo;ve uploaded this <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v12">latest and last version to my github repo</a>, but there are some bad news: remember how we cheated by saying that a uleb128 == char? As soon as we start adding blocks to run destructors the .gcc_except_table starts to get quite big (where &ldquo;big&rdquo; means we have offsets over 127 bytes long) and that assumption no longer holds.</p>
+<p>For the next version of this ABI we would have to rewrite our LSDA reading functions to read proper uleb128 code. Not a major change, but at this point we wouldn&rsquo;t gain much, we have already achieved our goal: a working minimal ABI capable of handling exceptions without the help of libcxxabi.</p>
+<p>There are parts we haven&rsquo;t covered, like handling non-native exceptions, catching derived types or interoperability between compilers and linkers. Maybe some other time, in this rather long series of articles we already learned quite a bit about low level exception handling in C++.</p>

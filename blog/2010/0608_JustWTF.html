@@ -1,0 +1,17 @@
+<h1>Just WTF<a name="justwtf"></a></h1>
+<p>Who the hell can create a monster like this one?</p>
+<pre lang="sql" style="display: inline-block; border: 1px solid red;">CREATE PROC shutdown10
+AS
+EXEC xp_cmdshell &#x27;net send /domain:SQL_USERS &#x27;&#x27;SQL Server
+shutting down in 10 minutes. No more connections
+allowed.&#x27;, no_output
+EXEC xp_cmdshell &#x27;net pause sqlserver&#x27;
+WAITFOR DELAY &#x27;00:05:00&#x27;
+EXEC xp_cmdshell &#x27;net send /domain: SQL_USERS &#x27;&#x27;SQL Server
+shutting down in 5 minutes.&#x27;, no_output
+WAITFOR DELAY &#x27;00:04:00&#x27;
+EXEC xp_cmdshell &#x27;net send /domain:SQL_USERS &#x27;&#x27;SQL Server
+shutting down in 1 minute. Log off now.&#x27;, no_output
+WAITFOR DELAY &#x27;00:01:00&#x27;
+EXEC xp_cmdshell &#x27;net stop sqlserver&#x27;, no_output
+</pre>

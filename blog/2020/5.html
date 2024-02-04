@@ -1,0 +1,21 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2020 May<a name="postsfor2020may"></a></h1>
+<h1>Vimtip: Open path<a name="vimtipopenpath"></a></h1>
+<p>By Nico Brailovsky @ 2020-05-08</p>
+<p>If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;foo/bar.h&quot;
+</pre>
+<p>Place your cursor anywhere in &ldquo;foo/bar.h&rdquo; and press <code>gf</code> to open the referenced path. More interestingly, you can also do <code>C-w</code>, release and then <code>gf</code> to open in a new tab.</p>
+<p>Today I learned you can also do this for arbitrary URLs. If you have a file like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;foo/bar.h&quot;
+// https://github.com/nicolasbrailo/Nico.rc/blob/master/README.md
+&hellip;
+</pre>
+<p>Then you can do <code>C-w gf</code> on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</p>
+<hr />

@@ -1,0 +1,14 @@
+# Awesome quote stolen from "The Embedded Muse"
+
+@meta publishDatetime 2016-08-04T13:45:00.000+02:00
+@meta author Nico Brailovsky
+@meta originalUrl https://monkeywritescode.blogspot.com/2016/08/awesome-quote-stolen-from-embedded-muse.html
+
+While I try to keep this blog to (more or less) original content I write, I liked this quote from the [Embedded Muse](http://www.ganssle.com/tem/tem310.html) so much that I had to steal it:
+
+> Norm Augustine, retired chairman and CEO of Lockheed Martin, wrote a book called *Augustine's Laws* that documents observations he made as a government contractor. One of those was that by the year 2054 the entire US defense budget would buy just one aircraft, due to their spiraling costs. In the May 9-22, 2016 issue of Aviation Week and Space Technology (often called Aviation Leak and Secret Technology due to their outing of many programs) he wrote this revealing statement:
+>
+> "Another law from the 1960s used historical data, fearlessly extrapolated, to show than an ever-increasing fraction of an aircraft's weight was being devoured by electronics and in 2015 would leave no room for pilots. Thus, we have today's dilemma wherein pilots must remain in Nevada while their aircraft burn holes in the sky all around the planet. The Wright Brother surely are doing barrel rolls in their graves.
+>
+> "Of course, some observers have questioned how, as these laws seem to imply, it would be possible to endlessly add cost to an aircraft when nothing more can be added to an aircraft's weight, not even a pilot. To do this would require a colorless, odorless, weightless substance whose cost - like entropy - would continue to increase forever. Fortunately, the industry's engineers were up to the task: the elusive substance is software."
+

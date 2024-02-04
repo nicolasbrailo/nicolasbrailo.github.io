@@ -1,0 +1,29 @@
+<h1>mocp rand<a name="mocprand"></a></h1>
+<p>I&rsquo;m quite sure everyone reading this must have a respectable, if not massive, music collection. In this days and age is difficult finding someone who doesn&rsquo;t. It&rsquo;s also difficult to choose one, and only one, disk to listen at any given moment. Until we&rsquo;re upgraded to support concurrent music listening we&rsquo;re better of with a random disk selector, which is exactly what this little script does:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
+SEARCH_DIR=&quot;/home/nico/M&amp;uacute;sica&quot;
+START_RANDOM=1
+RAND_MAX=32767
+while (( 1 )); do
+  NUM_DISCS=$(find $SEARCH_DIR -type d | wc -l)
+  RAND=$(($NUM_DISCS * $RANDOM / $RAND_MAX))
+  RAND_DISC=$(find $SEARCH_DIR -type d | head -n $RAND | tail -n 1)
+  # Wake up moc
+  mocp -FS 2&amp;gt;/dev/null &amp;gt;/dev/null &amp;amp;
+  mocp -pca &quot;$RAND_DISC&quot; &amp;amp;
+  echo &quot;Playing $RAND_DISC&quot;
+  # Start from a random file?
+  if (( $START_RANDOM )); then
+    mocp &ndash;on shuffle &amp;amp;
+    mocp -f &amp;amp;
+    mocp &ndash;off shuffle &amp;amp;
+  fi
+  read
+done
+</pre>
+<p>Of course, it requires <a href="http://moc.daper.net/">mocp</a>, my favorite music (on console) player. And obviously, you&rsquo;ll have to configure SEARCH_DIR but I&rsquo;m sure some bash hacking is not that hard.</p>
+<p>Beware though, using this + cron may have the undesired effect of awakening to the pleasant music of Cannibal Corpse.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0909_Sortingbyrandominbashandmocprandomupdated.html">Nicol&aacute;s Brailovsky » Blog Archive » Sorting by random in bash and mocp random updated</a> commented @ 2010-09-09T09:04:03.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivesortingbyrandominbashandmocprandomupdatedblog_md20100909_sortingbyrandominbashandmocprandomupdated.mdcommented20100909t090403.0000200"></a></h2>
+<p>[&hellip;] And now you can sort by random your output using sort -R. Why would this be useful? Well, I updated my mocp random script with a [&hellip;]</p>
+<p>Original <a href="/blog/2009/0723_mocprand.html">published here</a>.</p>

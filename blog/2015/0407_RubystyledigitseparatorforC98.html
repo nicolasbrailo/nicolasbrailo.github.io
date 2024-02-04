@@ -1,0 +1,6 @@
+<h1>Ruby-style digit separator for C-98?<a name="rubystyledigitseparatorforc98"></a></h1>
+<p>A silly, and not very useful tip: I love how ruby allows you to write numbers like 1000000 as 1_000_000. Very useful to write benchmarking tests.</p>
+<p>Until we get to C++14 we don&rsquo;t have a nice alternative, but we have an ugly hack we can use: instead of writing 1000000 write &ldquo;1 ## 000 ## 000&rdquo;.</p>
+<p>It works, &lsquo;##&rsquo; is the preprocessor&rsquo;s token pasting operator, and it will paste two tokens together. Looks ugly, breaks the GUI highlighting, but at least you can count how many zeros you&rsquo;ve got.</p>
+<p>Nitpicker&rsquo;s corner: multiplying by 10 is easier, but there is no job-safety involved in that.</p>
+<p>Nitpicker&rsquo;s corner II: The evaluation order of a chain of &lsquo;##&rsquo; is not defined, but I don&rsquo;t expect this to cause any problems; any order of evaluation should result in the same result for this case.</p>

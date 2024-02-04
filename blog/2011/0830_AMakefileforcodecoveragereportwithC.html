@@ -1,0 +1,22 @@
+<h1>A Makefile for code coverage report with C++<a name="amakefileforcodecoveragereportwithc"></a></h1>
+<p>So far you should know how to <a href="/blog/2011/0822_AMakefileforTDDwithC.html">use makefiles</a> and you should have a nice <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">testable project</a>. Then you have everything ready to get a coverage report. Yeah, using makefiles, you guessed!</p>
+<p>This time we&rsquo;ll depend on two tools, gcov and gtest. These are in Ubuntu&rsquo;s repositories, so you should have no problem getting them. I won&rsquo;t even bother to explain this makefile (not because it&rsquo;s obvious but because I don&rsquo;t really remember how it works. I wrote this over a year ago).</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">.PHONY: clean coverage_report
+coverage_report:
+    # Reset code coverage counters and clean up previous reports
+    rm -rf coverage_report
+    lcov &ndash;zerocounters &ndash;directory .
+    $(MAKE) COMPILE_TYPE=code_coverage &amp;amp;&amp;amp;
+    $(MAKE) COMPILE_TYPE=code_coverage test
+    lcov &ndash;capture &ndash;directory $(BIN_DIR)/$(OBJ_DIR)/code_coverage &ndash;base-directory . -o salida.out &amp;amp;&amp;amp;
+    lcov &ndash;remove salida.out &quot;<em>usr/include</em>&quot; -o salida.out &amp;amp;&amp;amp;
+    genhtml -o coverage_report salida.out
+    rm salida.out
+</pre>
+<p>Bonus makefile target: make your code pretty:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">.PHONY: pretty
+pretty:
+    find -L|egrep &#x27;.(cpp|h|hh)$$&#x27;|egrep -v &#x27;svn|_Test.cpp$$&#x27; | xargs astyle &ndash;options=none
+</pre>
+<p>Remember to change your astyle options as needed.</p>
+<p>Bonus II: Example project using gcov and gtest: <a href="https://example.net/brokenlink/2010/08/gcov_gtest_sample.tar.gz">gcov_gtest_sample.tar</a>. The irony? It doesn&rsquo;t use my common makefile, it predates it.</p>

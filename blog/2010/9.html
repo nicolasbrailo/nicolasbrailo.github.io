@@ -1,0 +1,236 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2010 September<a name="postsfor2010september"></a></h1>
+<h1>To log or not to log<a name="tologornottolog"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-30</p>
+<p>Logging is nice, we all know that. It saves you from having to stay up all night checking when and why your applications fails. It servers to blame the support guys for not reading it. It&rsquo;s useful to stress test your RAID.</p>
+<p>But logging where you shouldn&rsquo;t is a pain in the ass waiting to happen.</p>
+<p>When designing an application you should choose between domain level objects, wiring objects, library level objects, helper objects, etc. Your logging should be mostly in the wiring of your applications, not in the helper objects and very rarely in the domain level objects. These objects, when well designed, are supposed to be tested and to be run in a production environment with many different loggers. If you log in the middle of your business object you may end up writing logs through cout when you&rsquo;re testing, or worse, when you&rsquo;re supposed to be logging in syslog.</p>
+<hr />
+<h1>Know where your objects live<a name="knowwhereyourobjectslive"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-27</p>
+<p>If you work in an environment where memory management is part of your responsibility then you should be aware of the corner cases in which memory management may come and bite you in the ass. Object ownership is one of those areas.</p>
+<p>If you are going to take ownership of an object you need to be very explicit about it. A common (and mostly wrong) pattern is taking ownership of an object, by default. Things work great until you end up with a production coredump after trying to free an invalid pointer.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">Foo f1;
+Foo <em>f2 = new Foo;
+class BadList {
+  Foo </em>f1, <em>f2;
+  BadList(Foo </em>f1, Foo *f2) :f1(f1), f2(f2) {}
+  ~BadList(){ delete f1; delete f2; }
+}
+</pre>
+<p>Seen like that it&rsquo;s more than obvious, but I have seen even experieced programmers fall in this caveat.</p>
+<p><strong>Related reading:</strong> <a href="/blog/2010/0601_Ohshitthestack.html">Oh shit the stack</a>.</p>
+<hr />
+<h1>Stacktrace or GTFO<a name="stacktraceorgtfo"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-24</p>
+<p>Remember:</p>
+<p><img alt="Original: http://i.imgur.com/jacoj.jpg" src="/blog_img/jacoj.jpg" /></p>
+<p>Also, because otherwise this post would be empty:</p>
+<p><img alt="Original: http://i.imgur.com/1nT6a.jpg" src="/blog_img/1nT6a.jpg" /></p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Stacktrace or GTFO | 0pointer</a> commented @ 2011-02-21T12:23:56.000+01:00:<a name="inreplytothispoststacktraceorgtfo0pointerblog_mdyoufoundadeadlink.mdcommented20110221t122356.0000100"></a></h2>
+<p>[&hellip;] NicolasB [&hellip;]</p>
+<p>Original <a href="/blog/2010/0924_StacktraceorGTFO.html">published here</a>.</p>
+<hr />
+<h1>Template Metaprogramming XV: Gemini<a name="templatemetaprogrammingxvgemini"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-23</p>
+<p>This is the end. My only reader, the end. After 15 chapters of template metaprogramming you should have learned why staying away from them is a good idea, but if you have been following this series then you should know now when and why they could be useful.</p>
+<p>These posts were a compendium of mostly isolated data I found during my travels through the depths of metaprogramming tricks, there are books and people much more capable than me if you want to learn more about this subject (<a href="http://en.wikipedia.org/wiki/Modern_C%2B%2B_Design">Modern C++ Design by Andrei Alexandrescu</a> comes to mind).</p>
+<p>The whole idea of having a cache and a virtual template method was nice, but after seeing the result I decided it was best to have a factory method and an IDL. It may not be so l33t, but whoever has to maintain the code after me will be grateful.</p>
+<p>This is the last post on this topic because I feel I have written most, if not everything, I can transmit through this medium but also for an important reason, most likely I won&rsquo;t be working with C++ code so much from now on [1] so there won&rsquo;t be as many chances for me to see the dark, insane, side of this beautiful (in its own way) programming language in a programming language. I know most of you must have barely skimmed through these articles, but I still hope you enjoyed them.</p>
+<p>[1] That&rsquo;s right, I&rsquo;m leaving C++ for the dark side of development, I&rsquo;ll be working with Java from now on. Keep in mind this article may have been written a long time before it&rsquo;s published.</p>
+<p>[2] Wow, it was a long time since I used the meta-post category</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Manuel</a> commented @ 2010-09-29T17:17:35.000+02:00:<a name="inreplytothispostmanuelcommented20100929t171735.0000200"></a></h2>
+<p>Interfaces FTW !</p>
+<p>Original <a href="/blog/2010/0923_TemplateMetaprogrammingXVGemini.html">published here</a>.</p>
+<hr />
+<h1>Redshift: Cool your monitor<a name="redshiftcoolyourmonitor"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-21</p>
+<p>I&rsquo;ve been trying <a href="http://jonls.dk/redshift/">Redshift</a> the last few days. It&rsquo;s a really cool (pun intended) and simple program. It just sits there all day long, doing nothing. Yeap, it&rsquo;s just one more pointless thing on your ps -ef list, up until noon, when it comes to life: it will adjust your monitor&rsquo;s temperature, gradually, from a cool color to a warmer color.</p>
+<h3>Say what?<a name="saywhat"></a></h3>
+<p>I know what you are thinking. &ldquo;Why the hell did I eat so much cake?&rdquo;. And probably something like &ldquo;WTF? Monitor temperature? Mine is running cool, k thx bye&rdquo; too. The monitor temperature (color temperature, to be more accurate) is the percieved temperature of an object emiting light at the specific wavelength of that color:</p>
+<p><img alt="" src="/blog_img/colour-temperature.gif" />
+So, a blueish color means a higher temperature, and it&rsquo;s the natural ambience light color you see during the day. Towards the night the color temperature begins too cool down towards a more orange color. This is the temperature Redshift changes.</p>
+<h3>So what?<a name="sowhat"></a></h3>
+<p>Fair question. After a couple million years our brains got used to seeing a hot color temperature during the day (do I have any reader that old?) so staring at a blue monitor all day will keep you awake all night long, the theory being that switching its temperature towards a reder color will help you sleep at night.</p>
+<h3>Does it work?<a name="doesitwork"></a></h3>
+<p>Probably not, but that doesn&rsquo;t make it any less cool (pun not intended). I think if you fine-tune this app to your sleeping hours it may be of some use, because otherwise you&rsquo;ll get a very dark screen at 5pm (don&rsquo;t you people know the timezone in Argentina is <a href="https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/278419">FOOBAR&rsquo;d</a>).</p>
+<hr />
+<h1>Quote of the week<a name="quoteoftheweek"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-16</p>
+<blockquote>
+<p>It seems making a compile fail is actually quite easy. That’s what I have most experience with.</p>
+</blockquote>
+<p>From &ldquo;<a href="/search?q=Template+metaprogramming">Template metaprogramming</a>&rdquo;, <a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">chapter 10</a> by <a href="/blog/youfoundadeadlink.html">me</a></p>
+<hr />
+<h1>Template Metaprogramming XIV: Marathon<a name="templatemetaprogrammingxivmarathon"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-14</p>
+<p>If you remember previous entry, we got our evil device to the point of getting a specific instance using only a type hint. Now we need to put all the code together. I won&rsquo;t add much to the code, you should be able to parse it yourself.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
+struct NIL {
+    typedef NIL head;
+    typedef NIL tail;
+};
+template &amp;lt;class H, class T=NIL&amp;gt; struct LST {
+    typedef H head;
+    typedef T tail;
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &amp;lt;class X, class Y&amp;gt; struct Eq { static const bool result = false; };
+template &amp;lt;class X&amp;gt; struct Eq&amp;lt;X, X&amp;gt; { static const bool result = true; };
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &amp;lt;class Elm, class LST&amp;gt; struct Position {
+private:
+    typedef typename LST::head H;
+    typedef typename LST::tail T;
+    static const bool found = Eq&amp;lt;H, Elm&amp;gt;::result;
+public:
+    static const int result = found? 1 : 1 + Position&amp;lt;Elm, T&amp;gt;::result;
+};
+template &amp;lt;class Elm&amp;gt; struct Position&amp;lt;Elm, NIL&amp;gt; {
+    static const int result = 0;
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &amp;lt;typename LST, int N&amp;gt; struct Nth {
+    typedef typename LST::Tail Tail;
+    typedef typename Nth&amp;lt;Tail, N-1&amp;gt;::result result;
+};
+template &amp;lt;typename LST&amp;gt; struct Nth&amp;lt;LST, 0&amp;gt; {
+    typedef typename LST::head result;
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &amp;lt;typename Lst&amp;gt; struct Instances {
+    typedef typename Lst::head Elm;
+    Elm instance;
+    Instances&amp;lt;typename Lst::tail&amp;gt; next;
+};
+template &amp;lt;&amp;gt; struct Instances&amp;lt;NIL&amp;gt; {};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &amp;lt;int N, typename TypeLst&amp;gt; struct NthInstance {
+    // This one isnt easy&hellip;
+    // This is the next type in the list
+    typedef typename TypeLst::tail TypeNext;
+    //  * Nth::result is the Nth type in Lst (i.e. char, int, &hellip;)
+    typedef typename NthInstance&amp;lt;N-1, TypeNext&amp;gt;::NthInstanceType NthInstanceType;
+    //  * typename Nth::result &amp;amp; is a reference to said type and the ret type
+    template &amp;lt;typename InstancesLst&amp;gt;
+    static NthInstanceType&amp;amp; get(InstancesLst &amp;amp;instances_lst) {
+        return NthInstance&amp;lt;N-1, TypeNext&amp;gt;::get(instances_lst.next);
+    }
+};
+// Remember, just for fun we choose a 1-based system (wtf..)
+template &amp;lt;typename TypeLst&amp;gt; struct NthInstance&amp;lt;1, TypeLst&amp;gt; {
+    typedef typename TypeLst::head NthInstanceType;
+    template &amp;lt;typename InstancesLst&amp;gt;
+    static NthInstanceType&amp;amp; get(InstancesLst &amp;amp;instances_lst) {
+        return instances_lst.instance;
+    }
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>***/
+class Facade {
+    typedef LST&amp;lt;int, LST&amp;lt;char, LST&amp;lt;double&amp;gt; &amp;gt; &amp;gt; Lst;
+    Instances&amp;lt;Lst&amp;gt; instances;
+    public:
+    template &amp;lt;typename PK&amp;gt; int find(PK) {
+        return Position&amp;lt;PK, Lst&amp;gt;::result;
+    }
+    template &amp;lt;typename PK&amp;gt;
+    // This is a difficult one&hellip; it should be parsed like this:
+    //  1) Get the desired instance position using Position::result
+    //  2) Get the type @ the desired position with NthInstance::Type
+    //  3) Define said type as a return type (with an &amp;amp; at the end, i.e. make
+    //      it a reference to the return type)
+    typename NthInstance&amp;lt; Position&amp;lt;PK, Lst&amp;gt;::result, Lst &amp;gt;::NthInstanceType&amp;amp;
+    get_instance(PK) {
+        const int idx_position = Position&amp;lt;PK, Lst&amp;gt;::result;
+        typedef typename NthInstance&amp;lt;idx_position, Lst&amp;gt;::NthInstanceType IdxType;
+        IdxType &amp;amp;idx = NthInstance&amp;lt;idx_position, Lst&amp;gt;::get( instances );
+        return idx;
+    }
+};
+#include &amp;lt;iostream&amp;gt;
+int main() {
+    Facade f;
+    int &amp;amp;a = f.get_instance(1);
+    char &amp;amp;b = f.get_instance(&#x27;a&#x27;);
+    double &amp;amp;c = f.get_instance(1.0);
+    a = 42; b = &#x27;n&#x27;; c = 4.2;
+    std::cout &amp;lt;&amp;lt; f.get_instance(1) &amp;lt;&amp;lt; &quot;\n&quot;;
+    std::cout &amp;lt;&amp;lt; f.get_instance(&#x27;a&#x27;) &amp;lt;&amp;lt; &quot;\n&quot;;
+    std::cout &amp;lt;&amp;lt; f.get_instance(1.0) &amp;lt;&amp;lt; &quot;\n&quot;;
+    a = 43; b = &#x27;m&#x27;; c = 5.2;
+    std::cout &amp;lt;&amp;lt; f.get_instance(1) &amp;lt;&amp;lt; &quot;\n&quot;;
+    std::cout &amp;lt;&amp;lt; f.get_instance(&#x27;a&#x27;) &amp;lt;&amp;lt; &quot;\n&quot;;
+    std::cout &amp;lt;&amp;lt; f.get_instance(1.0) &amp;lt;&amp;lt; &quot;\n&quot;;
+    return 0;
+}
+</pre>
+<p>The only thing missing now is a map, to convert a primitive type to an index type, but that&rsquo;s trivial and so it will be left as an exercise for the reader (?). We just implemented the most evil code in the whole world. Next time, the conclusions.</p>
+<hr />
+<h1>Sorting by random in bash and mocp random updated<a name="sortingbyrandominbashandmocprandomupdated"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-09</p>
+<p>Random is nice. And now you can sort by random your output using sort -R. Why would this be useful? Well, I updated <a href="/blog/2009/0723_mocprand.html">my mocp random</a> script with a oneliner:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">mocp -c &amp;amp;&amp;amp; find -type d | sort -R | head -n1 | awk &#x27;{print &quot;&quot;&quot;$0&quot;&quot;&quot;}&#x27;; | xargs mocp -a
+</pre>
+<hr />
+<h1>C++ linking WTF<a name="clinkingwtf"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-07</p>
+<p>It is a commonly accepted fact that a succesfuly compiled application serves as enough proof of its correctness, but common wisdom doesn&rsquo;t say a thing about linking. If you like linker WTF moments, you&rsquo;ll love this snippet. Can you guess why won&rsquo;t it compile?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+    static const int x = 0;
+    static const int y = 1;
+    int z(bool x){
+        return (x)? Foo::x : Foo::y;
+    }
+};
+int main() {
+    Foo z;
+    std::cout &amp;lt;&amp;lt; z.z(true);
+    return 0;
+}
+</pre>
+<p>Well, it does compile (gotcha!) but it just won&rsquo;t link. Yet it seems so simple&hellip; let&rsquo;s add some more mistery to this WTF moment, try this change:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    int z(bool x){
+        int t = Foo::x;
+        return (x)? t : Foo::y;
+    }
+</pre>
+<p>Holy shit, now it compiles? WTF? Some more strangeness:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    int z(bool){
+        return (true)? Foo::x : Foo::y;
+    }
+</pre>
+<p>And again, now it compiles. WTF? I&rsquo;ll make a final change, this one should give you a clue about why it won&rsquo;t compile. Revert all changes back to the original code but add this two lines after Foo:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+const int Foo::x;
+const int Foo::y;
+</pre>
+<p>Though weird at first, now you should have a clear picture:
+* The first case doesn&rsquo;t compiles: x and y are declared in struct Foo, yet the linker doesn&rsquo;t know in which translation unit they should be allocated.
+* The second and third cases&hellip; well I&rsquo;m not sure why does this compiles but it&rsquo;s probably because the linker can asume in which translation unit x and y should be allocated. I&rsquo;m to lazy to check.
+* In the last case we explicitly say where should x and y be. According to standard, this is how these two ints should be declared.</p>
+<p>So, some linker strangeness. Beware, it&rsquo;s easy to get trapped by this one.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Matthew Fioravante</a> commented @ 2015-09-03T22:47:03.000+02:00:<a name="inreplytothispostmatthewfioravantecommented20150903t224703.0000200"></a></h2>
+<p>&ldquo;The second and third cases&hellip; well I’m not sure why does this compiles but it’s probably because the linker can asume in which translation unit x and y should be allocated. I’m to lazy to check.&rdquo;</p>
+<p>The difference probably has to do with the optimizer. If the optimizer reduces all references to the static variable to a compile time constant then there are no references to the non-existant variable for the linker to complain about.</p>
+<p>You can see these kinds of linker bugs happen often in debug builds but not in release builds because of different optimization levels.</p>
+<p>Original <a href="/blog/2010/0907_ClinkingWTF.html">published here</a>.</p>
+<hr />
+<h1>Vim Sexual Care<a name="vimsexualcare"></a></h1>
+<p>By Nico Brailovsky @ 2010-09-02</p>
+<p>Vim bestows its users all sort of magical properties, among which now we can count increased sexual performance. I bet you didn&rsquo;t know, but Vim can help you keep your girl happy for days without end. Don&rsquo;t believe me? Check <a href="/blog/youfoundadeadlink.html">this page</a>.
+<img alt="" src="/blog_img/vitasprings_2120_714414771.jpeg" /></p>
+<hr />

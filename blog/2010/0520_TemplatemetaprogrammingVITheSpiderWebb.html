@@ -1,0 +1,52 @@
+<h1>Template metaprogramming VI: The Spider Webb<a name="templatemetaprogrammingvithespiderwebb"></a></h1>
+<p>We have been building our template meta-foo for five chapters now, and I think we are ready to move on to more advanced topics. We will be borrowing a lot more from functional languages from now on, so you may want to actually start practicing some template metaprogramming to keep advancing.</p>
+<p>In our previous entries we worked with basic building blocks, making it quite easy to keep in mind the whole &ldquo;program flow&rdquo;. Now it won&rsquo;t be so easy anymore, as we&rsquo;ll be using real metaprogramming (i.e. templates operating on templates) so a lot more thought will be needed for each program.</p>
+<p>Another point to keep in mind, you don&rsquo;t have a debugger here. All the magic occurs at compile time so there is no gdb to step through your program to find a logic flaw. There&rsquo;s a little trick to check if you are too far off from the target but, mainly, you&rsquo;ll have to think for yourself.</p>
+<p>Let&rsquo;s start with any functional programming course basics: lists. We have to think, first, how can a list make any sense when you only have types and no values. It means you can have a list like &ldquo;int, char, void**, Foo&rdquo;, and not something like &ldquo;1, 2, 3&rdquo;. Or, can you? There&rsquo;s a way to trick the compiler into creating a type from a integral value:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N&amp;gt; struct Int {
+    static const int value = N;
+};
+</pre>
+<p>Voila! Now you can create a list of numbers. For our next trick, let&rsquo;s implement the list itself. No pointer magic, think of a functional definition of a list. Come on, I&rsquo;ll wait&hellip; ready? OK, a list is a tuple T of two values, in which the first element, called head, is the first element of the list and the second element, called tail, is either a list or the NULL element.</p>
+<p>Quite a mouthful&hellip; let&rsquo;s go over that definition again:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">// A list is a tuple T of two values
+List: [ &hellip;, &hellip; ]
+// in which the first element, called head, is the first element of the list
+List: [ Head, &hellip; ]
+// and the second element, called tail,
+List: [ Head, Tail]
+// is either a list or the NULL element
+List: [ Head, Tail]
+Tail: List | Nil
+</pre>
+<p>So, as an example, a list of numbers could be expressed as:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    List( 1, List( 2, List( 3, NIL ) ) )
+</pre>
+<p>Closing up&hellip; how would you define this list in C++? Easy:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename H, typename T&amp;gt; LST {
+    typedef H Head;
+    typedef T Tail;
+};
+</pre>
+<p>We need here a NIL type to use as a list ending element. We could also use a default template type, so we won&rsquo;t have to write the last NIL to end a list definition. Thus we have now:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct NIL {
+    typedef NIL Head;
+    typedef NIL Tail;
+};
+template &amp;lt;typename H, typename T&amp;gt; struct LST {
+    typedef H Head;
+    typedef T Tail;
+};
+</pre>
+<p>Nice. You should remember the following rules:</p>
+<ol>
+<li>We can use template to define a template class, defining a new type based on a number instead of another type ;)
+ - We can&rsquo;t &ldquo;store&rdquo; a value in a type&hellip; unless we store it as a static value, that is.
+ - Using a convention for defining result holding variable names is very useful, as there are no interfaces and more than once we&rsquo;ll be using a result from an unknown class</li>
+</ol>
+<p>With that said, let&rsquo;s translate the list (1, 2, 3) to Tmpl C++</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N&amp;gt; Int{ static const int result = N; };
+typedef Lst&amp;lt; Int&amp;lt;1&amp;gt;, Lst&amp;lt; Int&amp;lt;2&amp;gt;, Lst&amp;lt; Int&amp;lt;3&amp;gt; &amp;gt; &amp;gt; &amp;gt; OneTwoThree;
+</pre>
+<p>Not so bad to start with. Next time we&rsquo;ll be doing something a little bit more useful with this list.</p>
+<p>One last note, initializing a static const int in the definition of the class may be non portable (some compilers seem to have trouble with it). An enum may be used instead.</p>

@@ -1,0 +1,21 @@
+<h1>A C++ template device to obtain an underlying type<a name="actemplatedevicetoobtainanunderlyingtype"></a></h1>
+<p>What happens when you need to get the underlying data type of a pointer or reference? You can write some crazy metaprogram to do it for you. Like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename T&amp;gt; struct get_real_type      { typedef T type; };
+template &amp;lt;typename T&amp;gt; struct get_real_type&amp;lt;T<em>&amp;gt;  { typedef T type; };
+template &amp;lt;typename T&amp;gt; struct get_real_type&amp;lt;T&amp;amp;&amp;gt;  { typedef T type; };
+template &amp;lt;class T&amp;gt;
+int foo() {
+    return get_real_type&amp;lt;T&amp;gt;::type::N;
+}
+struct Bar {
+    static const int N=24;
+};
+#include &amp;lt;iostream&amp;gt;
+using namespace std;
+int main() {
+    cout &amp;lt;&amp;lt; foo&amp;lt;Bar</em>&amp;gt;() &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; foo&amp;lt;Bar&amp;amp;&amp;gt;() &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; foo&amp;lt;Bar&amp;gt;() &amp;lt;&amp;lt; endl;
+}
+</pre>
+<p>Incidentally, this is also the basis for the implementation of std::remove_reference. Actually you&rsquo;d be better of using std::remove_reference, for your own sanity.</p>

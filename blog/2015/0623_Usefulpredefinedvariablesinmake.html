@@ -1,0 +1,12 @@
+<h1>Useful predefined variables in make<a name="usefulpredefinedvariablesinmake"></a></h1>
+<p>I always forget about two very useful make variables, so I&rsquo;ll leave this here: $(COMPILE.cpp), $(LINK.cpp).
+It&rsquo;s easy, instead of writing a rule as</p>
+<pre style="display: inline-block; border: 1px solid red;">foo.o: foo.cpp
+  g++ -c foo.coo
+</pre>
+<p>you should instead write this:</p>
+<pre style="display: inline-block; border: 1px solid red;">foo.o: foo.cpp
+  $(COMPILE.cpp) foo.coo
+</pre>
+<p>COMPILE.cpp will have the default compiler you are supposed to use, and probably some helpful parameters as well. Likewise, LINK.cpp will have the linker you are supposed to use.</p>
+<p>There are many useful predefined variables in make. Be sure to check them all by running &ldquo;make -p&rdquo; in a console.</p>

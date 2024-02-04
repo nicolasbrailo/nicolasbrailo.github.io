@@ -1,0 +1,53 @@
+<h1>Useless code: a template device to calculate e<a name="uselesscodeatemplatedevicetocalculatee"></a></h1>
+<p>Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review <a href="/search/label/Series%3A Template Metaprogramming">and old article</a> I wrote about it (C++11 made some parts of those articles obsolete, but I&rsquo;m surprised of how well it&rsquo;s aged). To practice a bit I decided to tackle a problem I&rsquo;m sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn&rsquo;t be to hard.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N, int D&amp;gt; struct Frak {
+    static const long Num = N;
+    static const long Den = D;
+};
+template &amp;lt;class X, int N&amp;gt; struct MultEscalar {
+    typedef Frak&amp;lt; N<em>X::Num, N</em>X::Den &amp;gt; result;
+};
+template &amp;lt;class X1, class Y1&amp;gt; struct IgualBase {
+    typedef typename MultEscalar&amp;lt; X1, Y1::Den &amp;gt;::result X;
+    typedef typename MultEscalar&amp;lt; Y1, X1::Den &amp;gt;::result Y;
+};
+template &amp;lt;int X, int Y&amp;gt;   struct MCD {
+    static const long result = MCD&amp;lt;Y, X % Y&amp;gt;::result;
+};
+template &amp;lt;int X&amp;gt; struct MCD&amp;lt;X, 0&amp;gt; {
+    static const long result = X;
+};
+template &amp;lt;class F&amp;gt; struct Simpl {
+    static const long mcd = MCD&amp;lt;F::Num, F::Den&amp;gt;::result;
+    typedef Frak&amp;lt; F::Num / mcd, F::Den / mcd &amp;gt; result;
+};
+template &amp;lt;class X, class Y&amp;gt; struct Suma {
+    typedef IgualBase&amp;lt;X, Y&amp;gt; B;
+    static const long Num = B::X::Num + B::Y::Num;
+    static const long Den = B::Y::Den; // == B::X::Den
+    typedef typename Simpl&amp;lt; Frak&amp;lt;Num, Den&amp;gt; &amp;gt;::result result;
+};
+template &amp;lt;int N&amp;gt; struct Fact {
+    static const long result = N * Fact&amp;lt;N-1&amp;gt;::result;
+};
+template &amp;lt;&amp;gt; struct Fact&amp;lt;0&amp;gt; {
+    static const long result = 1;
+};
+template &amp;lt;int N&amp;gt; struct E {
+    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + &hellip;
+    static const long Den = Fact&amp;lt;N&amp;gt;::result;
+    typedef Frak&amp;lt; 1, Den &amp;gt; term;
+    typedef typename E&amp;lt;N-1&amp;gt;::result next_term;
+    typedef typename Suma&amp;lt; term, next_term &amp;gt;::result result;
+};
+template &amp;lt;&amp;gt; struct E&amp;lt;0&amp;gt; {
+    typedef Frak&amp;lt;1, 1&amp;gt; result;
+};
+#include &amp;lt;iostream&amp;gt;
+int main() {
+    typedef E&amp;lt;8&amp;gt;::result X;
+    std::cout &amp;lt;&amp;lt; &quot;e = &quot; &amp;lt;&amp;lt; (1.0 * X::Num / X::Den) &amp;lt;&amp;lt; &quot;\n&quot;;
+    std::cout &amp;lt;&amp;lt; &quot;e = &quot; &amp;lt;&amp;lt; X::Num &amp;lt;&amp;lt;&quot;/&quot;&amp;lt;&amp;lt; X::Den &amp;lt;&amp;lt; &quot;\n&quot;;
+    return 0;
+}
+</pre>

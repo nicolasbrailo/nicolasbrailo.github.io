@@ -1,0 +1,111 @@
+<h1>C++: Magic member callbacks<a name="cmagicmembercallbacks"></a></h1>
+<p>Short post about C++ this time - though calling it a request would be more appropiate. I&rsquo;m trying to create some kind of magic callback to do this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Caller {
+ Callback c;
+  public:
+  Caller(Callback c) : c(c) {}
+ void doit(){ c(this); }
+};
+</pre>
+<p>Shouldn&rsquo;t be too difficult, right?</p>
+<p>There are some hidden complexities, of course, mostly regarding the callback parameter type, but the idea is simple, keep the caller dependant only in the callback, not in the callee.</p>
+<p>Templates are not a valid solution as the callee may have more than one callback (i.e. expect more than a single object to finish and call the callback) so the whole idea of this is having the callback &ldquo;bind&rdquo; to a member method when created, doesn&rsquo;t matter which one.</p>
+<p>I have a solution, tough I&rsquo;m not too happy about it for now. I&rsquo;ll post it next week, unless someone comes up with a better idea (you know how to submit it if you do, right?).</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Leonardo Secotaro</a> commented @ 2009-07-31T14:25:20.000+02:00:<a name="inreplytothispostleonardosecotarocommented20090731t142520.0000200"></a></h2>
+<p>/*This is my implementation*/</p>
+<p>/*----[CallBack.h]----*/
+class CallBack {
+ /* &hellip; */
+public:
+ virtual void operator() (void*) = 0;
+};</p>
+<p>/*----[Objeto.h]----*/</p>
+<h1>include &ldquo;CallBack.h&rdquo;<a name="includecallback.h"></a></h1>
+<h1>include &ldquo;Cain.h&rdquo;<a name="includecain.h"></a></h1>
+<h1>include &ldquo;Abel.h&rdquo;<a name="includeabel.h"></a></h1>
+<p>class Objeto: public CallBack{
+ /* &hellip; */
+public:
+ void Execute(){
+ Abel *pObj = new Abel( this );
+ Cain *pObj2 = new Cain( this );</p>
+<p>pObj-&gt;execute();</p>
+<p>pObj2-&gt;execute();</p>
+<p>delete pObj;
+ delete pObj2;
+ }</p>
+<p>/////////////////////////////////////////////////////
+ void Doit_Abel(Abel* Who){</p>
+<p>/* &hellip; */</p>
+<p>printf(&ldquo;I am a good Kidn&rdquo;);
+ }</p>
+<p>//////////////////////////////////////////////////////
+ void Doit_Cain(Cain* Who){</p>
+<p>/* &hellip; */</p>
+<p>printf(&ldquo;I am a killern&rdquo;);
+ }</p>
+<p>///////////////////////////////////////////////////////
+ void operator() (void* Who) {
+ Adan *pFather = (Adan*) Who;</p>
+<p>//EntryPoint
+ if (pFather-&gt;WhoamI() == CAIN )
+ Doit_Cain( (Cain*)Who);
+ else if (pFather-&gt;WhoamI() == ABEL )
+ Doit_Abel( (Abel*)Who);
+ }
+};</p>
+<p>/**----[Adan.h]----*/
+enum Family{CAIN,ABEL};</p>
+<p>class Adan{
+public:
+ virtual Family WhoamI()=0;
+};</p>
+<p>/*----[Abel.h]----*/</p>
+<h1>include &ldquo;CallBack.h&rdquo;<a name="includecallback.h"></a></h1>
+<h1>include &ldquo;Adan.h&rdquo;<a name="includeadan.h"></a></h1>
+<p>class Abel: public Adan{
+ /* &hellip; */
+ CallBack *_c;
+public:
+ Abel(CallBack *c): _c(c){}</p>
+<p>Family WhoamI(){ return ABEL;}</p>
+<p>void execute(){
+ /*&hellip;*/
+ printf(&ldquo;Abel::executen&rdquo;);
+ (*_c)((void*)this);
+ }
+};</p>
+<p>/*----[Cain.h]----*/</p>
+<h1>include &ldquo;CallBack.h&rdquo;<a name="includecallback.h"></a></h1>
+<p>class Cain: public Adan{
+ /* &hellip; */
+ CallBack *_c;
+public:
+ Cain(CallBack *c): _c(c){}</p>
+<p>Family WhoamI(){ return CAIN;}</p>
+<p>void execute(){
+ /*&hellip;*/
+ printf(&ldquo;Cain::executen&rdquo;);
+ (*_c)((void*)this);
+ }
+};</p>
+<p>/*----[Main.h]----*/</p>
+<p>int main(void) {</p>
+<p>Objeto *pObjeto = new Objeto();</p>
+<p>pObjeto-&gt;Execute();</p>
+<p>delete pObjeto;</p>
+<p>return EXIT_SUCCESS;
+}</p>
+<p>/*prints*/
+Abel::execute
+I am a good Kid
+Cain::execute
+I am a killer</p>
+<p>/*--------------------------------*/</p>
+<p>Original <a href="/blog/2009/0721_CMagicmembercallbacks.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2009-08-02T22:30:14.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20090802t223014.0000200"></a></h2>
+<p>It does work but you&rsquo;re missing part of the &ldquo;spec&rdquo;, you can&rsquo;t choose a callback function (i.e. you&rsquo;re tied to a single callback or a type overloaded callback).
+Other than that, the code is quite close to what I&rsquo;ve been looking for. Check the solution back in a couple of days (still working on it!)</p>
+<p>Original <a href="/blog/2009/0721_CMagicmembercallbacks.html">published here</a>.</p>

@@ -1,0 +1,146 @@
+# Tailing Google app engine&#39;s logs on realtime
+
+@meta publishDatetime 2012-12-05T08:00:00.000+01:00
+@meta author Nico Brailovsky
+@meta originalUrl https://monkeywritescode.blogspot.com/2012/12/tailing-google-app-engine-logs-on.html
+
+Knowing in real time when an error occurs on your GAE app is not as easy as it sounds. You can create a custom error handler and then mail you the exception log, but you have to develop that yourself (and if you do it wrong you may end up slowing down the whole app... yes, I know it first hand). You can also keep the GAE log page open and set your browser to refresh it every X seconds, but that's quite cumbersome.
+
+So, seeing there are a bunch of acceptable but not quite nice solutions out there, I decided to add yet another "solution" that works, but looks ugly. This script will probably break in a few months, or whenever any part of the auth protocol Google uses changes (since I think very little of it is supposed to be public) but until then you can use it to tail GAE's logs on real time.
+
+Note it will work polling a logs webservice @ Google (just like appcfg does); if you set the frequency too high you may see your daily cost increasing but if you set it too low then the script will only get the last error between intervals (so you might miss errors in between). If too many errors go undetected, though, your problem is likely a too-high error rate and not a low update frequency.
+
+```c++
+#!/usr/bin/python
+
+# Configure your account here
+GOOGLE_AUTH = ('foobar@gmail.com', 'gmailpass')
+# The app version should be in your GAE control panel (Main&gt; Version)
+APP_VERSION = "Your_App_version"
+# Your app ID (You can see the ID in the "Application" list on every GAE
+# control panel page)
+APP_ID = "your app id"
+# Frequency of updates; if it's too often, you might get a noticeable increase
+# in your cost per day, if it's too sparse you might loose an error in between
+# updates (though this probably means your error rate is too high)
+UPDATE_FREQ_SECS = 60
+
+import time
+from datetime import datetime
+import urllib2, urllib
+from httplib2 import Http
+
+class Google_Authenticator(object):
+
+    # We use this to keep urllib2 from following redirs
+    class _RedirectHandler(urllib2.HTTPRedirectHandler):
+        def handler(self, req, fp, code, msg, headers):
+            infourl = urllib.addinfourl(fp, headers, req.get_full_url())
+            infourl.status = code
+            infourl.code = code
+            return infourl
+
+        http_error_301 = handler
+        http_error_302 = handler
+    opener = urllib2.build_opener(_RedirectHandler)
+    urllib2.install_opener(opener)
+
+    def __init__(self, email, passwd):
+        self.auth = self.__class__._get_auth_token(email, passwd)
+        self.cookie = self.__class__._convert_auth_cookie(self.auth)
+
+    @classmethod
+    def _get_auth_token(cls, email, passwd):
+        GOOG_LOGIN_URL = "https://www.google.com/accounts/ClientLogin"
+        data = {
+                'Email': email,
+                'Passwd': passwd,
+                'source': 'Google-appcfg-1.7.2',
+                'accountType': 'HOSTED_OR_GOOGLE',
+                'service': 'ah',
+            }
+
+        try :
+            post_data = urllib.urlencode(data)
+            res = urllib2.urlopen(GOOG_LOGIN_URL, post_data)
+        except Exception:
+            return None
+
+        for ln in res.readlines():
+            if ln.startswith('Auth='):
+                pos = len('Auth=')
+                return ln[pos:].strip()
+
+        return None
+
+    @classmethod
+    def _convert_auth_cookie(cls, auth):
+        GOOG_COOKIE_URL = "https://appengine.google.com/_ah/login?"\
+                          "continue={0}&amp;auth={1}"
+        redir = 'http%3A%2F%2Flocalhost%2F' # Anywhere (that's listening)...
+        url = GOOG_COOKIE_URL.format(redir, auth)
+
+        try:
+            res = urllib2.urlopen(url)
+            cookie = res.headers['set-cookie']
+        except Exception:
+            return None
+
+        pos = cookie.find(' ') - 1
+        return cookie[:pos]
+
+class GAE_Logs_Fetcher(object):
+
+    GAE_LOGS_URL = "https://appengine.google.com/api/request_logs?" \
+                   "include_vhost=False&amp;version={0}&amp;limit={1}&amp;"\
+                   "severity={2}&amp;app_id={3}"
+
+    DEBUG=0
+    ERROR=3
+    CRITICAL=4
+
+    def __init__(self, auth_cookie, app_id, app_version, limit, severity):
+        self.url = self.__class__.GAE_LOGS_URL.\
+                        format(app_version, limit, severity, app_id)
+        self.opener = urllib2.build_opener()
+        self.opener.addheaders = [('cookie', auth_cookie),
+                                  ('X-appcfg-api-version', 1)]
+
+    def fetch(self):
+        res = self.opener.open(self.url)
+        msg = ""
+        for ln in res.readlines():
+            if not ln.startswith('# next_offset='):
+                msg += ln
+
+        return msg
+
+    def watch(self, freq, callback):
+        try:
+            last_msg = self.fetch()
+            while True:
+                time.sleep(freq)
+                msg = self.fetch()
+                if msg != last_msg:
+                    last_msg = msg
+                    callback(msg)
+
+        except KeyboardInterrupt:
+            pass
+
+def main():
+    def printmsg(msg):
+        print msg
+
+    auth = Google_Authenticator(*GOOGLE_AUTH)
+    logs_fetcher = GAE_Logs_Fetcher(auth.cookie, app_version=APP_VERSION,
+                                    limit=1, severity=GAE_Logs_Fetcher.ERROR, app_id=APP_ID)
+
+    print "Auth OK, starting watch on {0} error log".format(APP_ID)
+    logs_fetcher.watch(UPDATE_FREQ_SECS, printmsg)
+
+if __name__ == '__main__':
+    main()
+
+```
+

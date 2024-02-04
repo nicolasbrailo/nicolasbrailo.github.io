@@ -1,0 +1,62 @@
+<h1>Template Metaprogramming XIII: Heart of Darkness<a name="templatemetaprogrammingxiiiheartofdarkness"></a></h1>
+<p>Last time we had a virtual template dispatch problem&hellip; we got to the point of knowing which was the index of the cache we were searching for, now we need to actually retrieve an instance of that cache. That&rsquo;s a problem. Why? To begin with, there are no instances, only types!</p>
+<p>The next logical step would be to create a Map device, to map a list of types to a list of instances&hellip; let&rsquo;s see how can we do that, in pseudocode</p>
+<pre style="display: inline-block; border: 1px solid red;">instances( H|T ) &lt;- [ create_instance(H), instances(T) ]
+instances( NIL ) &lt;- NIL
+</pre>
+<p>Looks easy. How can we map that to c++?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class Lst&amp;gt; struct Instance {
+    typedef typename Lst::head Elm;
+    Elm instance;
+    Instance&amp;lt; typename Lst::tail &amp;gt; next;
+};
+template &amp;lt;&amp;gt; struct Instance&amp;lt;NIL&amp;gt; {};
+#include &amp;lt;iostream&amp;gt;
+using std::cout;
+int main() {
+    typedef LST&amp;lt;int, LST&amp;lt;char, LST&amp;lt;float&amp;gt; &amp;gt; &amp;gt; Lst;
+    Instance&amp;lt;Lst&amp;gt; lst;
+    lst.instance = 1;
+    lst.next.instance = &amp;#x27;a&amp;#x27;;
+    lst.next.next.instance = 3.1;
+    std::cout &amp;lt;&amp;lt; lst.next.instance &amp;lt;&amp;lt; &quot;n&quot;;
+    return 0;
+}
+</pre>
+<p>All those next.next.next.instance look ugly. Let&rsquo;s use some more meta-magic to get the Nth instance (why not a [] operator? several reasons, you can&rsquo;t mix non-const ints with templates nicely, there would be problems to define the return type&hellip; all those options are workable but it&rsquo;s easier if we do this in another device.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename LST&gt; struct Nth {
+    typedef typename LST::tail Tail;
+    typedef typename Nth::result result;
+};
+template &lt;typename LST&gt; struct Nth {
+    typedef typename LST::head result;
+};
+</pre>
+<p>Remember that one from the toolbox? Now we know how to get a specific index position, yet getting the instance is a different problem (the Nth device returns a type, not an instance). We should do something different, the problem is knowing the return type. What&rsquo;s the return type for the Nth instance of the Instances list?</p>
+<pre style="display: inline-block; border: 1px solid red;">   type &lt;- Nth(TypesLst, Type)
+   type var &lt;- NthInstance(InstancesLst, N)
+</pre>
+<p>Not so easy, right? This is the translated C++:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+template &amp;lt;int N, typename TypeLst&amp;gt; struct NthInstance {
+    // This one isnt easy&hellip;
+    // This is the next type in the list
+    typedef typename TypeLst::tail TypeNext;
+    //  * Nth::result is the Nth type in Lst (i.e. char, int, &hellip;)
+    typedef typename NthInstance&amp;lt;N-1, TypeLst&amp;gt;::NthInstanceType NthInstanceType;
+    //  * typename Nth::result &amp;amp; is a reference to said type and the ret type
+    template &amp;lt;InstancesLst&amp;gt;
+    static NthInstanceType&amp;amp; get(InstancesLst &amp;amp;instances_lst) {
+        return NthInstance::get(instances_lst.next);
+    }
+};
+// Remember, just for fun we choose a 1-based system (wtf..)
+template &amp;lt;typename TypeLst&amp;gt; struct NthInstance&amp;lt;1, TypeLst&amp;gt; {
+    typedef typename TypeLst::head NthInstanceType;
+    template &amp;lt;InstancesLst&amp;gt;
+    static NthInstanceType&amp;amp; get(InstancesLst &amp;amp;instances_lst) {
+        return instances_lst.instance;
+    }
+};
+</pre>
+<p>And the code from fetching the instance itself is even more difficult, so I&rsquo;ll leave that for next time.</p>

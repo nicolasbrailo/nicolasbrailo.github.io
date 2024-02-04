@@ -1,0 +1,25 @@
+<h1>Operator sizeof (AKA Reading Berkeley&rsquo;s FM, take II)<a name="operatorsizeofakareadingberkeleysfmtakeii"></a></h1>
+<p><a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Last time</a> I told you about an evil snipet I found on Oracle Berkeley DB&rsquo;s manual:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  skey-&amp;gt;size = sizeof((struct student_record *)pdata-&amp;gt;data)-&amp;gt;last_name;
+</pre>
+<p>And we concluded it&rsquo;s trying to&hellip; well, dereference a number. And yet it compiles. What the hell is going on there?</p>
+<p>The answer here is in the subtleties of the sizeof <strong>operator</strong>. That&rsquo;s right, <strong>operator</strong>, not function. Plus is an operator. Less is an operator. * is a (unary) operator. sizeof is a unary operator too. The relevance of this is that operators can behave in more bizzare ways than functions do. In this case there&rsquo;s a difference between this two lines:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  MyClass x;
+  int a = sizeof(MyClass);
+  int b = sizeof(x);
+</pre>
+<p>A very subtle difference. Can you spot it? a and b will have the exact same value, rest assured. The difference is in the operator itself: sizeof MUST have parenthesis when applied to a type name, yet parenthesis are optional when applied to an instance of a datatype, so this code is legal:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  MyClass x;
+  int a = sizeof(MyClass);
+  int b = sizeof x;
+</pre>
+<p>Oh, wait, the fun doesn&rsquo;t stop there: sizeof also has bizarre precedence order, meaning it won&rsquo;t get applied as you expect it. So, this is valid too:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  struct MyClass { int y; } x;
+  int b = sizeof x-&amp;gt;y;
+</pre>
+<p>Can you see where we are going? Knowing that sizeof will be applied last lets you write something like this too:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  void <em>ptr = &hellip;
+  int b = sizeof((X</em>)ptr)-&amp;gt;y;
+</pre>
+<p>Which means nothing else than &ldquo;store in b the size of member y in struct X. It should be easy to see why BDB&rsquo;s example does compile, and why did I spend half an hour trying to understand the reason it compiled fine.</p>
+<p>By using some more casts and a clever arangement of parenthesis you can come up with a great job security device.</p>

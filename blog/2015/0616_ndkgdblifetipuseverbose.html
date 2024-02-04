@@ -1,0 +1,10 @@
+<h1>ndk-gdb life tip: use &ndash;verbose<a name="ndkgdblifetipuseverbose"></a></h1>
+<p>Crosscompiling is always fun. No matter how ready-to-use it&rsquo;s packaged, and Android does a pretty decent job at that, you&rsquo;re still bound to find problems that leak through the abstraction layers. If something says it&rsquo;s dummy-proof, I always find the way to perfect myself and be even dumber. For people like me; do yourselves a favour and start launching ndk-gdb this way:</p>
+<pre style="display: inline-block; border: 1px solid red;">ndk-gdb &ndash;start &ndash;verbose
+</pre>
+<p>Using the &ndash;verbose parameter will probably reveal some hidden errors. For example, when I forgot to chmod 777 my gdbserver binary:</p>
+<pre style="display: inline-block; border: 1px solid red;">## COMMAND: adb_cmd pull /system/bin/app_process ./obj/local/armeabi-v7a/app_process
+run-as: exec failed for /data/data/com.nico.trippingsdcardphotomanager/lib/gdbserver Error:Permission denied
+117 KB/s (9560 bytes in 0.079s)
+Pulled app_process from device/emulator.
+</pre>

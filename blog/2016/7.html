@@ -1,0 +1,37 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2016 July<a name="postsfor2016july"></a></h1>
+<h1>Vim utilities: Findgrep &amp; Fastgrep<a name="vimutilitiesfindgrepfastgrep"></a></h1>
+<p>By Nico Brailovsky @ 2016-07-06</p>
+<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented &ldquo;Impl switcher&rdquo;, and &ldquo;Better Tab New&rdquo; before that. Today it&rsquo;s Findgrep &amp; Fastgrep&rsquo;s turn.</p>
+<p>I <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">wrote about Fastgrep a long time ago</a>. The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by creating a huge blob file with all the files in a project concatenated.</p>
+<p>Fastgrep works great. But it requires a context switch, going from your IDE to your console just to grep. Findgrep fills the gap between the IDE and the command line: this utility provides a few key bindings to let you quickly run some common commands, like searching for a selected string or finding a file in the project directory.</p>
+<p>You can get <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh">Fastgrep here</a>. <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Findgrep is available in Github</a>, and you can easily replace Fastgrep with normal grep if you need to.</p>
+<hr />
+<h1>Vim utilities: Impl switcher<a name="vimutilitiesimplswitcher"></a></h1>
+<p>By Nico Brailovsky @ 2016-07-04</p>
+<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented &ldquo;<a href="/blog/2016/0701_VimutilitiesBetterTabNew.html">BTN: Better Tab New</a>&rdquo;. Today it&rsquo;s the turn for &ldquo;Impl switcher&rdquo;.</p>
+<p>With its very imaginative name, &ldquo;Impl switcher&rdquo; has a very obvious purpose: it will just switch from a header file to an implementation file. So, between .h and .cpp. Surely there are lots of Vim plugins to do just that, why write another one?</p>
+<p>Most impl-switcher plugins in the wild tend to, in my experience, require either a lot of configuration, a lot of dependencies, or a very specific project layout (or a combination of all three). They also seem to be huge and very complicated projects.</p>
+<p>Impl switcher will recursively go up your directory hierarchy and use &ldquo;find&rdquo; to locate any files named like your base file but with a different extension. That makes it very simple and it requires minimal (if any) configuration: just drop it in your .vimrc file and you&rsquo;re good to go. OK, not exactly: it requires a Linux-like system with utilities like &ldquo;find&rdquo;. Still, a good trade-off to keep the project&rsquo;s dependencies as small as possible.</p>
+<p>Get &ldquo;impl swicher&rdquo; here:</p>
+<ul>
+<li><a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/impl_switcher.vim">Git hub repo</a></li>
+<li><a href="http://www.vim.org/scripts/script.php?script_id=5406">Impl switcher&rsquo;s Vim page</a></li>
+</ul>
+<hr />
+<h1>Vim utilities: Better Tab New<a name="vimutilitiesbettertabnew"></a></h1>
+<p>By Nico Brailovsky @ 2016-07-01</p>
+<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. The first one is called &ldquo;Better Tab New&rdquo; and you can get it from my <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/bettertabnew.vim">Github repo</a> or from the script&rsquo;s <a href="http://www.vim.org/scripts/script.php?script_id=5405">Vim page</a>.</p>
+<p>Why would you want a better tab new, and what&rsquo;s wrong with the default one? Simple: tabnew, in Vim, will just open a file. For that to happen you need to specify the exact path of a file. That&rsquo;s usually perfectly fine, but sometimes you need tabnew to be a bit smarter: maybe you just grep&rsquo;ed something and ended up with a path that looks like &ldquo;/foo/bar/baz:my_text:42&rdquo;. Or maybe you want to open a file and go to a specific line. Those are things for which the default tabnew implementation isn&rsquo;t very good. BTN fills that niche and lets you create a simpler workflow when using grep.</p>
+<p>Get BTN: Better Tab New here:</p>
+<ul>
+<li><a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/bettertabnew.vim">Gihub repo</a></li>
+<li><a href="http://www.vim.org/scripts/script.php?script_id=5405">BTN&rsquo;s Vim page</a></li>
+</ul>
+<hr />

@@ -1,0 +1,44 @@
+<h1>A tardis in gdb? Reverse a program&rsquo;s execution!<a name="atardisingdbreverseaprogramsexecution"></a></h1>
+<p>Have you ever been running a long debug session only to find you missed the spot by overstepping? I sure have and that can be one of the strongest motivators to invent a time machine. And it seems I&rsquo;m not the only one who thinks so, given that gdb can now travel back in time. That&rsquo;s right, you can save a snapshot of a running program and then reverse the polarity to go back in time, just before you missed your breakpoint!</p>
+<p>It&rsquo;s very simple to use too, you don&rsquo;t need six people to use this feature. Just type &ldquo;checkpoint&rdquo; in gdb to let it know you want to record the execution&rsquo;s state, then &ldquo;restore N&rdquo; to go back in time. I&rsquo;ve recorded a sample debugging session:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) list
+1   int main()
+2   {
+3       int a = 1;
+4       int b =2 ;
+5       a = b;
+6       b = 42;
+7       return 0;
+8   }
+(gdb) run
+Breakpoint 1, main () at test.cpp:3
+3       int a = 1;
+(gdb) n
+4       int b =2 ;
+(gdb) p a
+$1 = 1
+</pre>
+<p>Next, create a checkpoint:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) checkpoint
+checkpoint: fork returned pid 29192.
+</pre>
+<p>Interesting: a checkpoint is actually implemented as a fork. Moving on:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) n
+5       a = b;
+(gdb) n
+6       b = 42;
+(gdb) p a
+$2 = 2
+</pre>
+<p>Ohnoes! We overstepped. Let&rsquo;s go back:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) restart 1
+Switching to process 29192
+#0  main () at test.cpp:4
+4       int b =2 ;
+(gdb) p a
+$3 = 1
+</pre>
+<p>And we&rsquo;re back in time.</p>
+<h2>How does it work<a name="howdoesitwork"></a></h2>
+<p>Reversing to a previous execution state is not an easy task. Gdb implements this feature by forking out a new process, a process we can later switch to. This means that reverting to a previous state might break things. The way forking is implemented in Linux, things like open files shouldn&rsquo;t be much of a problem. Sockets should still be connected but, of course, whatever you already sent won&rsquo;t be &ldquo;unsent&rdquo;.</p>
+<p><a href="http://sourceware.org/gdb/current/onlinedocs/gdbint/Algorithms.html#Algorithms">Gdb internals docs</a> have some useful information on the limitation of this feature.</p>

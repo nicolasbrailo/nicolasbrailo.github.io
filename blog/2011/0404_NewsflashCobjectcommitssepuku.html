@@ -1,0 +1,35 @@
+<h1>Newsflash: C++ object commits sepuku<a name="newsflashcobjectcommitssepuku"></a></h1>
+<p>Check this out. Is it valid C++?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">class X {
+  void dispose() {
+    delete this;
+  }
+};
+</pre>
+<p>Strange pattern, isn&rsquo;t it?. What happens if you try to dispose a heap object?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
+   X x;
+   x.dispose();
+}
+</pre>
+<p>Indeed, nasal demons FTW, you&rsquo;re trying to free an invalid pointer. Yet if we change that a little bit&hellip;</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
+   (new X)-&amp;gt;dispose();
+}
+</pre>
+<p>Zomg now it works. It&rsquo;s weird, but it works. Why would anybody on earth do something like this? Can you guess when would this be useful?</p>
+<p>Some times you launch a background job, and you don&rsquo;t really care when it&rsquo;s done. You may use a <a href="/blog/2009/0803_CMagiccallbackssolved.html">callback</a> to be notified when the job is done, but if you don&rsquo;t really care then having an object which deletes itself is an option. You&rsquo;ll have to be very careful about it, though, because this is legal C++ too:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">class X {
+  void dispose() {
+    delete this;
+    std::cout &amp;lt;&amp;lt; &quot;Hello worldn&quot;;
+  }
+};
+</pre>
+<p>Though &ldquo;Hello world&rdquo; will be printed, it will be running in a dead object. Which is fine, as far as the compiler cares, but if you do try to reference the this pointer, you&rsquo;ll be in a lot of trouble.</p>
+<p><strong>Bonus reading</strong>
+For a much more interesting note than mine, go and check <a href="http://blogs.msdn.com/b/oldnewthing/archive/2010/08/10/10048149.aspx">When does an object become available for garbage collection?</a> in The Old New Thing.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0816_Livingonanullobject.html">Nicol&aacute;s Brailovsky » Blog Archive » Living on a null object</a> commented @ 2011-08-16T09:05:04.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivelivingonanullobjectblog_md20110816_livingonanullobject.mdcommented20110816t090504.0000200"></a></h2>
+<p>[&hellip;] Now, in this new &ldquo;translated&rdquo; code, what do you think? Will it crash? It won’t, since no one is going to dereference &ldquo;this&rdquo;. Crazy, huh? This crazy idiom also allows even crazier things, like C++ objects committing sepuku [&hellip;]</p>
+<p>Original <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">published here</a>.</p>

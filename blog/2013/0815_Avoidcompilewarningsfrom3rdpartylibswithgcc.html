@@ -1,0 +1,8 @@
+<h1>Avoid compile warnings from 3rd party libs with gcc<a name="avoidcompilewarningsfrom3rdpartylibswithgcc"></a></h1>
+<p>So, your code is ferpect. It compiles cleanly with all warning options maxed out. You have already added -ansi, -pedantic, -Wall, -Wc++0x-compat, -Wextra and it all works. Even -Weffc++ emits no warning. And then, a wild third party library appears; your beautiful compile log is now littered with &ldquo;initialization out of order&rdquo; and &ldquo;should declare a virtual destructor&rdquo; warnings. What to do?</p>
+<p>When including a third party library (like, for example, boost) you will almost never have the option to fix any of the diagnostics that your compiler helpfully provides you. If there&rsquo;s nothing you can do about them, there&rsquo;s no point in getting the warnings either. Disabling -Weffc++ is also not a good idea. If you already took the effort of cleaning your code to such a high standard, you shouldn&rsquo;t now relax it.</p>
+<p>There&rsquo;s a third option: When compiling don&rsquo;t include those libs as &ldquo;-I /path/to/lib&rdquo;, do it as &ldquo;-isystem /path/to/lib&rdquo;. Gcc will now know those warnings are not your fault and it will stop nagging you.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Seth</a> commented @ 2013-09-19T13:18:08.000+02:00:<a name="inreplytothispostsethcommented20130919t131808.0000200"></a></h2>
+<p>&ldquo;So, your code is ferpect&rdquo; - lol</p>
+<p>Original <a href="/blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.html">published here</a>.</p>

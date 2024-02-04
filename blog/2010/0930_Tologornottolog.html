@@ -1,0 +1,4 @@
+<h1>To log or not to log<a name="tologornottolog"></a></h1>
+<p>Logging is nice, we all know that. It saves you from having to stay up all night checking when and why your applications fails. It servers to blame the support guys for not reading it. It&rsquo;s useful to stress test your RAID.</p>
+<p>But logging where you shouldn&rsquo;t is a pain in the ass waiting to happen.</p>
+<p>When designing an application you should choose between domain level objects, wiring objects, library level objects, helper objects, etc. Your logging should be mostly in the wiring of your applications, not in the helper objects and very rarely in the domain level objects. These objects, when well designed, are supposed to be tested and to be run in a production environment with many different loggers. If you log in the middle of your business object you may end up writing logs through cout when you&rsquo;re testing, or worse, when you&rsquo;re supposed to be logging in syslog.</p>

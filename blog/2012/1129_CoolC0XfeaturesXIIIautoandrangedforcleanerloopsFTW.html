@@ -1,0 +1,28 @@
+<h1>Cool C++0X features XIII: auto and ranged for, cleaner loops FTW<a name="coolc0xfeaturesxiiiautoandrangedforcleanerloopsftw"></a></h1>
+<p>Long time without updating this series. Last time we saw how the ugly</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">for (FooContainer::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
+</pre>
+<p>could be transformed into the much cleaner</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">for (auto i = foobar.begin(); i != foobar.end(); ++i)
+</pre>
+<p>Yet we are not done, we can clean that a lot more using for range statements.</p>
+<p>Ranged for is basically syntactic sugar (no flamewar intended) for shorter for statements. It&rsquo;s nothing new and it&rsquo;s been part of many languages for many years already, so there will be no lores about the greatness of C++ innovations (flamewar intended), but it still is a nice improvement to have, considering how tedious can be to write nested loops. This certainly looks much cleaner:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">for (auto x : foobar)
+</pre>
+<p>This last for-statement, even though it looks good enough to print and hang in a wall, raises a lot of questions. What&rsquo;s the type of x? What if I want to change its value? Let&rsquo;s try to answer that.</p>
+<p>The type of the iterator will be the same as the type of the vector, so in this case x would be an int:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">std::vector foobar;
+for (auto x : foobar) {
+    std::cout &amp;lt;&amp;lt; (x+2);
+}
+</pre>
+<p>And now, what happens if you want to alter the contents of a list and not only display them? That&rsquo;s easy too, just declare x as an auto reference:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">std::vector foobar;
+for (auto&amp;amp; x : foobar) {
+    std::cout &amp;lt;&amp;lt; (x+2);
+}
+</pre>
+<p>This looks really nice but it won&rsquo;t really do anything, for two different reasons:
+* Ranged fors won&rsquo;t work until g++ 4.5.6 is released
+ * The list is empty!</p>
+<p>There are many ways to initialize that list, but we&rsquo;ll see how C++0X let&rsquo;s you do it in a new way the next time.</p>

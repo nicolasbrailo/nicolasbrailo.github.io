@@ -1,0 +1,43 @@
+<h1>Cool C++0X features XVI: Lambdas<a name="coolc0xfeaturesxvilambdas"></a></h1>
+<p>Last time we created a device to sum an initializer list of ints, something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void Add(initializer_list&amp;lt;int&amp;gt; lst) {
+    int sum = 0;
+    for (auto i = lst.begin(); i != lst.end(); ++i)
+        sum += *i;
+    cout &amp;lt;&amp;lt; sum &amp;lt;&amp;lt; &quot;n&quot;;
+}
+</pre>
+<p>And then we said this can be improved using some new C++0x wizardry to support actions other than adding. How would we do that? Easy, we need to decouple the iteration of the list from the operation logic. We can do something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+// Note how we don&#x27;t care about the type of OP, just that
+// it can be called (i.e. has an operator ())
+template &amp;lt;class OP&amp;gt;
+void do_something(OP op, int init, initializer_list&amp;lt;int&amp;gt; lst) {
+    int sum = init;
+    for (auto i = lst.begin(); i != lst.end(); ++i)
+    {
+        int x = *i;
+        sum = op(sum, x);
+    }
+    cout &amp;lt;&amp;lt; sum &amp;lt;&amp;lt; &quot;n&quot;;
+}
+struct Sum {
+    int operator() (int a, int b)
+    {
+        return a + b;
+    }
+};
+int main() {
+    do_something(Sum(), 0, {1, 2, 3, 4});
+    return 0;
+}
+</pre>
+<p>We had to do some changes other than passing the operation-object into the do_something method; since the start value (zero) was hardcoded we had to remove it to really decouple the action from the iteration.</p>
+<p>Other than creating a function object (which is the correct name for the object wrapping our operation) we don&rsquo;t see any strange changes, there&rsquo;s no C++0x there, but C++0x gives us a little tool which gives you the power of creating much simpler and nicer code, or to make the next maintainers&rsquo; life a living hell. That&rsquo;s a discussion for other time though, now let&rsquo;s take a sneak preview a lambdas, the evolution of function objects:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
+    auto f = [] (int a, int b){ return a+b; } ;
+    do_something(f, 0, {1, 2, 3, 4});
+    return 0;
+}
+</pre>
+<p>Note that we didn&rsquo;t change anything on the method iterating the list, we just changed main! There&rsquo;s a lot to talk about lambdas, so this is only an intro to the subject. Next time we&rsquo;ll discuss the subtleties of the new syntax.</p>

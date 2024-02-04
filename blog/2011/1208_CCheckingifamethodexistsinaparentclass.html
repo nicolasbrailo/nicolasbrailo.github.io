@@ -1,0 +1,66 @@
+<h1>C++: Checking if a method exists in a parent class<a name="ccheckingifamethodexistsinaparentclass"></a></h1>
+<p>I like <a href="/blog/2009/0602_TestingampmockingC.html">Google test and Google mock (C++ only)</a> a lot. These are really great tools to ensure the quality of your code. They do have one problem however, especially <a href="/blog/2009/1023_Retrofittingunittestsforlegacycode.html">when working with a legacy codebase</a>: many times you need to change a signature for a function and your tests begin to fail. Those tests shouldn&rsquo;t really fail, they shouldn&rsquo;t compile at all because you&rsquo;re now trying to mock a function which doesn&rsquo;t exists anymore.</p>
+<p>I worked on a patch to check if a class and its parent share the same methods, but I hit some major roadblocks which I believe cannot be saved:</p>
+<ul>
+<li>You have no way of detecting if the parent&rsquo;s method is actually virtual. It may have the same signature, yet if it isn&rsquo;t virtual the mock serves no purpose</li>
+<li>You have no (easy) way of detecting if the method is defined in your parent&rsquo;s parent</li>
+</ul>
+<p>Even though this code will never be useful, I thought I might as well post this here, just in case anyone comes up with a solution for those problems.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">// :!g++ foo.cpp -lgtest_main -lgmock &amp;amp;&amp;amp; ./a.out
+#include &amp;lt;gtest/gtest.h&amp;gt;
+#include &amp;lt;gmock/gmock.h&amp;gt;
+using namespace testing;
+/<strong>
+ * &quot;Real&quot; application
+ */
+class Foo {
+    public:
+    virtual int bar(int) { return 1; }
+    //virtual int bar(void) { return 1; }
+};
+class Do {
+    public:
+    int something(Foo &amp;amp;foo){ return foo.bar(1); }
+};
+/</strong>
+ * Class used to compare method ptrs. We need to inherit from class C
+ * to forward the calls to the derived methods.
+ <em>/
+template &amp;lt;class C, class D&amp;gt;
+class Mocks_Must_Exist_In : public C {
+    public:
+    // We don&#x27;t know in the derived class the typeof the parent class
+    // so we define a common name using some template magic
+    typedef C ParentClass;
+    // Actually we don&#x27;t know our own class either
+    typedef D Self;
+    // Function ptr definitions are ugly so we might as well use
+    // a template to hide it under the rug
+    template &amp;lt;class F, class G&amp;gt;
+    void mock_created_for_unexisting_method(F f, G g){ f = g; }
+};
+#define METHOD_EXISTS(Method)
+    void defined_##Method() {
+        mock_created_for_unexisting_method(&amp;amp;Self::Method, &amp;amp;ParentClass::Method);
+    }
+/</em><em>
+ * Checked mock, shouldn&#x27;t compile if Foo&#x27;s interface changes
+ </em>/
+class FooMock : public Mocks_Must_Exist_In&amp;lt; Foo, FooMock &amp;gt; {
+    public:
+    MOCK_METHOD1(bar, int(int));
+    METHOD_EXISTS(bar);
+};
+/*<em>
+ * Unchecked mock, should compile if Foo&amp;#x27;s interface changes
+ </em>/
+class FooMock2 {
+    public:
+    MOCK_METHOD0(bar, int());
+};
+TEST(FooTest, ThisShouldCompile) {
+    FooMock foo;
+    EXPECT_CALL(foo, bar(_)).WillOnce(Return(42));
+    EXPECT_EQ(42, Do().something(foo));
+}
+</pre>

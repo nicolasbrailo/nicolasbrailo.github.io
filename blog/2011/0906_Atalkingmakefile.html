@@ -1,0 +1,16 @@
+<h1>A talking makefile<a name="atalkingmakefile"></a></h1>
+<p>So, after learning <a href="/blog/2011/0818_Makefiles.html">how to use makefiles</a>, then <a href="/blog/2011/0822_AMakefileforTDDwithC.html">how to use makefiles for TDD</a> and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report</a>, now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">test: $(TEST_SRCS)
+    @for TEST in $(TEST_BINS); do
+        make &quot;$$TEST&quot;;
+        echo &quot;Execute $(TEST)&quot;;
+        if ! ./$$TEST; then
+            echo &quot;Oh noes! I detected a failed test from $$TEST. Go and fix your program!&quot; | festival &ndash;tts ;
+    done
+</pre>
+<p>Try it. You&rsquo;ll love it.</p>
+<p>Bonus chatter: when Valgrind detects over $MUCHOS errors it&rsquo;ll print &ldquo;Too many errors detected. Go and fix your program&rdquo;, then it won&rsquo;t print so much detail in the next backtraces.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="http://techrights.org/2011/09/07/linux-world-domination/">Links 7/9/2011: Linux World Domination, China Picks IBM’s GNU/Linux Mainframe | Techrights</a> commented @ 2011-09-07T20:13:23.000+02:00:<a name="inreplytothispostlinks792011linuxworlddominationchinapicksibmsgnulinuxmainframetechrightshttptechrights.org20110907linuxworlddominationcommented20110907t201323.0000200"></a></h2>
+<p>[&hellip;] talking makefile [&hellip;]</p>
+<p>Original <a href="/blog/2011/0906_Atalkingmakefile.html">published here</a>.</p>

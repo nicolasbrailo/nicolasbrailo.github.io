@@ -1,0 +1,94 @@
+# C++ exceptions under the hood 11: reading a CFI table
+
+@meta publishDatetime 2013-04-11T09:00:00.000+02:00
+@meta author Nico Brailovsky
+@meta originalUrl https://monkeywritescode.blogspot.com/2013/04/c-exceptions-under-hood-11-reading-cfi.html
+
+To properly handle exceptions from within the personality function we've been implementing for our ABI, we need to read the LSDA (language specific data area) to know which call frame (ie which function) can handle which exception, and to know where a landing pad (catch block) can be found). The LSDA table is in CFI format, and we'll see in this chapter how to read it.
+
+Reading the CFI data can be rather straight forward, but there are a few pitfalls we need to consider first. Two, actually:
+1. There is very little documentation about the .gcc\_except\_table format (actually, I only found some mails about it) so we'll need to read a lot of source code and disassembles to understand it.
+2. Although the format itself is not terribly complicated, it uses a LEB encoding that makes reading this table not quite straightforward.
+
+As far as I know most DWARF data is encoded like this, using a [LEB format](http://en.wikipedia.org/wiki/LEB128), which seems to be great for confusing programmers and to save code space while encoding arbitrary length ints. Luckily, we can cheat a bit in here: most of the time the LEB encoded numbers will readble with a plain uint8\_t, because we won't be dealing with large exception tables or anything like that.
+
+Note: You can download the full sourcecode for this project [in my github repo](https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v04).
+
+Let's start by analyzing the CFI data directly from the disassembly, we'll then see if we can build something to read it on our personality function. I'll rename the labels to make them a bit more human-friendly. The LSDA will have three sections, try to spot them below:
+
+```c++
+.local_frame_entry:
+	.globl	__gxx_personality_v0
+	.section	.gcc_except_table,"a",@progbits
+	.align 4
+```
+
+This one is very easy: it's just a header to declare we're going to use \_\_gxx\_personality\_v0 as a global and to let the linker know we're going to be declaring stuff for the .gcc\_except\_table section. Moving on:
+
+```c++
+.local_lsda_1:
+    # This declares the encoding type. We don&#x27;t care.
+	.byte	0xff
+
+    # This specifies the landing pads start; if zero, the func&#x27;s ptr is
+    # assumed (_Unwind_GetRegionStart)
+	.byte	0
+
+    # Length of the LSDA area: check that LLSDATT1 and LLSDATTD1 point to the
+    # end and the beginning of the LSDA, respectively
+	.uleb128 .local_lsda_end - .local_lsda_call_site_table_header
+```
+
+This now has some more info. Those labels are quite obscure but they do follow a pattern. LSDA means language specific data area, the L in front means local, so this is the local (to the translation unit, the .o file) language specific data area number one. Other labels follow similar patterns but I haven't taken the job of figuring them out. We don't really need to, anyway.
+
+```c++
+.local_lsda_call_site_table_header:
+    # Encoding of items in the landing pad table. Again, we don&#x27;t care.
+	.byte	0x1.
+
+    # The length of the call site table (ie the landing pads)
+	.uleb128 .local_lsda_call_site_table_end - .local_lsda_call_site_table
+
+```
+
+Another boring header. Moving on:
+
+```c++
+.local_lsda_call_site_table:
+	.uleb128 .LEHB0-.LFB1
+	.uleb128 .LEHE0-.LEHB0
+	.uleb128 .L8-.LFB1
+	.uleb128 0x1
+
+	.uleb128 .LEHB1-.LFB1
+	.uleb128 .LEHE1-.LEHB1
+	.uleb128 0
+	.uleb128 0
+
+    .uleb128 .LEHB2-.LFB1
+	.uleb128 .LEHE2-.LEHB2
+	.uleb128 .L9-.LFB1
+	.uleb128 0
+.local_lsda_call_site_table_end:
+```
+
+This is much more interesting, now we're seeing the call site table itself. Somehow, in all these entries, we should be able to find our landing pad. According to some random internet page, the format for each call site entry should be:
+
+```c++
+struct lsda_call_site_entry {
+    // Start of the IP range
+    size_t cs_start;
+
+    // Length of the IP range
+    size_t cs_len;
+
+    // Landing pad address
+    size_t cs_lp;
+
+    // Offset into action table
+    size_t cs_action;
+};
+```
+
+So we seem to be on the right track, though we don't know yet why there are 3 call site entries when we only defined a single landing pad. In any case, we can cheat a little: by looking at the disassembly we can deduce that all the values on the CFI will be less than 128 and this means that in LEB encoding they can be read as plain uchars. This makes our CFI reading code so much easier, and we will see how to use it in our personality function next time.
+

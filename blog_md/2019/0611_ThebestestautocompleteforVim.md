@@ -1,0 +1,22 @@
+# The bestest autocomplete for Vim
+
+@meta publishDatetime 2019-06-11T11:00:00.001+02:00
+@meta author Nico Brailovsky
+@meta originalUrl https://monkeywritescode.blogspot.com/2019/06/the-bestest-autocomplete-for-vim_11.html
+
+TL;DR: I like [YouCompleteMe](https://github.com/Valloric/YouCompleteMe)
+A [post in Hacker News](https://news.ycombinator.com/item?id=19529557) drew me to look at autocompletion in Vim. After trying a few plugins years before, I settled for the available-by-default autocomplete in Vim. It's pretty dumb, but pretty dumb covers 90% of what I need: autocompletionForReallyUglyOrLongNames.
+
+Vim's omnifunc completer is enough if no fancy features are necessary: fast, available, trivial to setup. I have successfully used omnifunc in fairly large projects, and while it requires familiarity with the codebase, some may argue that's a feature and not a bug.
+
+Now I confess: I don't understand Vundle, Pathogen or any other Vim plugin handler. Second extravagant opinion in this post: I don't see the point of a plugin manager for Vim. I like knowing the source code of every plugin I use well enough so I can troubleshoot it when it breaks (\*). I prefer to #include (or, rather, source) them manually. Keeping [everything in Github](https://github.com/nicolasbrailo/Nico.rc), I rarely need to set up a plugin twice. The effort to install and configure a plugin is usually not a lot more than learning how to use that plugin in the first place.
+
+While being Vundle illiterate may have made my experience a bit more complicated than necessary, I still found the experience of installing autocompletion plugins quite horrible (#). [Deoplete](https://github.com/Shougo/deoplete.nvim) had me chasing dependencies all over the place and Conquer of Completion seems to require such specific setup of version and plugins that I didn't even attempt to install it.
+
+YouCompleteMe, though, was a pleasant surprise: its documentation explained how to install in three steps, and it is a mostly self-contained plugin. While YCM has a compiled dependency, setting it up is pretty trivial. It just works out of the box.
+
+Took me years but I'm very happy to finally find an autocomplete plugin that "just works" for my basic Vim setup.
+
+(\*) For some reason, I only feel this way about Vim
+(#) Disclaimer: Re-reading my own text, it may appear as I'm somewhat belittling Deoplete, CoC, Vundle, Pathogen, etc. That's not my intention. I have the maximum respect for these projects. The engineering effort in them is amazing, and I know for a fact they make life easier for a lot of people. I'm just not one of them.
+

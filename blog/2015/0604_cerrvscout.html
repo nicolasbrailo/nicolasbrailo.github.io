@@ -1,0 +1,12 @@
+<h1>cerr vs cout<a name="cerrvscout"></a></h1>
+<p>In C++, is there a difference between cerr and cout, other than using a different file descriptor? Turns out you can learn something new every day.</p>
+<p>Whenever I just want to add a quick print statement because I&rsquo;m too lazy to debug something, I used to use cout. All along I thought cout and cerr would be exactly the same for my use case, but turns out there&rsquo;s a slight difference: cout is buffered, cerr is not. This very small difference can have a huge impact, because you shouldn&rsquo;t need to flush cerr after a write to make sure the changes are visible, it should happen automagicaly. In turn cerr might be slightly slower, but you probably don&rsquo;t care about that when writing cerr &lt;&lt; &ldquo;I&rsquo;m here!&rdquo;.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="https://plus.google.com/+MonahTuk">Monah Tuk</a> commented @ 2016-03-15T04:26:19.000+01:00:<a name="inreplytothispostmonahtukhttpsplus.google.commonahtukcommented20160315t042619.0000100"></a></h2>
+<p>Hi Nicolas!</p>
+<p>you forgot std::clog :-) clog = cerr + buffering. My selection:
+cerr - for error logging (it name correspond :-))
+clog - for any diagnostic loggings (with or without std::endl, that also flushes output)
+cout - produce regular program output that can be used in the pipe with other programs.</p>
+<p>In such way, piped application will work correct and diagnostic messages will not mixed to the regular output and will not confuse other programs in pipe. Also, you can redirect regular output to the file but observe diagnostic and error messages in terminal.</p>
+<p>Original <a href="/blog/2015/0604_cerrvscout.html">published here</a>.</p>

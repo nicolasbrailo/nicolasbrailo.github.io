@@ -1,0 +1,9 @@
+<h1>Detecting and ignoring third party memory problems with Valgrind<a name="detectingandignoringthirdpartymemoryproblemswithvalgrind"></a></h1>
+<p>Lot&rsquo;s of people seem to give up on Valgrind after they see the dreaded &ldquo;More than ### errors detected, go and fix your program&rdquo;. If the bulk of these errors are caused by crappy code in third party libraries there&rsquo;s very little to be done to fix them, other than creating a ticket for the library maintainer (and if the bulk of these errors are caused by your own code&hellip; well, don&rsquo;t write a watchdog please, do fix your program!). And that&rsquo;s assuming the reported error is not even a false positive, since Valgrind can report problems for crazy optimizations -O3 might have or for weird operator arithmetic.</p>
+<p>If these spurious memory errors are there for too long most people will start ignoring Valgrind&rsquo;s output. Luckily, ignoring errors we can&rsquo;t fix is a possibility too, using Valgrind&rsquo;s ignore files.</p>
+<ul>
+<li>Check if someone else has already found this issue. Many times libraries do have an &ldquo;official&rdquo; ignore file for the lib</li>
+<li>If you find no ignore file, make really really sure the problem is not on your code. Preferably write a minimal unit test that triggers the warning on Valgrind. Make sure you&rsquo;re not misusing the library.</li>
+<li>Add whatever warnings you found which were not on your application to a new ignore file</li>
+<li>Share your ignore file with the world! Other people will either find it useful or tell you that what you thought was a bug on a lib is actually a problem on your code. That happens more often than not.</li>
+</ul>

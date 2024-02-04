@@ -1,0 +1,15 @@
+<h1>Vim tip: &ldquo;polymorphic&rdquo; key bindings<a name="vimtippolymorphickeybindings"></a></h1>
+<p>If you use vim daily, you probably have a bunch of maps for your most common tasks. You should also remember you can assign the same key to do different things according to which mode you are
+in. For example, let&rsquo;s say you have a mapping to open a new tab:</p>
+<pre style="display: inline-block; border: 1px solid red;">map &lt;leader&gt;t :tabnew&lt;cr&gt;
+</pre>
+<p>You can also map t to open a new tab using the selected text as a filename. You just need to define two mappings:</p>
+<pre style="display: inline-block; border: 1px solid red;">nmap &lt;leader&gt;t :tabnew&lt;cr&gt;
+vmap &lt;leader&gt;t :call Foo()&lt;cr&gt;
+</pre>
+<p>nmap stands for normal (mode) map, vmap for visual. How to get the text under the cursor is a bit more complex and out of scope for this vim tip, but you might want to check http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_%28Part_1%29.</p>
+<p>Remember to check &ldquo;:help map&rdquo; for a list of all mode mappings.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.html">Simple vim plugin III: a polymorphic project greper | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2016-11-30T08:02:07.000+01:00:<a name="inreplytothispostsimplevimpluginiiiapolymorphicprojectgreperaninfinitemonkeynicolasbrailovsky39sblogblog_md20161130_simplevimpluginiiiapolymorphicprojectgreper.mdcommented20161130t080207.0000100"></a></h2>
+<p>[&hellip;] grep to vim. We can improve it a little bit with very simple changes. Using this tip to have different key binding for different modes&nbsp;we can do something a bit smarter . Let’s create two functions, one for normal mode that [&hellip;]</p>
+<p>Original <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">published here</a>.</p>

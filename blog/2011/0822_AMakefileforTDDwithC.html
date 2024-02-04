@@ -1,0 +1,45 @@
+<h1>A Makefile for TDD with C++<a name="amakefilefortddwithc"></a></h1>
+<p>So, after reading <a href="/blog/2011/0818_Makefiles.html">my post about makefiles</a> you decided that you like them but would like to add some TDD to be buzzword compliant? No problem, that&rsquo;s easy to do.</p>
+<p>Assuming you use a naming convention such as this one:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">path/to/src/Object.h
+path/to/src/Object.cpp
+path/to/src/Object_Test.cpp
+</pre>
+<p>then it&rsquo;s easy to auto detect which tests should be built:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep &quot;_Test.cpp$$&quot; ) )
+TEST_BINS := $(addprefix ./$(BIN_DIR)/, $(patsubst %.cpp, %, $(TEST_SRCS)) )
+</pre>
+<p>Then we have to define a special rule with pattern matching to compile the tests:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">$(BIN_DIR)/%_Test: $(patsubst $(BIN_DIR)/%, %, %_Test.cpp ) %.cpp %.h
+    @echo &quot;Making $@&quot;
+    @mkdir -p $(shell dirname $@)
+    g++ $(CXXFLAGS) -g3 -O0 $&amp;lt; -o $@ -lpthread -lgtest_main -lgmock $(OBJECTS) $(LDFLAGS)
+</pre>
+<p>and some magic to auto execute every test when we &ldquo;make test&rdquo;:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">test: $(TEST_SRCS)
+    @for TEST in $(TEST_BINS); do
+        make &quot;$$TEST&quot;;
+        echo &quot;Execute $(TEST)&quot;;
+        ./$$TEST;
+    done
+</pre>
+<p>Everything nice and tidy for a copy &amp; paste session:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep &quot;_Test.cpp$$&quot; ) )
+TEST_BINS := $(addprefix ./$(BIN_DIR)/, $(patsubst %.cpp, %, $(TEST_SRCS)) )
+$(BIN_DIR)/%_Test: $(patsubst $(BIN_DIR)/%, %, %_Test.cpp ) %.cpp %.h
+    @echo &quot;Making $@&quot;
+    @mkdir -p $(shell dirname $@)
+    g++ $(CXXFLAGS) -g3 -O0 $&amp;lt; -o $@ -lpthread -lgtest_main -lgmock $(OBJECTS) $(LDFLAGS)
+.PHONY: test
+test: $(TEST_SRCS)
+    @for TEST in $(TEST_BINS); do
+        make &quot;$$TEST&quot;;
+        echo &quot;Execute $(TEST)&quot;;
+        ./$$TEST;
+    done
+</pre>
+<p>Now you just need to run make test. Remember to add the proper <a href="/blog/2010/0629_Vimtipsmakethingsworkagain.html">Vim&rsquo;s mapping</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">Nicol&aacute;s Brailovsky » Blog Archive » A Makefile for code coverage report with C++</a> commented @ 2011-08-30T11:14:37.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchiveamakefileforcodecoveragereportwithcblog_md20110830_amakefileforcodecoveragereportwithc.mdcommented20110830t111437.0000200"></a></h2>
+<p>[&hellip;] far you should know how to use makefiles and you should have a nice testable project. Then you have everything ready to get a coverage [&hellip;]</p>
+<p>Original <a href="/blog/2011/0822_AMakefileforTDDwithC.html">published here</a>.</p>

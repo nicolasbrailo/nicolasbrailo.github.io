@@ -1,0 +1,21 @@
+<h1>C++ exceptions under the hood appendix I: the true cost of an exception<a name="cexceptionsunderthehoodappendixithetruecostofanexception"></a></h1>
+<p>Remember a long way back, when the series on exception handling was just started, that I mentioned these articles would only apply for gcc/x86? There is a reason for that since not all compilers implement exception handling the same way. In particular, there are two major ways of doing it:</p>
+<ul>
+<li>With a lookup table and some metadata, like the Itanium ABI specifies; this is what we talked about.</li>
+<li>Sj/Lj (ARM): Registering exception handling information upon entering or exiting a method.</li>
+</ul>
+<p>The way gcc (and many other compilers) implement this ABI on x86 is by using metadata (the .gcc_except_table and the CFI). Although it&rsquo;s rather difficult to parse, and it might take a long time to parse this on runtime when an exception is thrown, it has a great upside: if no exceptions are thrown then there&rsquo;s no setup cost to be paid. This is called &ldquo;Zero-cost exception handling&rdquo; because a normal execution, where no exceptions are thrown, no penalty is payed. The performance is exactly the same we would have as if we had specified nothrow. That&rsquo;s right, leaving code locality &amp; caching issues aside, using exceptions or not has no performance penalty unless an exception is actually thrown. This is a great advantage and it goes in line with C++ philosophy of having no-cost for non used features.</p>
+<p>When using the noexcept specification while declaring a method (or an empty throw specifier, pre C++11) in the setup used for these articles the compiler would omit the creation of the .gcc_except_table. This will make the code more compact and it will improve the cache usage, but it&rsquo;s very unlikely that will have a noticeable impact on the performance of the application.</p>
+<p>If we talk about ARM, Sj/Lj seems to be the default option (I&rsquo;m sure there&rsquo;s a good reason for that but I don&rsquo;t have enough experience with ARM to know it). This exception handling method is based on registering exception handling information upon entering or exiting a method which either uses exceptions or requires a cleanup if an exception is thrown. This will result in a quicker exception handling, but the setup cost is payed whether an exception is thrown or not.</p>
+<p>If you&rsquo;re interested on reading more about sjlj and zero cost exception handling <a href="http://llvm.org/docs/ExceptionHandling.html">LLVM has great documentation</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">N</a> commented @ 2013-06-11T23:31:26.000+02:00:<a name="inreplytothispostncommented20130611t233126.0000200"></a></h2>
+<p>Nice information, although I have a small, nitpicky note on the language: &ldquo;payed&rdquo; is an obsolete form, unless you mean to use it in, e.g., nautical context, as in &ldquo;to let (a ship) fall off to leeward.&rdquo;
+I&rsquo;m guessing you probably mean &ldquo;paid&rdquo; :-)
+// http://dictionary.reference.com/browse/payed
+// http://en.wiktionary.org/wiki/payed</p>
+<p>Original <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2013-06-12T09:37:49.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20130612t093749.0000200"></a></h2>
+<p>Corrected, thanks!</p>
+<p>Original <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">published here</a>.</p>

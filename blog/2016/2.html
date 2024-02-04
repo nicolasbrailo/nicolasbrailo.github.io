@@ -1,0 +1,102 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2016 February<a name="postsfor2016february"></a></h1>
+<h1>Vim tip: autocommands<a name="vimtipautocommands"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-25</p>
+<p>Whenever you find yourself thinking &ldquo;I wish Vim could do this automagically for me&rdquo;, you probably are thinking about autocommands. With autocommands, autocmd for short or au for lazy people, will let you tell Vim, &ldquo;Hey, use this callback when an event occurs&rdquo;.</p>
+<p>The basic structure is pretty simple: &ldquo;autocmd Event FileType Action&rdquo;. So, for example, &ldquo;autocmd BufEnter *.txt call Rot13()&rdquo; would tell vim to set a callback on BufEnter, that is whenever you change buffers, for all *.txt files, which will rot13 your text. Feel free to use this for actually useful things, like spell checking or auto indenting.</p>
+<hr />
+<h1>Bash tip: idiom to get the first error code from a pipe<a name="bashtipidiomtogetthefirsterrorcodefromapipe"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-23</p>
+<p>When writing a bash script, often times you&rsquo;ll end up with something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">real_command | filter_stuff | prettify | do_something_else
+</pre>
+<p>The problem arises when you try to figure out if your command succeeded or not. If you <code>echo $?</code> you&rsquo;ll get the return code for the last chain in the pipe. You don&rsquo;t really care about the output value of do_something_else, do you?</p>
+<p>I haven&rsquo;t found a solution I really like to this problem, but this idiom is handy:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">out=<code>real_command
+</code> &amp;amp;&amp;amp; echo $out | filter_stuff | prettify | do_something_else
+echo $?
+</pre>
+<p>Now $? will hold the value of real_command, and you can actually use it to diagnose the real problem.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">denisss025</a> commented @ 2016-03-15T06:00:04.000+01:00:<a name="inreplytothispostdenisss025commented20160315t060004.0000100"></a></h2>
+<p>Have you tried set -o pipefail? Here is the description.</p>
+<p>If set, the return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully. This option is disabled by default.</p>
+<p>Original <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">published here</a>.</p>
+<hr />
+<h1>smaps: A quick memory analysis<a name="smapsaquickmemoryanalysis"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-18</p>
+<p>Many times you see your process&rsquo; memory consumption skyrocketing even though you&rsquo;re quite certain you have no memory leaks. This usually marks for the beginning of a very lengthy debugging process with valgrind or a similar tool, but even so some times you might get stuck trying to debug some third party library.</p>
+<p>There&rsquo;s a quick tip in Linux that can help you track down a lib gone haywire:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">cat /proc/&amp;lt;pid&amp;gt;/smaps
+</pre>
+<p>smaps will report every mapped section of memory for a certain process, how big the memory allocation is and which binary created the allocation.</p>
+<hr />
+<h1>Some new set operations in C++11 stl<a name="somenewsetoperationsinc11stl"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-16</p>
+<p>The std header has a few cool additions that make life easier in C++11:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
+  vector&amp;lt;int&amp;gt; v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
+  auto less_than_10 = <a href="int x"></a>{ return x &amp;lt; 10; };
+  if (all_of(v.begin(), v.end(), less_than_10)) {
+    cout &amp;lt;&amp;lt; &quot;Yay!&quot;;
+  }
+}
+</pre>
+<p>Besides all_of, in you can also find any_of and none_of.</p>
+<p>Bonus: do you find that initializer list hideous? Just use std::iota, from stl too:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">vector&amp;lt;int&amp;gt; v(100, 0);
+iota(v.begin(), v.end(), 0);
+</pre>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">pauljurczak</a> commented @ 2016-02-18T05:27:58.000+01:00:<a name="inreplytothispostpauljurczakblog_mdyoufoundadeadlink.mdcommented20160218t052758.0000100"></a></h2>
+<p>Inequality symbols are rendered as &lt; and &gt; in your post. I checked with Chrome and Explorer.</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">pauljurczak</a> commented @ 2016-02-18T05:28:56.000+01:00:<a name="inreplytothispostpauljurczakblog_mdyoufoundadeadlink.mdcommented20160218t052856.0000100"></a></h2>
+<p>I meant as &amp; l t ; (without spaces) etc.</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2016-02-18T05:48:49.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20160218t054849.0000100"></a></h2>
+<p>Well, it&rsquo;s quite ironic that your coment was more successful than my post. Thanks for the heads up, I&rsquo;ll try to fix it as soon as I get a chance!</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>
+<hr />
+<h1>Goto hell<a name="gotohell"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-12</p>
+<p>Small and funny easter egg I found by accident today: stop using &ldquo;adb shell&rdquo; to access your device. You&rsquo;re wasting precious keystrokes. Instead, you should be using &ldquo;adb hell&rdquo;. Yes, &lsquo;adb hell&rsquo; works just as well as &lsquo;adb shell&rsquo; - but it&rsquo;s even more awesome. Go and try it!</p>
+<hr />
+<h1>PSA: OEM unlocks may result in wiped filesystems<a name="psaoemunlocksmayresultinwipedfilesystems"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-11</p>
+<p>o, I bricked my tablet. Turns out the bootloader couldn&rsquo;t mount /data: after doing an oem unlock thingy, /data gets wiped and (this is the part the manual I was following didn&rsquo;t warn me about) no filesys is created.</p>
+<p>If this happens, go back to recovery mode, then adb shell and run &lsquo;mount /data&rsquo;. This will give you an error like &ldquo;Can&rsquo;t mount /dev/block/mmcblk0p23&rdquo;. Write down the /dev/block id and run &lsquo;mke2fs -t ext4 /dev/block/mmcblk0p30&rsquo;. That should fix it.</p>
+<p>In some systems you may be missing libext2_quota.so. If this happens, just look for libext2_quota.so in the interwebs, then adb push this file into /sbin.</p>
+<hr />
+<h1>KDE: Lock screen from CLI<a name="kdelockscreenfromcli"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-09</p>
+<p>For some reason, one of my (seriously outdated) Kubuntu installations has the nasty habit of not locking the screen when pressing Ctrl+Alt+L. Not always, though. It seems to do this only when I&rsquo;m in a hurry and need to quickly lock my PC before walking away. This happens often enough to be annoying, but not so frequently as to bother me enough to look for a proper solution.</p>
+<p>Instead of looking for a proper solution, trying to determine what&rsquo;s stealing the focus of the Ctrl+Alt+L key command, I just settled for an easier workaround: lock the screen from the command line. I use the terminal most of the time anyway, so why not just use it to lock the screen as well?</p>
+<p>The magic incantation is easy, if a bit cryptic at first:</p>
+<pre style="display: inline-block; border: 1px solid red;">qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock
+</pre>
+<p>&ldquo;qdbus&rdquo; is a broadcasting service for KDE (Qt, actually). This command basically tells the screen saver service to lock the screen. Works every time, and with an alias in my <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash_aliases#L22" title="bashrc">bashrc</a>, I don&rsquo;t need to remember that horribly long command. Now I only need to determine if my computer detecting when I&rsquo;m in a hurry is a sign of sentience, and whether this is a threat to mankind. Will report soon.</p>
+<hr />
+<h1>VLCFreemote: no need to leave the couch<a name="vlcfreemotenoneedtoleavethecouch"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-04</p>
+<p>I&rsquo;ve been quite prolific in my Github account recently, if I may say so myself. The latest of my open-source projects which I think is more or less ready to be &ldquo;released to the world&rdquo; is <a href="https://github.com/nicolasbrailo/VlcFreemote">VlcFreemote</a>, a remote control for VLC in Android. From its README file:</p>
+<p>How many times have you been comfortably watching a movie from the couch only to find out you forgot the subtitles? How about being snugly tucked under a blanket, only to find out you need to brave the cold of winter just to add a new episode of your latest binge-watching series? Yeah, that can easily ruin your day.</p>
+<p>Worry no more: with VlcFreemote you can now install a tiny Android app to control your VLC server.</p>
+<p>FAQ:
+* Another VLC remote? Why?There are a few VLC remote controls out there. I think this is the only once that&rsquo;s open source (not 100% sure). It has some nice extra features I haven&rsquo;t found in other remote controls too: bookmarks, automagic movie-skip (jump forward by a percentage of the file length, much more useful than it sounds!) a compact layout and other small things probably not even worth mentioning. In the future, whenever I get some free time, I&rsquo;d like to add the ability to start VLC automatically from SSH, a feature I would use a lot and I have seen nowhere else.
+* Why isn&rsquo;t this in Google play?Mostly cause I&rsquo;m lazy and cheap. Getting a Google Play account costs 10 dollars or so, and I&rsquo;m too lazy and too cheap to get one. Want me to upload it to Google Play? Feel free to buy me a beer. If not you can just get the APK from Github, or download the source code and build it yourself.</p>
+<hr />
+<h1>Don&rsquo;t exit gdb just to run make!<a name="dontexitgdbjusttorunmake"></a></h1>
+<p>By Nico Brailovsky @ 2016-02-02</p>
+<p>f you&rsquo;re more or less successful in your debugging session, it&rsquo;s quite likely that you&rsquo;ll have to modify some source code so you can actually fix a bug. And if you&rsquo;re more or less careful, you might want to validate your changes actually work. We saw some time ago that you don&rsquo;t need to restart gdb after a recompile because gdb is already smart enough to know that the binary changed.</p>
+<p>Turns out you don&rsquo;t even need to drop from gdb to a shell: just type make (using the parameters you&rsquo;d usually call make with) and watch gdb take care of building your binary again.</p>
+<p>Rebuilding your project like this is not only useful to save time: you can also keep your breakpoints and they should still make sense, assuming you didn&rsquo;t refactor your code too much.</p>
+<hr />

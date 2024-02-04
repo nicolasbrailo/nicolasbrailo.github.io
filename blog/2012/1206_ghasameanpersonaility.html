@@ -1,0 +1,3 @@
+<h1>g++ has a (mean) personaility<a name="ghasameanpersonaility"></a></h1>
+<p>Did you ever get a message like &ldquo;undefined reference to `__gxx_personality_v0&rsquo;&ldquo;? It means you are trying to link c++ code with a c linker, just change gcc with g++. But what is gxx_personality?</p>
+<p>Basically, gxx_personality is a global pointer used for stack unwinding. You could make your code compile (assuming you don&rsquo;t have other problems with vtables and such) by defining it as a NULL ptr, and everything should work until an exception is thrown.</p>

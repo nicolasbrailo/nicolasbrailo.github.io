@@ -1,0 +1,8 @@
+<h1>Ubuntu: Dual monitors<a name="ubuntudualmonitors"></a></h1>
+<p>There&rsquo;s nothing better than feeling like a super villain by having a dual monitor setup. OK, three may be better, you probably couldn&rsquo;t hold back the evil laughter, but my laptop won&rsquo;t support three screens.</p>
+<p>Fortunately, in Ubuntu JJ having a dual screen setup is a breeze. Just <strong>plug the two monitors</strong> and hope it works. Of course, it may not. If that&rsquo;s the case you can go to <strong>System &gt; Preferences &gt; Screen</strong> for a nice GUI, which will let you select each screen&rsquo;s resolution and position. Nothing better for productivity than having your monitors swapped, or even better, flipped upside down.</p>
+<p>Well, sometimes &ldquo;Screen Preferences&rdquo; won&rsquo;t work either, too bad. In that&rsquo; case you&rsquo;ll have to get dirty with <strong><a href="www.x.org/wiki/Projects/XRandR">xrandr</a></strong>. It&rsquo;s not too difficult but it&rsquo;s console based (you&rsquo;re not scared of the console, are you?).</p>
+<p>Though the man page for xrandr is a little bit intimidating at first you&rsquo;ll just have to do it once, so I won&rsquo;t write about using it, I will just copy &amp; paste a script I keep in my desktop to fix the screen whenever it brakes (my lapop tends to foobar my screen when being docked or undocked, not sure why)</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">xrandr &ndash;output HDMI-2 &ndash;right-of HDMI-1 &ndash;mode 1680x1050 &ndash;rotate normal
+</pre>
+<p>I am sure you can figure out the rest on your own - enjoy the dual screen setup!</p>

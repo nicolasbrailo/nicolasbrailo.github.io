@@ -1,0 +1,214 @@
+<h1>C++: Magic callbacks solved<a name="cmagiccallbackssolved"></a></h1>
+<p>Long post this time - and lots of code too. How fun iz that? Anyway, <a href="/blog/2009/0721_CMagicmembercallbacks.html">remember where we left last time</a>? We&rsquo;re supposed to make this work:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Callee {
+ Callback notify;
+ public:
+  Callee(Callback notify) : notify(notify) {}
+  void finish(){ notify(this); }
+};
+class Caller {
+  Callee c;
+  public:
+  Caller() : c(Callback(this, &amp;amp;Caller::im_done)) {}
+  void im_done(Callee*) { }
+};
+</pre>
+<p>I&rsquo;ll write about the different solutions I&rsquo;ve tried and the problem each of these solutions had:</p>
+<ul>
+<li><a href="#exp1">Experiment 1: Templates</a></li>
+<li><a href="#exp2">Experiment 2: Template virtual method</a></li>
+<li><a href="#exp3">Experiment 3: Callback Object</a></li>
+<li><a href="#exp4">Experiment 4: Callback interface</a></li>
+<li><a href="#exp5">Experiment 5: Callback object bis</a></li>
+<li><a href="#solution">Solution</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h3>Experiment 1: Templates<a name="experiment1templates"></a></h3>
+<p>We could to this the easy way, with a template:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class Callback&amp;gt;
+class Callee {
+  &hellip;
+};
+class Caller {
+ template &amp;lt;class T&amp;gt;
+ void operator() (T p){ this-&amp;gt;im_done(p); }
+  &hellip;
+};
+</pre>
+<p>This has some drawbacks:
+1. We need to change the definition of the Callee
+2. The Caller can only have one callback (or overloaded one callback)
+3. It&rsquo;s boring</p>
+<h3>Experiment 2: Template virtual method<a name="experiment2templatevirtualmethod"></a></h3>
+<p>So, lets try another approach: the naive one is an interface:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">class iCallback {
+  public:
+  template &amp;lt;class T&amp;gt; void operator () (T o) = 0;
+};
+</pre>
+<p>Looks great, doesn&rsquo;t it? Too bad <strong>it&rsquo;s not valid C++</strong>, you can&rsquo;t have a virtual template method (what would the vtable size be?).
+If we can&rsquo;t have a template method let&rsquo;s make a template class:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class T&amp;gt;
+class iCallback {
+  public:
+  virtual void operator () (T o) = 0;
+};
+class Callee {
+ iCallback&amp;lt;Callee<em>&amp;gt; </em>notify;
+  public:
+  Callee(iCallback&amp;lt;Callee<em>&amp;gt; </em>notify) : notify(notify) {}
+ void finish(){ (<em>notify)(this); }
+};
+class Caller : public iCallback&amp;lt;Callee</em>&amp;gt; {
+ Callee c;
+  public:
+  Caller() : c(this) {}
+  void im_done(Callee<em>) {}
+ void operator ()(Callee </em>o){ im_done(o); }
+};
+</pre>
+<p>It may not be pretty but it works. Also, adding a callback means adding a new operator (). Lets try to improve it a little by removing the nasty inheritance (remember, <em>always prefer composition over inheritance</em>):</p>
+<h3>Experiment 3: Callback Object<a name="experiment3callbackobject"></a></h3>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class P&amp;gt;
+class iCallback {
+ public:
+  void operator () (P o) = 0;
+};
+template &amp;lt;class T, class P&amp;gt;
+class Callback : public iCallback&amp;lt;P&amp;gt; {
+ // Notice this typedef: we have an object of type T and a
+  // function accepting a parameter P
+  typedef void (T::<em>member_func) (P);
+  T </em>cb_obj; member_func f;
+ public:
+  Callback(T<em> cb_obj, member_func f)
+     : cb_obj(cb_obj), f(f) {}
+ inline void operator() (P o){
+    (cb_obj-&amp;gt;</em>f)(o); // -&amp;gt;* is the best voodoo operator
+  }
+};
+</pre>
+<p>This new object should help us to:
+1. Implement different callback functions (not tied to an operator() nor a type overload) while staying type-safe
+2. Delete the inheritance
+3. Use the arrow-asterisk operator (!) which is way cool</p>
+<p>How would this change leave our code?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Caller;
+class Callee {
+ Callback&amp;lt;Caller, Callee<em>&amp;gt; </em>notify;
+ public:
+  Callee(Callback&amp;lt;Caller, Callee<em>&amp;gt; </em>notify) : notify(notify) {}
+  void finish(){ (<em>notify)(this); }
+};
+class Caller {
+ Callback&amp;lt;Caller, Callee</em>&amp;gt; cb;
+  Callee c;
+  public:
+  Caller() : cb(this, &amp;amp;Caller::im_done), c(&amp;amp;cb){}
+  void im_done(Callee*) {}
+};
+</pre>
+<p>Oops, looks like we took one step back: now Callee MUST know the type of Caller. Not nice. Luckily it is an easy fix:</p>
+<h3>Experiment 4: Callback interface<a name="experiment4callbackinterface"></a></h3>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Callee {
+  iCallback&amp;lt;Callee<em>&amp;gt; </em>notify;
+  public:
+  Callee(iCallback&amp;lt;Callee<em>&amp;gt; </em>notify) : notify(notify) {}
+ void finish(){ (*notify)(this); }
+};
+</pre>
+<p>OK, we&rsquo;re back on track. We will solve that weird looking (*notify)(this) later, don&rsquo;t worry.</p>
+<p>We&rsquo;re almost there, but specifying the callback as  is ugly, Caller should be automagically inferred from the context by some template voodoo. Let&rsquo;s do it by implementing a wrapper:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class R&amp;gt;
+class WraperCallback {
+  iCallback&amp;lt;R&amp;gt; <em>cb;
+  public:
+    template &amp;lt;class T, class F&amp;gt;
+    WraperCallback(T</em> cb_obj, F f)
+       : cb( new Callback&amp;lt;T, R&amp;gt;(cb_obj, f) ) {}
+    ~WraperCallback() {
+      delete cb;
+   }
+   inline void operator()(R o){
+     (*cb)(o);
+    }
+};
+</pre>
+<p>Now we no longer need to specify the Caller type. There&rsquo;s still a nasty issue about pointer-vs-object passing. Using (*notify)(this) is very ugly so let&rsquo;s do it like this:</p>
+<h3>Experiment 5: Callback object bis<a name="experiment5callbackobjectbis"></a></h3>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Callee {
+  WraperCallback&amp;lt;Callee<em>&amp;gt; notify;
+  public:
+  Callee(WraperCallback&amp;lt;Callee</em>&amp;gt; notify) : notify(notify) {}
+ void finish(){ notify(this); }
+};
+class Caller {
+  Callee c;
+  public:
+  Caller() : c(WraperCallback&amp;lt;Callee<em>&amp;gt;(this, &amp;amp;Caller::im_done)) {}
+ void do_it(){ c.finish(); }
+  void im_done(Callee</em>) { }
+};
+</pre>
+<p>Nice, this time it should work as expected. Only it does not, <strong>there is something horribly wrong about it</strong>. Can you see what it is? Take a second, I&rsquo;ll wait&hellip; OK, back? Right, it <strong>segfaults</strong>! Why? Easy, take a look at this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  Callee(Callback&amp;lt;Callee*&amp;gt; notify) : notify(notify) {}
+</pre>
+<p>We are using a copy constructor here, and what does our wrapper store?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    WraperCallback(T* cb_obj, F f)
+       : cb( new Callback&amp;lt;T, R&amp;gt;(cb_obj, f) ) {}
+</pre>
+<p>Indeed, the copied WrapperCallback ends up pointing to a deleted Callback when the cb field of the original object gets copied and then destructed. We should have all the pieces to fix it now: we just need to implement the copy operator to make it work. How does the final version looks like?</p>
+<h3>Solution<a name="solution"></a></h3>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class P&amp;gt; class iCallback {
+  public:
+    virtual void operator()(P) = 0;
+    virtual iCallback&amp;lt;P&amp;gt;<em> clone() const = 0;
+};
+template &amp;lt;class T, class P&amp;gt;
+class RealCallback : public iCallback&amp;lt;P&amp;gt; {
+  typedef void (T::</em>member_func) (P);
+  T <em>cb_obj; member_func f;
+ public:
+  RealCallback(T</em> cb_obj, member_func f)
+     : cb_obj(cb_obj), f(f) {}
+ /<em><em>
+   * The clone operator is needed for the copy ctr of
+   * the Callback object
+  </em>/
+  inline iCallback&amp;lt;P&amp;gt;</em> clone() const {
+   return new RealCallback&amp;lt;T, P&amp;gt;(cb_obj, f);
+  }
+ inline void operator() (P o){
+    (cb_obj-&amp;gt;<em>f)(o); // -&amp;gt;</em> is the best vodoo operator
+ }
+};
+template &amp;lt;class R&amp;gt;
+class Callback {
+  iCallback&amp;lt;R&amp;gt; <em>cb;
+  public:
+    template &amp;lt;class T, class F&amp;gt;
+    Callback(T</em> cb_obj, F f)
+       : cb( new RealCallback&amp;lt;T, R&amp;gt;(cb_obj, f) ) {}
+    Callback(const Callback&amp;amp; cpy)
+        : cb( cpy.cb-&amp;gt;clone()) {}
+    ~Callback() {
+      delete cb;
+   }
+   inline void operator()(R o){
+     (*cb)(o);
+    }
+};
+</pre>
+<h3>Conclusion<a name="conclusion"></a></h3>
+<p>Now we have a nice callback object which can link two objects without them knowing each other. There is room for future improvement, of course:
+1. Got any ideas to implement a generic callback to a function with an unknown number of params? I don&rsquo;t (variadic templates == cheating!)
+2. I&rsquo;m quite sure the param type for the callback could be inferred in some magical template way, but I don&rsquo;t know how.
+3. Think of anything else to add? Let me know in the comments!</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Nicol&aacute;s Brailovsky » Blog Archive » Template metaprogramming XI: Hidden Agenda</a> commented @ 2010-07-20T14:10:19.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivetemplatemetaprogrammingxihiddenagendablog_md20100720_templatemetaprogrammingxihiddenagenda.mdcommented20100720t141019.0000200"></a></h2>
+<p>[&hellip;] for every table; something like this: See the problem? To do something like that we’d need a virtual template method, and you can’t have that. After seeing that I thought to myself &ldquo;Hey, I’ll use [&hellip;]</p>
+<p>Original <a href="/blog/2009/0803_CMagiccallbackssolved.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Nicol&aacute;s Brailovsky » Blog Archive » Newsflash: C++ object commits sepuku</a> commented @ 2011-04-04T09:30:53.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivenewsflashcobjectcommitssepukublog_md20110404_newsflashcobjectcommitssepuku.mdcommented20110404t093053.0000200"></a></h2>
+<p>[&hellip;] you launch a background job, and you don’t really care when it’s done. You may use a callback to be notified when the job is done, but if you don’t really care then having an object which [&hellip;]</p>
+<p>Original <a href="/blog/2009/0803_CMagiccallbackssolved.html">published here</a>.</p>

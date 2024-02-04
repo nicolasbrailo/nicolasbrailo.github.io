@@ -1,0 +1,5 @@
+<h1>Annoying &ldquo;unable to find a medium containing a live file system&rdquo; in<a name="annoyingunabletofindamediumcontainingalivefilesystemin"></a></h1>
+<p>Ubuntu</p>
+<p>Sometimes you may get this message when installing Ubuntu. And it&rsquo;s not very helpful, the install just dies.</p>
+<p>Assuming you created the installer appropriately (usb, live cd, whatever), once you reached that message it means that the BIOS already recognized your device as bootable, loaded the bootloader and started executing it. So it&rsquo;s the bootloader that can&rsquo;t find the image, yet that doesn&rsquo;t make sense if you think about it carefully: if the installer was properly created, that shouldn&rsquo;t happen.</p>
+<p>Well, after fighting for a while I realized that some DVD drives connected to a high speed SATA port will give this kind of message error. From the message it&rsquo;s not very clear what causes it, so you can try with one of the crazy kernel options like noapic. If that doesn&rsquo;t work, you can try to change the SATA mode in the BIOS. ACHI worked for me.</p>

@@ -1,0 +1,109 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2016 May<a name="postsfor2016may"></a></h1>
+<h1>Deobfuscate your bash<a name="deobfuscateyourbash"></a></h1>
+<p>By Nico Brailovsky @ 2016-05-31</p>
+<p>Who hasn&rsquo;t written some read-only magical Bash voodoo, only to find you need to decrypt your own creation later on? Luckily, <a href="http://explainshell.com/">Explain Shell</a> can help with that. Here&rsquo;s an example from my .bash_history file:</p>
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">for fn in *; do echo cat $fn | sed &quot;s|&#x27; &#x27;$URL&#x27;||g&quot; | sed &quot;s|curl -X POST -d &#x27;||g&quot; ; done
+</pre>
+<p>And <a href="http://explainshell.com/explain?cmd=for+fn+in+*%3B+do+echo+cat+%24fn+%7C+sed+%22s%7C%27+%27%24URL%27%7C%7Cg%22+%7C+sed+%22s%7Ccurl+-X+POST+-d+%27%7C%7Cg%22+%3B+done">Explain Shell&rsquo;s</a> explanation: it&rsquo;s no substitute for knowing Bash but it sure helps.</p>
+<p><strong>Bonus</strong>: while reading my bash history file, I realized I accidentally copy&amp;paste a lot of code to my terminals. There are way too many &ldquo;template <FOO>&rdquo; entries in there&hellip;</p>
+<p><strong>Bonus II</strong>: It&rsquo;s a good thing they wrote &ldquo;shell&rdquo; in a different color. I was wondering why I had &ldquo;explains hell&rdquo; in my bookmarks.</p>
+<hr />
+<h1>Awesome (and useless) trivia: Ubuntu&rsquo;s first bug<a name="awesomeanduselesstriviaubuntusfirstbug"></a></h1>
+<p>By Nico Brailovsky @ 2016-05-26</p>
+<p>I&rsquo;m still not over the disappointment from my latest Ubuntu install but recently I found a bug which is quite remarkable: <a href="https://bugs.launchpad.net/ubuntu/+bug/1">https://bugs.launchpad.net/ubuntu/+bug/1</a></p>
+<p>Yes, Ubuntu&rsquo;s #1 bug, reported by Shuttleworth himself, is &ldquo;Microsoft too big&rdquo;. I&rsquo;m not too sure I agree with the bug&rsquo;s resolution.</p>
+<hr />
+<h1>KSnapshot is getting smarter<a name="ksnapshotisgettingsmarter"></a></h1>
+<p>By Nico Brailovsky @ 2016-05-24</p>
+<p>I just noticed KSnapshot is smart. Too smart. If you save a snapshot to a folder with a bunch of files like &ldquo;Snapshot_N_foo&rdquo; it&rsquo;ll name the next one &ldquo;Snapshot_N+1_foo&rdquo;. That already makes my computer smarter than some humans!</p>
+<hr />
+<h1>I can&rsquo;t believe this works!<a name="icantbelievethisworks"></a></h1>
+<p>By Nico Brailovsky @ 2016-05-19</p>
+<p>Are you bored? Try pasting this, as is, in a cpp file:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">// What is going on here??/
+Is this even legal C++??/
+Yes, it is!
+</pre>
+<p>NB: You may have to use -trigraphs to compile this. Try it out! You can use this command:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">echo -e &quot;// What is going on here??/Is this legal C++?&quot; | g++ -E -c -trigraphs -
+</pre>
+<p>With some luck, this won&rsquo;t be legal C++ anymore after C++ 17 deprecates trigraphs.</p>
+<hr />
+<h1>Some sane advice from Firefox&rsquo;s console<a name="somesaneadvicefromfirefoxsconsole"></a></h1>
+<p>By Nico Brailovsky @ 2016-05-17</p>
+<p>Tinkering with Firefox&rsquo; JS console I had to copypaste some stuff. I got a really nice surprise when it wouldn&rsquo;t let me:</p>
+<blockquote>
+<p>Scam Warning: Take care when pasting things you don&rsquo;t understand. This could allow attackers to steal your identity or take control of your computer.</p>
+</blockquote>
+<p>That&rsquo;s some really good advice coming from your browser&rsquo;s console.</p>
+<hr />
+<h1>Quickly sharing files in Linux via HTTP<a name="quicklysharingfilesinlinuxviahttp"></a></h1>
+<p>By Nico Brailovsky @ 2016-05-12</p>
+<p>Isn&rsquo;t it awful when you have to share a file too big for email and don&rsquo;t know how? You&rsquo;d think by 2016 we&rsquo;d have that figured out. Actually we do, many times over. Just pick a standard that works for you!</p>
+<p>If you don&rsquo;t want to read many pages on file transfer standards (Samba? What&rsquo;s that?) you can try this little snippet:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">python -m SimpleHTTPServer $PORT
+</pre>
+<p>This will create an http server sharing the current directory. HTTP, luckily, is one of those things that tend to work everywhere, always.</p>
+<p>Bonus: some other ways of doing the same thing at <a href="https://gist.github.com/willurd/5720255">https://gist.github.com/willurd/5720255</a></p>
+<hr />
+<h1>Initialization oddities: Aggregate initialization<a name="initializationodditiesaggregateinitialization"></a></h1>
+<p>By Nico Brailovsky @ 2016-05-10</p>
+<p>Do you know the quickest way to create a constructor that initializes the elements in this struct?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;string&amp;gt;
+struct MyStruct {
+    int x;
+    std::string y;
+    const char *z;
+};
+</pre>
+<p>If you answered &ldquo;by typing really fast&rdquo;, you may be interested in knowing that the fastest way to create this constructor is to not write it at all!</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;, &quot;World&quot;};
+</pre>
+<p>Yes, the line above works and it&rsquo;s perfectly legal C++. It&rsquo;s event C++ 98! This language feature is called aggregate initialization and it says the compiler should be smart enough to initialize MyStruct using each value successively. Of course C++11 has made this syntax somewhat simpler and a lot more uniform:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a{42, &quot;Hello&quot;, &quot;World&quot;};
+</pre>
+<p>There are some caveats when using this initialization, namely that the initialized type must be an aggregate. An aggregate, in standard lingo, is a type that has some restrictions. No virtuals, no privates, etc. You can say it&rsquo;s a POD and in most cases you&rsquo;d be right.</p>
+<p>Now, is this also legal?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;};
+</pre>
+<p>You&rsquo;d be tempted to say that&rsquo;s a syntax error. It&rsquo;s not, now z will just be default-initialized. What about this, then?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;, &quot;World&quot;, &quot;Extra!&quot;};
+</pre>
+<p>According to the standard, that&rsquo;s an error. Or&hellip; is it? Let&rsquo;s try out this example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct A {
+    int x;
+};
+struct B {
+    A a;
+    std::string y;
+};
+struct C {
+    B b;
+    const char *z;
+};
+C o = {42, &quot;Hello&quot;, &quot;World&quot;};
+</pre>
+<p>Yes. Believe it or not, the object o will now contain three members: o.b.a.x, o.b.y and o.z. All three will be properly initialized with their respective value.</p>
+<p>Aggregate initializations should, according to the standard, be smart enough to initialize aggregate objects and use any &ldquo;spill over&rdquo; to continue initializing other values/aggregate objects recursively.</p>
+<h3>Bonus I:<a name="bonusi"></a></h3>
+<p>Aggregate initialization is also what makes this idiom valid:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">char x[] = {1, 2, 3}
+</pre>
+<p>In this case, x will be of length 3 because that&rsquo;s the length of its aggregate initializer.</p>
+<h3>Bonus II:<a name="bonusii"></a></h3>
+<p>I&rsquo;m sure anyone trying to get up to date with C++11 will have played around with variadic templates. One of the first exercises I&rsquo;d recommend for this would be a compile-time list of different types. Knowing about aggregate initializations now, how would you write a constructor for this type?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename H, typename&hellip; T&amp;gt;
+struct Multilist&amp;lt;H, T&hellip;&amp;gt; {
+    H x;
+    Multilist&amp;lt;T&hellip;&amp;gt; next;
+};
+Multilist&amp;lt;int, string, float&amp;gt; foo{42, &quot;XXX&quot;, 1.23};
+</pre>
+<hr />

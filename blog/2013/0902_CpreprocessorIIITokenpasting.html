@@ -1,0 +1,15 @@
+<h1>C preprocessor III: Token pasting<a name="cpreprocessoriiitokenpasting"></a></h1>
+<p>A stringify operator is good but the token pasting operator goes off the awesomeness chart (if you&rsquo;re working on an ioccc entry, that is). Actually, what token pasting does is conceptually simple: it will paste together two tokens to form a new one. So, for example, PASTE(foo, bar) would result in the &ldquo;foobar&rdquo; token. Looks simple enough, doesn&rsquo;t it? The token pasting operator is invoked via &lsquo;##&rsquo;. For example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define PASTE(x, y) x ## y
+#define FOOBAR 42
+int main() { return PASTE(FOO, BAR); }
+</pre>
+<p>The previous code would just return 42. So what&rsquo;s the usefulness of a paste operator? Other than obfuscating stuff, you can use it to create classes with similar interfaces but different method names (I&rsquo;m not saying it&rsquo;s a good idea, I&rsquo;m saying you can). For example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define MAKE_GET_SET(x, T) \
+               void set_ ## x (T o) { this-&amp;gt;x = o; } \
+               T get_ ## x () { return this-&amp;gt;x; }
+class Foo {
+  MAKE_GET_SET(foo, int);
+</pre>
+<p>The token pasting operator doesn&rsquo;t have the limitation of being applicable only to a macro parameter, so code like &ldquo;12 ## 34&rdquo; is a perfectly valid operation which results in &ldquo;1234&rdquo;. It does have a catch: if the resulting token is not valid the behavior is undefined. This means that, for example, pasting &ldquo;12&rdquo; and &ldquo;foo&rdquo; together produces &ldquo;12foo&rdquo;, which is not a valid token. Being the operation undefined means that a compiler might reject this operation (I&rsquo;m pretty sure gcc does) or that it might do a completely different thing (it could choose to ignore the token pasting operator and it would still be standard compliant).</p>
+<p>Nasal demons FTW!</p>

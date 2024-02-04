@@ -1,0 +1,9 @@
+<h1>Gcc tip: better disassembly<a name="gcctipbetterdisassembly"></a></h1>
+<p>Few things are more awesome than compiling with &ldquo;g++ -S&rdquo; and inspecting gcc&rsquo;s dissasembly and learn how the compiler optimizes things you wouldn&rsquo;t even think about. Unfortunately, the assembly might not be the most human friendly format for a program (though I&rsquo;ve seen worse).</p>
+<p>While you won&rsquo;t escape the need to learn some assembly to get any meaningful information out of gcc&rsquo;s assembly listing, there are some tips which might make your life much easier:</p>
+<h2>C++ filt<a name="cfilt"></a></h2>
+<p>c++filt is part of the build essentials package, and will turn mangled names into proper C++ names. You won&rsquo;t need to remember that _Znwm is the mangled version of &ldquo;operator new&rdquo;, just run &ldquo;g++ -E foo.cpp -o /dev/stdout | c++filt&rdquo; and you&rsquo;ll get an assembly with unmangled names.</p>
+<h2>fverbose-asm<a name="fverboseasm"></a></h2>
+<p>Some people have the ability to read assembly and automatically understand how the data flows between registers and variables very quickly. For the mere mortals like us, gcc has a very helpful flag called &ldquo;-fverbose-asm&rdquo; which will add a comment to each line where a variable is referenced. This will let you keep track of the data flow inside a function.</p>
+<h2>Extra, unrelated, tip:<a name="extraunrelatedtip"></a></h2>
+<p>As far as I know, gcc has no option to write to stdout; just use &ldquo;-o /dev/stdout&rdquo; to let it write to a fake file which Linux will helpfully create for you, then you can pipe the hell out of gcc&rsquo;s output.</p>

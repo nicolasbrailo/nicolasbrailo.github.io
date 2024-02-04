@@ -1,0 +1,61 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2010 February<a name="postsfor2010february"></a></h1>
+<h1>C++: Composite objects and throwing constructors<a name="ccompositeobjectsandthrowingconstructors"></a></h1>
+<p>By Nico Brailovsky @ 2010-02-25</p>
+<p>Check out the following code:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+struct Foo {
+        struct Foobar{ Foobar(){ throw &quot;foobar&amp;#x27;d&quot;; } };
+        Foobar baz;
+        Foo() try : baz() {
+                cout &amp;lt;&amp;lt; &quot;Ctr 1n&quot;;
+        }catch(&hellip;){
+                cout &amp;lt;&amp;lt; &quot;Ctr 2n&quot;;
+        }
+};
+int main() {
+        Foo bar;
+        cout &amp;lt;&amp;lt; &quot;End!n&quot;;
+        return 0;
+}
+</pre>
+<p>Nice, isn&rsquo;t it? Without using a compiler answer the following questions:</p>
+<ul>
+<li>Does it compile?</li>
+<li>If it does, does it abort or does it return 0?</li>
+<li>What does it print?</li>
+</ul>
+<p>Did you think about it? Come on, I&rsquo;ll wait&hellip; ready? OK, lets go.</p>
+<p>First we should think about something else: what the fuck is that thing? I would surely be horrified if I found something like that was lurking in one of my projects&rsquo; code. It&rsquo;s hideous. And it&rsquo;s called a &ldquo;Constructor function-try-block&rdquo; (yes, answering the first question, it does compile and it indeed is valid C++ code).</p>
+<p>A constructor function-try-block exists only to catch exceptions thrown while constructing a composite object. This may tempt us to answer the second question: it should return 0, as we&rsquo;re catching Foobar&rsquo;s exception on Foo&rsquo;s ctr. But that&rsquo;s not how these things work , otherwise this would have been a very boring entry: the program aborts.</p>
+<p>To understand why does this program abort you should think what does it mean to have a composite object; there is no meaning in having a Foo without a Foobar. baz, of type Foobar is a part of Foo, just like a head is a part of a person and there&rsquo;s no person without a head (though many act as if they didn&rsquo;t have a working head, but that is a topic for another day).</p>
+<p>Now, what does it mean to throw (regardless wheter this is a good or a bad practice) in a constructor? It is like saying &ldquo;There&rsquo;s been a horrible error and I have no idea how to recover. Man, I give up&rdquo;. Throwing in a ctr means there&rsquo;s no point in trying to fully construct that object: it leaves a half-built thing. What can you do with that half object? Nothing, throw it away.</p>
+<p>Now that we know what does it mean to throw in a constructor we can answer why does the program abort: there is no point in building a composite object when one of its constituting parts can NOT be constructed, thus it must throw as well.</p>
+<p>The last point, why do we have function try blocks if we can&rsquo;t catch exceptions? Well&hellip; you can&rsquo;t catch it but you may rethrow a different one, or use the constructor to clean up the mess you would otherwise leave behind. Or you could write a snippet of code, post it on your blog and confuse a whole lot of people (all 3 of them reading this block. Hi grandma).</p>
+<p>Oh, we had a third question, but you should be able to answer that one yourself.</p>
+<p>PS: You may get a better explanation at <a href="http://gotw.ca/gotw/066.htm">GotW #66: Constructor Failures</a></p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">Nicol&aacute;s Brailovsky » Blog Archive » Design Patterns: C++ Idiom RAII</a> commented @ 2010-07-27T12:05:41.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivedesignpatternscidiomraiiblog_md20100727_designpatternscidiomraii.mdcommented20100727t120541.0000200"></a></h2>
+<p>[&hellip;] magic of RAII lies in how C++ handles exceptions. When we have a built object (can an object be in an unbuilt state?) it means it’s constructor has correctly ran. It also means it’s destructor will run [&hellip;]</p>
+<p>Original <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0920_Throwingdestructors.html">Nicol&aacute;s Brailovsky » Blog Archive » Throwing destructors</a> commented @ 2011-09-20T10:45:36.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivethrowingdestructorsblog_md20110920_throwingdestructors.mdcommented20110920t104536.0000200"></a></h2>
+<p>[&hellip;] already know what happens when you throw from a constructor. Ending up with a half built object is not good, but suppose we do manage to build one correctly. [&hellip;]</p>
+<p>Original <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">published here</a>.</p>
+<hr />
+<h1>Valgrind – OCI: Suppressions file, Take II<a name="valgrindocisuppressionsfiletakeii"></a></h1>
+<p>By Nico Brailovsky @ 2010-02-19</p>
+<p>Remember my <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">OCI suppressions file</a>? Well, since then I have updated it. Now it includes some more suppressions, for <a href="http://www.net-snmp.org/">libnetsnmp</a>, Oracle, <a href="http://www.oracle.com/technology/products/berkeley-db/index.html">Berkeley DB</a>, and may be something else I can&rsquo;t remember.</p>
+<p>If you add anything else let me know in the comments.</p>
+<p>BTW last time attaching this file failed so now I&rsquo;m posting it in the first comment after this entry.</p>
+<hr />
+<h1>Back for round II<a name="backforroundii"></a></h1>
+<p>By Nico Brailovsky @ 2010-02-14</p>
+<p>OK, the hiatus is over. It&rsquo;s not like I&rsquo;ve been sitting around doing nothing this last couple of months&hellip; well may be I have, but now I&rsquo;m back. Kind off, I&rsquo;m actually going out on vacations a couple of weeks in march but the blog will be on autopilot&nbsp; and there are quite a lot of posts in the backlog&hellip; there are a couple of months more worth of clever and informative (?) articles, so stay tuned (?^2).</p>
+<hr />

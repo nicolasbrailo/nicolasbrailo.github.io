@@ -1,0 +1,16 @@
+<h1>C++ exceptions under the hood 6: gcc_except_table and the personality<a name="cexceptionsunderthehood6gcc_except_tableandthepersonality"></a></h1>
+<p>function</p>
+<p>We learned last time that, just as a throw statement is translated into a pair of <strong>__cxa_allocate_exception/throw</strong> calls, a catch block is translated into a pair of <strong>__cxa_begin/end_catch</strong> calls, plus something called CFI (call frame information) to find the landing pads, the points on a function where an exception can be handled.</p>
+<p>What we don&rsquo;t yet know is how does _Unwind_* know where the landing pads are. When an exception is thrown there are a bunch of functions in the stack; all the CFI stuff will let Unwind know which functions these are but it&rsquo;s also necessary to know which landing pads each function provides so we can call each one and check if it wants to handle the exception (and we&rsquo;re ignoring functions with multiple try/catch blocks!).</p>
+<p>To know where the landing pads are, something called gcc_except_table is used. This can be found (with a bunch of CFI stuff) after the function&rsquo;s end:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">.LFE1:
+    .globl  __gxx_personality_v0
+    .section    .gcc_except_table,&quot;a&quot;,@progbits
+    [&hellip;]
+.LLSDACSE1:
+    .long   _ZTI14Fake_Exception
+</pre>
+<p>The section .gcc_except_table is where all information to locate a landing pad is stored, and we&rsquo;ll see more about it once we get to analyzing the personality function; for now, we&rsquo;ll just say that LSDA means language specific data area and it&rsquo;s the place where the personality function will check if there are any landing pads for a function (it is also used to run the destructors when unwinding the stack).</p>
+<p>To wrap it up: for every function where at least a catch is found, the compiler will translate this statement into a pair of <strong>__cxa_begin_catch/__cxa_end_catch</strong> calls and then the personality function, which will be called by <strong>__cxa_throw</strong>, will read the gcc_except_table for every method in the stack, to find something call LSDA. The personality function will then check in the LSDA whether a catch can handle an exception and if there is any cleanup code to run (this is what triggers the destructors when needed).</p>
+<p>We can also draw an interesting conclusion here: if we use the nothrow specifier (or the empty throw specifier) then the compiler can omit the gcc_except_table for this method. The way gcc implements exceptions, that won&rsquo;t have a great impact on performance but it will indeed reduce code size. What&rsquo;s the catch? If an exception is thrown when nothrow was specified the LSDA won&rsquo;t be there and the personality function won&rsquo;t know what to do. When the personality function doesn&rsquo;t know what to do it will invoke the default exception handler, meaning that in most cases throwing from a nothrow method will end up calling std::terminate.</p>
+<p>Now that we have an idea of what the personality function does, can we implement one? We&rsquo;ll see how next time.</p>

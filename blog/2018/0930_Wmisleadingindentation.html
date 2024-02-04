@@ -1,0 +1,7 @@
+<h1>-Wmisleading-indentation<a name="wmisleadingindentation"></a></h1>
+<p>This gcc switch is a few years old but I discovered it recently. I&rsquo;m not sure if that means my code is always very clean or my toolchain too oudated&hellip; in any case, -Wmisleading-indentation (which you get with -Wall) warns about this gotcha:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">if (foo)
+   bar();
+   baz();
+</pre>
+<p>Neat!</p>

@@ -1,0 +1,49 @@
+<h1>gdb-tui and the previous-command problem<a name="gdbtuiandthepreviouscommandproblem"></a></h1>
+<p>Raise your hand if you have run gdb in <a href="/blog/2009/0922_gdbgraphictuimode.html">tui</a> (graphical) mode, only to find you can&rsquo;t refer to the previous command when pressing &ldquo;up&rdquo;. I can&rsquo;t see you but I know this is true for pretty much everyone reading this blog. All three of you.</p>
+<p>In the gdb-TUI mode, the arrow keys are used by the active window for scrolling. This means they are not available for readline, the component that takes care of the magic invocations needed to bring back the previous command from the land of the dead. Luckily there are alternative readline keybindings: just try C-p, C-n, C-b and C-f. Takes a while getting used to it but you can finally use gdb-TUI and forget about copy-pasting every gdb command.</p>
+<p>Bonus tip: if pressing &ldquo;up&rdquo; (or C-p) in gdb doesn&rsquo;t bring back the previous command, it probably means you don&rsquo;t have the readline package installed. Go ahead an install it. It&rsquo;ll change your life.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">UncleNinja</a> commented @ 2017-12-03T17:39:34.000+01:00:<a name="inreplytothispostuncleninjablog_mdyoufoundadeadlink.mdcommented20171203t173934.0000100"></a></h2>
+<p>thank you dude</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">thekilokahn</a> commented @ 2018-01-02T04:14:21.000+01:00:<a name="inreplytothispostthekilokahnblog_mdyoufoundadeadlink.mdcommented20180102t041421.0000100"></a></h2>
+<p>Thanks!</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2018-02-21T11:15:00.000+01:00:<a name="inreplytothispostanonymouscommented20180221t111500.0000100"></a></h2>
+<p>Thanks. A second option is to focus the command window, then arrows work. To cycle focus: C-x o.</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Gustavo</a> commented @ 2018-08-09T23:09:56.000+02:00:<a name="inreplytothispostgustavocommented20180809t230956.0000200"></a></h2>
+<p>4 now. Thank you.</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Noah</a> commented @ 2018-10-28T23:54:19.000+01:00:<a name="inreplytothispostnoahcommented20181028t235419.0000100"></a></h2>
+<p>Thank you!</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2018-11-25T00:14:37.000+01:00:<a name="inreplytothispostanonymouscommented20181125t001437.0000100"></a></h2>
+<p>There are dozens of us! dozens!</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2018-11-26T09:00:38.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20181126t090038.0000100"></a></h2>
+<p>Seems so&hellip; and I&rsquo;m still surprised by that!
+Thanks Anon</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2019-04-03T05:29:44.000+02:00:<a name="inreplytothispostanonymouscommented20190403t052944.0000200"></a></h2>
+<p>More than dozens!!</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2019-04-24T01:56:21.000+02:00:<a name="inreplytothispostanonymouscommented20190424t015621.0000200"></a></h2>
+<p>There is a whole company of us here!</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2019-07-30T16:49:03.000+02:00:<a name="inreplytothispostanonymouscommented20190730t164903.0000200"></a></h2>
+<p>there is me too</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">sherais</a> commented @ 2020-04-01T20:55:14.000+02:00:<a name="inreplytothispostsheraisblog_mdyoufoundadeadlink.mdcommented20200401t205514.0000200"></a></h2>
+<p>Thank you very much, I am learning GDB and this saves me so many grey hairs.</p>
+<p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>

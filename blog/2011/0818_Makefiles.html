@@ -1,0 +1,46 @@
+<h1>Makefiles<a name="makefiles"></a></h1>
+<p>For open source projects, makefiles are a must. All C++ projects need them, even though cmake is strong nowadays, and even though Java has its own version (actually, several of them, but that&rsquo;s not important now) a makefile could be used.</p>
+<p>Even if it is an ubiquitous build system, it is pretty much outdated nowadays, and although using its basic features is easy, mastering it is a complex task. Worst still, mastering makefiles means you&rsquo;ll probably produce write-only-code, and as makefiles are code themselves, and must therefore be maintained, this can be a nuisance to a newcomer to your project.</p>
+<p>There&rsquo;s an upside to makefiles being code: they can be reused. Once you find a configuration that suits your development process, you don&rsquo;t need to write it again. I&rsquo;ll post here some of the main targets I ussually include in a common.mk. As I mentioned, it&rsquo;s mostly write-only-code, yet you may find it useful:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Dependency directoy
+df=$(BUILD_DIR)/$(<em>D)/$(</em>F)
+$(OBJECTS): $(BUILD_DIR)/%.o: %.cpp
+    @mkdir -p $(BUILD_DIR)/$(<em>D)
+    $(COMPILE.cpp) -MD -o $@ $&amp;lt;
+    @cp $(df).d $(df).P;
+    sed -e &#x27;s/#.</em>//&#x27; -e &#x27;s/^[^:]<em>: </em>//&#x27; -e &#x27;s/ *\$$//&#x27;
+        -e &#x27;/^$$/ d&#x27; -e &#x27;s/$$/ :/&#x27; &amp;lt; $(df).d &amp;gt;&amp;gt; $(df).P;
+    rm -f $(df).d
+$(MAIN_OBJ): $(MAIN_SRC)
+    $(COMPILE.cpp) -MD -o $@ $&amp;lt;
+# Binary name depends on BIN_DIR/BIN_NAME, so the call to create BIN can
+# be forwarded to BIN_DIR/BIN_NAME
+$(BINARY): $(BIN_DIR)/$(BINARY)
+$(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
+    @mkdir -p $(BIN_DIR)
+    @# Workaround for a linker bug: if the libs are not
+    @# at the end it won&#x27;t link (something to do with how the linker
+    @# lists the dependencies&hellip; too long for a comment, rtfm
+    g++ $(CXXFLAGS) $^ -o $(BIN_DIR)/$@ $(LDFLAGS)
+    @#$(LINK.cpp) $^ -o $@
+-include $(DEPENDS)
+</pre>
+<p>How is this used? Well, don&rsquo;t even try to understand the dependency autogeneration, it&rsquo;ll make your head explode.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">$(OBJECTS): $(BUILD_DIR)/%.o: %.cpp
+</pre>
+<p>This defines a rule for building .o objects; a variable named OBJECTS should be present when including this file.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">$(MAIN_OBJ): $(MAIN_SRC)
+</pre>
+<p>A special rule is defined for a main object (actually this is needed to compile the tests, which we&rsquo;ll do next time, since you may have a different main function).</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">$(BINARY): $(BIN_DIR)/$(BINARY)
+$(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
+</pre>
+<p>And finally, a rule for to create the real binary. Next time I&rsquo;ll add some cool features for TDD to this makefile.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="http://techrights.org/2011/08/20/firefox-7-beta/">Links 20/8/2011: Linux Graphics Survey, Firefox 7 Beta | Techrights</a> commented @ 2011-08-20T08:13:24.000+02:00:<a name="inreplytothispostlinks2082011linuxgraphicssurveyfirefox7betatechrightshttptechrights.org20110820firefox7betacommented20110820t081324.0000200"></a></h2>
+<p>[&hellip;] Makefiles [&hellip;]</p>
+<p>Original <a href="/blog/2011/0818_Makefiles.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0822_AMakefileforTDDwithC.html">Nicol&aacute;s Brailovsky » Blog Archive » A Makefile for TDD with C++</a> commented @ 2011-08-22T09:09:05.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchiveamakefilefortddwithcblog_md20110822_amakefilefortddwithc.mdcommented20110822t090905.0000200"></a></h2>
+<p>[&hellip;] after reading my post about makefiles you decided that you like them but would like to add some TDD to be buzzword compliant? No problem, [&hellip;]</p>
+<p>Original <a href="/blog/2011/0818_Makefiles.html">published here</a>.</p>

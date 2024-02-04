@@ -1,0 +1,8 @@
+<h1>sed magic: a simple guide<a name="sedmagicasimpleguide"></a></h1>
+<p>The other day I had to create one of those &ldquo;enum to string&rdquo; functions. They really suck, always getting out of sync, so I made a script to auto-update the header file containing this function&hellip; just add a target to the makefile and you&rsquo;re done!</p>
+<p>Anyway, this is the part of the script I came up with to get the enum elements:</p>
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">
+cat enum_definition.h | sed -n &#x27;/enum OID/,/};/ s/(.*)/1/p&#x27;
+</pre>
+<p>Nice voodoo, isn&rsquo;t it? How the hell are you supposed to understand that? Well, you&rsquo;re not, sed is write-only-code, but you can try reading <a href="http://www.grymoire.com/Unix/Sed.html#toc-uh-25">http://www.grymoire.com/Unix/Sed.html#toc-uh-25</a>, a great sed introduction.</p>
+<p>Have fun!</p>

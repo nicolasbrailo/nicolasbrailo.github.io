@@ -1,0 +1,16 @@
+<h1>Unique var name with C/C++ macros<a name="uniquevarnamewithccmacros"></a></h1>
+<p>So, you&rsquo;re working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won&rsquo;t let you. There&rsquo;s a secret spell to do it anyway:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">// Do magic! Creates a unique name using the line number
+#define LINE_NAME( prefix ) JOIN( prefix, <strong>LINE</strong> )
+#define JOIN( symbol1, symbol2 ) _DO_JOIN( symbol1, symbol2 )
+#define _DO_JOIN( symbol1, symbol2 ) symbol1##symbol2
+</pre>
+<p>Great, now you can keep obscuring your programs even more - have fun!</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Why is a level of indirection needed for this concatenation macro? | CopyQuery</a> commented @ 2013-10-29T19:25:53.000+01:00:<a name="inreplytothispostwhyisalevelofindirectionneededforthisconcatenationmacrocopyqueryblog_mdyoufoundadeadlink.mdcommented20131029t192553.0000100"></a></h2>
+<p>[&hellip;] found an interesting little blog post that explains how to generate (semi) unique names in a macro by using the line [&hellip;]</p>
+<p>Original <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">How do I concatenate str and integer variables using macros? – program faq</a> commented @ 2017-12-27T16:30:10.000+01:00:<a name="inreplytothisposthowdoiconcatenatestrandintegervariablesusingmacrosprogramfaqblog_mdyoufoundadeadlink.mdcommented20171227t163010.0000100"></a></h2>
+<p>[&hellip;] reading this answer to a similar problem, and also attempting this similar concept to create level of indirection, I have found no solution, as neither of them work [&hellip;]</p>
+<p>Original <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">published here</a>.</p>

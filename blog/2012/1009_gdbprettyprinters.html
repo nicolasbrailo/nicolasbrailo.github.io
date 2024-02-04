@@ -1,0 +1,11 @@
+<h1>gdb pretty printers<a name="gdbprettyprinters"></a></h1>
+<p>If you have ever used gdb then you know printing an stl object is useless. You&rsquo;ll be flooded with stuff you don&rsquo;t care about, and if you want to find, say, the contents of an std::vector you&rsquo;ll have to dive through tons of junk. It turns there&rsquo;s an easier way, it&rsquo;s called pretty printers and I have no idea why they are not included by default with gdb.</p>
+<p>You&rsquo;ll need to download the pretty printers at svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python and then create a ~/.gdbinit like this one:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">python
+import sys
+sys.path.insert(0, &#x27;~/gdb_prettyprinters/python&#x27;)
+from libstdcxx.v6.printers import register_libstdcxx_printers
+register_libstdcxx_printers (None)
+end
+</pre>
+<p>Have fun!</p>

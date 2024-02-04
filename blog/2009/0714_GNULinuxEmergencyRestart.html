@@ -1,0 +1,82 @@
+<h1>GNU/Linux: Emergency Restart<a name="gnulinuxemergencyrestart"></a></h1>
+<p>It happens: we&rsquo;re happily hacking on some code and out of nowhere X server freezes. It may be the latest Compiz whose at fault, or perhaps a stray program that decided it should start consuming all available CPU. Anyway, it&rsquo;s easier to reboot than trying to fix whatever got broken but Ctrl - Alt - Backspace is unresponsive and we can&rsquo;t drop to a console. It&rsquo;s not ussual but it happens. What can we do about it?</p>
+<p>There&rsquo;s a cool shortcut to help us when shit happens, it&rsquo;ll reboot the computer and it&rsquo;s a little bit nicer than yanking out the power cord. You just need to remember REISUB and have some keyboard dexitry - holding down Ctrl - Alt - SysRQ/PrintScreen is required while typing REISUB (<strong>don&rsquo;t do it now, it&rsquo;ll reboot your computer!</strong>).</p>
+<p>So, what&rsquo;s REISUB all about? It&rsquo;s a little bit better than a forced hard reboot because it&rsquo;ll:</p>
+<ol>
+<li>R: Restore console
+ - E: Send SIGTERM to all processes
+ - I: Send SIGKILL to all processes
+ - S: Emergency sync of all filesystems (commit any changes to the phisical media)
+ - U: Read only remount of all filesystems
+ - B: Reboot now</li>
+</ol>
+<p>So, off course, you&rsquo;ll have to wait a little bit between every keystroke. Press Ctrl + Alt + PrntScreen + H on a console to get some help on every command.</p>
+<h3>Why does it work?<a name="whydoesitwork"></a></h3>
+<p>There&rsquo;s a lot of magic involved to make this secret incantation work. It involves kernels, vectors and other mythical beasts. There&rsquo;s a crazy thing called interruption vector; it&rsquo;s the place where every (hardware) event gets dispatched to a handling function. There lives a function call to handle keyboard input, amongst other things. This function call will be executed always, though the SO may just decide to queue the keyboard input if it&rsquo;s too busy handling something else.</p>
+<p>Well, this key combination can&rsquo;t be delayed &lsquo;till later, it must be handled NOW, therefore, even if there&rsquo;s a stray process or a driver gone mad, it&rsquo;ll always be caught and the computer will be rebooted.</p>
+<p>What&rsquo;s the catch? You won&rsquo;t be saving that precious code you we&rsquo;re hacking away when it all started, but at least you&rsquo;ll save some fscking time on the next start up.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2010-02-14T21:23:58.000+01:00:<a name="inreplytothispostanonymouscommented20100214t212358.0000100"></a></h2>
+<p>Ctrl is not needed!</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-02-14T22:45:17.000+01:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100214t224517.0000100"></a></h2>
+<p>Really? All those years practicing yoga so I could reach that weird key combo, for nothing? Man, wish I knew that one sooner :)</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Yuvi</a> commented @ 2010-05-18T15:28:45.000+02:00:<a name="inreplytothispostyuviblog_mdyoufoundadeadlink.mdcommented20100518t152845.0000200"></a></h2>
+<p>I knew only about the B, thanks for the others.</p>
+<p>And no, you don&rsquo;t have to press Ctrl :)</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">dsfadsfgafgf</a> commented @ 2010-05-18T15:39:29.000+02:00:<a name="inreplytothispostdsfadsfgafgfblog_mdyoufoundadeadlink.mdcommented20100518t153929.0000200"></a></h2>
+<p>I have to keep a finger on my laptops Fn key to do this. It&rsquo;s most annoying. Almost snaps my fingers.</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">thisisabore</a> commented @ 2010-05-18T15:43:02.000+02:00:<a name="inreplytothispostthisisaboreblog_mdyoufoundadeadlink.mdcommented20100518t154302.0000200"></a></h2>
+<p>RESIUB, also remembered with the nice-to-know &ldquo;Raising Skinny Elephants Is Utterly Boring&rdquo;.</p>
+<p>RESIUO will Power-Off instead of rebooting, which might sometimes also be useful.</p>
+<p>You&rsquo;d be surprised how many kiosks running Linux don&rsquo;t have this sequence disabled&hellip;</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2010-05-18T15:50:55.000+02:00:<a name="inreplytothispostanonymouscommented20100518t155055.0000200"></a></h2>
+<p>that will not work with kernels where the magic sysrq feature is not enabled</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-05-18T15:54:45.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100518t155445.0000200"></a></h2>
+<blockquote>
+<p>dsfadsfgafgf</p>
+</blockquote>
+<p>Indeed. Luckly most laptops tend to have a smaller keyboard :)</p>
+<blockquote>
+<p>thisisabore</p>
+</blockquote>
+<p>I&rsquo;ll have to try it next time I see one. There are not much of those over here, though. Most of the kiosks are Windows (it&rsquo;s fun to see the BSODs too)</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">David</a> commented @ 2010-05-18T17:40:57.000+02:00:<a name="inreplytothispostdavidcommented20100518t174057.0000200"></a></h2>
+<p>Seems to me you don&rsquo;t need the first 3. &ldquo;R&rdquo; seems nice, though.
+&ldquo;SUB&rdquo; should be enough. I didn&rsquo;t know about &ldquo;U&rdquo;. I&rsquo;ve been doing &ldquo;SSSSSSB&rdquo; for years&hellip;</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-05-18T17:51:10.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100518t175110.0000200"></a></h2>
+<blockquote>
+<p>David</p>
+</blockquote>
+<p>May be so may be not, but the look of awe when people look at you pressing a magical 18 key combo to reboot is priceless.</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Dan</a> commented @ 2010-05-18T18:21:33.000+02:00:<a name="inreplytothispostdancommented20100518t182133.0000200"></a></h2>
+<p>Why do people keep spelling fist f&ndash;king: &ldquo;fscking&rdquo;?</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">yono</a> commented @ 2010-05-24T18:53:29.000+02:00:<a name="inreplytothispostyonocommented20100524t185329.0000200"></a></h2>
+<p>that&rsquo;s because they actually mean &ldquo;fscking&rdquo; - as in the verb &ldquo;to run the fsck command&rdquo;</p>
+<p>http://linux.die.net/man/8/fsck</p>
+<p>the point of this article is to cleanly shutdown your computer when you cannot use conventional commands or menus to do so. this prevents data corruption or an inconsistent disk state, which can sometimes be fixed by running the fsck command on the disk.</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Dan</a> commented @ 2011-06-27T04:09:35.000+02:00:<a name="inreplytothispostdancommented20110627t040935.0000200"></a></h2>
+<p>&ldquo;It&rsquo;s not usual but it happens.&rdquo;</p>
+<p>Yeah, like ever f&rsquo;ing day.</p>
+<p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>

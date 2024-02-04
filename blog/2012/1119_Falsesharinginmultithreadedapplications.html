@@ -1,0 +1,56 @@
+<h1>False sharing in multi threaded applications<a name="falsesharinginmultithreadedapplications"></a></h1>
+<p>Concurrent programing is hard. Very hard. But every once in a while you can actually find a textbook problem, an application for which a parallel algorithm is not only simple but also intuitive, so clear that it would be difficult to actually do it any other way. You put on your high speed helmet and fasten your seatbelt, ready for an FTL (faster than lineal) jump.</p>
+<p>Running make &amp;&amp; make test only show lower numbers. You actually decreased the performance of your application, by making it multi-threaded! How can this be possible?</p>
+<p>While writing concurrent algorithms there are many places where you can fail, miserably. Contention is only one of them, but this is a very subtle way of failure; it will render your concurrent algorithms into a very complicated sequential algorithm, run in many cores. How can a simple concurrent algorithm turn into such a mess?</p>
+<p>In many cases, false sharing is the culprit of the lost performance. How exactly? Let&rsquo;s write a simple example for this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void lots_of_sums(unsigned idx, int v[])
+{
+    const unsigned itrs = LOTS;
+    for (int i=0; i &amp;lt; itrs; ++i)
+        v[idx].num = i;
+}
+</pre>
+<p>Imagine this function, one running in each core and v defined as a simple array. We can expect this to have a linear scalability, right? Turns out it&rsquo;s not that simple. Why? Let&rsquo;s see how v is laid out in memory:</p>
+<pre style="display: inline-block; border: 1px solid red;">+------------+&ndash;+&ndash;+&ndash;+------+-----------------+
+|Random stuff|V0|V1|V2|&hellip;|VN|More random stuff|
++------------+&ndash;+&ndash;+&ndash;+------+-----------------+
+</pre>
+<p>So, v will (most likely) be made of adjacent chunks in memory. We can also assume that sizeof(v[i]) will be 4 or 8 bytes, or something small like that. Why is that important?</p>
+<p>Remember that nowadays a CPU core is amazingly fast, so much that they make main memory look like dial up. To avoid waiting for the main memory to complete a request, several levels of cache exists. These caches know nothing about your application (well, mostly) so they can&rsquo;t know that v0 and v1 are actually different variables. Notice how this would apply if instead of a vector they were two random variables which happen to be allocated spatially close.</p>
+<p>If the CPU cache, L1 for the friends, can&rsquo;t know that v0 and v1 are separate, it will probably try to cache a whole chunk of memory. Say, maybe 64 or 128 bytes. Why should you care?</p>
+<p>Let&rsquo;s go back to our code. When you see this</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&hellip;
+    v[idx].num = i;
+&hellip;
+</pre>
+<p>you just see independent accesses to different variables. What will the cache see? Let&rsquo;s go back to our memory layout, but this time let&rsquo;s make up an offset too:</p>
+<pre style="display: inline-block; border: 1px solid red;">0xF00    0xF10  0xF14&hellip;                   0xF40
++------------+&ndash;+&ndash;+&ndash;+------+-----------------+
+|Random stuff|V0|V1|V2|&hellip;|VN|More random stuff|
++------------+&ndash;+&ndash;+&ndash;+------+-----------------+
+</pre>
+<p>So, if we assume a 64 byte cache line, then how might the CPU see a read-write process for v[0]? Something like this, probably:</p>
+<pre style="display: inline-block; border: 1px solid red;"> +---------+-------------------+----------------------------+---------------------------+
+ |  C Code |       CPU         |             L1             |        Main Memory        |
+ |---------|-------------------|----------------------------|---------------------------|
+ |         |                   |                            |                           |
+ |Read v[0]|                   |                            |                           |
+ | +------+|                   |                            |                           |
+ |       +-&gt; Hey, get me 0xF10 |                            |                           |
+ |         | +----------------+|                            |                           |
+ |         |                  +&gt; Huh&hellip; I don&#x27;t have 0xF10, |                           |
+ |         |                   | let me get that for you&hellip; |                           |
+ |         |                   |  +-----------------------+ |                           |
+ |         |                   |                          +-&gt; 0xF00&hellip; yup, here you go |
+ |         |                   |                            |                           |
+ |         |                   |  I have it now!            |                           |
+ +---------+-------------------+----------------------------+---------------------------+
+</pre>
+<p>Note an important bit there: the CPU requested 0xF10 but L1 cached the whole segment, from 0xF00 to 0xF40. Why is that? It&rsquo;s called <a href="http://en.wikipedia.org/wiki/Locality_of_reference">spatial locality or locality of reference</a> and since it&rsquo;s not the main goal of this article I&rsquo;ll just say that L1 will cache the whole segment just in case you want it.</p>
+<p>So far so good. What happens when you add more CPUs and write OPs? Remember that write OPs are cached as well.</p>
+<p>Looks pretty similar, but note an interesting thing: CPU1 will read v[0], which translates to 0xF10, whereas CPU2 will read v[1], which translates to 0xF14. Even though these are different addresses, they both correspond to 0xF00 segment, thus L1 will have actually read the same chunk of memory!</p>
+<p>The problem with this starts when a thread needs to write. Like this:</p>
+<p><img alt="" src="/blog_img/memread21.png" />
+Wow, a simple read from L1 cache now fails because it&rsquo;s been marked as dirty by an L1 from another CPU. How crazy is that? (*)</p>
+<p>Can you see now why our simple and elegant parallel algorithm has turned into a messy lineal&hellip; steaming pile of code? Each time a core tries to write to his own variable, it&rsquo;s inadvertently invalidating the variables other cores need. This is called false sharing, and we&rsquo;ll see a fix next time.</p>
+<p>(*) Disclaimer: this diagram, and the ones before, are simplifications of what actually happens. In reality there are several levels of cache, and some of those may be shared between cores, so most likely the L1 won&rsquo;t need to go to main memory. Also, even in the case where there is no shared cache between cores, there are <a href="http://en.wikipedia.org/wiki/Cache_coherence">cache coherency protocols</a> which will most likely avoid a read from main memory.</p>

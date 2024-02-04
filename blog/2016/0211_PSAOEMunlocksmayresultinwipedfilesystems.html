@@ -1,0 +1,4 @@
+<h1>PSA: OEM unlocks may result in wiped filesystems<a name="psaoemunlocksmayresultinwipedfilesystems"></a></h1>
+<p>o, I bricked my tablet. Turns out the bootloader couldn&rsquo;t mount /data: after doing an oem unlock thingy, /data gets wiped and (this is the part the manual I was following didn&rsquo;t warn me about) no filesys is created.</p>
+<p>If this happens, go back to recovery mode, then adb shell and run &lsquo;mount /data&rsquo;. This will give you an error like &ldquo;Can&rsquo;t mount /dev/block/mmcblk0p23&rdquo;. Write down the /dev/block id and run &lsquo;mke2fs -t ext4 /dev/block/mmcblk0p30&rsquo;. That should fix it.</p>
+<p>In some systems you may be missing libext2_quota.so. If this happens, just look for libext2_quota.so in the interwebs, then adb push this file into /sbin.</p>

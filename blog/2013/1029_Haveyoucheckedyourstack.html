@@ -1,0 +1,4 @@
+<h1>Have you checked your stack?<a name="haveyoucheckedyourstack"></a></h1>
+<p>While getting bitten by running out of stack space is not a common thing, it sure is painful to debug. Unless it&rsquo;s caused by a (very obvious) stack overflow you will usually just get an unrelated segmentation fault in a seemingly random place, and not much help to troubleshoot the problem.</p>
+<p>Luckily gcc seems to have an option to verify that your functions do not use an unbounded amount of stack space: just compile with the option &ldquo;-fstack-usage&rdquo; and a file .su will be generated with stack information for each function.</p>
+<p>You probably want to see only static or bounded stack usages; an unbounded stack usage might be a sign that you should be storing that object on the stack instead.</p>

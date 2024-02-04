@@ -1,0 +1,165 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2009 September<a name="postsfor2009september"></a></h1>
+<h1>Ubuntu Day<a name="ubuntuday"></a></h1>
+<p>By Nico Brailovsky @ 2009-09-28</p>
+<p>Spanish only: <a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/no_source/linux_survival_guide.pdf">GNU/Linux, Gu&iacute;a de Supervivencia</a> - Versi&oacute;n <a href="/blog/youfoundadeadlink.html">Ubuntu Day</a>
+Released under <a href="http://en.wikipedia.org/wiki/WTFPL">WTFPL</a> if you care to know. Source code to be available soon too.</p>
+<hr />
+<h1>CM WTF<a name="cmwtf"></a></h1>
+<p>By Nico Brailovsky @ 2009-09-28</p>
+<p>Seen on a cablemodem&rsquo;s configuration page:</p>
+<p>```</p>
+<form action="http:/loginData.htm" method="GET">
+```
+
+Long version: The other day, while stranded on a CLI (using ssh) I did a wget $IP, to see a modem's status web page. I'd have thought an electronic device (which, obviously, is much more difficult to upgrade than a software product, and that's difficult enough as it is) is a little bit better tested than that. I should have known better by now.
+
+
+
+---
+
+#  sed magic: a simple guide
+
+By Nico Brailovsky @ 2009-09-24
+
+
+
+The other day I had to create one of those "enum to string" functions. They really suck, always getting out of sync, so I made a script to auto-update the header file containing this function... just add a target to the makefile and you're done!
+
+Anyway, this is the part of the script I came up with to get the enum elements:
+
+```bash
+
+cat enum_definition.h | sed -n '/enum OID/,/};/ s/(.*)/1/p'
+
+```
+
+Nice voodoo, isn't it? How the hell are you supposed to understand that? Well, you're not, sed is write-only-code, but you can try reading <http://www.grymoire.com/Unix/Sed.html#toc-uh-25>, a great sed introduction.
+
+Have fun!
+
+
+
+---
+
+#  gdb: graphic (tui) mode
+
+By Nico Brailovsky @ 2009-09-22
+
+
+
+A little known fact about gdb is that you can use it in graphics mode, called TUI. Yes, you can obviously use [DDD](http://www.gnu.org/software/ddd/) or a similar front end but that's not even nearly as cool as using a console based GUI (!), is it?
+
+The easiest way is to start gdb like this:
+```
+gdb -tui
+```
+
+That will display the usual gdb console plus a code listing, similar to the code listing you get using the "list" command but shown in another window. Alternatively you can press C-X C-A (both, in that order) while in gdb to switch between TUI mode and back.
+
+Don't know enough about gdb? Read <http://beej.us/guide/bggdb/>, a great gdb intro.
+
+
+
+---
+
+#  First Ubuntu Day in Buenos Aires
+
+By Nico Brailovsky @ 2009-09-21
+
+
+
+On sat. 26 of september, this saturday, I'll be on the first [Ubuntu Day](/blog_md/youfoundadeadlink.md) in Buenos Aires. Of course, I'll be a speaker there, it's time to undust the old [GNU/Linux Survival Guide Again](https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/no_source/linux_survival_guide.pdf).
+
+See you @ Ubuntu Day :)
+
+
+
+---
+
+#  Vim Tip: Rot 13
+
+By Nico Brailovsky @ 2009-09-15
+
+
+
+Are you still puzzled by [last week's C++ question](/blog_md/2009/0910_Cincrediblyuselessstuff.md), yet you are too lazy to actually search for a Rot13 decoder OR use gcc to check if it works? Well, Vim can do the trick, just use g? to convert text to Rot13
+
+You may combine it with block selection or you can just convert the whole damn thing using "ggg?G". gg goes to the beggining, g? converts to rot13, G goes to the end.
+
+This is all very nice but I'm still trying to figure out a way to convert back from rot13 to normal text, can anyone provide a clue?
+
+
+
+---
+
+#  Console foo: Scheduling commands
+
+By Nico Brailovsky @ 2009-09-15
+
+
+
+You can easily schedule a command using "at", which recognizes a nicely formatted date string.
+
+For example:
+```bash
+$ at today 3:00 AM
+```
+
+This will open a prompt. So, for example:
+
+```bash
+$ at today 3:30 PM
+> wget foobar.com/a_huge_file
+> C-D
+```
+
+Will schedule a download of a huge file, today at 3:00 AM. Nice, isn't it?
+To check the whole list of accepted formats check the man for at.
+
+One last note: at will "remember" the current environment variables, so PWD, USER, OLD\_DIR and all that will be the same. This means if you schedule a command with a relative path it'll still work!
+
+
+
+---
+
+#  C++: incredibly useless stuff
+
+By Nico Brailovsky @ 2009-09-10
+
+
+
+Would this compile? What does it do?
+
+```c++
+<br/>int main() {
+  http://nicolasb.com.ar
+  return 0;
+}
+```
+
+Answer in rot 13: Vg jbexf. uggc: vf n ynory, // vf n pbzzrag, gur erfg bs gur yvar vf vtaberq.
+
+
+
+---
+
+#  non-vacations
+
+By Nico Brailovsky @ 2009-09-07
+
+
+
+After some sick time, lots of work, prepearing my new blog (monosinfinitos.com.ar, go check it) and several other,personal stuff regular blog updates will resume tomorrow and continue at least for a week. That's about the buffer size I've left, after that I'll have to write something new or take a longer vacation... we'll see.
+
+In the meantime, enjoy a pretty picture. [BROKENLINK]
+
+
+
+---

@@ -1,0 +1,43 @@
+<h1>Mixin(ish) classes with parameter packs in C++<a name="mixinishclasseswithparameterpacksinc"></a></h1>
+<p>For some reason I couldn&rsquo;t find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"> int dummy[sizeof&hellip;(Config)] = { (Config::apply(p), 0)&hellip; };
+</pre>
+<p>This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.</p>
+<p>Full example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct EnableFeatureA {
+  template &amp;lt;typename T&amp;gt; static void apply(T <em>a) {
+    cout &amp;lt;&amp;lt; a-&amp;gt;a() &amp;lt;&amp;lt; endl;
+  }
+};
+struct EnableFeatureB {
+  template &amp;lt;typename T&amp;gt; static void apply(T </em>a) {
+    cout &amp;lt;&amp;lt; T::b() &amp;lt;&amp;lt; endl;
+  }
+};
+template &amp;lt;typename Impl, typename&hellip; Config&amp;gt;
+struct Foo {
+  Foo(){
+    // Call apply() for each type in Config
+    Impl *p = nullptr;
+    int dummy[sizeof&hellip;(Config)] = { (Config::apply(p), 0)&hellip; };
+  }
+};
+struct Bar;
+using FwdFoo = Foo&amp;lt;Bar, EnableFeatureA, EnableFeatureB&amp;gt;;
+struct Bar : FwdFoo {
+   int a() { return 4; }
+   static int b() { return 2; }
+};
+</pre>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Balazs Benics</a> commented @ 2020-02-18T18:57:18.000+01:00:<a name="inreplytothispostbalazsbenicscommented20200218t185718.0000100"></a></h2>
+<p>Keep in mind that parameter packs can be empty, in which case the array would try to have zero elements.
+Also, some apply function might return an object which overloaded the comma operator, in which case the result of the whole expression would otherwise.</p>
+<p>I would address the mentioned issues like this:
+int dummy[1 + sizeof&hellip;(Config)] = { 0, (static_cast(Config::apply(p)), 0)&hellip; };</p>
+<p>Note that nobody can override the comma operator there.</p>
+<p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2020-02-19T13:06:50.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20200219t130650.0000100"></a></h2>
+<p>Good catch, thanks!</p>
+<p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>

@@ -1,0 +1,5 @@
+<h1>Bash tip: Default value for a variable<a name="bashtipdefaultvalueforavariable"></a></h1>
+<p>In my Bash scripts, I used to hack my way around default values for variables. Turns out there is a very simple way to give your variables a default value while also letting other override them if they want to:</p>
+<pre style="display: inline-block; border: 1px solid red;">FOO=${BAR-bar}
+</pre>
+<p>If someone export&rsquo;s BAR, then FOO will equals the already exported value of $BAR, if $BAR doesn&rsquo;t exist then FOO will have the value of the literal &lsquo;bar&rsquo;.</p>

@@ -1,0 +1,386 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2012 December<a name="postsfor2012december"></a></h1>
+<h1>Printing broken in Ubuntu? Try lpr<a name="printingbrokeninubuntutrylpr"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-27</p>
+<p>Lately I&rsquo;ve seen quite a few Ubuntu machines with broken printing (more broken than usual, that is). Sometimes printers are detected, sometimes not. When it doesn&rsquo;t work you usually get a warning saying &ldquo;Getting printer information failed&rdquo; even though the printer is connected and you can even ping it. Searching around a little bit I read a couple of threads and bug reports that make me think that it&rsquo;s actually a Gnome 3 migration problem, but I&rsquo;m not sure. It doesn&rsquo;t matter much anyway: screw UIs, just use <strong>lpr &lt; foo.pdf</strong> from a CLI and keep on killing forests!</p>
+<p>On a cheerful closing note: how funny is it that when the regular printing applet in Gnome is broken we have to use a utility by &ldquo;Apple Inc&rdquo;?</p>
+<hr />
+<h1>Setting up a Linux gateway/router<a name="settingupalinuxgatewayrouter"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-25</p>
+<p>Yes, there are a lot of guides for this, but since I need to document how I did it for my office a lot of time ago, I might as well write a post about it here.</p>
+<p>As expected, if we are going to replace a device, say, a router, we need to replace it with something that can provide the same functionality. In this case, we have chosen a Linux server, so we need to figure out which services are provided by the router and then emulate them someway:</p>
+<ul>
+<li>DHCP to manage leases</li>
+<li>DNS to translate domains to IPs</li>
+<li>NAT, to multiplex a single connection</li>
+<li>Service forwarding, to expose internal services to an external network</li>
+</ul>
+<p>Luckily Linux supports all of these:</p>
+<ul>
+<li>ISC for DHCP</li>
+<li>bind9 for DNS</li>
+<li>iptables for NAT</li>
+<li>iptables again, for service forwarding</li>
+</ul>
+<p>Let&rsquo;s set up each of these services.</p>
+<h3>Preliminary work<a name="preliminarywork"></a></h3>
+<p>Before you setup any services, you are going to need two things: first two network cards, one for the outgoing connection and another one for the (switched) LAN, and a way of telling your server that you want all traffic from network 1 forwarded to network 2. You may want to install more than two cards, in case you need to route several LANs. We&rsquo;ll see that later.</p>
+<p>You will also need an OS. I have chosen Ubuntu because it&rsquo;s very simple to install, and has all the software we need available in the repositories, but you can use any other distribution if it suits your needs.</p>
+<p>Also, throughout this guide I will assume a setup like this:</p>
+<p>* WAN access through eth0, DHCP address
+    * LAN routing in eth1, network 192.168.10.1/24</p>
+<h3>Setting up NATting and forwarding<a name="settingupnattingandforwarding"></a></h3>
+<p>Services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let&rsquo;s set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
+<p>We&rsquo;ll do this by setting up NAT with iptables. We&rsquo;ll also have to configure the OS to forward connections from one network card to the other:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">echo 1 &amp;gt; /proc/sys/net/ipv4/ip_forward
+iptables &ndash;table nat &ndash;append POSTROUTING &ndash;out-interface eth0 -j MASQUERADE
+# Add a line like this for each eth* LAN
+iptables &ndash;append FORWARD &ndash;in-interface eth1 -j ACCEPT
+</pre>
+<p>We will also need to setup the IP for eth0, since there won&rsquo;t be a DHCP server (we ARE the server!). Open /etc/network/interfaces and add something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Configure the WAN port to get IP via DHCP
+auto eth0
+iface eth0 inet dhcp
+# Configure the LAN port
+auto eth1
+iface eth1 inet static
+    address 192.168.10.1    # (Or whatever IP you want)
+    netmask 255.255.255.0   # Netmasks explanations not included
+</pre>
+<p>Once that&rsquo;s checked, restart networking services like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo /./etc/init.d/networking restart
+</pre>
+<p>Everything ready, now just plug your PC to the new router and test it. Remember to manually set your IP in the same network range as your router, since there&rsquo;s no DHCP at the moment. This may be useful to debug a problem.</p>
+<p>In your client PC, set your IP address:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ifconfig eth0 192.168.10.10
+</pre>
+<p>Test if you IP is set:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ping 192.168.10.10
+</pre>
+<p>If you get a reply, your new IP is OK, if not there&rsquo;s a problem with your client. Second step, see if you can reach the router:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ping 192.168.10.1
+</pre>
+<p>Note that you may need to renew everything (i.e. restart networking and manually assign your IP) after you connect the cable.</p>
+<p>Again, if you get a reply then you have connectivity with the router. So far we haven&rsquo;t tested the iptables rules nor the forwarding, so any issue at this point should be of IP configuration. If everything went well, it&rsquo;s time to test the NAT rules and the forwarding.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ping 192.168.1.1
+</pre>
+<p>That should give you an error. Of course, since there&rsquo;s no DHCP there&rsquo;s no route set. Let&rsquo;s manually set a route in the client:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo route add default gateway 192.168.10.1
+</pre>
+<p>Then again:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ping 192.168.0.1
+</pre>
+<p>Magic! It works! If it doesn&rsquo;t, you have a problem either in the NAT configuration or the IP Forwarding of the router. You can check this with wireshark, if the pings reach the server but they never get a reply back then it&rsquo;s the NAT, i.e. it can forward the IP packages on eth1 to eth0 but the router has no NAT, and it doesn&rsquo;t know how to route the answer back. If the pings never even reach eth0, then you have an ip forwarding problem.</p>
+<p>We can try something more complex now, like pinging a domain instead of an IP. Something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ping google.com
+</pre>
+<p>You should get a message saying the host is unknown. Can you guess why? Right, there&rsquo;s no DNS. Let&rsquo;s install one, but first we have to make these changes permanent.</p>
+<h3>Persisting the forwarding rules<a name="persistingtheforwardingrules"></a></h3>
+<p>In order to have the forwarding rules persisting after a reboot, we need first to change /etc/sysctl.conf to allow IP forwarding. It&rsquo;s just a mater of uncommenting this line:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">net.ipv4.ip_forward = 1
+</pre>
+<p>We will also have a lot of iptables rules we need to setup during boot time. I have created a script at /home/router/set_forwarding.sh, which I also linked into /etc/init.d/rc.local so it&rsquo;s run whenever the system boots.</p>
+<h3>Setting up DNS<a name="settingupdns"></a></h3>
+<p>DNS will be necessary to resolve domains to IPs. bind9 is the default option for Debian based servers (are there others? no idea).</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install bind9
+</pre>
+<p>This will get your DNS server up and running, but you will still need to add this server manually to your client (again, because there&rsquo;s no DHCP running):</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo echo &quot;nameserver 192.168.10.1&quot; &amp;gt; /etc/resolv.conf
+</pre>
+<p>And now:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ping google.com
+</pre>
+<p>Magic again, it (may) work. If it doesn&rsquo;t, you may need to open /etc/bind/named.conf and setup your router (192.168.0.1) as a forwarder, then restart the bind server.</p>
+<h3>Setting up a custom TLD in your DNS<a name="settingupacustomtldinyourdns"></a></h3>
+<p>Now we have a DNS running, so we can set up local zones for the LAN. For example, if you want your router to have a nice user friendly name, instead of just an IP.</p>
+<p>Let&rsquo;s start by adding a local zone to /etc/bind/named.conf.local, for a domain we&rsquo;ll call &ldquo;boc&rdquo;:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">zone &quot;boc&quot; {
+        type master;
+        file &quot;/home/router/named/boc.db&quot;;
+};
+</pre>
+<p>Now we need to add a reverse zone:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">zone &quot;10.168.192.in-addr.arpa&quot; {
+    type master;
+        file &quot;/home/router/named/rev.10.168.192.in-addr.arpa&quot;;
+};
+</pre>
+<p>We still need to create both files (boc.db and rev.10.168.192.in-addr.arpa), but will do that later. Lastly, a place to log all the DNS queries (if you want):</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">logging {
+    channel query.log {
+        file &quot;/home/router/named/dns.log&quot;;
+        severity debug 3;
+    };
+    category queries { query.log; };
+};
+</pre>
+<p>For the log entry I have chosen /home/router/named as the log directory, just because for this project I&rsquo;m keeping everything together (config and logs) so it&rsquo;s easy for people not used to administer a Linux box, but of course this means that apparmor must be configured to allow reads and writes for bind in this directory. We&rsquo;ll get to that in a second, first let&rsquo;s create the needed zone files for our new TLD.</p>
+<p>Remember our two zone files? I put them on /home/router/named, but usually they are on /etc/bind. Again, I did this so I can have all the config files together. These are my two files:</p>
+<p>For boc.db:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">boc.      IN      SOA     ns1.boc. admin.boc. (
+                                                        2006081401
+                                                        28800
+                                                        3600
+                                                        604800
+                                                        38400
+ )
+boc.      IN      NS              ns1.boc.
+wiki             IN      A       192.168.0.66
+ns1              IN      A       192.168.0.1
+router           IN      A       192.168.0.1
+</pre>
+<p>For rev.10.168.192.in-addr.arpa</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">@ IN SOA ns1.boc. admin.example.com. (
+                        2006081401;
+                        28800;
+                        604800;
+                        604800;
+                        86400
+)
+                     IN    NS     ns1.boc.
+1                    IN    PTR    boc
+</pre>
+<p>Most of these lines are black magic, and since an explanation of both DNS and Bind is out of scope let&rsquo;s just say you can add new DNS entries by adding lines like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">NICE_NAME           IN      A       REAL_IP
+</pre>
+<p>This will make bind translate NICE_NAME.boc to REAL_IP. Of course, this will depend on the TLD you defined. Now restart bind to get a fuckton of errors. It will complain about not being able to load a master file in /home/router/named. Remember that apparmor thing I mentioned?</p>
+<h3>Setting up apparmor to allow new directories<a name="settingupapparmortoallownewdirectories"></a></h3>
+<p>Apparmor is a service that runs in the background, checking what other binaries can and can&rsquo;t do. For example, it will allow bind9 to open a listening socket on port 53 (DNS), but it will deny an attempt to open a listening socket on port 64. This is a security meassure to limit the damage a compromised bind9 binary running as root might do. And since we are going to use a non standard configuration, we need to tell apparmor that it&rsquo;s OK.</p>
+<p>After installing bind9 we should get a new file in /etc/apparmor.d/usr.sbin.named. Add the following lines at the bottom:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">  /home/router/named/** rw,
+  /home/router/named/ rw,
+</pre>
+<p>And restart apparmor service:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">/./etc/init.d/apparmor restart
+</pre>
+<p>Since we were modifying apparmor to allow a non-standard bind installation, now restart bind too. This time it will start without any errors, and you should be able to tail -f /home/router/named/dns.log to see the DNS queries on real time. If it doesn&rsquo;t, check that /home/router/named is writable to the bind user (I did a chgrp -R bind named).</p>
+<h3>Setting up DHCP<a name="settingupdhcp"></a></h3>
+<p>We have DNS and NAT so far, but the client configuration so far has been absolutely manual. We can&rsquo;t have many clients with this sort of setup, so let&rsquo;s automate the client config with a DHCP server. Begin by installing isc-dhcp-server.</p>
+<p>Edit /etc/dhcp/dhcpd.conf, set the domain-name and the domain-name-servers, like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">option domain-name &quot;boc&quot;;
+option domain-name-servers ns1.boc, ns2.boc;
+default-lease-time 86400;
+max-lease-time 172800;
+authoritative;
+</pre>
+<p>I&rsquo;m not sure if the first line is needed. The other two will set the DNS servers for your clients. In my case, ns1 and ns2 resolve to 192.168.10.1 and 192.168.0.1 respectively. Also, increasing your lease time is recommended, I used one day for default leases. I set this DHCP server as the authoritative server. If this is your router, that&rsquo;s probably what you want.</p>
+<p>Now we need to define the network topology:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"># This is the WAN network, and we won&amp;#x27;t provide a service here
+subnet 192.168.0.0 netmask 255.255.255.0 {
+}
+# Define the service we provide for the LAN
+subnet 192.168.10.1 netmask 255.255.255.0 {
+    range 192.168.10.100 192.168.10.200;
+    option routers 192.168.10.1;
+}
+</pre>
+<p>Now we need to restart ISC:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo /./etc/init.d/isc-dhcp-server restart
+</pre>
+<p>And now we need to check if everything worked in the client. It&rsquo;s easy this time, we just ask for an IP:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo dhclient
+ifconfig
+</pre>
+<p>If everything went fine, we should now have an IP in the 100-200 range, as well as the DNS server in /etc/resolv.conf. We have now setup a very basic router and should be able to server several clients for basic browsing capabilities.</p>
+<h3>Moving DHCP config files<a name="movingdhcpconfigfiles"></a></h3>
+<p>Since I want to keep everything together for easy administration, I will move the configuration files for DHCP to /home/router/dhcp. Changing the dhcpd.conf file itself is easy, just move the subnets declarations and add this line:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">include &quot;/home/router/dhcp/subnets.conf&quot;;
+include &quot;/home/router/dhcp/static_hosts.conf&quot;;
+</pre>
+<p>Like we did with bind, we need to configure apparmor. vim /etc/apparmor.d/usr.sbin.dhcpd and add this two lines:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">/home/router/dhcp/ rw,
+/home/router/dhcp/** rw,
+</pre>
+<p>Restart apparmor service, then restart dhcpd. Everything should work just fine.</p>
+<h3>Setting up port forwardings<a name="settingupportforwardings"></a></h3>
+<p>In any LAN you&rsquo;ll probably want to expose some services to the outer world, be it for a bittorrent connection or because you have internal servers you need to access from outside your internal LAN. To do this, you&rsquo;ll have to tell your router to forward some external port to an internal one, like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">iptables -t nat -A PREROUTING -i eth0 -p tcp
+    &ndash;dport PORT -j DNAT &ndash;to INTERNAL_IP:INTERNAL_PORT
+# This rule may not be needed, depending on other chain confings
+iptables -A INPUT -i eth0 -p tcp -m state &ndash;state NEW
+    &ndash;dport PORT -j DNAT &ndash;to INTERNAL_IP:INTERNAL_PORT
+</pre>
+<p>This is enough to expose a private server to the world, but it will not be very useful when your dynamic IP changes. You need to set INTERNAL_IP to be a static IP.</p>
+<h3>Setting up static IPs<a name="settingupstaticips"></a></h3>
+<p>Remember the static_hosts file we created before? We can use that to define a static IP. Add the following to set a static IP host:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">host HostName {
+    hardware ethernet 00:00:00:00:00:00
+    fixed-address 192.168.10.50;
+}
+</pre>
+<p>After that, just restart the DHCP service and renew your client&rsquo;s IP. Done, it&rsquo;s static now!</p>
+<p>Wait a minute: how do you find the MAC for your host? I&rsquo;m to lazy to copy and type it, so I did the following:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"># cd /home/router/dhcp
+# ln -s /var/lib/dhcp leases
+</pre>
+<p>Then you can check the hardware address in the leases/dhcpd.leases file. I created a symlink to keep this directory at hand, since it gives you a status of the current leases.</p>
+<h3>Warm restart for the router and easy administration<a name="warmrestartfortherouterandeasyadministration"></a></h3>
+<p>We have quite a few configuration files now, with different settings for iptables, the DHCP and the DNS. If we are aiming for an easy to administer setup, we should add a restart script like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
+./set_forwarding.sh
+/./etc/init.d/bind9 restart
+/./etc/init.d/isc-dhcp/server restart
+</pre>
+<p>Now anyone who changes a config file can run this script to have their new rule applied.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Abby Rhozabel</a> commented @ 2016-04-17T19:39:23.000+02:00:<a name="inreplytothispostabbyrhozabelcommented20160417t193923.0000200"></a></h2>
+<p>Ten computers has a public ip address How will you get internet connection on ten public computers using private ip address and linux box as its router.</p>
+<p>Original <a href="/blog/2012/1225_SettingupaLinuxgatewayrouter.html">published here</a>.</p>
+<hr />
+<h1>Non standard UML: decomposing inheritance in sequence diagrams<a name="nonstandardumldecomposinginheritanceinsequencediagrams"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-20</p>
+<p>TL;DR: In sequence diagrams, separating an object into (some of) its parent classes improves readibility, at the cost of a not so accurate structure description.</p>
+<p>A sequence diagram is supposed to display interactions between objects, making enphasis on its sequentiality. The important part here is &ldquo;between objects&rdquo;; as far as I know, the standard states that you should display interaction between entities, or the interaction of an entity with itself through a public interface.</p>
+<p>Usually this works just fine, since a sequence diagram provides a way of understanding a program through the interaction of its entities, however I found that sometimes you need to express the interaction of an object with his own public interface with a little bit more of detail, namely when there&rsquo;s inheritance involved.</p>
+<p>When there&rsquo;s an extension relationship between two objects, and a dependency (i.e. a call) in methods of this two classes, the code for each method usually &ldquo;lives&rdquo; far appart, most usually in two different files. Portraying these two methods as a reflexive call is sintactically accurate for a sequence diagram, but I found it very poor semantically. Representing this dependency as a call between two different objects might not be a sintactically correct representation, as you are treating a single entity as two different objects, but I have found it results in much clearer and cleaner diagrams.</p>
+<p>Of course spliting an entity into multiple objects has the disadvantage of inducing the reader to believe these are indeed different objects, but since the purpose of a sequence diagram is not to display a static structure I believe this is an acceptable tradeoff, one that can be diminished by just using a note and a reference to a class diagram, where the accurate structure of the classes can be displayed.</p>
+<hr />
+<h1>Using masqd for custom subdomains<a name="usingmasqdforcustomsubdomains"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-18</p>
+<p>Some time ago I had to work on a project with many, and dynamic, subdomains. Things like sub1.domain, sub2.domain, subN.domain. It turns out /etc/hosts doesn&rsquo;t support wildcards. That sucks, but its understandable, that&rsquo;s not why the hosts file is there; that&rsquo;s the reason we have DNS, isn&rsquo;t it?</p>
+<p>Of course installing a DNS server just to resolve a couple of subdomains is much too work for lazy people like me, so it&rsquo;s time to install dnsmasq instead. dnsmasq is a DNS and DHCP proxy, and has a ton of configuration options I don&rsquo;t even know about. If you really want to learn how to use masqd you should read its manpage, if you just want to solve your DNS issues just add &ldquo;address=/.DOMAIN/IP&rdquo; to your /etc/dnsmasq.conf (notice the . before the domain. That&rsquo;s the wildcard).</p>
+<hr />
+<h1>CLI music FTW!<a name="climusicftw"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-13</p>
+<p>Does your music collection suck? Did you have to delete all your mp3 because you were facing a major lawsuit by the MPAA? Make your own console-music! Just open a terminal and type this for hours of endless fun:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">cat /dev/urandom | aplay
+</pre>
+<p>Aditional tip: if you ever get tired of the random static, you can have fun playing your boot images like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">cat /boot/initrd.img-3.0.0-12-generic | aplay
+</pre>
+<p>I wonder if that has copyrights....</p>
+<hr />
+<h1>Checking connectivity for port forwardings<a name="checkingconnectivityforportforwardings"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-11</p>
+<p>This is a little bit outside of what I normally post, but when I find such a terribly useful site I need to share it (so I won&rsquo;t forget next time I need it).</p>
+<p>Have you ever had to set up a forwarding to expose a LAN service to the outside world? It kind of sucks not knowing if you set up everything correctly, and it&rsquo;s not easy to test, since you can only test if the service is working inside your LAN. Normally you would need to either bounce on a proxy outside, or ask a friend to nmap you. Alternatively, you can use <a href="http://canyouseeme.org/">canyouseeme.org</a>, a website that will probe a specific port on the IP you specify, and tell you if it times out or if it&rsquo;s open.</p>
+<p>A great time saver.</p>
+<hr />
+<h1>g++ has a (mean) personaility<a name="ghasameanpersonaility"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-06</p>
+<p>Did you ever get a message like &ldquo;undefined reference to `__gxx_personality_v0&rsquo;&ldquo;? It means you are trying to link c++ code with a c linker, just change gcc with g++. But what is gxx_personality?</p>
+<p>Basically, gxx_personality is a global pointer used for stack unwinding. You could make your code compile (assuming you don&rsquo;t have other problems with vtables and such) by defining it as a NULL ptr, and everything should work until an exception is thrown.</p>
+<hr />
+<h1>Tailing Google app engine&#39;s logs on realtime<a name="tailinggoogleappengine39slogsonrealtime"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-05</p>
+<p>Knowing in real time when an error occurs on your GAE app is not as easy as it sounds. You can create a custom error handler and then mail you the exception log, but you have to develop that yourself (and if you do it wrong you may end up slowing down the whole app&hellip; yes, I know it first hand). You can also keep the GAE log page open and set your browser to refresh it every X seconds, but that&rsquo;s quite cumbersome.</p>
+<p>So, seeing there are a bunch of acceptable but not quite nice solutions out there, I decided to add yet another &ldquo;solution&rdquo; that works, but looks ugly. This script will probably break in a few months, or whenever any part of the auth protocol Google uses changes (since I think very little of it is supposed to be public) but until then you can use it to tail GAE&rsquo;s logs on real time.</p>
+<p>Note it will work polling a logs webservice @ Google (just like appcfg does); if you set the frequency too high you may see your daily cost increasing but if you set it too low then the script will only get the last error between intervals (so you might miss errors in between). If too many errors go undetected, though, your problem is likely a too-high error rate and not a low update frequency.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/usr/bin/python
+# Configure your account here
+GOOGLE_AUTH = (&#x27;foobar@gmail.com&#x27;, &#x27;gmailpass&#x27;)
+# The app version should be in your GAE control panel (Main&amp;gt; Version)
+APP_VERSION = &quot;Your_App_version&quot;
+# Your app ID (You can see the ID in the &quot;Application&quot; list on every GAE
+# control panel page)
+APP_ID = &quot;your app id&quot;
+# Frequency of updates; if it&#x27;s too often, you might get a noticeable increase
+# in your cost per day, if it&#x27;s too sparse you might loose an error in between
+# updates (though this probably means your error rate is too high)
+UPDATE_FREQ_SECS = 60
+import time
+from datetime import datetime
+import urllib2, urllib
+from httplib2 import Http
+class Google_Authenticator(object):
+    # We use this to keep urllib2 from following redirs
+    class _RedirectHandler(urllib2.HTTPRedirectHandler):
+        def handler(self, req, fp, code, msg, headers):
+            infourl = urllib.addinfourl(fp, headers, req.get_full_url())
+            infourl.status = code
+            infourl.code = code
+            return infourl
+        http_error_301 = handler
+        http_error_302 = handler
+    opener = urllib2.build_opener(_RedirectHandler)
+    urllib2.install_opener(opener)
+    def <strong>init</strong>(self, email, passwd):
+        self.auth = self.<strong>class</strong>._get_auth_token(email, passwd)
+        self.cookie = self.<strong>class</strong>._convert_auth_cookie(self.auth)
+    @classmethod
+    def _get_auth_token(cls, email, passwd):
+        GOOG_LOGIN_URL = &quot;https://www.google.com/accounts/ClientLogin&quot;
+        data = {
+                &#x27;Email&#x27;: email,
+                &#x27;Passwd&#x27;: passwd,
+                &#x27;source&#x27;: &#x27;Google-appcfg-1.7.2&#x27;,
+                &#x27;accountType&#x27;: &#x27;HOSTED_OR_GOOGLE&#x27;,
+                &#x27;service&#x27;: &#x27;ah&#x27;,
+            }
+        try :
+            post_data = urllib.urlencode(data)
+            res = urllib2.urlopen(GOOG_LOGIN_URL, post_data)
+        except Exception:
+            return None
+        for ln in res.readlines():
+            if ln.startswith(&#x27;Auth=&#x27;):
+                pos = len(&#x27;Auth=&#x27;)
+                return ln[pos:].strip()
+        return None
+    @classmethod
+    def _convert_auth_cookie(cls, auth):
+        GOOG_COOKIE_URL = &quot;https://appengine.google.com/_ah/login?&quot;\
+                          &quot;continue={0}&amp;amp;auth={1}&quot;
+        redir = &#x27;http%3A%2F%2Flocalhost%2F&#x27; # Anywhere (that&#x27;s listening)&hellip;
+        url = GOOG_COOKIE_URL.format(redir, auth)
+        try:
+            res = urllib2.urlopen(url)
+            cookie = res.headers[&#x27;set-cookie&#x27;]
+        except Exception:
+            return None
+        pos = cookie.find(&#x27; &#x27;) - 1
+        return cookie[:pos]
+class GAE_Logs_Fetcher(object):
+    GAE_LOGS_URL = &quot;https://appengine.google.com/api/request_logs?&quot; \
+                   &quot;include_vhost=False&amp;amp;version={0}&amp;amp;limit={1}&amp;amp;&quot;\
+                   &quot;severity={2}&amp;amp;app_id={3}&quot;
+    DEBUG=0
+    ERROR=3
+    CRITICAL=4
+    def <strong>init</strong>(self, auth_cookie, app_id, app_version, limit, severity):
+        self.url = self.<strong>class</strong>.GAE_LOGS_URL.\
+                        format(app_version, limit, severity, app_id)
+        self.opener = urllib2.build_opener()
+        self.opener.addheaders = [(&#x27;cookie&#x27;, auth_cookie),
+                                  (&#x27;X-appcfg-api-version&#x27;, 1)]
+    def fetch(self):
+        res = self.opener.open(self.url)
+        msg = &quot;&quot;
+        for ln in res.readlines():
+            if not ln.startswith(&#x27;# next_offset=&#x27;):
+                msg += ln
+        return msg
+    def watch(self, freq, callback):
+        try:
+            last_msg = self.fetch()
+            while True:
+                time.sleep(freq)
+                msg = self.fetch()
+                if msg != last_msg:
+                    last_msg = msg
+                    callback(msg)
+        except KeyboardInterrupt:
+            pass
+def main():
+    def printmsg(msg):
+        print msg
+    auth = Google_Authenticator(*GOOGLE_AUTH)
+    logs_fetcher = GAE_Logs_Fetcher(auth.cookie, app_version=APP_VERSION,
+                                    limit=1, severity=GAE_Logs_Fetcher.ERROR, app_id=APP_ID)
+    print &quot;Auth OK, starting watch on {0} error log&quot;.format(APP_ID)
+    logs_fetcher.watch(UPDATE_FREQ_SECS, printmsg)
+if <strong>name</strong> == &#x27;<strong>main</strong>&#x27;:
+    main()
+</pre>
+<hr />
+<h1>Boot Linux in single user mode<a name="bootlinuxinsingleusermode"></a></h1>
+<p>By Nico Brailovsky @ 2012-12-04</p>
+<p>Sooner or later, you&rsquo;ll need a safe boot mode for Linux. Maybe you forgot your password, maybe you need to recover some files of a really really broken system (shame on you for not using a different partition for /home). Luckily in any Linux server you can probably interrupt Lilo or Grub and add to the kernel line the following parameter init=&rdquo;/bin/sh&rdquo;. This will give you a root command shell from which you can do other fun recovery tasks.</p>
+<p>Admin tip: Just don&rsquo;t forget to fill up on coffee before starting.</p>
+<hr />

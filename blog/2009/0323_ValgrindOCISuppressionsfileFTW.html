@@ -1,0 +1,234 @@
+<h1>Valgrind - OCI: Suppressions file FTW!<a name="valgrindocisuppressionsfileftw"></a></h1>
+<p><strong>Update:</strong> <a href="/blog/2010/0219_ValgrindOCISuppressionsfileTakeII.html">There&rsquo;s a new Valgrind suppressions file @ this link.</a></p>
+<p>Working [1] on a C++ project with Oracle I found that Valgrind reported lots of warnings related to OCI, for which, regardless of being false positives [2] or not, there&rsquo;s little I can do about (other than migrating to MySQL, that is). As the error report kept growing I found that Valgrind will refuse to keep track of new errors after a million or so:</p>
+<blockquote>
+<p>More than 1000000 errors detected. I&rsquo;m not reporting any more. Final error counts may be inaccurate. Go fix your program!</p>
+</blockquote>
+<p>The solution in this case is a <a href="http://valgrind.org/docs/manual/manual-core.html#manual-core.suppress">suppresions file</a> for Valgrind. After spending a good deal of time unsuccsesfuly trying to get one I had to do it myself and upload it for the next one to run into this problem:</p>
+<p>Link to the file: <a href="/brokenlink/2009/03/valgrind_suppressions">Valgrind / OCI suppressions</a>.</p>
+<ul>
+<li>Working at <a href="http://www.intraway.com/">Intraway</a> :)</li>
+<li>False positives are quite likely when compiling with -O2. See <a href="/blog/2009/0302_ValgrindFTW.html">Valgrind FTW.</a></li>
+</ul>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Mattias</a> commented @ 2009-04-02T08:17:41.000+02:00:<a name="inreplytothispostmattiascommented20090402t081741.0000200"></a></h2>
+<p>Great work, just what I&rsquo;m looking for - but where is the file? (the link seems broken)</p>
+<p>Original <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2009-04-03T12:06:30.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20090403t120630.0000200"></a></h2>
+<p>Should have been a temporary glitch, anyway this is the file:</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:slpmloclfv
+ fun:slpmloc
+ fun:lpmloadpkg
+ fun:lfvLoadPkg
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Value4
+ fun:ztced_einit
+ fun:ztcedgks
+ fun:ztcedi
+ fun:ztcebi
+ fun:ztcei
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Value4
+ fun:ztcedecb
+ fun:ztcedencbk
+ fun:ztceb_encblk
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:CMP_Compare
+ fun:CMP_ModularReduce
+ fun:Alg_ComputeModQ_GHash
+ fun:A_X931RandomGenerateBytes
+ fun:ztcr2rnd
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:CMP_BitLengthOfCMPInt
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:CMP_CMPIntToOctetString
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:CMP_OctetStringToCMPInt
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:CMP_SubtractInPlace
+ fun:CMP_ModularReduce
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:ztvo5ke
+ fun:kpu8lgn
+ fun:kpuauthxa
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Value4
+ fun:ztceaencbk
+ fun:ztceb_encblk
+ fun:ztcebn
+ fun:ztcen
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Value4
+ fun:ztceaencbk
+ fun:ztceb_encblk
+ fun:ztceb_padding
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:kzsrepw
+ fun:kpu8lgn
+ fun:kpuauthxa
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Value4
+ fun:ztceai
+ fun:ztcebi
+ fun:ztcei
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Value4
+ fun:ztucbtx
+ fun:ztvo5pe
+ fun:kzsrepw
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Value4
+ fun:ztceadecbk
+ fun:ztceb_decblk
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:ztceb_unpadding
+ fun:ztcebf
+ fun:ztcef
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:nassky
+ fun:nszssk
+ fun:nszssk2
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Cond
+ fun:_intel_fast_memcmp
+ obj:*
+}</p>
+<p>{
+ OCI suppression
+ Memcheck:Overlap
+ fun:_intel_fast_memcpy
+ fun:kpufprow
+ fun:kpufch0
+ fun:kpufch
+}</p>
+<p>Original <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Mattias</a> commented @ 2009-04-03T20:57:40.000+02:00:<a name="inreplytothispostmattiascommented20090403t205740.0000200"></a></h2>
+<p>Thanks! Since I use x86_64 I had to switch all the &lsquo;Value4&rsquo; to &lsquo;Value8&rsquo;, and I also had to add a few extra suppressions (below), but after that it worked just perfectly. Nice to be able to get 0 errors for all our oracle tests &hellip;</p>
+<p>{
+ OCI suppression - Mattias
+ Memcheck:Cond
+ fun:ztcedec
+ fun:ztvo5ed
+ fun:ztvo5ver
+ fun:kpu8lgn
+}</p>
+<p>{
+ OCI suppression - Mattias
+ Memcheck:Cond
+ fun:ztcebf
+ fun:ztcef
+ fun:ztcedec
+ fun:ztvo5ed
+}</p>
+<p>{
+ OCI auppression - Mattias
+ Memcheck:Value8
+ fun:ztceadecbk
+ fun:ztcebn
+ fun:ztcen
+ fun:ztcedec
+}</p>
+<p>{
+ OCI suppression - Mattias
+ Memcheck:Value8
+ fun:ztceaencbk
+ fun:ztcebn
+ fun:ztcen
+ fun:ztvo5pe
+}</p>
+<p>{
+ OCI suppression - Mattias
+ Memcheck:Value8
+ fun:ztceaencbk
+ fun:ztcebn
+ fun:ztcen
+ fun:ztceenc
+}</p>
+<p>{
+ OCI suppression - Mattias
+ Memcheck:Value8
+ fun:ztcedecb
+ fun:ztcedencbk
+ fun:ztcebn
+ fun:ztcen
+}</p>
+<p>{
+ OCI suppression - Mattias
+ Memcheck:Cond
+ fun:CMP_ShiftRightByBits
+ fun:CMP_ModularReduce
+ fun:Alg_ComputeModQ_GHash
+ fun:A_X931RandomGenerateBytes
+}</p>
+<p>{
+ OCI suppression - Mattias
+ Memcheck:Param
+ write(buf)
+ fun:__write_nocancel
+ fun:snttwrite
+ fun:nttwr
+ fun:nsntwrn
+ fun:nspsend
+}</p>
+<p>{
+ OCI suppression - Mattias
+ Memcheck:Overlap
+ fun:_vgrZU_NONE__intel_fast_memcpy
+ fun:kpufprow
+ fun:kpufch0
+ fun:kpufch
+ fun:OCIStmtFetch2
+}</p>
+<p>Original <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="blog_md/2010/0219_ValgrindOCISuppressionsfileTakeII.md">Nicol&aacute;s Brailovsky » Blog Archive » Valgrind – OCI: Suppressions file, Take II</a> commented @ 2010-02-19T11:14:33.000+01:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivevalgrindocisuppressionsfiletakeiiblog_md20100219_valgrindocisuppressionsfiletakeii.mdcommented20100219t111433.0000100"></a></h2>
+<p>[&hellip;] my OCI suppressions file? Well, since then I have updated it. Now it includes some more suppressions, for libnetsnmp, [&hellip;]</p>
+<p>Original <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">published here</a>.</p>

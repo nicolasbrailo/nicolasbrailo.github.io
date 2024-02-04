@@ -1,0 +1,32 @@
+<h1>POD types in C++<a name="podtypesinc"></a></h1>
+<p>Let&rsquo;s say you have something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">typedef int A;
+void x(A);
+struct B {
+   int b;
+   B(int b) : b(b) {}
+   virtual void x() = 0;
+};
+</pre>
+<p>Regardless of what does function x do, what&rsquo;s the difference between A and B? Without getting too picky and leaving semantics aside, we may say there is no difference in behaviour. There&rsquo;s however a small gotcha there, which is completely irrelevant for C++ code but can bite you in the ass when interfacing C and C++. Would this work?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">{
+   A a; B b;
+   // Case 1
+   A <em>p = malloc(sizeof(A));
+   memcpy(p, &amp;amp;a, sizeof(A));
+   // Case 2
+   B </em>p = malloc(sizeof(B));
+   memcpy(p, &amp;amp;b, sizeof(B));
+}
+</pre>
+<p>The answer is perhaps. In most cases it would work, in some cases it won&rsquo;t. C++ uses a vtable to dispatch virtual methods, so if I were to perform a memcpy of an object, then store it on disk and retrieve it afterwards I don&rsquo;t have any guarantees the vtable will still be valid. And that&rsquo;s leaving aside the case of objects having dynamically allocated memory themselves.</p>
+<p>Wrapping up, the difference between A and B is simple: A is a POD (Plain Old Datatype, POJO for you Java guys) type, B is not. There are some other things non-POD objects can&rsquo;t do, for example this is invalid:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">   B b;
+   printf(&quot;%i&quot;, b);
+</pre>
+<p>Not only it&rsquo;s invalid: g++ emits a warning and then crashes on runtime (this is related to the use of vargs in functions with &ldquo;&hellip;&rdquo; params, but it&rsquo;s not important now).</p>
+<p>Knowing what a POD object is, what would you do now if you had to persist (serialize) an std::string-like object? That&rsquo;s a topic for the next post.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">Nicol&aacute;s Brailovsky » Blog Archive » Cool C++0X features III: Variadic templates, a fix for varargs</a> commented @ 2011-04-26T09:05:06.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivecoolc0xfeaturesiiivariadictemplatesafixforvarargsblog_md20110426_coolc0xfeaturesiiivariadictemplatesafixforvarargs.mdcommented20110426t090506.0000200"></a></h2>
+<p>[&hellip;] POD types support [&hellip;]</p>
+<p>Original <a href="/blog/2010/0407_PODtypesinC.html">published here</a>.</p>

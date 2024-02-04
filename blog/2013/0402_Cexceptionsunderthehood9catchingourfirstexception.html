@@ -1,0 +1,59 @@
+<h1>C++ exceptions under the hood 9: catching our first exception<a name="cexceptionsunderthehood9catchingourfirstexception"></a></h1>
+<p>We finished last chapter on the series about C++ exceptions by adding a personality function that _Unwind_ was able to call and then analyzing the parameters that the personality function receives. Now it&rsquo;s time to begin adding some real behavior to __gxx_personality_v0: when __gxx_personality_v0 is called we should say &ldquo;yes, this stack frame can indeed handle this exception&rdquo;.</p>
+<p>We have been building up to this point quite a bit: the time where we can implement for the first time a personality function capable of detecting when an exception is thrown, and then saying &ldquo;yes, I will handle this exception&rdquo;. For that we had to learn how the two-phase lookup work, so we can now reimplement our personality function and our throw test file:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;stdio.h&amp;gt;
+#include &quot;throw.h&quot;
+struct Fake_Exception {};
+void raise() {
+    throw Exception();
+}
+void try_but_dont_catch() {
+    try {
+        raise();
+    } catch(Fake_Exception&amp;amp;) {
+        printf(&quot;Caught a Fake_Exception!\n&quot;);
+    }
+    printf(&quot;try_but_dont_catch handled the exception\n&quot;);
+}
+void catchit() {
+    try {
+        try_but_dont_catch();
+    } catch(Exception&amp;amp;) {
+        printf(&quot;Caught an Exception!\n&quot;);
+    }
+    printf(&quot;catchit handled the exception\n&quot;);
+}
+extern &quot;C&quot; {
+    void seppuku() {
+        catchit();
+    }
+}
+</pre>
+<p>And our personality function:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Unwind_Reason_Code __gxx_personality_v0 (
+                     int version, _Unwind_Action actions, uint64_t exceptionClass,
+                     _Unwind_Exception<em> unwind_exception, _Unwind_Context</em> context)
+{
+    if (actions &amp;amp; _UA_SEARCH_PHASE)
+    {
+        printf(&quot;Personality function, lookup phase\n&quot;);
+        return _URC_HANDLER_FOUND;
+    } else if (actions &amp;amp; _UA_CLEANUP_PHASE) {
+        printf(&quot;Personality function, cleanup\n&quot;);
+        return _URC_INSTALL_CONTEXT;
+    } else {
+        printf(&quot;Personality function, error\n&quot;);
+        return _URC_FATAL_PHASE1_ERROR;
+    }
+}
+</pre>
+<p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v03">in my github repo</a>.</p>
+<p>Let&rsquo;s run it, see what happens:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">alloc ex 1
+__cxa_throw called
+Personality function, lookup phase
+Personality function, cleanup
+try_but_dont_catch handled the exception
+catchit handled the exception
+</pre>
+<p>It works, but something is missing: the catch inside the catch/try block is not being executed! This is happening because the personality function tells Unwind to &ldquo;install a context&rdquo; (ie to resume execution) but it never says which context. In this case it&rsquo;s probably resuming executing from after the landing pad, but I&rsquo;d bet this is actually undefined behavior. We&rsquo;ll see next time how we can specify we want to resume executing from a specific landing pad using the information available on .gcc_except_table (our old friend, the LSDA).</p>

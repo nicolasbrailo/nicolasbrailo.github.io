@@ -1,0 +1,27 @@
+<h1>LaTeX: including documents<a name="latexincludingdocuments"></a></h1>
+<p>This is a post from my LaTeX series - <a href="/search/label/LaTeX">check the others too</a>!</p>
+<p>So far we&rsquo;ve seen some of LaTeX advantages, and a few basic commands to get you started. Let&rsquo;s see a trick to be more proficient with it:</p>
+<h3>Including other tex files<a name="includingothertexfiles"></a></h3>
+<p>You should be able to write some simple documents now, some in LyX, some in LaTeX, but you&rsquo;ll soon start to notice that using a single text file to create a large document becomes cumbersome. Even more so if you need to split the work between several people in a team.</p>
+<p>There&rsquo;s an easy way to keep a main file and then several, smaller, files in which you can work more comfortably:
+</p>
+<pre style="display: inline-block; border: 1px solid red;">include{file.tex}
+</pre>
+<p>Easy, right?</p>
+<p>Beware, you can&rsquo;t use an include inside an include. Why? No idea, but there&rsquo;s a way around this:
+</p>
+<pre style="display: inline-block; border: 1px solid red;">input{file.tex}
+</pre>
+<h3>Quick preview<a name="quickpreview"></a></h3>
+<p>Using includes has another advantage: you can have a quick preview while working with a chapter at a time. I usually keep the following structure within my projects:</p>
+<pre style="display: inline-block; border: 1px solid red;">% Header declarations
+% Include packages
+% Document preamble
+% &hellip;
+%input{chapter1.tex}
+%input{chapter2.tex}
+input{chapter3.tex}
+% input{chapter4.tex}
+</pre>
+<p>Just uncomment the chapter you&rsquo;re working with. In big documents this has a very noticeable effect, as compiling a large LaTeX file into an enormous pdf document (several MBs) may be quite slow.</p>
+<p>Of course, I use &ldquo;input&rdquo; in my main file so I can use include in the chapters themselves. I won&rsquo;t usually need to include other documents inside the chapters, it&rsquo;d get quite messy, but it&rsquo;s necessary to work with embedded documents, as we&rsquo;ll see in another post.</p>

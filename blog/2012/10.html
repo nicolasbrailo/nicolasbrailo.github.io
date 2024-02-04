@@ -1,0 +1,237 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2012 October<a name="postsfor2012october"></a></h1>
+<h1>Fastgrep, a cache for grep<a name="fastgrepacacheforgrep"></a></h1>
+<p>By Nico Brailovsky @ 2012-10-30</p>
+<p>Sooner or later, you&rsquo;ll find that you need to know where to find a certain piece of text that ctags does not index, and grep is just not fast enough. Say, you&rsquo;re trying to match that log line you see every one in a while to the specific printf(&ldquo;I&rsquo;m here!\n&rdquo;) that produced it.</p>
+<p>Working on any reasonable sized project, searching for free-form text means you&rsquo;ll need some kind of indexing; grep will work, but you&rsquo;ll end up having to wait a couple of minutes between searches. Funny thing, we can probably speed up grep quite easily. Long story short, you can find a grep cache here: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh">Fastgrep</a>.</p>
+<p>So, how does it work? If we reason a bit about how grep will spend time we can probably assume the following:
+1. Re-positioning the disk head to find the next file to grep
+2. Reading file contents
+3. Opening &amp; closing files
+4. Actually grepping</p>
+<p>I didn&rsquo;t actually check how closely this &ldquo;benchmark&rdquo; resembles reality, but it seems reasonable to assume that most of the time grep spends searching for a string in a big project, is actually wasted in I/O, and more cores won&rsquo;t help.</p>
+<p>After a quick Google search I didn&rsquo;t come up with any already available grep cache, so I rolled up a quick version myself which you can find here: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh">Fastgrep</a>. The idea behind it is very simple, if most of the time is wasted accessing files, then just cat every file in the project together and grep that one instead.</p>
+<p>Since the grepcache is actually a merged copy of all the files in the project, it can quickly get out of sync with the rest of the code. To somewhat improve this the index file is only used to get the list of files where a string might be found; these files are then grepped for the real results. This only helps a little bit and eventually everything gets out of sync, but I found that rebuilding the cache in a post-merge git hook (or a post-commit svn hook) is more than enough to make fastgrep more than usable.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2016/0706_VimutilitiesFindgrepFastgrep.html">Vim utilities: Findgrep &amp; Fastgrep | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2016-07-06T09:05:59.000+02:00:<a name="inreplytothispostvimutilitiesfindgrepampfastgrepaninfinitemonkeynicolasbrailovsky39sblogblog_md20160706_vimutilitiesfindgrepfastgrep.mdcommented20160706t090559.0000200"></a></h2>
+<p>[&hellip;] wrote about Fastgrep a long time ago.&nbsp;The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by [&hellip;]</p>
+<p>Original <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">published here</a>.</p>
+<hr />
+<h1>Fixing keyboard layouts in Ubuntu. Scarier than it seems.<a name="fixingkeyboardlayoutsinubuntu.scarierthanitseems."></a></h1>
+<p>By Nico Brailovsky @ 2012-10-25</p>
+<p>At the moment of writing this post there is an <a href="https://bugs.launchpad.net/ubuntu/+source/gnome-control-center/+bug/591895">open bug</a> in Ubuntu, still active in 11.04, that makes your keyboard layout revert to whatever GDM wants. Apparently this is caused by GDM failing to synch with the preferences of the session, so if you change your layout (even if you delete the previous one) the change will be reverted next time you login. There seems to be no fix coming soon, so this magic incantation might work if you have this problem:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo dpkg-reconfigure keyboard-configuration
+</pre>
+<p>This will ask you a lot of questions about your keyboard, good luck guessing. It kind of reminds me the Windows 95 install process, in which erring the keyboard layout meant it was probably easier to just format and reinstall everything all over again. With some luck, next time you reboot your Ubuntu will actually remember your keyboard preference. If not, just take this as an opportunity to learn a foreign language.</p>
+<p>Having keyboard problems? You may also be interested in learning <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">how to activate tildes and accents for a USA keyboard layout in Ubuntu</a>.</p>
+<hr />
+<h1>Getting a stacktrace on C/C++: Mapping function pointers to function<a name="gettingastacktraceonccmappingfunctionpointerstofunction"></a></h1>
+<p>By Nico Brailovsky @ 2012-10-23</p>
+<p>names on runtime</p>
+<p><a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">Last time</a> we talked about mapping function addresses to names (albeit mangled) in object files; we can also get this information during runtime:</p>
+<h3>Glibc to the aid<a name="glibctotheaid"></a></h3>
+<p>Let&rsquo;s go one step back: how to get the current stacktrace. Turns out glibc already has a nice feature to get the current stacktrace. Going back to our original program, with some minor changes:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Caller { Caller <em>addr; };
+void bt_by_hand() {
+    // Get the stack base ptr from a register
+    void </em>sp;
+    asm(&quot;movl %%ebp,%0&quot; : &quot;=r&quot;(sp));
+    // Loop through every caller
+    cout &amp;lt;&amp;lt; &quot;Hand made stack walker&quot; &amp;lt;&amp;lt; endl;
+    Caller <em>caller = (Caller</em>)sp;
+    while (caller) {
+        cout &amp;lt;&amp;lt; (((void*<em>)caller)[1]) &amp;lt;&amp;lt; endl;
+        caller = caller-&amp;gt;addr;
+    }
+}
+#include &amp;lt;execinfo.h&amp;gt;
+void bt_glibc() {
+    void</em> buffer[10];
+    int frames = backtrace(buffer, sizeof buffer);
+    cout &amp;lt;&amp;lt; &quot;glibc stack walker&quot; &amp;lt;&amp;lt; endl;
+    for (int i=0; i &amp;lt; frames; ++i) cout &amp;lt;&amp;lt; buffer[i] &amp;lt;&amp;lt; endl;
+}
+void bar(int, float) {
+    bt_by_hand();
+    bt_glibc();
+}
+</pre>
+<p>Clearly using glibc&rsquo;s version is much cleaner, but will they yield the same results? Turns out not:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">Hand made stack walker
+0x80487b0
+0x80487d5
+0xb7659113
+glibc stack walker
+0x804873b
+0x80487b5
+0x80487d5
+0xb7659113
+0x8048611
+</pre>
+<p>Similar, but not quite.
+* The first address in the glibc&rsquo;s stack walker correspond to the bt_glibc, and more importantly since the real glibc backtrace is a function call itself it&rsquo;s easy to get that function into the stack. We don&rsquo;t even consider that case on our hand made stack walker. First difference explained.
+* The second address should correspond to bar, but one is 0x80487b0 and the other is 0x80487b5. Again, it makes sense: since the void* is actually the return address for EIP if we check the dissasembly we&rsquo;ll find that the 5 bytes difference correspond to the next instruction to be executed.
+* 0x80487d5 is the return address for main, which is the same for both.
+* The rest of the stack is easy: we stop at main, glibc keeps walking the stack inside glibc itself. Not so important for us, anyway.</p>
+<h3>Name translations<a name="nametranslations"></a></h3>
+<p>We have a bunch of pointers. How can we get real function names now? Well, the easiest way is to use glibc&rsquo;s backtrace_symbols_fd, like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    int frames = backtrace(buffer, sizeof buffer);
+    backtrace_symbols_fd(buffer, frames, 1);
+</pre>
+<p>On my machine, when running &ldquo;g++ -rdynamic foo.cpp &amp;&amp;./a.out | c++filt&rdquo;, I get something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">./a.out(bt_glibc()+0x19)[0x8048976]
+./a.out(bar(int, float)+0x10)[0x8048a0a]
+./a.out(main+0x1e)[0x8048a2a]
+/lib/i386-linux-gnu/libc.so.6(__libc_start_main+0xf3)[0xb759f113]
+./a.out[0x8048851]
+</pre>
+<p>Note that without -rdynamic the function name symbols won&rsquo;t be available. Anyway, what we get is much more interesting than raw pointers. And exactly what we were looking for. It&rsquo;s also very boring, unless we learn what&rsquo;s going on inside backtrace_symbols_fd. If we go and check what backtrace_symbols_fd is doing (sysdeps/generic/elf/backtracesyms.c in glibc) we&rsquo;ll see that all the heavy work is done by libdl. A quick check with &lsquo;man dladdr&rsquo; will show that we are on the right path. Let&rsquo;s add this to our program:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;dlfcn.h&amp;gt;
+int get_sym_name(void *addr) {
+    Dl_info info;
+    int res = dladdr(addr, &amp;amp;info);
+    cout &amp;lt;&amp;lt; info.dli_fname &amp;lt;&amp;lt; &quot;: &quot; &amp;lt;&amp;lt; info.dli_sname &amp;lt;&amp;lt; endl;
+}
+</pre>
+<p>Behold, we now have a nice backtrace in C++, not so different than the bt you&rsquo;d get in any dynamic language:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">./a.out: _Z3barif
+0x8048af9
+./a.out: main
+0x8048b19
+/lib/i386-linux-gnu/libc.so.6: __libc_start_main
+0xb7612113
+</pre>
+<h3>Turtles all the way down<a name="turtlesallthewaydown"></a></h3>
+<p>Getting the function name using libdl feels a bit like cheating, after we manually walked the call stack. They are not in the same level of abstraction. Can we check what lurks inside libdl&rsquo;s dladdr? It&rsquo;s absolutely possible. In theory. Now we are dealing not only with a specific architecture (x86) we are also dealing with a binary format (more specifically, elf). To understand what goes on inside libdl&rsquo;s we need to know about the runtime linking process and elf internals. Feel free to peek at glibc/dlfcn/dlinfo.c, but beware that&rsquo;s a daunting task, way beyond the original scope of this article.</p>
+<h3>Epilogue / Disclaimer<a name="epiloguedisclaimer"></a></h3>
+<p>The whole series on getting a stacktrace on C++ is merely &ldquo;educational&rdquo;, as in &ldquo;never-ever do this on your program&rdquo;. As stated on the first part of the series it&rsquo;s not portable, and it&rsquo;s also extremely frail. If you want something production ready use glibc&rsquo;s backtrace features. And if you want something portable, try libunwind. It works great, but where would the fun be if we skipped the whole learning process and went straight to this library?</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2016-10-16T21:01:01.000+02:00:<a name="inreplytothispostanonymouscommented20161016t210101.0000200"></a></h2>
+<p>WTF? - asm(&ldquo;movl %%ebp,%0&rdquo; : &ldquo;=r&rdquo;(sp));</p>
+<p>Original <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">published here</a>.</p>
+<hr />
+<h1>Getting a stacktrace on C/C++: Mapping function pointers to function<a name="gettingastacktraceonccmappingfunctionpointerstofunction"></a></h1>
+<p>By Nico Brailovsky @ 2012-10-18</p>
+<p>names in obj files</p>
+<p><a href="/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html">Last time</a> we saw how to get a stacktrace in C++, yet we only had access to the list of function pointers and not to the function names. Still, pointers are not that useful. Can we get function names instead? Yes, we can but it&rsquo;s not easy. One option would be to read the elf specification. Boring. Let&rsquo;s tinker around with our test program, may be we can find something interesting:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    Caller <em>caller = (Caller</em>)sp;
+    while (caller) {
+        cout &amp;lt;&amp;lt; caller-&amp;gt;addr &amp;lt;&amp;lt; endl;
+        void<strong> foo = (void</strong>)caller;
+        cout &amp;lt;&amp;lt; &quot;\t&quot; &amp;lt;&amp;lt; foo[0] &amp;lt;&amp;lt; &quot;|&quot; &amp;lt;&amp;lt; foo[1] &amp;lt;&amp;lt; endl;
+        caller = caller-&amp;gt;addr;
+    }
+</pre>
+<p>On my machine I got something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">0xbfa25fd8|0x8048acb
+0xbfa25ff8|0x8048aeb
+0|0x40143113
+</pre>
+<p>The first address is the memory address of the stack to which we should return after executing this function. The second address looks interesting. It looks like the addresses we see when dissasemblying an object. Let&rsquo;s try running &lsquo;objdump -Sd ./a.out&rsquo;:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">08048ac0 &amp;lt;_Z3barif&amp;gt;:
+ 8048ac0: 55                      push   %ebp
+ 8048ac1: 89 e5                   mov    %esp,%ebp
+ 8048ac3: 83 ec 08                sub    $0x8,%esp
+ 8048ac6: e8 e1 fe ff ff          call   80489ac &amp;lt;_Z3foov&amp;gt;
+ 8048acb: c9                      leave
+ 8048acc: c3                      ret
+08048acd :
+ 8048acd:   55                      push   %ebp
+ 8048ace:   89 e5                   mov    %esp,%ebp
+ 8048ad0:   83 e4 f0                and    $0xfffffff0,%esp
+ 8048ad3:   83 ec 10                sub    $0x10,%esp
+ 8048ad6:   b8 00 00 00 40          mov    $0x40000000,%eax
+ 8048adb:   89 44 24 04             mov    %eax,0x4(%esp)
+ 8048adf:   c7 04 24 02 00 00 00    movl   $0x2,(%esp)
+ 8048ae6:   e8 d5 ff ff ff          call   8048ac0 &amp;lt;_Z3barif&amp;gt;
+ 8048aeb:   b8 00 00 00 00          mov    $0x0,%eax
+ 8048af0:   c9                      leave
+ 8048af1:   c3                      ret
+</pre>
+<p>And, indeed, 0x8048acb and 0x8048aeb are both there: they are the EIP after the ret call! Note that you may use c++filt if the mangled names are too confusing. Anyway, we can indeed get the function names, albeit in a rather contrived way. Is there a better way to get a backtrace and its symbols&rsquo; names? Turns out there is and we&rsquo;ll see how to get a function&rsquo;s name during runtime, in the next article.</p>
+<hr />
+<h1>Getting a stacktrace on C/C++: Some calling internals<a name="gettingastacktraceonccsomecallinginternals"></a></h1>
+<p>By Nico Brailovsky @ 2012-10-16</p>
+<p>High level languages tend to have a lot of features for introspection and metaprogramming. One of those useful features is the possibility to get a stacktrace of the current function. At first C++ would seem to lack that ability but once you think about it, high level languages internal workings are in the very basics not that different from lower level languages: they tend to be a virtual representation of the physical hardware. A function call, in the end, will most likely be implemented the same on both C++ and Ruby. So, although it may not be as straight forward as it is with a dynamic language, we should be able to get a stacktrace just fine. Also, there&rsquo;s a big clue for us: gdb can get stacktraces just fine, so why wouldn&rsquo;t we?</p>
+<p>Let&rsquo;s start by trying to figure out how we can get a stacktrace by ourselves, with no help of any other tools. Sounds like a daunting task? It isn&rsquo;t really. Let&rsquo;s write a simple program to figure out how gcc performs function calls:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">int foo() {
+    return 42;
+}
+void bar() {
+    foo();
+}
+int main() {
+    bar();
+    return 0;
+}
+</pre>
+<p>If we compile this with gcc -S we&rsquo;ll get a .s file with the disassembly. Of course this depends a lot on the compiler, architecture, OS, etc, etc. For the moment we&rsquo;ll just assume x86 gcc Linux with no optimizations. A lot of the code from the disassembly will be part of the compiler&rsquo;s preamble and postamble. Cleaning things up a bit we should see something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Z3barv:
+.LFB1:
+    pushl   %ebp
+    movl    %esp, %ebp
+    call    _Z3foov
+    popl    %ebp
+    ret
+</pre>
+<p>Doesn&rsquo;t look so hard: it just pushes the current stack base pointer to the stack, sets a new stack pointer and calls the function (you might want to play around with c++filt if name mangling confuses you). Once it returns it just reads back the original stack base pointer and continues. Knowing that return addresses are in the stack makes it easy for us to retrieve this information, we just need a way to get the current stack pointer. Some assembler in C++ will be needed:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    void *sp;
+    asm(&quot;movl %%esp,%0&quot;; : &quot;=r&quot;(sp));
+    std::cout &amp;lt;&amp;lt; sp &amp;lt;&amp;lt; std::endl;
+</pre>
+<p>That should print the current function&rsquo;s start address. But from our disassembly we can also see that the current function&rsquo;s return address, ie its caller, would be stored in the first word of the current function&rsquo;s stack. Likewise, our caller&rsquo;s return address will be on its first stack word. Let&rsquo;s check if this holds up in the code:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    void <em>sp;
+    asm(&quot;movl %%esp,%0&quot;; : &quot;=r&quot;(sp));
+    void </em>caller_addr = <em>(void</em><em>)sp;
+    void </em>caller_addr2 = <em>(void</em><em>)caller_addr;
+    void </em>caller_addr3 = <em>(void</em>*)caller_addr2;
+    cout &amp;lt;&amp;lt; sp &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; caller_addr &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; caller_addr2 &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; caller_addr3 &amp;lt;&amp;lt; endl;
+</pre>
+<p>Looks ugly, but remember we are fighting the type system here: we need to tell the compiler that the void* we&rsquo;re trying to access is actually a void**. We&rsquo;ll clean that up later, for the moment if we run that on our sample we should see all the stack addresses that for our stack trace, ending with a null pointer for the main function. Pretty neat, huh? So far we only have function addresses, but we&rsquo;ll get some pretty names later. Let&rsquo;s make it a bit more generic before moving on.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    struct Caller {
+            Caller <em>addr;
+    };
+    // Get the stack base ptr from a register
+    void </em>sp;
+    asm(&quot;movl %%ebp,%0&quot; : &quot;=r&quot;(sp));
+    // Loop through every caller
+    Caller <em>caller = (Caller</em>)sp;
+    while (caller) {
+        cout &amp;lt;&amp;lt; caller-&amp;gt;addr &amp;lt;&amp;lt; endl;
+        caller = caller-&amp;gt;addr;
+    }
+</pre>
+<p>Of course this is very naive, as it will only work on a 32 bit platform, and it will break as soon as we change calling conventions, but it&rsquo;s still useful to draw some conclusions:</p>
+<ul>
+<li>Getting a stacktrace in C++ is indeed possible</li>
+<li>Now we know why inlined functions and optimizations make debugging more difficult (hint: how can you get a stack frame for a function that doesn&rsquo;t really exist?)</li>
+</ul>
+<p>Next time we&rsquo;ll see how we can get a function name from it&rsquo;s pointer.</p>
+<hr />
+<h1>Faking a server and testing networks with netcat<a name="fakingaserverandtestingnetworkswithnetcat"></a></h1>
+<p>By Nico Brailovsky @ 2012-10-11</p>
+<p>Not long ago I wrote about having to use iptables to redirect packets from one port to another. Testing this with a real server may be complicated, or at least inconvenient. Luckily we have netcat to help us.</p>
+<p>If you use &ldquo;nc -l 1234&rdquo;, netcat will create a listening socket on the port 1234. You can check if it&rsquo;s working by doing a &ldquo;telnet IP 1234&rdquo;, nc should echo whatever you type on the client in the server. In the example from my article explaining an iptables rule, you would do an nc -l 1234, apply the iptables rule and the issue a &ldquo;netcat IP 4321&rdquo;. If everything went according to plan you should be seeing the echo on your nc server.</p>
+<hr />
+<h1>gdb pretty printers<a name="gdbprettyprinters"></a></h1>
+<p>By Nico Brailovsky @ 2012-10-09</p>
+<p>If you have ever used gdb then you know printing an stl object is useless. You&rsquo;ll be flooded with stuff you don&rsquo;t care about, and if you want to find, say, the contents of an std::vector you&rsquo;ll have to dive through tons of junk. It turns there&rsquo;s an easier way, it&rsquo;s called pretty printers and I have no idea why they are not included by default with gdb.</p>
+<p>You&rsquo;ll need to download the pretty printers at svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python and then create a ~/.gdbinit like this one:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">python
+import sys
+sys.path.insert(0, &#x27;~/gdb_prettyprinters/python&#x27;)
+from libstdcxx.v6.printers import register_libstdcxx_printers
+register_libstdcxx_printers (None)
+end
+</pre>
+<p>Have fun!</p>
+<hr />

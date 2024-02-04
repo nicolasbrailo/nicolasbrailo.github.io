@@ -1,0 +1,11 @@
+<h1>Monitor file changes on a CLI<a name="monitorfilechangesonacli"></a></h1>
+<p>The other day I had a problem with a config file being overwritten. Some process, I did not know which one, was overwriting a configuration file I manually changed. Annoyed by this, I started looking for the culprit. lsof was no good, because that would list the open files; this process would most likely just open the file, write to it and then close it again. My chances of ever catching this process in the act were nil. Luckily I found auditd. Install it like this:</p>
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo apt-get install auditd
+</pre>
+<p>Then to monitor a file you can use the following command:</p>
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo auditctl -w $FILE -p war
+</pre>
+<p>Wait until $FILE has changed, then execute this command to get the results:</p>
+<pre style="display: inline-block; border: 1px solid red;">ausearch -f $FILE
+</pre>
+<p>Voila, now you have your culprit. Kill -9 at will.</p>

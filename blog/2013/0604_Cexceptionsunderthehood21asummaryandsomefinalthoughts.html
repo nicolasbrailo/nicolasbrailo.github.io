@@ -1,0 +1,24 @@
+<h1>C++ exceptions under the hood 21: a summary and some final thoughts<a name="cexceptionsunderthehood21asummaryandsomefinalthoughts"></a></h1>
+<p>After writing twenty some articles about C++ low level exception handling, it&rsquo;s time for a recap and some final thoughts. What did we learn, how is an exception thrown and how is it caught?</p>
+<p>Leaving aside the ugly details of reading the .gcc_except_table, which were probably the biggest part of these articles, we could summarize the whole process like this:</p>
+<ol>
+<li>The C++ compiler actually does rather little to handle an exception, most of the magic actually happens in libstdc++.</li>
+<li>There are a few things the compiler does, though. Namely:<ul>
+<li>It creates the CFI information to unwind the stack.</li>
+<li>It creates something called .gcc_except_table with information about landing pads (try/catch blocks). Kind of like reflexion info.</li>
+<li>When we write a throw statement, the compiler will translate it into a pair of calls into libstdc++ functions that allocate the exception and then start the stack unwinding process by calling libstdc.</li>
+</ul>
+</li>
+<li>When an exception is thrown at runtime __cxa_throw will be called, which will delegate the stack unwinding to libstdc.</li>
+<li>As the unwinder goes through the stack it will call a special function provided by libstdc++ (called personality routine) that checks for each function in the stack which exceptions can be caught.</li>
+<li>If no matching catch is found for the exception, std::terminate is called.</li>
+<li>If a matching catch is found, the unwinder now starts again on the top of the stack.</li>
+<li>As the unwinder goes through the stack a second time it will ask the personality routine to perform a cleanup for this method.</li>
+<li>The personality routine will check the .gcc_except_table for the current method. If there are any cleanup actions to be run, it will &ldquo;jump&rdquo; into the current stack frame and run the cleanup code. This will run the destructor for each object allocated at the current scope.</li>
+<li>Once the unwinder reaches the frame in the stack that can handle the exception it will jump into the proper catch statement.</li>
+<li>Upon finishing the execution of the catch statement, a cleanup function will be called to release the memory held for the exception.</li>
+</ol>
+<p>Having learned how exceptions work we are now in a position to better answer why it&rsquo;s hard to write exception safe code.</p>
+<p>Exceptions, while conceptually clean, are pretty much &ldquo;spooky action at a distance&rdquo;. Throwing and catching an exception involves a certain degree of reflexion (in the sense that a program must analyze itself) which is not common for C++ applications.</p>
+<p>Even if we talk about higher level languages, throwing an exception means we cannot rely on our understanding of how a normal program execution flow should work anymore: we are used to a pretty much linear execution flow with some conditional operators branching or calling other functions. With an exception, this no longer holds true: an entity which is not the code of our application is in control of the execution, and it goes around the program executing certain blocks of code here and there without following any of the normal rules. The instruction pointer gets changed by each landing pad, the stack is unwinded in ways we can&rsquo;t control and, ultimately, a lot of magic happens under the hood.</p>
+<p>To summarize it even more: exceptions are hard simply because they break the natural flow of a program as we understand it. This does not mean they are intrinsically bad as properly used exceptions can surely lead to cleaner code, but they should always be used with care.</p>

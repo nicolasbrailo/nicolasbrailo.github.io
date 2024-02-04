@@ -1,0 +1,172 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2011 September<a name="postsfor2011september"></a></h1>
+<h1>DIY gnome applets<a name="diygnomeapplets"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-29</p>
+<p>We all know Gnome, and similar GUIs, are there only as a fancy console multiplexer, but even so it&rsquo;s useful to have widgets in your menus or dockbars to display useful data, like the release date of DNF (*). Gnome has a limited amount of applets from which you can choose, and most of them are crap or limited in their customization. You can always create your own widgets, but that&rsquo;s a pain in the ass for lazy people like me. Fortunately we lazy people can now use something an order of magnitude more useful than widgets in Gnome : we can use console commands!</p>
+<p>Using something called <a href="http://code.google.com/p/compa/">Compa</a> you can add a meta-widget, that will display the output of any CLI program. This means, of course, that you have all the power of the console to use in your custom made widgets. Need to check your laptop&rsquo;s battery? No need to search for a widget anymore, just <a href="blog_md/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.md">cat /proc/acpi/battery/BAT0/state</a>. Need to check the weather? Just wget your favorite forecast page and parse it with grep, sed an awk. OK, maybe that&rsquo;s a little bit too much.</p>
+<p>Once more this proves that anything can be done in console mode - and whatever you can&rsquo;t isn&rsquo;t worth doing anyway.</p>
+<p>(*) Wow, this article has been written a LONG time ago!</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Gnome 3.2 Released - Features and Updates : Ranjith Siji – Programming the Web</a> commented @ 2011-09-30T09:01:57.000+02:00:<a name="inreplytothispostgnome3.2releasedfeaturesandupdatesranjithsijiprogrammingthewebblog_mdyoufoundadeadlink.mdcommented20110930t090157.0000200"></a></h2>
+<p>[&hellip;] [&hellip;]</p>
+<p>Original <a href="/blog/2011/0929_DIYgnomeapplets.html">published here</a>.</p>
+<hr />
+<h1>Cool C++0X features XI: decltype and disappearing constness<a name="coolc0xfeaturesxidecltypeanddisappearingconstness"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-27</p>
+<p>After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the <a href="/search/label/Series%3A Cool Cpp0X features">last posts</a> of this series.</p>
+<p>In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it&rsquo;s present for template type deduction too, but decltype adds a new level of complexity to it.</p>
+<p>Let&rsquo;s start with an example. Would this compile?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    foo.bar = 42;
+}
+</pre>
+<p>Clearly not, having a const Foo means you can&rsquo;t touch foo.bar. How about this?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    int&amp;amp; x = foo.bar;
+}
+</pre>
+<p>That won&rsquo;t compile either, you can&rsquo;t initialize an int reference from a const int, yet we can do this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f(const Foo foo)
+{
+    const int&amp;amp; x = foo.bar;
+}
+</pre>
+<p>If we know that works it must mean that s.result&rsquo;s type is const int. Right? Depends.</p>
+<p>Just as the name implies decltype yields the declared type of a variable, and what&rsquo;s the declared type for Foo.bar?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    // This won&#x27;t compile
+    int&amp;amp; x = foo.bar;
+    // This will
+    decltype(foo.bar) x = 42;
+}
+</pre>
+<p>That&rsquo;s an interesting difference, but it makes sense once you are used to it. To make things more interesting, what happens if you start adding parenthesis (almost) randomly? Try to deduce the type of x:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f(const Foo foo)
+{
+    decltype((foo.bar)) x
+}
+</pre>
+<p>If <strong>decltype(x)</strong> is the type of <strong>x</strong> then <strong>decltype((foo.bar))</strong> is the type of <strong>(foo.bar)</strong>. Between <strong>foo.bar</strong> and <strong>(foo.bar)</strong> there&rsquo;s a very important difference; the first refers to a variable whilst the last refers to an expression. Even though <strong>foo.bar</strong> was declared as int, the expression <strong>(foo.bar)</strong> will yield a const int&amp;, since that&rsquo;s the type (though implicit and not declared, since the expression is not declared).</p>
+<p>This is how we would complete the example then:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f(const Foo foo)
+{
+    // These two statements are equivalent
+    decltype((foo.bar)) x = 42;
+    const int&amp;amp; y = 42;
+    // It&#x27;s very easy to confirm that the typeof x is now const int&amp;amp;
+    // This won&#x27;t compile:
+    x = 24;
+}
+</pre>
+<p>As I said, disappearing constness is not a C++0x specific problem as it may occur on template type deduction, but that&rsquo;s besides the point of this post. Next time we&rsquo;ll continue working with type deduction, but with the new auto feature this time.</p>
+<hr />
+<h1>Running commands on Windows from Linux, through ssh<a name="runningcommandsonwindowsfromlinuxthroughssh"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-22</p>
+<p>Running Windows is something I don&rsquo;t usually like (running of Windows is a different story) but having to run something on Windows command line interface is something I wouldn&rsquo;t wish even to my worst enemies. I was stuck in that situation, don&rsquo;t remember why, but I needed to run a command in a Windows machine, automatically, and I only had ssh (is there a better way of automating scripted tasks in Windows, remotely and without a GUI?). Well, this is what I came up with:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ssh host cmd /c dir
+</pre>
+<p>Running that in a bash shell will show the directory listing of C: in machine &ldquo;host&rdquo;. Ugly as hell, but it&rsquo;s a good way of kickstarting a batch script.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="http://techrights.org/2011/09/24/plasma-active-os/">Links 24/9/2011: Linux 3.1 RC7, Plasma Active OS | Techrights</a> commented @ 2011-09-24T15:51:12.000+02:00:<a name="inreplytothispostlinks2492011linux3.1rc7plasmaactiveostechrightshttptechrights.org20110924plasmaactiveoscommented20110924t155112.0000200"></a></h2>
+<p>[&hellip;] Running commands on Windows from Linux, through ssh [&hellip;]</p>
+<p>Original <a href="/blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.html">published here</a>.</p>
+<hr />
+<h1>Throwing destructors<a name="throwingdestructors"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-20</p>
+<p>We already know what happens when you <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">throw from a constructor</a>. Ending up with a half built object is not good, but suppose we do manage to build one correctly. What happens if we <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">throw in a destructor</a> instead? The results are usually much worse, with a very real possibility of having your program terminated. Read on for a brief explanation on the perils of throwing constructors.</p>
+<p>So, according to RAII pattern, resource deallocation should occur during the destructor, yet resource freeing is not exempt of possible errors. How would you notify of an error condition?</p>
+<ul>
+<li>First error handling choice, you notify /dev/null of the error condition. Best case, you may log the error somewhere, but you can&rsquo;t do anything about it, you end up ignoring it. Not good, usually you&rsquo;ll want to do something about the error condition, even more if it&rsquo;s transient.</li>
+<li>Second choice, throw. The user (of the class) will know something has gone horribly wrong. This option seems better, yet it has some disadvantages too (just as it happened with <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">throwing destructors</a>; when is an object completely deleted? is it ever deleted if an exception is thrown whilst running?)</li>
+</ul>
+<p>Yet the worst part is not resource leaking through half destroyed objects, the worst part is having your program call std::abort.</p>
+<p>Think of it this way: when an exception is active, the stack is unwind, i.e. the call stack is traversed backwards until a function which can handle the exception is found. And you just can&rsquo;t unwind the stack while unwinding the stack (you&rsquo;d need a stack of stacks) so the reasonable thing to do is call std::abort.</p>
+<p>So, what can you do about it? Go to your favorite jobs posting site and start searching for a PHP position, you&rsquo;ll sleep better at nights.</p>
+<hr />
+<h1>Zero padding for Bash scripts<a name="zeropaddingforbashscripts"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-15</p>
+<p>Lately I found myself trying to generate a video from a series of images generated by a program. Doesn&rsquo;t sound difficult, until you start running into a stupid issue: your 1000th frame will come before your 2nd frame!</p>
+<p>Luckily there&rsquo;s a very easy fix for this problem, just add zero padding in a bash script. How?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">for i in <code>seq 1 10
+</code>; do echo $i; done
+</pre>
+<p>That will print all the numbers between 1 and 10. This one will do the same, with zero padding:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">for i in <code>seq 1 10
+</code>; do printf &quot;%02dn&quot; $i; done
+</pre>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="http://techrights.org/2011/09/16/boeing-goes-with-android/">Links 16/9/2011: Boeing Goes With Android, Oracle Splits MySQL | Techrights</a> commented @ 2011-09-16T20:30:41.000+02:00:<a name="inreplytothispostlinks1692011boeinggoeswithandroidoraclesplitsmysqltechrightshttptechrights.org20110916boeinggoeswithandroidcommented20110916t203041.0000200"></a></h2>
+<p>[&hellip;] Zero padding for Bash scripts [&hellip;]</p>
+<p>Original <a href="/blog/2011/0915_ZeropaddingforBashscripts.html">published here</a>.</p>
+<hr />
+<h1>200th post!<a name="200thpost"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-14</p>
+<p>Yes, this is the post number 200 on this blog. Considering we are a month away of starting the fourth year, I guess that gives me quite a lousy periodicity, but I am still surprised I post somewhat regularly here after such a long time (hey, in programmer years that&rsquo;s like a whole life!).</p>
+<p>Since the beginning this blog has mutated from being &nbsp;my public notepad to being a place where I research new topics, or write about things that are generally interesting to me. I lost many readers for posting crazy metaprogramming stuff and for constantly babbling about Vim and Linux, but hey, I&rsquo;m proud of if. Let&rsquo;s see what the next 200 posts bring here.</p>
+<hr />
+<h1>Automagic document conversion for your makefiles<a name="automagicdocumentconversionforyourmakefiles"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-13</p>
+<p>So, now you have <a href="/blog/2011/0818_Makefiles.html">a common makefile</a>, ready to be used for a TDD project and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report automagic generation</a>. Not only that, but it even <a href="/blog/2011/0906_Atalkingmakefile.html">speaks to endlessly annoy your team</a>. What else can we add to this makefile? Well, automatic documentation generation, clearly.</p>
+<blockquote>
+<p>You want to batch convert .doc to .pdf using the command line on a server without a GUI? Or you need automated .ppt to .swf conversion through cron, a sysvinit service, or a remote web server? Online conversion services such as Zamzar.com and Media-convert.com not working for you? Whichever formats you need to batch convert, PyODConverter is a simple Python script for just this purpose.</p>
+</blockquote>
+<p>&ndash; <a href="http://www.oooninja.com/2008/02/batch-command-line-file-conversion-with.html">http://www.oooninja.com/2008/02/batch-command-line-file-conversion-with.html</a></p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2011/1006_OpenOfficemasterdocumentsandheadless.html">Nicol&aacute;s Brailovsky » Blog Archive » Open Office, master documents and headless</a> commented @ 2011-10-06T09:06:58.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchiveopenofficemasterdocumentsandheadlessblog_md20111006_openofficemasterdocumentsandheadless.mdcommented20111006t090658.0000200"></a></h2>
+<p>[&hellip;] Oh, thanks a lot OO.org (?). BTW, exporting an odm to pdf with a headless set == FAIL (i.e. don’t even try to use this if you intend to autogenerate some documentation with your makefile). [&hellip;]</p>
+<p>Original <a href="/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html">published here</a>.</p>
+<hr />
+<h1>Activating tildes and accents for a USA keyboard layout in Ubuntu<a name="activatingtildesandaccentsforausakeyboardlayoutinubuntu"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-08</p>
+<p>Wow. This time the title of the post may actually be longer than its contents. How do you enable accents and tildes in Ubuntu? You need it to type cool characters like &aacute;, &Oacute; or &ntilde; (hey, my name has one of these!).</p>
+<p>If you are on Windows I think you have to install a new map, and then guess where the key would be. Or use an alt+something magic spell. In Ubuntu, it works by default you just need to add a compose key, Go to System &gt; Preferences &gt; Keyboard &gt; Options &gt; compose key position, select right alt (or whatever you fancy), there you go, now it works. Try it by typing alt + &rsquo; + a.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="http://techrights.org/2011/09/09/bodhi-linux-1-2-0/">Links 9/9/2011: Bodhi Linux 1.2.0, VortexBox 1.10 | Techrights</a> commented @ 2011-09-09T12:04:40.000+02:00:<a name="inreplytothispostlinks992011bodhilinux1.2.0vortexbox1.10techrightshttptechrights.org20110909bodhilinux120commented20110909t120440.0000200"></a></h2>
+<p>[&hellip;] Activating tildes and accents for a USA keyboard layout in Ubuntu [&hellip;]</p>
+<p>Original <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..html">Fixing keyboard layouts in Ubuntu. Scarier than it seems. « An infinite monkey – Nicolas Brailovsky&#39;s blog</a> commented @ 2012-10-25T09:02:50.000+02:00:<a name="inreplytothispostfixingkeyboardlayoutsinubuntu.scarierthanitseems.aninfinitemonkeynicolasbrailovsky39sblogblog_md20121025_fixingkeyboardlayoutsinubuntu.scarierthanitseems..mdcommented20121025t090250.0000200"></a></h2>
+<p>[&hellip;] Having keyboard problems? You may also be interested in learning how to activate tildes and accents for a USA keyboard layout in Ubuntu. [&hellip;]</p>
+<p>Original <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">published here</a>.</p>
+<hr />
+<h1>A talking makefile<a name="atalkingmakefile"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-06</p>
+<p>So, after learning <a href="/blog/2011/0818_Makefiles.html">how to use makefiles</a>, then <a href="/blog/2011/0822_AMakefileforTDDwithC.html">how to use makefiles for TDD</a> and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report</a>, now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">test: $(TEST_SRCS)
+    @for TEST in $(TEST_BINS); do
+        make &quot;$$TEST&quot;;
+        echo &quot;Execute $(TEST)&quot;;
+        if ! ./$$TEST; then
+            echo &quot;Oh noes! I detected a failed test from $$TEST. Go and fix your program!&quot; | festival &ndash;tts ;
+    done
+</pre>
+<p>Try it. You&rsquo;ll love it.</p>
+<p>Bonus chatter: when Valgrind detects over $MUCHOS errors it&rsquo;ll print &ldquo;Too many errors detected. Go and fix your program&rdquo;, then it won&rsquo;t print so much detail in the next backtraces.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="http://techrights.org/2011/09/07/linux-world-domination/">Links 7/9/2011: Linux World Domination, China Picks IBM’s GNU/Linux Mainframe | Techrights</a> commented @ 2011-09-07T20:13:23.000+02:00:<a name="inreplytothispostlinks792011linuxworlddominationchinapicksibmsgnulinuxmainframetechrightshttptechrights.org20110907linuxworlddominationcommented20110907t201323.0000200"></a></h2>
+<p>[&hellip;] talking makefile [&hellip;]</p>
+<p>Original <a href="/blog/2011/0906_Atalkingmakefile.html">published here</a>.</p>
+<hr />
+<h1>Edit pdf files in Ubuntu<a name="editpdffilesinubuntu"></a></h1>
+<p>By Nico Brailovsky @ 2011-09-01</p>
+<p>Well, for some reason my LaTeX py-pygments stopped compiling. Thanks for breaking backwards compatibility, you pig-ments.</p>
+<p>I had two options, either spend hours trying to fix this by altering the preamble, or just edit the pdf file. Yeah, I know, editing the pdf sounds ugly as hell, but hey at 2 am in the morning I&rsquo;ll take anything. And pdfedit was there to save the day (night). Just apt-get install pdfedit, it&rsquo;s in the repo.</p>
+<hr />

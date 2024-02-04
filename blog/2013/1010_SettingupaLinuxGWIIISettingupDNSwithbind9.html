@@ -1,0 +1,71 @@
+<h1>Setting up a Linux GW III: Setting up DNS with bind9<a name="settingupalinuxgwiiisettingupdnswithbind9"></a></h1>
+<p>If you have been following my series on how to install a Linux based router, you should now have a setup where a client is able to see the outside world via a router. We can try something more complex now, like pinging a domain instead of an IP. Something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ping google.com
+</pre>
+<p>You should get a message saying the host is unknown. Can you guess why? Right, there&rsquo;s no DNS.</p>
+<h3>Setting up DNS<a name="settingupdns"></a></h3>
+<p>DNS will be necessary to resolve domains to IPs. bind9 is the default option for Debian based servers (are there others? no idea).</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install bind9
+</pre>
+<p>This will get your DNS server up and running, but you will still need to add this server manually to your client (again, because there&rsquo;s no DHCP running):</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo echo &quot;nameserver 192.168.10.1&quot; &amp;gt; /etc/resolv.conf
+</pre>
+<p>And now:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">ping google.com
+</pre>
+<p>Magic again, it (may) work. If it doesn&rsquo;t, you may need to open /etc/bind/named.conf and setup your router (192.168.0.1) as a forwarder, then restart the bind server.</p>
+<p>Of course this is rather boring. If you are going to install a DNS you might as well create a custom TLD for your LAN.</p>
+<h3>Setting up a custom TLD with bind9 for your LAN<a name="settingupacustomtldwithbind9foryourlan"></a></h3>
+<p>So far on the series about how to install a Linux based router, we set up a Linux router with NAT and a basic DNS. Now we&rsquo;ll setup a custom TLD, so you can have custom domains for your LAN. For example, if you want your router to have a nice user friendly name, instead of just an IP.</p>
+<p>Let&rsquo;s start by adding a local zone to /etc/bind/named.conf.local, for a domain we&rsquo;ll call &ldquo;lan&rdquo;:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">zone &quot;lan&quot; {
+        type master;
+        file &quot;/home/router/named/lan.db&quot;;
+};
+</pre>
+<p>Now we need to add a reverse zone. Note how the name is the IP reversed:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">zone &quot;10.168.192.in-addr.arpa&quot; {
+    type master;
+        file &quot;/home/router/named/rev.10.168.192.in-addr.arpa&quot;;
+};
+</pre>
+<p>We still need to create both files (lan.db and rev.10.168.192.in-addr.arpa), but will do that later. Lets setup a place to log all the DNS queries (optional):</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">logging {
+    channel query.log {
+        file &quot;/home/router/named/dns.log&quot;;
+        severity debug 3;
+          print-time yes;
+    };
+    category queries { query.log; };
+};
+</pre>
+<p>For the log entry I have chosen /home/router/named as the log directory, just because for this project I&rsquo;m keeping everything together (config and logs) so it&rsquo;s easy for people not used to administer a Linux box, but of course this means that apparmor must be configured to allow reads and writes for bind in this directory. We&rsquo;ll get to that in a second, first let&rsquo;s create the needed zone files for our new TLD.</p>
+<p>Remember our two zone files? I put them on /home/router/named, but usually they are on /etc/bind. Again, I did this so I can have all the config files together. These are my two files:</p>
+<p>For lan.db</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">lan.      IN      SOA     ns1.lan. admin.lan. (
+                                                        2006081401
+                                                        28800
+                                                        3600
+                                                        604800
+                                                        38400
+ )
+lan.      IN      NS              ns1.lan.
+wiki             IN      A       192.168.0.66
+ns1              IN      A       192.168.0.1
+router           IN      A       192.168.0.1
+</pre>
+<p>For rev.10.168.192.in-addr.arpa</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">@ IN SOA ns1.lan. admin.example.com. (
+                        2006081401;
+                        28800;
+                        604800;
+                        604800;
+                        86400
+)
+                     IN    NS     ns1.lan.
+1                    IN    PTR    lan
+</pre>
+<p>Most of these lines are black magic, and since an explanation of both DNS and Bind is out of scope (feel free to read the RFC if you need more info) let&rsquo;s just say you can add new DNS entries by adding lines like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">NICE_NAME           IN      A       REAL_IP
+</pre>
+<p>This will make bind translate NICE_NAME.lan to REAL_IP. Of course, this will depend on the TLD you defined. Now restart bind to get a crapton of errors. It will complain about not being able to load a master file in /home/router/named. Remember that apparmor thing I mentioned?</p>

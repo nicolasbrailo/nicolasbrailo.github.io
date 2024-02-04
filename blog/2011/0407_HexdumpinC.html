@@ -1,0 +1,46 @@
+<h1>Hex dump in C++<a name="hexdumpinc"></a></h1>
+<p>If you need to work with low level stuff (say communications protocols, compression algorithms, stuff like that) you&rsquo;ll be needing an hex dump function sooner or later. Alex, from <a href="http://www.alexonlinux.com/">Alex on Linux</a>, has a great <a href="http://www.alexonlinux.com/hex-dump-functions">hex dump function</a> for Python and C.</p>
+<p>I added an =NULL for caption, I don&rsquo;t use it.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">void hex_dump(char <em>data, int size, char </em>caption=NULL)
+{
+    int i; // index in data&hellip;
+    int j; // index in line&hellip;
+    char temp[8];
+    char buffer[128];
+    char *ascii;
+    memset(buffer, 0, 128);
+    printf(&quot;---------&amp;gt; %s &amp;lt;--------- (%d bytes from %p)n&quot;, caption, size, data);
+    // Printing the ruler&hellip;
+    printf(&quot;        +0          +4          +8          +c            0   4   8   c   n&quot;);
+    // Hex portion of the line is 8 (the padding) + 3 * 16 = 52 chars long
+    // We add another four bytes padding and place the ASCII version&hellip;
+    ascii = buffer + 58;
+    memset(buffer, &amp;#x27; &amp;#x27;, 58 + 16);
+    buffer[58 + 16] = &amp;#x27;n&amp;#x27;;
+    buffer[58 + 17] = &amp;#x27;&amp;#x27;;
+    buffer[0] = &amp;#x27;+&amp;#x27;;
+    buffer[1] = &amp;#x27;0&amp;#x27;;
+    buffer[2] = &amp;#x27;0&amp;#x27;;
+    buffer[3] = &amp;#x27;0&amp;#x27;;
+    buffer[4] = &amp;#x27;0&amp;#x27;;
+    for (i = 0, j = 0; i &amp;lt; size; i++, j++)
+    {
+        if (j == 16)
+        {
+            printf(&quot;%s&quot;, buffer);
+            memset(buffer, &amp;#x27; &amp;#x27;, 58 + 16);
+            sprintf(temp, &quot;+%04x&quot;, i);
+            memcpy(buffer, temp, 5);
+            j = 0;
+        }
+        sprintf(temp, &quot;%02x&quot;, 0xff &amp;amp; data[i]);
+        memcpy(buffer + 8 + (j * 3), temp, 2);
+        if ((data[i] &amp;gt; 31) &amp;amp;&amp;amp; (data[i] &amp;lt; 127))
+            ascii[j] = data[i];
+        else
+            ascii[j] = &amp;#x27;.&amp;#x27;;
+    }
+    if (j != 0)
+        printf(&quot;%s&quot;, buffer);
+}
+</pre>

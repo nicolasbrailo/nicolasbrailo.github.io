@@ -1,0 +1,28 @@
+<h1>Redirecting connections from one port to another with iptables<a name="redirectingconnectionsfromoneporttoanotherwithiptables"></a></h1>
+<p>People say iptables are incredibly useful. Mind you, I have gotten mostly headaches out of it, but it is easy to see they are a powerful tool. The other day (for reasons not relevant to this post) I needed to run a service on a port, yet have it accept connections in a different port. Say, the service should be listening on port 1234, but the server should accept any connection on port 4321 and &ldquo;redirect&rdquo; each package to the correct port. Turns out iptables is the tool for the job.</p>
+<p>For the impatient ones, this is the command I used:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">iptables -t nat -A PREROUTING -s 192.168.10.0/24 \
+         -p tcp &ndash;dport 4321 -j DNAT &ndash;to :1234
+</pre>
+<p>Let&rsquo;s analyze this part by part. First I tried something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Caution: This is wrong and won&#x27;t work!
+iptables -A INPUT -s 192.168.1.0/24 &ndash;dport 4321 &ndash;to :1234
+</pre>
+<p>Seems clear enough:
+* <strong>-A INPUT</strong> will add this rule to the INPUT chain (i.e. the list of rules that are run for every incoming packet.
+* <strong>-s 192.168.1.0/24</strong> will filter the packages, so this rule will only be applied to the packets incoming from the 192.168.1.0/24 network.
+* <strong>&ndash;dport 4321</strong> will filter the packages again, so we can apply this rule not only to those packets incoming from the LAN but also to those packet to port 4321.
+* <strong>&ndash;to :1234</strong> is the rule to rewrite the destination port.</p>
+<p>Too bad this won&rsquo;t work. To begin with, the &ndash;dport option will fail, since it makes no sense to talk about ports without specifying a protocol (i.e. ports are a TCP layer concept, not an IP layer conecpt, so iptables doesn&rsquo;t know what to do with a &ndash;dport option!). Thus, let&rsquo;s rewrite our command like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Caution: This is wrong and won&amp;#x27;t work!
+iptables -A INPUT -s 192.168.1.0/24 -p tcp &ndash;dport 4321 &ndash;to :1234
+</pre>
+<p>Now iptables will complain about the &ndash;to option. This is because iptables can&rsquo;t rewrite a package (i.e. use the &ndash;to option) unless you specify to jump to the DNAT table (?). Now our command should look like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Caution: This is wrong and won&amp;#x27;t work!
+iptables -A INPUT -s 192.168.1.0/24 -p tcp &ndash;dport 4321 -j DNAT &ndash;to :1234
+</pre>
+<p>iptables will still complain: you can&rsquo;t use DNAT unless you use a nat table, so we have to add -t nat. If we do that, iptables will complain once more about not being able to use DNAT in the INPUT chain, it is only available in the PREROUTING/OUTPUT chains. This is related to the order in which iptables processes its rules.</p>
+<p>With all this in mind, we can now write a command that will run:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">iptables -t nat -A PREROUTING -s 192.168.10.0/24
+         -p tcp &ndash;dport 4321 -j DNAT &ndash;to :1234
+</pre>

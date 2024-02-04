@@ -1,0 +1,14 @@
+<h1>C preprocessor II: stringify operator<a name="cpreprocessoriistringifyoperator"></a></h1>
+<p>We all more or less know the list of operators that C++ provides for &ldquo;normal code&rdquo; but not everyone is aware that the preprocessor also has special operators we can use. Small difference: an operator like &lsquo;+&rsquo; will usually operate on numbers, but the preprocessor operates only on a single concept: source code tokens. What kind of operators could a preprocessor have, then? Two, actually. Let&rsquo;s start with the simpler one:</p>
+<p><strong>Stringify</strong>
+The &lsquo;#&rsquo; operator is the simplest operator of the preprocessor: it converts the next token to string. Something like this, for example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define f(x) to_str(x) == #x
+f(123)
+</pre>
+<p>Would print</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">to_str(123) == &quot;123&quot;
+</pre>
+<p>A restriction applies to the stringify operator: it can only be applied to a macro param, not just any token. So this, for example, is an illegal macro:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define f(x) #123 == #x
+</pre>
+<p>There&rsquo;s another operator, which is a bit more &ldquo;esoteric&rdquo;. We&rsquo;ll talk about token pasting next time.</p>

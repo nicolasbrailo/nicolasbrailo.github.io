@@ -1,0 +1,37 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2019 August<a name="postsfor2019august"></a></h1>
+<h1>std::is_constant_evaluated: make debugging a little bit harder for<a name="stdis_constant_evaluatedmakedebuggingalittlebitharderfor"></a></h1>
+<p>By Nico Brailovsky @ 2019-08-03</p>
+<p>yourself!</p>
+<p>Let&rsquo;s pretend you find this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">const int a = foo();
+int b = foo();
+</pre>
+<p>Would you be tempted to assume that a==b, always? I would. What if &lsquo;foo&rsquo; actually depends on a global variable, and its return value depends on that global setting? Suddenly the code above will raise a few eyebrows in a code review session.</p>
+<p>Coming to your friendly c++20 standard now:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">constexpr int foo() {
+    return (std::is_constant_evaluated())? 42 : 24;
+}
+bool a() {
+    const int x = foo();
+    return x == foo();
+}
+</pre>
+<p>I&rsquo;m sure with careful usage, is_constant_evaluated will allow library writers to create much more performant code. I&rsquo;m also sure I&rsquo;ll lose a lot of hair trying to figure out why my debug code (<code>cout &lt;&lt; foo()</code>, anyone?) prints different values than my <code>production</code> code.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">aiusepsi</a> commented @ 2019-08-03T18:58:11.000+02:00:<a name="inreplytothispostaiusepsicommented20190803t185811.0000200"></a></h2>
+<p>From what I can glean from the standard, there&rsquo;s no debug/release mode difference here. In either case, the compiler is required to constant-evaluate foo() when initialising x. From reading P0595R2 it seems like they tightened up the semantics somewhat to make sure that this was the case.</p>
+<p>To test the theory, a program compiled with Clang produces the same result in both -O0 and -O3 modes: https://godbolt.org/z/BpG2Ob</p>
+<p>Original <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2019-08-03T20:10:45.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20190803t201045.0000200"></a></h2>
+<p>Thanks aiusepsi! I think that somewhat misses the point of the article though: I&rsquo;m not saying -O levels will provide different behavior, I&rsquo;m worried that code I use to debug, such as &ldquo;cout &lt;&lt; foo()&rdquo; will have different behavior to &ldquo;const int x = foo()&rdquo;. If there ever is a bug that causes foo to behave differently due to is_const_eval, I&rsquo;ll take hours to find it out.</p>
+<p>The wording in the article might be a bit poor, I think&hellip; Probably a good idea if I clarify the last sentence of the article to reflect this!</p>
+<p>Original <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">published here</a>.</p>
+<hr />

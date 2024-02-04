@@ -1,0 +1,49 @@
+<h1>Mocking in C++: the virtual problem<a name="mockingincthevirtualproblem"></a></h1>
+<p>Mocking objects is crucial for a good test suite. If you don&rsquo;t have a way to mock heavy objects you&rsquo;ll end up with slow and unreliable tests that depend on database status to work. On the other hand, C++ mocking tends to be a bit harder than it is on dynamic languages. A frequent problem people find when mocking are virtual methods.</p>
+<p>What&rsquo;s the problem with virtual methods? C++ has the policy of &ldquo;not paying for what you don&rsquo;t use&rdquo;. That means, not using virtual methods is &ldquo;cheaper&rdquo; than using them. Classes with no virtual methods don&rsquo;t require a virtual dispatch nor a vtable, which speeds things up. So, for a lot of critical objects people will try to avoid virtual methods.</p>
+<p>How is this a problem for mocking? A mock is usually a class which inherits from the real class, as a way to get the proper interface and to be compatible with code that uses the real implementation. If a mock inherits from the real thing you&rsquo;ll need to define all of its methods as virtual, even if you don&rsquo;t need to, just so you can actually implement a mock.</p>
+<h3>A possible solution<a name="apossiblesolution"></a></h3>
+<p>The problem is clear: we need some methods to behave as virtual, without defining them as virtual.</p>
+<p>A solution to this problem, the one I personally choose, is using a TEST_VIRTUAL macro in the definition of each mockeable method for a class; in release builds I just compile with -DTEST_VIRTUAL=&rdquo;&ldquo;, and for testing builds I compile with -DTEST_VIRTUAL=&rdquo;virtual&rdquo;. This method is very simple and works fine but has the (very severe) downside of creating a different release code than the code you test; this might be acceptable, but it&rsquo;s a risk nonetheless.</p>
+<p>Other possible solutions I&rsquo;ve seen in the past are:</p>
+<ul>
+<li>Making everything virtual, even if not strictly necessary. Quite an ugly solution, in my opinion, it can affect performance and the code is stating that a method can be overridden, even if this don&rsquo;t make sense.</li>
+<li>Using some kind of <a href="http://en.wikipedia.org/wiki/Curiously_recurring_template_pattern">CRTP</a> for static dispatching: probably one of the cleanest solutions, but I think it adds too much overhead to the definition of each class.</li>
+<li>Don&rsquo;t make the mock inherit from the real implementation, make the user code deduce the correct type (eg by using templates). It&rsquo;s also a clean solution, but you loose a lot of type information (which might or might not be important) and it might also severely impact the build time</li>
+</ul>
+<p>To conclude, I don&rsquo;t think there&rsquo;s a perfect solution to the virtual problem. Just choose what looks better and accept we live in an imperfect world.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Bas</a> commented @ 2013-07-18T22:35:08.000+02:00:<a name="inreplytothispostbascommented20130718t223508.0000200"></a></h2>
+<p>std::function to the rescue?</p>
+<p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2013-07-20T13:28:20.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20130720t132820.0000200"></a></h2>
+<p>I don&rsquo;t think I understand how would you use it&hellip; how exactly would you use std::func to have an implementation you want to test accept (ie be injected with) a mock of an object with no virtual methods?</p>
+<p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Patrick</a> commented @ 2013-07-22T21:53:01.000+02:00:<a name="inreplytothispostpatrickcommented20130722t215301.0000200"></a></h2>
+<p>I use the CRTP solution rather extensively in my work. I find that I use it most often when the class performs IO of some form - to the console, via a file or database or network, etc. That pattern not only allows me to test classes that were previously difficult to test, but it also forces me to decompose the classes into two parts - one that performs the computation and one that does the IO. Since the IO code is usually the more complex and error-prone, it helps to keep it all together in one place.</p>
+<p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Peter Bindels</a> commented @ 2013-07-23T09:57:38.000+02:00:<a name="inreplytothispostpeterbindelscommented20130723t095738.0000200"></a></h2>
+<p>That&rsquo;s like using virtual everywhere, except worse.</p>
+<p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2013-07-23T10:09:30.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20130723t100930.0000200"></a></h2>
+<p>Thanks for the input Patrick, I&rsquo;ve never actually seen this technique used &ldquo;in the wild&rdquo;. Would you say it adds too much overhead to a simple class declaration? How about bringing up to speed new team members, does it take them a while to get used to it?</p>
+<p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Patrick Moran</a> commented @ 2013-07-23T16:26:44.000+02:00:<a name="inreplytothispostpatrickmorancommented20130723t162644.0000200"></a></h2>
+<p>That depends pretty heavily on how much overhead you consider to be &ldquo;too much&rdquo;. I find that by naming the CRTP something like &ldquo;TCRTP&rdquo;, I can make it really clear what is going on in the code. Also, if the class without is named Foo, then I put most of Foo&rsquo;s functionality in Foo_Base, and make Foo inherit from Foo_Base.</p>
+<p>We find this to be completely worth it for us. As an added bonus, it often makes for better integration testing as well. If your Foo class would normally write to a multicast socket, it can be cleaner to use another child of Foo_Base that writes to a file instead. Then the output can be compared against expected output with a simple diff.</p>
+<p>As for bringing new team members up to speed - where I work we worry a lot about latency. So we are all already accustomed to using CRTP for static dispatching. Seeing CRTP for DI is just one more application of a familiar principle. But we might be an atypical workplace.</p>
+<p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Todd Greer</a> commented @ 2013-08-01T22:58:28.000+02:00:<a name="inreplytothisposttoddgreercommented20130801t225828.0000200"></a></h2>
+<p>If you take the TEST_VIRTUAL approach, you need to also disable copy and move operations. Otherwise you&rsquo;re at risk of getting a mock object copied or moved to a real object. Of course, for the types of classes we&rsquo;re talking about, that&rsquo;s probably already been done.</p>
+<p>Separating out the part that depends on external state (as Patrick seems to be suggesting) is also a good idea.</p>
+<p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Todd Greer</a> commented @ 2013-08-01T23:01:37.000+02:00:<a name="inreplytothisposttoddgreercommented20130801t230137.0000200"></a></h2>
+<p>Also remember that this won&rsquo;t work with any methods that are called from ctors and dtors, since they won&rsquo;t be virtually dispatched. With luck, your compiler will warn you if you get that wrong.</p>
+<p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>

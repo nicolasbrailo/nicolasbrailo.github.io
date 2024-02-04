@@ -1,0 +1,199 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2016 November<a name="postsfor2016november"></a></h1>
+<h1>Simple vim plugin III: a polymorphic project greper<a name="simplevimpluginiiiapolymorphicprojectgreper"></a></h1>
+<p>By Nico Brailovsky @ 2016-11-30</p>
+<p>We&rsquo;ve recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">different key binding for different modes</a> we can do something a bit smarter . Let&rsquo;s create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">function! FG_DoSearch(needle)
+    let grepbin = &#x27;grep -nri &#x27;
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    let cmd = grepbin . &#x27; &quot;&#x27; . a:needle . &#x27;&quot; *&#x27;
+    execute &#x27;$read !&#x27; . cmd
+    setlocal nomodifiable
+endfunction
+function! FG_Search()
+    let needle = input(&quot;Search for: &quot;)
+    call FG_DoSearch(needle)
+endfunction
+function! FG_Visual_Search()
+    &quot; Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv&quot;ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    call FG_DoSearch(needle)
+endfunction
+nmap &lt;leader&gt;s :call FG_Search()&lt;CR&gt;
+vmap &lt;leader&gt;s :call FG_Visual_Search()&lt;CR&gt;
+</pre>
+<p>The magic here happens in the mapping: nmap will create a mapping that&rsquo;s only enabled when on &ldquo;normal&rdquo; mode, vmap when you&rsquo;re in visual mode. As usual, check :help map for more details.</p>
+<hr />
+<h1>Simple vim plugin II: a psychic project greper<a name="simplevimpluginiiapsychicprojectgreper"></a></h1>
+<p>By Nico Brailovsky @ 2016-11-29</p>
+<p>We have been working on a quick grep integration for Vim, and it&rsquo;s looking decent enough for a quick plugin. There&rsquo;s one more easy thing we can improve, though: let&rsquo;s make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That&rsquo;s so old fashioned. Let&rsquo;s make grep guess what to look for.</p>
+<p>In vim you have a psychic function, expand(&ldquo;&rdquo;). If you call expand(&ldquo;&rdquo;), it will return whatever word is under the cursor. No need to visually select it. If you&rsquo;re still using the same vimrc definitions, you can do something like</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">nmap s :call FG_DoSearch(expand(&quot;&quot;))
+</pre>
+<p>Let&rsquo;s clean things up a little bit:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Wrap a grep command: search for needle, show results in a new window
+function! FG_DoSearch(needle)
+    let grepbin = &#x27;grep -nri &#x27;
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    let cmd = grepbin . &#x27; &quot;&#x27; . a:needle . &#x27;&quot; *&#x27;
+    echom cmd
+    execute &#x27;$read !&#x27; . cmd
+    setlocal nomodifiable
+endfunction
+&quot; Wrap a normal action: ask the user for input, then call func with it
+function! FG_RequestInputAction(msg, func)
+    let needle = input(a:msg)
+    if strlen(needle) &gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+&quot; Wrap a visual action: call func with whatever is selected under the cursor
+function! FG_VAction(func)
+    &quot; Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv&quot;ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    &quot; Remove whitespaces
+    let needle = substitute(needle, &quot;\n\+&quot;,&quot;&quot;,&quot;g&quot;)
+    let needle = substitute(needle, &quot;\r\+&quot;,&quot;&quot;,&quot;g&quot;)
+    let needle = substitute(needle, &quot;^\s\+\|\s\+$&quot;,&quot;&quot;,&quot;g&quot;)
+    if strlen(needle) &gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+&quot; Wrap a normal action: call func with whatever is under the cursor
+function! FG_NAction(func)
+    let needle = expand(&quot;&lt;cword&gt;&quot;)
+    if strlen(needle) &gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+nmap &lt;leader&gt;s :call FG_NAction(&quot;FG_DoSearchText&quot;)&lt;CR&gt;
+vmap &lt;leader&gt;s :call FG_VAction(&quot;FG_DoSearchText&quot;)&lt;CR&gt;
+map  &lt;leader&gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quot;FG_DoSearchText&quot;)&lt;CR&gt;
+</pre>
+<p>Just copy paste that in your vimrc, now you can grep your project in three different ways: press s (,s) to look for the word currently under the cursor, S to type in a search term or select something in visual mode, then S to grep it.</p>
+<hr />
+<h1>Simple vim plugin I: integrating new commands<a name="simplevimpluginiintegratingnewcommands"></a></h1>
+<p>By Nico Brailovsky @ 2016-11-24</p>
+<p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here&rsquo;s some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
+<p>Longer version:
+We can extend our quick grep integration to other commands, quite easily. Since we defined a few wrappers to request input, get it from visual mode or just guess it, we can also have a helper function to create a scratch buffer and read a system command into it:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Find&amp;amp;Grep command wrapper: execute cmd, shows the results in a scratch buffer
+function! FG_EvalSysCmdInNewBuff(cmd)
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    execute &#x27;$read !&#x27; . a:cmd
+    setlocal nomodifiable
+endfunction
+&quot; Wrap a normal action: ask the user for input, then call func with it
+function! FG_RequestInputAction(msg, func)
+    let needle = input(a:msg)
+    if strlen(needle) &amp;gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+&quot; Wrap a visual action: call func with whatever is selected under the cursor
+function! FG_VAction(func)
+    &quot; Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv&quot;ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    &quot; Remove whitespaces
+    let needle = substitute(needle, &quot;\n\+&quot;,&quot;&quot;,&quot;g&quot;)
+    let needle = substitute(needle, &quot;\r\+&quot;,&quot;&quot;,&quot;g&quot;)
+    let needle = substitute(needle, &quot;^\s\+\|\s\+$&quot;,&quot;&quot;,&quot;g&quot;)
+    if strlen(needle) &amp;gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+&quot; Wrap a normal action: call func with whatever is under the cursor
+function! FG_NAction(func)
+    let needle = expand(&quot;&amp;lt;cword&amp;gt;&quot;)
+    if strlen(needle) &amp;gt; 0
+        execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
+    endif
+endfunction
+</pre>
+<p>Integrating any new command into our plugin is now trivial. Let&rsquo;s do it for grep and for find:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Wrap a find command: search for file &quot;needle&quot;, show results in a new window
+function! FG_DoFindFile(needle)
+    let cmd = &#x27;find -type f -iname &quot;<em>&#x27; . a:needle . &#x27;</em>&quot;&#x27;
+    call FG_EvalSysCmdInNewBuff(cmd)
+endfunction
+&quot; Wrap a grep command: search for needle, show results in a new window
+function! FG_DoSearchText(needle)
+    let cmd = &#x27;grep -nri &quot;&#x27; . a:needle . &#x27;&quot; *&#x27;
+    call FG_EvalSysCmdInNewBuff(cmd)
+endfunction
+</pre>
+<p>Then just add a few key bindings and you&rsquo;re good to go:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">gt;f :call FG_NAction(&quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
+vmap &amp;lt;leader&amp;gt;f :call FG_VAction(&quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
+map  &amp;lt;leader&amp;gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
+nmap &amp;lt;leader&amp;gt;s :call FG_NAction(&quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
+vmap &amp;lt;leader&amp;gt;s :call FG_VAction(&quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
+map  &amp;lt;leader&amp;gt;F :call FG_RequestInputAction(&quot;Find file: &quot;, &quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
+</pre>
+<p>This is an actual plugin I use in my Vim setup. You can grab the <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">latest version from my Github repo.</a></p>
+<p>Extra tip: add these too if you want to have a <a href="/blog/2015/0402_VimTipIwantmoremenus.html">GUI menu</a> for your new commands as well.</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">menu Project.Find\ File :call FG_RequestInputAction(&quot;FG_DoFindFile&quot;)
+menu Project.Text\ Search :call FG_RequestInputAction(&quot;FG_DoSearchText&quot;)
+</pre>
+<hr />
+<h1>The best hack you should never use<a name="thebesthackyoushouldneveruse"></a></h1>
+<p>By Nico Brailovsky @ 2016-11-22</p>
+<p>Please don&rsquo;t do this. But if you do: leave a comment here!</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&lt;br/&gt;#define private public;&lt;br/&gt;#include &quot;something&quot;;&lt;br/&gt;#define private private;&lt;br/&gt;
+</pre>
+<p>Found in some random project.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Tanzinul Islam</a> commented @ 2016-11-28T06:53:49.000+01:00:<a name="inreplytothisposttanzinulislamcommented20161128t065349.0000100"></a></h2>
+<p>You also probably want to do: #define class struct</p>
+<p>Original <a href="/blog/2016/1122_Thebesthackyoushouldneveruse.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2016-11-28T13:57:34.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20161128t135734.0000100"></a></h2>
+<p>Please don&rsquo;t. That&rsquo;s horrible :)
+But, yes, you&rsquo;re correct: that&rsquo;d be necessary to make this awful thing work. Thanks for the addition!</p>
+<p>Original <a href="/blog/2016/1122_Thebesthackyoushouldneveruse.html">published here</a>.</p>
+<hr />
+<h1>Vim tip: custom commands<a name="vimtipcustomcommands"></a></h1>
+<p>By Nico Brailovsky @ 2016-11-17</p>
+<p>If you have a function that you use a lot, you may find it interesting to use a custom command for it. Try this:</p>
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">:command Foo echo(&#x27;Hola!&#x27;)
+</pre>
+<p>Now invoke the command with &lsquo;:Foo&rsquo; and Vim should say hello. Neat, huh? This is especially useful (and dangerous) when combined with cabbrev, like this:</p>
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">:command! Foobar echo(&#x27;Nope!&#x27;)
+:cabbrev close Foobar
+</pre>
+<p>If you try to :close a document, Vim will now say &ldquo;Nope!&rdquo;. Other than using this to mess with someone&rsquo;s Vim session, you can replace builtin commands with your own tweaked functions. I tend to use that quite frequently in <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/">my own .vimrc</a>.</p>
+<hr />
+<h1>Ageing Stack overflow?<a name="ageingstackoverflow"></a></h1>
+<p>By Nico Brailovsky @ 2016-11-15</p>
+<p>Hacking away on a little side project of mine, I found myself checking Stack Overflow for implementation tips about things I don&rsquo;t usually work with. Android UI stuff, mostly, which apparently is a very dynamic and ever changing ecosystem. After more than a few wasted hours, I noticed a worrying trend: in SO, answers tend to age horribly. If you are looking for &ldquo;How to do X in platform Y&rdquo;, you may find a 4 year old answer that solves the problem, but only for platform Y, version &ldquo;ancient&rdquo;.</p>
+<p>Information ageing is quite a problem on its own. The answer is still valid, and, for people working on that specific platform, probably relevant. This will make it the first answer, leaving a lot of people (like myself) frustrated because the solution won&rsquo;t work in newer platforms. Is there a solution? Implement some kind of ageing time-window for information? Make the date a more prominent search parameter? Explicitly specify your platform and environment&rsquo;s version when asking a question? I have no idea.</p>
+<p>While Stack Overflow seems to exacerbate the issue, this is a problem even for products with a company actively maintaining their documentation. A very annoying example; looking for ways to manage the media key I ended up in a <a href="https://developer.android.com/training/managing-audio/volume-playback.html">page</a> which (as of August 2016) points to a very outdated API (registerMediaButtonEventReceiver, in case you are wondering). If even Google encounters problems when managing documentation ageing for their own products, what can we expect of people like us, who only have a tiny fraction of that budget?</p>
+<p>/Rant</p>
+<hr />

@@ -1,0 +1,34 @@
+<h1>C++: Why is undefinedness important<a name="cwhyisundefinednessimportant"></a></h1>
+<p>Let&rsquo;s start with an example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">int <em>x = (int</em>) NULL;
+x[0] = 42;
+</pre>
+<p>Luckily so far I&rsquo;ve never seen anyone argue about this one: we all know we&rsquo;re dealing with undefined behavior and that it&rsquo;s bad. Things get a bit more tricky when the example is not so trivial.</p>
+<h3>C&rsquo;s abstract machine<a name="csabstractmachine"></a></h3>
+<p>In a way, C and C++ describe a &ldquo;virtual machine&rdquo;. This is what the standard defines: what kind of operations are valid in this VM. This VM resembles an old single-thread mono-processor architecture. Most often, the code will run in a modern architecture that will resemble very little the design of C&rsquo;s VM. &ldquo;New&rdquo; features (like caching, vectorization, atomics, pipelining, etc) implemented by the target architecture make the process of mapping our code (in the VM that C defines) much more difficult. The compiler needs to map instructions in C&rsquo;s simple architecture to a much (*MUCH*) more complex design. To do that, it needs to analyze the code to guarantee certain constrains are met.</p>
+<p>Let&rsquo;s see how these constrains and undefined behavior relate to each other with this snippet:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename T&amp;gt;
+bool always_true(T x) {
+return (x &amp;lt; x+1);
+}
+</pre>
+<p>From a math perspective, and assuming that T is a numeric type, always_true should always return true. Is that the case for C&rsquo;s virtual machine?</p>
+<p>If we call always_true with a type like &ldquo;unsigned int&rdquo;, then x+1 may overflow and wrap around. This is fine because unsigned int&rsquo;s are allowed to wrap around. What happens if instead we use a signed type? Things get more interesting.</p>
+<p>Signed types are not allowed to overflow. If they do, the standard says the behavior is undefined. And the standard also says that our program can not invoke undefined behavior. This is a very important phrase: the standard says undefined behavior can NOT occur. There is no &ldquo;if it does&rdquo;: it just can&rsquo;t, so the compiler will assume that UB will never happen. What if it does happen? Nasal demons, that&rsquo;s what!</p>
+<p>Knowing that UB can&rsquo;t happen, and in our example above, the compiler can assume that x+1 will never overflow. If it will never overflow, (x&lt;x+1) will always be true.</p>
+<p>The compiler, by analyzing our program, can detect what conditions might trigger undefined behavior. By knowing that undefined behavior is not allowed, it can assume those conditions will never happen. That&rsquo;s why, for the sample above, any optimizing-compiler will just produce code similar to &ldquo;return true&rdquo;, at least for -O2.</p>
+<p>Undefined behavior is not (only) to make programmer&rsquo;s lives miserable, it actually is needed to create optimizing compilers.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">anon12</a> commented @ 2016-06-02T12:54:44.000+02:00:<a name="inreplytothispostanon12commented20160602t125444.0000200"></a></h2>
+<p>&ldquo;From a math perspective, and assuming that T is a numeric type, always_true should always return true&rdquo;</p>
+<p>return (x &gt; x + 1 ) always returns true !!!</p>
+<p>Are you kidding me ?</p>
+<p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Undefined, implementation defined and unspecified behaviors in C++ – Native Coding</a> commented @ 2016-06-02T23:47:33.000+02:00:<a name="inreplytothispostundefinedimplementationdefinedandunspecifiedbehaviorsincnativecodingblog_mdyoufoundadeadlink.mdcommented20160602t234733.0000200"></a></h2>
+<p>[&hellip;] And another explanation here :&nbsp;/blog_md/2016/06/02/c-why-is-undefinedness-important/ [&hellip;]</p>
+<p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2016-06-03T17:30:39.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20160603t173039.0000200"></a></h2>
+<p>That&rsquo;s a very trollish way of saying &ldquo;careful with typos&rdquo; but thanks for reporting nonetheless, anon. Fixed.</p>
+<p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>

@@ -1,0 +1,24 @@
+# Fix Spotify deeplinking in Linux + custom SpotiWeb UI
+
+@meta publishDatetime 2023-12-16T12:13:00.004+01:00
+@meta author Nico Brailovsky
+@meta originalUrl https://monkeywritescode.blogspot.com/2023/12/fix-spotify-deeplinking-in-linux-custom.html
+
+After a recent update I found [my custom Spotify UI (\*)](https://nicolasbrailo.github.io/SpotiWeb/) wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:
+
+```bash
+sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
+sudo echo '/usr/share/spotify/spotify.real --uri="$1"' > /usr/share/spotify/spotify
+
+```
+
+Seems old versions of spotify would try to open anything as a deeplink, but new versions require a `--uri` parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.
+
+In the "reminder to myself" category, as there is zero chance I'll remember this next time I'm setting up a computer.
+
+### (\*) SpotiWeb: custom Spotify UI
+
+I don't like"recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)
+
+The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and [either run your own, or check out there's no server side processing involved.](https://github.com/nicolasbrailo/SpotiWeb)
+

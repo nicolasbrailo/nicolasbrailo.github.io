@@ -1,0 +1,182 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
+<h1>Posts for 2009 October<a name="postsfor2009october"></a></h1>
+<h1>D.A.T.A.E<a name="d.a.t.a.e"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-27</p>
+<p>Damn Acronyms, They Are Everywhere. I&rsquo;m working on a project which is named as an acronym (IWC) of acronyms (IW CWMP) of acronyms (IW CPE WAN Management Protocol). You need a parser just to understand the project&rsquo;s name. Gotta love it.</p>
+<hr />
+<h1>Retrofitting unit tests for legacy code<a name="retrofittingunittestsforlegacycode"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-23</p>
+<p>Some time ago I saw a discussion at <a href="http://code.google.com/p/googletest/">google test</a> mailing list which made me ask myself how would I go about implementing TDD for a legacy codebase project, based from previous experiences. I came up with a list, open to discussion, which may be useful as a guideline for someone in this situation.</p>
+<h3>Start with integration tests<a name="startwithintegrationtests"></a></h3>
+<p>Integration tests are ugly and won&rsquo;t give you a lot of information about what went wrong when something does, but you have no chance of running real unit tests in <a href="http://en.wikipedia.org/wiki/Dependency_injection">non-injectable</a> code.</p>
+<p>Use the integration tests as a safenet to refactor the critical methods, those which will be changed the most during the projects lifetime, which leads me to the next point;</p>
+<h3>Test as you refactor (or implement new functionality)<a name="testasyourefactororimplementnewfunctionality"></a></h3>
+<p>If you plan to stop the business and write a kabillion tests for your legacy codebase you&rsquo;re out of luck. Not only you&rsquo;ll fail because the lack of value but you&rsquo;ll spend weeks writing tests and never see the ROI - you&rsquo;ll quickly grow tired.</p>
+<p>With integration tests in place take your time to write real unit tests as needed, that is when you implement new functionality or when you plan to refactor something - which should be to implement new functionality or to fix a bug.</p>
+<h3>KISS<a name="kiss"></a></h3>
+<p>Can&rsquo;t stress this enough: keep your tests simple. You&rsquo;ll notice you end up with 80% boilerplate code, setting up mocks, creating test objects, etc. When that test fails you&rsquo;ll have no clue why was it there in the first place.</p>
+<p>This happens a lot with legacy codebases, where stagnant code tends to get quite coupled and messy. If you plan to write a big mega test to cover every use case with a single test, the day it fail you&rsquo;ll quickly know it&rsquo;s not production ready but you&rsquo;ll have no clue why is that.</p>
+<h3>Mock layers<a name="mocklayers"></a></h3>
+<p>If you have a project divided in components (even the ugliest legacy code tends have some sort of layers separation, even if coupled with other components) try to create mocks for a whole layer of the application (I ended up with a complete mock of a DB, for example). This will help you in the long run to isolate troublesome modules.</p>
+<h3>Have a team commitment<a name="haveateamcommitment"></a></h3>
+<p>If you&rsquo;re working on your own or with a team, make it mandatory to run the tests for each commit. Even better if you can implement a continuous integration server.</p>
+<hr />
+<h1>Vim Tip: Open file in new tab<a name="vimtipopenfileinnewtab"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-21</p>
+<p>How many times have you been on a project which #includes another file and wanted to see what that file was? Well you can navigate the source code tree in a gui if you use eclipse. You can go to File &gt; Open and, again, fight with a nice gui in Notepad. Or you can open up that file with four keystrokes in a real editor, THE real editor. Just use &ldquo;C-W g f&rdquo; with the cursor over the filename and it&rsquo;ll open in a new tab, ready for you to hack away more code.</p>
+<hr />
+<h1>Methods and instance variables: should there be a difference?<a name="methodsandinstancevariablesshouldtherebeadifference"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-19</p>
+<p>Many times I find myself forgetting the parenthesis for a method with no arguments and a nasty compiler error. This reminds me of my Rubyst times. There&rsquo;s no difference between methods and instance variables in Ruby, so this:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">class Foo
+  @bar
+end
+foo.bar = 1
+</pre>
+<p>Could be changed to</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">class Foo
+  @bar
+  def bar=(val) @bar = val end
+end
+foo.bar = 1
+</pre>
+<p>and the dependant objects using the property would use the new behaviour without ever needing a change in the way bar is accessed.</p>
+<p>In languages like C++ the parentheses are mandatory so you can have a clear difference between instance variables and methods, and between a method call and a function pointer (which should be referenced as &amp;Foo::bar and not Foo::bar anyway).</p>
+<p>All of this always leads to the same conclusion: closing parenthesis should not be needed!</p>
+<hr />
+<h1>Zomg! happy (late) birthday<a name="zomghappylatebirthday"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-16</p>
+<p>Can&rsquo;t believe it&hellip; <strong>a whole year has gone by</strong> and I didn&rsquo;t even notice. The <a href="blog_md/2008/1009_self.start.md">frist psot</a> was over a year ago and now with over a hundred posts in the archives, a <a href="/blog/youfoundadeadlink.html">second blog</a> [spanish only] starting, many changes in the directions of the articles and a timidly and ever quiet growing reader base, I can say I didn&rsquo;t learn anything at all from the experience.</p>
+<p>I bet that&rsquo;s not the kind of speech you were expecting but the message I would like to transmit today is this: to all the people trying to start a blog, do it for fun, nothing more nothing less. Don&rsquo;t expect any kind of epiphany (not even in a web browser form) nor a sudden burst in online popularity (what for anyway?). You may get those as a byproduct of the experience but starting a blog only for that is a recipe for boredom and frustration.</p>
+<p><strong>Write, for a whole year, just because it&rsquo;s fun</strong></p>
+<hr />
+<h1>Write in C<a name="writeinc"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-15</p>
+<p>From <a href="http://www.youtube.com/watch?v=J5LNTTGDKYo&amp;feature=related">http://www.youtube.com/watch?v=J5LNTTGDKYo&amp;feature=related</a>
+<strong>Write in C</strong></p>
+<pre style="display: inline-block; border: 1px solid red;">
+When I find my code in tons of trouble,
+Friends and colleagues come to me,
+Speaking words of wisdom:
+&quot;Write in C.&quot;
+As the deadline fast approaches,
+And bugs are all that I can see,
+Somewhere, someone whispers:
+&quot;Write in C.&quot;
+Write in C, write in C,
+Write in C, oh, write in C.
+LISP is dead and buried,
+Write in C.
+I used to write a lot of FORTRAN,
+For science it worked flawlessly.
+Try using it for graphics!
+Write in C.
+If you&#x27;ve just spent nearly 30 hours
+Debugging some assembly,
+Soon you will be glad to
+Write in C.
+Write in C, write in C,
+Write in C, yeah, write in C.
+BASIC is for wimps.
+Write in C.
+Write in C, write in C,
+Write in C, oh, write in C.
+Pascal won&#x27;t quite cut it.
+Write in C.
+Write in C, write in C,
+Write in C, yeah, write in C.
+Don&#x27;t even mention COBOL.
+Write in C.
+And when the screen is fuzzy,
+And the editor is bugging me.
+I&#x27;m sick of ones and zeros,
+Write in C.
+A thousand people swear that T.P.
+Seven is the one for me.
+I hate the word PROCEDURE,
+Write in C.
+Write in C, write in C,
+Write in C, yeah, write in C.
+PL1 is &#x27;80s,
+Write in C.
+Write in C, write in C,
+Write in C, yeah, write in C.
+The government loves ADA,
+Write in C.
+Write in C, write in C,
+Write in C, yeah, write in C.
+Java&#x27;s not quite there yet,
+Write in C.
+</pre>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Daniel</a> commented @ 2010-03-02T14:20:24.000+01:00:<a name="inreplytothispostdanielcommented20100302t142024.0000100"></a></h2>
+<p>Just only a question: &iquest;I must write in C?</p>
+<p>Original <a href="/blog/2009/1015_WriteinC.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-03-02T15:47:02.000+01:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100302t154702.0000100"></a></h2>
+<p>Claro, con el squid que te bloquea youtube en el laburo seguro que no entendes el post :P</p>
+<p>Original <a href="/blog/2009/1015_WriteinC.html">published here</a>.</p>
+<hr />
+<h1>Lighty WTF<a name="lightywtf"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-14</p>
+<p>Seen @ <a href="http://www.lighttpd.net/">Lighttpd</a></p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">242:    srv-&amp;gt;srvconf.reject_expect_100_with_417 = 1;
+</pre>
+<p>That line should totally be &ldquo;= 42&rdquo;</p>
+<hr />
+<h1>What I like about Linux and C++<a name="whatilikeaboutlinuxandc"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-12</p>
+<p>Some time ago I worked in a team with a guy who liked programming in Java. Really like it, to the point where the weaknesess of the language were all in his blindspot. I did the only sensible thing a guy like me can do, sent him a mail stating that the lack of <a href="http://en.wikipedia.org/wiki/Closure_(computer_science)">closures</a> in Java would doom the language as soon as C++0X comes out.</p>
+<p>That is not really my opinion but it sure served my pourpose. Trolling. Obviously I recieved a three page email back, explaining why adopting closures as part of the Java specification was irrelevant due the use of inner classes (?) or something like that, I don&rsquo;t remember now.</p>
+<p>I must admit this was not my first time trolling around a language zealot (and it IS fun, let me say it) may this post serve as a public apollogy for those who have suffered it.</p>
+<p>What was that long introduction for? There are lots of religious wars amongst programmers. Vim vs emacs, Windows vs Linux, tabs vs spaces. We all know (Vim, Linux, tabs) what are the best options, but fighting is still fun and with due respect for each other quite healthy.</p>
+<p>It&rsquo;s difficult to distinguish when &ldquo;religious fantatism&rdquo; for a tecnology overcomes pragmatism, making a task much more difficult than it should, instead of simplifing it, because of the use of a specific tool. Take for example watching a movie in console mode. Kudos to whoever can do it, I have better things to do in my spare time.</p>
+<p>How does all this relate to Linux, C++ and programming in my twisted mind? What I&rsquo;ve noticed about (most) people using C++ and GNU/Linux as a working platform is that we are always complaining. No, I don&rsquo;t mean we&rsquo;re grumpy old dinosaurs (altought you can certainly find a fair share of those too) but you tend to meet people who are much more aware of the limitations they platform of choice has.</p>
+<p>In my years as a programmer I&rsquo;ve worked with PHP, Java, .NET, Ruby, Linux, Windows, etc. From all these platforms I could say I found people truly offended when told their platform sucks. Most, if not all, C+++Linux (lol, ain&rsquo;t I smart?) programmers I&rsquo;ve found so far have one thing in common: they (we) all know both Linux AND C++ suck. They suck hard, C++ syntax is messy, Linux has configuration and portability problems, pointers will screw you at any chance. But we know this.</p>
+<p>Far more important than actually choosing the perfect OS, the perfect language, the perfect whatever, choose what better fits your skills and your team, then know your limitations by hearth. It&rsquo;ll save you lots of trouble.</p>
+<p>PS: I like the new category, &ldquo;Grumpy&rdquo;. Here I&rsquo;ll post all kind of rants and subjective opinions I feel like posting.</p>
+<hr />
+<h1>Grumpy Old Man: What I Hate About SQL<a name="grumpyoldmanwhatihateaboutsql"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-09</p>
+<p>SQL is ugly by itself, it may rightfuly be considered so by its pseudo standarization, the ugly syntax and many other things which don&rsquo;t matter here, but there&rsquo;s something really really stupid, one bit of its syntax which drives me crazy.</p>
+<p>Why, why oh why, doesn&rsquo;t the standard allows &ldquo;SELECT Foo, FROM
+TABLE&rdquo; to be valid syntax? I always forget to remove the last comma when
+ there are lots of fields and don&rsquo;t tell me you don&rsquo;t, I know that is a
+lie!</p>
+<p></rant mode off></p>
+<hr />
+<h1>Vim Tip: Folding FTW<a name="vimtipfoldingftw"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-06</p>
+<p>I always say methods should have two levels of indentation at most, but even if your code is perfect like mine you may still have to dwell with other people&rsquo;s code (which, obviously, is ugly code), people how may have lots of fun shaping the program like a pyramid.</p>
+<p>Not all is lost, you don&rsquo;t have to commit sepuku (at least not for this one). Just use Vim&rsquo;s indent method like this:</p>
+<pre style="display: inline-block; border: 1px solid red;">:set foldmethod=indent
+</pre>
+<p>That should give you a better view of the code flow. As always, use &lsquo;%&rsquo; to navigate all those pesky { and }.</p>
+<hr />
+<h1>Your money or your life!<a name="yourmoneyoryourlife"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-05</p>
+<p><a href="/blog/youfoundadeadlink.html"><img alt="assalto_en" src="/blog_img/img_lost.png" /></a></p>
+<p>The sad truth</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">FoxRose</a> commented @ 2009-10-17T02:12:24.000+02:00:<a name="inreplytothispostfoxrosecommented20091017t021224.0000200"></a></h2>
+<p>no en este pa&iacute;s</p>
+<p>Original <a href="/blog/2009/1005_Yourmoneyoryourlife.html">published here</a>.</p>
+<hr />
+<h1>gdb: debugging multithreaded applications<a name="gdbdebuggingmultithreadedapplications"></a></h1>
+<p>By Nico Brailovsky @ 2009-10-01</p>
+<p>Few things look cooler than debugging a multithreaded application using <a href="/blog/2009/0922_gdbgraphictuimode.html">TUI</a> through ssh on a client, halfway across the world. There you are, felling the geek of the century when all of the sudden gdb starts jumping from one thread to the other. OMFGBBQ! What are you going to do now?</p>
+<p>The scheduler locking policy defines when will thread context swtiches occur. If you are debuging a thead and don&rsquo;t want to be bothered by another then just lock the scheduler.</p>
+<p>gdb has a default scheduling locking which defaults to &ldquo;most annoying&rdquo;, but fortunately you can easily change it:</p>
+<p>set scheduler-locking</p>
+<p>The possible values are:
+* off: Disable locking, switches threads whenever gdb damn pleases
+* on: Enable locking, won&rsquo;t (ever) switch threads. <strong>Beware of deadlocks!</strong>
+* step: Disable locking while running only</p>
+<p>Hopefully this will save you some time.</p>
+<hr />
