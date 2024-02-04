@@ -18,7 +18,7 @@ In the "reminder to myself" category, as there is zero chance I'll remember this
 
 ### (\*) SpotiWeb: custom Spotify UI
 
-I don't like"recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)
+I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)
 
 The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and [either run your own, or check out there's no server side processing involved.](https://github.com/nicolasbrailo/SpotiWeb)
 
