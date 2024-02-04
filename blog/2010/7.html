@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2010 July<a name="postsfor2010july"></a></h1>
 <h1>Oh my god<a name="ohmygod"></a></h1>
-<p>By Nico Brailovsky @ 2010-07-29 -  <a href="/blog/2010/0729_Ohmygod.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-29 -
+    <a href="/blog/2010/0729_Ohmygod.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0729_Ohmygod.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>An old good Unix console joke goes like this:</p>
 <p>% ar m God
 ar: God does not exist</p>
@@ -16,7 +18,9 @@ ar: God does not exist</p>
 $ ar: creating God</p>
 <hr />
 <h1>Design Patterns: C++ Idiom RAII<a name="designpatternscidiomraii"></a></h1>
-<p>By Nico Brailovsky @ 2010-07-27 -  <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-27 -
+    <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0727_DesignPatternsCIdiomRAII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Ohh design patterns. I love buzzwords. Who doesn't? To increase my buzzword count I will be writing about a topic most people programming C++ should already know: RAII, resource acquisition is initialization.</p>
 <h3>Patterns everywhere<a name="patternseverywhere"></a></h3>
 <p>Knowing that Gamma et al didn't list all the known patterns in the universe does come as a surprise to some, not sure why though. The twenty some patterns they write about in their now famous book are (arguably, perhaps) some of the most common design patterns, but the list hardly finishes there.</p>
@@ -86,7 +90,9 @@ class RAII_Wrapper {
 <p>So, RAII is a great idea indeed, and it has it's uses, but you should be careful when choosing this C++ specific pattern.</p>
 <hr />
 <h1>Fuuuuuuuuuuuuuu (Opera)<a name="fuuuuuuuuuuuuuuopera"></a></h1>
-<p>By Nico Brailovsky @ 2010-07-23 -  <a href="/blog/2010/0723_FuuuuuuuuuuuuuuOpera.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-23 -
+    <a href="/blog/2010/0723_FuuuuuuuuuuuuuuOpera.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0723_FuuuuuuuuuuuuuuOpera.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I hate ubuntu, but I hate windows the most. I hate firefox, but internet explorer makes me want to vomit. I don't like gnome, but kde is uglier. But I love Opera. Well, loved it, I guess version 10.60 will be my last version.</p>
 <p>It's been a loyal application which I've been using since its 6.x version. Always fast, with all the functionality I needed (some more too) and none of the bloated BS needed to make FF be a usable (though ugly) browser. It had it's ussual screw-ups, everyone does, but after I updated to version 10.60 it has become unusable.</p>
 <p>Its new features include random crashe, making gmail work really slow (or not at all: the fucking scrollbar won't work anymore, and keyboard shortcuts in google reader (j &amp; k, next &amp; prev) are foobar'd. Scrolling on a large webpage eats 100% cpu, the upgrade fucked up my nice dark theme (and changed it back to a hellish abomination which seems to be a time-traveller from 1998), and it has random stupid bugs. And I mean STUPID, like, double click a word and the popup menu won't go away.</p>
@@ -97,14 +103,18 @@ class RAII_Wrapper {
 <p>Original <a href="/blog/2010/0723_FuuuuuuuuuuuuuuOpera.html">published here</a>.</p>
 <hr />
 <h1>Template metaprogramming XI: Hidden Agenda<a name="templatemetaprogrammingxihiddenagenda"></a></h1>
-<p>By Nico Brailovsky @ 2010-07-20 -  <a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-20 -
+    <a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Wow, number eleven already. We're getting more chapters here than Final Fantasy games. I didn't even imagine there was so much to write about such an esoteric language features like templates. I do wonder if anyone will actually read it, but that's a completely different problem.</p>
 <p>Enough meta-meta talk: what can we do with all the things we have learned? We can calculate pi and e, we already showed that as an example on one of the first chapters. This chapter I'm going to write about what motivated me to explore the bizarre underworld of template metaprogramming. Some time ago I had to <a href="/search?q=Berkeley">work with a Berkeley DB</a> researching the feasibility of developing a magic cache for (real) DB table. Leaving aside the discussion of whether this is a good idea (the project did have a good reason to be researched) I hit a major roadblock when trying to provide a façade for every table; something like this:</p>
 <p><img alt="" src="/blog_img/virtualtemplate.png" />
 See the problem? To do something like that we'd need a <a href="/blog/2009/0803_CMagiccallbackssolved.html">virtual template method</a>, and you can't have that. After seeing that I thought to myself "Hey, I'll use templates!". Then I had two problems, but the damage was done, I couldn't go back. What kind of contorted device could we implement to make such a devious requirement work? I'll leave you to think it, the answers I came up with next week.</p>
 <hr />
 <h1>Thanks for flying vim<a name="thanksforflyingvim"></a></h1>
-<p>By Nico Brailovsky @ 2010-07-15 -  <a href="/blog/2010/0715_Thanksforflyingvim.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-15 -
+    <a href="/blog/2010/0715_Thanksforflyingvim.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0715_Thanksforflyingvim.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Have you ever used Vim through ssh and saw your xterm title changes to "Thanks for flying vim"? It happens a lot to me, and I usualy notice about an hour later. I'm not sure what's the use of this, I guess it's related to Vim airlines (no, really, check <a href="/blog/youfoundadeadlink.html">vim-avia.com</a>), but it can be turned off:</p>
 <blockquote>
 <p>When using vim in an xterm it renames the title of that window to "Thanks for flying vim" on exit.</p>
@@ -114,7 +124,9 @@ A: :set notitle</p>
 <p>-- <a href="http://www.vmunix.com/vim/answ.html">http://www.vmunix.com/vim/answ.html</a></p>
 <hr />
 <h1>The truth about SNMP<a name="thetruthaboutsnmp"></a></h1>
-<p>By Nico Brailovsky @ 2010-07-13 -  <a href="/blog/2010/0713_ThetruthaboutSNMP.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-13 -
+    <a href="/blog/2010/0713_ThetruthaboutSNMP.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0713_ThetruthaboutSNMP.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Seen @ http://wiki.wireshark.org/SNMP:</p>
 <blockquote>
 <p>After years thinking and reading RFCs and various other documents, today, I finally understood. "Simple" refers to "Network" not to "Management Protocol"! So it is a Management Protocol for Simple Networks not a Simple Protocol for Management of Networks... That explains why it's called "Simple". It was that Simple but it took me years to understand it! -- LuisOntanon</p>
@@ -122,13 +134,17 @@ A: :set notitle</p>
 <p>Thank you Luis. That explains a lot.</p>
 <hr />
 <h1>Opera borks gmail<a name="operaborksgmail"></a></h1>
-<p>By Nico Brailovsky @ 2010-07-08 -  <a href="/blog/2010/0708_Operaborksgmail.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-08 -
+    <a href="/blog/2010/0708_Operaborksgmail.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0708_Operaborksgmail.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Ubuntu sucks, but less than windows. Gmail sucks, but less than hotmail. Opera rocks, but it tends to fuck up gmail every once in a while. After a lot of research and having found no help on the interweb I traced the problem to having a lot of tabs open for a lot of time (weeks, not hours).</p>
 <p>In Firefox this shouldn't be a problem as having a FF browser open for a week should hog all the memory on its host computer, forcing you to reboot. In Opera, being a little bit better behaved browser, this may actually be a problem.</p>
 <p>Luckly the fix is simple: open a <a href="/search/label/Vim">Vim</a> editor or take out pencil and paper, make a list of all your open tabs, close opera and using your favourite console type "rm -rf ~/.opera/sessions" (i.e. delete the sessions folder in your .opera dir). Restart Opera and restore your tabs from your backup list. Problem should be gone.</p>
 <hr />
 <h1>Elvis is alive!<a name="elvisisalive"></a></h1>
-<p>By Nico Brailovsky @ 2010-07-06 -  <a href="/blog/2010/0706_Elvisisalive.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-06 -
+    <a href="/blog/2010/0706_Elvisisalive.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0706_Elvisisalive.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Unix trivia day: in the olden days of the 90's there were a lot of Unix boxes out there named "elvis". Nowdays it's not uncommon to find one, either. Have you ever wondered why are there so many boxes called elvis?</p>
 <p>This is related to Solaris' ping command. When you ping $HOST it prints "$HOST is alive" (if it's responding the pings), thus elvis is alive!</p>
 <hr />

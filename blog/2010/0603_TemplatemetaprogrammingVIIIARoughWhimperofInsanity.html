@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Template metaprogramming VIII: A Rough Whimper of Insanity<a name="templatemetaprogrammingviiiaroughwhimperofinsanity"></a></h1>
 <p>Remember last time? We learned how to get the lenght of a list. This time I'll introduce some more of these basic ops. Let's begin with "Nth": getting the Nth element of a list; which, remember, in this case is a type, not a concrete element. This means the Nth element will be something like int, char, const char*, not 1, 2 or 3. We introduced a trick to get around this limitation before using a template , go there to refresh your memory if needed.</p>
 <p>So, what would the coloquial definition of "Nth" be? I'd put it like "The operation Nth for a list equals the head of the list for N = 0 and Nth (minus one) of the tail otherwise". A little bit more formally:</p>
@@ -81,3 +88,11 @@ template &lt;class Elm&gt; struct Includes&lt;Elm, NIL&gt; {
 ```
 
 Very esoteric looking, the right mix of Haskel, C++ and booze to ensure job security for life. Next time we'll find a way to search for the position of an element, a somewhat more complicated task.
+
+
+
+---
+
+Post by Nico Brailovsky @ 2010-06-03 -
+    [Permalink](/blog_md/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.md) -
+    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.md&body=I%20have%20a%20comment!)

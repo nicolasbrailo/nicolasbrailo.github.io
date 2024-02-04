@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood II: a tiny ABI<a name="cexceptionsunderthehoodiiatinyabi"></a></h1>
 <p>If we are going to try and understand why exceptions are complex and how do they work, we can either read a lot of manuals or we can try to write something to handle the exceptions ourselves. Actually, I was surprised by the lack of good information on this topic: pretty much everything I found is either incredibly detailed or very basic, with one exception or two. Of course there are some specifications to implement (most notably the <a href="/blog/youfoundadeadlink.html">ABI for c++</a> but we also have <a href="http://www.logix.cz/michal/devel/gas-cfi/">CFI</a>, <a href="http://www.logix.cz/michal/devel/gas-cfi/dwarf-2.0.0.pdf">DWARF</a> and libstdc) but reading the specification alone is not enough to really learn what's going on under the hood.</p>
 <p>Let's start with the obvious then: wheel reinvention! We know for a fact that plain C doesn't handle exceptions, so let's try to link a throwing C++ program with a plain C linker and see what happens. I came up with something simple like this:</p>
@@ -43,3 +50,7 @@ collect2: ld returned 1 exit status
 <p>And sure enough, gcc complains about missing C++ symbols. Those are very special C++ symbols, though. Check the last error line: a vtable for cxxabiv1 is missing. cxxabi, defined in libstdc++, refers to the application binary interface for C++. So now we have learned that the exception handling is done with some help of the standard C++ library with an interface defined by C++'s ABI.</p>
 <p>The C++ ABI defines a standard binary format so we can link objects together in a single program; if we compile a .o file with two different compilers, and those compilers use a different ABI, we won't be able to link the .o objects into an application. The ABI will also define some other formats, like for example the interface to perform stack unwinding or the throwing of an exception. In this case, the ABI defines an interface (not necessarily a binary format, just an interface) between C++ and some other library in our program which will handle the stack unwinding, ie the ABI defines C++ specific stuff so it can talk to non-C++ libraries: this is what would enable exceptions thrown from other languages to be caught in C++, amongst other things.</p>
 <p>In any case, the linker errors are pointing us to the first layer into exception handling under the hood: an interface we'll have to implement ourselves, the cxxabi. For the next article we'll be starting our own mini ABI, as defined in the <a href="/blog/youfoundadeadlink.html">C++ ABI</a>.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-02-12 -
+    <a href="/blog/2013/0212_CexceptionsunderthehoodIIatinyABI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0212_CexceptionsunderthehoodIIatinyABI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

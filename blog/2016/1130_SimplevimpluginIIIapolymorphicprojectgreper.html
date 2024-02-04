@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Simple vim plugin III: a polymorphic project greper<a name="simplevimpluginiiiapolymorphicprojectgreper"></a></h1>
 <p>We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">different key binding for different modes</a> we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">function! FG_DoSearch(needle)
@@ -27,3 +34,7 @@ nmap &lt;leader&gt;s :call FG_Search()&lt;CR&gt;
 vmap &lt;leader&gt;s :call FG_Visual_Search()&lt;CR&gt;
 </pre>
 <p>The magic here happens in the mapping: nmap will create a mapping that's only enabled when on "normal" mode, vmap when you're in visual mode. As usual, check :help map for more details.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2016-11-30 -
+    <a href="/blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

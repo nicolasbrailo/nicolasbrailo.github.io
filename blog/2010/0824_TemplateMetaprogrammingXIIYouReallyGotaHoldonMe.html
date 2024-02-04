@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Template Metaprogramming XII: You Really Got a Hold on Me<a name="templatemetaprogrammingxiiyoureallygotaholdonme"></a></h1>
 <p>Remember our virtual template method problem, from the other time? (I know, I said the answer was scheduled for a week after that post, but then I just forgot about it). May be we could avoid the virtual part by keeping a list of all our caches... how would we know which one should we dispatch the message to? Easy, using templates.</p>
 <p>Instead of a list let's keep two, for twice the fun. One for the rows cache, another for the PKs. We can use PK to know which ROW Cache should we choose. Let's try to write a pseudo code for it:</p>
@@ -44,3 +51,7 @@ int main() {
 }
 </pre>
 <p>Great, now we can find an element on a list of types. The real virtual dispatch for the next entry :D</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2010-08-24 -
+    <a href="/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

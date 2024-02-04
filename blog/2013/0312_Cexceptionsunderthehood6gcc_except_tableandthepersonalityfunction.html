@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood 6: gcc_except_table and the personality function<a name="cexceptionsunderthehood6gcc_except_tableandthepersonalityfunction"></a></h1>
 <p>We learned last time that, just as a throw statement is translated into a pair of <strong>__cxa_allocate_exception/throw</strong> calls, a catch block is translated into a pair of <strong>__cxa_begin/end_catch</strong> calls, plus something called CFI (call frame information) to find the landing pads, the points on a function where an exception can be handled.</p>
 <p>What we don't yet know is how does _Unwind_* know where the landing pads are. When an exception is thrown there are a bunch of functions in the stack; all the CFI stuff will let Unwind know which functions these are but it's also necessary to know which landing pads each function provides so we can call each one and check if it wants to handle the exception (and we're ignoring functions with multiple try/catch blocks!).</p>
@@ -13,3 +20,7 @@
 <p>To wrap it up: for every function where at least a catch is found, the compiler will translate this statement into a pair of <strong>__cxa_begin_catch/__cxa_end_catch</strong> calls and then the personality function, which will be called by <strong>__cxa_throw</strong>, will read the gcc_except_table for every method in the stack, to find something call LSDA. The personality function will then check in the LSDA whether a catch can handle an exception and if there is any cleanup code to run (this is what triggers the destructors when needed).</p>
 <p>We can also draw an interesting conclusion here: if we use the nothrow specifier (or the empty throw specifier) then the compiler can omit the gcc_except_table for this method. The way gcc implements exceptions, that won't have a great impact on performance but it will indeed reduce code size. What's the catch? If an exception is thrown when nothrow was specified the LSDA won't be there and the personality function won't know what to do. When the personality function doesn't know what to do it will invoke the default exception handler, meaning that in most cases throwing from a nothrow method will end up calling std::terminate.</p>
 <p>Now that we have an idea of what the personality function does, can we implement one? We'll see how next time.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-03-12 -
+    <a href="/blog/2013/0312_Cexceptionsunderthehood6gcc_except_tableandthepersonalityfunction.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0312_Cexceptionsunderthehood6gcc_except_tableandthepersonalityfunction.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

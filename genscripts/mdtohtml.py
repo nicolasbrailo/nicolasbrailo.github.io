@@ -179,10 +179,18 @@ class MdToHtml:
             dst = dst + '/'
         self.link_abs_dst = dst
 
-    def read_md_write_html(self, mdpath):
+    def read_md_write_html(self, tmpl, mdpath):
         with open(mdpath, 'r') as fp:
             md = fp.read()
-        return self.write_file(mdpath, md)
+        pre_procd = tmpl.replace('{{content}}', md)
+        srcFile = mdpath
+        if srcFile[0] == '.':
+            srcFile = srcFile[1:]
+        repld = apply_template(pre_procd, {
+                'generatedDate': datetime.now().strftime('%Y-%m-%d'),
+                'srcFile': srcFile,
+        })
+        return self.write_file(mdpath, repld)
 
     def write_file(self, relpath, md_txt):
         if self.src_path in relpath:

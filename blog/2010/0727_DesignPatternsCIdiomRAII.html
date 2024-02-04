@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Design Patterns: C++ Idiom RAII<a name="designpatternscidiomraii"></a></h1>
 <p>Ohh design patterns. I love buzzwords. Who doesn't? To increase my buzzword count I will be writing about a topic most people programming C++ should already know: RAII, resource acquisition is initialization.</p>
 <h3>Patterns everywhere<a name="patternseverywhere"></a></h3>
@@ -66,3 +73,7 @@ class RAII_Wrapper {
 <p>Even if throwing constructors are acceptable, throwing destructors may even be a worst idea: throwing while an exception is already active is a cause for concern (tip: it'll crash your application, doesn't matter how many try/catch blocks you use, due to stack unwinding issues).</p>
 <p>And then, even if we don't care about throwing destructors you have the issue of a release failure: how do you notify the user that a release failure has occurred? And what do you do, should it happen?</p>
 <p>So, RAII is a great idea indeed, and it has it's uses, but you should be careful when choosing this C++ specific pattern.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2010-07-27 -
+    <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0727_DesignPatternsCIdiomRAII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

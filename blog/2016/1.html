@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2016 January<a name="postsfor2016january"></a></h1>
 <h1>On the poor state of geotagging applications for Linux<a name="onthepoorstateofgeotaggingapplicationsforlinux"></a></h1>
-<p>By Nico Brailovsky @ 2016-01-28 -  <a href="/blog/2016/0128_OnthepoorstateofgeotaggingapplicationsforLinux.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-01-28 -
+    <a href="/blog/2016/0128_OnthepoorstateofgeotaggingapplicationsforLinux.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0128_OnthepoorstateofgeotaggingapplicationsforLinux.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <h4>tl;dr</h4>
 <p>I hacked together <a href="https://github.com/nicolasbrailo/IMGeotagger">IMGeotagger</a>, a Geotagger for Linux (though it should work in Windows too) that uses Google maps.</p>
 <h4>Not-so-tl;dr-version</h4>
@@ -20,7 +22,9 @@
 <p>(*) What's geotagging? That's adding GPS coordinates on the exif metadata of your pictures. This is only useful to nerds and very pedantic people who enjoy analyzing photo albums to get GPS plots and other nerdy things like that.</p>
 <hr />
 <h1>gdb-tui and the previous-command problem<a name="gdbtuiandthepreviouscommandproblem"></a></h1>
-<p>By Nico Brailovsky @ 2016-01-26 - 11 comments <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-01-26 -
+    <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0126_gdbtuiandthepreviouscommandproblem.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Raise your hand if you have run gdb in <a href="/blog/2009/0922_gdbgraphictuimode.html">tui</a> (graphical) mode, only to find you can't refer to the previous command when pressing "up". I can't see you but I know this is true for pretty much everyone reading this blog. All three of you.</p>
 <p>In the gdb-TUI mode, the arrow keys are used by the active window for scrolling. This means they are not available for readline, the component that takes care of the magic invocations needed to bring back the previous command from the land of the dead. Luckily there are alternative readline keybindings: just try C-p, C-n, C-b and C-f. Takes a while getting used to it but you can finally use gdb-TUI and forget about copy-pasting every gdb command.</p>
 <p>Bonus tip: if pressing "up" (or C-p) in gdb doesn't bring back the previous command, it probably means you don't have the readline package installed. Go ahead an install it. It'll change your life.</p>

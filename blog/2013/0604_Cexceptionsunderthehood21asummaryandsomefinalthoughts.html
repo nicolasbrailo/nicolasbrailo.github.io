@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood 21: a summary and some final thoughts<a name="cexceptionsunderthehood21asummaryandsomefinalthoughts"></a></h1>
 <p>After writing twenty some articles about C++ low level exception handling, it's time for a recap and some final thoughts. What did we learn, how is an exception thrown and how is it caught?</p>
 <p>Leaving aside the ugly details of reading the .gcc_except_table, which were probably the biggest part of these articles, we could summarize the whole process like this:</p>
@@ -22,3 +29,7 @@
 <p>Exceptions, while conceptually clean, are pretty much "spooky action at a distance". Throwing and catching an exception involves a certain degree of reflexion (in the sense that a program must analyze itself) which is not common for C++ applications.</p>
 <p>Even if we talk about higher level languages, throwing an exception means we cannot rely on our understanding of how a normal program execution flow should work anymore: we are used to a pretty much linear execution flow with some conditional operators branching or calling other functions. With an exception, this no longer holds true: an entity which is not the code of our application is in control of the execution, and it goes around the program executing certain blocks of code here and there without following any of the normal rules. The instruction pointer gets changed by each landing pad, the stack is unwinded in ways we can't control and, ultimately, a lot of magic happens under the hood.</p>
 <p>To summarize it even more: exceptions are hard simply because they break the natural flow of a program as we understand it. This does not mean they are intrinsically bad as properly used exceptions can surely lead to cleaner code, but they should always be used with care.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-06-04 -
+    <a href="/blog/2013/0604_Cexceptionsunderthehood21asummaryandsomefinalthoughts.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0604_Cexceptionsunderthehood21asummaryandsomefinalthoughts.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

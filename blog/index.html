@@ -6,7 +6,9 @@
 <li><a href="/blog/history.html">History</a></li>
 </ul>
 <h1>Fix Spotify deeplinking in Linux + custom SpotiWeb UI<a name="fixspotifydeeplinkinginlinuxcustomspotiwebui"></a></h1>
-<p>By Nico Brailovsky @ 2023-12-16 -  <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2023-12-16 -
+    <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
 sudo echo &#x27;/usr/share/spotify/spotify.real --uri=&quot;$1&quot;&#x27; &gt; /usr/share/spotify/spotify
@@ -18,13 +20,17 @@ sudo echo &#x27;/usr/share/spotify/spotify.real --uri=&quot;$1&quot;&#x27; &gt; 
 <p>The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and <a href="https://github.com/nicolasbrailo/SpotiWeb">either run your own, or check out there's no server side processing involved.</a></p>
 <hr />
 <h1>Translated to Chinese!<a name="translatedtochinese"></a></h1>
-<p>By Nico Brailovsky @ 2023-01-14 -  <a href="/blog/2023/0114_TranslatedtoChinese.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2023-01-14 -
+    <a href="/blog/2023/0114_TranslatedtoChinese.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2023/0114_TranslatedtoChinese.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Small celebratory post, because I never expected it:</p>
 <p><a href="/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg"><img alt="" src="/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg" /></a>
 Someone translated <a href="http://github.com/nicolasbrailo/pianOli">one of my open source projects</a> to Chinese!</p>
 <hr />
 <h1>Bash script preamble<a name="bashscriptpreamble"></a></h1>
-<p>By Nico Brailovsky @ 2021-06-27 -  <a href="/blog/2021/0627_Bashscriptpreamble.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2021-06-27 -
+    <a href="/blog/2021/0627_Bashscriptpreamble.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2021/0627_Bashscriptpreamble.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>All background Bash scripts should start with this preamble:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">set -euo pipefail
 exec &gt; ~/log.log 2&gt;&amp;1
@@ -38,14 +44,18 @@ exec &gt; ~/log.log 2&gt;&amp;1
 </ul>
 <hr />
 <h1>Where is the fun in that?<a name="whereisthefuninthat"></a></h1>
-<p>By Nico Brailovsky @ 2021-03-18 -  <a href="/blog/2021/0318_Whereisthefuninthat.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2021-03-18 -
+    <a href="/blog/2021/0318_Whereisthefuninthat.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2021/0318_Whereisthefuninthat.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>You can always find coders asking why coding isn't fun anymore. I can somewhat relate but I never understood why the answer isn't obvious: coding isn't software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there's also not-interesting-stuff in the mix. Maybe testing and documenting isn't your thing, you just want to build something. Maybe the stability from testing and documenting isn't that important to you. Perhaps you know you're the only one who's ever going to read your code. Your future self may be angry at you for a little while if the code breaks... so what? Your experiment crashed? Just reboot it. No problem.</p>
 <p>If you're coding-to-sell, you're not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You're not writing code to learn new things, that's only a nice side-effect; you are trying to build a product.</p>
 <p>Furthermore, you're not investing time to learn something or just to have fun; you're trading time for money (if you learn something in the process, that's good - but probably not why you're being paid a salary as a software engineer).</p>
 <p>It's understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it's not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it's kept me interested in software development for the last 15 (ish) years. I'm hoping it'll do the trick for much longer than that.</p>
 <hr />
 <h1>reboot succesful?<a name="rebootsuccesful"></a></h1>
-<p>By Nico Brailovsky @ 2021-03-17 -  <a href="/blog/2021/0317_rebootsuccesful.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2021-03-17 -
+    <a href="/blog/2021/0317_rebootsuccesful.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2021/0317_rebootsuccesful.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Since "migrating" from Wordpress to Blogspot:</p>
 <ul>
 <li>Traffic to Wordpress fell from ~100ish visitors a day to ~30 or ~40ish.</li>
@@ -54,7 +64,9 @@ exec &gt; ~/log.log 2&gt;&amp;1
 <p>That went much better than I expected, considering I couldn't set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don't want to monetize). Let's see how it goes 10 years from now, when I have to migrate from Blogpost to something else.</p>
 <hr />
 <h1>sudo reboot<a name="sudoreboot"></a></h1>
-<p>By Nico Brailovsky @ 2021-03-02 -  <a href="/blog/2021/0302_sudoreboot.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2021-03-02 -
+    <a href="/blog/2021/0302_sudoreboot.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2021/0302_sudoreboot.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Recently found out Wordpress had pretty aggressive ads on my blog. That worked as the encouragement I was needing to work on a task I'd been putting off for years: fix bit-rotted content! I took the opportunity to fix all (most) broken links and source code snippets from the last 14 years. It was supposed to be a short sed script, which of course ended up being 3 days of work - a lot of it manual. A few cool things I figured doing this:</p>
 <ul>
 <li>Even if I very sparingly add new posts, 14 years is still a lot of content. By the infinite monkey theorem, some of it should be good. Right?</li>
@@ -64,7 +76,9 @@ exec &gt; ~/log.log 2&gt;&amp;1
 </ul>
 <hr />
 <h1>Vimtip: Open path<a name="vimtipopenpath"></a></h1>
-<p>By Nico Brailovsky @ 2020-05-08 -  <a href="/blog/2020/0508_VimtipOpenpath.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2020-05-08 -
+    <a href="/blog/2020/0508_VimtipOpenpath.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0508_VimtipOpenpath.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;foo/bar.h&quot;
 </pre>
@@ -77,7 +91,9 @@ exec &gt; ~/log.log 2&gt;&amp;1
 <p>Then you can do <code>C-w gf</code> on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</p>
 <hr />
 <h1>Weak symbols to mock c-APIs with gmock/gtest<a name="weaksymbolstomockcapiswithgmockgtest"></a></h1>
-<p>By Nico Brailovsky @ 2020-03-15 -  <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2020-03-15 -
+    <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I recently worked with a c-style API interface which wasn't very open to mocking. The API in question looked something like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">handle_t h = api_open();
 api_foo(h, param1, param2);
@@ -118,7 +134,9 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
 <p>This method has the (big) disadvantage of creating an invisible dependency between "mocked_api_instance" and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</p>
 <hr />
 <h1>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h1>
-<p>By Nico Brailovsky @ 2020-02-27 - 3 comments <a href="/blog/2020/0227_jqgrepandprettifyjson.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2020-02-27 -
+    <a href="/blog/2020/0227_jqgrepandprettifyjson.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0227_jqgrepandprettifyjson.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
 <p><strong>cat a json file - with pretty print</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq . /path/to/json_file
@@ -134,7 +152,9 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
 <p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
 <hr />
 <h1>Mixin(ish) classes with parameter packs in C++<a name="mixinishclasseswithparameterpacksinc"></a></h1>
-<p>By Nico Brailovsky @ 2020-02-18 - 2 comments <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2020-02-18 -
+    <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0218_MixinishclasseswithparameterpacksinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
 </pre>

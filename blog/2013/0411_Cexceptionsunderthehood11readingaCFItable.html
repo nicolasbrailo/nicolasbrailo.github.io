@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood 11: reading a CFI table<a name="cexceptionsunderthehood11readingacfitable"></a></h1>
 <p>To properly handle exceptions from within the personality function we've been implementing for our ABI, we need to read the LSDA (language specific data area) to know which call frame (ie which function) can handle which exception, and to know where a landing pad (catch block) can be found). The LSDA table is in CFI format, and we'll see in this chapter how to read it.</p>
 <p>Reading the CFI data can be rather straight forward, but there are a few pitfalls we need to consider first. Two, actually:
@@ -58,3 +65,7 @@
 };
 </pre>
 <p>So we seem to be on the right track, though we don't know yet why there are 3 call site entries when we only defined a single landing pad. In any case, we can cheat a little: by looking at the disassembly we can deduce that all the values on the CFI will be less than 128 and this means that in LEB encoding they can be read as plain uchars. This makes our CFI reading code so much easier, and we will see how to use it in our personality function next time.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-04-11 -
+    <a href="/blog/2013/0411_Cexceptionsunderthehood11readingaCFItable.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0411_Cexceptionsunderthehood11readingaCFItable.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

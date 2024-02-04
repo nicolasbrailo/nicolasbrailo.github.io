@@ -1,5 +1,16 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Vim tip: Jump to a tag definition<a name="vimtipjumptoatagdefinition"></a></h1>
 <p>I admit it, hitting control enter to jump to a definition is a very useful feature of fancy GUIs. Fortunately, it's not exclusive to fancy GUIs, apparently it's been available using ctags too for a little while (if you consider the last 20 or 30 years to be little, that is).</p>
 <p>Just add this magic spell to your .vimrc; next time you open a file in a project with a tags file generated just press ctrl-enter with your cursor over the definition you wish to find:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">map &lt;C-CR&gt; :tab split&lt;CR&gt;:exec(&quot;tag &quot;.expand(&quot;&lt;cword&gt;&quot;))&lt;CR&gt;
 </pre>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-09-19 -
+    <a href="/blog/2013/0919_VimtipJumptoatagdefinition.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0919_VimtipJumptoatagdefinition.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

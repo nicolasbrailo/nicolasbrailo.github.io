@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2015 May<a name="postsfor2015may"></a></h1>
 <h1>PSA: Use nautilus (GTK) in Kubuntu if Dolphin crashes<a name="psausenautilusgtkinkubuntuifdolphincrashes"></a></h1>
-<p>By Nico Brailovsky @ 2015-05-27 -  <a href="/blog/2015/0527_PSAUsenautilusGTKinKubuntuifDolphincrashes.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2015-05-27 -
+    <a href="/blog/2015/0527_PSAUsenautilusGTKinKubuntuifDolphincrashes.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0527_PSAUsenautilusGTKinKubuntuifDolphincrashes.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, for some reason my (brand new) Kubuntu is not very stable. KDE tends to randomly crash whenever I send a large-ish file to the recycling bin. Dunno why, looks like some threading + caching issue in dolphin, and I couldn't find a solution anywhere on the web. Well, there are two workarounds:</p>
 <ol>
 <li>Don't use the recycling bin. This sort of breaks my workflow, so I prefer to:</li>
@@ -16,13 +18,17 @@
 <p>You'll have to install gtk packages, but that's a small price to pay to have KDE not crash every couple of minutes.</p>
 <hr />
 <h1>Vim tip: Stop escaping slashes<a name="vimtipstopescapingslashes"></a></h1>
-<p>By Nico Brailovsky @ 2015-05-07 - 1 comments <a href="/blog/2015/0507_VimtipStopescapingslashes.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2015-05-07 -
+    <a href="/blog/2015/0507_VimtipStopescapingslashes.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0507_VimtipStopescapingslashes.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you do a lot of search &amp; replace in Vim, eventually you'll end up escaping a lot of slashes. Whenever you have to replace a path, for example. Isn't that annoying? After a couple of levels you end up with a horrible "\/path\/to\/foo\/bar" pattern. And if you miss an escape slash, good luck. It's better to scrap the whole thing and start over.</p>
 <p>Luckily, when you are using the 's'earch command you can pick a different separator. Instead of typing "%s/\/foo\/bar\/baz\//foo\/bar\//g", you can simply type "%s#/foo/bar/baz/#foo/bar/#g". Vim will automagically detect you want to use '#' as a delimiter, and you'll end up with a much more readable pattern.</p>
 <p>Extra tip: this also works in sed</p>
 <hr />
 <h1>C++: A jump table with a template device<a name="cajumptablewithatemplatedevice"></a></h1>
-<p>By Nico Brailovsky @ 2015-05-05 - 8 comments <a href="/blog/2015/0505_CAjumptablewithatemplatedevice.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2015-05-05 -
+    <a href="/blog/2015/0505_CAjumptablewithatemplatedevice.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0505_CAjumptablewithatemplatedevice.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">few articles ago</a> we saw how gcc might need some help when mixing template instanciation (pure compile time data) with function calls (deducible compile time information, but not available to the template expander). Now we'll go one step further and combine all three types: pure compile time data, deducible compile time data and pure run time data (*). Just to annoy the compiler, and to see how gcc is able to optimize the results.</p>
 <p>Let's build a simple example, similar to what we used last time: an object that will determine the range of an integer and then invoke a callback with the closest range. Something like this could be used, for example, to allocate a buffer.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void boring(int x, func f) {

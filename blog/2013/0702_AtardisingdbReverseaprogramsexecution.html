@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>A tardis in gdb? Reverse a program's execution!<a name="atardisingdbreverseaprogramsexecution"></a></h1>
 <p>Have you ever been running a long debug session only to find you missed the spot by overstepping? I sure have and that can be one of the strongest motivators to invent a time machine. And it seems I'm not the only one who thinks so, given that gdb can now travel back in time. That's right, you can save a snapshot of a running program and then reverse the polarity to go back in time, just before you missed your breakpoint!</p>
 <p>It's very simple to use too, you don't need six people to use this feature. Just type "checkpoint" in gdb to let it know you want to record the execution's state, then "restore N" to go back in time. I've recorded a sample debugging session:</p>
@@ -42,3 +49,7 @@ $3 = 1
 <h2>How does it work<a name="howdoesitwork"></a></h2>
 <p>Reversing to a previous execution state is not an easy task. Gdb implements this feature by forking out a new process, a process we can later switch to. This means that reverting to a previous state might break things. The way forking is implemented in Linux, things like open files shouldn't be much of a problem. Sockets should still be connected but, of course, whatever you already sent won't be "unsent".</p>
 <p><a href="http://sourceware.org/gdb/current/onlinedocs/gdbint/Algorithms.html#Algorithms">Gdb internals docs</a> have some useful information on the limitation of this feature.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-07-02 -
+    <a href="/blog/2013/0702_AtardisingdbReverseaprogramsexecution.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0702_AtardisingdbReverseaprogramsexecution.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

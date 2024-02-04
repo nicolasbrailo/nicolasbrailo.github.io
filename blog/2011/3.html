@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2011 March<a name="postsfor2011march"></a></h1>
 <h1>CRTP for static dispatching<a name="crtpforstaticdispatching"></a></h1>
-<p>By Nico Brailovsky @ 2011-03-31 -  <a href="/blog/2011/0331_CRTPforstaticdispatching.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-03-31 -
+    <a href="/blog/2011/0331_CRTPforstaticdispatching.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0331_CRTPforstaticdispatching.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, virtual dispatching is just too much overhead for you? I bet you do need every femtosecond from your CPU. Even if you don't, who doesn't like weird C++ constructs? Take CRTP, for example, a Curiously recurring template pattern:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;class Derived&gt; struct CRTP {
     const char<em> greeting() const {
@@ -35,11 +37,15 @@ int main() {
 <p>Bonus non useful information: In C++ 0X you could use variadic templates and have a proxy object with static dispatching. How cool is that?</p>
 <hr />
 <h1>Time your time<a name="timeyourtime"></a></h1>
-<p>By Nico Brailovsky @ 2011-03-29 -  <a href="/blog/2011/0329_Timeyourtime.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-03-29 -
+    <a href="/blog/2011/0329_Timeyourtime.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0329_Timeyourtime.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>"time" is a useful command line utility to measure how long it takes for your super optimized algorithm to run, but it's useful as a timer too: just write "time read" and press enter when you get tired of waiting. Instant timer on your console!</p>
 <hr />
 <h1>Moving away from DB IPC<a name="movingawayfromdbipc"></a></h1>
-<p>By Nico Brailovsky @ 2011-03-24 -  <a href="/blog/2011/0324_MovingawayfromDBIPC.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-03-24 -
+    <a href="/blog/2011/0324_MovingawayfromDBIPC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0324_MovingawayfromDBIPC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.html">Last time</a> I wrote about why DB IPC is bad. Now I intend to write about the way to start moving away from it, towards a better architecture.</p>
 <p>As I mentioned, this pattern is deeply rooted across all the enterprise platform, so removing it is not an easy task, and it can only be done in small steps. Small steps means a compromise solution, you won't be going from IPC DB to a restful application in a week, so having an ugly-but-not-so-much-as-ipc-db solution is the way to go.</p>
 <p>The first step to move from DB IPC to a services oriented architecture is moving from data driven applications to event driven applications. That means, instead of polling the database for changes, receive a notification that the data has changed and act upon the event.</p>
@@ -48,7 +54,9 @@ int main() {
 <p><strong>Conclusion</strong>: the architecture may not be nice with DB notifications either, but you have taken the first step towards decoupling two different components. From this schema to a real queue there's only one step, and once there you can finally begin to have a db-schema for each application.</p>
 <hr />
 <h1>DB IPC: Communicating processes the wrong way<a name="dbipccommunicatingprocessesthewrongway"></a></h1>
-<p>By Nico Brailovsky @ 2011-03-22 -  <a href="/blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-03-22 -
+    <a href="/blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0322_DBIPCCommunicatingprocessesthewrongway.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A common pattern in enterprisy applications is DB IPC, probably one of the worst kind of coupling you can have. If you tell me you never saw it I won't believe you, but in any case: DB IPC is an architecture antipattern, in which you have several semi-independent components which must share some kind of information, and do so through a database. The producer writes into a table, the consumer polls the table for changes.</p>
 <p>For an otherwise perfectly designed application, DB IPC may seem like a bad thing but not the worst kind of architecture possible. Clearly a god object may look uglier than an IPC DB. Yet this kind of architecture leads to a tight coupling between the component's inner data structures, making any change in them very unlikely, if not impossible.</p>
 <p>Inhouse applications tend to rely a lot on this pattern, albeit unknowingly, for historical reasons: components which are now different applications were once part of a single process, in which no IPC was needed. After these components start growing, instead of a careful and planned change IPC DB gets implemented. It is the path of less resistance, after all.</p>
@@ -56,7 +64,9 @@ int main() {
 <p>Not everything is lost. An intermediate solution, not as ugly as IPC DB but not so nice as CORBA, is implementing a queue using the DB itself. We'll see a way of doing just that next time.</p>
 <hr />
 <h1>Truth be told<a name="truthbetold"></a></h1>
-<p>By Nico Brailovsky @ 2011-03-17 -  <a href="/blog/2011/0317_Truthbetold.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-03-17 -
+    <a href="/blog/2011/0317_Truthbetold.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0317_Truthbetold.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I bet 90% of enterprisey architecture diagrams are more or less like this one.</p>
 <p><img alt="" src="/blog_md/youfoundadeadlink.md" /></p>
 <p>From <a href="/blog/youfoundadeadlink.html">Geek and Poke</a></p>

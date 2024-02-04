@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Template Metaprogramming XIII: Heart of Darkness<a name="templatemetaprogrammingxiiiheartofdarkness"></a></h1>
 <p>Last time we had a virtual template dispatch problem... we got to the point of knowing which was the index of the cache we were searching for, now we need to actually retrieve an instance of that cache. That's a problem. Why? To begin with, there are no instances, only types!</p>
 <p>The next logical step would be to create a Map device, to map a list of types to a list of instances... let's see how can we do that, in pseudocode</p>
@@ -60,3 +67,7 @@ template &amp;lt;typename TypeLst&amp;gt; struct NthInstance&amp;lt;1, TypeLst&a
 };
 </pre>
 <p>And the code from fetching the instance itself is even more difficult, so I'll leave that for next time.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2010-08-31 -
+    <a href="/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

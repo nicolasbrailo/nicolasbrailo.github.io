@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Getting a stacktrace on C/C++: Mapping function pointers to function names in obj files<a name="gettingastacktraceonccmappingfunctionpointerstofunctionnamesinobjfiles"></a></h1>
 <p><a href="/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html">Last time</a> we saw how to get a stacktrace in C++, yet we only had access to the list of function pointers and not to the function names. Still, pointers are not that useful. Can we get function names instead? Yes, we can but it's not easy. One option would be to read the elf specification. Boring. Let's tinker around with our test program, may be we can find something interesting:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">    Caller <em>caller = (Caller</em>)sp;
@@ -35,3 +42,7 @@
  8048af1:   c3                      ret
 </pre>
 <p>And, indeed, 0x8048acb and 0x8048aeb are both there: they are the EIP after the ret call! Note that you may use c++filt if the mangled names are too confusing. Anyway, we can indeed get the function names, albeit in a rather contrived way. Is there a better way to get a backtrace and its symbols' names? Turns out there is and we'll see how to get a function's name during runtime, in the next article.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2012-10-18 -
+    <a href="/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

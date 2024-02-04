@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Static initialization in C++<a name="staticinitializationinc"></a></h1>
 <p>Let's analyze this seemingly simple code sample:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct X {
@@ -90,3 +97,7 @@ void foo() throw() {
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">[Из песочницы] Реализация горячей перезагрузки С++ кода в Linux – CHEPA website</a> commented @ 2019-01-06T16:04:05.000+01:00:<a name="inreplytothispostlinuxchepawebsiteblog_mdyoufoundadeadlink.mdcommented20190106t160405.0000100"></a></h2>
 <p>[&hellip;] При перезагрузке в динамическую библиотеку с новым кодом, кроме veryUsefulFunction, попадет и статическая переменная static Singleton ins;, и метод Singletor::instance. Как следствие, программа начнет вызывать новые версии обеих функций. Но статическая ins в этой библиотеке еще не инициализирована, и поэтому при первом обращении к ней будет вызван конструктор класса Singleton. Мы этого, конечно, не хотим. Поэтому реализация переносит значения всех таких переменных, которые обнаружит в собранной динамической библиотеке, из старого кода в эту самую динамическую библиотеку с новым кодом вместе с их guard variables. [&hellip;]</p>
 <p>Original <a href="/blog/2013/1203_StaticinitializationinC.html">published here</a>.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-12-03 -
+    <a href="/blog/2013/1203_StaticinitializationinC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1203_StaticinitializationinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>MySQL upsert, Oracle merge<a name="mysqlupsertoraclemerge"></a></h1>
 <p>How many times have you seen this "pattern"?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">unsigned int row_count = foo-&amp;gt;update();
@@ -16,3 +23,7 @@ ON DUPLICATE KEY UPDATE col1 = &#x27;a&#x27;, col2 = &#x27;b&#x27;;
 </pre>
 <p>Go on, try it, I'll wait. What? It didn't work? Oh, I forgot, you need to create a unique key so the engine can recognize when there is a duplicate key (say, 'create index unique on col1'). Try it now.</p>
 <p>Nice, isn't it? Oracle has its own version of upsert, called merge (at least the name is better) but it itches a little bit when I write about Oracle, so go and check <a href="http://psoug.org/reference/merge.html">this page</a> instead.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2010-08-19 -
+    <a href="/blog/2010/0819_MySQLupsertOraclemerge.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0819_MySQLupsertOraclemerge.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

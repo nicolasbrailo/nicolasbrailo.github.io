@@ -7,13 +7,17 @@
 </ul>
 <h1>Posts for 2013 July<a name="postsfor2013july"></a></h1>
 <h1>Force a program to output to stdout<a name="forceaprogramtooutputtostdout"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-30 -  <a href="/blog/2013/0730_Forceaprogramtooutputtostdout.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-30 -
+    <a href="/blog/2013/0730_Forceaprogramtooutputtostdout.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0730_Forceaprogramtooutputtostdout.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Silly but handy CLI trick on Linux: Some programs don't have an option to output to stdout. Gcc comes to mind. In that case the symlink '/dev/stdout' will come in handy: /dev/stdout will be symlinked to stdout for each process.</p>
 <p>With this trick you could, for example, run "gcc -S foo.cpp -o /dev/stdout", to get the assembly listing for foo.cpp.</p>
 <p>You probably shouldn't use this trick on anything other than CLI scripting stuff (keep in mind /dev/stdout might be closed or not accessible for some processes).</p>
 <hr />
 <h1>C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality<a name="cexceptionsunderthehoodappendixiiirttiandexceptionsorthogonality"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-25 - 1 comments <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-25 -
+    <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Exception handling on C++ requires a lot of reflexion. I don't mean the programmer should be reflecting on exception handling (though that's probably not a bad idea), I mean that a piece of C++ code should be able to understand things about itself. This looks a lot like run-time type information, RTTI. Are they the same? If they are, does exception handling work without RTTI?</p>
 <p>We might be able to get a clue about the difference between RTTI and exception handling by using -fno-rtti on gcc when compiling our ABI project. Let's use the <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/blob/master/abi_v12/throw.cpp">throw.cpp</a> file:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">g++ -fno-rtti -S throw.cpp -o throw.nortti.s
@@ -84,7 +88,9 @@ _ZTI3Bar:
 <p>We can now conclude what's going on: <strong>the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends</strong>. Specifying -fno-rtti on g++ only disables the "frontend" functions for RTTI: that means you won't be able to use typeid, and no RTTI classes will be generated... unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won't be able to access the RTTI information of this class via typeid, though).</p>
 <hr />
 <h1>A random slideshow in Ubuntu<a name="arandomslideshowinubuntu"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-23 - 2 comments <a href="/blog/2013/0723_ArandomslideshowinUbuntu.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-23 -
+    <a href="/blog/2013/0723_ArandomslideshowinUbuntu.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0723_ArandomslideshowinUbuntu.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The other day I wanted to use my tv for a slideshow of my travel pictures. Something simple, just select a folder and have a program like Shotwell create a slideshow with a random order on my tv. Of course, Ubuntu and double screen equals fail. For some reaason all the programs I tried either were incapable of using the tv as the slideshow screen (even after cloning screens... now that's a wtf) or where not able to recursively use all the pictures in a folder.</p>
 <p>feh to the rescue. It's not pretty, but feh seems to be exactly what I was looking for. It's a CLI application for Linux and after some RTFM I came up with this script:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">feh ~/Pictures \
@@ -100,7 +106,9 @@ _ZTI3Bar:
 <p>You can probably figure out by yourself what each option means. If not, just man feh.</p>
 <hr />
 <h1>Mocking in C++: the virtual problem<a name="mockingincthevirtualproblem"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-18 - 8 comments <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-18 -
+    <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0718_MockinginCthevirtualproblem.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Mocking objects is crucial for a good test suite. If you don't have a way to mock heavy objects you'll end up with slow and unreliable tests that depend on database status to work. On the other hand, C++ mocking tends to be a bit harder than it is on dynamic languages. A frequent problem people find when mocking are virtual methods.</p>
 <p>What's the problem with virtual methods? C++ has the policy of "not paying for what you don't use". That means, not using virtual methods is "cheaper" than using them. Classes with no virtual methods don't require a virtual dispatch nor a vtable, which speeds things up. So, for a lot of critical objects people will try to avoid virtual methods.</p>
 <p>How is this a problem for mocking? A mock is usually a class which inherits from the real class, as a way to get the proper interface and to be compatible with code that uses the real implementation. If a mock inherits from the real thing you'll need to define all of its methods as virtual, even if you don't need to, just so you can actually implement a mock.</p>
@@ -116,7 +124,9 @@ _ZTI3Bar:
 <p>To conclude, I don't think there's a perfect solution to the virtual problem. Just choose what looks better and accept we live in an imperfect world.</p>
 <hr />
 <h1>Counting lines per second with bash<a name="countinglinespersecondwithbash"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-16 -  <a href="/blog/2013/0716_Countinglinespersecondwithbash.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-16 -
+    <a href="/blog/2013/0716_Countinglinespersecondwithbash.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0716_Countinglinespersecondwithbash.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The other day I wanted to quickly monitor the status of a production nginx after applying some iptables rules and changing some VPN stuff. It's easy to know if you completely screwed up the server: the number of requests per second will drop to zero, all requests will have an httpstatus different from 200, or some other dramatic and easy to measure side effect.</p>
 <p>What happens if you broke something in a slightly more subtle way? Say, you screwed up something in ipsec (now, I wonder how that can happen...) and now networking is slow. Or iptables now enforces some kind of throttling in a way you didn't expect. To detect this type of errors I wrote a quick bash script to output how many lines per second are added to a file. This way I was able to monitor if the throughput of my nginx install didn't decrease after my config changes, without installing a full fledged solution like zabbix.</p>
 <p>I didn't find anything like this readily available, so I'm posting it here in case someone else finds it useful.</p>
@@ -138,7 +148,9 @@ done
 </pre>
 <hr />
 <h1>Starting an EMR job with Boto<a name="startinganemrjobwithboto"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-11 -  <a href="/blog/2013/0711_StartinganEMRjobwithBoto.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-11 -
+    <a href="/blog/2013/0711_StartinganEMRjobwithBoto.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0711_StartinganEMRjobwithBoto.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I've noticed there are not many articles about boto and Amazon web services. Although boto's documentation is quite good, it lacks some practical examples. Most specifically, I found quite a fair amount of RTFM was needed to get an elastic map reduce job started on Amazon using Boto (and I did it from Google app engine, just to go full cloud!). So here it goes, a very basic EMR job launcher using boto:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">zone_name = &#x27;eu-west-1&#x27;
 access_id = ...
@@ -180,7 +192,9 @@ conn.add_jobflow_steps(jobid, [step])
 </pre>
 <hr />
 <h1>A coverage report for C++ unit tests<a name="acoveragereportforcunittests"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-09 -  <a href="/blog/2013/0709_AcoveragereportforCunittests.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-09 -
+    <a href="/blog/2013/0709_AcoveragereportforCunittests.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0709_AcoveragereportforCunittests.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A lot of tools and metrics which are pretty much given for some dynamic languages are quite esoteric in C++ land. Unit testing is one of these tools, and so code coverage metrics is even more obscure in C++. Turns out it's not impossible. I have uploaded an <a href="https://github.com/nicolasbrailo/gcov_gtest_sample">example C++ project with unit tests and code coverage report generation</a>. Shouldn't be to hard to adapt this code to your own project.</p>
 <p>Let's analyze some of the core concepts of this example.</p>
 <h3>Unit testing<a name="unittesting"></a></h3>
@@ -192,7 +206,9 @@ conn.add_jobflow_steps(jobid, [step])
 <p>Unfortunatelly, generating a coverage report has a lot of dependencies in C++. For the example on my github repository you'll have to install lcov, cppcheck, gtest, gmock and vera++ (a code style checker for C++ which is now discontinued... you should probably search for a replacement). Once you have it running, though, you can easily integrate this with your jenkins setup.</p>
 <hr />
 <h1>My own gdb cheatsheet, just because<a name="myowngdbcheatsheetjustbecause"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-04 - 1 comments <a href="/blog/2013/0704_Myowngdbcheatsheetjustbecause.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-04 -
+    <a href="/blog/2013/0704_Myowngdbcheatsheetjustbecause.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0704_Myowngdbcheatsheetjustbecause.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Gdb is the de facto tool for debugging applications on GNU/Linux. The first time you see it, it would appear to be a very simple application with very limited capabilities. Truth is, gdb is a very complex tool for a very difficult job, and becoming an proficient user can be a daunting task. To top it off, gdb graphical interfaces don't help at all when using it, so you are better off learning how to use it in console mode.</p>
 <p>There are a ton of guides to learn the basics of gdb, so I'll just leave here a very quick list on the very basics needed to start understanding it:</p>
 <h3>Running stuff<a name="runningstuff"></a></h3>
@@ -238,7 +254,9 @@ conn.add_jobflow_steps(jobid, [step])
 <p>This cheatsheet is far from being "advanced stuff" but it should be enough to get you started. The rest is practice.</p>
 <hr />
 <h1>A tardis in gdb? Reverse a program's execution!<a name="atardisingdbreverseaprogramsexecution"></a></h1>
-<p>By Nico Brailovsky @ 2013-07-02 -  <a href="/blog/2013/0702_AtardisingdbReverseaprogramsexecution.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-02 -
+    <a href="/blog/2013/0702_AtardisingdbReverseaprogramsexecution.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0702_AtardisingdbReverseaprogramsexecution.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Have you ever been running a long debug session only to find you missed the spot by overstepping? I sure have and that can be one of the strongest motivators to invent a time machine. And it seems I'm not the only one who thinks so, given that gdb can now travel back in time. That's right, you can save a snapshot of a running program and then reverse the polarity to go back in time, just before you missed your breakpoint!</p>
 <p>It's very simple to use too, you don't need six people to use this feature. Just type "checkpoint" in gdb to let it know you want to record the execution's state, then "restore N" to go back in time. I've recorded a sample debugging session:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) list

@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Pictag: finally a simple geotagging tool for Linux<a name="pictagfinallyasimplegeotaggingtoolforlinux"></a></h1>
 <p>TL;DR: Link to a mostly working <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
 <p>Since Google decided not to support Picasa for Linux anymore (yes, a long time ago) I've been looking for a decent photo management alternative. Lately I've settled with Digikam, it does everything Picasa used to do (and much better, I may add) except for providing a way to geotag your pictures on a map.</p>
@@ -19,3 +26,7 @@
 <p>After you've taken care of that you can download the latest version from <a href="https://launchpad.net/pictag">Launchpad</a> (while writing this article that should be 12.07.17) and run ./bin/pictag, only to watch it fail miserably.</p>
 <p>Pictag seems to be using GSettings, a very annoying Gnome settings manager which won't work unless you actually install whatever program you're trying to run. Luckily we can just hack it out of Pictag simply by commenting out all references to self.settings in PictagWindow.py and Window.py. Either that or get my <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
 <p>With some luck, my hacked version of Pictag should run pretty much OK on Ubuntu 13.04 or newer. There seems to be a few issues with libchamplain (the mapping library) on earlier versions of Ubuntu that may cause the map to display only broken images. If you can't load any maps you'll have to get a newer Ubuntu. Or fork my repo and get hacking :)</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-08-01 -
+    <a href="/blog/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

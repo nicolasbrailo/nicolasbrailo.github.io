@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2016 November<a name="postsfor2016november"></a></h1>
 <h1>Simple vim plugin III: a polymorphic project greper<a name="simplevimpluginiiiapolymorphicprojectgreper"></a></h1>
-<p>By Nico Brailovsky @ 2016-11-30 -  <a href="/blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-11-30 -
+    <a href="/blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">different key binding for different modes</a> we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">function! FG_DoSearch(needle)
     let grepbin = &#x27;grep -nri &#x27;
@@ -38,7 +40,9 @@ vmap &lt;leader&gt;s :call FG_Visual_Search()&lt;CR&gt;
 <p>The magic here happens in the mapping: nmap will create a mapping that's only enabled when on "normal" mode, vmap when you're in visual mode. As usual, check :help map for more details.</p>
 <hr />
 <h1>Simple vim plugin II: a psychic project greper<a name="simplevimpluginiiapsychicprojectgreper"></a></h1>
-<p>By Nico Brailovsky @ 2016-11-29 -  <a href="/blog/2016/1129_SimplevimpluginIIapsychicprojectgreper.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-11-29 -
+    <a href="/blog/2016/1129_SimplevimpluginIIapsychicprojectgreper.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1129_SimplevimpluginIIapsychicprojectgreper.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We have been working on a quick grep integration for Vim, and it's looking decent enough for a quick plugin. There's one more easy thing we can improve, though: let's make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That's so old fashioned. Let's make grep guess what to look for.</p>
 <p>In vim you have a psychic function, expand(""). If you call expand(""), it will return whatever word is under the cursor. No need to visually select it. If you're still using the same vimrc definitions, you can do something like</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">nmap s :call FG_DoSearch(expand(&quot;&quot;))
@@ -93,7 +97,9 @@ map  &lt;leader&gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quo
 <p>Just copy paste that in your vimrc, now you can grep your project in three different ways: press s (,s) to look for the word currently under the cursor, S to type in a search term or select something in visual mode, then S to grep it.</p>
 <hr />
 <h1>Simple vim plugin I: integrating new commands<a name="simplevimpluginiintegratingnewcommands"></a></h1>
-<p>By Nico Brailovsky @ 2016-11-24 -  <a href="/blog/2016/1124_SimplevimpluginIintegratingnewcommands.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-11-24 -
+    <a href="/blog/2016/1124_SimplevimpluginIintegratingnewcommands.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1124_SimplevimpluginIintegratingnewcommands.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here's some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
 <p>Longer version:
 We can extend our quick grep integration to other commands, quite easily. Since we defined a few wrappers to request input, get it from visual mode or just guess it, we can also have a helper function to create a scratch buffer and read a system command into it:</p>
@@ -164,7 +170,9 @@ menu Project.Text\ Search :call FG_RequestInputAction(&quot;FG_DoSearchText&quot
 </pre>
 <hr />
 <h1>The best hack you should never use<a name="thebesthackyoushouldneveruse"></a></h1>
-<p>By Nico Brailovsky @ 2016-11-22 - 2 comments <a href="/blog/2016/1122_Thebesthackyoushouldneveruse.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-11-22 -
+    <a href="/blog/2016/1122_Thebesthackyoushouldneveruse.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1122_Thebesthackyoushouldneveruse.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Please don't do this. But if you do: leave a comment here!</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#define private public
 #include &quot;something&quot;
@@ -173,7 +181,9 @@ menu Project.Text\ Search :call FG_RequestInputAction(&quot;FG_DoSearchText&quot
 <p>Found in some random project.</p>
 <hr />
 <h1>Vim tip: custom commands<a name="vimtipcustomcommands"></a></h1>
-<p>By Nico Brailovsky @ 2016-11-17 -  <a href="/blog/2016/1117_Vimtipcustomcommands.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-11-17 -
+    <a href="/blog/2016/1117_Vimtipcustomcommands.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1117_Vimtipcustomcommands.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you have a function that you use a lot, you may find it interesting to use a custom command for it. Try this:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">:command Foo echo(&#x27;Hola!&#x27;)
 </pre>
@@ -184,7 +194,9 @@ menu Project.Text\ Search :call FG_RequestInputAction(&quot;FG_DoSearchText&quot
 <p>If you try to :close a document, Vim will now say "Nope!". Other than using this to mess with someone's Vim session, you can replace builtin commands with your own tweaked functions. I tend to use that quite frequently in <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/">my own .vimrc</a>.</p>
 <hr />
 <h1>Ageing Stack overflow?<a name="ageingstackoverflow"></a></h1>
-<p>By Nico Brailovsky @ 2016-11-15 -  <a href="/blog/2016/1115_AgeingStackoverflow.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-11-15 -
+    <a href="/blog/2016/1115_AgeingStackoverflow.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1115_AgeingStackoverflow.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Hacking away on a little side project of mine, I found myself checking Stack Overflow for implementation tips about things I don't usually work with. Android UI stuff, mostly, which apparently is a very dynamic and ever changing ecosystem. After more than a few wasted hours, I noticed a worrying trend: in SO, answers tend to age horribly. If you are looking for "How to do X in platform Y", you may find a 4 year old answer that solves the problem, but only for platform Y, version "ancient".</p>
 <p>Information ageing is quite a problem on its own. The answer is still valid, and, for people working on that specific platform, probably relevant. This will make it the first answer, leaving a lot of people (like myself) frustrated because the solution won't work in newer platforms. Is there a solution? Implement some kind of ageing time-window for information? Make the date a more prominent search parameter? Explicitly specify your platform and environment's version when asking a question? I have no idea.</p>
 <p>While Stack Overflow seems to exacerbate the issue, this is a problem even for products with a company actively maintaining their documentation. A very annoying example; looking for ways to manage the media key I ended up in a <a href="https://developer.android.com/training/managing-audio/volume-playback.html">page</a> which (as of August 2016) points to a very outdated API (registerMediaButtonEventReceiver, in case you are wondering). If even Google encounters problems when managing documentation ageing for their own products, what can we expect of people like us, who only have a tiny fraction of that budget?</p>

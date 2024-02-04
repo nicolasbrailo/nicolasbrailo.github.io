@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood 16: finding the right catch in a landing<a name="cexceptionsunderthehood16findingtherightcatchinalanding"></a></h1>
 <p>16th chapter on our quest to implement a mini-ABI capable of handling exceptions; last time we implemented our personality function so it would be able to handle functions with more than one landing pad. We are now trying to make it recognize whether a certain landing pad can handle a specific exception, so we can use the exception specification on the catch statement.</p>
 <p>Of course, to know whether a landing pad can handle a throw is a difficult task. Would you expect anything else? The biggest problems to overcome right now will be:</p>
@@ -38,3 +45,7 @@ void bar()
 </pre>
 <p>And we reached something very interesting. Can you recognize it? This is the std::type_info for struct Fake_Exception!</p>
 <p>Now we know there is indeed a way to get a pointer to some kind of reflexion information for our exception. Can we programmatically find it? We'll see next time.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-05-07 -
+    <a href="/blog/2013/0507_Cexceptionsunderthehood16findingtherightcatchinalandingpad.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0507_Cexceptionsunderthehood16findingtherightcatchinalandingpad.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

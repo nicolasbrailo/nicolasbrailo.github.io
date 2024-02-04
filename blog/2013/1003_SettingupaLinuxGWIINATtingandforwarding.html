@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Setting up a Linux GW II: NATting and forwarding<a name="settingupalinuxgwiinattingandforwarding"></a></h1>
 <p>For our Linux GW, services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let's set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
 <p>We'll do this by setting up NAT with iptables. We'll also have to configure the OS to forward connections from one network card to the other:</p>
@@ -46,3 +53,7 @@ iface eth1 inet static
 </pre>
 <p>We will also have a lot of iptables rules we need to setup during boot time. I have created a script at /home/router/set_forwarding.sh, which I also linked into /etc/init.d/rc.local so it's run whenever the system boots.</p>
 <p>Next time we'll move on to something more complex: installing a DNS server and using domains instead of IPs.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-10-03 -
+    <a href="/blog/2013/1003_SettingupaLinuxGWIINATtingandforwarding.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1003_SettingupaLinuxGWIINATtingandforwarding.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C preprocessor VII: Recursive expansion on function macros<a name="cpreprocessorviirecursiveexpansiononfunctionmacros"></a></h1>
 <p>The last time we talked about recursive expansion rules on C's preprocessor: to sum it up, each expansion creates a scope, that contains a list of all macros which have already been expanded in said scope, or in a parent scope. That gives us a very nice and easy to understand tree of already-expanded rules.</p>
 <p>Clearly that's too easy for C. We need more complexity: we need to make the expansion rules interact with the argument substitution process and the preprocessor operators too!</p>
@@ -48,3 +55,7 @@ foo(bar, (1, 2, 3))
             -&gt; foo foo bar 1 foo bar 1 &quot;(1, 2, 3)&quot;
 </pre>
 <p>This last example should be a good representative of the complexities involved in a macro expansion; hopefully now you know more than you ever wanted to know about macros.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-10-01 -
+    <a href="/blog/2013/1001_CpreprocessorVIIRecursiveexpansiononfunctionmacros.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1001_CpreprocessorVIIRecursiveexpansiononfunctionmacros.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

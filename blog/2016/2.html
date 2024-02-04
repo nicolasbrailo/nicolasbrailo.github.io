@@ -7,12 +7,16 @@
 </ul>
 <h1>Posts for 2016 February<a name="postsfor2016february"></a></h1>
 <h1>Vim tip: autocommands<a name="vimtipautocommands"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-25 -  <a href="/blog/2016/0225_Vimtipautocommands.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-25 -
+    <a href="/blog/2016/0225_Vimtipautocommands.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0225_Vimtipautocommands.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Whenever you find yourself thinking "I wish Vim could do this automagically for me", you probably are thinking about autocommands. With autocommands, autocmd for short or au for lazy people, will let you tell Vim, "Hey, use this callback when an event occurs".</p>
 <p>The basic structure is pretty simple: "autocmd Event FileType Action". So, for example, "autocmd BufEnter *.txt call Rot13()" would tell vim to set a callback on BufEnter, that is whenever you change buffers, for all *.txt files, which will rot13 your text. Feel free to use this for actually useful things, like spell checking or auto indenting.</p>
 <hr />
 <h1>Bash tip: idiom to get the first error code from a pipe<a name="bashtipidiomtogetthefirsterrorcodefromapipe"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-23 - 1 comments <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-23 -
+    <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>When writing a bash script, often times you'll end up with something like this:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">real_command | filter_stuff | prettify | do_something_else
 </pre>
@@ -25,7 +29,9 @@ echo $?
 <p>Now $? will hold the value of real_command, and you can actually use it to diagnose the real problem.</p>
 <hr />
 <h1>smaps: A quick memory analysis<a name="smapsaquickmemoryanalysis"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-18 -  <a href="/blog/2016/0218_smapsAquickmemoryanalysis.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-18 -
+    <a href="/blog/2016/0218_smapsAquickmemoryanalysis.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0218_smapsAquickmemoryanalysis.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Many times you see your process' memory consumption skyrocketing even though you're quite certain you have no memory leaks. This usually marks for the beginning of a very lengthy debugging process with valgrind or a similar tool, but even so some times you might get stuck trying to debug some third party library.</p>
 <p>There's a quick tip in Linux that can help you track down a lib gone haywire:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">cat /proc/&lt;pid&gt;/smaps
@@ -33,7 +39,9 @@ echo $?
 <p>smaps will report every mapped section of memory for a certain process, how big the memory allocation is and which binary created the allocation.</p>
 <hr />
 <h1>Some new set operations in C++11 stl<a name="somenewsetoperationsinc11stl"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-16 - 3 comments <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-16 -
+    <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0216_SomenewsetoperationsinC11stl.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The std header has a few cool additions that make life easier in C++11:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
   vector&lt;int&gt; v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
@@ -50,17 +58,23 @@ iota(v.begin(), v.end(), 0);
 </pre>
 <hr />
 <h1>Goto hell<a name="gotohell"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-12 -  <a href="/blog/2016/0212_Gotohell.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-12 -
+    <a href="/blog/2016/0212_Gotohell.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0212_Gotohell.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Small and funny easter egg I found by accident today: stop using "adb shell" to access your device. You're wasting precious keystrokes. Instead, you should be using "adb hell". Yes, 'adb hell' works just as well as 'adb shell' - but it's even more awesome. Go and try it!</p>
 <hr />
 <h1>PSA: OEM unlocks may result in wiped filesystems<a name="psaoemunlocksmayresultinwipedfilesystems"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-11 -  <a href="/blog/2016/0211_PSAOEMunlocksmayresultinwipedfilesystems.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-11 -
+    <a href="/blog/2016/0211_PSAOEMunlocksmayresultinwipedfilesystems.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0211_PSAOEMunlocksmayresultinwipedfilesystems.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>o, I bricked my tablet. Turns out the bootloader couldn't mount /data: after doing an oem unlock thingy, /data gets wiped and (this is the part the manual I was following didn't warn me about) no filesys is created.</p>
 <p>If this happens, go back to recovery mode, then adb shell and run 'mount /data'. This will give you an error like "Can't mount /dev/block/mmcblk0p23". Write down the /dev/block id and run 'mke2fs -t ext4 /dev/block/mmcblk0p30'. That should fix it.</p>
 <p>In some systems you may be missing libext2_quota.so. If this happens, just look for libext2_quota.so in the interwebs, then adb push this file into /sbin.</p>
 <hr />
 <h1>KDE: Lock screen from CLI<a name="kdelockscreenfromcli"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-09 -  <a href="/blog/2016/0209_KDELockscreenfromCLI.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-09 -
+    <a href="/blog/2016/0209_KDELockscreenfromCLI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0209_KDELockscreenfromCLI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For some reason, one of my (seriously outdated) Kubuntu installations has the nasty habit of not locking the screen when pressing Ctrl+Alt+L. Not always, though. It seems to do this only when I'm in a hurry and need to quickly lock my PC before walking away. This happens often enough to be annoying, but not so frequently as to bother me enough to look for a proper solution.</p>
 <p>Instead of looking for a proper solution, trying to determine what's stealing the focus of the Ctrl+Alt+L key command, I just settled for an easier workaround: lock the screen from the command line. I use the terminal most of the time anyway, so why not just use it to lock the screen as well?</p>
 <p>The magic incantation is easy, if a bit cryptic at first:</p>
@@ -69,7 +83,9 @@ iota(v.begin(), v.end(), 0);
 <p>"qdbus" is a broadcasting service for KDE (Qt, actually). This command basically tells the screen saver service to lock the screen. Works every time, and with an alias in my <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash_aliases#L22" title="bashrc">bashrc</a>, I don't need to remember that horribly long command. Now I only need to determine if my computer detecting when I'm in a hurry is a sign of sentience, and whether this is a threat to mankind. Will report soon.</p>
 <hr />
 <h1>VLCFreemote: no need to leave the couch<a name="vlcfreemotenoneedtoleavethecouch"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-04 -  <a href="/blog/2016/0204_VLCFreemotenoneedtoleavethecouch.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-04 -
+    <a href="/blog/2016/0204_VLCFreemotenoneedtoleavethecouch.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0204_VLCFreemotenoneedtoleavethecouch.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I've been quite prolific in my Github account recently, if I may say so myself. The latest of my open-source projects which I think is more or less ready to be "released to the world" is <a href="https://github.com/nicolasbrailo/VlcFreemote">VlcFreemote</a>, a remote control for VLC in Android. From its README file:</p>
 <p>How many times have you been comfortably watching a movie from the couch only to find out you forgot the subtitles? How about being snugly tucked under a blanket, only to find out you need to brave the cold of winter just to add a new episode of your latest binge-watching series? Yeah, that can easily ruin your day.</p>
 <p>Worry no more: with VlcFreemote you can now install a tiny Android app to control your VLC server.</p>
@@ -78,7 +94,9 @@ iota(v.begin(), v.end(), 0);
 * Why isn't this in Google play?Mostly cause I'm lazy and cheap. Getting a Google Play account costs 10 dollars or so, and I'm too lazy and too cheap to get one. Want me to upload it to Google Play? Feel free to buy me a beer. If not you can just get the APK from Github, or download the source code and build it yourself.</p>
 <hr />
 <h1>Don't exit gdb just to run make!<a name="dontexitgdbjusttorunmake"></a></h1>
-<p>By Nico Brailovsky @ 2016-02-02 -  <a href="/blog/2016/0202_Dontexitgdbjusttorunmake.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-02-02 -
+    <a href="/blog/2016/0202_Dontexitgdbjusttorunmake.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0202_Dontexitgdbjusttorunmake.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>f you're more or less successful in your debugging session, it's quite likely that you'll have to modify some source code so you can actually fix a bug. And if you're more or less careful, you might want to validate your changes actually work. We saw some time ago that you don't need to restart gdb after a recompile because gdb is already smart enough to know that the binary changed.</p>
 <p>Turns out you don't even need to drop from gdb to a shell: just type make (using the parameters you'd usually call make with) and watch gdb take care of building your binary again.</p>
 <p>Rebuilding your project like this is not only useful to save time: you can also keep your breakpoints and they should still make sense, assuming you didn't refactor your code too much.</p>

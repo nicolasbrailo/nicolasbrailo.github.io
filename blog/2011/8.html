@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2011 August<a name="postsfor2011august"></a></h1>
 <h1>A Makefile for code coverage report with C++<a name="amakefileforcodecoveragereportwithc"></a></h1>
-<p>By Nico Brailovsky @ 2011-08-30 -  <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-08-30 -
+    <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0830_AMakefileforcodecoveragereportwithC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So far you should know how to <a href="/blog/2011/0822_AMakefileforTDDwithC.html">use makefiles</a> and you should have a nice <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">testable project</a>. Then you have everything ready to get a coverage report. Yeah, using makefiles, you guessed!</p>
 <p>This time we'll depend on two tools, gcov and gtest. These are in Ubuntu's repositories, so you should have no problem getting them. I won't even bother to explain this makefile (not because it's obvious but because I don't really remember how it works. I wrote this over a year ago).</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">.PHONY: clean coverage_report
@@ -31,12 +33,16 @@ pretty:
 <p>Bonus II: Example project using gcov and gtest: <a href="/blog/youfoundadeadlink.html">gcov_gtest_sample.tar</a>. The irony? It doesn't use my common makefile, it predates it.</p>
 <hr />
 <h1>Link: ASCII graphs, 2.0 style<a name="linkasciigraphs2.0style"></a></h1>
-<p>By Nico Brailovsky @ 2011-08-25 -  <a href="/blog/2011/0825_LinkASCIIgraphs2.0style.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-08-25 -
+    <a href="/blog/2011/0825_LinkASCIIgraphs2.0style.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0825_LinkASCIIgraphs2.0style.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Every once in a while you need to draw a graph to quickly convey some information, and you don't want all the hassle of opening paint, drawing whatever you want, exporting it as png, and all that stuff. Sometimes it's just easier to do it as ASCII art, only you don't want to spend hours carefully aligning pipes and dashes. For these times <a href="http://www.asciiflow.com/">Asciiflow</a> exists.</p>
 <p>Give it a try, it's a great way to quickly generate a diagram. Just remember to use monospace fonts.</p>
 <hr />
 <h1>A Makefile for TDD with C++<a name="amakefilefortddwithc"></a></h1>
-<p>By Nico Brailovsky @ 2011-08-22 - 1 comments <a href="/blog/2011/0822_AMakefileforTDDwithC.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-08-22 -
+    <a href="/blog/2011/0822_AMakefileforTDDwithC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0822_AMakefileforTDDwithC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, after reading <a href="/blog/2011/0818_Makefiles.html">my post about makefiles</a> you decided that you like them but would like to add some TDD to be buzzword compliant? No problem, that's easy to do.</p>
 <p>Assuming you use a naming convention such as this one:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">path/to/src/Object.h
@@ -79,7 +85,9 @@ test: $(TEST_SRCS)
 <p>Now you just need to run make test. Remember to add the proper <a href="/blog/2010/0629_Vimtipsmakethingsworkagain.html">Vim's mapping</a>.</p>
 <hr />
 <h1>Makefiles<a name="makefiles"></a></h1>
-<p>By Nico Brailovsky @ 2011-08-18 - 2 comments <a href="/blog/2011/0818_Makefiles.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-08-18 -
+    <a href="/blog/2011/0818_Makefiles.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0818_Makefiles.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For open source projects, makefiles are a must. All C++ projects need them, even though cmake is strong nowadays, and even though Java has its own version (actually, several of them, but that's not important now) a makefile could be used.</p>
 <p>Even if it is an ubiquitous build system, it is pretty much outdated nowadays, and although using its basic features is easy, mastering it is a complex task. Worst still, mastering makefiles means you'll probably produce write-only-code, and as makefiles are code themselves, and must therefore be maintained, this can be a nuisance to a newcomer to your project.</p>
 <p>There's an upside to makefiles being code: they can be reused. Once you find a configuration that suits your development process, you don't need to write it again. I'll post here some of the main targets I ussually include in a common.mk. As I mentioned, it's mostly write-only-code, yet you may find it useful:</p>
@@ -119,7 +127,9 @@ $(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
 <p>And finally, a rule for to create the real binary. Next time I'll add some cool features for TDD to this makefile.</p>
 <hr />
 <h1>Living on a null object<a name="livingonanullobject"></a></h1>
-<p>By Nico Brailovsky @ 2011-08-16 -  <a href="/blog/2011/0816_Livingonanullobject.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-08-16 -
+    <a href="/blog/2011/0816_Livingonanullobject.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0816_Livingonanullobject.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Check this out:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct S {
    int f(){ return 42; }
@@ -147,6 +157,8 @@ int main() {
 <p>Now, in this new "translated" code, what do you think? Will it crash? It won't, since no one is going to dereference "this". Crazy, huh? This crazy idiom also allows even crazier things, like <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">C++ objects committing sepuku</a></p>
 <hr />
 <h1>Vacations are over<a name="vacationsareover"></a></h1>
-<p>By Nico Brailovsky @ 2011-08-15 -  <a href="/blog/2011/0815_Vacationsareover.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-08-15 -
+    <a href="/blog/2011/0815_Vacationsareover.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0815_Vacationsareover.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Long time without updates. I guess I needed vacations from the blog. It was not the first time and it probably won't be the last one I take, but I'm back now with another truckload of C++ ramblings and misc stuff. Like this one:</p>
 <hr />

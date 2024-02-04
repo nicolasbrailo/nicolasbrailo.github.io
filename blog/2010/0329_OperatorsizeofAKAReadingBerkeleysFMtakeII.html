@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Operator sizeof (AKA Reading Berkeley's FM, take II)<a name="operatorsizeofakareadingberkeleysfmtakeii"></a></h1>
 <p><a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Last time</a> I told you about an evil snipet I found on Oracle Berkeley DB's manual:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">  skey-&amp;gt;size = sizeof((struct student_record *)pdata-&amp;gt;data)-&amp;gt;last_name;
@@ -23,3 +30,7 @@
 </pre>
 <p>Which means nothing else than "store in b the size of member y in struct X. It should be easy to see why BDB's example does compile, and why did I spend half an hour trying to understand the reason it compiled fine.</p>
 <p>By using some more casts and a clever arangement of parenthesis you can come up with a great job security device.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2010-03-29 -
+    <a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

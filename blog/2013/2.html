@@ -7,12 +7,16 @@
 </ul>
 <h1>Posts for 2013 February<a name="postsfor2013february"></a></h1>
 <h1>Powerpoint monkey<a name="powerpointmonkey"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-28 -  <a href="/blog/2013/0228_Powerpointmonkey.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-28 -
+    <a href="/blog/2013/0228_Powerpointmonkey.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0228_Powerpointmonkey.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I doubt this announcement will be of much use to anyone, but I've uploaded most of my latex presentations to my <a href="https://github.com/nicolasbrailo/powerpoint_monkey">github repo</a> (those for which I found the source code, anyway).</p>
 <p>At least it's a great way to see crappy latex code which probably hasn't compiled in newer versions of latex for at least a couple of years.</p>
 <hr />
 <h1>C++ exceptions under the hood 4: catching what you throw<a name="cexceptionsunderthehood4catchingwhatyouthrow"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-26 -  <a href="/blog/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-26 -
+    <a href="/blog/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>In this series about exception handling, we have discovered quite a bit about exception throwing by looking at compiler and linker errors but we have so far not learned anything yet about exception catching. Let's sum up the few things we learned about exception throwing:</p>
 <ul>
 <li>A throw statement will be translated by the compiler into two calls, <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong>.</li>
@@ -73,7 +77,9 @@ collect2: ld returned 1 exit status
 <p>What does the personality function do? We already said something about it on the introduction to this series but we will be looking into it with some more detail next time, together with our new two friends, <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong>.</p>
 <hr />
 <h1>Bebugging / Fault injection<a name="bebuggingfaultinjection"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-21 -  <a href="/blog/2013/0221_BebuggingFaultinjection.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-21 -
+    <a href="/blog/2013/0221_BebuggingFaultinjection.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0221_BebuggingFaultinjection.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Releasing any software with a degree of confidence on its quality can be a difficult task. A way to improve this confidence is adding test. Easy enough, but then how do you know if you are actually testing what needs to be tested? Metrics like code coverage are very helpful but they also provide a false sense of security that can be even worse than having no unit testing at all.</p>
 <p>One way of determining how reliable your testing suit is, is to test your testing suit. No, not by writing more tests but by writing more bugs!</p>
 <p>The idea is simple: give your code to someone who is not a programmer on the project, someone who can know nothing about the implicit assumptions and preconditions you and your team mates already have about the code, the same assumptions and preconditions necessary to make stuff don't crash. Ask him to break things. Nothing too fancy, only subtle stuff; a memory leak over there, a sign vs unsigned comparison over here, an equal changed by a non-equal in an if (and please do it in a branch!).</p>
@@ -82,7 +88,9 @@ collect2: ld returned 1 exit status
 <p>You can find more information about bebugging in <a href="http://en.wikipedia.org/wiki/Fault_injection">Wikipedia</a>.</p>
 <hr />
 <h1>C++ exceptions under the hood 3: an ABI to appease the linker<a name="cexceptionsunderthehood3anabitoappeasethelinker"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-19 -  <a href="/blog/2013/0219_Cexceptionsunderthehood3anABItoappeasethelinker.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-19 -
+    <a href="/blog/2013/0219_Cexceptionsunderthehood3anABItoappeasethelinker.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0219_Cexceptionsunderthehood3anABItoappeasethelinker.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>On our journey to understand exceptions we discovered that the heavy-lifting is done in libstdc++ as specified by the C++ ABI. Reading some linker errors we deduced last time that for handling exceptions we need help from the C++ ABI; we created a throwing C++ program, linked it together with a plain C program and found that the compiler somehow translated our throw instruction into something that is now calling a few libstd++ functions to actually throw an exception. Lost already? You can check the sourcode for this project so far <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
 <p>Anyway, we want to understand exactly how an exception is thrown, so we will try to implement our own mini-ABI, capable of throwing an exception. To do this, a lot of <a href="/blog/youfoundadeadlink.html">RTFM</a> is needed, but a full ABI interface can be found <a href="http://libcxxabi.llvm.org/spec.html">here, for LLVM</a>. Let's start by remembering what those missing functions are:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; gcc main.o throw.o -o app
@@ -147,7 +155,9 @@ void __cxa_throw(
 <p>We are now seeing some progress but we still have a long way to go. Our ABI can only throw exceptions right now. Can we extend it to handle a catch as well? We'll see how next time.</p>
 <hr />
 <h1>Monitor file changes on a CLI<a name="monitorfilechangesonacli"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-14 -  <a href="/blog/2013/0214_MonitorfilechangesonaCLI.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-14 -
+    <a href="/blog/2013/0214_MonitorfilechangesonaCLI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0214_MonitorfilechangesonaCLI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The other day I had a problem with a config file being overwritten. Some process, I did not know which one, was overwriting a configuration file I manually changed. Annoyed by this, I started looking for the culprit. lsof was no good, because that would list the open files; this process would most likely just open the file, write to it and then close it again. My chances of ever catching this process in the act were nil. Luckily I found auditd. Install it like this:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo apt-get install auditd
 </pre>
@@ -160,7 +170,9 @@ void __cxa_throw(
 <p>Voila, now you have your culprit. Kill -9 at will.</p>
 <hr />
 <h1>C++ exceptions under the hood II: a tiny ABI<a name="cexceptionsunderthehoodiiatinyabi"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-12 -  <a href="/blog/2013/0212_CexceptionsunderthehoodIIatinyABI.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-12 -
+    <a href="/blog/2013/0212_CexceptionsunderthehoodIIatinyABI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0212_CexceptionsunderthehoodIIatinyABI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If we are going to try and understand why exceptions are complex and how do they work, we can either read a lot of manuals or we can try to write something to handle the exceptions ourselves. Actually, I was surprised by the lack of good information on this topic: pretty much everything I found is either incredibly detailed or very basic, with one exception or two. Of course there are some specifications to implement (most notably the <a href="/blog/youfoundadeadlink.html">ABI for c++</a> but we also have <a href="http://www.logix.cz/michal/devel/gas-cfi/">CFI</a>, <a href="http://www.logix.cz/michal/devel/gas-cfi/dwarf-2.0.0.pdf">DWARF</a> and libstdc) but reading the specification alone is not enough to really learn what's going on under the hood.</p>
 <p>Let's start with the obvious then: wheel reinvention! We know for a fact that plain C doesn't handle exceptions, so let's try to link a throwing C++ program with a plain C linker and see what happens. I came up with something simple like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;throw.h&quot;
@@ -207,12 +219,16 @@ collect2: ld returned 1 exit status
 <p>In any case, the linker errors are pointing us to the first layer into exception handling under the hood: an interface we'll have to implement ourselves, the cxxabi. For the next article we'll be starting our own mini ABI, as defined in the <a href="/blog/youfoundadeadlink.html">C++ ABI</a>.</p>
 <hr />
 <h1>Quick C/C++ reference on the console<a name="quickccreferenceontheconsole"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-07 -  <a href="/blog/2013/0207_QuickCCreferenceontheconsole.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-07 -
+    <a href="/blog/2013/0207_QuickCCreferenceontheconsole.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0207_QuickCCreferenceontheconsole.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>What do you usually do when you don't remember whether fp is the first argument for fprintf or for fwrite? (Hint: it's the first argument for one, the last for the other. Handy, huh?). Well, there's no need to go and check the answer on Google, just sudo apt-get install manpages-dev and then do "man fprintf" or "man fwrite".</p>
 <p>Note: you might also want posix-dev to check stuff like htons.</p>
 <hr />
 <h1>C++ exceptions under the hood<a name="cexceptionsunderthehood"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-05 -  <a href="/blog/2013/0205_Cexceptionsunderthehood.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-05 -
+    <a href="/blog/2013/0205_Cexceptionsunderthehood.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0205_Cexceptionsunderthehood.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Everyone knows that good exception handling is hard. Reasons for this abound, in every single layer of an exception "lifetime": it's hard to write exception safe code, an exception might be thrown from unexpected places (pun intended!), it's can be complicated to understand badly designed exception hierarchies, it's slow because a lot of voodoo is happening under the hood, it's dangerous because improperly throwing an exception might call the unforgiving std::terminate. And although anyone who might have had to battle an "exceptional" program might know this, the reasons for this mess are not widespread knowledge.</p>
 <p>The first question we need to ask ourselves is then, how does it all work. This is the first article on a long series, in which I'll be writing about how exceptions are implemented under the hood in c++ (actually, c++ compiled with gcc on x86 platforms but this might apply to other platforms too). On these articles the process of throwing and catching an exception will be explained with quite a lot of detail, but for the impatient people here is a small brief of all the articles that will follow: how is an exception thrown in gcc/x86:</p>
 <ol>

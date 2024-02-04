@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ name mangling<a name="cnamemangling"></a></h1>
 <p>There is a topic I have referred to several times on this blog, yet in four years I still haven't explained what it is. I plan to correct this by explaining a little bit about C++ name mangling, and although I won't expect to write anything you couldn't learn by reading <a href="http://en.wikipedia.org/wiki/Name_mangling">Wikipedia</a>, I'll try to have a more practical approach.</p>
 <p>Whenever you compile and link something, there is a lot of information the compiler deduces that you don't really care about. Things like calling conventions, overloads or namespaces. Yet this information is crucial for other stages of the compiler (or linker) to work. For this reason, the compiler will create a decorated version of any object's or function's name.</p>
@@ -21,3 +28,7 @@ void fastcall_string_overloaded_function(string);
 <p>If you find yourself in the last case, for example when running an nm to get the names defined in a (compiled) object, you can use c++ filt. Like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">nm foo.o | c++filt
 </pre>
+<hr />
+<p>Post by Nico Brailovsky @ 2011-11-17 -
+    <a href="/blog/2011/1117_Cnamemangling.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1117_Cnamemangling.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

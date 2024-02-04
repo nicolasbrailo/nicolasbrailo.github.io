@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>gdb-tui and the previous-command problem<a name="gdbtuiandthepreviouscommandproblem"></a></h1>
 <p>Raise your hand if you have run gdb in <a href="/blog/2009/0922_gdbgraphictuimode.html">tui</a> (graphical) mode, only to find you can't refer to the previous command when pressing "up". I can't see you but I know this is true for pretty much everyone reading this blog. All three of you.</p>
 <p>In the gdb-TUI mode, the arrow keys are used by the active window for scrolling. This means they are not available for readline, the component that takes care of the magic invocations needed to bring back the previous command from the land of the dead. Luckily there are alternative readline keybindings: just try C-p, C-n, C-b and C-f. Takes a while getting used to it but you can finally use gdb-TUI and forget about copy-pasting every gdb command.</p>
@@ -48,3 +55,7 @@ Thanks Anon</p>
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">sherais</a> commented @ 2020-04-01T20:55:14.000+02:00:<a name="inreplytothispostsheraisblog_mdyoufoundadeadlink.mdcommented20200401t205514.0000200"></a></h2>
 <p>Thank you very much, I am learning GDB and this saves me so many grey hairs.</p>
 <p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2016-01-26 -
+    <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0126_gdbtuiandthepreviouscommandproblem.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

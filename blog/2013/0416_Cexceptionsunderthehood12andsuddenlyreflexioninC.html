@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood 12: and suddenly, reflexion in C++<a name="cexceptionsunderthehood12andsuddenlyreflexioninc"></a></h1>
 <p>We left our mini-ABI project (<a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v03">link</a>) capable of throwing exceptions, and we are now working on catching them; we implemented a personality function last time which was capable of detecting and handling exceptions but it was still a bit incomplete: even though it can properly notify the stack unwinder when it should stop but our version of __gxx_personality_v0 can't run the code inside a catch block. We learned last time how to read the LSDA, so now it's only a problem of putting all the pieces together to read the .gcc_except_table from within our personality function.</p>
 <p>Let's recap a bit: we figured out last time that our LSDA for the function which has the catch we want to run has the following call site table (that is, the following landing pads [that is, the following catch blocks]):</p>
@@ -100,3 +107,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
         return _URC_INSTALL_CONTEXT;
 </pre>
 <p>Try to run it, and watch a beautiful infinite loop. Can you guess what went wrong? The answer on the next article.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-04-16 -
+    <a href="/blog/2013/0416_Cexceptionsunderthehood12andsuddenlyreflexioninC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0416_Cexceptionsunderthehood12andsuddenlyreflexioninC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Setting up a Linux GW VI: Configuring a console friendly router and<a name="settingupalinuxgwviconfiguringaconsolefriendlyrouterand"></a></h1>
 <p>setting up static DHCP IPs</p>
 <p>We have so far setup a device capable of working as a router for a medium sized LAN, providing NAT, DHCP and DNS services. This is great if you have a dedicated network admin, but you may prefer something easier for casual console users. We'll see how to "refactor" your server configuration now to make it more console friendly.</p>
@@ -24,3 +31,7 @@ include &quot;/home/router/dhcp/static_hosts.conf&quot;;
 ln -s /var/lib/dhcp leases
 </pre>
 <p>Then you can check the hardware address in the leases/dhcpd.leases file. I created a symlink to keep this directory at hand, since it gives you a status of the current leases.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-10-31 -
+    <a href="/blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

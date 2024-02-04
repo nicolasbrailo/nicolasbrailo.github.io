@@ -16,6 +16,16 @@ BLOG_HEADER = """
 
 """
 
+ROOT_PAGE_TMPL = BLOG_HEADER + """
+{{content}}
+
+---
+
+Page generated {{generatedDate}}
+
+[Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
+"""
+
 POSTS_IN_INDEX = 10
 BLOG_INDEX_TMPL = BLOG_HEADER + """
 
@@ -39,12 +49,26 @@ POST_IN_IDX_TMPL = """
 # {{title}}
 
 
-By {{author}} @ {{publishDate}} - {{commentCount}} [Permalink]({{srcFile}})
+Post by {{author}} @ {{publishDate}} -
+    [Permalink]({{srcFile}}) -
+    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
 
 
 {{content}}
 
 ---
+"""
+
+POST_STANDALONE_TMPL = BLOG_HEADER + """
+
+{{content}}
+
+---
+
+Post by {{author}} @ {{publishDate}} -
+    [Permalink]({{srcFile}}) -
+    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
+
 """
 
 
@@ -225,9 +249,9 @@ all_posts, root_pages  = get_all_posts(src_path)
 
 if build_individual_pages:
     for p in all_posts:
-        mdconvert.read_md_write_html(p)
+        mdconvert.read_md_write_html(POST_STANDALONE_TMPL, p)
     for p in root_pages:
-        mdconvert.read_md_write_html(p)
+        mdconvert.read_md_write_html(ROOT_PAGE_TMPL, p)
 
 if build_index:
     mdconvert.write_file('index.html', build_index_md(all_posts))

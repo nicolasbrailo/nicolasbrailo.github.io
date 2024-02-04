@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>CRTP for static dispatching<a name="crtpforstaticdispatching"></a></h1>
 <p>So, virtual dispatching is just too much overhead for you? I bet you do need every femtosecond from your CPU. Even if you don't, who doesn't like weird C++ constructs? Take CRTP, for example, a Curiously recurring template pattern:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;class Derived&gt; struct CRTP {
@@ -24,3 +31,7 @@ int main() {
 </pre>
 <p>Using this weird looking (ain't them all?) template device you can have static dispatching with most of the flexibility of dynamic dispatching. As a bonus, you'll drive all your cow-orkers insane!</p>
 <p>Bonus non useful information: In C++ 0X you could use variadic templates and have a proxy object with static dispatching. How cool is that?</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2011-03-31 -
+    <a href="/blog/2011/0331_CRTPforstaticdispatching.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0331_CRTPforstaticdispatching.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

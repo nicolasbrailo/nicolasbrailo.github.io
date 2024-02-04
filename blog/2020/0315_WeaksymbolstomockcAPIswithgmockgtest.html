@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Weak symbols to mock c-APIs with gmock/gtest<a name="weaksymbolstomockcapiswithgmockgtest"></a></h1>
 <p>I recently worked with a c-style API interface which wasn't very open to mocking. The API in question looked something like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">handle_t h = api_open();
@@ -37,3 +44,7 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
 }
 </pre>
 <p>This method has the (big) disadvantage of creating an invisible dependency between "mocked_api_instance" and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2020-03-15 -
+    <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

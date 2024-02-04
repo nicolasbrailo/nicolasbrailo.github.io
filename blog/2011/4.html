@@ -7,11 +7,15 @@
 </ul>
 <h1>Posts for 2011 April<a name="postsfor2011april"></a></h1>
 <h1>Know your history (at least in bash)<a name="knowyourhistoryatleastinbash"></a></h1>
-<p>By Nico Brailovsky @ 2011-04-28 - 2 comments <a href="/blog/2011/0428_Knowyourhistoryatleastinbash.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-04-28 -
+    <a href="/blog/2011/0428_Knowyourhistoryatleastinbash.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0428_Knowyourhistoryatleastinbash.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I always wonder why do you see so many people pressing up a bazillion times when trying to bring a command they recently typed. Just use ctrl+r and type part of the previous command, it'll save you many hours of pressing up.</p>
 <hr />
 <h1>Cool C++0X features III: Variadic templates, a fix for varargs<a name="coolc0xfeaturesiiivariadictemplatesafixforvarargs"></a></h1>
-<p>By Nico Brailovsky @ 2011-04-26 -  <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-04-26 -
+    <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Last time</a> we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn't have the problems the varargs solution had, nor how does it work. Let's start by copying the solution here:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">// Stop condition
 void println() {}
@@ -83,7 +87,9 @@ int main() {
 <p>Next time, we'll see a more complex (and fun) example of variadic templates.</p>
 <hr />
 <h1>echo "Hola mundo" &gt; /dev/full<a name="echoholamundodevfull"></a></h1>
-<p>By Nico Brailovsky @ 2011-04-21 -  <a href="/blog/2011/0421_echoHolamundodevfull.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-04-21 -
+    <a href="/blog/2011/0421_echoHolamundodevfull.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0421_echoHolamundodevfull.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I'd write something witty but there's not a lot to talk about /dev/full. Anyway, it is a cool tip, so I'll share it:</p>
 <blockquote>
 <p>Everyone knows /dev/null, and most will know /dev/zero. But /dev/full was unknown to me until some time ago. This device will respond to any write request with ENOSPC, No space left on device. Handy if you want to test if your program catches "disk full" - just let it write there</p>
@@ -91,7 +97,9 @@ int main() {
 <p>From <a href="http://www.df7cb.de/blog/2010/dev_full.html">Myon's Blog</a></p>
 <hr />
 <h1>Cool C++0X features II, Variadic templates: What&#39;s wrong with varargs<a name="coolc0xfeaturesiivariadictemplateswhat39swrongwithvarargs"></a></h1>
-<p>By Nico Brailovsky @ 2011-04-19 - 1 comments <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-04-19 -
+    <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Last time</a> we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?</p>
 <p>Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;stdarg.h&gt;
@@ -150,7 +158,9 @@ int main() {
 <p><strong>(Thanks Hugo Arregui for correcting the POD example)</strong></p>
 <hr />
 <h1>Cool C++0X features I: Intro<a name="coolc0xfeaturesiintro"></a></h1>
-<p>By Nico Brailovsky @ 2011-04-18 -  <a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-04-18 -
+    <a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0418_CoolC0XfeaturesIIntro.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>C++0X brings some very cool changes, and I wanted to start a series of posts regarding some of these changes, with a small explanation of each new feature (that I currently understand, at least), an example of its usage and why I think it's a cool thing. Notice these two may be mutually exclusive, some of these may just be cool but I wouldn't recommend using them on a day to day basis. An example of a very cool feature which I wouldn't normally use in a project is the one I want to write about today: variadic templates.</p>
 <p>What's not to love about variadic templates? Its name implies (correctly) that it uses templates, and it also has a "variadic" thingy, which you can use to look smart since no one really knows what it means.</p>
 <p>Templates themselves can quickly get complicated if used by unexperienced padawans in the art of martial C++, yet their hypnotic beauty draws every programmer to use them just like flies are drawn to fire. When used correctly they can produce very elegant code; if not for the template programmer, at least for the end user. Yet in all their power, templates in C++ have been lacking a fundamental aspect: a variable number of arguments.</p>
@@ -162,7 +172,9 @@ int main() {
 <p>This entry is getting quite long so we'll start seeing these examples on the next post.</p>
 <hr />
 <h1>Hex dump in C++<a name="hexdumpinc"></a></h1>
-<p>By Nico Brailovsky @ 2011-04-07 -  <a href="/blog/2011/0407_HexdumpinC.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-04-07 -
+    <a href="/blog/2011/0407_HexdumpinC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0407_HexdumpinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you need to work with low level stuff (say communications protocols, compression algorithms, stuff like that) you'll be needing an hex dump function sooner or later. Alex, from <a href="http://www.alexonlinux.com/">Alex on Linux</a>, has a great <a href="http://www.alexonlinux.com/hex-dump-functions">hex dump function</a> for Python and C.</p>
 <p>I added an =NULL for caption, I don't use it.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void hex_dump(char <em>data, int size, char </em>caption=NULL)
@@ -210,7 +222,9 @@ int main() {
 </pre>
 <hr />
 <h1>Newsflash: C++ object commits sepuku<a name="newsflashcobjectcommitssepuku"></a></h1>
-<p>By Nico Brailovsky @ 2011-04-04 - 1 comments <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-04-04 -
+    <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0404_NewsflashCobjectcommitssepuku.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Check this out. Is it valid C++?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">class X {
   void dispose() {

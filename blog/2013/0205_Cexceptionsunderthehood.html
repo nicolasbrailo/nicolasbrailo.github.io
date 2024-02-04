@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood<a name="cexceptionsunderthehood"></a></h1>
 <p>Everyone knows that good exception handling is hard. Reasons for this abound, in every single layer of an exception "lifetime": it's hard to write exception safe code, an exception might be thrown from unexpected places (pun intended!), it's can be complicated to understand badly designed exception hierarchies, it's slow because a lot of voodoo is happening under the hood, it's dangerous because improperly throwing an exception might call the unforgiving std::terminate. And although anyone who might have had to battle an "exceptional" program might know this, the reasons for this mess are not widespread knowledge.</p>
 <p>The first question we need to ask ourselves is then, how does it all work. This is the first article on a long series, in which I'll be writing about how exceptions are implemented under the hood in c++ (actually, c++ compiled with gcc on x86 platforms but this might apply to other platforms too). On these articles the process of throwing and catching an exception will be explained with quite a lot of detail, but for the impatient people here is a small brief of all the articles that will follow: how is an exception thrown in gcc/x86:</p>
@@ -16,3 +23,7 @@
 <p>To learn about all the details that happen under the hood on the next article we will start to implement our own mini libstdlibc++. Not all of it though, only the part that handles exceptions. Actually not even all of that, only the bare minimum we need to make a simple throw/catch statement work. Some assembly will be needed, but nothing too fancy. A lot of patience will be required, I'm afraid.</p>
 <p>If you are too curious and want to start reading about exception handling implementation then you can start <a href="/blog/youfoundadeadlink.html">here</a>, for a full specification of what we are going to implement on the next few articles. I'll try to make these articles a bit more didactic and easier to follow though, so see you next time to start our ABI!</p>
 <h6>** Disclaimer note: I'm in no way versed on the magic going on when an exception is thrown. These series will be about trying to demystify the stuff going on under the hood and learning something in the process, and while I hope some of it will be correct I have no doubts there will be a lot of subtleties not quite right. Let me know if you think I should correct something **</h6>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-02-05 -
+    <a href="/blog/2013/0205_Cexceptionsunderthehood.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0205_Cexceptionsunderthehood.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

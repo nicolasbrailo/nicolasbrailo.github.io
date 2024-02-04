@@ -7,13 +7,17 @@
 </ul>
 <h1>Posts for 2019 July<a name="postsfor2019july"></a></h1>
 <h1>Vim multiple search<a name="vimmultiplesearch"></a></h1>
-<p>By Nico Brailovsky @ 2019-07-27 -  <a href="/blog/2019/0727_Vimmultiplesearch.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2019-07-27 -
+    <a href="/blog/2019/0727_Vimmultiplesearch.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2019/0727_Vimmultiplesearch.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I keep forgetting about this one. Maybe writing it down will help me remember: Vim can search for (and highlight) multiple patterns at the same time. Just start your search with \v and split the patterns with |. Eg:</p>
 <pre style="display: inline-block; border: 1px solid red;">:/\vfoo|bar
 </pre>
 <hr />
 <h1>Bash: Color in command line prompt PS1<a name="bashcolorincommandlinepromptps1"></a></h1>
-<p>By Nico Brailovsky @ 2019-07-18 -  <a href="/blog/2019/0718_BashColorincommandlinepromptPS1.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2019-07-18 -
+    <a href="/blog/2019/0718_BashColorincommandlinepromptPS1.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2019/0718_BashColorincommandlinepromptPS1.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I'm lately dealing with lots of hosts in different environments (eg local, dev, test, etc). Some actions are safe to perform in some of these hosts, in others not so much. To help quickly figure out which hosts are safe, I wanted to add a color to my Bash prompt (PS1) - for example green for dev, where it's unlikely I'll break anything other than my stuff, red for hosts where carelessness might result in a weekend spent at the office.</p>
 <p>The first result I get in Google when trying to set Bash's PS1 to use colors seems to be wrong (or, rather, I wasn't smart enough to make it work). An escape sequence seems to be missing, resulting in weird behavior with new lines; colors work, but line wrapping gets broken. Took me a while to associate broken \n's with colors, but once I did the fix was easy. Check out here for the <a href="https://stackoverflow.com/questions/342093/ps1-line-wrapping-with-colours-problem">proper way to escape color commands in Bash</a>.</p>
 <p>And here's my current setup:</p>

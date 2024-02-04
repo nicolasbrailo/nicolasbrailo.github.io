@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood 8: two-phase handling<a name="cexceptionsunderthehood8twophasehandling"></a></h1>
 <p>We finished last chapter on the series about C++ exceptions by adding a personality function that _Unwind_ was able to call. It didn't do much but there it was. The ABI we have been implementing can now throw exceptions and the catch is already halfway implemented, but the personality function needed to properly choose the catch block (landing pad) is bit dumb so far. Let's start this new chapter by trying to understand what are the parameters that the personality function receives and next time we'll begin adding some real behavior to __gxx_personality_v0: when __gxx_personality_v0 is called we should say "yes, this stack frame can indeed handle this exception".</p>
 <p>We already said we won't care for the version or the exceptionClass for our mini ABI. Let's ignore the context too, for now: we'll just handle every exception with the first stack frame above the function throwing; note this implies there must be a try/catch block on the function immediately above the throwing function, otherwise everything will break. This also implies the catch will ignore its exception specification, effectively turning it into a catch(...). How do we let _Unwind_ know we want to handle the current exception?</p>
@@ -34,3 +41,7 @@ no one handled __cxa_throw, terminate!
 1. Running a two-phase exception handling procedure means that in case no handler was found then the default exception handler can get the original exception's stack trace (if we were to unwind the stack as we go it would get no stack trace, or we would need to keep a copy of it somehow!).
 2. Running a _UA_CLEANUP_PHASE and calling a second time each frame, even though we already know the frame that will handle the exception, is also really important: the personality function will take this chance to run all the destructors for objects built on this scope. It is what makes RAII an exception safe idiom!</p>
 <p>Now that we understand how the catch lookup phase works we can continue our personality function implementation. The next time.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-03-26 -
+    <a href="/blog/2013/0326_Cexceptionsunderthehood8twophasehandling.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0326_Cexceptionsunderthehood8twophasehandling.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

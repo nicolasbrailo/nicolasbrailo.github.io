@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Simple vim plugin II: a psychic project greper<a name="simplevimpluginiiapsychicprojectgreper"></a></h1>
 <p>We have been working on a quick grep integration for Vim, and it's looking decent enough for a quick plugin. There's one more easy thing we can improve, though: let's make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That's so old fashioned. Let's make grep guess what to look for.</p>
 <p>In vim you have a psychic function, expand(""). If you call expand(""), it will return whatever word is under the cursor. No need to visually select it. If you're still using the same vimrc definitions, you can do something like</p>
@@ -51,3 +58,7 @@ vmap &lt;leader&gt;s :call FG_VAction(&quot;FG_DoSearchText&quot;)&lt;CR&gt;
 map  &lt;leader&gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quot;FG_DoSearchText&quot;)&lt;CR&gt;
 </pre>
 <p>Just copy paste that in your vimrc, now you can grep your project in three different ways: press s (,s) to look for the word currently under the cursor, S to type in a search term or select something in visual mode, then S to grep it.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2016-11-29 -
+    <a href="/blog/2016/1129_SimplevimpluginIIapsychicprojectgreper.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1129_SimplevimpluginIIapsychicprojectgreper.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

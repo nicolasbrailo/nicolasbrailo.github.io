@@ -7,14 +7,18 @@
 </ul>
 <h1>Posts for 2011 September<a name="postsfor2011september"></a></h1>
 <h1>DIY gnome applets<a name="diygnomeapplets"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-29 - 1 comments <a href="/blog/2011/0929_DIYgnomeapplets.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-29 -
+    <a href="/blog/2011/0929_DIYgnomeapplets.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0929_DIYgnomeapplets.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We all know Gnome, and similar GUIs, are there only as a fancy console multiplexer, but even so it's useful to have widgets in your menus or dockbars to display useful data, like the release date of DNF (*). Gnome has a limited amount of applets from which you can choose, and most of them are crap or limited in their customization. You can always create your own widgets, but that's a pain in the ass for lazy people like me. Fortunately we lazy people can now use something an order of magnitude more useful than widgets in Gnome : we can use console commands!</p>
 <p>Using something called <a href="http://code.google.com/p/compa/">Compa</a> you can add a meta-widget, that will display the output of any CLI program. This means, of course, that you have all the power of the console to use in your custom made widgets. Need to check your laptop's battery? No need to search for a widget anymore, just <a href="/blog/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.html">cat /proc/acpi/battery/BAT0/state</a>. Need to check the weather? Just wget your favorite forecast page and parse it with grep, sed an awk. OK, maybe that's a little bit too much.</p>
 <p>Once more this proves that anything can be done in console mode - and whatever you can't isn't worth doing anyway.</p>
 <p>(*) Wow, this article has been written a LONG time ago!</p>
 <hr />
 <h1>Cool C++0X features XI: decltype and disappearing constness<a name="coolc0xfeaturesxidecltypeanddisappearingconstness"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-27 -  <a href="/blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-27 -
+    <a href="/blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the <a href="/blog/youfoundadeadlink.html">last posts</a> of this series.</p>
 <p>In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it's present for template type deduction too, but decltype adds a new level of complexity to it.</p>
 <p>Let's start with an example. Would this compile?</p>
@@ -75,14 +79,18 @@ void f(const Foo foo)
 <p>As I said, disappearing constness is not a C++0x specific problem as it may occur on template type deduction, but that's besides the point of this post. Next time we'll continue working with type deduction, but with the new auto feature this time.</p>
 <hr />
 <h1>Running commands on Windows from Linux, through ssh<a name="runningcommandsonwindowsfromlinuxthroughssh"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-22 - 1 comments <a href="/blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-22 -
+    <a href="/blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Running Windows is something I don't usually like (running of Windows is a different story) but having to run something on Windows command line interface is something I wouldn't wish even to my worst enemies. I was stuck in that situation, don't remember why, but I needed to run a command in a Windows machine, automatically, and I only had ssh (is there a better way of automating scripted tasks in Windows, remotely and without a GUI?). Well, this is what I came up with:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ssh host cmd /c dir
 </pre>
 <p>Running that in a bash shell will show the directory listing of C: in machine "host". Ugly as hell, but it's a good way of kickstarting a batch script.</p>
 <hr />
 <h1>Throwing destructors<a name="throwingdestructors"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-20 -  <a href="/blog/2011/0920_Throwingdestructors.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-20 -
+    <a href="/blog/2011/0920_Throwingdestructors.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0920_Throwingdestructors.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We already know what happens when you <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">throw from a constructor</a>. Ending up with a half built object is not good, but suppose we do manage to build one correctly. What happens if we <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">throw in a destructor</a> instead? The results are usually much worse, with a very real possibility of having your program terminated. Read on for a brief explanation on the perils of throwing constructors.</p>
 <p>So, according to RAII pattern, resource deallocation should occur during the destructor, yet resource freeing is not exempt of possible errors. How would you notify of an error condition?</p>
 <ul>
@@ -94,7 +102,9 @@ void f(const Foo foo)
 <p>So, what can you do about it? Go to your favorite jobs posting site and start searching for a PHP position, you'll sleep better at nights.</p>
 <hr />
 <h1>Zero padding for Bash scripts<a name="zeropaddingforbashscripts"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-15 - 1 comments <a href="/blog/2011/0915_ZeropaddingforBashscripts.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-15 -
+    <a href="/blog/2011/0915_ZeropaddingforBashscripts.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0915_ZeropaddingforBashscripts.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Lately I found myself trying to generate a video from a series of images generated by a program. Doesn't sound difficult, until you start running into a stupid issue: your 1000th frame will come before your 2nd frame!</p>
 <p>Luckily there's a very easy fix for this problem, just add zero padding in a bash script. How?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">for i in <code>seq 1 10
@@ -106,12 +116,16 @@ void f(const Foo foo)
 </pre>
 <hr />
 <h1>200th post!<a name="200thpost"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-14 -  <a href="/blog/2011/0914_200thpost.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-14 -
+    <a href="/blog/2011/0914_200thpost.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0914_200thpost.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Yes, this is the post number 200 on this blog. Considering we are a month away of starting the fourth year, I guess that gives me quite a lousy periodicity, but I am still surprised I post somewhat regularly here after such a long time (hey, in programmer years that's like a whole life!).</p>
 <p>Since the beginning this blog has mutated from being &nbsp;my public notepad to being a place where I research new topics, or write about things that are generally interesting to me. I lost many readers for posting crazy metaprogramming stuff and for constantly babbling about Vim and Linux, but hey, I'm proud of if. Let's see what the next 200 posts bring here.</p>
 <hr />
 <h1>Automagic document conversion for your makefiles<a name="automagicdocumentconversionforyourmakefiles"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-13 - 1 comments <a href="/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-13 -
+    <a href="/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0913_Automagicdocumentconversionforyourmakefiles.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, now you have <a href="/blog/2011/0818_Makefiles.html">a common makefile</a>, ready to be used for a TDD project and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report automagic generation</a>. Not only that, but it even <a href="/blog/2011/0906_Atalkingmakefile.html">speaks to endlessly annoy your team</a>. What else can we add to this makefile? Well, automatic documentation generation, clearly.</p>
 <blockquote>
 <p>You want to batch convert .doc to .pdf using the command line on a server without a GUI? Or you need automated .ppt to .swf conversion through cron, a sysvinit service, or a remote web server? Online conversion services such as Zamzar.com and Media-convert.com not working for you? Whichever formats you need to batch convert, PyODConverter is a simple Python script for just this purpose.</p>
@@ -119,12 +133,16 @@ void f(const Foo foo)
 <p>-- <a href="http://www.oooninja.com/2008/02/batch-command-line-file-conversion-with.html">http://www.oooninja.com/2008/02/batch-command-line-file-conversion-with.html</a></p>
 <hr />
 <h1>Activating tildes and accents for a USA keyboard layout in Ubuntu<a name="activatingtildesandaccentsforausakeyboardlayoutinubuntu"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-08 - 2 comments <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-08 -
+    <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Wow. This time the title of the post may actually be longer than its contents. How do you enable accents and tildes in Ubuntu? You need it to type cool characters like &aacute;, &Oacute; or &ntilde; (hey, my name has one of these!).</p>
 <p>If you are on Windows I think you have to install a new map, and then guess where the key would be. Or use an alt+something magic spell. In Ubuntu, it works by default you just need to add a compose key, Go to System &gt; Preferences &gt; Keyboard &gt; Options &gt; compose key position, select right alt (or whatever you fancy), there you go, now it works. Try it by typing alt + ' + a.</p>
 <hr />
 <h1>A talking makefile<a name="atalkingmakefile"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-06 - 1 comments <a href="/blog/2011/0906_Atalkingmakefile.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-06 -
+    <a href="/blog/2011/0906_Atalkingmakefile.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0906_Atalkingmakefile.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, after learning <a href="/blog/2011/0818_Makefiles.html">how to use makefiles</a>, then <a href="/blog/2011/0822_AMakefileforTDDwithC.html">how to use makefiles for TDD</a> and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report</a>, now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">test: $(TEST_SRCS)
     @for TEST in $(TEST_BINS); do
@@ -138,7 +156,9 @@ void f(const Foo foo)
 <p>Bonus chatter: when Valgrind detects over $MUCHOS errors it'll print "Too many errors detected. Go and fix your program", then it won't print so much detail in the next backtraces.</p>
 <hr />
 <h1>Edit pdf files in Ubuntu<a name="editpdffilesinubuntu"></a></h1>
-<p>By Nico Brailovsky @ 2011-09-01 -  <a href="/blog/2011/0901_EditpdffilesinUbuntu.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2011-09-01 -
+    <a href="/blog/2011/0901_EditpdffilesinUbuntu.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0901_EditpdffilesinUbuntu.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Well, for some reason my LaTeX py-pygments stopped compiling. Thanks for breaking backwards compatibility, you pig-ments.</p>
 <p>I had two options, either spend hours trying to fix this by altering the preamble, or just edit the pdf file. Yeah, I know, editing the pdf sounds ugly as hell, but hey at 2 am in the morning I'll take anything. And pdfedit was there to save the day (night). Just apt-get install pdfedit, it's in the repo.</p>
 <hr />

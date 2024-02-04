@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>Extending the life of a temp variable in C++<a name="extendingthelifeofatempvariableinc"></a></h1>
 <p>Take a look at this code: what does it do?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct X {
@@ -20,3 +27,7 @@ int foo() {
 }
 </pre>
 <p>It looks a bit strange: ref is a reference to a temporary object. Temporary objects get destroyed as soon as they are created, so ref.y should be an undefined data access. Right? Not quite, the C++ standard has a special consideration for const references using a temporary object: according to 12.2.3 this is a valid read, as long as ref is a "const X&amp;". Even more interesting, in this case the lifetime of the temporary object "X(42)" gets extended until ref goes out of scope: only when the reference is gone the destructor for X will be run!</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2014-01-07 -
+    <a href="/blog/2014/0107_ExtendingthelifeofatempvariableinC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2014/0107_ExtendingthelifeofatempvariableinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

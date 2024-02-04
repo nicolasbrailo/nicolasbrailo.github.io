@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2016 June<a name="postsfor2016june"></a></h1>
 <h1>Shared pointers: don't<a name="sharedpointersdont"></a></h1>
-<p>By Nico Brailovsky @ 2016-06-15 -  <a href="/blog/2016/0615_Sharedpointersdont.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-06-15 -
+    <a href="/blog/2016/0615_Sharedpointersdont.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0615_Sharedpointersdont.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Ahh, shared pointers! A nice, magical pointer type that will make all of your memory problems go away. Sprinkle some shared_ptrs here and there and, voilà, Valgrind is now happy. Sounds like a silver bullet, doesn't it? That should be your first clue that something's up with the promise of getting Java-like memory management in your c++ application.</p>
 <p>Java and C(++) have a very different concept of memory management. My Java-foo, obviously enough to anyone reading this blog, is not that great, but, from experience, memory management is seen as a chore better left to the bowels of your system, something you don't need (nor want) to care about. Sure, you can tweak and somewhat manage memory allocations if you really want to; the default mindset, however, is to ignore those concerns. The garbage collector will, eventually, find any unused resource and deal with it accordingly.</p>
 <p>C++ programs, at least those that have been more or less successfully designed as opposed to organically grown, tend to have a radically different approach. Memory management is an integral part of a program's design and it can't be left to some automagic memory manager. This leads, again, for those more or less successful designs, to programs with a tree-like hierarchy in which a child or dependent object must live at least as long as its parent scope. This hierarchy leads to easier to understand programs. Some idioms (RAII!) depend on this hierarchy. Some tools (like scoped and unique pointers) make its implementation much simpler. I've seen that Rust really builds on this idea (and seems to take it to 11! I'm still trying to figure out if that's a good or a bad thing, but so far I quite like it).</p>
@@ -27,7 +29,9 @@
 <p>// TODO: There is a very good reason I found to use shared pointers: to create weak_ptr's. Is there a good solution without actually using shared_ptr's? I don't know!</p>
 <hr />
 <h1>C++: Why is undefinedness important<a name="cwhyisundefinednessimportant"></a></h1>
-<p>By Nico Brailovsky @ 2016-06-02 - 3 comments <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2016-06-02 -
+    <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0602_CWhyisundefinednessimportant.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's start with an example:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int <em>x = (int</em>) NULL;
 x[0] = 42;

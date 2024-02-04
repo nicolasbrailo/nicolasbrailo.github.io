@@ -1,3 +1,10 @@
+<h1>Blog title<a name="blogtitle"></a></h1>
+<h1>Menu<a name="menu"></a></h1>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="/blog/history.html">History</a></li>
+</ul>
 <h1>C++ exceptions under the hood 7: a nice personality<a name="cexceptionsunderthehood7anicepersonality"></a></h1>
 <p>On our journey to learn about exceptions we have learned so far how a throw is done, that something called "call frame information" helps a library called Unwind to do the stack unwinding, and that the compiler writes something called LSDA, language specific data area, to know which exceptions can a method handle. And we know by now that a lot of magic is done on the personality function; we've never seen it in action though. Let's recap in a bit more of detail about how an exception will be thrown and caught (or, more precisely, how we know so far it will be thrown caught):</p>
 <ul>
@@ -103,3 +110,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 <h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2018-01-04T10:47:04.000+01:00:<a name="inreplytothispostanonymouscommented20180104t104704.0000100"></a></h2>
 <p>But .gcc_except_table is same with .eh_frame. (ubuntu Ubuntu 14.04.5 LTS, gcc gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4)</p>
 <p>Original <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">published here</a>.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2013-03-19 -
+    <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0319_Cexceptionsunderthehood7anicepersonality.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>

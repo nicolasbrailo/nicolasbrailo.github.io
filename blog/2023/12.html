@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2023 December<a name="postsfor2023december"></a></h1>
 <h1>Fix Spotify deeplinking in Linux + custom SpotiWeb UI<a name="fixspotifydeeplinkinginlinuxcustomspotiwebui"></a></h1>
-<p>By Nico Brailovsky @ 2023-12-16 -  <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2023-12-16 -
+    <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
 sudo echo &#x27;/usr/share/spotify/spotify.real --uri=&quot;$1&quot;&#x27; &gt; /usr/share/spotify/spotify

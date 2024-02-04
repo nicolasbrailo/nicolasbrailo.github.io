@@ -7,7 +7,9 @@
 </ul>
 <h1>Posts for 2014 November<a name="postsfor2014november"></a></h1>
 <h1>Gdb hit count: ignoring breakpoints (for a while)<a name="gdbhitcountignoringbreakpointsforawhile"></a></h1>
-<p>By Nico Brailovsky @ 2014-11-18 - 2 comments <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">Permalink</a></p>
+<p>Post by Nico Brailovsky @ 2014-11-18 -
+    <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Some times a breakpoint is not enough; if you have a crash inside a loop, the object that makes your code crash might be in the 526th iteration. How can you debug this problem?</p>
 <p>One way would be to set up a <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">watch expression</a>. If you can't setup a watch expression, say, because you're using an iterator and it'd be hard to set one, you can also tell gdb to setup a breakpoint, and then ignore it N times.</p>
 <p>Let's see how this works with this example:</p>
