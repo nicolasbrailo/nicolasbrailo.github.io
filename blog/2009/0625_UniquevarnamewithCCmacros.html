@@ -1,5 +1,5 @@
 <h1>Unique var name with C/C++ macros<a name="uniquevarnamewithccmacros"></a></h1>
-<p>So, you&rsquo;re working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won&rsquo;t let you. There&rsquo;s a secret spell to do it anyway:</p>
+<p>So, you're working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won't let you. There's a secret spell to do it anyway:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">// Do magic! Creates a unique name using the line number
 #define LINE_NAME( prefix ) JOIN( prefix, <strong>LINE</strong> )
 #define JOIN( symbol1, symbol2 ) _DO_JOIN( symbol1, symbol2 )

@@ -16,8 +16,8 @@ The previous code would just return 42. So what's the usefulness of a paste oper
 
 ```c++
 #define MAKE_GET_SET(x, T) \
-               void set_ ## x (T o) { this-&gt;x = o; } \
-               T get_ ## x () { return this-&gt;x; }
+               void set_ ## x (T o) { this->x = o; } \
+               T get_ ## x () { return this->x; }
 class Foo {
   MAKE_GET_SET(foo, int);
 ```

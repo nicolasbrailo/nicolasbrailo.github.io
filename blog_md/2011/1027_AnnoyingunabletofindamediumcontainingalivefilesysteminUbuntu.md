@@ -1,5 +1,4 @@
-# Annoying "unable to find a medium containing a live file system" in
-Ubuntu
+# Annoying "unable to find a medium containing a live file system" in Ubuntu
 
 @meta publishDatetime 2011-10-27T06:22:00.000+02:00
 @meta author Nico Brailovsky

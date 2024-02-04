@@ -1,12 +1,12 @@
 <h1>Setting up a Linux GW II: NATting and forwarding<a name="settingupalinuxgwiinattingandforwarding"></a></h1>
-<p>For our Linux GW, services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let&rsquo;s set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
-<p>We&rsquo;ll do this by setting up NAT with iptables. We&rsquo;ll also have to configure the OS to forward connections from one network card to the other:</p>
+<p>For our Linux GW, services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let's set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
+<p>We'll do this by setting up NAT with iptables. We'll also have to configure the OS to forward connections from one network card to the other:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">echo 1 &gt; /proc/sys/net/ipv4/ip_forward
-iptables &ndash;table nat &ndash;append POSTROUTING &ndash;out-interface eth0 -j MASQUERADE
+iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
 # Add a line like this for each eth* LAN
-iptables &ndash;append FORWARD &ndash;in-interface eth1 -j ACCEPT
+iptables --append FORWARD --in-interface eth1 -j ACCEPT
 </pre>
-<p>We will also need to setup the IP for eth0, since there won&rsquo;t be a DHCP server (we ARE the server!). Open /etc/network/interfaces and add something like this:</p>
+<p>We will also need to setup the IP for eth0, since there won't be a DHCP server (we ARE the server!). Open /etc/network/interfaces and add something like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;"># Configure the WAN port to get IP via DHCP
 auto eth0
 iface eth0 inet dhcp
@@ -16,33 +16,33 @@ iface eth1 inet static
     address 192.168.10.1    # (Or whatever IP you want)
     netmask 255.255.255.0   # Netmasks explanations not included
 </pre>
-<p>Once that&rsquo;s checked, restart networking services like this:</p>
+<p>Once that's checked, restart networking services like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo /./etc/init.d/networking restart
 </pre>
-<p>Everything ready, now just plug your PC to the new router and test it. Remember to manually set your IP in the same network range as your router, since there&rsquo;s no DHCP at the moment. This may be useful to debug a problem.</p>
+<p>Everything ready, now just plug your PC to the new router and test it. Remember to manually set your IP in the same network range as your router, since there's no DHCP at the moment. This may be useful to debug a problem.</p>
 <p>In your client PC, set your IP address:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ifconfig eth0 192.168.10.10
 </pre>
 <p>Test if you IP is set:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ping 192.168.10.10
 </pre>
-<p>If you get a reply, your new IP is OK, if not there&rsquo;s a problem with your client. Second step, see if you can reach the router:</p>
+<p>If you get a reply, your new IP is OK, if not there's a problem with your client. Second step, see if you can reach the router:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ping 192.168.10.1
 </pre>
 <p>Note that you may need to renew everything (i.e. restart networking and manually assign your IP) after you connect the cable.</p>
-<p>Again, if you get a reply then you have connectivity with the router. So far we haven&rsquo;t tested the iptables rules nor the forwarding, so any issue at this point should be of IP configuration. If everything went well, it&rsquo;s time to test the NAT rules and the forwarding.</p>
+<p>Again, if you get a reply then you have connectivity with the router. So far we haven't tested the iptables rules nor the forwarding, so any issue at this point should be of IP configuration. If everything went well, it's time to test the NAT rules and the forwarding.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ping 192.168.1.1
 </pre>
-<p>That should give you an error. Of course, since there&rsquo;s no DHCP there&rsquo;s no route set. Let&rsquo;s manually set a route in the client:</p>
+<p>That should give you an error. Of course, since there's no DHCP there's no route set. Let's manually set a route in the client:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo route add default gateway 192.168.10.1
 </pre>
 <p>Then again:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ping 192.168.0.1
 </pre>
-<p>Magic! It works! If it doesn&rsquo;t, you have a problem either in the NAT configuration or the IP Forwarding of the router. You can check this with wireshark, if the pings reach the server but they never get a reply back then it&rsquo;s the NAT, i.e. it can forward the IP packages on eth1 to eth0 but the router has no NAT, and it doesn&rsquo;t know how to route the answer back. If the pings never even reach eth0, then you have an ip forwarding problem.</p>
+<p>Magic! It works! If it doesn't, you have a problem either in the NAT configuration or the IP Forwarding of the router. You can check this with wireshark, if the pings reach the server but they never get a reply back then it's the NAT, i.e. it can forward the IP packages on eth1 to eth0 but the router has no NAT, and it doesn't know how to route the answer back. If the pings never even reach eth0, then you have an ip forwarding problem.</p>
 <h3>Persisting the forwarding rules<a name="persistingtheforwardingrules"></a></h3>
-<p>In order to have the forwarding rules persisting after a reboot, we need first to change /etc/sysctl.conf to allow IP forwarding. It&rsquo;s just a mater of uncommenting this line:</p>
+<p>In order to have the forwarding rules persisting after a reboot, we need first to change /etc/sysctl.conf to allow IP forwarding. It's just a mater of uncommenting this line:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">net.ipv4.ip_forward = 1
 </pre>
-<p>We will also have a lot of iptables rules we need to setup during boot time. I have created a script at /home/router/set_forwarding.sh, which I also linked into /etc/init.d/rc.local so it&rsquo;s run whenever the system boots.</p>
-<p>Next time we&rsquo;ll move on to something more complex: installing a DNS server and using domains instead of IPs.</p>
+<p>We will also have a lot of iptables rules we need to setup during boot time. I have created a script at /home/router/set_forwarding.sh, which I also linked into /etc/init.d/rc.local so it's run whenever the system boots.</p>
+<p>Next time we'll move on to something more complex: installing a DNS server and using domains instead of IPs.</p>

@@ -1,10 +1,10 @@
 <h1>Template metaprogramming VIII: A Rough Whimper of Insanity<a name="templatemetaprogrammingviiiaroughwhimperofinsanity"></a></h1>
-<p>Remember last time? We learned how to get the lenght of a list. This time I&rsquo;ll introduce some more of these basic ops. Let&rsquo;s begin with &ldquo;Nth&rdquo;: getting the Nth element of a list; which, remember, in this case is a type, not a concrete element. This means the Nth element will be something like int, char, const char*, not 1, 2 or 3. We introduced a trick to get around this limitation before using a template , go there to refresh your memory if needed.</p>
-<p>So, what would the coloquial definition of &ldquo;Nth&rdquo; be? I&rsquo;d put it like &ldquo;The operation Nth for a list equals the head of the list for N = 0 and Nth (minus one) of the tail otherwise&rdquo;. A little bit more formally:</p>
+<p>Remember last time? We learned how to get the lenght of a list. This time I'll introduce some more of these basic ops. Let's begin with "Nth": getting the Nth element of a list; which, remember, in this case is a type, not a concrete element. This means the Nth element will be something like int, char, const char*, not 1, 2 or 3. We introduced a trick to get around this limitation before using a template , go there to refresh your memory if needed.</p>
+<p>So, what would the coloquial definition of "Nth" be? I'd put it like "The operation Nth for a list equals the head of the list for N = 0 and Nth (minus one) of the tail otherwise". A little bit more formally:</p>
 <pre style="display: inline-block; border: 1px solid red;">Nth(0, lst) &lt;- lst.head
 Nth(n, lst) &lt;- Nth(n-1, lst.tail)
 </pre>
-<p>Translating this to C++ should be a breeze to you now. Try it, I&rsquo;ll wait. Read? OK, this is MY answer:</p>
+<p>Translating this to C++ should be a breeze to you now. Try it, I'll wait. Read? OK, this is MY answer:</p>
 <p>```c++
 template &lt;typename LST, int N&gt; struct Nth {
     typedef typename LST::Tail Tail;

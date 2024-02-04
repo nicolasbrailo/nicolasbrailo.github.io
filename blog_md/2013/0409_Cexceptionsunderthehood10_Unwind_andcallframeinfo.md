@@ -1,4 +1,4 @@
-# C++ exceptions under the hood 10: _Unwind_ and call frame info
+# C++ exceptions under the hood 10: Unwind and call frame info
 
 @meta publishDatetime 2013-04-09T09:00:00.000+02:00
 @meta author Nico Brailovsky
@@ -32,7 +32,7 @@ If we inspect those variables we can see that indeed \_Unwind\_GetRegionStart po
 _Unwind_GetIP = (void *) 0x804861d
 _Unwind_GetRegionStart = (void *) 0x8048612
 _Unwind_GetLanguageSpecificData = (void *) 0x8048e3c
-function pointer to try_but_dont_catch = 0x8048612 &lt;try_but_dont_catch()&gt;
+function pointer to try_but_dont_catch = 0x8048612 <:try_but_dont_catch()>
 
 (gdb) disassemble /m try_but_dont_catch
 Dump of assembler code for function try_but_dont_catch():
@@ -40,25 +40,25 @@ Dump of assembler code for function try_but_dont_catch():
         [...]
 11	    try {
 12	        raise();
-   0x08048619 &lt;+7&gt;:	call   0x80485e8 &lt;raise()&gt;
+   0x08048619 <:+7>:	call   0x80485e8 <:raise()>
 
-13	    } catch(Fake_Exception&amp;) {
-   0x08048651 &lt;+63&gt;:	call   0x804874a &lt;__cxa_begin_catch()&gt;
-   0x08048665 &lt;+83&gt;:	call   0x804875e &lt;__cxa_end_catch()&gt;
-   0x0804866a &lt;+88&gt;:	jmp    0x804861e &lt;try_but_dont_catch()+12&gt;
+13	    } catch(Fake_Exception&) {
+   0x08048651 <:+63>:	call   0x804874a <:__cxa_begin_catch()>
+   0x08048665 <:+83>:	call   0x804875e <:__cxa_end_catch()>
+   0x0804866a <:+88>:	jmp    0x804861e <:try_but_dont_catch()+12>
 
 14	        printf("Caught a Fake_Exception!\n");
-   0x08048659 &lt;+71&gt;:	movl   $0x8048971,(%esp)
-   0x08048660 &lt;+78&gt;:	call   0x80484c0 &lt;puts@plt&gt;
+   0x08048659 <:+71>:	movl   $0x8048971,(%esp)
+   0x08048660 <:+78>:	call   0x80484c0 <:puts@plt>
 
 15	    }
 16
 17	    printf("try_but_dont_catch handled the exception\n");
-   0x0804861e &lt;+12&gt;:	movl   $0x8048948,(%esp)
-   0x08048625 &lt;+19&gt;:	call   0x80484c0 &lt;puts@plt&gt;
+   0x0804861e <:+12>:	movl   $0x8048948,(%esp)
+   0x08048625 <:+19>:	call   0x80484c0 <:puts@plt>
 
 18	}
-   0x0804862a &lt;+24&gt;:	add    $0x24,%esp
+   0x0804862a <:+24>:	add    $0x24,%esp
 ```
 
 With the help of \_Unwind\_ we are now able to get enough information about the current stack frame to decide whether we can or not handle an exception, an also how should we handle it. One more step is needed before we can detect the landing pad we want: we will need to interpret the CFI (call frame information) at the end of the function. This is part of the DWARF spec, the same gdb uses for debugging purposes, and it's not an easy spec to implement. Like we are doing with our ABI, we'll keep this to the bare minimum.

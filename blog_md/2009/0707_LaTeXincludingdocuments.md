@@ -13,6 +13,7 @@ So far we've seen some of LaTeX advantages, and a few basic commands to get you 
 You should be able to write some simple documents now, some in LyX, some in LaTeX, but you'll soon start to notice that using a single text file to create a large document becomes cumbersome. Even more so if you need to split the work between several people in a team.
 
 There's an easy way to keep a main file and then several, smaller, files in which you can work more comfortably:
+
 ```
 include{file.tex}
 ```
@@ -20,6 +21,7 @@ include{file.tex}
 Easy, right?
 
 Beware, you can't use an include inside an include. Why? No idea, but there's a way around this:
+
 ```
 input{file.tex}
 ```

@@ -13,7 +13,7 @@ struct S {
 
 int main() {
    S *x = (S*) NULL;
-   return x-&gt;f();
+   return x->f();
 }
 ```
 

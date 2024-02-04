@@ -31,7 +31,7 @@ The type of the iterator will be the same as the type of the vector, so in this 
 ```c++
 std::vector foobar;
 for (auto x : foobar) {
-	std::cout &lt;&lt; (x+2);
+	std::cout << (x+2);
 }
 ```
 
@@ -39,14 +39,15 @@ And now, what happens if you want to alter the contents of a list and not only d
 
 ```c++
 std::vector foobar;
-for (auto&amp; x : foobar) {
-	std::cout &lt;&lt; (x+2);
+for (auto& x : foobar) {
+	std::cout << (x+2);
 }
 ```
 
 This looks really nice but it won't really do anything, for two different reasons:
+
 * Ranged fors won't work until g++ 4.5.6 is released
- * The list is empty!
+* The list is empty!
 
 There are many ways to initialize that list, but we'll see how C++0X let's you do it in a new way the next time.
 

@@ -12,6 +12,7 @@ sshfs user@host:/path/to/remote/dir /path/to/local/dir
 
 Remember you need permission for both local and remote directories.
 
+# Comments
 
 ---
 ## In reply to [this post](), [Anonymous]() commented @ 2011-06-10T13:56:11.000+02:00:

@@ -8,7 +8,7 @@ int main() {
     return foo();
 }
 </pre>
-<p>Of course it doesn&rsquo;t! You&rsquo;d expect a &lsquo;foo&rsquo; not declared/out of scope error from your compiler. What about this other example?</p>
+<p>Of course it doesn't! You'd expect a 'foo' not declared/out of scope error from your compiler. What about this other example?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">namespace N {
     struct Dummy;
     int foo(Dummy<em>) {
@@ -21,4 +21,4 @@ int main() {
     return foo((N::Dummy</em>)0);
 }
 </pre>
-<p>You&rsquo;d be tempted to say it won&rsquo;t work either. (Un?)fortunately, &lsquo;argument dependant lookup&rsquo; is a thing, and the second code sample works. How? The compiler will look for &lsquo;foo&rsquo; in the global namespace, and also in the namespace of the arguments to &lsquo;foo&rsquo;. Seeing &lsquo;N::Dummy&rsquo; in there, the compiler is allowed to peak into the namespace N for method &lsquo;foo&rsquo;. Why? Short: operator overloading. Long: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2103.pdf">check here</a> (the &lsquo;Why ADL&rsquo; section is very good).</p>
+<p>You'd be tempted to say it won't work either. (Un?)fortunately, 'argument dependant lookup' is a thing, and the second code sample works. How? The compiler will look for 'foo' in the global namespace, and also in the namespace of the arguments to 'foo'. Seeing 'N::Dummy' in there, the compiler is allowed to peak into the namespace N for method 'foo'. Why? Short: operator overloading. Long: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2103.pdf">check here</a> (the 'Why ADL' section is very good).</p>

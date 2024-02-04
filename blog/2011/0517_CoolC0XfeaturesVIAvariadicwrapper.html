@@ -1,17 +1,17 @@
 <h1>Cool C++0X features VI: A variadic wrapper<a name="coolc0xfeaturesviavariadicwrapper"></a></h1>
-<p>Let&rsquo;s work on the last variadic exercise, a wrapper. Say you have something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
-void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+<p>Let's work on the last variadic exercise, a wrapper. Say you have something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;; }
 int main() {
     do_something();
     return 0;
 }
 </pre>
 <p>And you want to wrap do_something with something else (Remember <a href="/blog/2010/0622_Cprettyfunctions.html">__PRETTY_FUNCTION__</a>?). This is a solution, the worst one though (or, to be accurate, the most boring one):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
-void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;; }
 void wrap() {
-    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;;
     do_something();
 }
 int main() {
@@ -19,4 +19,4 @@ int main() {
     return 0;
 }
 </pre>
-<p>Why is it so bad? Let&rsquo;s say you don&rsquo;t control do_something, you just control the wrapper. You may not even control main(), it may be beyond your scope. That means each time do_something changes, or adds an overload, you have to change your code. That&rsquo;s ugly and you should already know how to set up a variadic function to forward the arguments to do_something. Give it a try, next time the solution.</p>
+<p>Why is it so bad? Let's say you don't control do_something, you just control the wrapper. You may not even control main(), it may be beyond your scope. That means each time do_something changes, or adds an overload, you have to change your code. That's ugly and you should already know how to set up a variadic function to forward the arguments to do_something. Give it a try, next time the solution.</p>

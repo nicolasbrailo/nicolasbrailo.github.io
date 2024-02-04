@@ -35,15 +35,18 @@ POSTS_IDX_TMPL = """
 
 """
 
-POST_TMPL = """
+POST_IN_IDX_TMPL = """
 # {{title}}
 
-By {{author}} @ {{publishDate}}
+
+By {{author}} @ {{publishDate}} - {{commentCount}} [Permalink]({{srcFile}})
+
 
 {{content}}
 
 ---
 """
+
 
 
 def month_num_str(m):
@@ -101,10 +104,18 @@ def read_post_md_file(fpath):
     # eg: '## foo bar\n'
     title = post_txt[post_txt.find(' '):post_txt.find('\n')]
     post_txt = post_txt[post_txt.find('\n')+1:]
+    if fpath[0] == '.':
+        fpath = fpath[1:]
+    post_txt = f'@meta srcFile {fpath}\n\n' + post_txt
     if '# Comments' in post_txt:
-        post_txt = post_txt[:post_txt.find('# Comments')]
+        post = post_txt.split('# Comments')
+        post_txt = post[0]
+        cnt = post[1].count('## In reply to')
+        post_txt = post_txt + f'@meta commentCount {cnt} comments\n\n'
+    else:
+        post_txt = post_txt + f'@meta commentCount \n\n'
 
-    pre_procd = POST_TMPL.replace('{{content}}', post_txt)
+    pre_procd = POST_IN_IDX_TMPL.replace('{{content}}', post_txt)
     txt = apply_template(pre_procd, {'title': title})
     return txt, title
 

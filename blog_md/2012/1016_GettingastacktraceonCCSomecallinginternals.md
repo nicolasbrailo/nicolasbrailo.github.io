@@ -38,43 +38,43 @@ _Z3barv:
 Doesn't look so hard: it just pushes the current stack base pointer to the stack, sets a new stack pointer and calls the function (you might want to play around with c++filt if name mangling confuses you). Once it returns it just reads back the original stack base pointer and continues. Knowing that return addresses are in the stack makes it easy for us to retrieve this information, we just need a way to get the current stack pointer. Some assembler in C++ will be needed:
 
 ```c++
-    void *sp;
-    asm("movl %%esp,%0"; : "=r"(sp));
-    std::cout &lt;&lt; sp &lt;&lt; std::endl;
+void *sp;
+asm("movl %%esp,%0"; : "=r"(sp));
+std::cout << sp << std::endl;
 ```
 
 That should print the current function's start address. But from our disassembly we can also see that the current function's return address, ie its caller, would be stored in the first word of the current function's stack. Likewise, our caller's return address will be on its first stack word. Let's check if this holds up in the code:
 
 ```c++
-    void *sp;
-    asm("movl %%esp,%0"; : "=r"(sp));
-    void *caller_addr = *(void**)sp;
-    void *caller_addr2 = *(void**)caller_addr;
-    void *caller_addr3 = *(void**)caller_addr2;
+void *sp;
+asm("movl %%esp,%0"; : "=r"(sp));
+void *caller_addr = *(void**)sp;
+void *caller_addr2 = *(void**)caller_addr;
+void *caller_addr3 = *(void**)caller_addr2;
 
-    cout &lt;&lt; sp &lt;&lt; endl;
-    cout &lt;&lt; caller_addr &lt;&lt; endl;
-    cout &lt;&lt; caller_addr2 &lt;&lt; endl;
-    cout &lt;&lt; caller_addr3 &lt;&lt; endl;
+cout << sp << endl;
+cout << caller_addr << endl;
+cout << caller_addr2 << endl;
+cout << caller_addr3 << endl;
 ```
 
 Looks ugly, but remember we are fighting the type system here: we need to tell the compiler that the void\* we're trying to access is actually a void\*\*. We'll clean that up later, for the moment if we run that on our sample we should see all the stack addresses that for our stack trace, ending with a null pointer for the main function. Pretty neat, huh? So far we only have function addresses, but we'll get some pretty names later. Let's make it a bit more generic before moving on.
 
 ```c++
-    struct Caller {
-            Caller *addr;
-    };
+struct Caller {
+        Caller *addr;
+};
 
-    // Get the stack base ptr from a register
-    void *sp;
-    asm("movl %%ebp,%0" : "=r"(sp));
+// Get the stack base ptr from a register
+void *sp;
+asm("movl %%ebp,%0" : "=r"(sp));
 
-    // Loop through every caller
-    Caller *caller = (Caller*)sp;
-    while (caller) {
-        cout &lt;&lt; caller-&gt;addr &lt;&lt; endl;
-        caller = caller-&gt;addr;
-    }
+// Loop through every caller
+Caller *caller = (Caller*)sp;
+while (caller) {
+    cout << caller->addr << endl;
+    caller = caller->addr;
+}
 ```
 
 Of course this is very naive, as it will only work on a 32 bit platform, and it will break as soon as we change calling conventions, but it's still useful to draw some conclusions:

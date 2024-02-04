@@ -1,6 +1,6 @@
 <h1>Template metaprogramming IX: Absolute Zero<a name="templatemetaprogrammingixabsolutezero"></a></h1>
-<p>By now we should have learned how to perform loops, branching and returns using templates. Let&rsquo;s add a couple of useful operations to our library: append and prepend.</p>
-<p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I&rsquo;ve been using so far:</p>
+<p>By now we should have learned how to perform loops, branching and returns using templates. Let's add a couple of useful operations to our library: append and prepend.</p>
+<p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I've been using so far:</p>
 <pre style="display: inline-block; border: 1px solid red;">Prepend(e, lst) &lt;- LST(e, lst)
 </pre>
 <p>And in C++ (trivial, this time):</p>
@@ -8,7 +8,7 @@
     typedef LST&amp;lt;Elm, Lst&amp;gt; result;
 };
 </pre>
-<p>Appending is a little bit more difficult, as we need to first find the end of the list. Think for a second how would you define it&hellip; back? Ok, I&rsquo;d define it this way: appending an element to the list yields a list, consisting of the same head and the result of appending said element to the tail. The null case, as usual, is appending an element to a NIL list; in this case the result is a list with the element itself. So:</p>
+<p>Appending is a little bit more difficult, as we need to first find the end of the list. Think for a second how would you define it... back? Ok, I'd define it this way: appending an element to the list yields a list, consisting of the same head and the result of appending said element to the tail. The null case, as usual, is appending an element to a NIL list; in this case the result is a list with the element itself. So:</p>
 <pre style="display: inline-block; border: 1px solid red;">Append(e, NIL) &lt;- LST(e)
 Append(e, lst) &lt;- LST(lst.head, Append(e, lst.tail))
 </pre>

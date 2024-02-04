@@ -1,5 +1,5 @@
 <h1>More preprocessor wizardy: strings<a name="morepreprocessorwizardystrings"></a></h1>
-<p>No preprocesor wizard should go out of his house without the always useful string maker. Let&rsquo;s say you&rsquo;re trying to create a class with some sort of pseudo type-system (*):</p>
+<p>No preprocesor wizard should go out of his house without the always useful string maker. Let's say you're trying to create a class with some sort of pseudo type-system (*):</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">class FooBar {
    public:
    const char* get_name(){ return &quot;FooBar&quot;; }
@@ -10,12 +10,12 @@
    /<em> Other methods </em>/
 };
 </pre>
-<p>Problem is, this will only print &ldquo;Name&rdquo;:</p>
+<p>Problem is, this will only print "Name":</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#define MK_CLASS( Name )
       class Name { public:
             const char *get_name(){ return &quot;Name&quot;; }
 </pre>
-<p>Well, it&rsquo;s an easy fix, just prepend # to your string, like this:</p>
+<p>Well, it's an easy fix, just prepend # to your string, like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#define MK_CLASS( Name )
       class Name { public:
             const char *get_name(){ return #Name; }
@@ -24,4 +24,4 @@
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#define MK_STR(str) #str
 </pre>
 <p>As usual, use the preprocesor at your own risk.</p>
-<p>(*) Yeah, I know, OO purists will try to beat me to death for this, but it actually has some uses. I&rsquo;ve found it to be a specially good solution when working with low level protocols.</p>
+<p>(*) Yeah, I know, OO purists will try to beat me to death for this, but it actually has some uses. I've found it to be a specially good solution when working with low level protocols.</p>

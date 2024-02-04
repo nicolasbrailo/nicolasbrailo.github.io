@@ -1,20 +1,20 @@
 <h1>CRTP for static dispatching<a name="crtpforstaticdispatching"></a></h1>
-<p>So, virtual dispatching is just too much overhead for you? I bet you do need every femtosecond from your CPU. Even if you don&rsquo;t, who doesn&rsquo;t like weird C++ constructs? Take CRTP, for example, a Curiously recurring template pattern:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class Derived&amp;gt; struct CRTP {
+<p>So, virtual dispatching is just too much overhead for you? I bet you do need every femtosecond from your CPU. Even if you don't, who doesn't like weird C++ constructs? Take CRTP, for example, a Curiously recurring template pattern:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;class Derived&gt; struct CRTP {
     const char<em> greeting() const {
-        const Derived</em> self = static_cast&amp;lt;const Derived<em>&amp;gt;(this);
-        return self-&amp;gt;greeting();
+        const Derived</em> self = static_cast&lt;const Derived<em>&gt;(this);
+        return self-&gt;greeting();
     }
 };
-struct Hello : public CRTP&amp;lt;Hello&amp;gt; {
+struct Hello : public CRTP&lt;Hello&gt; {
     const char</em> greeting() const { return &quot;Hello world&quot;; }
 };
-struct Bye : public CRTP&amp;lt;Bye&amp;gt; {
+struct Bye : public CRTP&lt;Bye&gt; {
     const char* greeting() const { return &quot;Bye world&quot;; }
 };
-#include &amp;lt;iostream&amp;gt;
-template &amp;lt;class T&amp;gt; void print(const CRTP&amp;lt;T&amp;gt; &amp;amp;x) {
-    std::cout &amp;lt;&amp;lt; x.greeting() &amp;lt;&amp;lt; &quot;n&quot;;
+#include &lt;iostream&gt;
+template &lt;class T&gt; void print(const CRTP&lt;T&gt; &amp;x) {
+    std::cout &lt;&lt; x.greeting() &lt;&lt; &quot;n&quot;;
 }
 int main() {
     print(Hello());
@@ -22,5 +22,5 @@ int main() {
     return 0;
 }
 </pre>
-<p>Using this weird looking (ain&rsquo;t them all?) template device you can have static dispatching with most of the flexibility of dynamic dispatching. As a bonus, you&rsquo;ll drive all your cow-orkers insane!</p>
+<p>Using this weird looking (ain't them all?) template device you can have static dispatching with most of the flexibility of dynamic dispatching. As a bonus, you'll drive all your cow-orkers insane!</p>
 <p>Bonus non useful information: In C++ 0X you could use variadic templates and have a proxy object with static dispatching. How cool is that?</p>

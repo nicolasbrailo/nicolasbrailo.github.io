@@ -7,6 +7,7 @@
 A little known fact about gdb is that you can use it in graphics mode, called TUI. Yes, you can obviously use [DDD](http://www.gnu.org/software/ddd/) or a similar front end but that's not even nearly as cool as using a console based GUI (!), is it?
 
 The easiest way is to start gdb like this:
+
 ```
 gdb -tui
 ```

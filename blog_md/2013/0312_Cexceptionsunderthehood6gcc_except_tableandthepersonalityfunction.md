@@ -1,5 +1,4 @@
-# C++ exceptions under the hood 6: gcc_except_table and the personality
-function
+# C++ exceptions under the hood 6: gcc_except_table and the personality function
 
 @meta publishDatetime 2013-03-12T08:00:00.000+01:00
 @meta author Nico Brailovsky

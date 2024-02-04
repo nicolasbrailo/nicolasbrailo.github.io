@@ -51,6 +51,8 @@ There are a ton of guides to learn the basics of gdb, so I'll just leave here a 
 This cheatsheet is far from being "advanced stuff" but it should be enough to get you started. The rest is practice.
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog](/blog_md/2013/1105_Automagicallysetupbreakpointswithgdb.md) commented @ 2013-11-05T08:00:56.000+01:00:
 

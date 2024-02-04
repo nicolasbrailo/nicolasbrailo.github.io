@@ -1,5 +1,5 @@
 <h1>Simple vim plugin I: integrating new commands<a name="simplevimpluginiintegratingnewcommands"></a></h1>
-<p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here&rsquo;s some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
+<p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here's some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
 <p>Longer version:
 We can extend our quick grep integration to other commands, quite easily. Since we defined a few wrappers to request input, get it from visual mode or just guess it, we can also have a helper function to create a scratch buffer and read a system command into it:</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Find&amp;Grep command wrapper: execute cmd, shows the results in a scratch buffer
@@ -42,7 +42,7 @@ function! FG_NAction(func)
     endif
 endfunction
 </pre>
-<p>Integrating any new command into our plugin is now trivial. Let&rsquo;s do it for grep and for find:</p>
+<p>Integrating any new command into our plugin is now trivial. Let's do it for grep and for find:</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Wrap a find command: search for file &quot;needle&quot;, show results in a new window
 function! FG_DoFindFile(needle)
     let cmd = &#x27;find -type f -iname &quot;<em>&#x27; . a:needle . &#x27;</em>&quot;&#x27;
@@ -54,7 +54,7 @@ function! FG_DoSearchText(needle)
     call FG_EvalSysCmdInNewBuff(cmd)
 endfunction
 </pre>
-<p>Then just add a few key bindings and you&rsquo;re good to go:</p>
+<p>Then just add a few key bindings and you're good to go:</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">gt;f :call FG_NAction(&quot;FG_DoFindFile&quot;)&lt;CR&gt;
 vmap &lt;leader&gt;f :call FG_VAction(&quot;FG_DoFindFile&quot;)&lt;CR&gt;
 map  &lt;leader&gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quot;FG_DoSearchText&quot;)&lt;CR&gt;

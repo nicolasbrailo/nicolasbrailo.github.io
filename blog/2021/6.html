@@ -7,12 +7,12 @@
 </ul>
 <h1>Posts for 2021 June<a name="postsfor2021june"></a></h1>
 <h1>Bash script preamble<a name="bashscriptpreamble"></a></h1>
-<p>By Nico Brailovsky @ 2021-06-27</p>
+<p>By Nico Brailovsky @ 2021-06-27 -  <a href="/blog/2021/0627_Bashscriptpreamble.html">Permalink</a></p>
 <p>All background Bash scripts should start with this preamble:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">set -euo pipefail
 exec &gt; ~/log.log 2&gt;&amp;1
 </pre>
-<p>There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won&rsquo;t go into the details. For reference:</p>
+<p>There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:</p>
 <ul>
 <li><strong>-e</strong> halts the script on error</li>
 <li><strong>-u</strong> errors when using an undefined variable</li>

@@ -1,11 +1,10 @@
-# Getting a stacktrace on C/C++: Mapping function pointers to function
-names on runtime
+# Getting a stacktrace on C/C++: Mapping function pointers to function names on runtime
 
 @meta publishDatetime 2012-10-23T09:00:00.000+02:00
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2012/10/getting-stacktrace-on-cc-mapping_23.html
 
-[Last time](/blog_md/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.md) we talked about mapping function addresses to names (albeit mangled) in object files; we can also get this information during runtime:
+[Last time](/blog_md/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.md) we talked about mapping function addresses to names (albeit mangled) in object files; we can also get this information during runtime:
 
 ### Glibc to the aid
 
@@ -19,21 +18,21 @@ void bt_by_hand() {
     asm("movl %%ebp,%0" : "=r"(sp));
 
     // Loop through every caller
-    cout &lt;&lt; "Hand made stack walker" &lt;&lt; endl;
+    cout << "Hand made stack walker" << endl;
     Caller *caller = (Caller*)sp;
     while (caller) {
-        cout &lt;&lt; (((void**)caller)[1]) &lt;&lt; endl;
-        caller = caller-&gt;addr;
+        cout << (((void**)caller)[1]) << endl;
+        caller = caller->addr;
     }
 }
 
-#include &lt;execinfo.h&gt;
+#include <execinfo.h>
 void bt_glibc() {
     void* buffer[10];
     int frames = backtrace(buffer, sizeof buffer);
 
-    cout &lt;&lt; "glibc stack walker" &lt;&lt; endl;
-    for (int i=0; i &lt; frames; ++i) cout &lt;&lt; buffer[i] &lt;&lt; endl;
+    cout << "glibc stack walker" << endl;
+    for (int i=0; i < frames; ++i) cout << buffer[i] << endl;
 }
 
 void bar(int, float) {
@@ -85,11 +84,11 @@ On my machine, when running "g++ -rdynamic foo.cpp &&./a.out | c++filt", I get s
 Note that without -rdynamic the function name symbols won't be available. Anyway, what we get is much more interesting than raw pointers. And exactly what we were looking for. It's also very boring, unless we learn what's going on inside backtrace\_symbols\_fd. If we go and check what backtrace\_symbols\_fd is doing (sysdeps/generic/elf/backtracesyms.c in glibc) we'll see that all the heavy work is done by libdl. A quick check with 'man dladdr' will show that we are on the right path. Let's add this to our program:
 
 ```c++
-#include &lt;dlfcn.h&gt;
+#include <dlfcn.h>
 int get_sym_name(void *addr) {
     Dl_info info;
-    int res = dladdr(addr, &amp;info);
-    cout &lt;&lt; info.dli_fname &lt;&lt; ": " &lt;&lt; info.dli_sname &lt;&lt; endl;
+    int res = dladdr(addr, &info);
+    cout << info.dli_fname << ": " << info.dli_sname << endl;
 }
 ```
 
@@ -112,6 +111,8 @@ Getting the function name using libdl feels a bit like cheating, after we manual
 
 The whole series on getting a stacktrace on C++ is merely "educational", as in "never-ever do this on your program". As stated on the first part of the series it's not portable, and it's also extremely frail. If you want something production ready use glibc's backtrace features. And if you want something portable, try libunwind. It works great, but where would the fun be if we skipped the whole learning process and went straight to this library?
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [Anonymous]() commented @ 2016-10-16T21:01:01.000+02:00:

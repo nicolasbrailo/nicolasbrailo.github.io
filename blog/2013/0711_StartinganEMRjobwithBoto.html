@@ -1,16 +1,16 @@
 <h1>Starting an EMR job with Boto<a name="startinganemrjobwithboto"></a></h1>
-<p>I&rsquo;ve noticed there are not many articles about boto and Amazon web services. Although boto&rsquo;s documentation is quite good, it lacks some practical examples. Most specifically, I found quite a fair amount of RTFM was needed to get an elastic map reduce job started on Amazon using Boto (and I did it from Google app engine, just to go full cloud!). So here it goes, a very basic EMR job launcher using boto:</p>
+<p>I've noticed there are not many articles about boto and Amazon web services. Although boto's documentation is quite good, it lacks some practical examples. Most specifically, I found quite a fair amount of RTFM was needed to get an elastic map reduce job started on Amazon using Boto (and I did it from Google app engine, just to go full cloud!). So here it goes, a very basic EMR job launcher using boto:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">zone_name = &#x27;eu-west-1&#x27;
-access_id = &hellip;
-private_key = &hellip;
+access_id = ...
+private_key = ...
 # Connect to EMR
 conn = EmrConnection(access_id, private_key,
                     region=RegionInfo(name=zone_name,
                     endpoint= zone_name + &#x27;.elasticmapreduce.amazonaws.com&#x27;))
 # Create a step for the EC2 instance to install Hive
 args = [u&#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/hive-script&#x27;,
-            u&#x27;&ndash;base-path&#x27;, u&#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/&#x27;,
-            u&#x27;&ndash;install-hive&#x27;, u&#x27;&ndash;hive-versions&#x27;, u&#x27;0.7.1&#x27;]
+            u&#x27;--base-path&#x27;, u&#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/&#x27;,
+            u&#x27;--install-hive&#x27;, u&#x27;--hive-versions&#x27;, u&#x27;0.7.1&#x27;]
 start_jar = &#x27;s3://&#x27;+zone_name+ \
             &#x27;.elasticmapreduce/libs/script-runner/script-runner.jar&#x27;
 setup_step = JarStep(&#x27;Hive setup&#x27;, start_jar, step_args=args)
@@ -30,9 +30,9 @@ jobid = conn.run_jobflow(
 conn.set_termination_protection(jobid, True)
 s3_url = &#x27;Link to a Hive SQL file in S3&#x27;
 args = [&#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/hive-script&#x27;,
-        &#x27;&ndash;base-path&#x27;, &#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/&#x27;,
-        &#x27;&ndash;hive-versions&#x27;, &#x27;0.7.1&#x27;,
-        &#x27;&ndash;run-hive-script&#x27;, &#x27;&ndash;args&#x27;,
+        &#x27;--base-path&#x27;, &#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/&#x27;,
+        &#x27;--hive-versions&#x27;, &#x27;0.7.1&#x27;,
+        &#x27;--run-hive-script&#x27;, &#x27;--args&#x27;,
         &#x27;-f&#x27;, s3_url]
 start_jar = &#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/script-runner/script-runner.jar&#x27;
 step = JarStep(&#x27;Run SQL&#x27;, start_jar, step_args=args)

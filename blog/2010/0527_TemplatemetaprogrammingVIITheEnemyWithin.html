@@ -11,8 +11,8 @@ template &amp;lt;typename H, typename T=NIL&amp;gt; struct Lst {
 template &amp;lt;int N&amp;gt; struct Int{ static const int result = N; };
 typedef Lst&amp;lt; Int&amp;lt;1&amp;gt;, Lst&amp;lt; Int&amp;lt;2&amp;gt;, Lst&amp;lt; Int&amp;lt;3&amp;gt; &amp;gt; &amp;gt; &amp;gt; OneTwoThree;
 </pre>
-<p>Now, to increase our template-foo, let&rsquo;s practice some basic operations. The same operations you would implement to practice your skill any other functional language. If I remember correctly these where useful when learning Haskel: getting a list&rsquo;s lenght, getting the Nth element, appending and preppending elements&hellip; that sort of stuff.</p>
-<p>Let&rsquo;s start with the most basic: getting the length of a list. We don&rsquo;t really have a for loop so using recursion is the only way. It gets easier if we think again on our definition of list: &ldquo;think of a list as tuple, two elements, the first (called head) will be the first element of the list and the second element as another list or a NIL object&rdquo;. Whit this definition of a list, then it&rsquo;s length turns to be 1 (the head) + the length of the remaining list (the tail), with a special case for the length of a NIL object which should always be 0. In template-speak:</p>
+<p>Now, to increase our template-foo, let's practice some basic operations. The same operations you would implement to practice your skill any other functional language. If I remember correctly these where useful when learning Haskel: getting a list's lenght, getting the Nth element, appending and preppending elements... that sort of stuff.</p>
+<p>Let's start with the most basic: getting the length of a list. We don't really have a for loop so using recursion is the only way. It gets easier if we think again on our definition of list: "think of a list as tuple, two elements, the first (called head) will be the first element of the list and the second element as another list or a NIL object". Whit this definition of a list, then it's length turns to be 1 (the head) + the length of the remaining list (the tail), with a special case for the length of a NIL object which should always be 0. In template-speak:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename LST&amp;gt; struct Length {
     typedef typename LST::Tail Tail;
     static const unsigned int tail_length = Length&amp;lt; Tail &amp;gt;::result;
@@ -22,7 +22,7 @@ template &amp;lt;&amp;gt; struct Length &amp;lt;NIL&amp;gt; {
     static const unsigned int result = 0;
 };
 </pre>
-<p>I know. You are thinking &ldquo;wait, what?&rdquo;. Well, even for this basic case we need to use some esoteric language features:</p>
+<p>I know. You are thinking "wait, what?". Well, even for this basic case we need to use some esoteric language features:</p>
 <ul>
 <li>typename is needed to tell the compiler LST::Tail is a type and not a static variable (like Length::result is). Did you remember that from <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">chapter IV</a>?</li>
 <li>We have to use recursive templates, but you probably already figured that out. You should remember this from <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">chapter II</a>.</li>
@@ -36,6 +36,6 @@ template &amp;lt;&amp;gt; struct Length  {
     static const unsigned int result = 0;
 };
 </pre>
-<p>The rest of the &ldquo;basic&rdquo; list-operations are quite similar, but I&rsquo;ll leave that for another post.</p>
+<p>The rest of the "basic" list-operations are quite similar, but I'll leave that for another post.</p>
 <hr />
 <p>Thank you St&eacute;phane Michaut for pointing out typos and bugs in the code listings</p>

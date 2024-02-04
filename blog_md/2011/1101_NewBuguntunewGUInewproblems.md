@@ -17,6 +17,8 @@ Oh, if you plan to move things around you'll have to do some research first. See
 I don't understand the tablet-interface-ftw fad, I was happy with my console multiplexer and I want to keep it unobtrusive, as gnome 2 was. Time to switch to XFCE?
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Leonardo Comerci]() commented @ 2011-12-21T11:39:30.000+01:00:
 

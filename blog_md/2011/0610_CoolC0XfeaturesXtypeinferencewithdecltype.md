@@ -13,9 +13,9 @@ After creating a [wrapper object](/blog_md/2011/0531_CoolC0XfeaturesVIIIVariadic
 We already saw the first, and we'll be talking about the other two this time. This was the original wrapper function which led us here:
 
 ```c++
-template &lt;class... Args&gt;
-auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
-	std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n";
+template <class... Args>
+auto wrap(Args... a) -> decltype( do_something(a...) ) {
+	std::cout << __PRETTY_FUNCTION__ << "n";
 	return do_something(a...);
 }
 ```
@@ -26,7 +26,7 @@ This operator (yes, decltype is an operator) is a cousin of sizeof which will yi
 One of it's interesting features is that the expression with which you call decltype won't be evaluated, so you can safely use a function call within a decltype, like this:
 
 ```c++
-auto foo(int x) -&gt; decltype( bar(x) ) {
+auto foo(int x) -> decltype( bar(x) ) {
 	return bar(x);
 }
 ```
@@ -34,8 +34,8 @@ auto foo(int x) -&gt; decltype( bar(x) ) {
 Doing this with, say, a macro, would get bar(x) evaluated twice, yet with decltype it will be evaluated only once. Any valid C++ expression can go within a decltype operator, so for example this is valid too:
 
 ```c++
-template &lt;typename A, typename B&gt;
-auto multiply(A x, B y) -&gt; decltype( x*y )
+template <typename A, typename B>
+auto multiply(A x, B y) -> decltype( x*y )
 {
 	return x*y;
 }
@@ -48,14 +48,14 @@ Why bother creating a delayed type declaration at all and not just use the declt
 
 ```c++
 // Declare a template function receiving two types as param
-template &lt;typename A, typename B&gt;
+template <typename A, typename B>
 // If we are declaring a multiplication operation, what&#x27;s the return type of A*B?
 // We can&#x27;t multiply classes, and we don&#x27;t know any instances of them
 auto multiply(A x, B y)
 // Luckily, the method signature now defined both parameters, meaning
 // we don&#x27;t need to expressly know the type of A*B, we just evaluate
 // x*y and use whatever type that yields
-	-&gt; decltype( x*y )
+	-> decltype( x*y )
 {
 	return x*y;
 }

@@ -12,7 +12,8 @@ Having fun with a DNS might be the topic for another post, for this one I'll jus
 
 After grepping the web a little bit, I found a rather disconcerting lack of bind log analyzers. I just wanted a list of the most popular queries, as well as the ability to group the log by it's IP (and may be even to get the computer's SMB name). Couldn't have asked for a better chance to flex a little bit my Ruby-foo, and here is the hackish result for whoever may want to do something similar:
 
-[source lang="ruby"]#!/usr/bin/ruby1.8
+```ruby
+#!/usr/bin/ruby1.8
 
 class Hits
  def initialize(n,v,k=nil)
@@ -29,7 +30,7 @@ class Hits
 end
 
 if ARGV.length == 0 then
- puts "Usage: dns.rb DNS\_LOG [--domains] [--ip [--no-samba]]"
+ puts "Usage: dns.rb DNS_LOG [--domains] [--ip [--no-samba]]"
  puts " --domains will list all queried domains"
  puts " --ip will list every query gruoped by IP"
  exit
@@ -46,44 +47,44 @@ ARGV.each { |arg|
 
 fp = File.open ARGV[0]
 
-queries\_by\_ip = {}
-queries\_by\_domain = {}
+queries_by_ip = {}
+queries_by_domain = {}
 
-fp.each\_line { |l|
+fp.each_line { |l|
  v = l.split(' ')
  if not (v.nil? or v.length < 4) then
  ip = v[1].split('#')[0]
  query = v[3]
 
- if queries\_by\_domain[query].nil? then queries\_by\_domain[query] = 0 end
- queries\_by\_domain[query] += 1
+ if queries_by_domain[query].nil? then queries_by_domain[query] = 0 end
+ queries_by_domain[query] += 1
 
- if queries\_by\_ip[ip].nil? then queries\_by\_ip[ip] = [] end
- queries\_by\_ip[ip].push query
+ if queries_by_ip[ip].nil? then queries_by_ip[ip] = [] end
+ queries_by_ip[ip].push query
  end
 }
 
 if @domains then
  hits = []
- queries\_by\_domain.each { |k,v|
+ queries_by_domain.each { |k,v|
  hits.push Hits.new(v, k)
  }
 
  hits.sort!.reverse!.each { |h|
- puts h.v + " has " + h.n.to\_s + " hits"
+ puts h.v + " has " + h.n.to_s + " hits"
  }
 end
 
 if @ip then
  lst = []
- queries\_by\_ip.each { |ip,queries|
+ queries_by_ip.each { |ip,queries|
  lst.push Hits.new(queries.length, ip, queries)
  }
 
  lst.sort!.reverse!.each { |h|
  puts "Report for " + h.v + ", Samba addr:"
  if not @nosamba then Kernel.system "nmblookup -A " + h.v end
- puts "Requested " + h.n.to\_s + " URLs:"
+ puts "Requested " + h.n.to_s + " URLs:"
  h.k.uniq.each { |url|
  puts "t" + url
  }
@@ -91,7 +92,10 @@ if @ip then
  puts "."
  }
 end
+```
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [GLR]() commented @ 2013-02-11T18:53:51.000+01:00:

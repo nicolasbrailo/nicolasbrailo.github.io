@@ -7,30 +7,32 @@
 </ul>
 <h1>Posts for 2008 October<a name="postsfor2008october"></a></h1>
 <h1>Splitting flac and ape files in Debian / Ubuntu<a name="splittingflacandapefilesindebianubuntu"></a></h1>
-<p>By Nico Brailovsky @ 2008-10-28</p>
-<p>I keep forgetting this one, so I&rsquo;ll keep it here.</p>
-<p>What to do when you get a <strong>cue</strong> file with a single huge <strong>flac</strong> file, or even worse, an <strong>ape</strong> file? With the right packages it&rsquo;s an easy task (getting the packages right may be hard tough).</p>
+<p>By Nico Brailovsky @ 2008-10-28 -  <a href="/blog/2008/1028_SplittingflacandapefilesinDebianUbuntu.html">Permalink</a></p>
+<p>I keep forgetting this one, so I'll keep it here.</p>
+<p>What to do when you get a <strong>cue</strong> file with a single huge <strong>flac</strong> file, or even worse, an <strong>ape</strong> file? With the right packages it's an easy task (getting the packages right may be hard tough).</p>
 <p>There are three parts to this problem: getting the ape file to a more user friendly format (flac), splitting it and then renaming the splitted files.</p>
 <h3>Needed packages<a name="neededpackages"></a></h3>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4_b3-1_i386.deb &amp;amp;&amp;amp; &lt;br/&gt;   sudo dpkg -i mac-3.99-u4_b3-1_i386.deb &amp;amp;&amp;amp; &lt;br/&gt;   rm -f mac-3.99-u4_b3-1_i386.deb
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4_b3-1_i386.deb &amp;&amp;
+    sudo dpkg -i mac-3.99-u4_b3-1_i386.deb &amp;&amp;
+    rm -f mac-3.99-u4_b3-1_i386.deb
 </pre>
-<p>Source: <a href="http://aidanjm.wordpress.com/2007/01/26/using-monkeys-audio-ape-files-in-ubuntu/">http://aidanjm.wordpress.com/2007/01/26/using-monkeys-audio-ape-files-in-ubuntu/</a></p>
+<p>Source: <a href="/blog/youfoundadeadlink.html">BROKENLINK</a></p>
 <p>Now install cuetools:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  sudo apt-get install cuetools
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">  sudo apt-get install cuetools
 </pre>
 <h3>Splitting the file<a name="splittingthefile"></a></h3>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  cuebreakpoints <em>.cue|shnsplit </em>.ape -o flac
+<pre lang="bash" style="display: inline-block; border: 1px solid red;">  cuebreakpoints <em>.cue|shnsplit </em>.ape -o flac
 </pre>
 <h3>Renaming the splitted parts<a name="renamingthesplittedparts"></a></h3>
-<p>In the cue file there should be a list of the original file names. I hacked a script to parse &amp; rename the files from the previous step, you can get it here: <a href="https://example.net/brokenlink/2008/10/cue-rename.php.gz">cue-rename</a></p>
-<p>For this script to run you&rsquo;ll need php-cli package. Just run it in the same folder the cue file is, as any other bash script. There&rsquo;s a flag to get a preview instead of a complete rename; it&rsquo;s somewhere in the file and I don&rsquo;t have much plans to clean it up anytime soon. Drop me a line if you do.</p>
+<p>In the cue file there should be a list of the original file names. I hacked a script to parse &amp; rename the files from the previous step, you can get it here: <a href="/blog/youfoundadeadlink.html">cue-rename</a></p>
+<p>For this script to run you'll need php-cli package. Just run it in the same folder the cue file is, as any other bash script. There's a flag to get a preview instead of a complete rename; it's somewhere in the file and I don't have much plans to clean it up anytime soon. Drop me a line if you do.</p>
 <hr />
 <h1>Back online!<a name="backonline"></a></h1>
-<p>By Nico Brailovsky @ 2008-10-27</p>
+<p>By Nico Brailovsky @ 2008-10-27 -  <a href="/blog/2008/1027_Backonline.html">Permalink</a></p>
 <p><img alt="Original: ./blog_img/img_lost.png" src="/blog_img/img_lost.png" /></p>
 <hr />
 <h1>Ruby: Method chaining<a name="rubymethodchaining"></a></h1>
-<p>By Nico Brailovsky @ 2008-10-16</p>
+<p>By Nico Brailovsky @ 2008-10-16 -  <a href="/blog/2008/1016_RubyMethodchaining.html">Permalink</a></p>
 <p>Interesante :)</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">
 #!/usr/bin/ruby1.8
@@ -72,23 +74,23 @@ Foo.new.bar
 <p><em>Edit: Agregado el plugin para c&oacute;digo!</em></p>
 <hr />
 <h1>Lyx<a name="lyx"></a></h1>
-<p>By Nico Brailovsky @ 2008-10-15</p>
+<p>By Nico Brailovsky @ 2008-10-15 -  <a href="/blog/2008/1015_Lyx.html">Permalink</a></p>
 <p>Continuando el post sobre aplicaciones necesarias para un nuevo sistema, un review que escrib&iacute; hace tiempo sobre Lyx, un frontend para LaTeX:</p>
 <p><a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/</a></p>
 <p>(Tip: hay una versi&oacute;n para Windows)</p>
 <hr />
 <h1>self.start<a name="self.start"></a></h1>
-<p>By Nico Brailovsky @ 2008-10-09</p>
+<p>By Nico Brailovsky @ 2008-10-09 -  <a href="/blog/2008/1009_self.start.html">Permalink</a></p>
 <p>Superado el primer post casi obligatorio, &iquest;de que se trata todo esto?</p>
 <p>Planeo volcar ac&aacute; todo tipo de locuras que se me ocurran, muchas de las cuales estar&aacute;n dedicadas a la inform&aacute;tica. Prometo mantener al m&iacute;nimo los meta-posts.</p>
 <p>El contenido estar&aacute; mayormente en espa&ntilde;ol pero como las estad&iacute;sticas muestran hits de otros lados (yo tampoco me explico c&oacute;mo) algunas cosas ir&aacute;n traducidas.
-With obliged frist post out of the way, what&rsquo;s all this about?</p>
-<p>I&rsquo;m planning to dump here all kind of crazy ideas I can think of, many of which will be about computing. I promise to keep meta-posts to a bare minimum.</p>
+With obliged frist post out of the way, what's all this about?</p>
+<p>I'm planning to dump here all kind of crazy ideas I can think of, many of which will be about computing. I promise to keep meta-posts to a bare minimum.</p>
 <p>The content will be mainly in Spanish but as the statistics show hits from some other places (I have no idea why neither) some things will be translated.</p>
 <p>Bonus points para quien adivine de donde saqu&eacute; la imagen.</p>
 <hr />
 <h1>apt-get new computer<a name="aptgetnewcomputer"></a></h1>
-<p>By Nico Brailovsky @ 2008-10-09</p>
+<p>By Nico Brailovsky @ 2008-10-09 -  <a href="/blog/2008/1009_aptgetnewcomputer.html">Permalink</a></p>
 <p>Siempre me olvido cuales son los paquetes copados para instalar en un nuevo sistema as&iacute; que voy a copiarlo ac&aacute;. Despu&eacute;s pongo links a cada aplicaci&oacute;n.</p>
 <h1>APPS<a name="apps"></a></h1>
 <p>apt-get install mozilla-thunderbird lyx</p>
@@ -117,6 +119,6 @@ rm -f mac-3.99-u4_b3-1_i386.deb</p>
 <p>apt-get install java-common libswt3.2-gtk-jni libswt3.2-gtk-java eclipse-rcp liblucene-java liblucene-java-doc libjsch-java libservlet2.4-java libcommons-el-java java libcommons-collections-java java libcommons-logging-java java libcommons-launcher-java liblog4j1.2-java libregexp-java libbcel-java libmx4j-java libcommons-collections3-java libcommons-beanutils-java libcommons-digester-java libcommons-modeler-java libcommons-pool-java libcommons-dbcp-java libtomcat5.5-java eclipse-platform junit eclipse-jdt eclipse-pde exuberant-ctags eclipse-cdt mlock libc-client2002edebian zlib1g-dev libssl-dev eclipse libtld3 odbcinst1debian1 unixodbc sun-java5-bin</p>
 <hr />
 <h1>etc/init.d/blog start<a name="etcinit.dblogstart"></a></h1>
-<p>By Nico Brailovsky @ 2008-10-04</p>
+<p>By Nico Brailovsky @ 2008-10-04 -  <a href="/blog/2008/1004_etcinit.dblogstart.html">Permalink</a></p>
 <p>First post!!1</p>
 <hr />

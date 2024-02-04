@@ -6,30 +6,30 @@
 <li><a href="/blog/history.html">History</a></li>
 </ul>
 <h1>Fix Spotify deeplinking in Linux + custom SpotiWeb UI<a name="fixspotifydeeplinkinginlinuxcustomspotiwebui"></a></h1>
-<p>By Nico Brailovsky @ 2023-12-16</p>
-<p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn&rsquo;t working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here&rsquo;s my fix:</p>
+<p>By Nico Brailovsky @ 2023-12-16 -  <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a></p>
+<p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
-sudo echo &#x27;/usr/share/spotify/spotify.real &ndash;uri=&quot;$1&quot;&#x27; &gt; /usr/share/spotify/spotify
+sudo echo &#x27;/usr/share/spotify/spotify.real --uri=&quot;$1&quot;&#x27; &gt; /usr/share/spotify/spotify
 </pre>
-<p>Seems old versions of spotify would try to open anything as a deeplink, but new versions require a <code>--uri</code> parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I&rsquo;m too lazy to read manuals.</p>
-<p>In the &ldquo;reminder to myself&rdquo; category, as there is zero chance I&rsquo;ll remember this next time I&rsquo;m setting up a computer.</p>
+<p>Seems old versions of spotify would try to open anything as a deeplink, but new versions require a <code>--uri</code> parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.</p>
+<p>In the "reminder to myself" category, as there is zero chance I'll remember this next time I'm setting up a computer.</p>
 <h3>(*) SpotiWeb: custom Spotify UI<a name="spotiwebcustomspotifyui"></a></h3>
-<p>I don&rsquo;t like &ldquo;recent&rdquo; changes (recent being the last 3 or 4 years!) to Spotify&rsquo;s UI, <a href="https://nicolasbrailo.github.io/SpotiWeb/">so I rolled out my own</a>. It&rsquo;s a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn&rsquo;t even have a search function: you can use the browser&rsquo;s search if you need one!)</p>
-<p>The app is hosted in github pages, and because it&rsquo;s entirely client side it doesn&rsquo;t need any kind of server side support to run. Check out the source here and <a href="https://github.com/nicolasbrailo/SpotiWeb">either run your own, or check out there&rsquo;s no server side processing involved.</a></p>
+<p>I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, <a href="https://nicolasbrailo.github.io/SpotiWeb/">so I rolled out my own</a>. It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)</p>
+<p>The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and <a href="https://github.com/nicolasbrailo/SpotiWeb">either run your own, or check out there's no server side processing involved.</a></p>
 <hr />
 <h1>Translated to Chinese!<a name="translatedtochinese"></a></h1>
-<p>By Nico Brailovsky @ 2023-01-14</p>
+<p>By Nico Brailovsky @ 2023-01-14 -  <a href="/blog/2023/0114_TranslatedtoChinese.html">Permalink</a></p>
 <p>Small celebratory post, because I never expected it:</p>
 <p><a href="/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg"><img alt="" src="/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg" /></a>
 Someone translated <a href="http://github.com/nicolasbrailo/pianOli">one of my open source projects</a> to Chinese!</p>
 <hr />
 <h1>Bash script preamble<a name="bashscriptpreamble"></a></h1>
-<p>By Nico Brailovsky @ 2021-06-27</p>
+<p>By Nico Brailovsky @ 2021-06-27 -  <a href="/blog/2021/0627_Bashscriptpreamble.html">Permalink</a></p>
 <p>All background Bash scripts should start with this preamble:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">set -euo pipefail
 exec &gt; ~/log.log 2&gt;&amp;1
 </pre>
-<p>There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won&rsquo;t go into the details. For reference:</p>
+<p>There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:</p>
 <ul>
 <li><strong>-e</strong> halts the script on error</li>
 <li><strong>-u</strong> errors when using an undefined variable</li>
@@ -38,62 +38,62 @@ exec &gt; ~/log.log 2&gt;&amp;1
 </ul>
 <hr />
 <h1>Where is the fun in that?<a name="whereisthefuninthat"></a></h1>
-<p>By Nico Brailovsky @ 2021-03-18</p>
-<p>You can always find coders asking why coding isn&rsquo;t fun anymore. I can somewhat relate but I never understood why the answer isn&rsquo;t obvious: coding isn&rsquo;t software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there&rsquo;s also not-interesting-stuff in the mix. Maybe testing and documenting isn&rsquo;t your thing, you just want to build something. Maybe the stability from testing and documenting isn&rsquo;t that important to you. Perhaps you know you&rsquo;re the only one who&rsquo;s ever going to read your code. Your future self may be angry at you for a little while if the code breaks&hellip; so what? Your experiment crashed? Just reboot it. No problem.</p>
-<p>If you&rsquo;re coding-to-sell, you&rsquo;re not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You&rsquo;re not writing code to learn new things, that&rsquo;s only a nice side-effect; you are trying to build a product.</p>
-<p>Furthermore, you&rsquo;re not investing time to learn something or just to have fun; you&rsquo;re trading time for money (if you learn something in the process, that&rsquo;s good - but probably not why you&rsquo;re being paid a salary as a software engineer).</p>
-<p>It&rsquo;s understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it&rsquo;s not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it&rsquo;s kept me interested in software development for the last 15 (ish) years. I&rsquo;m hoping it&rsquo;ll do the trick for much longer than that.</p>
+<p>By Nico Brailovsky @ 2021-03-18 -  <a href="/blog/2021/0318_Whereisthefuninthat.html">Permalink</a></p>
+<p>You can always find coders asking why coding isn't fun anymore. I can somewhat relate but I never understood why the answer isn't obvious: coding isn't software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there's also not-interesting-stuff in the mix. Maybe testing and documenting isn't your thing, you just want to build something. Maybe the stability from testing and documenting isn't that important to you. Perhaps you know you're the only one who's ever going to read your code. Your future self may be angry at you for a little while if the code breaks... so what? Your experiment crashed? Just reboot it. No problem.</p>
+<p>If you're coding-to-sell, you're not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You're not writing code to learn new things, that's only a nice side-effect; you are trying to build a product.</p>
+<p>Furthermore, you're not investing time to learn something or just to have fun; you're trading time for money (if you learn something in the process, that's good - but probably not why you're being paid a salary as a software engineer).</p>
+<p>It's understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it's not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it's kept me interested in software development for the last 15 (ish) years. I'm hoping it'll do the trick for much longer than that.</p>
 <hr />
 <h1>reboot succesful?<a name="rebootsuccesful"></a></h1>
-<p>By Nico Brailovsky @ 2021-03-17</p>
-<p>Since &ldquo;migrating&rdquo; from Wordpress to Blogspot:</p>
+<p>By Nico Brailovsky @ 2021-03-17 -  <a href="/blog/2021/0317_rebootsuccesful.html">Permalink</a></p>
+<p>Since "migrating" from Wordpress to Blogspot:</p>
 <ul>
 <li>Traffic to Wordpress fell from ~100ish visitors a day to ~30 or ~40ish.</li>
 <li>This site went from 0 to also ~30 or ~40ish.</li>
 </ul>
-<p>That went much better than I expected, considering I couldn&rsquo;t set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don&rsquo;t want to monetize). Let&rsquo;s see how it goes 10 years from now, when I have to migrate from Blogpost to something else.</p>
+<p>That went much better than I expected, considering I couldn't set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don't want to monetize). Let's see how it goes 10 years from now, when I have to migrate from Blogpost to something else.</p>
 <hr />
 <h1>sudo reboot<a name="sudoreboot"></a></h1>
-<p>By Nico Brailovsky @ 2021-03-02</p>
-<p>Recently found out Wordpress had pretty aggressive ads on my blog. That worked as the encouragement I was needing to work on a task I&rsquo;d been putting off for years: fix bit-rotted content! I took the opportunity to fix all (most) broken links and source code snippets from the last 14 years. It was supposed to be a short sed script, which of course ended up being 3 days of work - a lot of it manual. A few cool things I figured doing this:</p>
+<p>By Nico Brailovsky @ 2021-03-02 -  <a href="/blog/2021/0302_sudoreboot.html">Permalink</a></p>
+<p>Recently found out Wordpress had pretty aggressive ads on my blog. That worked as the encouragement I was needing to work on a task I'd been putting off for years: fix bit-rotted content! I took the opportunity to fix all (most) broken links and source code snippets from the last 14 years. It was supposed to be a short sed script, which of course ended up being 3 days of work - a lot of it manual. A few cool things I figured doing this:</p>
 <ul>
 <li>Even if I very sparingly add new posts, 14 years is still a lot of content. By the infinite monkey theorem, some of it should be good. Right?</li>
-<li>A new reason to dislike template metaprogramming: so many &lsquo;template &amp; lt; class &amp; gt;&rsquo;, so much broken code&hellip;</li>
+<li>A new reason to dislike template metaprogramming: so many 'template &amp; lt; class &amp; gt;', so much broken code...</li>
 <li>I have 400+ posts and less than 10 images. While I quite like adding visual content, very little of it (except memes!) survived the successive blog migrations.</li>
-<li>I can estimate there have been at least 3 platform migrations since the first post. I can count the number of times that &lsquo;&lt;&rsquo; gets html-encoded like the rings of a tree. &lsquo;&amp; amp;amp;lt;&rsquo; was the longest encode sequence I found.</li>
+<li>I can estimate there have been at least 3 platform migrations since the first post. I can count the number of times that '&lt;' gets html-encoded like the rings of a tree. '&amp; amp;amp;lt;' was the longest encode sequence I found.</li>
 </ul>
 <hr />
 <h1>Vimtip: Open path<a name="vimtipopenpath"></a></h1>
-<p>By Nico Brailovsky @ 2020-05-08</p>
+<p>By Nico Brailovsky @ 2020-05-08 -  <a href="/blog/2020/0508_VimtipOpenpath.html">Permalink</a></p>
 <p>If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;foo/bar.h&quot;
 </pre>
-<p>Place your cursor anywhere in &ldquo;foo/bar.h&rdquo; and press <code>gf</code> to open the referenced path. More interestingly, you can also do <code>C-w</code>, release and then <code>gf</code> to open in a new tab.</p>
+<p>Place your cursor anywhere in "foo/bar.h" and press <code>gf</code> to open the referenced path. More interestingly, you can also do <code>C-w</code>, release and then <code>gf</code> to open in a new tab.</p>
 <p>Today I learned you can also do this for arbitrary URLs. If you have a file like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;foo/bar.h&quot;
 // https://github.com/nicolasbrailo/Nico.rc/blob/master/README.md
-&hellip;
+...
 </pre>
 <p>Then you can do <code>C-w gf</code> on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</p>
 <hr />
 <h1>Weak symbols to mock c-APIs with gmock/gtest<a name="weaksymbolstomockcapiswithgmockgtest"></a></h1>
-<p>By Nico Brailovsky @ 2020-03-15</p>
-<p>I recently worked with a c-style API interface which wasn&rsquo;t very open to mocking. The API in question looked something like this:</p>
+<p>By Nico Brailovsky @ 2020-03-15 -  <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a></p>
+<p>I recently worked with a c-style API interface which wasn't very open to mocking. The API in question looked something like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">handle_t h = api_open();
 api_foo(h, param1, param2);
 api_foo2(h, 42);
 api_close(h);
 </pre>
-<p>This *almost* looks like a C++ interface, with extra steps that make it really really hard to mock (and, thus, to test). If it were a c++ interface, it would be possible to &ldquo;virtualize&rdquo; the different methods from the, even if this required a bit of patching to the original library. While a c interface doesn&rsquo;t provide this facility, there is another feature that makes mocking such an API with gmock possible: linker weak symbols!</p>
+<p>This *almost* looks like a C++ interface, with extra steps that make it really really hard to mock (and, thus, to test). If it were a c++ interface, it would be possible to "virtualize" the different methods from the, even if this required a bit of patching to the original library. While a c interface doesn't provide this facility, there is another feature that makes mocking such an API with gmock possible: linker weak symbols!</p>
 <p>In the header, you can patch your target library to export its symbols like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">handle_t api_open() <strong>attribute</strong>((weak));
 void api_foo(handle_t h, int, float) <strong>attribute</strong>((weak));
 void api_foo2(handle_t h, int) <strong>attribute</strong>((weak));
 void api_close(handle_t h) <strong>attribute</strong>((weak));
 </pre>
-<p>The <a href="https://gcc.gnu.org/onlinedocs/gcc-3.2/gcc/Function-Attributes.html">weak attribute</a> will tell the compiler to emit this symbol marked as &lsquo;w&rsquo;. If you compile this library and inspect it with <code>nm</code>, you&rsquo;ll see the (possibly mangled) symbol name and a w next to it. In turn, this tells the linker that this symbol can be overridden.</p>
-<p>Normally, if you define &lsquo;api_open&rsquo; in more than a single .object file, and then link them all in a single binary, you&rsquo;ll end up with a linker error. Something about &ldquo;multiple symbol definition&rdquo;, which seems reasonable. If the symbols are instead marked as weak, then the compiler will simply override the symbol table with the last seen instance of that symbol.</p>
-<p>Once all mock-able symbols are defined as week, creating a mock is &ldquo;easy&rdquo;, albeit not necessarily pretty. Following the example:</p>
+<p>The <a href="https://gcc.gnu.org/onlinedocs/gcc-3.2/gcc/Function-Attributes.html">weak attribute</a> will tell the compiler to emit this symbol marked as 'w'. If you compile this library and inspect it with <code>nm</code>, you'll see the (possibly mangled) symbol name and a w next to it. In turn, this tells the linker that this symbol can be overridden.</p>
+<p>Normally, if you define 'api_open' in more than a single .object file, and then link them all in a single binary, you'll end up with a linker error. Something about "multiple symbol definition", which seems reasonable. If the symbols are instead marked as weak, then the compiler will simply override the symbol table with the last seen instance of that symbol.</p>
+<p>Once all mock-able symbols are defined as week, creating a mock is "easy", albeit not necessarily pretty. Following the example:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">// Mock definition
 struct MockApi {
  public:
@@ -106,53 +106,37 @@ MockApi mocked_api_instance;
 // Override default symbols and forward to gtest
 handle_t api_open() { return mocked_api_instance.api_open(); }
 handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h, i); }
-// &hellip;
+// ...
 </pre>
-<p>Note how mocked_api_instance has to be a global singleton; since your test under code will probably expect to be able to call this API directly, it&rsquo;s necessary to rely on a global object that everyone can access - both your test and their overridden API symbols and the module under test. With all this scaffolding in place, you can now write almost-normal tests.</p>
+<p>Note how mocked_api_instance has to be a global singleton; since your test under code will probably expect to be able to call this API directly, it's necessary to rely on a global object that everyone can access - both your test and their overridden API symbols and the module under test. With all this scaffolding in place, you can now write almost-normal tests.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">TEST(Foo, Bar) {
   EXPECT_CALL(mocked_api_instance, api_open).WillOnce(Return(nullptr));
   MyObject o;
   o.run_test();
 }
 </pre>
-<p>This method has the (big) disadvantage of creating an invisible dependency between &ldquo;mocked_api_instance&rdquo; and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</p>
+<p>This method has the (big) disadvantage of creating an invisible dependency between "mocked_api_instance" and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</p>
 <hr />
 <h1>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h1>
-<p>By Nico Brailovsky @ 2020-02-27</p>
-<p>If you don&rsquo;t use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let&rsquo;s you query and filter json files from a cli. Just like awk or sed, js&rsquo;s &ldquo;language&rdquo; is basically write only, meaning whenever you need to do something there&rsquo;s a 99% chance you&rsquo;ll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
+<p>By Nico Brailovsky @ 2020-02-27 - 3 comments <a href="/blog/2020/0227_jqgrepandprettifyjson.html">Permalink</a></p>
+<p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
 <p><strong>cat a json file - with pretty print</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq . /path/to/json_file
 </pre>
 <p><strong>Select a single key</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq &#x27;.path.to.key&#x27;
 </pre>
-<p>The command above will return &ldquo;42&rdquo; for a json that looks like &ldquo;{path: {to: {key: 42}}}&rdquo;</p>
+<p>The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"</p>
 <p><strong>Delete all entries in an object, except for one</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq &#x27;.foo|=bar&#x27;
 </pre>
-<p>The command above will return &ldquo;{foo: {bar:&rsquo;&lsquo;}}&rdquo; for a json that looks like &ldquo;{foo: {bar:&rsquo;&lsquo;, baz: &lsquo;&rsquo;}}&rdquo;</p>
-<p>This is probably not even enough to get started. Luckily there&rsquo;s plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="http://www.zavyalov.nl">Vasiliy</a> commented @ 2020-03-01T11:17:18.000+01:00:<a name="inreplytothispostvasiliyhttpwww.zavyalov.nlcommented20200301t111718.0000100"></a></h2>
-<p>Coincidence. Using recently this tool as well. Might be good to mentioned to your message:</p>
-<p>-r .......... option to output raw format
-[1] ........ indexing elements of json array</p>
-<p>/Vasiliy</p>
-<p>Original <a href="/blog/2020/0227_jqgrepandprettifyjson.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2020-03-01T11:23:24.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20200301t112324.0000100"></a></h2>
-<p>That&rsquo;s awesome, thanks!</p>
-<p>Original <a href="/blog/2020/0227_jqgrepandprettifyjson.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">Gustavo</a> commented @ 2020-03-11T15:05:44.000+01:00:<a name="inreplytothispostgustavocommented20200311t150544.0000100"></a></h2>
-<p>Thanks. Very useful tool.</p>
-<p>Original <a href="/blog/2020/0227_jqgrepandprettifyjson.html">published here</a>.</p>
+<p>The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"</p>
+<p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
 <hr />
 <h1>Mixin(ish) classes with parameter packs in C++<a name="mixinishclasseswithparameterpacksinc"></a></h1>
-<p>By Nico Brailovsky @ 2020-02-18</p>
-<p>For some reason I couldn&rsquo;t find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"> int dummy[sizeof&hellip;(Config)] = { (Config::apply(p), 0)&hellip; };
+<p>By Nico Brailovsky @ 2020-02-18 - 2 comments <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a></p>
+<p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
 </pre>
 <p>This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.</p>
 <p>Full example:</p>
@@ -166,12 +150,12 @@ struct EnableFeatureB {
     cout &amp;lt;&amp;lt; T::b() &amp;lt;&amp;lt; endl;
   }
 };
-template &amp;lt;typename Impl, typename&hellip; Config&amp;gt;
+template &amp;lt;typename Impl, typename... Config&amp;gt;
 struct Foo {
   Foo(){
     // Call apply() for each type in Config
     Impl *p = nullptr;
-    int dummy[sizeof&hellip;(Config)] = { (Config::apply(p), 0)&hellip; };
+    int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
   }
 };
 struct Bar;
@@ -181,19 +165,6 @@ struct Bar : FwdFoo {
    static int b() { return 2; }
 };
 </pre>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">Balazs Benics</a> commented @ 2020-02-18T18:57:18.000+01:00:<a name="inreplytothispostbalazsbenicscommented20200218t185718.0000100"></a></h2>
-<p>Keep in mind that parameter packs can be empty, in which case the array would try to have zero elements.
-Also, some apply function might return an object which overloaded the comma operator, in which case the result of the whole expression would otherwise.</p>
-<p>I would address the mentioned issues like this:
-int dummy[1 + sizeof&hellip;(Config)] = { 0, (static_cast(Config::apply(p)), 0)&hellip; };</p>
-<p>Note that nobody can override the comma operator there.</p>
-<p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2020-02-19T13:06:50.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20200219t130650.0000100"></a></h2>
-<p>Good catch, thanks!</p>
-<p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>
 <hr />
 <hr />
 <p>Blog built @ 2024-02-04</p>

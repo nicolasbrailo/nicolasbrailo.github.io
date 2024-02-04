@@ -7,9 +7,9 @@
 In the last four entries we worked on a simple example, like the one I'm pasting below, of type inference with decltype, which led us to learn about [delayed type declaration](/blog_md/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.md) and [decltypes with auto](/blog_md/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.md). This time I want to focus just on the auto keyword instead.
 
 ```c++
-template &lt;class... Args&gt;
-auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
-	std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n";
+template <class... Args>
+auto wrap(Args... a) -> decltype( do_something(a...) ) {
+	std::cout << __PRETTY_FUNCTION__ << "n";
 	return do_something(a...);
 }
 ```
@@ -35,7 +35,7 @@ That's right, when you are declaring local variables it's easier and cleaner to 
 In any C++ application, you'll find code like this:
 
 ```c++
-for (FooContainer&lt;Bar&gt;::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
+for (FooContainer<Bar>::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
 ```
 
 This ugly code can be eliminated with something much more elegant:
@@ -52,16 +52,16 @@ Wrong:
 
 ```c++
 void f(auto x) {
-	cout &lt;&lt; x;
+	cout << x;
 }
 ```
 
 Less wrong:
 
 ```c++
-template &lt;T&gt;
+template <T>
 void f(T x) {
-	cout &lt;&lt; x;
+	cout << x;
 }
 ```
 

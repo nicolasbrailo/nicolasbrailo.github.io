@@ -1,11 +1,11 @@
 <h1>Template metaprogramming X: Zero Minus Ten<a name="templatemetaprogrammingxzerominusten"></a></h1>
-<p>So far we&rsquo;ve learned the basic constructs of template metaprogramming (loops, branching, return values) and some basic list operations (getting the length of a list, appending and prepending elements, checking if an element is included in a list). Let&rsquo;s put it all together by creating an operation to return the position of an element. It&rsquo;ll be very useful later on too.</p>
-<p>If we go back to the Includes operation we can get some help to define the Position operation: the position of an element in a list is one plus the position of the element we&rsquo;re searching for in the tail, or zero if the head equals said element. The operation is not defined if the element is not in the list.</p>
+<p>So far we've learned the basic constructs of template metaprogramming (loops, branching, return values) and some basic list operations (getting the length of a list, appending and prepending elements, checking if an element is included in a list). Let's put it all together by creating an operation to return the position of an element. It'll be very useful later on too.</p>
+<p>If we go back to the Includes operation we can get some help to define the Position operation: the position of an element in a list is one plus the position of the element we're searching for in the tail, or zero if the head equals said element. The operation is not defined if the element is not in the list.</p>
 <p>Translating to pseudo-code:</p>
 <pre style="display: inline-block; border: 1px solid red;">Position (lst.head, lst) &lt;- 0
 Position (e, lst) &lt;- 1 + Position(e, lst.tail)
 </pre>
-<p>The translation to C++ is not so trivial this time. Try it, I&rsquo;ll wait&hellip; ready? OK, let&rsquo;s start</p>
+<p>The translation to C++ is not so trivial this time. Try it, I'll wait... ready? OK, let's start</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class Elm, class Lst&amp;gt; struct Position {
     typedef typename Lst::head Head;
     typedef typename Lst::tail Tail;
@@ -14,7 +14,7 @@ Position (e, lst) &lt;- 1 + Position(e, lst.tail)
     static const int next = Position&amp;lt;Elm, Tail&amp;gt;::result;
 };
 </pre>
-<p>Looks easy&hellip; but doesn&rsquo;t work. First problem, we can&rsquo;t compare two types, remember? We need to use Eq again. Second problem, although we said the operation is undefined if the element is not included on the list, it would be nice if we could force the compiler to fail if (or when) that happens. Let&rsquo;s rewrite the operation using a façade again, but adding an Assert:</p>
+<p>Looks easy... but doesn't work. First problem, we can't compare two types, remember? We need to use Eq again. Second problem, although we said the operation is undefined if the element is not included on the list, it would be nice if we could force the compiler to fail if (or when) that happens. Let's rewrite the operation using a façade again, but adding an Assert:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename Elm, typename LST&amp;gt; struct _Position {
     typedef typename LST::head Head;
     typedef typename LST::tail Tail;
@@ -26,7 +26,7 @@ template &amp;lt;typename Elm, typename LST&amp;gt; struct Position {
     static const int result = _Position&amp;lt;Elm, LST&amp;gt;::result;
 };
 </pre>
-<p>Oh, we haven&rsquo;t defined assert yet! There&rsquo;s another problem, too: even if it won&rsquo;t compile, the compiler will try to expand _Position&lt; &hellip;, NIL &gt; indefinitely, causing an error after too many nested template calls. Not nice. We need to add a case to make the compiler stop:</p>
+<p>Oh, we haven't defined assert yet! There's another problem, too: even if it won't compile, the compiler will try to expand _Position&lt; ..., NIL &gt; indefinitely, causing an error after too many nested template calls. Not nice. We need to add a case to make the compiler stop:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
 // Helper: Will fail to compile if the assert is false
 class Assertion{};
@@ -53,9 +53,9 @@ template &amp;lt;typename Elm, typename LST&amp;gt; struct Position {
     static const int result = _Position&amp;lt;Elm, LST&amp;gt;::result;
 };
 </pre>
-<p>All that code for such a simple operation, man. Also, see what we did with Assert&lt;&gt;? It seems making a compile fail is actually quite easy. That&rsquo;s what I have most experience with.</p>
-<p>We&rsquo;ve been through quite a lot, and our toolboox should be quite big already. Next time we&rsquo;ll start steering towards some sort of applicability, trying to use some of all these stuff to implement a real, useful and working program&hellip; assuming that&rsquo;s even possible.</p>
+<p>All that code for such a simple operation, man. Also, see what we did with Assert&lt;&gt;? It seems making a compile fail is actually quite easy. That's what I have most experience with.</p>
+<p>We've been through quite a lot, and our toolboox should be quite big already. Next time we'll start steering towards some sort of applicability, trying to use some of all these stuff to implement a real, useful and working program... assuming that's even possible.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0916_Quoteoftheweek.html">Nicol&aacute;s Brailovsky » Blog Archive » Quote of the week</a> commented @ 2010-09-16T09:02:28.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivequoteoftheweekblog_md20100916_quoteoftheweek.mdcommented20100916t090228.0000200"></a></h2>
-<p>[&hellip;] &ldquo;Template metaprogramming&ldquo;, chapter 10 by [&hellip;]</p>
+<p>[...] &ldquo;Template metaprogramming&ldquo;, chapter 10 by [...]</p>
 <p>Original <a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">published here</a>.</p>

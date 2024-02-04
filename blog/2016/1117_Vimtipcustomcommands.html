@@ -2,8 +2,8 @@
 <p>If you have a function that you use a lot, you may find it interesting to use a custom command for it. Try this:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">:command Foo echo(&#x27;Hola!&#x27;)
 </pre>
-<p>Now invoke the command with &lsquo;:Foo&rsquo; and Vim should say hello. Neat, huh? This is especially useful (and dangerous) when combined with cabbrev, like this:</p>
+<p>Now invoke the command with ':Foo' and Vim should say hello. Neat, huh? This is especially useful (and dangerous) when combined with cabbrev, like this:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">:command! Foobar echo(&#x27;Nope!&#x27;)
 :cabbrev close Foobar
 </pre>
-<p>If you try to :close a document, Vim will now say &ldquo;Nope!&rdquo;. Other than using this to mess with someone&rsquo;s Vim session, you can replace builtin commands with your own tweaked functions. I tend to use that quite frequently in <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/">my own .vimrc</a>.</p>
+<p>If you try to :close a document, Vim will now say "Nope!". Other than using this to mess with someone's Vim session, you can replace builtin commands with your own tweaked functions. I tend to use that quite frequently in <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/">my own .vimrc</a>.</p>

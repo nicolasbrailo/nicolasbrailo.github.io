@@ -7,24 +7,24 @@
 So, virtual dispatching is just too much overhead for you? I bet you do need every femtosecond from your CPU. Even if you don't, who doesn't like weird C++ constructs? Take CRTP, for example, a Curiously recurring template pattern:
 
 ```c++
-template &lt;class Derived&gt; struct CRTP {
+template <class Derived> struct CRTP {
     const char* greeting() const {
-        const Derived* self = static_cast&lt;const Derived*&gt;(this);
-        return self-&gt;greeting();
+        const Derived* self = static_cast<const Derived*>(this);
+        return self->greeting();
     }
 };
 
-struct Hello : public CRTP&lt;Hello&gt; {
+struct Hello : public CRTP<Hello> {
     const char* greeting() const { return "Hello world"; }
 };
 
-struct Bye : public CRTP&lt;Bye&gt; {
+struct Bye : public CRTP<Bye> {
     const char* greeting() const { return "Bye world"; }
 };
 
-#include &lt;iostream&gt;
-template &lt;class T&gt; void print(const CRTP&lt;T&gt; &amp;x) {
-    std::cout &lt;&lt; x.greeting() &lt;&lt; "n";
+#include <iostream>
+template <class T> void print(const CRTP<T> &x) {
+    std::cout << x.greeting() << "n";
 }
 
 int main() {

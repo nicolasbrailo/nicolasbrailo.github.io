@@ -15,7 +15,7 @@ void lots_of_sums(unsigned idx, int v[])
 {
 	const unsigned itrs = 2000*1000*1000;
 
-	for (int i=0; i &lt; itrs; ++i)
+	for (int i=0; i < itrs; ++i)
 		v[idx].num = i;
 }
 ```

@@ -7,7 +7,7 @@
 Last time we saw how you can use C style array-initialization for C++ objects, like this:
 
 ```c++
-	std::vector&lt;int&gt; v = {1,2,3,4};
+	std::vector<int> v = {1,2,3,4};
 ```
 
 We also saw this works for may types of objects, like maps and pairs. How about custom developed objects? Yes, that's right, you can have initilizer lists for your own objects too, and it's quite easy. C++0x offers initializer\_lists which you can use on your constructors (or any other methods, for that mater) to have C-style initialization. Let's see an example. We already know how to sum a list of numbers using template lists and variadic templates, so let's try adding an initializer consisting of numbers:
@@ -15,11 +15,11 @@ We also saw this works for may types of objects, like maps and pairs. How about 
 Let's start by creating a class which can accept an initializer list:
 
 ```c++
-#include &lt;initializer_list&gt;
+#include <initializer_list>
 using namespace std;
 
 struct Add_List {
-	Add_List(initializer_list&lt;int&gt; lst) {
+	Add_List(initializer_list<int> lst) {
 	}
 };
 
@@ -32,13 +32,13 @@ int main() {
 That's interesting, as you can see an initializer list is actualy a template class, meaning that nested initializers can easily be defined too. Now, we have the interface, how can we access each element of the list? Let's do the same thing I did when I found out about initilizers, let's search for the header file.
 
 ```c++
-  template&lt;class _E&gt;
+  template<class _E>
     class initializer_list
     {
     public:
       typedef _E 		value_type;
-      typedef const _E&amp; 	reference;
-      typedef const _E&amp; 	const_reference;
+      typedef const _E& 	reference;
+      typedef const _E& 	const_reference;
       typedef size_t 		size_type;
       typedef const _E* 	iterator;
       typedef const _E* 	const_iterator;
@@ -71,17 +71,17 @@ That's interesting, as you can see an initializer list is actualy a template cla
 Looks surprisingly easy (note that this is for G++ 4.something only). And it is, most of the magic happens in the compiler, so the userland code is quite straight forward. According to that header file, we could build something like this:
 
 ```c++
-#include &lt;iostream&gt;
-#include &lt;initializer_list&gt;
+#include <iostream>
+#include <initializer_list>
 using namespace std;
 
 struct Add_List {
-	Add_List(initializer_list&lt;int&gt; lst) {
+	Add_List(initializer_list<int> lst) {
 		int sum = 0;
 		for (auto i = lst.begin(); i != lst.end(); ++i)
 			sum += *i;
 
-		cout &lt;&lt; sum &lt;&lt; "n";
+		cout << sum << "n";
 	}
 };
 

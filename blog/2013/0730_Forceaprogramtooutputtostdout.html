@@ -1,4 +1,4 @@
 <h1>Force a program to output to stdout<a name="forceaprogramtooutputtostdout"></a></h1>
-<p>Silly but handy CLI trick on Linux: Some programs don&rsquo;t have an option to output to stdout. Gcc comes to mind. In that case the symlink &lsquo;/dev/stdout&rsquo; will come in handy: /dev/stdout will be symlinked to stdout for each process.</p>
-<p>With this trick you could, for example, run &ldquo;gcc -S foo.cpp -o /dev/stdout&rdquo;, to get the assembly listing for foo.cpp.</p>
-<p>You probably shouldn&rsquo;t use this trick on anything other than CLI scripting stuff (keep in mind /dev/stdout might be closed or not accessible for some processes).</p>
+<p>Silly but handy CLI trick on Linux: Some programs don't have an option to output to stdout. Gcc comes to mind. In that case the symlink '/dev/stdout' will come in handy: /dev/stdout will be symlinked to stdout for each process.</p>
+<p>With this trick you could, for example, run "gcc -S foo.cpp -o /dev/stdout", to get the assembly listing for foo.cpp.</p>
+<p>You probably shouldn't use this trick on anything other than CLI scripting stuff (keep in mind /dev/stdout might be closed or not accessible for some processes).</p>

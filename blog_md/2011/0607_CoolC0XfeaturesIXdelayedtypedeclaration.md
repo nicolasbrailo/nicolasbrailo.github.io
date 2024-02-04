@@ -7,15 +7,15 @@
 In the last two entries we worked on a wrapper object which allows us to decorate a method before or after calling (hello aspects!), or at least that's what it should do when g++ fully implements decltypes and variadic templates. Our wrapper function looks something like this (check out the previous entry for the wrapper object):
 
 ```c++
-#include &lt;iostream&gt;
+#include <iostream>
 
-void do_something() { std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n"; }
-void do_something(const char*) { std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n"; }
-int do_something(int) { std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n"; return 123; }
+void do_something() { std::cout << __PRETTY_FUNCTION__ << "n"; }
+void do_something(const char*) { std::cout << __PRETTY_FUNCTION__ << "n"; }
+int do_something(int) { std::cout << __PRETTY_FUNCTION__ << "n"; return 123; }
 
-template &lt;class... Args&gt;
-auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
-	std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n";
+template <class... Args>
+auto wrap(Args... a) -> decltype( do_something(a...) ) {
+	std::cout << __PRETTY_FUNCTION__ << "n";
 	return do_something(a...);
 }
 
@@ -23,7 +23,7 @@ int main() {
 	wrap();
 	wrap("nice");
 	int x = wrap(42);
-	std::cout &lt;&lt; x &lt;&lt; "n";
+	std::cout << x << "n";
 	return 0;
 }
 ```
@@ -45,9 +45,11 @@ void foo() {}
 Is the same as:
 
 ```c++
-auto foo() -&gt; void {}
+auto foo() -> void {}
 ```
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Cool C++0X features XII: type inference with auto](/blog_md/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.md) commented @ 2011-10-04T09:23:29.000+02:00:

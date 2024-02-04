@@ -1,5 +1,5 @@
 <h1>Template Metaprogramming XIV: Marathon<a name="templatemetaprogrammingxivmarathon"></a></h1>
-<p>If you remember previous entry, we got our evil device to the point of getting a specific instance using only a type hint. Now we need to put all the code together. I won&rsquo;t add much to the code, you should be able to parse it yourself.</p>
+<p>If you remember previous entry, we got our evil device to the point of getting a specific instance using only a type hint. Now we need to put all the code together. I won't add much to the code, you should be able to parse it yourself.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
 struct NIL {
     typedef NIL head;
@@ -46,10 +46,10 @@ template &amp;lt;&amp;gt; struct Instances&amp;lt;NIL&amp;gt; {};
 /</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
 /</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
 template &amp;lt;int N, typename TypeLst&amp;gt; struct NthInstance {
-    // This one isnt easy&hellip;
+    // This one isnt easy...
     // This is the next type in the list
     typedef typename TypeLst::tail TypeNext;
-    //  * Nth::result is the Nth type in Lst (i.e. char, int, &hellip;)
+    //  * Nth::result is the Nth type in Lst (i.e. char, int, ...)
     typedef typename NthInstance&amp;lt;N-1, TypeNext&amp;gt;::NthInstanceType NthInstanceType;
     //  * typename Nth::result &amp;amp; is a reference to said type and the ret type
     template &amp;lt;typename InstancesLst&amp;gt;
@@ -74,7 +74,7 @@ class Facade {
         return Position&amp;lt;PK, Lst&amp;gt;::result;
     }
     template &amp;lt;typename PK&amp;gt;
-    // This is a difficult one&hellip; it should be parsed like this:
+    // This is a difficult one... it should be parsed like this:
     //  1) Get the desired instance position using Position::result
     //  2) Get the type @ the desired position with NthInstance::Type
     //  3) Define said type as a return type (with an &amp;amp; at the end, i.e. make
@@ -104,4 +104,4 @@ int main() {
     return 0;
 }
 </pre>
-<p>The only thing missing now is a map, to convert a primitive type to an index type, but that&rsquo;s trivial and so it will be left as an exercise for the reader (?). We just implemented the most evil code in the whole world. Next time, the conclusions.</p>
+<p>The only thing missing now is a map, to convert a primitive type to an index type, but that's trivial and so it will be left as an exercise for the reader (?). We just implemented the most evil code in the whole world. Next time, the conclusions.</p>

@@ -1,20 +1,20 @@
 <h1>Using BoUML as a case tool<a name="usingboumlasacasetool"></a></h1>
-<p>I don&rsquo;t really fancy CASE tools a lot, they are mostly fads, but I must admit it, using BoUML to work on a design the other day was a nice surprise. Not only the generated code didn&rsquo;t seem to be written by an trained monkey [1], it almost seemed to be usable with some tweaking. It even generated nice javadocs!</p>
-<p>For this article I&rsquo;ll asume you have some experience with <a href="https://www.bouml.fr/">BoUML</a>. If you don&rsquo;t, apt-get it (it&rsquo;s available for Linux and Windows) then come back later, I&rsquo;ll wait.
-<a href="https://www.bouml.fr/documentation.html">BoUML&rsquo;s manual</a> is quite good and includes a lot of screenshots, but if you&rsquo;re already experienced using it you may find this short checklist quicker to create a new project and use the code generation tools:</p>
+<p>I don't really fancy CASE tools a lot, they are mostly fads, but I must admit it, using BoUML to work on a design the other day was a nice surprise. Not only the generated code didn't seem to be written by an trained monkey [1], it almost seemed to be usable with some tweaking. It even generated nice javadocs!</p>
+<p>For this article I'll asume you have some experience with <a href="https://www.bouml.fr/">BoUML</a>. If you don't, apt-get it (it's available for Linux and Windows) then come back later, I'll wait.
+<a href="https://www.bouml.fr/documentation.html">BoUML's manual</a> is quite good and includes a lot of screenshots, but if you're already experienced using it you may find this short checklist quicker to create a new project and use the code generation tools:</p>
 <ul>
-<li>Languages &gt; C++ [&hellip;]; this will tell BoUML what language should generate. I haven&rsquo;t tried other than C++ but I&rsquo;ve heard they work fine.</li>
-<li>Draw some nice UML to create a couple of classes (i.e. create a class view and a class diagram, then add some classes). Don&rsquo;t forget to add some relationships, so the generated code can be something more than &ldquo;class Foobar{};&rdquo;</li>
-<li>Create a deployment view. Something like &ldquo;Foobar_deploy&rdquo;</li>
+<li>Languages &gt; C++ [...]; this will tell BoUML what language should generate. I haven't tried other than C++ but I've heard they work fine.</li>
+<li>Draw some nice UML to create a couple of classes (i.e. create a class view and a class diagram, then add some classes). Don't forget to add some relationships, so the generated code can be something more than "class Foobar{};"</li>
+<li>Create a deployment view. Something like "Foobar_deploy"</li>
 <li>Edit the class view, it should open a class view dialog. Select your new deployment view</li>
-<li>Right click on each class and click &ldquo;Create source artifact&rdquo;. This&rsquo;ll create a new artifact under your deployment view</li>
-<li>Almost done. In project &gt; Edit &gt; Edit Generation Settings go to &ldquo;Directory&rdquo; tab and select a root directory</li>
-<li>You&rsquo;re now ready to right click on your class view and select &ldquo;Generate &gt; C++&rdquo;. Congratulations.</li>
+<li>Right click on each class and click "Create source artifact". This'll create a new artifact under your deployment view</li>
+<li>Almost done. In project &gt; Edit &gt; Edit Generation Settings go to "Directory" tab and select a root directory</li>
+<li>You're now ready to right click on your class view and select "Generate &gt; C++". Congratulations.</li>
 </ul>
-<p>Generating namespaces in C++ wasn&rsquo;t easy at first, and the manual may not be so clear about this one:
+<p>Generating namespaces in C++ wasn't easy at first, and the manual may not be so clear about this one:
 * Create a package. Move everything there (your deployment view, class view, etc).
 * Edit the package. Under C++ complete each path and namespace name (?). For example, Foo, Foo Foo would generate your sources and headers under ./Foo, with namespace Foo.
-* Repeat for as many namespaces as you want. You can have nested namespaces but you&rsquo;ll have to specify the full path and namespace name, i.e. Foo/Bar, Foo/Bar_CPP, Foo::Bar</p>
-<p>If you&rsquo;re going to use BoUML as a case tool, you&rsquo;ll want to name associations, use the multiplicity, create setters and getters and all the stuff you probably never did when documenting in UML to reach a <a href="http://thedailywtf.com/Articles/Very,_Very_Well_Documented.aspx">minimum user-documentation wheight</a>. It seems these CASE tools haven&rsquo;t developed telepathy yet. Too bad.</p>
+* Repeat for as many namespaces as you want. You can have nested namespaces but you'll have to specify the full path and namespace name, i.e. Foo/Bar, Foo/Bar_CPP, Foo::Bar</p>
+<p>If you're going to use BoUML as a case tool, you'll want to name associations, use the multiplicity, create setters and getters and all the stuff you probably never did when documenting in UML to reach a <a href="http://thedailywtf.com/Articles/Very,_Very_Well_Documented.aspx">minimum user-documentation wheight</a>. It seems these CASE tools haven't developed telepathy yet. Too bad.</p>
 <p>Source: <a href="https://www.bouml.fr/doc/package.html">$ man BoUML</a>
 [1] Regardless of the fact that some may say that about my own code.</p>

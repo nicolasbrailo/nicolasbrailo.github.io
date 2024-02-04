@@ -1,12 +1,12 @@
 <h1>Template Metaprogramming XII: You Really Got a Hold on Me<a name="templatemetaprogrammingxiiyoureallygotaholdonme"></a></h1>
-<p>Remember our virtual template method problem, from the other time? (I know, I said the answer was scheduled for a week after that post, but then I just forgot about it). May be we could avoid the virtual part by keeping a list of all our caches&hellip; how would we know which one should we dispatch the message to? Easy, using templates.</p>
-<p>Instead of a list let&rsquo;s keep two, for twice the fun. One for the rows cache, another for the PKs. We can use PK to know which ROW Cache should we choose. Let&rsquo;s try to write a pseudo code for it:</p>
+<p>Remember our virtual template method problem, from the other time? (I know, I said the answer was scheduled for a week after that post, but then I just forgot about it). May be we could avoid the virtual part by keeping a list of all our caches... how would we know which one should we dispatch the message to? Easy, using templates.</p>
+<p>Instead of a list let's keep two, for twice the fun. One for the rows cache, another for the PKs. We can use PK to know which ROW Cache should we choose. Let's try to write a pseudo code for it:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ROW get_row(PK id) {
     pos &amp;lt;- Position of PK in pks_lst
     return cache[ pos ].get_row( id )
 }
 </pre>
-<p>Doesn&rsquo;t look too hard. Building on our previous toolbox, let&rsquo;s use Eq, Position and the definition of a list:</p>
+<p>Doesn't look too hard. Building on our previous toolbox, let's use Eq, Position and the definition of a list:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct NIL {
     typedef NIL head;
     typedef NIL tail;

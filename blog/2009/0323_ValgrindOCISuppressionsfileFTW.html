@@ -1,8 +1,8 @@
 <h1>Valgrind - OCI: Suppressions file FTW!<a name="valgrindocisuppressionsfileftw"></a></h1>
-<p><strong>Update:</strong> <a href="/blog/2010/0219_ValgrindOCISuppressionsfileTakeII.html">There&rsquo;s a new Valgrind suppressions file @ this link.</a></p>
-<p>Working [1] on a C++ project with Oracle I found that Valgrind reported lots of warnings related to OCI, for which, regardless of being false positives [2] or not, there&rsquo;s little I can do about (other than migrating to MySQL, that is). As the error report kept growing I found that Valgrind will refuse to keep track of new errors after a million or so:</p>
+<p><strong>Update:</strong> <a href="/blog/2010/0219_ValgrindOCISuppressionsfileTakeII.html">There's a new Valgrind suppressions file @ this link.</a></p>
+<p>Working [1] on a C++ project with Oracle I found that Valgrind reported lots of warnings related to OCI, for which, regardless of being false positives [2] or not, there's little I can do about (other than migrating to MySQL, that is). As the error report kept growing I found that Valgrind will refuse to keep track of new errors after a million or so:</p>
 <blockquote>
-<p>More than 1000000 errors detected. I&rsquo;m not reporting any more. Final error counts may be inaccurate. Go fix your program!</p>
+<p>More than 1000000 errors detected. I'm not reporting any more. Final error counts may be inaccurate. Go fix your program!</p>
 </blockquote>
 <p>The solution in this case is a <a href="http://valgrind.org/docs/manual/manual-core.html#manual-core.suppress">suppresions file</a> for Valgrind. After spending a good deal of time unsuccsesfuly trying to get one I had to do it myself and upload it for the next one to run into this problem:</p>
 <p>Link to the file: <a href="/brokenlink/2009/03/valgrind_suppressions">Valgrind / OCI suppressions</a>.</p>
@@ -12,7 +12,7 @@
 </ul>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Mattias</a> commented @ 2009-04-02T08:17:41.000+02:00:<a name="inreplytothispostmattiascommented20090402t081741.0000200"></a></h2>
-<p>Great work, just what I&rsquo;m looking for - but where is the file? (the link seems broken)</p>
+<p>Great work, just what I'm looking for - but where is the file? (the link seems broken)</p>
 <p>Original <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2009-04-03T12:06:30.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20090403t120630.0000200"></a></h2>
@@ -151,7 +151,7 @@
 <p>Original <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Mattias</a> commented @ 2009-04-03T20:57:40.000+02:00:<a name="inreplytothispostmattiascommented20090403t205740.0000200"></a></h2>
-<p>Thanks! Since I use x86_64 I had to switch all the &lsquo;Value4&rsquo; to &lsquo;Value8&rsquo;, and I also had to add a few extra suppressions (below), but after that it worked just perfectly. Nice to be able to get 0 errors for all our oracle tests &hellip;</p>
+<p>Thanks! Since I use x86_64 I had to switch all the 'Value4' to 'Value8', and I also had to add a few extra suppressions (below), but after that it worked just perfectly. Nice to be able to get 0 errors for all our oracle tests ...</p>
 <p>{
  OCI suppression - Mattias
  Memcheck:Cond
@@ -230,5 +230,5 @@
 <p>Original <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="blog_md/2010/0219_ValgrindOCISuppressionsfileTakeII.md">Nicol&aacute;s Brailovsky » Blog Archive » Valgrind – OCI: Suppressions file, Take II</a> commented @ 2010-02-19T11:14:33.000+01:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivevalgrindocisuppressionsfiletakeiiblog_md20100219_valgrindocisuppressionsfiletakeii.mdcommented20100219t111433.0000100"></a></h2>
-<p>[&hellip;] my OCI suppressions file? Well, since then I have updated it. Now it includes some more suppressions, for libnetsnmp, [&hellip;]</p>
+<p>[...] my OCI suppressions file? Well, since then I have updated it. Now it includes some more suppressions, for libnetsnmp, [...]</p>
 <p>Original <a href="/blog/2009/0323_ValgrindOCISuppressionsfileFTW.html">published here</a>.</p>

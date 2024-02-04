@@ -20,9 +20,9 @@ Luckily the preprocessor is smart enough not to trip up on this simple piece of 
 #define foo bar
 #define bar foo
 foo
-// Applies foo -&gt; bar 1
+// Applies foo -> bar 1
 bar 1
-// Applies bar -&gt; foo 2
+// Applies bar -> foo 2
 foo 2 1
 // Scans foo again... but doesn't expand it
 ```
@@ -60,19 +60,19 @@ foo a foo 1 b bar 2 c
 On the scope that baz's expansion creates (scope 4), the parent's scope expansion rules are "inherited", so for scope 4 "foo" was already expanded but "bar" was not, because bar's expansion happened on scope 3 and scope 3 is not scope's 4 parent. Not following me? Try following this diagram:
 
 ```c++
-foo -&gt; foo a bar b baz c
-    foo -&gt; already expanded, ignore
-    a   -&gt; not a macro, ignore
-    bar -&gt; expand to "foo 1"
-        foo -&gt; expanded at parent scope, ignore
-        1   -&gt; not a macro, ignore
-    b   -&gt; not a macro, ignore
-    baz -&gt; expand to "bar 2"
-        bar -&gt; expand to "foo 1"
-            foo -&gt; already expanded at parent scope, ignore
-            1   -&gt; not a macro, ignore
-        2   -&gt; not a macro, ignore
-    c   -&gt; not a macro, ignore
+foo -> foo a bar b baz c
+    foo -> already expanded, ignore
+    a   -> not a macro, ignore
+    bar -> expand to "foo 1"
+        foo -> expanded at parent scope, ignore
+        1   -> not a macro, ignore
+    b   -> not a macro, ignore
+    baz -> expand to "bar 2"
+        bar -> expand to "foo 1"
+            foo -> already expanded at parent scope, ignore
+            1   -> not a macro, ignore
+        2   -> not a macro, ignore
+    c   -> not a macro, ignore
 ```
 
 Hopefully the preprocessor expansion rules should be a bit more clear now: each expansion creates a scope, each scope inherits from parent's scopes whether a rule was applied or not and if it was then said rule is ignored in the current scope.

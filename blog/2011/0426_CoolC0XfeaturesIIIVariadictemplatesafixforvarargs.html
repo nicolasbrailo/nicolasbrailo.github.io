@@ -1,68 +1,70 @@
 <h1>Cool C++0X features III: Variadic templates, a fix for varargs<a name="coolc0xfeaturesiiivariadictemplatesafixforvarargs"></a></h1>
-<p><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Last time</a> we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn&rsquo;t have the problems the varargs solution had, nor how does it work. Let&rsquo;s start by copying the solution here:</p>
+<p><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Last time</a> we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn't have the problems the varargs solution had, nor how does it work. Let's start by copying the solution here:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">// Stop condition
 void println() {}
 // General case
-template &amp;lt;typename H, typename&hellip; T&amp;gt;
-void println(H p, T&hellip; t)
+template &lt;typename H, typename... T&gt;
+void println(H p, T... t)
 {
-   std::cout &amp;lt;&amp;lt; p;
-   println(t&hellip;);
+   std::cout &lt;&lt; p;
+   println(t...);
 }
 int main() {
    println(&quot;Hola&quot;, &quot; mundo &quot;, 42, &#x27;n&#x27;;);
    return 0;
 }
 </pre>
-<p>It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some <a href="/search/label/Templates">template-foo</a> is required, not only because of the syntax but because we&rsquo;ll be talking about functional programming too.</p>
-<p>With all that intro (the last 2 articles were just an intro!) now we are in a good shape to ask what a variadic template really is. In its easiest form, it&rsquo;s just a list of template arguments, like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename&hellip; T&amp;gt; void foo(T&hellip; t) {}
+<p>It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some <a href="/blog/youfoundadeadlink.html">template-foo</a> is required, not only because of the syntax but because we'll be talking about functional programming too.</p>
+<p>With all that intro (the last 2 articles were just an intro!) now we are in a good shape to ask what a variadic template really is. In its easiest form, it's just a list of template arguments, like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename... T&gt; void foo(T... t) {}
 </pre>
-<p>That simple template can accept as many parameters as you need, of any type. This is much safer than a vararg because:
-* Doesn&rsquo;t require the user to specify the number of args passed to foo, so it just can&rsquo;t get out of sync
-* It&rsquo;s typesafe; since C++ templates are type-safe, variadic templates are type safe too. You won&rsquo;t be able to request an int where a char is required, you&rsquo;ll just get a compiler error.
-* Compile time check: you get type safety just because this is all compiled code. If it doesn&rsquo;t compile, you get an error (albeit a little cryptic).
-* <a href="/blog/2010/0407_PODtypesinC.html">POD types</a> support
-* Better performance; small gain, but a gain indeed. Since this is all done in compile time there&rsquo;s no need to handle the stack dynamically, nor of having a loop getting the args. It&rsquo;s all known when you compile, thus the compiler can just optimize the hell out of everything</p>
+<p>That simple template can accept as many parameters as you need, of any type. This is much safer than a vararg because:</p>
+<ul>
+<li>Doesn't require the user to specify the number of args passed to foo, so it just can't get out of sync</li>
+<li>It's typesafe; since C++ templates are type-safe, variadic templates are type safe too. You won't be able to request an int where a char is required, you'll just get a compiler error.</li>
+<li>Compile time check: you get type safety just because this is all compiled code. If it doesn't compile, you get an error (albeit a little cryptic).</li>
+<li><a href="/blog/2010/0407_PODtypesinC.html">POD types</a> support</li>
+<li>Better performance; small gain, but a gain indeed. Since this is all done in compile time there's no need to handle the stack dynamically, nor of having a loop getting the args. It's all known when you compile, thus the compiler can just optimize the hell out of everything</li>
+</ul>
 <p>Pretty neat, huh? But how does it work? Variadic templates are actually very similar to how Haskell handles lists, you get all the arguments as a list of types in which you can either get the head or the tail. To do something useful, get the head and continue processing the tail recursively.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename H, typename&hellip; T&amp;gt;
-void do_something(H h, T&hellip; t)
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename H, typename... T&gt;
+void do_something(H h, T... t)
 {
     // Do something useful with h
     really_do_something(h);
     // Continue processing the tail
-    do_something(t&hellip;);
+    do_something(t...);
 }
 </pre>
-<p>Of course, you&rsquo;ll eventually need a condition to stop processing: (we&rsquo;ll explain the new syntax later)</p>
+<p>Of course, you'll eventually need a condition to stop processing: (we'll explain the new syntax later)</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void do_something()
 {
     // Do nothing :)
 }
 </pre>
-<p>When the list is completely processed the empty do_something function will be called. Easy, right? But it does have a lot of weird syntax. Let&rsquo;s see what each of those ellipses mean:</p>
+<p>When the list is completely processed the empty do_something function will be called. Easy, right? But it does have a lot of weird syntax. Let's see what each of those ellipses mean:</p>
 <ul>
-<li>When declaring typename&hellip; T you are saying &ldquo;here goes a list of types&rdquo;. That is, when you use ellipses after the typename (or class) declaration but before the name of the type, then you are expecting a list of types there.</li>
-<li>When declaring T&hellip; t you are saying t is a list of objects with different type. That is, you declared T&hellip; as a type which holds a list of types, therefore t, of type T, is an instance of a list of objects, each of different type</li>
-<li>When you write t&hellip;, you are saying &ldquo;expand the list of arguments&rdquo;. You declared t as a list of objects, but you have no way of accessing each of those objects, just to the list as a whole. When you write the name of the object followed by ellipses, you are saying expand these types and their instance for the called function</li>
+<li>When declaring typename... T you are saying "here goes a list of types". That is, when you use ellipses after the typename (or class) declaration but before the name of the type, then you are expecting a list of types there.</li>
+<li>When declaring T... t you are saying t is a list of objects with different type. That is, you declared T... as a type which holds a list of types, therefore t, of type T, is an instance of a list of objects, each of different type</li>
+<li>When you write t..., you are saying "expand the list of arguments". You declared t as a list of objects, but you have no way of accessing each of those objects, just to the list as a whole. When you write the name of the object followed by ellipses, you are saying expand these types and their instance for the called function</li>
 </ul>
-<p>With all that in mind, let&rsquo;s put together our typesafe printf:</p>
+<p>With all that in mind, let's put together our typesafe printf:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">// Condition to stop processing
 void println() {}
-// Println receives a list of arguments. We don&amp;#x27;t know it&amp;#x27;s type nor
+// Println receives a list of arguments. We don&#x27;t know it&#x27;s type nor
 // how many there are, so we just get the head and expand the rest
-template &amp;lt;typename H, typename&hellip; T&amp;gt;
-void println(H p, T&hellip; t)
+template &lt;typename H, typename... T&gt;
+void println(H p, T... t)
 {
     // Do something useful with the head
-    std::cout &amp;lt;&amp;lt; p;
+    std::cout &lt;&lt; p;
     // Expand the rest (pass it recursively to println)
-    println(t&hellip;);
+    println(t...);
 }
 int main() {
     // See how it works even better than varargs?
-   println(&quot;Hola&quot;, &quot; mundo &quot;, 42, &amp;#x27;n&amp;#x27;);
+   println(&quot;Hola&quot;, &quot; mundo &quot;, 42, &#x27;n&#x27;);
    return 0;
 }
 </pre>
-<p>Next time, we&rsquo;ll see a more complex (and fun) example of variadic templates.</p>
+<p>Next time, we'll see a more complex (and fun) example of variadic templates.</p>

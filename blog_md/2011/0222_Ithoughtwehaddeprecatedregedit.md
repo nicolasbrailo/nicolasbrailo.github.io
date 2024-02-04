@@ -9,6 +9,8 @@ Guys, I thought we had already agreed on this [a long time ago](http://www.codin
 Why TF is [regedit](https://help.ubuntu.com/community/RestoreNautilusLocationBar) still used in Gnome? I'd switch to KDE, if only I wasn't so lazy.
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [NotReally]() commented @ 2011-02-22T15:47:00.000+01:00:
 

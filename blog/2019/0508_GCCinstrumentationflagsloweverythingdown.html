@@ -1,5 +1,5 @@
 <h1>GCC instrumentation flag: slow everything down!<a name="gccinstrumentationflagsloweverythingdown"></a></h1>
-<p>Here&rsquo;s a nice gcc tip if you think your code is running too fast: instrument everything! (Ok, it may also work if you need to create a profile of your application but for some reason Valgrind isn&rsquo;t your thing).</p>
+<p>Here's a nice gcc tip if you think your code is running too fast: instrument everything! (Ok, it may also work if you need to create a profile of your application but for some reason Valgrind isn't your thing).</p>
 <p>Compile with</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">g++ foo.cpp -ggdb3 -finstrument-functions
 </pre>

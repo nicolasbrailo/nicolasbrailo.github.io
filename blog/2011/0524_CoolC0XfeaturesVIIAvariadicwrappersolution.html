@@ -1,10 +1,10 @@
 <h1>Cool C++0X features VII: A variadic wrapper solution<a name="coolc0xfeaturesviiavariadicwrappersolution"></a></h1>
-<p><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Last time</a> we were trying to build a wrapper function, in which we don&rsquo;t control the class being wrapped nor the user of the wrapper (meaning we can&rsquo;t change either of those but they could change without warning).</p>
+<p><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Last time</a> we were trying to build a wrapper function, in which we don't control the class being wrapped nor the user of the wrapper (meaning we can't change either of those but they could change without warning).</p>
 <p>This was the first approach:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
-void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;; }
 void wrap() {
-    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;;
     do_something();
 }
 int main() {
@@ -12,14 +12,14 @@ int main() {
     return 0;
 }
 </pre>
-<p>Yet, as we saw, it&rsquo;s not scalable, when either part changes the whole things break. We proposed then a variadic template solution, which, if you tried it yourself, should look something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
-void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
-void do_something(const char*) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;; }
-template &amp;lt;class&hellip; Args&amp;gt;
-void wrap(Args&hellip; a) {
-    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
-    do_something(a&hellip;);
+<p>Yet, as we saw, it's not scalable, when either part changes the whole things break. We proposed then a variadic template solution, which, if you tried it yourself, should look something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;; }
+template &lt;class... Args&gt;
+void wrap(Args... a) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;;
+    do_something(a...);
 }
 int main() {
     wrap();
@@ -27,20 +27,20 @@ int main() {
     return 0;
 }
 </pre>
-<p>That&rsquo;s better. Now we don&rsquo;t care about which parameters do_something should get, nor how many of them are there supposed to be, just how it&rsquo;s called. If you read the <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">previous entries on variadic templates</a> this should be a walk in the park. It still has a flaw though: we need to know the return type of do_something!</p>
-<p>Is there a way to write a wrapper without knowing the return type of a function you are wrapping? Yes, in Ruby you can. But now you can do it in C++0x too, and we&rsquo;ll see how to do it next time.</p>
+<p>That's better. Now we don't care about which parameters do_something should get, nor how many of them are there supposed to be, just how it's called. If you read the <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">previous entries on variadic templates</a> this should be a walk in the park. It still has a flaw though: we need to know the return type of do_something!</p>
+<p>Is there a way to write a wrapper without knowing the return type of a function you are wrapping? Yes, in Ruby you can. But now you can do it in C++0x too, and we'll see how to do it next time.</p>
 <p>A closing remark: You could do something like this wrapping everything in a class:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;iostream&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
 struct Foo {
-    void do_something() { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;\n&quot;; }
-    void do_something(const char*) { std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;\n&quot;; }
+    void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;\n&quot;; }
+    void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;\n&quot;; }
 };
 template
 struct Wrapper : public Base {
-    template &amp;lt;class&hellip; Args&amp;gt;
-    void wrap(Args&hellip; a) {
-        std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
-        Base::do_something(a&hellip;);
+    template &lt;class... Args&gt;
+    void wrap(Args... a) {
+        std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;;
+        Base::do_something(a...);
     }
 };
 int main() {

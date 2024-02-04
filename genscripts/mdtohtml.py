@@ -13,7 +13,7 @@ import sys
 import xml.etree.ElementTree as etree
 
 
-FAIL_ON_INLINE_CODEBLOCK = False
+FAIL_ON_INLINE_CODEBLOCK = True
 
 
 class CodeProcessor(BlockProcessor):
@@ -117,7 +117,7 @@ class EscapeMoreChars(Preprocessor):
                 lines[i] = lines[i].replace(k, v)
         return lines
 
-markdowner = markdown.Markdown(extensions=['smarty', 'sane_lists'])
+markdowner = markdown.Markdown()
 markdowner.parser.blockprocessors.register(CodeProcessor(markdowner.parser), 'code', 175)
 markdowner.treeprocessors.register(Anchorize(markdowner), 'anchorize', 185)
 markdowner.preprocessors.register(EscapeMoreChars(markdowner), 'escapemorechars', 195)

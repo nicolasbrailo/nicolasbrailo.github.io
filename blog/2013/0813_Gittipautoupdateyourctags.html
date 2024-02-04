@@ -1,6 +1,6 @@
 <h1>Git tip: auto update your ctags<a name="gittipautoupdateyourctags"></a></h1>
-<p>On any your .git/hooks folder; add this script in .git/hooks/post-merge (and don&rsquo;t forget to chmod +x it):</p>
+<p>On any your .git/hooks folder; add this script in .git/hooks/post-merge (and don't forget to chmod +x it):</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ctags -R -f .ctags .
 </pre>
 <p>Now every time you do a git pull your ctags file will automagically update. You might also want to copy or ln -s this script for the post-commit hook, if you want to run a ctags update on each git commit. Be aware that this will make your commits slower, if generating your tags file takes a long time.</p>
-<p>Extra tip: &ldquo;-f .ctags&rdquo; will make ctags write into a hidden file, .ctags, which you can then add to .gitignore. Now ctags magically works in Vim and you won&rsquo;t even need to see your tags file (just don&rsquo;t forget to &ldquo;set tags=./.ctags;/&rdquo; on vim).</p>
+<p>Extra tip: "-f .ctags" will make ctags write into a hidden file, .ctags, which you can then add to .gitignore. Now ctags magically works in Vim and you won't even need to see your tags file (just don't forget to "set tags=./.ctags;/" on vim).</p>

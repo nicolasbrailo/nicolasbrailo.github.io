@@ -1,5 +1,4 @@
-# Getting a stacktrace on C/C++: Mapping function pointers to function
-names in obj files
+# Getting a stacktrace on C/C++: Mapping function pointers to function names in obj files
 
 @meta publishDatetime 2012-10-18T09:00:00.000+02:00
 @meta author Nico Brailovsky
@@ -10,10 +9,10 @@ names in obj files
 ```c++
     Caller *caller = (Caller*)sp;
     while (caller) {
-        cout &lt;&lt; caller-&gt;addr &lt;&lt; endl;
+        cout << caller->addr << endl;
         void** foo = (void**)caller;
-        cout &lt;&lt; "\t" &lt;&lt; foo[0] &lt;&lt; "|" &lt;&lt; foo[1] &lt;&lt; endl;
-        caller = caller-&gt;addr;
+        cout << "\t" << foo[0] << "|" << foo[1] << endl;
+        caller = caller->addr;
     }
 ```
 
@@ -28,11 +27,11 @@ On my machine I got something like this:
 The first address is the memory address of the stack to which we should return after executing this function. The second address looks interesting. It looks like the addresses we see when dissasemblying an object. Let's try running 'objdump -Sd ./a.out':
 
 ```c++
-08048ac0 &lt;_Z3barif&gt;:
+08048ac0 <_Z3barif>:
  8048ac0: 55                      push   %ebp
  8048ac1: 89 e5                   mov    %esp,%ebp
  8048ac3: 83 ec 08                sub    $0x8,%esp
- 8048ac6: e8 e1 fe ff ff          call   80489ac &lt;_Z3foov&gt;
+ 8048ac6: e8 e1 fe ff ff          call   80489ac <_Z3foov>
  8048acb: c9                      leave
  8048acc: c3                      ret
 
@@ -44,7 +43,7 @@ The first address is the memory address of the stack to which we should return a
  8048ad6:   b8 00 00 00 40          mov    $0x40000000,%eax
  8048adb:   89 44 24 04             mov    %eax,0x4(%esp)
  8048adf:   c7 04 24 02 00 00 00    movl   $0x2,(%esp)
- 8048ae6:   e8 d5 ff ff ff          call   8048ac0 &lt;_Z3barif&gt;
+ 8048ae6:   e8 d5 ff ff ff          call   8048ac0 <_Z3barif>
  8048aeb:   b8 00 00 00 00          mov    $0x0,%eax
  8048af0:   c9                      leave
  8048af1:   c3                      ret

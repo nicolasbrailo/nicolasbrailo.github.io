@@ -1,6 +1,6 @@
 <h1>Quickly sharing files in Linux via HTTP<a name="quicklysharingfilesinlinuxviahttp"></a></h1>
-<p>Isn&rsquo;t it awful when you have to share a file too big for email and don&rsquo;t know how? You&rsquo;d think by 2016 we&rsquo;d have that figured out. Actually we do, many times over. Just pick a standard that works for you!</p>
-<p>If you don&rsquo;t want to read many pages on file transfer standards (Samba? What&rsquo;s that?) you can try this little snippet:</p>
+<p>Isn't it awful when you have to share a file too big for email and don't know how? You'd think by 2016 we'd have that figured out. Actually we do, many times over. Just pick a standard that works for you!</p>
+<p>If you don't want to read many pages on file transfer standards (Samba? What's that?) you can try this little snippet:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">python -m SimpleHTTPServer $PORT
 </pre>
 <p>This will create an http server sharing the current directory. HTTP, luckily, is one of those things that tend to work everywhere, always.</p>

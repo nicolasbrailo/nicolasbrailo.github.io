@@ -7,68 +7,59 @@
 </ul>
 <h1>Posts for 2013 November<a name="postsfor2013november"></a></h1>
 <h1>Vim tim: quickly switch from header to impl<a name="vimtimquicklyswitchfromheadertoimpl"></a></h1>
-<p>By Nico Brailovsky @ 2013-11-19</p>
-<p>Switching from header to implementation in vim takes up precious milliseconds of typing and thinking, so we&rsquo;d better delegate that to a computer. Instead of typing :tabnew FOO.cpp, just download A (for alternate) from this url: http://www.vim.org/scripts/script.php?script_id=31</p>
+<p>By Nico Brailovsky @ 2013-11-19 - 2 comments <a href="/blog/2013/1119_Vimtimquicklyswitchfromheadertoimpl.html">Permalink</a></p>
+<p>Switching from header to implementation in vim takes up precious milliseconds of typing and thinking, so we'd better delegate that to a computer. Instead of typing :tabnew FOO.cpp, just download A (for alternate) from this url: http://www.vim.org/scripts/script.php?script_id=31</p>
 <p>Add it to your bundles in vim and, for extra magic, just map some key to :AT in your vimrc. I have added this one:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">map &lt;F4&gt; :AT&lt;CR&gt;
 </pre>
-<p>I don&rsquo;t know how I lived without this for such a long time.</p>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">Matt</a> commented @ 2013-11-19T21:29:34.000+01:00:<a name="inreplytothispostmattcommented20131119t212934.0000100"></a></h2>
-<p>I&rsquo;ve not tried A, but fswitch offers similar functionality: http://www.vim.org/scripts/script.php?script_id=2590</p>
-<p>Original <a href="/blog/2013/1119_Vimtimquicklyswitchfromheadertoimpl.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2013-11-19T21:33:54.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20131119t213354.0000100"></a></h2>
-<p>Thanks Matt!</p>
-<p>Original <a href="/blog/2013/1119_Vimtimquicklyswitchfromheadertoimpl.html">published here</a>.</p>
+<p>I don't know how I lived without this for such a long time.</p>
 <hr />
 <h1>Setting up a Linux GW VIII: Proxy and content filtering<a name="settingupalinuxgwviiiproxyandcontentfiltering"></a></h1>
-<p>By Nico Brailovsky @ 2013-11-14</p>
-<p>Now that we have a basic gateway we can do crazy stuff, like installing a proxy. You may want to manually configure a proxy for each client, but you can also choose to install a transparent proxy for all your users. This can be done with squid, let&rsquo;s see how.</p>
-<p>Start by installing squid on your gateway. You can choose a different machine, but you&rsquo;ll have to do some magic with iptales. It&rsquo;s easier to just use the same machine.</p>
-<p>Once squid is installed head to /etc/squid/ to vim squid.conf. Yes, it&rsquo;s very scary to see such a long config file, but it&rsquo;s mostly just comments. Luckily squid has reasonable defaults, so you can just ignore most of this file. Just to test if your squid installation was successful, before changing anything, you can tail -f /var/log/squid/access.log and set your browser&rsquo;s proxy to your gateway&rsquo;s IP, port 3128 (squid&rsquo;s default port). If everything works you should be able to browse and also see the access logs scrolling by.</p>
-<p>If you are getting a &lsquo;denied&rsquo; page on every request, you may have to configure squid to allow http access. Search for the &lsquo;http_access deny all&rsquo; and comment it. You may also have to search for the local networks definitions and set it up correctly (something like &lsquo;acl localnet src 192.168.0.0/24&rsquo;).</p>
-<p>Once you have verified that your proxy is working, you can configure it to run on transparent mode. Search for the http_port directive, and change it to something like &lsquo;http_port 8213 transparent&rsquo; (noticed I changed the default port). It is also a good practice to specify IP and port, so squid can bind only to the local interface (you are probably not interested in serving as a proxy for the outside world, unless you plan to run a reverse proxy).</p>
+<p>By Nico Brailovsky @ 2013-11-14 -  <a href="/blog/2013/1114_SettingupaLinuxGWVIIIProxyandcontentfiltering.html">Permalink</a></p>
+<p>Now that we have a basic gateway we can do crazy stuff, like installing a proxy. You may want to manually configure a proxy for each client, but you can also choose to install a transparent proxy for all your users. This can be done with squid, let's see how.</p>
+<p>Start by installing squid on your gateway. You can choose a different machine, but you'll have to do some magic with iptales. It's easier to just use the same machine.</p>
+<p>Once squid is installed head to /etc/squid/ to vim squid.conf. Yes, it's very scary to see such a long config file, but it's mostly just comments. Luckily squid has reasonable defaults, so you can just ignore most of this file. Just to test if your squid installation was successful, before changing anything, you can tail -f /var/log/squid/access.log and set your browser's proxy to your gateway's IP, port 3128 (squid's default port). If everything works you should be able to browse and also see the access logs scrolling by.</p>
+<p>If you are getting a 'denied' page on every request, you may have to configure squid to allow http access. Search for the 'http_access deny all' and comment it. You may also have to search for the local networks definitions and set it up correctly (something like 'acl localnet src 192.168.0.0/24').</p>
+<p>Once you have verified that your proxy is working, you can configure it to run on transparent mode. Search for the http_port directive, and change it to something like 'http_port 8213 transparent' (noticed I changed the default port). It is also a good practice to specify IP and port, so squid can bind only to the local interface (you are probably not interested in serving as a proxy for the outside world, unless you plan to run a reverse proxy).</p>
 <p>Changing squid to run on transparent mode is not enough, though. You will also need to tell your router to redirect every incoming packet from port 80 to squid. Assuming your LAN is on the 192.168.10.0/24 address and squid is listenning on port 1234, you can use this magic command to setup your iptables rule:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">iptables -t nat -A PREROUTING -s 192.168.10.0/24 -p tcp &ndash;dport 80 -j DNAT &ndash;to :1234
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">iptables -t nat -A PREROUTING -s 192.168.10.0/24 -p tcp --dport 80 -j DNAT --to :1234
 </pre>
-<p>If this doesn&rsquo;t work for you, or you want a more detailed explanation, you can check <a href="/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html">my post about this iptables rule</a>.</p>
+<p>If this doesn't work for you, or you want a more detailed explanation, you can check <a href="/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html">my post about this iptables rule</a>.</p>
 <p>Everything ready, you should be able to unconfigure the proxy from your browser and start using squid right away, no configuration needed. tail -f /var/log/squid/access.log for hours of (thought-policing) fun.</p>
 <h3>Adding a content filter to squid<a name="addingacontentfiltertosquid"></a></h3>
-<p>Now that you have a gateway and a transparent proxy, it&rsquo;s time to install a content filter too. It&rsquo;s not hard, just go to your squid&rsquo;s config file and search for the acl section. Over there, add the following two lines:</p>
+<p>Now that you have a gateway and a transparent proxy, it's time to install a content filter too. It's not hard, just go to your squid's config file and search for the acl section. Over there, add the following two lines:</p>
 <pre style="display: inline-block; border: 1px solid red;">acl blocksites url_regex &quot;/home/router/blocked_sites.acl&quot;
 http_access deny blocksites
 </pre>
 <p>This will include the blocked_sites.acl file and deny access to every URL on it. There are many <a href="/blog/youfoundadeadlink.html">blacklist</a> services out there, from which you can download a nice filter to suit your needs.</p>
-<p>Of course, you probably don&rsquo;t want to restart squid each time a new site is added to your blocklist. For this you can use &ldquo;squid -k reconfigure&rdquo; to make squid reload its configuration.</p>
+<p>Of course, you probably don't want to restart squid each time a new site is added to your blocklist. For this you can use "squid -k reconfigure" to make squid reload its configuration.</p>
 <p>Some random tips for squid:
-* If you think your squid is responding too slowly, you can manually setup your DNS servers. Considering squid will most likely be installed on the gateway, it might be easier to just use the gateway&rsquo;s gateway for the DNS, instead of the bind service running on the box. You can set this option with the directive &ldquo;dns_nameservers xxx.xxx.xxx.xxx yyy.yyy.yyy.yyy&rdquo; on squid.conf.
+* If you think your squid is responding too slowly, you can manually setup your DNS servers. Considering squid will most likely be installed on the gateway, it might be easier to just use the gateway's gateway for the DNS, instead of the bind service running on the box. You can set this option with the directive "dns_nameservers xxx.xxx.xxx.xxx yyy.yyy.yyy.yyy" on squid.conf.
 * The TCP_MISS on the access.log means that a request was successfully served, but the content was not cached. You can review your cache limits if you get this message too much, may be you can increase the caching limit.
-* You don&rsquo;t need to restart squid each time you change the configuration. That would be ackward if you have a lot of users. Try &ldquo;squid -k reconfigure&rdquo; instead.</p>
+* You don't need to restart squid each time you change the configuration. That would be ackward if you have a lot of users. Try "squid -k reconfigure" instead.</p>
 <hr />
 <h1>Human friendly c declarations<a name="humanfriendlycdeclarations"></a></h1>
-<p>By Nico Brailovsky @ 2013-11-12</p>
-<p>An appropriate use of typedef&rsquo;s can transform 99% of c&rsquo;s gruesome type declarations into a mostly maintainable and maybe even readable piece of code. For that remaining 1%, or if you got a legacy application from someone with a very twisted mind, you&rsquo;ll probably need a way decode what &ldquo;int (*(Foo::*foo)(void**))[3]&rdquo; means.</p>
-<p>To decipher weird c declarations go to <a href="http://cdecl.org/" title="http://cdecl.org/">http://cdecl.org/</a> and type your type. It works for most cases&hellip; good luck trying to figure out templates, though, for template metaprogramming you are on your own.</p>
+<p>By Nico Brailovsky @ 2013-11-12 -  <a href="/blog/2013/1112_Humanfriendlycdeclarations.html">Permalink</a></p>
+<p>An appropriate use of typedef's can transform 99% of c's gruesome type declarations into a mostly maintainable and maybe even readable piece of code. For that remaining 1%, or if you got a legacy application from someone with a very twisted mind, you'll probably need a way decode what "int (*(Foo::*foo)(void**))[3]" means.</p>
+<p>To decipher weird c declarations go to <a href="http://cdecl.org/" title="http://cdecl.org/">http://cdecl.org/</a> and type your type. It works for most cases... good luck trying to figure out templates, though, for template metaprogramming you are on your own.</p>
 <hr />
 <h1>Setting up a Linux GW VII: Fun with iptables, setting up port<a name="settingupalinuxgwviifunwithiptablessettingupport"></a></h1>
-<p>By Nico Brailovsky @ 2013-11-07</p>
+<p>By Nico Brailovsky @ 2013-11-07 -  <a href="/blog/2013/1107_SettingupaLinuxGWVIIFunwithiptablessettingupportforwardings.html">Permalink</a></p>
 <p>forwardings</p>
-<p>In any LAN you&rsquo;ll probably want to expose some services to the outer world, be it for a bittorrent connection or because you have internal servers you need to access from outside your internal LAN. To do this, you&rsquo;ll have to tell your router to forward some external port to an internal one, like this:</p>
+<p>In any LAN you'll probably want to expose some services to the outer world, be it for a bittorrent connection or because you have internal servers you need to access from outside your internal LAN. To do this, you'll have to tell your router to forward some external port to an internal one, like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">iptables -t nat -A PREROUTING -i eth0 -p tcp
-    &ndash;dport PORT -j DNAT &ndash;to INTERNAL_IP:INTERNAL_PORT
+    --dport PORT -j DNAT --to INTERNAL_IP:INTERNAL_PORT
 # This rule may not be needed, depending on other chain confings
-iptables -A INPUT -i eth0 -p tcp -m state &ndash;state NEW
-    &ndash;dport PORT -j DNAT &ndash;to INTERNAL_IP:INTERNAL_PORT
+iptables -A INPUT -i eth0 -p tcp -m state --state NEW
+    --dport PORT -j DNAT --to INTERNAL_IP:INTERNAL_PORT
 </pre>
-<p>This is enough to expose a private server to the world, but it will not be very useful when your dynamic IP changes, so you&rsquo;ll need to set INTERNAL_IP to be a static IP.</p>
-<p>Of course, this commands are little less than black magic. iptables are rather complex and quite difficult to master, but as a short description we can say they are a way of applying a set of rules to incoming network packets. In iptables you have different tables of rules (in this case we use -t[able] nat) and specify that we want our rule to be applied in the PREROUTING phase. -i specifies that this rule should be applied only to packets incoming from eth0, and &ndash;dport means this rule applies only to packets incoming from a certain port. Of course, if you are going to specify a port then you need to specify the protocol (in this case, tcp).</p>
-<p>Now we have replicated in our setup almost all the functionalities a small COTS router has. Next time we&rsquo;ll see how to improve that by adding a proxy.</p>
+<p>This is enough to expose a private server to the world, but it will not be very useful when your dynamic IP changes, so you'll need to set INTERNAL_IP to be a static IP.</p>
+<p>Of course, this commands are little less than black magic. iptables are rather complex and quite difficult to master, but as a short description we can say they are a way of applying a set of rules to incoming network packets. In iptables you have different tables of rules (in this case we use -t[able] nat) and specify that we want our rule to be applied in the PREROUTING phase. -i specifies that this rule should be applied only to packets incoming from eth0, and --dport means this rule applies only to packets incoming from a certain port. Of course, if you are going to specify a port then you need to specify the protocol (in this case, tcp).</p>
+<p>Now we have replicated in our setup almost all the functionalities a small COTS router has. Next time we'll see how to improve that by adding a proxy.</p>
 <hr />
 <h1>Automagically setup breakpoints with gdb<a name="automagicallysetupbreakpointswithgdb"></a></h1>
-<p>By Nico Brailovsky @ 2013-11-05</p>
-<p>When you are trying to debug a project you don&rsquo;t know you&rsquo;ll probably end up recompiling a few times, then restarting your debugging session. This can be quite frustrating, when you have gdb workset <a href="/blog/2013/0704_Myowngdbcheatsheetjustbecause.html">full of breakpoints</a>, <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">watch expressions</a> and all that stuff.</p>
-<p>Luckily you can easily restore your state if you just write all the gdb commands you need into a file, then start gdb with &ldquo;&ndash;command=state.gdb&rdquo;. Magic! All your breakpoints are there.</p>
-<p>Alternatively, an even better solution: just don&rsquo;t exit gdb after recompiling, simply &ldquo;kill&rdquo; your currently under-debug process (ie type &ldquo;kill&rdquo; inside gdb, do not kill gdb itself!) and gdb will be smart enough to reload your binary if it changed.</p>
+<p>By Nico Brailovsky @ 2013-11-05 -  <a href="/blog/2013/1105_Automagicallysetupbreakpointswithgdb.html">Permalink</a></p>
+<p>When you are trying to debug a project you don't know you'll probably end up recompiling a few times, then restarting your debugging session. This can be quite frustrating, when you have gdb workset <a href="/blog/2013/0704_Myowngdbcheatsheetjustbecause.html">full of breakpoints</a>, <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">watch expressions</a> and all that stuff.</p>
+<p>Luckily you can easily restore your state if you just write all the gdb commands you need into a file, then start gdb with "--command=state.gdb". Magic! All your breakpoints are there.</p>
+<p>Alternatively, an even better solution: just don't exit gdb after recompiling, simply "kill" your currently under-debug process (ie type "kill" inside gdb, do not kill gdb itself!) and gdb will be smart enough to reload your binary if it changed.</p>
 <hr />

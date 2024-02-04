@@ -1,5 +1,5 @@
 <h1>C++: Magic callbacks solved<a name="cmagiccallbackssolved"></a></h1>
-<p>Long post this time - and lots of code too. How fun iz that? Anyway, <a href="/blog/2009/0721_CMagicmembercallbacks.html">remember where we left last time</a>? We&rsquo;re supposed to make this work:</p>
+<p>Long post this time - and lots of code too. How fun iz that? Anyway, <a href="/blog/2009/0721_CMagicmembercallbacks.html">remember where we left last time</a>? We're supposed to make this work:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">class Callee {
  Callback notify;
  public:
@@ -13,7 +13,7 @@ class Caller {
   void im_done(Callee*) { }
 };
 </pre>
-<p>I&rsquo;ll write about the different solutions I&rsquo;ve tried and the problem each of these solutions had:</p>
+<p>I'll write about the different solutions I've tried and the problem each of these solutions had:</p>
 <ul>
 <li><a href="#exp1">Experiment 1: Templates</a></li>
 <li><a href="#exp2">Experiment 2: Template virtual method</a></li>
@@ -27,18 +27,18 @@ class Caller {
 <p>We could to this the easy way, with a template:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class Callback&amp;gt;
 class Callee {
-  &hellip;
+  ...
 };
 class Caller {
  template &amp;lt;class T&amp;gt;
  void operator() (T p){ this-&amp;gt;im_done(p); }
-  &hellip;
+  ...
 };
 </pre>
 <p>This has some drawbacks:
 1. We need to change the definition of the Callee
 2. The Caller can only have one callback (or overloaded one callback)
-3. It&rsquo;s boring</p>
+3. It's boring</p>
 <h3>Experiment 2: Template virtual method<a name="experiment2templatevirtualmethod"></a></h3>
 <p>So, lets try another approach: the naive one is an interface:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">class iCallback {
@@ -46,8 +46,8 @@ class Caller {
   template &amp;lt;class T&amp;gt; void operator () (T o) = 0;
 };
 </pre>
-<p>Looks great, doesn&rsquo;t it? Too bad <strong>it&rsquo;s not valid C++</strong>, you can&rsquo;t have a virtual template method (what would the vtable size be?).
-If we can&rsquo;t have a template method let&rsquo;s make a template class:</p>
+<p>Looks great, doesn't it? Too bad <strong>it's not valid C++</strong>, you can't have a virtual template method (what would the vtable size be?).
+If we can't have a template method let's make a template class:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class T&amp;gt;
 class iCallback {
   public:
@@ -117,8 +117,8 @@ class Caller {
  void finish(){ (*notify)(this); }
 };
 </pre>
-<p>OK, we&rsquo;re back on track. We will solve that weird looking (*notify)(this) later, don&rsquo;t worry.</p>
-<p>We&rsquo;re almost there, but specifying the callback as  is ugly, Caller should be automagically inferred from the context by some template voodoo. Let&rsquo;s do it by implementing a wrapper:</p>
+<p>OK, we're back on track. We will solve that weird looking (*notify)(this) later, don't worry.</p>
+<p>We're almost there, but specifying the callback as  is ugly, Caller should be automagically inferred from the context by some template voodoo. Let's do it by implementing a wrapper:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class R&amp;gt;
 class WraperCallback {
   iCallback&amp;lt;R&amp;gt; <em>cb;
@@ -134,7 +134,7 @@ class WraperCallback {
     }
 };
 </pre>
-<p>Now we no longer need to specify the Caller type. There&rsquo;s still a nasty issue about pointer-vs-object passing. Using (*notify)(this) is very ugly so let&rsquo;s do it like this:</p>
+<p>Now we no longer need to specify the Caller type. There's still a nasty issue about pointer-vs-object passing. Using (*notify)(this) is very ugly so let's do it like this:</p>
 <h3>Experiment 5: Callback object bis<a name="experiment5callbackobjectbis"></a></h3>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">class Callee {
   WraperCallback&amp;lt;Callee<em>&amp;gt; notify;
@@ -150,7 +150,7 @@ class Caller {
   void im_done(Callee</em>) { }
 };
 </pre>
-<p>Nice, this time it should work as expected. Only it does not, <strong>there is something horribly wrong about it</strong>. Can you see what it is? Take a second, I&rsquo;ll wait&hellip; OK, back? Right, it <strong>segfaults</strong>! Why? Easy, take a look at this:</p>
+<p>Nice, this time it should work as expected. Only it does not, <strong>there is something horribly wrong about it</strong>. Can you see what it is? Take a second, I'll wait... OK, back? Right, it <strong>segfaults</strong>! Why? Easy, take a look at this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">  Callee(Callback&amp;lt;Callee*&amp;gt; notify) : notify(notify) {}
 </pre>
 <p>We are using a copy constructor here, and what does our wrapper store?</p>
@@ -201,14 +201,14 @@ class Callback {
 </pre>
 <h3>Conclusion<a name="conclusion"></a></h3>
 <p>Now we have a nice callback object which can link two objects without them knowing each other. There is room for future improvement, of course:
-1. Got any ideas to implement a generic callback to a function with an unknown number of params? I don&rsquo;t (variadic templates == cheating!)
-2. I&rsquo;m quite sure the param type for the callback could be inferred in some magical template way, but I don&rsquo;t know how.
+1. Got any ideas to implement a generic callback to a function with an unknown number of params? I don't (variadic templates == cheating!)
+2. I'm quite sure the param type for the callback could be inferred in some magical template way, but I don't know how.
 3. Think of anything else to add? Let me know in the comments!</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Nicol&aacute;s Brailovsky » Blog Archive » Template metaprogramming XI: Hidden Agenda</a> commented @ 2010-07-20T14:10:19.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivetemplatemetaprogrammingxihiddenagendablog_md20100720_templatemetaprogrammingxihiddenagenda.mdcommented20100720t141019.0000200"></a></h2>
-<p>[&hellip;] for every table; something like this: See the problem? To do something like that we’d need a virtual template method, and you can’t have that. After seeing that I thought to myself &ldquo;Hey, I’ll use [&hellip;]</p>
+<p>[...] for every table; something like this: See the problem? To do something like that we’d need a virtual template method, and you can’t have that. After seeing that I thought to myself &ldquo;Hey, I’ll use [...]</p>
 <p>Original <a href="/blog/2009/0803_CMagiccallbackssolved.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Nicol&aacute;s Brailovsky » Blog Archive » Newsflash: C++ object commits sepuku</a> commented @ 2011-04-04T09:30:53.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivenewsflashcobjectcommitssepukublog_md20110404_newsflashcobjectcommitssepuku.mdcommented20110404t093053.0000200"></a></h2>
-<p>[&hellip;] you launch a background job, and you don’t really care when it’s done. You may use a callback to be notified when the job is done, but if you don’t really care then having an object which [&hellip;]</p>
+<p>[...] you launch a background job, and you don’t really care when it’s done. You may use a callback to be notified when the job is done, but if you don’t really care then having an object which [...]</p>
 <p>Original <a href="/blog/2009/0803_CMagiccallbackssolved.html">published here</a>.</p>

@@ -7,64 +7,64 @@
 </ul>
 <h1>Posts for 2013 June<a name="postsfor2013june"></a></h1>
 <h1>Useless code: a template device to calculate e<a name="uselesscodeatemplatedevicetocalculatee"></a></h1>
-<p>By Nico Brailovsky @ 2013-06-27</p>
-<p>Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review <a href="/search/label/Series%3A Template Metaprogramming">and old article</a> I wrote about it (C++11 made some parts of those articles obsolete, but I&rsquo;m surprised of how well it&rsquo;s aged). To practice a bit I decided to tackle a problem I&rsquo;m sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn&rsquo;t be to hard.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N, int D&amp;gt; struct Frak {
+<p>By Nico Brailovsky @ 2013-06-27 -  <a href="/blog/2013/0627_Uselesscodeatemplatedevicetocalculatee.html">Permalink</a></p>
+<p>Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review <a href="/blog/youfoundadeadlink.html">and old article</a> I wrote about it (C++11 made some parts of those articles obsolete, but I'm surprised of how well it's aged). To practice a bit I decided to tackle a problem I'm sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn't be to hard.</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int N, int D&gt; struct Frak {
     static const long Num = N;
     static const long Den = D;
 };
-template &amp;lt;class X, int N&amp;gt; struct MultEscalar {
-    typedef Frak&amp;lt; N<em>X::Num, N</em>X::Den &amp;gt; result;
+template &lt;class X, int N&gt; struct MultEscalar {
+    typedef Frak&lt; N<em>X::Num, N</em>X::Den &gt; result;
 };
-template &amp;lt;class X1, class Y1&amp;gt; struct IgualBase {
-    typedef typename MultEscalar&amp;lt; X1, Y1::Den &amp;gt;::result X;
-    typedef typename MultEscalar&amp;lt; Y1, X1::Den &amp;gt;::result Y;
+template &lt;class X1, class Y1&gt; struct IgualBase {
+    typedef typename MultEscalar&lt; X1, Y1::Den &gt;::result X;
+    typedef typename MultEscalar&lt; Y1, X1::Den &gt;::result Y;
 };
-template &amp;lt;int X, int Y&amp;gt;   struct MCD {
-    static const long result = MCD&amp;lt;Y, X % Y&amp;gt;::result;
+template &lt;int X, int Y&gt; struct MCD {
+    static const long result = MCD&lt;Y, X % Y&gt;::result;
 };
-template &amp;lt;int X&amp;gt; struct MCD&amp;lt;X, 0&amp;gt; {
+template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
     static const long result = X;
 };
-template &amp;lt;class F&amp;gt; struct Simpl {
-    static const long mcd = MCD&amp;lt;F::Num, F::Den&amp;gt;::result;
-    typedef Frak&amp;lt; F::Num / mcd, F::Den / mcd &amp;gt; result;
+template &lt;class F&gt; struct Simpl {
+    static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+    typedef Frak&lt; F::Num / mcd, F::Den / mcd &gt; result;
 };
-template &amp;lt;class X, class Y&amp;gt; struct Suma {
-    typedef IgualBase&amp;lt;X, Y&amp;gt; B;
+template &lt;class X, class Y&gt; struct Suma {
+    typedef IgualBase&lt;X, Y&gt; B;
     static const long Num = B::X::Num + B::Y::Num;
     static const long Den = B::Y::Den; // == B::X::Den
-    typedef typename Simpl&amp;lt; Frak&amp;lt;Num, Den&amp;gt; &amp;gt;::result result;
+    typedef typename Simpl&lt; Frak&lt;Num, Den&gt; &gt;::result result;
 };
-template &amp;lt;int N&amp;gt; struct Fact {
-    static const long result = N * Fact&amp;lt;N-1&amp;gt;::result;
+template &lt;int N&gt; struct Fact {
+    static const long result = N * Fact&lt;N-1&gt;::result;
 };
-template &amp;lt;&amp;gt; struct Fact&amp;lt;0&amp;gt; {
+template &lt;&gt; struct Fact&lt;0&gt; {
     static const long result = 1;
 };
-template &amp;lt;int N&amp;gt; struct E {
-    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + &hellip;
-    static const long Den = Fact&amp;lt;N&amp;gt;::result;
-    typedef Frak&amp;lt; 1, Den &amp;gt; term;
-    typedef typename E&amp;lt;N-1&amp;gt;::result next_term;
-    typedef typename Suma&amp;lt; term, next_term &amp;gt;::result result;
+template &lt;int N&gt; struct E {
+    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
+    static const long Den = Fact&lt;N&gt;::result;
+    typedef Frak&lt; 1, Den &gt; term;
+    typedef typename E&lt;N-1&gt;::result next_term;
+    typedef typename Suma&lt; term, next_term &gt;::result result;
 };
-template &amp;lt;&amp;gt; struct E&amp;lt;0&amp;gt; {
-    typedef Frak&amp;lt;1, 1&amp;gt; result;
+template &lt;&gt; struct E&lt;0&gt; {
+    typedef Frak&lt;1, 1&gt; result;
 };
-#include &amp;lt;iostream&amp;gt;
+#include &lt;iostream&gt;
 int main() {
-    typedef E&amp;lt;8&amp;gt;::result X;
-    std::cout &amp;lt;&amp;lt; &quot;e = &quot; &amp;lt;&amp;lt; (1.0 * X::Num / X::Den) &amp;lt;&amp;lt; &quot;\n&quot;;
-    std::cout &amp;lt;&amp;lt; &quot;e = &quot; &amp;lt;&amp;lt; X::Num &amp;lt;&amp;lt;&quot;/&quot;&amp;lt;&amp;lt; X::Den &amp;lt;&amp;lt; &quot;\n&quot;;
+    typedef E&lt;8&gt;::result X;
+    std::cout &lt;&lt; &quot;e = &quot; &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; &quot;\n&quot;;
+    std::cout &lt;&lt; &quot;e = &quot; &lt;&lt; X::Num &lt;&lt;&quot;/&quot;&lt;&lt; X::Den &lt;&lt; &quot;\n&quot;;
     return 0;
 }
 </pre>
 <hr />
 <h1>Watchpoints in gdb: wake me up when foo changes<a name="watchpointsingdbwakemeupwhenfoochanges"></a></h1>
-<p>By Nico Brailovsky @ 2013-06-25</p>
-<p>I&rsquo;ve noticed a lot of people claim gdb is not a good debugger because it doesn&rsquo;t support feature X. X is many times the ability to monitor changes to a memory location (ie when the value of a variable changes). Most times, though, people believe gdb doesn&rsquo;t implement X only because not enough time was spent reading its manual.</p>
-<p>In gdb it&rsquo;s very easy to monitor variable changes using watchpoints. Here&rsquo;s a very simple example session:</p>
+<p>By Nico Brailovsky @ 2013-06-25 - 2 comments <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">Permalink</a></p>
+<p>I've noticed a lot of people claim gdb is not a good debugger because it doesn't support feature X. X is many times the ability to monitor changes to a memory location (ie when the value of a variable changes). Most times, though, people believe gdb doesn't implement X only because not enough time was spent reading its manual.</p>
+<p>In gdb it's very easy to monitor variable changes using watchpoints. Here's a very simple example session:</p>
 <pre style="display: inline-block; border: 1px solid red;">(gdb) list
 1   int main()
 2   {
@@ -79,7 +79,7 @@ int main() {
 <pre style="display: inline-block; border: 1px solid red;">(gdb) run
 Breakpoint 1, main () at test.cpp:3
 </pre>
-<p>Let&rsquo;s try to catch when b changes value:</p>
+<p>Let's try to catch when b changes value:</p>
 <pre style="display: inline-block; border: 1px solid red;">(gdb) watch b
 Hardware watchpoint 2: b
 </pre>
@@ -92,40 +92,31 @@ main () at test.cpp:7
 </pre>
 <p>Nice! gdb alerted us of the value change by breaking program execution. This can come in handy to fix race conditions.</p>
 <h2>Hardware and software watchpoints<a name="hardwareandsoftwarewatchpoints"></a></h2>
-<p>Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing &ldquo;step&rdquo; continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.</p>
-<p>As usual, <a href="/blog/youfoundadeadlink.html">gdb&rsquo;s manual</a> has a lot more info.</p>
+<p>Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing "step" continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.</p>
+<p>As usual, <a href="/blog/youfoundadeadlink.html">gdb's manual</a> has a lot more info.</p>
 <p>PS: Once you find your bug with the aid of a watchpoint, please go and read some books about encapsulation!</p>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/2013/1105_Automagicallysetupbreakpointswithgdb.html">Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2013-11-05T08:00:59.000+01:00:<a name="inreplytothispostautomagicallysetupbreakpointswithgdbaninfinitemonkeynicolasbrailovsky39sblogblog_md20131105_automagicallysetupbreakpointswithgdb.mdcommented20131105t080059.0000100"></a></h2>
-<p>[&hellip;] debugging session. This can be quite frustrating, when you have gdb workset full of breakpoints, watch expressions and all that [&hellip;]</p>
-<p>Original <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">Gdb hit count: ignoring breakpoints (for a while) | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2014-11-18T13:24:38.000+01:00:<a name="inreplytothispostgdbhitcountignoringbreakpointsforawhileaninfinitemonkeynicolasbrailovsky39sblogblog_md20141118_gdbhitcountignoringbreakpointsforawhile.mdcommented20141118t132438.0000100"></a></h2>
-<p>[&hellip;] way would be to set up a watch expression. If you can’t setup a watch expression, say, because you’re using an iterator and [&hellip;]</p>
-<p>Original <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">published here</a>.</p>
 <hr />
 <h1>Detecting and ignoring third party memory problems with Valgrind<a name="detectingandignoringthirdpartymemoryproblemswithvalgrind"></a></h1>
-<p>By Nico Brailovsky @ 2013-06-20</p>
-<p>Lot&rsquo;s of people seem to give up on Valgrind after they see the dreaded &ldquo;More than ### errors detected, go and fix your program&rdquo;. If the bulk of these errors are caused by crappy code in third party libraries there&rsquo;s very little to be done to fix them, other than creating a ticket for the library maintainer (and if the bulk of these errors are caused by your own code&hellip; well, don&rsquo;t write a watchdog please, do fix your program!). And that&rsquo;s assuming the reported error is not even a false positive, since Valgrind can report problems for crazy optimizations -O3 might have or for weird operator arithmetic.</p>
-<p>If these spurious memory errors are there for too long most people will start ignoring Valgrind&rsquo;s output. Luckily, ignoring errors we can&rsquo;t fix is a possibility too, using Valgrind&rsquo;s ignore files.</p>
+<p>By Nico Brailovsky @ 2013-06-20 -  <a href="/blog/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.html">Permalink</a></p>
+<p>Lot's of people seem to give up on Valgrind after they see the dreaded "More than ### errors detected, go and fix your program". If the bulk of these errors are caused by crappy code in third party libraries there's very little to be done to fix them, other than creating a ticket for the library maintainer (and if the bulk of these errors are caused by your own code... well, don't write a watchdog please, do fix your program!). And that's assuming the reported error is not even a false positive, since Valgrind can report problems for crazy optimizations -O3 might have or for weird operator arithmetic.</p>
+<p>If these spurious memory errors are there for too long most people will start ignoring Valgrind's output. Luckily, ignoring errors we can't fix is a possibility too, using Valgrind's ignore files.</p>
 <ul>
-<li>Check if someone else has already found this issue. Many times libraries do have an &ldquo;official&rdquo; ignore file for the lib</li>
-<li>If you find no ignore file, make really really sure the problem is not on your code. Preferably write a minimal unit test that triggers the warning on Valgrind. Make sure you&rsquo;re not misusing the library.</li>
+<li>Check if someone else has already found this issue. Many times libraries do have an "official" ignore file for the lib</li>
+<li>If you find no ignore file, make really really sure the problem is not on your code. Preferably write a minimal unit test that triggers the warning on Valgrind. Make sure you're not misusing the library.</li>
 <li>Add whatever warnings you found which were not on your application to a new ignore file</li>
 <li>Share your ignore file with the world! Other people will either find it useful or tell you that what you thought was a bug on a lib is actually a problem on your code. That happens more often than not.</li>
 </ul>
 <hr />
 <h1>C++ exceptions under the hood appendix II: metaclasses and RTTI on C++<a name="cexceptionsunderthehoodappendixiimetaclassesandrttionc"></a></h1>
-<p>By Nico Brailovsky @ 2013-06-13</p>
-<p>A long time ago, when we where just starting to write our mini ABI to handle exceptions without libstdc++&rsquo;s help, we had to add an empty class to appease the linker:</p>
+<p>By Nico Brailovsky @ 2013-06-13 -  <a href="/blog/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.html">Permalink</a></p>
+<p>A long time ago, when we where just starting to write our mini ABI to handle exceptions without libstdc++'s help, we had to add an empty class to appease the linker:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">namespace __cxxabiv1 {
     struct __class_type_info {
         virtual void foo() {}
     } ti;
 }
 </pre>
-<p>I mentioned this class is used to check whether a catch can handle a subtype of the exception thrown, but what does that exactly mean? Let&rsquo;s change a bit our throwing functions to see what happens when we start dealing with inheritance. You may want to check <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v12">the source code for these examples.</a></p>
+<p>I mentioned this class is used to check whether a catch can handle a subtype of the exception thrown, but what does that exactly mean? Let's change a bit our throwing functions to see what happens when we start dealing with inheritance. You may want to check <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v12">the source code for these examples.</a></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Derived_Exception : public Exception {};
 void raise() {
     throw Derived_Exception();
@@ -133,23 +124,23 @@ void raise() {
 void catchit() {
     try {
         raise();
-    } catch(Exception&amp;amp;) {
+    } catch(Exception&amp;) {
         printf(&quot;Caught an Exception!\n&quot;);
-    } catch(Derived_Exception&amp;amp;) {
+    } catch(Derived_Exception&amp;) {
         printf(&quot;Caught a Derived_Exception!\n&quot;);
     }
     printf(&quot;catchit handled the exception\n&quot;);
 }
 </pre>
-<p>What should happen in this example is crystal clear: it should print &ldquo;Caught an Exception&rdquo;, because that catch block should be able to handle both types, Exception and Derived_Exception. Not only that, if we compile throw.cpp we&rsquo;ll get a warning to let us know that the second catch is dead code:</p>
+<p>What should happen in this example is crystal clear: it should print "Caught an Exception", because that catch block should be able to handle both types, Exception and Derived_Exception. Not only that, if we compile throw.cpp we'll get a warning to let us know that the second catch is dead code:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">throw.cpp: In function void catchit():
 throw.cpp:15:7: warning: exception of type Derived_Exception will be caught [enabled by default]
 throw.cpp:13:7: warning:    by earlier handler for Exception [enabled by default]
 </pre>
-<p>Luckily a warning won&rsquo;t stop compilation; we can continue and try to link the resulting .o; we&rsquo;ll find a linker error:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">throw.o:(.rodata._ZTI17Derived_Exception[typeinfo for Derived_Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__si_class_type_info&amp;#x27;
+<p>Luckily a warning won't stop compilation; we can continue and try to link the resulting .o; we'll find a linker error:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">throw.o:(.rodata._ZTI17Derived_Exception[typeinfo for Derived_Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__si_class_type_info&#x27;
 </pre>
-<p>And again we start seeing __type_info errors. If we create a fake __si_class_type_info to workaround this problem we we&rsquo;ll finally see our ABI breaks down when dealing with inheritance, in a rather funny way: the compiler will warn us about dead code and then we see that same code being executed by our ABI!</p>
+<p>And again we start seeing __type_info errors. If we create a fake __si_class_type_info to workaround this problem we we'll finally see our ABI breaks down when dealing with inheritance, in a rather funny way: the compiler will warn us about dead code and then we see that same code being executed by our ABI!</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">g++ -c -o throw.o -O0 -ggdb throw.cpp
 throw.cpp: In function void catchit():
 throw.cpp:15:7: warning: exception of type Derived_Exception will be caught [enabled by default]
@@ -161,23 +152,23 @@ Caught a Derived_Exception!
 end FTW
 catchit handled the exception
 </pre>
-<p>Clearly there&rsquo;s something wrong with our ABI, and it&rsquo;s very easy to trace this problem back to the definition of &ldquo;can_handle&rdquo;, the part of the code that checks whether an exception can by caught by a catch block:</p>
+<p>Clearly there's something wrong with our ABI, and it's very easy to trace this problem back to the definition of "can_handle", the part of the code that checks whether an exception can by caught by a catch block:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">bool can_handle(const std::type_info <em>thrown_exception,
                 const std::type_info </em>catch_type)
 {
-    // If the catch has no type specifier we&amp;#x27;re dealing with a catch(&hellip;)
+    // If the catch has no type specifier we;re dealing with a catch(...)
     // and we can handle this exception regardless of what it is
     if (not catch_type) return true;
     // Naive type comparisson: only check if the type name is the same
-    // This won&amp;#x27;t work with any kind of inheritance
-    if (thrown_exception-&amp;gt;name() == catch_type-&amp;gt;name())
+    // This won&#x27;t work with any kind of inheritance
+    if (thrown_exception-&gt;name() == catch_type-&gt;name())
         return true;
-    // If types don&amp;#x27;t match just don&amp;#x27;t handle the exception
+    // If types don&#x27;t match just don&#x27;t handle the exception
     return false;
 }
 </pre>
 <p>Our ABI gets the std::type_info for the exception being thrown and for the type which can be handled, and then compares if the names for these types is the same. This is fine as long as no inheritance is involved, but in the example above we already found a case where an exception should be handled even though a name is not shared.</p>
-<p>The same problem will arise when trying to catch a pointer to an exception: the names won&rsquo;t match. Even more interesting, if you try and link throw.cpp but change the catch to receive a pointer instead, you&rsquo;ll get a new linker error. If you fix it you should end up with something like this:</p>
+<p>The same problem will arise when trying to catch a pointer to an exception: the names won't match. Even more interesting, if you try and link throw.cpp but change the catch to receive a pointer instead, you'll get a new linker error. If you fix it you should end up with something like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">namespace __cxxabiv1 {
     struct __class_type_info    { virtual void foo() {} } ti;
     struct __si_class_type_info { virtual void foo() {} } si;
@@ -192,39 +183,28 @@ throw Exception;
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">__cxa_throw(_Struct_Type_Info__Ptr__Exception);
 __cxa_throw(_Struct_Type_Info__Class__Exception);
 </pre>
-<p>In fact, even for this simple example, the inheritance web (not tree, web) is quite complex (note that I&rsquo;m kind of inventing the mangling here, it&rsquo;s not what gcc uses):</p>
-<p><img alt="" src="/blog_img/type_info_inheritance.png" />
-All these classes are generated by the compiler to specify precisely which type is being thrown, and how. For example, if an exception of type &ldquo;Ptr__Type_Info__Derived_Exception&rdquo; is thrown then a catch can handle it if:</p>
+<p>In fact, even for this simple example, the inheritance web (not tree, web) is quite complex (note that I'm kind of inventing the mangling here, it's not what gcc uses):</p>
+<p><img alt="" src="/blog_img/type_info_inheritance.png" /></p>
+<p>All these classes are generated by the compiler to specify precisely which type is being thrown, and how. For example, if an exception of type "Ptr__Type_Info__Derived_Exception" is thrown then a catch can handle it if:</p>
 <p>The catch type equals the thrown type exactly (this is the only check our ABI does).If the catch type is a pointer (ie inherits from cxxabi::ponter_type_info), and said pointer can be casted to the exception type.If the thrown type is a derived type, then we need to check if the catch type is a parent type</p>
-<p>And this list is still missing lots of possibilities, but for the full list is better to check a real C++ ABI. <a href="http://libcxxabi.llvm.org/">LLVM</a> has very clear and easy to understand ABI, you can check these details in the file &ldquo;private_typeinfo.cpp&rdquo;. If you check LLVM&rsquo;s implementation of run time type information, you&rsquo;ll soon realize why we didn&rsquo;t implement this on our ABI: the amount of rules to determine whether two types are the same or not is incredibly complex.</p>
+<p>And this list is still missing lots of possibilities, but for the full list is better to check a real C++ ABI. <a href="http://libcxxabi.llvm.org/">LLVM</a> has very clear and easy to understand ABI, you can check these details in the file "private_typeinfo.cpp". If you check LLVM's implementation of run time type information, you'll soon realize why we didn't implement this on our ABI: the amount of rules to determine whether two types are the same or not is incredibly complex.</p>
 <hr />
 <h1>C++ exceptions under the hood appendix I: the true cost of an exception<a name="cexceptionsunderthehoodappendixithetruecostofanexception"></a></h1>
-<p>By Nico Brailovsky @ 2013-06-11</p>
+<p>By Nico Brailovsky @ 2013-06-11 - 2 comments <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">Permalink</a></p>
 <p>Remember a long way back, when the series on exception handling was just started, that I mentioned these articles would only apply for gcc/x86? There is a reason for that since not all compilers implement exception handling the same way. In particular, there are two major ways of doing it:</p>
 <ul>
 <li>With a lookup table and some metadata, like the Itanium ABI specifies; this is what we talked about.</li>
 <li>Sj/Lj (ARM): Registering exception handling information upon entering or exiting a method.</li>
 </ul>
-<p>The way gcc (and many other compilers) implement this ABI on x86 is by using metadata (the .gcc_except_table and the CFI). Although it&rsquo;s rather difficult to parse, and it might take a long time to parse this on runtime when an exception is thrown, it has a great upside: if no exceptions are thrown then there&rsquo;s no setup cost to be paid. This is called &ldquo;Zero-cost exception handling&rdquo; because a normal execution, where no exceptions are thrown, no penalty is payed. The performance is exactly the same we would have as if we had specified nothrow. That&rsquo;s right, leaving code locality &amp; caching issues aside, using exceptions or not has no performance penalty unless an exception is actually thrown. This is a great advantage and it goes in line with C++ philosophy of having no-cost for non used features.</p>
-<p>When using the noexcept specification while declaring a method (or an empty throw specifier, pre C++11) in the setup used for these articles the compiler would omit the creation of the .gcc_except_table. This will make the code more compact and it will improve the cache usage, but it&rsquo;s very unlikely that will have a noticeable impact on the performance of the application.</p>
-<p>If we talk about ARM, Sj/Lj seems to be the default option (I&rsquo;m sure there&rsquo;s a good reason for that but I don&rsquo;t have enough experience with ARM to know it). This exception handling method is based on registering exception handling information upon entering or exiting a method which either uses exceptions or requires a cleanup if an exception is thrown. This will result in a quicker exception handling, but the setup cost is payed whether an exception is thrown or not.</p>
-<p>If you&rsquo;re interested on reading more about sjlj and zero cost exception handling <a href="http://llvm.org/docs/ExceptionHandling.html">LLVM has great documentation</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">N</a> commented @ 2013-06-11T23:31:26.000+02:00:<a name="inreplytothispostncommented20130611t233126.0000200"></a></h2>
-<p>Nice information, although I have a small, nitpicky note on the language: &ldquo;payed&rdquo; is an obsolete form, unless you mean to use it in, e.g., nautical context, as in &ldquo;to let (a ship) fall off to leeward.&rdquo;
-I&rsquo;m guessing you probably mean &ldquo;paid&rdquo; :-)
-// http://dictionary.reference.com/browse/payed
-// http://en.wiktionary.org/wiki/payed</p>
-<p>Original <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2013-06-12T09:37:49.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20130612t093749.0000200"></a></h2>
-<p>Corrected, thanks!</p>
-<p>Original <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">published here</a>.</p>
+<p>The way gcc (and many other compilers) implement this ABI on x86 is by using metadata (the .gcc_except_table and the CFI). Although it's rather difficult to parse, and it might take a long time to parse this on runtime when an exception is thrown, it has a great upside: if no exceptions are thrown then there's no setup cost to be paid. This is called "Zero-cost exception handling" because a normal execution, where no exceptions are thrown, no penalty is payed. The performance is exactly the same we would have as if we had specified nothrow. That's right, leaving code locality &amp; caching issues aside, using exceptions or not has no performance penalty unless an exception is actually thrown. This is a great advantage and it goes in line with C++ philosophy of having no-cost for non used features.</p>
+<p>When using the noexcept specification while declaring a method (or an empty throw specifier, pre C++11) in the setup used for these articles the compiler would omit the creation of the .gcc_except_table. This will make the code more compact and it will improve the cache usage, but it's very unlikely that will have a noticeable impact on the performance of the application.</p>
+<p>If we talk about ARM, Sj/Lj seems to be the default option (I'm sure there's a good reason for that but I don't have enough experience with ARM to know it). This exception handling method is based on registering exception handling information upon entering or exiting a method which either uses exceptions or requires a cleanup if an exception is thrown. This will result in a quicker exception handling, but the setup cost is payed whether an exception is thrown or not.</p>
+<p>If you're interested on reading more about sjlj and zero cost exception handling <a href="http://llvm.org/docs/ExceptionHandling.html">LLVM has great documentation</a>.</p>
 <hr />
 <h1>Bash scripting and getops<a name="bashscriptingandgetops"></a></h1>
-<p>By Nico Brailovsky @ 2013-06-06</p>
-<p>Did you ever write a bash script and thought it looked too clean? Yeah, me neither. Anyway, now you can make it look even worse by using getopt. As an upside, you&rsquo;ll be able to read command line options from a user without having to resort to nasty hacks, like hardcoding the switch position into the argv.</p>
-<p>getopt should be installed by default in most Linux distros, and you can even run it as a command line program. It&rsquo;s quite easy to use on a bashcript. For example, something like:</p>
+<p>By Nico Brailovsky @ 2013-06-06 -  <a href="/blog/2013/0606_Bashscriptingandgetops.html">Permalink</a></p>
+<p>Did you ever write a bash script and thought it looked too clean? Yeah, me neither. Anyway, now you can make it look even worse by using getopt. As an upside, you'll be able to read command line options from a user without having to resort to nasty hacks, like hardcoding the switch position into the argv.</p>
+<p>getopt should be installed by default in most Linux distros, and you can even run it as a command line program. It's quite easy to use on a bashcript. For example, something like:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">
 while getopts &quot;bar&quot; opt; do
     case &quot;$opt&quot; in
@@ -237,11 +217,11 @@ while getopts &quot;bar&quot; opt; do
     esac
 done
 </pre>
-<p>It won&rsquo;t look pretty but it does get the job done. According to &ldquo;man getopt&rdquo; it supports things like short &amp; long options and defaults; if you need something more complex, you should probably be using a proper language instead of a bash script.</p>
+<p>It won't look pretty but it does get the job done. According to "man getopt" it supports things like short &amp; long options and defaults; if you need something more complex, you should probably be using a proper language instead of a bash script.</p>
 <hr />
 <h1>C++ exceptions under the hood 21: a summary and some final thoughts<a name="cexceptionsunderthehood21asummaryandsomefinalthoughts"></a></h1>
-<p>By Nico Brailovsky @ 2013-06-04</p>
-<p>After writing twenty some articles about C++ low level exception handling, it&rsquo;s time for a recap and some final thoughts. What did we learn, how is an exception thrown and how is it caught?</p>
+<p>By Nico Brailovsky @ 2013-06-04 -  <a href="/blog/2013/0604_Cexceptionsunderthehood21asummaryandsomefinalthoughts.html">Permalink</a></p>
+<p>After writing twenty some articles about C++ low level exception handling, it's time for a recap and some final thoughts. What did we learn, how is an exception thrown and how is it caught?</p>
 <p>Leaving aside the ugly details of reading the .gcc_except_table, which were probably the biggest part of these articles, we could summarize the whole process like this:</p>
 <ol>
 <li>The C++ compiler actually does rather little to handle an exception, most of the magic actually happens in libstdc++.</li>
@@ -256,12 +236,12 @@ done
 <li>If no matching catch is found for the exception, std::terminate is called.</li>
 <li>If a matching catch is found, the unwinder now starts again on the top of the stack.</li>
 <li>As the unwinder goes through the stack a second time it will ask the personality routine to perform a cleanup for this method.</li>
-<li>The personality routine will check the .gcc_except_table for the current method. If there are any cleanup actions to be run, it will &ldquo;jump&rdquo; into the current stack frame and run the cleanup code. This will run the destructor for each object allocated at the current scope.</li>
+<li>The personality routine will check the .gcc_except_table for the current method. If there are any cleanup actions to be run, it will "jump" into the current stack frame and run the cleanup code. This will run the destructor for each object allocated at the current scope.</li>
 <li>Once the unwinder reaches the frame in the stack that can handle the exception it will jump into the proper catch statement.</li>
 <li>Upon finishing the execution of the catch statement, a cleanup function will be called to release the memory held for the exception.</li>
 </ol>
-<p>Having learned how exceptions work we are now in a position to better answer why it&rsquo;s hard to write exception safe code.</p>
-<p>Exceptions, while conceptually clean, are pretty much &ldquo;spooky action at a distance&rdquo;. Throwing and catching an exception involves a certain degree of reflexion (in the sense that a program must analyze itself) which is not common for C++ applications.</p>
-<p>Even if we talk about higher level languages, throwing an exception means we cannot rely on our understanding of how a normal program execution flow should work anymore: we are used to a pretty much linear execution flow with some conditional operators branching or calling other functions. With an exception, this no longer holds true: an entity which is not the code of our application is in control of the execution, and it goes around the program executing certain blocks of code here and there without following any of the normal rules. The instruction pointer gets changed by each landing pad, the stack is unwinded in ways we can&rsquo;t control and, ultimately, a lot of magic happens under the hood.</p>
+<p>Having learned how exceptions work we are now in a position to better answer why it's hard to write exception safe code.</p>
+<p>Exceptions, while conceptually clean, are pretty much "spooky action at a distance". Throwing and catching an exception involves a certain degree of reflexion (in the sense that a program must analyze itself) which is not common for C++ applications.</p>
+<p>Even if we talk about higher level languages, throwing an exception means we cannot rely on our understanding of how a normal program execution flow should work anymore: we are used to a pretty much linear execution flow with some conditional operators branching or calling other functions. With an exception, this no longer holds true: an entity which is not the code of our application is in control of the execution, and it goes around the program executing certain blocks of code here and there without following any of the normal rules. The instruction pointer gets changed by each landing pad, the stack is unwinded in ways we can't control and, ultimately, a lot of magic happens under the hood.</p>
 <p>To summarize it even more: exceptions are hard simply because they break the natural flow of a program as we understand it. This does not mean they are intrinsically bad as properly used exceptions can surely lead to cleaner code, but they should always be used with care.</p>
 <hr />

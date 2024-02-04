@@ -5,7 +5,7 @@
 <li><strong>Conditionals</strong> with partial template specializations</li>
 <li><strong>Returns</strong> using typedefs</li>
 </ul>
-<p>Unfortunately that&rsquo;s all you need for a Turing complete language, meaning now we have the power, bwahahaha! Mph, I&rsquo;m sorry, back on topic, it means we can now create a fully functional and useful template metaprogramming device&hellip; for approximating e, nonetheless. Oh, you think that&rsquo;s not useful? Well though luck, that&rsquo;s all you get for now:</p>
+<p>Unfortunately that's all you need for a Turing complete language, meaning now we have the power, bwahahaha! Mph, I'm sorry, back on topic, it means we can now create a fully functional and useful template metaprogramming device... for approximating e, nonetheless. Oh, you think that's not useful? Well though luck, that's all you get for now:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N, int D&amp;gt; struct Frak {
     static const long Num = N;
     static const long Den = D;
@@ -44,7 +44,7 @@ template &amp;lt;&amp;gt; struct Fact&amp;lt;0&amp;gt; {
     static const long result = 1;
 };
 template &amp;lt;int N&amp;gt; struct E {
-    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + &hellip;
+    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
     static const long Den = Fact&amp;lt;N&amp;gt;::result;
     typedef Frak&amp;lt; 1, Den &amp;gt; term;
     typedef typename E&amp;lt;N-1&amp;gt;::result next_term;
@@ -58,5 +58,5 @@ int main() {
     return 0;
 }
 </pre>
-<p>Looking nice, isn&rsquo;t it? You should have all what&rsquo;s needed to understand what&rsquo;s going on there. Even more, almost everything has been explained in previous articles, with the exception of EqBase. But that&rsquo;s left as an exersice for the reader because the writer is too lazy.</p>
+<p>Looking nice, isn't it? You should have all what's needed to understand what's going on there. Even more, almost everything has been explained in previous articles, with the exception of EqBase. But that's left as an exersice for the reader because the writer is too lazy.</p>
 <p>If you think any part of the code requires clarification ask in the comments. Next, a long overdue topic: lists using template metaprogramming. Guaranteed to blow your mind into little pieces!</p>

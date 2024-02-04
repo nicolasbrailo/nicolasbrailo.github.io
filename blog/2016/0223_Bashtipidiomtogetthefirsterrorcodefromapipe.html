@@ -1,9 +1,9 @@
 <h1>Bash tip: idiom to get the first error code from a pipe<a name="bashtipidiomtogetthefirsterrorcodefromapipe"></a></h1>
-<p>When writing a bash script, often times you&rsquo;ll end up with something like this:</p>
+<p>When writing a bash script, often times you'll end up with something like this:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">real_command | filter_stuff | prettify | do_something_else
 </pre>
-<p>The problem arises when you try to figure out if your command succeeded or not. If you <code>echo $?</code> you&rsquo;ll get the return code for the last chain in the pipe. You don&rsquo;t really care about the output value of do_something_else, do you?</p>
-<p>I haven&rsquo;t found a solution I really like to this problem, but this idiom is handy:</p>
+<p>The problem arises when you try to figure out if your command succeeded or not. If you <code>echo $?</code> you'll get the return code for the last chain in the pipe. You don't really care about the output value of do_something_else, do you?</p>
+<p>I haven't found a solution I really like to this problem, but this idiom is handy:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">out=<code>real_command
 </code> &amp;&amp; echo $out | filter_stuff | prettify | do_something_else
 echo $?

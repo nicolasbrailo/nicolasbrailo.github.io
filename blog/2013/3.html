@@ -7,16 +7,16 @@
 </ul>
 <h1>Posts for 2013 March<a name="postsfor2013march"></a></h1>
 <h1>Awesome festival<a name="awesomefestival"></a></h1>
-<p>By Nico Brailovsky @ 2013-03-28</p>
-<p>I already had an awesome talking makefile which commanded me to go and fix my program when it broke by using festival, a voice synthesizer for Linux. I didn&rsquo;t know there was also a plugin for gaim, &ldquo;festival-gaim&rdquo;.</p>
-<p>It&rsquo;s quite funny but I don&rsquo;t think it&rsquo;s a good idea to have your computer reading out loud your messages. And you should remember to log off when going to sleep.</p>
-<p>Perhaps I&rsquo;ll try festival as (yet another) wake up method: with a cron I can probably get it to read the news out loud in the morning. I&rsquo;m not sure yet if that&rsquo;ll wake me up or make me even sleepier, though.</p>
+<p>By Nico Brailovsky @ 2013-03-28 -  <a href="/blog/2013/0328_Awesomefestival.html">Permalink</a></p>
+<p>I already had an awesome talking makefile which commanded me to go and fix my program when it broke by using festival, a voice synthesizer for Linux. I didn't know there was also a plugin for gaim, "festival-gaim".</p>
+<p>It's quite funny but I don't think it's a good idea to have your computer reading out loud your messages. And you should remember to log off when going to sleep.</p>
+<p>Perhaps I'll try festival as (yet another) wake up method: with a cron I can probably get it to read the news out loud in the morning. I'm not sure yet if that'll wake me up or make me even sleepier, though.</p>
 <hr />
 <h1>C++ exceptions under the hood 8: two-phase handling<a name="cexceptionsunderthehood8twophasehandling"></a></h1>
-<p>By Nico Brailovsky @ 2013-03-26</p>
-<p>We finished last chapter on the series about C++ exceptions by adding a personality function that _Unwind_ was able to call. It didn&rsquo;t do much but there it was. The ABI we have been implementing can now throw exceptions and the catch is already halfway implemented, but the personality function needed to properly choose the catch block (landing pad) is bit dumb so far. Let&rsquo;s start this new chapter by trying to understand what are the parameters that the personality function receives and next time we&rsquo;ll begin adding some real behavior to __gxx_personality_v0: when __gxx_personality_v0 is called we should say &ldquo;yes, this stack frame can indeed handle this exception&rdquo;.</p>
-<p>We already said we won&rsquo;t care for the version or the exceptionClass for our mini ABI. Let&rsquo;s ignore the context too, for now: we&rsquo;ll just handle every exception with the first stack frame above the function throwing; note this implies there must be a try/catch block on the function immediately above the throwing function, otherwise everything will break. This also implies the catch will ignore its exception specification, effectively turning it into a catch(&hellip;). How do we let _Unwind_ know we want to handle the current exception?</p>
-<p>_Unwind_Reason_Code is the return value from the personality functions; this tells _Unwind_ whether we found a landing pad to handle the exception or not. Let&rsquo;s implement our personality function to return _URC_HANDLER_FOUND then, and see what happens:</p>
+<p>By Nico Brailovsky @ 2013-03-26 -  <a href="/blog/2013/0326_Cexceptionsunderthehood8twophasehandling.html">Permalink</a></p>
+<p>We finished last chapter on the series about C++ exceptions by adding a personality function that _Unwind_ was able to call. It didn't do much but there it was. The ABI we have been implementing can now throw exceptions and the catch is already halfway implemented, but the personality function needed to properly choose the catch block (landing pad) is bit dumb so far. Let's start this new chapter by trying to understand what are the parameters that the personality function receives and next time we'll begin adding some real behavior to __gxx_personality_v0: when __gxx_personality_v0 is called we should say "yes, this stack frame can indeed handle this exception".</p>
+<p>We already said we won't care for the version or the exceptionClass for our mini ABI. Let's ignore the context too, for now: we'll just handle every exception with the first stack frame above the function throwing; note this implies there must be a try/catch block on the function immediately above the throwing function, otherwise everything will break. This also implies the catch will ignore its exception specification, effectively turning it into a catch(...). How do we let _Unwind_ know we want to handle the current exception?</p>
+<p>_Unwind_Reason_Code is the return value from the personality functions; this tells _Unwind_ whether we found a landing pad to handle the exception or not. Let's implement our personality function to return _URC_HANDLER_FOUND then, and see what happens:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">alloc ex 1
 __cxa_throw called
 Personality function FTW
@@ -24,11 +24,11 @@ Personality function FTW
 no one handled __cxa_throw, terminate!
 </pre>
 <p>See that? We told _Unwind_ we found a handler, and it called the personality function yet again! What is going on there?</p>
-<p>Remember the action parameter? That&rsquo;s how _Unwind_ tells us what he is expecting, and that is because the exception catching is handled in two phases: lookup and cleanup (or _UA_SEARCH_PHASE and _UA_CLEANUP_PHASE). Let&rsquo;s go again over our exception throwing and catching recipe:</p>
+<p>Remember the action parameter? That's how _Unwind_ tells us what he is expecting, and that is because the exception catching is handled in two phases: lookup and cleanup (or _UA_SEARCH_PHASE and _UA_CLEANUP_PHASE). Let's go again over our exception throwing and catching recipe:</p>
 <ul>
 <li>__cxa_throw/__cxa_allocate_exception will create an exception and forward it to a lower-level unwind library by calling _Unwind_RaiseException</li>
 <li>Unwind will use CFI to know which functions are on the stack (ie to know how to start the stack unwinding)</li>
-<li>Each function has have an LSDA (language specific data area) part, added into something called &ldquo;.gcc_except_table&rdquo;</li>
+<li>Each function has have an LSDA (language specific data area) part, added into something called ".gcc_except_table"</li>
 <li>Unwind will try to locate a landing pad for the exception:<ul>
 <li>Unwind will call the personality function with the action _UA_SEARCH_PHASE and a context pointing to the current stack frame.</li>
 <li>The personality function will check if the current stack frame can handle the exception being thrown by analyzing the LSDA.</li>
@@ -40,54 +40,54 @@ no one handled __cxa_throw, terminate!
 <li>If a landing pad was found:<ul>
 <li>Unwind will iterate the stack again, calling the personality function with the action _UA_CLEANUP_PHASE.</li>
 <li>The personality function will check if it can handle the current exception again:</li>
-<li>If this frame can&rsquo;t handle the exception it will then run a cleanup function described by the LSDA and tell Unwind to continue with the next frame (this is actually a very important step: the cleanup function will run the destructor of all the objects allocated in this stack frame!)</li>
-<li>If this frame can handle the exception, don&rsquo;t run any cleanup code: tell Unwind we want to resume execution on this landing pad.</li>
+<li>If this frame can't handle the exception it will then run a cleanup function described by the LSDA and tell Unwind to continue with the next frame (this is actually a very important step: the cleanup function will run the destructor of all the objects allocated in this stack frame!)</li>
+<li>If this frame can handle the exception, don't run any cleanup code: tell Unwind we want to resume execution on this landing pad.</li>
 </ul>
 </li>
 </ul>
 <p>There are two important bits of information to note here:
-1. Running a two-phase exception handling procedure means that in case no handler was found then the default exception handler can get the original exception&rsquo;s stack trace (if we were to unwind the stack as we go it would get no stack trace, or we would need to keep a copy of it somehow!).
+1. Running a two-phase exception handling procedure means that in case no handler was found then the default exception handler can get the original exception's stack trace (if we were to unwind the stack as we go it would get no stack trace, or we would need to keep a copy of it somehow!).
 2. Running a _UA_CLEANUP_PHASE and calling a second time each frame, even though we already know the frame that will handle the exception, is also really important: the personality function will take this chance to run all the destructors for objects built on this scope. It is what makes RAII an exception safe idiom!</p>
 <p>Now that we understand how the catch lookup phase works we can continue our personality function implementation. The next time.</p>
 <hr />
 <h1>An awareness test<a name="anawarenesstest"></a></h1>
-<p>By Nico Brailovsky @ 2013-03-21</p>
+<p>By Nico Brailovsky @ 2013-03-21 -  <a href="/blog/2013/0321_Anawarenesstest.html">Permalink</a></p>
 <p>Rant ahread: this is an old video, but it remains very instructive. <a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=Ahg6qcgoay4">http://www.youtube.com/watch?feature=player_embedded&amp;v=Ahg6qcgoay4</a>.</p>
-<p>It&rsquo;s amazing how easy it is to loose sight of a dancing bear (that sentence does make sense after viewing the video!). I wonder if that&rsquo;s why I dislike Windows. Too many menus, whereas I have a single interface for pretty much anything with my CLI.</p>
+<p>It's amazing how easy it is to loose sight of a dancing bear (that sentence does make sense after viewing the video!). I wonder if that's why I dislike Windows. Too many menus, whereas I have a single interface for pretty much anything with my CLI.</p>
 <hr />
 <h1>C++ exceptions under the hood 7: a nice personality<a name="cexceptionsunderthehood7anicepersonality"></a></h1>
-<p>By Nico Brailovsky @ 2013-03-19</p>
-<p>On our journey to learn about exceptions we have learned so far how a throw is done, that something called &ldquo;call frame information&rdquo; helps a library called Unwind to do the stack unwinding, and that the compiler writes something called LSDA, language specific data area, to know which exceptions can a method handle. And we know by now that a lot of magic is done on the personality function; we&rsquo;ve never seen it in action though. Let&rsquo;s recap in a bit more of detail about how an exception will be thrown and caught (or, more precisely, how we know so far it will be thrown caught):</p>
+<p>By Nico Brailovsky @ 2013-03-19 - 1 comments <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">Permalink</a></p>
+<p>On our journey to learn about exceptions we have learned so far how a throw is done, that something called "call frame information" helps a library called Unwind to do the stack unwinding, and that the compiler writes something called LSDA, language specific data area, to know which exceptions can a method handle. And we know by now that a lot of magic is done on the personality function; we've never seen it in action though. Let's recap in a bit more of detail about how an exception will be thrown and caught (or, more precisely, how we know so far it will be thrown caught):</p>
 <ul>
 <li>The compiler will translate our throw statement into a pair of <strong>__cxa_allocate_exception/__cxa_throw</strong></li>
 <li><strong>__cxa_allocate_exception</strong> will create the exception in memory</li>
 <li><strong>__cxa_throw</strong> will initialize a bunch of stuff and forward this exception to a lower-level unwind library by calling <strong>_Unwind_RaiseException</strong></li>
 <li>Unwind will use CFI to know which functions are on the stack (ie to know how to start the stack unwinding)</li>
-<li>Each function will have an LSDA (language specific data area) part, added into something called <strong>&ldquo;.gcc_except_table&rdquo;</strong></li>
+<li>Each function will have an LSDA (language specific data area) part, added into something called <strong>".gcc_except_table"</strong></li>
 <li>Unwind will invoke the personality function with the current stack frame and the LSDA; this function should reply to unwind whether this stack can handle the exception or not</li>
 </ul>
-<p>Knowing this, it&rsquo;s about time we implement our own personality function. Our ABI used to print this when an exception was thrown:</p>
+<p>Knowing this, it's about time we implement our own personality function. Our ABI used to print this when an exception was thrown:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">alloc ex 1
 __cxa_throw called
 no one handled __cxa_throw, terminate!
 </pre>
-<p>Let&rsquo;s go back to our mycppabi and let&rsquo;s add something like this (link to full mycppabi.cpp file):</p>
+<p>Let's go back to our mycppabi and let's add something like this (link to full mycppabi.cpp file):</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void __gxx_personality_v0()
 {
     printf(&quot;Personality function FTW\n&quot;);
 }
 </pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
-<p>And sure enough, when we run it we should see our personality function being called. We know we&rsquo;re on the right track and now we have an idea of what we want for our personality function; let&rsquo;s start using the proper definition for this function:</p>
+<p>And sure enough, when we run it we should see our personality function being called. We know we're on the right track and now we have an idea of what we want for our personality function; let's start using the proper definition for this function:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">_Unwind_Reason_Code __gxx_personality_v0 (
                      int version, _Unwind_Action actions, uint64_t exceptionClass,
                      _Unwind_Exception<em> unwind_exception, _Unwind_Context</em> context);
 </pre>
 <p>If we put that into our mycppabi.cpp file we get:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;unistd.h&amp;gt;
-#include &amp;lt;stdio.h&amp;gt;
-#include &amp;lt;stdlib.h&amp;gt;
-#include &amp;lt;stdint.h&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
 namespace __cxxabiv1 {
     struct __class_type_info {
         virtual void foo() {}
@@ -99,11 +99,11 @@ extern &quot;C&quot; {
 void<em> __cxa_allocate_exception(size_t thrown_size)
 {
     printf(&quot;alloc ex %i\n&quot;, thrown_size);
-    if (thrown_size &amp;gt; EXCEPTION_BUFF_SIZE) printf(&quot;Exception too big&quot;);
-    return &amp;amp;exception_buff;
+    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf(&quot;Exception too big&quot;);
+    return &amp;exception_buff;
 }
 void __cxa_free_exception(void </em>thrown_exception);
-#include &amp;lt;unwind.h&amp;gt;
+#include &lt;unwind.h&gt;
 typedef void (<em>unexpected_handler)(void);
 typedef void (</em>terminate_handler)(void);
 struct __cxa_exception {
@@ -124,7 +124,7 @@ void __cxa_throw(void<em> thrown_exception, struct type_info </em>tinfo, void (<
 {
     printf(&quot;__cxa_throw called\n&quot;);
     __cxa_exception <em>header = ((__cxa_exception </em>) thrown_exception - 1);
-    _Unwind_RaiseException(&amp;amp;header-&amp;gt;unwindHeader);
+    _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
     // __cxa_throw never returns
     printf(&quot;no one handled __cxa_throw, terminate!\n&quot;);
     exit(0);
@@ -146,68 +146,61 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 }
 </pre>
 <p>Code @ <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">my github repo</a>.</p>
-<p>Let&rsquo;s compile and link everything, then run it and start by analyzing each param to this function with some help of gdb:</p>
+<p>Let's compile and link everything, then run it and start by analyzing each param to this function with some help of gdb:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">Breakpoint 1, __gxx_personality_v0 (version=1, actions=1, exceptionClass=134514792, unwind_exception=0x804a060, context=0xbffff0f0)
 </pre>
 <ul>
-<li>The version and the exceptionClass are related to language/ABI/compiler toolchain/native or non-native exception, etc. We don&rsquo;t need to worry about it for our mini ABI, we&rsquo;ll just handle all the exceptions.</li>
+<li>The version and the exceptionClass are related to language/ABI/compiler toolchain/native or non-native exception, etc. We don't need to worry about it for our mini ABI, we'll just handle all the exceptions.</li>
 <li>Actions: this is what _Unwind_ uses to tell the personality function what it should do (more on that later)</li>
-<li>unwind_exception: the exception allocated by __cxa_allocate_exception (kind of&hellip; there&rsquo;s a lot of pointer arithmetic going on but that pointer can be used to access our original exception anyway)</li>
+<li>unwind_exception: the exception allocated by __cxa_allocate_exception (kind of... there's a lot of pointer arithmetic going on but that pointer can be used to access our original exception anyway)</li>
 <li>context: this holds all the information regarding the current stack frame, for example the language specific data area (LSDA). This is what we will be using to detect whether this stack can handle the thrown exception (and also to detect whether we need to run any destructors)</li>
 </ul>
-<p>So there we have it, a working (well, linkeable) personality function. Doesn&rsquo;t do much, though, so next time we&rsquo;ll start adding some real behavior and try to make it handle an exception.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2018-01-04T10:47:04.000+01:00:<a name="inreplytothispostanonymouscommented20180104t104704.0000100"></a></h2>
-<p>But .gcc_except_table is same with .eh_frame. (ubuntu Ubuntu 14.04.5 LTS, gcc gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4)</p>
-<p>Original <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">published here</a>.</p>
+<p>So there we have it, a working (well, linkeable) personality function. Doesn't do much, though, so next time we'll start adding some real behavior and try to make it handle an exception.</p>
 <hr />
 <h1>Vim tip: no swap<a name="vimtipnoswap"></a></h1>
-<p>By Nico Brailovsky @ 2013-03-14</p>
-<p>Swap files in Vim can be helpful as a very dumb lock mechanism, just so you&rsquo;re sure no one is changing the same file as you are in the same server. They can also serve as a very crude back up system, in case your system crashes. Alas, git seems suited to cover much better both functionalities, as a not so dumb developer synchronization mechanism and as a code backup tool in case everything crashes (you don&rsquo;t really host your git on localhost, do you?).</p>
-<p>If you commit often swapfiles can be an annoyance more than a useful feature, and disabling then can save you a lot of &ldquo;Swap file already found&rdquo; messages. Just add &ldquo;<strong>set noswapfile</strong>&rdquo; to your .vimrc and forget about them.</p>
+<p>By Nico Brailovsky @ 2013-03-14 -  <a href="/blog/2013/0314_Vimtipnoswap.html">Permalink</a></p>
+<p>Swap files in Vim can be helpful as a very dumb lock mechanism, just so you're sure no one is changing the same file as you are in the same server. They can also serve as a very crude back up system, in case your system crashes. Alas, git seems suited to cover much better both functionalities, as a not so dumb developer synchronization mechanism and as a code backup tool in case everything crashes (you don't really host your git on localhost, do you?).</p>
+<p>If you commit often swapfiles can be an annoyance more than a useful feature, and disabling then can save you a lot of "Swap file already found" messages. Just add "<strong>set noswapfile</strong>" to your .vimrc and forget about them.</p>
 <hr />
-<h1>C++ exceptions under the hood 6: gcc_except_table and the personality<a name="cexceptionsunderthehood6gcc_except_tableandthepersonality"></a></h1>
-<p>By Nico Brailovsky @ 2013-03-12</p>
-<p>function</p>
+<h1>C++ exceptions under the hood 6: gcc_except_table and the personality function<a name="cexceptionsunderthehood6gcc_except_tableandthepersonalityfunction"></a></h1>
+<p>By Nico Brailovsky @ 2013-03-12 -  <a href="/blog/2013/0312_Cexceptionsunderthehood6gcc_except_tableandthepersonalityfunction.html">Permalink</a></p>
 <p>We learned last time that, just as a throw statement is translated into a pair of <strong>__cxa_allocate_exception/throw</strong> calls, a catch block is translated into a pair of <strong>__cxa_begin/end_catch</strong> calls, plus something called CFI (call frame information) to find the landing pads, the points on a function where an exception can be handled.</p>
-<p>What we don&rsquo;t yet know is how does _Unwind_* know where the landing pads are. When an exception is thrown there are a bunch of functions in the stack; all the CFI stuff will let Unwind know which functions these are but it&rsquo;s also necessary to know which landing pads each function provides so we can call each one and check if it wants to handle the exception (and we&rsquo;re ignoring functions with multiple try/catch blocks!).</p>
-<p>To know where the landing pads are, something called gcc_except_table is used. This can be found (with a bunch of CFI stuff) after the function&rsquo;s end:</p>
+<p>What we don't yet know is how does _Unwind_* know where the landing pads are. When an exception is thrown there are a bunch of functions in the stack; all the CFI stuff will let Unwind know which functions these are but it's also necessary to know which landing pads each function provides so we can call each one and check if it wants to handle the exception (and we're ignoring functions with multiple try/catch blocks!).</p>
+<p>To know where the landing pads are, something called gcc_except_table is used. This can be found (with a bunch of CFI stuff) after the function's end:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">.LFE1:
     .globl  __gxx_personality_v0
     .section    .gcc_except_table,&quot;a&quot;,@progbits
-    [&hellip;]
+    [...]
 .LLSDACSE1:
     .long   _ZTI14Fake_Exception
 </pre>
-<p>The section .gcc_except_table is where all information to locate a landing pad is stored, and we&rsquo;ll see more about it once we get to analyzing the personality function; for now, we&rsquo;ll just say that LSDA means language specific data area and it&rsquo;s the place where the personality function will check if there are any landing pads for a function (it is also used to run the destructors when unwinding the stack).</p>
+<p>The section .gcc_except_table is where all information to locate a landing pad is stored, and we'll see more about it once we get to analyzing the personality function; for now, we'll just say that LSDA means language specific data area and it's the place where the personality function will check if there are any landing pads for a function (it is also used to run the destructors when unwinding the stack).</p>
 <p>To wrap it up: for every function where at least a catch is found, the compiler will translate this statement into a pair of <strong>__cxa_begin_catch/__cxa_end_catch</strong> calls and then the personality function, which will be called by <strong>__cxa_throw</strong>, will read the gcc_except_table for every method in the stack, to find something call LSDA. The personality function will then check in the LSDA whether a catch can handle an exception and if there is any cleanup code to run (this is what triggers the destructors when needed).</p>
-<p>We can also draw an interesting conclusion here: if we use the nothrow specifier (or the empty throw specifier) then the compiler can omit the gcc_except_table for this method. The way gcc implements exceptions, that won&rsquo;t have a great impact on performance but it will indeed reduce code size. What&rsquo;s the catch? If an exception is thrown when nothrow was specified the LSDA won&rsquo;t be there and the personality function won&rsquo;t know what to do. When the personality function doesn&rsquo;t know what to do it will invoke the default exception handler, meaning that in most cases throwing from a nothrow method will end up calling std::terminate.</p>
-<p>Now that we have an idea of what the personality function does, can we implement one? We&rsquo;ll see how next time.</p>
+<p>We can also draw an interesting conclusion here: if we use the nothrow specifier (or the empty throw specifier) then the compiler can omit the gcc_except_table for this method. The way gcc implements exceptions, that won't have a great impact on performance but it will indeed reduce code size. What's the catch? If an exception is thrown when nothrow was specified the LSDA won't be there and the personality function won't know what to do. When the personality function doesn't know what to do it will invoke the default exception handler, meaning that in most cases throwing from a nothrow method will end up calling std::terminate.</p>
+<p>Now that we have an idea of what the personality function does, can we implement one? We'll see how next time.</p>
 <hr />
 <h1>Hive speedup trick<a name="hivespeeduptrick"></a></h1>
-<p>By Nico Brailovsky @ 2013-03-07</p>
-<p>I&rsquo;ve been playing around with Hive on top of Hadoop using AWS lately, but until recently I only knew about optimizing your query for better data-crunching throughput. Turns out you can also parallelize the subqueries execution, but this feature is not enabled by default.</p>
-<p>Try running an explain on your query: if you have many root stages without dependencies then run this magic command: &ldquo;set hive.exec.parallel=true&rdquo;, and then try your query again. If everything worked out fine you should be running multiple stages in parallel. use hive.exec.parallel.thread.number to control exactly how many stages to run in parallel.</p>
+<p>By Nico Brailovsky @ 2013-03-07 -  <a href="/blog/2013/0307_Hivespeeduptrick.html">Permalink</a></p>
+<p>I've been playing around with Hive on top of Hadoop using AWS lately, but until recently I only knew about optimizing your query for better data-crunching throughput. Turns out you can also parallelize the subqueries execution, but this feature is not enabled by default.</p>
+<p>Try running an explain on your query: if you have many root stages without dependencies then run this magic command: "set hive.exec.parallel=true", and then try your query again. If everything worked out fine you should be running multiple stages in parallel. use hive.exec.parallel.thread.number to control exactly how many stages to run in parallel.</p>
 <hr />
-<h1>C++ exceptions under the hood 5: magic around __cxa_begin_catch and<a name="cexceptionsunderthehood5magicaround__cxa_begin_catchand"></a></h1>
-<p>By Nico Brailovsky @ 2013-03-05</p>
-<p>__cxa_end_catch</p>
+<h1>C++ exceptions under the hood 5: magic around __cxa_begin_catch and __cxa_end_catch<a name="cexceptionsunderthehood5magicaround__cxa_begin_catchand__cxa_end_catch"></a></h1>
+<p>By Nico Brailovsky @ 2013-03-05 -  <a href="/blog/2013/0305_Cexceptionsunderthehood5magicaround__cxa_begin_catchand__cxa_end_catch.html">Permalink</a></p>
 <p>After learning how exceptions are thrown we are now on our way to learn how they are caught. Last time we added to our example application a bunch of try/catch statements to see what they did, and sure enough we got a bunch of linker errors, just like we did when we were trying to find out what does the throw statement do. This is what the linker says when trying to process throw.o:</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&amp;gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
-throw.o: In function <code>try_but_dont_catch()&amp;amp;#x27;:
-throw.cpp:12: undefined reference to
-</code>__cxa_begin_catch&amp;#x27;
-throw.cpp:12: undefined reference to <code>__cxa_end_catch&amp;amp;#x27;
-throw.o: In function</code>catchit()&amp;#x27;:
-throw.cpp:20: undefined reference to <code>__cxa_begin_catch&amp;amp;#x27;
-throw.cpp:20: undefined reference to</code>__cxa_end_catch&amp;#x27;
-throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0&amp;#x27;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+&gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
+throw.o: In function &#x27;try_but_dont_catch()&#x27;:
+throw.cpp:12: undefined reference to &#x27;__cxa_begin_catch&#x27;
+throw.cpp:12: undefined reference to &#x27;__cxa_end_catch&#x27;
+throw.o: In function &#x27;catchit()&#x27;:
+throw.cpp:20: undefined reference to &#x27;__cxa_begin_catch&#x27;
+throw.cpp:20: undefined reference to &#x27;__cxa_end_catch&#x27;
+throw.o:(.eh_frame+0x47): undefined reference to &#x27;__gxx_personality_v0&#x27;
 collect2: ld returned 1 exit status
 </pre>
 <p>And our theory, of course, is that a catch statement is translated by the compiler into a pair of <strong>__cxa_begin_catch/end_catch</strong> calls into libstdc++, plus something new called <strong>the personality function</strong> of which we know nothing yet.</p>
-<p>Let&rsquo;s begin by checking if our theory about <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch holds</strong>. Let&rsquo;s compile throw.cpp with -S and analyze the assembly. There is a lot to see but if I strip it to the bare minimum this is what I get:</p>
+<p>Let's begin by checking if our theory about <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch holds</strong>. Let's compile throw.cpp with -S and analyze the assembly. There is a lot to see but if I strip it to the bare minimum this is what I get:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">_Z5raisev:
     call    __cxa_allocate_exception
     call    __cxa_throw
@@ -223,12 +216,12 @@ collect2: ld returned 1 exit status
 <li>The linker will use these according to a CFI specification; CFI stands for call frame information, and <a href="http://www.logix.cz/michal/devel/gas-cfi/">here</a> there is a full spec for it. It will be used, mostly, to unwind the stack.</li>
 <li><strong>LSDA</strong> on the other hand means language specific data area, and it will be used by the personality function to know which exceptions can be handled by this function</li>
 </ul>
-<p>We&rsquo;ll be talking a lot more about CFI and LSDA in the next articles; don&rsquo;t forget about them, but for now let&rsquo;s move on:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">    [&hellip;]
+<p>We'll be talking a lot more about CFI and LSDA in the next articles; don't forget about them, but for now let's move on:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    [...]
     call    _Z5raisev
     jmp .L8
 </pre>
-<p>Another easy one: just call &ldquo;raise&rdquo;, and then jump to L8; L8 will return normally from this function. If raise didn&rsquo;t execute properly then the execution (somehow, we don&rsquo;t know how yet!) shouldn&rsquo;t resume in the next instruction but in the exception handlers (which in ABI-speak are called landing pads. More on that later).</p>
+<p>Another easy one: just call "raise", and then jump to L8; L8 will return normally from this function. If raise didn't execute properly then the execution (somehow, we don't know how yet!) shouldn't resume in the next instruction but in the exception handlers (which in ABI-speak are called landing pads. More on that later).</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">    cmpl    $1, %edx
     je  .L5
 .LEHB1:
@@ -238,7 +231,7 @@ collect2: ld returned 1 exit status
     call    __cxa_begin_catch
     call    __cxa_end_catch
 </pre>
-<p>This is quite difficult to follow but it&rsquo;s actually quite straight forward. Here most of the magic will happen: first we check if this is an exception we can handle, if we can&rsquo;t then we say so by calling _Unwind_Resume, if it is then we call __cxa_begin_catch and __cxa_end_catch; after calling these functions the execution should resume normally and thus L8 will be executed (that is, L8 is right below our catch block):</p>
+<p>This is quite difficult to follow but it's actually quite straight forward. Here most of the magic will happen: first we check if this is an exception we can handle, if we can't then we say so by calling _Unwind_Resume, if it is then we call __cxa_begin_catch and __cxa_end_catch; after calling these functions the execution should resume normally and thus L8 will be executed (that is, L8 is right below our catch block):</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">.L8:
     leave
     .cfi_restore 5
@@ -246,7 +239,7 @@ collect2: ld returned 1 exit status
     ret
     .cfi_endproc
 </pre>
-<p>Just a normal return from our function&hellip; with some CFI stuff on it.</p>
-<p>So this is it for exception catching, although we don&rsquo;t know yet how <strong>__cxa_begin/end_catch</strong> work, we have an idea that these pair forms what&rsquo;s called a landing pad, a place in the function to handle the raised exception. What we don&rsquo;t know yet is how the landing pads are found. _Unwind_ must somehow go through all the calls in the stack, check if any call (stack frame, to be precise) has a valid try block with a landing pad that can catch the exception, and then resume the execution there.</p>
-<p>This is no small feat, and we&rsquo;ll see how that works next time.</p>
+<p>Just a normal return from our function... with some CFI stuff on it.</p>
+<p>So this is it for exception catching, although we don't know yet how <strong>__cxa_begin/end_catch</strong> work, we have an idea that these pair forms what's called a landing pad, a place in the function to handle the raised exception. What we don't know yet is how the landing pads are found. _Unwind_ must somehow go through all the calls in the stack, check if any call (stack frame, to be precise) has a valid try block with a landing pad that can catch the exception, and then resume the execution there.</p>
+<p>This is no small feat, and we'll see how that works next time.</p>
 <hr />

@@ -9,12 +9,12 @@
 This was the first approach:
 
 ```c++
-#include &lt;iostream&gt;
+#include <iostream>
 
-void do_something() { std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n"; }
+void do_something() { std::cout << __PRETTY_FUNCTION__ << "n"; }
 
 void wrap() {
-	std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n";
+	std::cout << __PRETTY_FUNCTION__ << "n";
 	do_something();
 }
 
@@ -27,14 +27,14 @@ int main() {
 Yet, as we saw, it's not scalable, when either part changes the whole things break. We proposed then a variadic template solution, which, if you tried it yourself, should look something like this:
 
 ```c++
-#include &lt;iostream&gt;
+#include <iostream>
 
-void do_something() { std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n"; }
-void do_something(const char*) { std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n"; }
+void do_something() { std::cout << __PRETTY_FUNCTION__ << "n"; }
+void do_something(const char*) { std::cout << __PRETTY_FUNCTION__ << "n"; }
 
-template &lt;class... Args&gt;
+template <class... Args>
 void wrap(Args... a) {
-	std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n";
+	std::cout << __PRETTY_FUNCTION__ << "n";
 	do_something(a...);
 }
 
@@ -52,18 +52,18 @@ Is there a way to write a wrapper without knowing the return type of a function 
 A closing remark: You could do something like this wrapping everything in a class:
 
 ```c++
-#include &lt;iostream&gt;
+#include <iostream>
 
 struct Foo {
-	void do_something() { std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "\n"; }
-	void do_something(const char*) { std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "\n"; }
+	void do_something() { std::cout << __PRETTY_FUNCTION__ << "\n"; }
+	void do_something(const char*) { std::cout << __PRETTY_FUNCTION__ << "\n"; }
 };
 
 template
 struct Wrapper : public Base {
-	template &lt;class... Args&gt;
+	template <class... Args>
 	void wrap(Args... a) {
-		std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; "n";
+		std::cout << __PRETTY_FUNCTION__ << "n";
 		Base::do_something(a...);
 	}
 };

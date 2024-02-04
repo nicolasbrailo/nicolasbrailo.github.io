@@ -18,10 +18,10 @@ void __cxa_throw(void* thrown_exception,
     __cxa_exception *header = ((__cxa_exception *) thrown_exception - 1);
 
     // We need to save the type info in the exception header _Unwind_ will
-    // receive, otherwise we won&#x27;t be able to know it when unwinding
-    header-&gt;exceptionType = tinfo;
+    // receive, otherwise we won't be able to know it when unwinding
+    header->exceptionType = tinfo;
 
-    _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
+    _Unwind_RaiseException(&header->unwindHeader);
 }
 ```
 
@@ -34,15 +34,15 @@ const std::type_info *catch_ti = (const std::type_info *) catch_type_info;
 
 // Get the type of the original exception being thrown
 __cxa_exception* exception_header = (__cxa_exception*)(unwind_exception+1) - 1;
-std::type_info *org_ex_type = exception_header-&gt;exceptionType;
+std::type_info *org_ex_type = exception_header->exceptionType;
 
 printf("%s thrown, catch handles %s\n",
-            org_ex_type-&gt;name(),
-            catch_ti-&gt;name());
+            org_ex_type->name(),
+            catch_ti->name());
 
 // Check if the exception being thrown is of the same type
 // than the exception we can handle
-if (org_ex_type-&gt;name() != catch_ti-&gt;name())
+if (org_ex_type->name() != catch_ti->name())
     continue;
 ```
 
@@ -66,7 +66,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (...)
         // We found a landing pad for this exception; resume execution
 
         // If we are on search phase, tell _Unwind_ we can handle this one
-        if (actions &amp; _UA_SEARCH_PHASE) return _URC_HANDLER_FOUND;
+        if (actions & _UA_SEARCH_PHASE) return _URC_HANDLER_FOUND;
 
         // If we are not on search phase then we are on _UA_CLEANUP_PHASE
         /* set everything so the landing pad can run */
@@ -86,9 +86,9 @@ So, what would we get if we run the personality function with this change? Fail,
 void catchit() {
     try {
         try_but_dont_catch();
-    } catch(Fake_Exception&amp;) {
+    } catch(Fake_Exception&) {
         printf("Caught a Fake_Exception!\n");
-    } catch(Exception&amp;) {
+    } catch(Exception&) {
         printf("Caught an Exception!\n");
     }
 

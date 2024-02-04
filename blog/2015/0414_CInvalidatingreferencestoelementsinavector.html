@@ -9,7 +9,7 @@ void foo() {
     do_something(num);
 }
 </pre>
-<p>Doesn&rsquo;t seem quite right, does it? push_back will most likely trigger a resize for the vector, and that will invalidate references to elements in the vector. num will end up pointing anywhere and so using it to call do_something is not valid C++. Or is it? What happens if we reserve some space for v?</p>
+<p>Doesn't seem quite right, does it? push_back will most likely trigger a resize for the vector, and that will invalidate references to elements in the vector. num will end up pointing anywhere and so using it to call do_something is not valid C++. Or is it? What happens if we reserve some space for v?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void do_something(const int&amp;amp;);
 #include &lt;vector&gt;
 void foo() {
@@ -21,4 +21,4 @@ void foo() {
 }
 </pre>
 <p>It again might seem wrong, but this in fact is valid C++ code. Common sense might tell us that a call to push_back automatically invalidates references to elements in the vector, and it only works because most implementations will do the reasonable thing (ie not to invalidate references unless they must). Turns out the standard makes a special prevision for this case in section 23.3.6.5: a resize for a vector is guaranteed to be triggerd if, and only if, the capacity of the vector is not enough, and references to elements in the vector are guaranteed to be valid unless resize is triggered.</p>
-<p>A bit of language laweyering shows that what seems like an error is in fact allowed by the standard, but even if this is valid C++ code you should always keep in mind that assuming that the capacity of a vector will be enough is a VERY big assumption, it&rsquo;s very easy to break and you won&rsquo;t get any warning when it happens (maybe a core dump, if you&rsquo;re lucky).</p>
+<p>A bit of language laweyering shows that what seems like an error is in fact allowed by the standard, but even if this is valid C++ code you should always keep in mind that assuming that the capacity of a vector will be enough is a VERY big assumption, it's very easy to break and you won't get any warning when it happens (maybe a core dump, if you're lucky).</p>

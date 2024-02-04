@@ -6,60 +6,45 @@
 <li><a href="/blog/history.html">History</a></li>
 </ul>
 <h1>Posts for 2016 June<a name="postsfor2016june"></a></h1>
-<h1>Shared pointers: don&rsquo;t<a name="sharedpointersdont"></a></h1>
-<p>By Nico Brailovsky @ 2016-06-15</p>
-<p>Ahh, shared pointers! A nice, magical pointer type that will make all of your memory problems go away. Sprinkle some shared_ptrs here and there and, voilà, Valgrind is now happy. Sounds like a silver bullet, doesn&rsquo;t it? That should be your first clue that something&rsquo;s up with the promise of getting Java-like memory management in your c++ application.</p>
-<p>Java and C(++) have a very different concept of memory management. My Java-foo, obviously enough to anyone reading this blog, is not that great, but, from experience, memory management is seen as a chore better left to the bowels of your system, something you don&rsquo;t need (nor want) to care about. Sure, you can tweak and somewhat manage memory allocations if you really want to; the default mindset, however, is to ignore those concerns. The garbage collector will, eventually, find any unused resource and deal with it accordingly.</p>
-<p>C++ programs, at least those that have been more or less successfully designed as opposed to organically grown, tend to have a radically different approach. Memory management is an integral part of a program&rsquo;s design and it can&rsquo;t be left to some automagic memory manager. This leads, again, for those more or less successful designs, to programs with a tree-like hierarchy in which a child or dependent object must live at least as long as its parent scope. This hierarchy leads to easier to understand programs. Some idioms (RAII!) depend on this hierarchy. Some tools (like scoped and unique pointers) make its implementation much simpler. I&rsquo;ve seen that Rust really builds on this idea (and seems to take it to 11! I&rsquo;m still trying to figure out if that&rsquo;s a good or a bad thing, but so far I quite like it).</p>
-<p>The tree-like structure of the scopes in C++ also implies single ownership (again something Rust seems to be very idiosyncratic about). While you may &ldquo;use&rdquo; someone else&rsquo;s objects (for example, via a reference) there is always one single owner. If this owner goes away while someone holds a reference to one of its children&hellip; well, you get a bug. But sure enough this bug is clear as long as you can visualize the tree scope structure of your program. Shared pointers completely obliterate this tree.</p>
+<h1>Shared pointers: don't<a name="sharedpointersdont"></a></h1>
+<p>By Nico Brailovsky @ 2016-06-15 -  <a href="/blog/2016/0615_Sharedpointersdont.html">Permalink</a></p>
+<p>Ahh, shared pointers! A nice, magical pointer type that will make all of your memory problems go away. Sprinkle some shared_ptrs here and there and, voilà, Valgrind is now happy. Sounds like a silver bullet, doesn't it? That should be your first clue that something's up with the promise of getting Java-like memory management in your c++ application.</p>
+<p>Java and C(++) have a very different concept of memory management. My Java-foo, obviously enough to anyone reading this blog, is not that great, but, from experience, memory management is seen as a chore better left to the bowels of your system, something you don't need (nor want) to care about. Sure, you can tweak and somewhat manage memory allocations if you really want to; the default mindset, however, is to ignore those concerns. The garbage collector will, eventually, find any unused resource and deal with it accordingly.</p>
+<p>C++ programs, at least those that have been more or less successfully designed as opposed to organically grown, tend to have a radically different approach. Memory management is an integral part of a program's design and it can't be left to some automagic memory manager. This leads, again, for those more or less successful designs, to programs with a tree-like hierarchy in which a child or dependent object must live at least as long as its parent scope. This hierarchy leads to easier to understand programs. Some idioms (RAII!) depend on this hierarchy. Some tools (like scoped and unique pointers) make its implementation much simpler. I've seen that Rust really builds on this idea (and seems to take it to 11! I'm still trying to figure out if that's a good or a bad thing, but so far I quite like it).</p>
+<p>The tree-like structure of the scopes in C++ also implies single ownership (again something Rust seems to be very idiosyncratic about). While you may "use" someone else's objects (for example, via a reference) there is always one single owner. If this owner goes away while someone holds a reference to one of its children... well, you get a bug. But sure enough this bug is clear as long as you can visualize the tree scope structure of your program. Shared pointers completely obliterate this tree.</p>
 <p>A shared pointer means an object can have multiple owners. Whoever goes out of scope last needs to clean it. Why is that bad? In my (highly subjective but experience based) opinion:</p>
 <ul>
-<li>It becomes harder to reason about your program. You never know if all the &ldquo;pieces&rdquo; you need are in scope. Is an object already initialized? Who is responsible for building it? If you call a method with side effects, will any of the other owners be affected by it?</li>
-<li>It becomes harder to predict whether going out of scope is trivial, or an operation that can take a minute. If you&rsquo;re the last one holding a reference to an object through a shared pointer, you may be stuck running its destructor for a long time. That&rsquo;s not necessarily a bad thing, but not being able to predict it can lead to all sort of obscure bugs.</li>
+<li>It becomes harder to reason about your program. You never know if all the "pieces" you need are in scope. Is an object already initialized? Who is responsible for building it? If you call a method with side effects, will any of the other owners be affected by it?</li>
+<li>It becomes harder to predict whether going out of scope is trivial, or an operation that can take a minute. If you're the last one holding a reference to an object through a shared pointer, you may be stuck running its destructor for a long time. That's not necessarily a bad thing, but not being able to predict it can lead to all sort of obscure bugs.</li>
 </ul>
 <p>There are also many ways to avoid shared pointer usage:</p>
 <ul>
-<li>Try restructuring your code. This will usually yield the biggest benefits, you&rsquo;ll end up with a clearer structure and less clutter.</li>
+<li>Try restructuring your code. This will usually yield the biggest benefits, you'll end up with a clearer structure and less clutter.</li>
 <li>Try to use scoped pointers from boost or unique pointers if you can. Way too often shared pointers are used when a scoped pointer would be enough.</li>
-<li>Don&rsquo;t be scared of copies! Sometimes you can just copy your object and end up with cleaner (and maybe even faster) code. Are you really sure you need to share state?</li>
+<li>Don't be scared of copies! Sometimes you can just copy your object and end up with cleaner (and maybe even faster) code. Are you really sure you need to share state?</li>
 </ul>
-<p>Does that mean you should never ever use shared pointers? Of course not. In some cases it&rsquo;s unavoidable. Some algorithms are probably impossible to implement without them (or even impossible without GC). A shared pointer is just one more tool. Just like gotos. And, just like gotos - although not quite as dangerous - they have some appropriate use cases. Just try not to make it your default goto (lol) tool for memory management.</p>
-<p>// TODO: There is a very good reason I found to use shared pointers: to create weak_ptr&rsquo;s. Is there a good solution without actually using shared_ptr&rsquo;s? I don&rsquo;t know!</p>
+<p>Does that mean you should never ever use shared pointers? Of course not. In some cases it's unavoidable. Some algorithms are probably impossible to implement without them (or even impossible without GC). A shared pointer is just one more tool. Just like gotos. And, just like gotos - although not quite as dangerous - they have some appropriate use cases. Just try not to make it your default goto (lol) tool for memory management.</p>
+<p>// TODO: There is a very good reason I found to use shared pointers: to create weak_ptr's. Is there a good solution without actually using shared_ptr's? I don't know!</p>
 <hr />
 <h1>C++: Why is undefinedness important<a name="cwhyisundefinednessimportant"></a></h1>
-<p>By Nico Brailovsky @ 2016-06-02</p>
-<p>Let&rsquo;s start with an example:</p>
+<p>By Nico Brailovsky @ 2016-06-02 - 3 comments <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a></p>
+<p>Let's start with an example:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int <em>x = (int</em>) NULL;
 x[0] = 42;
 </pre>
-<p>Luckily so far I&rsquo;ve never seen anyone argue about this one: we all know we&rsquo;re dealing with undefined behavior and that it&rsquo;s bad. Things get a bit more tricky when the example is not so trivial.</p>
-<h3>C&rsquo;s abstract machine<a name="csabstractmachine"></a></h3>
-<p>In a way, C and C++ describe a &ldquo;virtual machine&rdquo;. This is what the standard defines: what kind of operations are valid in this VM. This VM resembles an old single-thread mono-processor architecture. Most often, the code will run in a modern architecture that will resemble very little the design of C&rsquo;s VM. &ldquo;New&rdquo; features (like caching, vectorization, atomics, pipelining, etc) implemented by the target architecture make the process of mapping our code (in the VM that C defines) much more difficult. The compiler needs to map instructions in C&rsquo;s simple architecture to a much (*MUCH*) more complex design. To do that, it needs to analyze the code to guarantee certain constrains are met.</p>
-<p>Let&rsquo;s see how these constrains and undefined behavior relate to each other with this snippet:</p>
+<p>Luckily so far I've never seen anyone argue about this one: we all know we're dealing with undefined behavior and that it's bad. Things get a bit more tricky when the example is not so trivial.</p>
+<h3>C's abstract machine<a name="csabstractmachine"></a></h3>
+<p>In a way, C and C++ describe a "virtual machine". This is what the standard defines: what kind of operations are valid in this VM. This VM resembles an old single-thread mono-processor architecture. Most often, the code will run in a modern architecture that will resemble very little the design of C's VM. "New" features (like caching, vectorization, atomics, pipelining, etc) implemented by the target architecture make the process of mapping our code (in the VM that C defines) much more difficult. The compiler needs to map instructions in C's simple architecture to a much (*MUCH*) more complex design. To do that, it needs to analyze the code to guarantee certain constrains are met.</p>
+<p>Let's see how these constrains and undefined behavior relate to each other with this snippet:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename T&gt;
     bool always_true(T x) {
     return (x &lt; x+1);
 }
 </pre>
-<p>From a math perspective, and assuming that T is a numeric type, always_true should always return true. Is that the case for C&rsquo;s virtual machine?</p>
-<p>If we call always_true with a type like &ldquo;unsigned int&rdquo;, then x+1 may overflow and wrap around. This is fine because unsigned int&rsquo;s are allowed to wrap around. What happens if instead we use a signed type? Things get more interesting.</p>
-<p>Signed types are not allowed to overflow. If they do, the standard says the behavior is undefined. And the standard also says that our program can not invoke undefined behavior. This is a very important phrase: the standard says undefined behavior can NOT occur. There is no &ldquo;if it does&rdquo;: it just can&rsquo;t, so the compiler will assume that UB will never happen. What if it does happen? Nasal demons, that&rsquo;s what!</p>
-<p>Knowing that UB can&rsquo;t happen, and in our example above, the compiler can assume that x+1 will never overflow. If it will never overflow, (x&lt;x+1) will always be true.</p>
-<p>The compiler, by analyzing our program, can detect what conditions might trigger undefined behavior. By knowing that undefined behavior is not allowed, it can assume those conditions will never happen. That&rsquo;s why, for the sample above, any optimizing-compiler will just produce code similar to &ldquo;return true&rdquo;, at least for -O2.</p>
-<p>Undefined behavior is not (only) to make programmer&rsquo;s lives miserable, it actually is needed to create optimizing compilers.</p>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">anon12</a> commented @ 2016-06-02T12:54:44.000+02:00:<a name="inreplytothispostanon12commented20160602t125444.0000200"></a></h2>
-<p>&ldquo;From a math perspective, and assuming that T is a numeric type, always_true should always return true&rdquo;</p>
-<p>return (x &gt; x + 1 ) always returns true !!!</p>
-<p>Are you kidding me ?</p>
-<p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Undefined, implementation defined and unspecified behaviors in C++ - Native Coding</a> commented @ 2016-06-02T23:47:33.000+02:00:<a name="inreplytothispostundefinedimplementationdefinedandunspecifiedbehaviorsincnativecodingblog_mdyoufoundadeadlink.mdcommented20160602t234733.0000200"></a></h2>
-<p>[&hellip;] And another explanation here :&nbsp;/blog_md/2016/06/02/c-why-is-undefinedness-important/ [&hellip;]</p>
-<p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2016-06-03T17:30:39.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20160603t173039.0000200"></a></h2>
-<p>That&rsquo;s a very trollish way of saying &ldquo;careful with typos&rdquo; but thanks for reporting nonetheless, anon. Fixed.</p>
-<p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
+<p>From a math perspective, and assuming that T is a numeric type, always_true should always return true. Is that the case for C's virtual machine?</p>
+<p>If we call always_true with a type like "unsigned int", then x+1 may overflow and wrap around. This is fine because unsigned int's are allowed to wrap around. What happens if instead we use a signed type? Things get more interesting.</p>
+<p>Signed types are not allowed to overflow. If they do, the standard says the behavior is undefined. And the standard also says that our program can not invoke undefined behavior. This is a very important phrase: the standard says undefined behavior can NOT occur. There is no "if it does": it just can't, so the compiler will assume that UB will never happen. What if it does happen? Nasal demons, that's what!</p>
+<p>Knowing that UB can't happen, and in our example above, the compiler can assume that x+1 will never overflow. If it will never overflow, (x&lt;x+1) will always be true.</p>
+<p>The compiler, by analyzing our program, can detect what conditions might trigger undefined behavior. By knowing that undefined behavior is not allowed, it can assume those conditions will never happen. That's why, for the sample above, any optimizing-compiler will just produce code similar to "return true", at least for -O2.</p>
+<p>Undefined behavior is not (only) to make programmer's lives miserable, it actually is needed to create optimizing compilers.</p>
 <hr />

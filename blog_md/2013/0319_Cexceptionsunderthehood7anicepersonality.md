@@ -43,10 +43,10 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 If we put that into our mycppabi.cpp file we get:
 
 ```c++
-#include &lt;unistd.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;stdint.h&gt;
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 namespace __cxxabiv1 {
     struct __class_type_info {
@@ -62,13 +62,13 @@ extern "C" {
 void* __cxa_allocate_exception(size_t thrown_size)
 {
     printf("alloc ex %i\n", thrown_size);
-    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf("Exception too big");
-    return &amp;exception_buff;
+    if (thrown_size > EXCEPTION_BUFF_SIZE) printf("Exception too big");
+    return &exception_buff;
 }
 
 void __cxa_free_exception(void *thrown_exception);
 
-#include &lt;unwind.h&gt;
+#include <unwind.h>
 
 typedef void (*unexpected_handler)(void);
 typedef void (*terminate_handler)(void);
@@ -95,7 +95,7 @@ void __cxa_throw(void* thrown_exception, struct type_info *tinfo, void (*dest)(v
     printf("__cxa_throw called\n");
 
     __cxa_exception *header = ((__cxa_exception *) thrown_exception - 1);
-    _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
+    _Unwind_RaiseException(&header->unwindHeader);
 
     // __cxa_throw never returns
     printf("no one handled __cxa_throw, terminate!\n");
@@ -137,6 +137,9 @@ Breakpoint 1, __gxx_personality_v0 (version=1, actions=1, exceptionClass=1345147
 
 So there we have it, a working (well, linkeable) personality function. Doesn't do much, though, so next time we'll start adding some real behavior and try to make it handle an exception.
 
+
+
+# Comments
 
 ---
 ## In reply to [this post](), [Anonymous]() commented @ 2018-01-04T10:47:04.000+01:00:

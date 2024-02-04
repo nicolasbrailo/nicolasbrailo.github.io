@@ -48,8 +48,8 @@ int main()
 What happens now if we try to compile and link together this frankencode?
 
 ```c++
-&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&gt; gcc -c -o main.o -O0 -ggdb main.c
+> g++ -c -o throw.o -O0 -ggdb throw.cpp
+> gcc -c -o main.o -O0 -ggdb main.c
 ```
 
 Note: You can download the full sourcecode for this project [in my github repo](https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01).
@@ -57,11 +57,11 @@ Note: You can download the full sourcecode for this project [in my github repo](
 So far so good. Both g++ and gcc are happy in their little world. Chaos will ensue once we try to link them, though:
 
 ```c++
-&gt; gcc main.o throw.o -o app
-throw.o: In function `foo()&#x27;:
-throw.cpp:4: undefined reference to `__cxa_allocate_exception&#x27;
-throw.cpp:4: undefined reference to `__cxa_throw&#x27;
-throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__class_type_info&#x27;
+> gcc main.o throw.o -o app
+throw.o: In function `foo()':
+throw.cpp:4: undefined reference to `__cxa_allocate_exception'
+throw.cpp:4: undefined reference to `__cxa_throw'
+throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__class_type_info'
 collect2: ld returned 1 exit status
 ```
 

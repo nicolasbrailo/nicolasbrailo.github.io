@@ -10,7 +10,7 @@ What happens if you broke something in a slightly more subtle way? Say, you scre
 
 I didn't find anything like this readily available, so I'm posting it here in case someone else finds it useful.
 
-```c++
+```bash
 #!/bin/bash
 
 # Time between checks
@@ -23,8 +23,8 @@ while true; do
     tmp=`mktemp`
     # tail a file into a temp. -n0 means don't output anything at the start so
     # we can sleep $T seconds and we don't need to worry about previous entries
-    tail -n0 -f $LOG_FILE &gt; $tmp 2&gt;/dev/null &amp; sleep $T;
-    kill $! &gt; /dev/null 2&gt;&amp;1;
+    tail -n0 -f $LOG_FILE > $tmp 2>/dev/null & sleep $T;
+    kill $! > /dev/null 2>&1
     echo "Requests in $LOG_FILE in the last $T seconds: `cat $tmp | wc -l`";
     rm $tmp;
 done

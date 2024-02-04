@@ -8,7 +8,7 @@ Who hasn't commited debug code by mistake? It's only normal to forget to remove 
 
 On any (git) repo you'll find a .git/hooks folder; add this script in .git/hooks/pre-commit (and don't forget to chmod +x it):
 
-```c++
+```bash
 #!/bin/sh
 
 if [ 0 != `git diff | grep "STOPCOMMIT" | wc -l` ]; then

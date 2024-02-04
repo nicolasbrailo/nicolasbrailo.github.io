@@ -7,8 +7,8 @@
 </ul>
 <h1>Posts for 2011 December<a name="postsfor2011december"></a></h1>
 <h1>Anonymous objects in C++<a name="anonymousobjectsinc"></a></h1>
-<p>By Nico Brailovsky @ 2011-12-20</p>
-<p>There are not many cases in which you can have an anonymous *anything* in your code, yet there&rsquo;s an idiom in C++ which lets you use an object with an anonymous type. Like this:</p>
+<p>By Nico Brailovsky @ 2011-12-20 - 1 comments <a href="/blog/2011/1220_AnonymousobjectsinC.html">Permalink</a></p>
+<p>There are not many cases in which you can have an anonymous *anything* in your code, yet there's an idiom in C++ which lets you use an object with an anonymous type. Like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void foo()
 {
    struct {
@@ -16,7 +16,7 @@
    };
 }
 </pre>
-<p>Why would this be useful, you may ask. That&rsquo;s a valid question. This idiom can be very useful to write callbacks, like this:</p>
+<p>Why would this be useful, you may ask. That's a valid question. This idiom can be very useful to write callbacks, like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Interface {
    void callback() = 0;
 };
@@ -24,48 +24,31 @@ void bar(Interface &amp;amp;c);
 void foo()
 {
    struct : public Interface {
-      /<em> &hellip; </em>/
+      /<em> ... </em>/
    } x;
    bar(x);
 }
 </pre>
 <p>I am not aware of many other uses for an anonymous type. Even more considering this idiom can now be replaced with a much cleaner lambda. But hey, it looks cool!</p>
 <hr />
-<h2>In reply to <a href="">this post</a>, <a href="">Daniel</a> commented @ 2019-02-20T23:47:19.000+01:00:<a name="inreplytothispostdanielcommented20190220t234719.0000100"></a></h2>
-<p>An anonymous object
-An anonymous object is essentially a value that has no name.
-Because they have no name, there’s no way to refer to them beyond the point where they are created. Consequently, they have &ldquo;expression scope&rdquo;, meaning they are created, evaluated, and destroyed all within a single expression.
-Here&rsquo;s an add() function written using an anonymous object:</p>
-<h1>include<a name="include"></a></h1>
-<p>int add(int x, int y)
-{
- return x + y; // an anonymous object is created to hold and return the result of x + y
-}</p>
-<p>int main()
-{
- std::cout &lt;&lt; add(5, 3);</p>
-<p>return 0;</p>
-<p>}</p>
-<p>Original <a href="/blog/2011/1220_AnonymousobjectsinC.html">published here</a>.</p>
-<hr />
 <h1>Fixing end of line styles between Linux and Windows with SVN<a name="fixingendoflinestylesbetweenlinuxandwindowswithsvn"></a></h1>
-<p>By Nico Brailovsky @ 2011-12-13</p>
-<p>Quite a mouthful for such an easy thing. Don&rsquo;t you just hate when half the people in a project use CR/LF and the other half just LF?</p>
+<p>By Nico Brailovsky @ 2011-12-13 -  <a href="/blog/2011/1213_FixingendoflinestylesbetweenLinuxandWindowswithSVN.html">Permalink</a></p>
+<p>Quite a mouthful for such an easy thing. Don't you just hate when half the people in a project use CR/LF and the other half just LF?</p>
 <p>Luckly this is easy to fix, assuming you are using svn. You can use something called <a href="http://www.mediawiki.org/wiki/Subversion/auto-props">auto-props</a> to setup the eol style for different file types.</p>
 <p>Set it once for the project, never worry again. Anyone knows its git counterpart?</p>
 <hr />
 <h1>C++: Checking if a method exists in a parent class<a name="ccheckingifamethodexistsinaparentclass"></a></h1>
-<p>By Nico Brailovsky @ 2011-12-08</p>
-<p>I like <a href="/blog/2009/0602_TestingampmockingC.html">Google test and Google mock (C++ only)</a> a lot. These are really great tools to ensure the quality of your code. They do have one problem however, especially <a href="/blog/2009/1023_Retrofittingunittestsforlegacycode.html">when working with a legacy codebase</a>: many times you need to change a signature for a function and your tests begin to fail. Those tests shouldn&rsquo;t really fail, they shouldn&rsquo;t compile at all because you&rsquo;re now trying to mock a function which doesn&rsquo;t exists anymore.</p>
+<p>By Nico Brailovsky @ 2011-12-08 -  <a href="/blog/2011/1208_CCheckingifamethodexistsinaparentclass.html">Permalink</a></p>
+<p>I like <a href="/blog/2009/0602_TestingampmockingC.html">Google test and Google mock (C++ only)</a> a lot. These are really great tools to ensure the quality of your code. They do have one problem however, especially <a href="/blog/2009/1023_Retrofittingunittestsforlegacycode.html">when working with a legacy codebase</a>: many times you need to change a signature for a function and your tests begin to fail. Those tests shouldn't really fail, they shouldn't compile at all because you're now trying to mock a function which doesn't exists anymore.</p>
 <p>I worked on a patch to check if a class and its parent share the same methods, but I hit some major roadblocks which I believe cannot be saved:</p>
 <ul>
-<li>You have no way of detecting if the parent&rsquo;s method is actually virtual. It may have the same signature, yet if it isn&rsquo;t virtual the mock serves no purpose</li>
-<li>You have no (easy) way of detecting if the method is defined in your parent&rsquo;s parent</li>
+<li>You have no way of detecting if the parent's method is actually virtual. It may have the same signature, yet if it isn't virtual the mock serves no purpose</li>
+<li>You have no (easy) way of detecting if the method is defined in your parent's parent</li>
 </ul>
 <p>Even though this code will never be useful, I thought I might as well post this here, just in case anyone comes up with a solution for those problems.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// :!g++ foo.cpp -lgtest_main -lgmock &amp;amp;&amp;amp; ./a.out
-#include &amp;lt;gtest/gtest.h&amp;gt;
-#include &amp;lt;gmock/gmock.h&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">// :!g++ foo.cpp -lgtest_main -lgmock &amp;&amp; ./a.out
+#include &lt;gtest/gtest.h&gt;
+#include &lt;gmock/gmock.h&gt;
 using namespace testing;
 /<strong>
  * &quot;Real&quot; application
@@ -77,13 +60,13 @@ class Foo {
 };
 class Do {
     public:
-    int something(Foo &amp;amp;foo){ return foo.bar(1); }
+    int something(Foo &amp;foo){ return foo.bar(1); }
 };
 /</strong>
  * Class used to compare method ptrs. We need to inherit from class C
  * to forward the calls to the derived methods.
  <em>/
-template &amp;lt;class C, class D&amp;gt;
+template &lt;class C, class D&gt;
 class Mocks_Must_Exist_In : public C {
     public:
     // We don&#x27;t know in the derived class the typeof the parent class
@@ -93,23 +76,23 @@ class Mocks_Must_Exist_In : public C {
     typedef D Self;
     // Function ptr definitions are ugly so we might as well use
     // a template to hide it under the rug
-    template &amp;lt;class F, class G&amp;gt;
+    template &lt;class F, class G&gt;
     void mock_created_for_unexisting_method(F f, G g){ f = g; }
 };
 #define METHOD_EXISTS(Method)
     void defined_##Method() {
-        mock_created_for_unexisting_method(&amp;amp;Self::Method, &amp;amp;ParentClass::Method);
+        mock_created_for_unexisting_method(&amp;Self::Method, &amp;ParentClass::Method);
     }
 /</em><em>
  * Checked mock, shouldn&#x27;t compile if Foo&#x27;s interface changes
  </em>/
-class FooMock : public Mocks_Must_Exist_In&amp;lt; Foo, FooMock &amp;gt; {
+class FooMock : public Mocks_Must_Exist_In&lt; Foo, FooMock &gt; {
     public:
     MOCK_METHOD1(bar, int(int));
     METHOD_EXISTS(bar);
 };
 /*<em>
- * Unchecked mock, should compile if Foo&amp;#x27;s interface changes
+ * Unchecked mock, should compile if Foos interface changes
  </em>/
 class FooMock2 {
     public:

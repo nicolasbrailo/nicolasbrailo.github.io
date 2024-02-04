@@ -1,15 +1,15 @@
 <h1>Howto: shutdown a TV with HDMI CEC Chromecast<a name="howtoshutdownatvwithhdmicecchromecast"></a></h1>
-<p>That&rsquo;s a long title just to say &ldquo;how to turn off your TV&rdquo;. Only I want to show how to do it even if you lost your remote control.</p>
-<p>Chromecast can turn your TV on and off, as long as it supports something called HDMI CEC. Of course the Chromecast itself needs to be powered, i.e. you can&rsquo;t plug it to a USB port in your TV.</p>
-<p>The &ldquo;on&rdquo; part is easy: you just start casting something (<a href="/blog/2019/0405_ChromecasticSlideshow.html">your pictures, for example</a>) and Chromecast automagically turns your TV on. The off part is a bit harder.</p>
-<p>Turning off is, obviously, an implemented feature, as the Google assistant can do it. After some Wireshark sniffing, I couldn&rsquo;t find any URL you can call in a Chromecast to turn off the TV. Some <a href="https://github.com/balloob/pychromecast/issues/196">people invested more time on this than me</a>, so I assume there&rsquo;s just no simple way to directly use a Chromecast for this. Luckily you can use the Google assistant.</p>
-<p>I wrote &ldquo;simple way&rdquo;. The following maybe doesn&rsquo;t quite qualify as &ldquo;simple&rdquo;, but it&rsquo;s not too time consuming. It&rsquo;s certainly not elegant, but hey (as of the date I&rsquo;m writing this article) it works.</p>
+<p>That's a long title just to say "how to turn off your TV". Only I want to show how to do it even if you lost your remote control.</p>
+<p>Chromecast can turn your TV on and off, as long as it supports something called HDMI CEC. Of course the Chromecast itself needs to be powered, i.e. you can't plug it to a USB port in your TV.</p>
+<p>The "on" part is easy: you just start casting something (<a href="/blog/2019/0405_ChromecasticSlideshow.html">your pictures, for example</a>) and Chromecast automagically turns your TV on. The off part is a bit harder.</p>
+<p>Turning off is, obviously, an implemented feature, as the Google assistant can do it. After some Wireshark sniffing, I couldn't find any URL you can call in a Chromecast to turn off the TV. Some <a href="https://github.com/balloob/pychromecast/issues/196">people invested more time on this than me</a>, so I assume there's just no simple way to directly use a Chromecast for this. Luckily you can use the Google assistant.</p>
+<p>I wrote "simple way". The following maybe doesn't quite qualify as "simple", but it's not too time consuming. It's certainly not elegant, but hey (as of the date I'm writing this article) it works.</p>
 <h2>How to turn a TV off using a Chromecast<a name="howtoturnatvoffusingachromecast"></a></h2>
 <h3>Part 1: Set up the Google assistant SDK<a name="part1setupthegoogleassistantsdk"></a></h3>
-<p>There&rsquo;s no easy way to make a Chromecast turn off a TV, so instead we&rsquo;ll interface with a Google assistant, then ask the assistant to do it for us. There&rsquo;s also no easy way to do this with an API, but the assistant&rsquo;s voice recognition is actually quite good. Let&rsquo;s start by installing the SDK:</p>
+<p>There's no easy way to make a Chromecast turn off a TV, so instead we'll interface with a Google assistant, then ask the assistant to do it for us. There's also no easy way to do this with an API, but the assistant's voice recognition is actually quite good. Let's start by installing the SDK:</p>
 <ol>
 <li>Follow the setup instructions for the <a href="https://developers.google.com/assistant/sdk/guides/library/python/embed/setup">Google Assistant library</a>, with the changes described below.</li>
-<li>The assistant examples need a microphone present, but we&rsquo;re not going to use it. If you don&rsquo;t have one and you&rsquo;re doing this in a RaspberryPi, just fake one by putting this in ~/.asoundrc:</li>
+<li>The assistant examples need a microphone present, but we're not going to use it. If you don't have one and you're doing this in a RaspberryPi, just fake one by putting this in ~/.asoundrc:</li>
 </ol>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">pcm.!default {
   type asym
@@ -22,27 +22,27 @@ pcm.mic {
   }
 }
 </pre>
-<ol start="3">
+<ol>
 <li>The same may be needed for a speaker.</li>
 <li>Continue the setup guide: create a project in the Actions console. Register also a dummy model to download the json credentials.</li>
-<li>Follow the &ldquo;Install the SDK and Sample Code&rdquo; instructions. In May 2019, they work fine in a RaspberryPI 3 with Raspbian.</li>
+<li>Follow the "Install the SDK and Sample Code" instructions. In May 2019, they work fine in a RaspberryPI 3 with Raspbian.</li>
 <li>Try running the sample code. googlesamples-assistant-hotword segfaults but googlesamples-assistant-pushtotalk works fine.</li>
 </ol>
 <h3>Part 2: Hack the sample to turn off a TV<a name="part2hackthesampletoturnoffatv"></a></h3>
-<p>You should now have the samples from the SDK running. At least those that don&rsquo;t crash. If you have a microphone, you can ask anything you normally ask the Google assistant like&hellip; the weather?</p>
-<p>The assistant can turn off your TV if you say &ldquo;Turn off $Chromecast_Name&rdquo;. But what if you don&rsquo;t like talking to your phone?</p>
-<p>I&rsquo;m sure you expect I&rsquo;ll reveal a nice, clean way to invoke the assistant and make it turn off your Chromecast. Sorry, that would take too long. There is a text interface for the assistant but I wasn&rsquo;t able to have it running in less than 15 minutes, so these are your options:</p>
+<p>You should now have the samples from the SDK running. At least those that don't crash. If you have a microphone, you can ask anything you normally ask the Google assistant like... the weather?</p>
+<p>The assistant can turn off your TV if you say "Turn off $Chromecast_Name". But what if you don't like talking to your phone?</p>
+<p>I'm sure you expect I'll reveal a nice, clean way to invoke the assistant and make it turn off your Chromecast. Sorry, that would take too long. There is a text interface for the assistant but I wasn't able to have it running in less than 15 minutes, so these are your options:</p>
 <ul>
-<li>Use festival. echo &ldquo;$Google assistant command&rdquo; | text2wave -o cmd.wav will generate a command that (often) the assistant can understand. If you don&rsquo;t have such luck:</li>
-<li>Just record yourself. Hackish? Sure, but if all you need is to shut down a TV, that&rsquo;s enough. <strong>Important note</strong>: Record yourself in mono 16KHz. Otherwise the assistant may not understand the wav file. If you run &ldquo;file command.wav&rdquo; it should look like this:</li>
+<li>Use festival. echo "$Google assistant command" | text2wave -o cmd.wav will generate a command that (often) the assistant can understand. If you don't have such luck:</li>
+<li>Just record yourself. Hackish? Sure, but if all you need is to shut down a TV, that's enough. <strong>Important note</strong>: Record yourself in mono 16KHz. Otherwise the assistant may not understand the wav file. If you run "file command.wav" it should look like this:</li>
 </ul>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">command.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz
 </pre>
-<p>Whatever method you choose, create a wav file with the command you want to execute (i.e. &ldquo;turn off $Chromecast_name) and put it in the directory where you installed the Google Assistant SDK.</p>
+<p>Whatever method you choose, create a wav file with the command you want to execute (i.e. "turn off $Chromecast_name) and put it in the directory where you installed the Google Assistant SDK.</p>
 <h3>Part 3: Throw your remote to the recycling bin!<a name="part3throwyourremotetotherecyclingbin"></a></h3>
-<p>You&rsquo;re ready now. Goto the directory where you installed the SDK and recorded your voice command, then try this:</p>
+<p>You're ready now. Goto the directory where you installed the SDK and recorded your voice command, then try this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">$ source env/bin/activate
-$ googlesamples-assistant-pushtotalk &ndash;device-model-id $AN_ID_YOU_GOT_FROM_GOOGLE &ndash;project-id $YOUR_GOOGLE_PROJECT_ID &ndash;once &ndash;verbose -i ./command.wav
+$ googlesamples-assistant-pushtotalk --device-model-id $AN_ID_YOU_GOT_FROM_GOOGLE --project-id $YOUR_GOOGLE_PROJECT_ID --once --verbose -i ./command.wav
 </pre>
 <p>With a bit of luck that should shut down your TV.</p>
 <p>Linkdump:</p>

@@ -13,9 +13,9 @@ int v[] = {1, 2, 3, 4};
 C++0X brought a lot of changes to the world, and suddenly instead of int[] you were supposed to use vector, and with it your initializer didn't work anymore. Though luck. Try to compile this:
 
 ```c++
-#include &lt;vector&gt;
+#include <vector>
 int main() {
-	std::vector&lt;int&gt; v = {1,2,3,4};
+	std::vector<int> v = {1,2,3,4};
 	return 0;
 }
 ```
@@ -23,7 +23,7 @@ int main() {
 If you did compile it with g++, you may have noticed an interesting error message:
 
 ```c++
-error: in C++98 ‘v’ must be initialized by constructor, not by ‘{...}’
+error: in C++98 'v' must be initialized by constructor, not by '{...}'
 warning: extended initializer lists only available with -std=c++0x or -std=gnu++0x
 ```
 
@@ -33,13 +33,13 @@ Initializers lists bring the best of C to C++ world (?) by letting you use initi
 
 ```c++
 int main() {
-	map&lt;string, vector&lt;int&gt;&gt; v = {
+	map<string, vector<int>> v = {
 			{ "a", {1,2,3} },
 			{ "b", {4,5,6} },
 			{ "c", {7,8,9} }
 		};
 
-	cout &lt;&lt; v["b"][1] &lt;&lt; "n";
+	cout << v["b"][1] << "n";
 	return 0;
 }
 ```

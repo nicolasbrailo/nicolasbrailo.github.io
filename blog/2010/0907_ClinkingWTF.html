@@ -1,5 +1,5 @@
 <h1>C++ linking WTF<a name="clinkingwtf"></a></h1>
-<p>It is a commonly accepted fact that a succesfuly compiled application serves as enough proof of its correctness, but common wisdom doesn&rsquo;t say a thing about linking. If you like linker WTF moments, you&rsquo;ll love this snippet. Can you guess why won&rsquo;t it compile?</p>
+<p>It is a commonly accepted fact that a succesfuly compiled application serves as enough proof of its correctness, but common wisdom doesn't say a thing about linking. If you like linker WTF moments, you'll love this snippet. Can you guess why won't it compile?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
     static const int x = 0;
     static const int y = 1;
@@ -13,7 +13,7 @@ int main() {
     return 0;
 }
 </pre>
-<p>Well, it does compile (gotcha!) but it just won&rsquo;t link. Yet it seems so simple&hellip; let&rsquo;s add some more mistery to this WTF moment, try this change:</p>
+<p>Well, it does compile (gotcha!) but it just won't link. Yet it seems so simple... let's add some more mistery to this WTF moment, try this change:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">    int z(bool x){
         int t = Foo::x;
         return (x)? t : Foo::y;
@@ -24,19 +24,19 @@ int main() {
         return (true)? Foo::x : Foo::y;
     }
 </pre>
-<p>And again, now it compiles. WTF? I&rsquo;ll make a final change, this one should give you a clue about why it won&rsquo;t compile. Revert all changes back to the original code but add this two lines after Foo:</p>
+<p>And again, now it compiles. WTF? I'll make a final change, this one should give you a clue about why it won't compile. Revert all changes back to the original code but add this two lines after Foo:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">
 const int Foo::x;
 const int Foo::y;
 </pre>
 <p>Though weird at first, now you should have a clear picture:
-* The first case doesn&rsquo;t compiles: x and y are declared in struct Foo, yet the linker doesn&rsquo;t know in which translation unit they should be allocated.
-* The second and third cases&hellip; well I&rsquo;m not sure why does this compiles but it&rsquo;s probably because the linker can asume in which translation unit x and y should be allocated. I&rsquo;m to lazy to check.
+* The first case doesn't compiles: x and y are declared in struct Foo, yet the linker doesn't know in which translation unit they should be allocated.
+* The second and third cases... well I'm not sure why does this compiles but it's probably because the linker can asume in which translation unit x and y should be allocated. I'm to lazy to check.
 * In the last case we explicitly say where should x and y be. According to standard, this is how these two ints should be declared.</p>
-<p>So, some linker strangeness. Beware, it&rsquo;s easy to get trapped by this one.</p>
+<p>So, some linker strangeness. Beware, it's easy to get trapped by this one.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Matthew Fioravante</a> commented @ 2015-09-03T22:47:03.000+02:00:<a name="inreplytothispostmatthewfioravantecommented20150903t224703.0000200"></a></h2>
-<p>&ldquo;The second and third cases&hellip; well I’m not sure why does this compiles but it’s probably because the linker can asume in which translation unit x and y should be allocated. I’m to lazy to check.&rdquo;</p>
+<p>"The second and third cases&hellip; well I’m not sure why does this compiles but it’s probably because the linker can asume in which translation unit x and y should be allocated. I’m to lazy to check."</p>
 <p>The difference probably has to do with the optimizer. If the optimizer reduces all references to the static variable to a compile time constant then there are no references to the non-existant variable for the linker to complain about.</p>
 <p>You can see these kinds of linker bugs happen often in debug builds but not in release builds because of different optimization levels.</p>
 <p>Original <a href="/blog/2010/0907_ClinkingWTF.html">published here</a>.</p>

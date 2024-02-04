@@ -1,26 +1,26 @@
 <h1>LaTeX basics<a name="latexbasics"></a></h1>
 <h2>LaTeX basics<a name="latexbasics"></a></h2>
-<p>Remember <a href="/blog/2009/0521_AcaseforLaTeX.html">last post</a>? I mentioned it&rsquo;s possible to create several type of documents. Even if the structure will, most likely, be different for different applications, there&rsquo;s a common ground which can be used for most LaTeX documents. I&rsquo;d go as far as saying ALL of them, but in LaTeX it&rsquo;s possible to override everything and anything. Any reasonable package won&rsquo;t do it, so let&rsquo;s see some LaTeX basics you can use for any project.</p>
+<p>Remember <a href="/blog/2009/0521_AcaseforLaTeX.html">last post</a>? I mentioned it's possible to create several type of documents. Even if the structure will, most likely, be different for different applications, there's a common ground which can be used for most LaTeX documents. I'd go as far as saying ALL of them, but in LaTeX it's possible to override everything and anything. Any reasonable package won't do it, so let's see some LaTeX basics you can use for any project.</p>
 <h3>LaTeX documents<a name="latexdocuments"></a></h3>
-<p>The first thing to understand about LaTeX, it&rsquo;s not <a href="http://en.wikipedia.org/wiki/WYSIWYG">WYSIWYG</a>. If you use a plain text editor you won&rsquo;t see any kind of format at all (LyX provides some sort of preview though). This confuses some people who, used to Word-like applications, tend to think in the structure and desing before the contents; LaTeX is different in the way to structure documents, a way which is called What You See Is What You Mean, <a href="http://en.wikipedia.org/wiki/WYSIWYM">WYSIWYM</a>, for short.</p>
-<p>What does being WYSIWYM means? You just think about the content and structure and it gets formatted for you. Instead of saying you want &ldquo;Centered, Arial 12px orange font with pink background&rdquo; just say &ldquo;this is a title&rdquo;. The format will be there, but not attached to the content - it&rsquo;ll be in a &ldquo;stylesheet&rdquo;, the document&rsquo;s class (*). Of course, these styles can be changed too.</p>
-<p>WYSIWYM has a downside too: you&rsquo;ll have to &ldquo;compile&rdquo; the mark-up text into a pdf (or any other format) using <strong>pdflatex</strong>, for example. It may be a shock to some but it&rsquo;s not difficult, just write &ldquo;<em>pdf2latex file.tex</em>&rdquo; and let it work its magic. You can use the <a href="https://example.net/brokenlink/2009/05/makefile.html">makefile I&rsquo;m attaching</a> to this post too, if you feel comfortable with makefiles (<a href="https://example.net/brokenlink/2009/05/makefile.html">The makefile</a> has a few cool tricks you can use too. I&rsquo;ll explain all of it in another entry).</p>
+<p>The first thing to understand about LaTeX, it's not <a href="http://en.wikipedia.org/wiki/WYSIWYG">WYSIWYG</a>. If you use a plain text editor you won't see any kind of format at all (LyX provides some sort of preview though). This confuses some people who, used to Word-like applications, tend to think in the structure and desing before the contents; LaTeX is different in the way to structure documents, a way which is called What You See Is What You Mean, <a href="http://en.wikipedia.org/wiki/WYSIWYM">WYSIWYM</a>, for short.</p>
+<p>What does being WYSIWYM means? You just think about the content and structure and it gets formatted for you. Instead of saying you want "Centered, Arial 12px orange font with pink background" just say "this is a title". The format will be there, but not attached to the content - it'll be in a "stylesheet", the document's class (*). Of course, these styles can be changed too.</p>
+<p>WYSIWYM has a downside too: you'll have to "compile" the mark-up text into a pdf (or any other format) using <strong>pdflatex</strong>, for example. It may be a shock to some but it's not difficult, just write "<em>pdf2latex file.tex</em>" and let it work its magic. You can use the <a href="https://example.net/brokenlink/2009/05/makefile.html">makefile I'm attaching</a> to this post too, if you feel comfortable with makefiles (<a href="https://example.net/brokenlink/2009/05/makefile.html">The makefile</a> has a few cool tricks you can use too. I'll explain all of it in another entry).</p>
 <h3>Seeing some examples<a name="seeingsomeexamples"></a></h3>
-<p>In GNU/Linux you can find lots of examples and templates in /usr/share/doc/texlive-doc/latex/ (no idea where may they be in Windows). Writing this article I found out lots of templates I didn&rsquo;t know about so go and take a look. Go on, I&rsquo;ll wait here. Done? Ok, let&rsquo;s move on.</p>
+<p>In GNU/Linux you can find lots of examples and templates in /usr/share/doc/texlive-doc/latex/ (no idea where may they be in Windows). Writing this article I found out lots of templates I didn't know about so go and take a look. Go on, I'll wait here. Done? Ok, let's move on.</p>
 <h3>Preamble<a name="preamble"></a></h3>
-<p>In LaTeX there&rsquo;s a basic structure every document follows:</p>
+<p>In LaTeX there's a basic structure every document follows:</p>
 <pre style="display: inline-block; border: 1px solid red;">% Preamble
 begin{document}
 end{document}
 </pre>
-<p>What comes before the <em>begin</em>&lsquo;ning is the preamble. There you can tell LaTeX:
+<p>What comes before the <em>begin</em>'ning is the preamble. There you can tell LaTeX:
 * Which packages are you going to use - there are lots of packages, some examples include source code highlighting, including images, absolute positioning of figures and much more. Include them with the usepackage command</p>
 <ul>
 <li>The style - there are stylesheets you can use, just as you do with HTML, and the preamble is the place to define them. How to do it is package-dependent, Beamer, for example, uses a usetheme tag.</li>
-<li>Global declarations - You may declare an image which you&rsquo;ll use throughout the entire document, you&rsquo;re company&rsquo;s logo for example</li>
-<li>The author(s) - OK, this is a global declaration too, but there is certain meta-data which is declared in the preamble that&rsquo;s quite handy and author is one of them.</li>
+<li>Global declarations - You may declare an image which you'll use throughout the entire document, you're company's logo for example</li>
+<li>The author(s) - OK, this is a global declaration too, but there is certain meta-data which is declared in the preamble that's quite handy and author is one of them.</li>
 <li>The title - same as before, the title is very important in your document!</li>
-<li>Lots more - there are package dependent declarations so there&rsquo;s no way to create a comprehensive list, just remember it&rsquo;s a place to put global settings</li>
+<li>Lots more - there are package dependent declarations so there's no way to create a comprehensive list, just remember it's a place to put global settings</li>
 </ul>
-<p>This post is getting a little bit too large so I&rsquo;ll leave some basic commands for the next one; you should be able to start writing some basic documents anyway.</p>
-<p>(*)  Yeah, something like content and style separation but only a couple of decades before it was &ldquo;invented&rdquo; for the WWW.</p>
+<p>This post is getting a little bit too large so I'll leave some basic commands for the next one; you should be able to start writing some basic documents anyway.</p>
+<p>(*)  Yeah, something like content and style separation but only a couple of decades before it was "invented" for the WWW.</p>

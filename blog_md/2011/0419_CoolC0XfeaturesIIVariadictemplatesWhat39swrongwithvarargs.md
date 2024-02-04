@@ -9,8 +9,8 @@
 Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:
 
 ```c++
-#include &lt;stdarg.h&gt;
-#include &lt;iostream&gt;
+#include <stdarg.h>
+#include <iostream>
 
 // My god, it's full of bugs
 void va_println(int args_left, ...) {
@@ -19,7 +19,7 @@ void va_println(int args_left, ...) {
 
    while(args_left--) {
       const char *p = va_arg(arg_lst, const char*);
-      std::cout &lt;&lt; p;
+      std::cout << p;
    }
 
    va_end(arg_lst);
@@ -40,7 +40,7 @@ This implementation of a function with variable arguments is, more or less, the 
 * **No pod types**: Remember POD types? Try running this code:
 
 ```c++
-#include &lt;stdarg.h&gt;
+#include <stdarg.h>
 
 struct X { virtual ~X(){} };
 
@@ -69,13 +69,13 @@ The fix is easy. Too easy. You just need C++0X. We will discuss why this is bett
 
 ```c++
 void println() {}
-template &lt;typename H, typename... T&gt; void println(H p, T... t) {
-   std::cout &lt;&lt; p;
+template <typename H, typename... T> void println(H p, T... t) {
+   std::cout << p;
    println(t...);
 }
 
 int main() {
-   println("Hola", " mundo ", 42, &#x27;n&#x27;);
+   println("Hola", " mundo ", 42, 'n');
    return 0;
 }
 
@@ -85,6 +85,7 @@ Remember to compile using -std=c++0x in gcc.
 
 **(Thanks Hugo Arregui for correcting the POD example)**
 
+# Comments
 
 ---
 ## In reply to [this post](), [Matthew Fioravante]() commented @ 2015-09-03T22:38:03.000+02:00:

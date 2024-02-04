@@ -38,7 +38,7 @@ After the lambda's signature, which is the same as the signature of a common met
 Watch out though, that's not the end of the declaration, we're missing a crucial piece on this lambda:
 
 ```c++
-auto f = [] (int a, int b) { return a+b; }&lt;strong&gt;;&lt;/strong&gt;
+auto f = [] (int a, int b) { return a+b; };
 ```
 
 I'd use the blink tag, but I think it has been deprecated. Notice that last semicolon; when you declare the lambda's body you finish with a semicolon inside, just as you would inside a normal method, but that's not the end of the expression, for the lambda declared outside the body of that method still needs another semicolon to appraise the compiler god.

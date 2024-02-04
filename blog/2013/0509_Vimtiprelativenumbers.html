@@ -1,11 +1,11 @@
 <h1>Vim tip: relative numbers<a name="vimtiprelativenumbers"></a></h1>
 <p>Knowing the line number in Vim is crucial: you might need to jump to a specific line to fix a compiler error, you might want to check your current line to tell someone else where they broke something, or you might need to know a line number, and the diff to your current line, so you can delete N lines.</p>
-<p>You can &ldquo;<strong>set number</strong>&rdquo; to get the line number in a bar at the left, and that&rsquo;s fine for most things but also quite unnecessary:</p>
+<p>You can "<strong>set number</strong>" to get the line number in a bar at the left, and that's fine for most things but also quite unnecessary:</p>
 <ul>
-<li>You can jump to a line by typing &ldquo;:&rdquo;</li>
+<li>You can jump to a line by typing ":"</li>
 <li>You can see your current line by checking it on the lower right status box</li>
-<li>&hellip; but what if you need a delta from your current position?</li>
+<li>... but what if you need a delta from your current position?</li>
 </ul>
-<p>That&rsquo;s even easier: just &ldquo;<strong>set relativenumber</strong>&rdquo; and the numbers on the left will turn into a relative position from the position of your cursor.</p>
-<p>Now you won&rsquo;t have to count the lines you want to delete: you can instantly know the N on dNd!</p>
+<p>That's even easier: just "<strong>set relativenumber</strong>" and the numbers on the left will turn into a relative position from the position of your cursor.</p>
+<p>Now you won't have to count the lines you want to delete: you can instantly know the N on dNd!</p>
 <p>Bonus: watch vim newies struggle with the changing line numbers</p>

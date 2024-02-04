@@ -1,18 +1,18 @@
 <h1>Vim Tip: I want more menus!<a name="vimtipiwantmoremenus"></a></h1>
-<p>As a uber vim geek, you shouldn&rsquo;t be using a lot of gui menus. Scratch that, you shouldn&rsquo;t be using any menus at all, period. Still, I&rsquo;ll admit it&rsquo;s a bit hard to remember every single shortcut for actions you rarely use.</p>
+<p>As a uber vim geek, you shouldn't be using a lot of gui menus. Scratch that, you shouldn't be using any menus at all, period. Still, I'll admit it's a bit hard to remember every single shortcut for actions you rarely use.</p>
 <p>Say, for example, you like to encrypt your text. Not always, but every once in a while. Enough to make a shortcut for it but not enough to remember what the shortcut is. You can try to grep your ~/.vimrc. You might find something like:</p>
 <pre style="display: inline-block; border: 1px solid red;">&quot; Encrypt my stuff
 map &lt;leader&gt;e ggg?G&lt;CR&gt;
 </pre>
 <p>(Yes, that command will actually encrypt your text in Vim. Try it!)</p>
-<p>Wouldn&rsquo;t it be nice if you had a simpler way, though?</p>
-<p>Turns out you can add your &ldquo;encrypt&rdquo; command to your gui. Then &ldquo;menu&rdquo; commands work just like the &ldquo;map&rdquo; family, but they create a GUI menu instead. Change your vimrc to something like this:</p>
+<p>Wouldn't it be nice if you had a simpler way, though?</p>
+<p>Turns out you can add your "encrypt" command to your gui. Then "menu" commands work just like the "map" family, but they create a GUI menu instead. Change your vimrc to something like this:</p>
 <pre style="display: inline-block; border: 1px solid red;">&quot; Encrypt my stuff
 map &lt;leader&gt;e ggg?G&lt;CR&gt;
 menu Project.Encrypt ggg?G&lt;CR&gt;
 </pre>
-<p>Now if you reload your vimrc you&rsquo;ll find a new GUI menu created, from which you can easily encrypt your text. Decrypting is left as an exercise to the reader.</p>
-<p>Extra tip: Want to try to learn the actual shortcut, like a real vim&rsquo;er? Then try this:</p>
+<p>Now if you reload your vimrc you'll find a new GUI menu created, from which you can easily encrypt your text. Decrypting is left as an exercise to the reader.</p>
+<p>Extra tip: Want to try to learn the actual shortcut, like a real vim'er? Then try this:</p>
 <pre style="display: inline-block; border: 1px solid red;">menu Project.Encrypt&lt;TAB&gt;ggg?G ggg?G&lt;CR&gt;
 </pre>
 <p>Everything after the TAB will be right-aligned: you can use that space to annotate the key-combo you should use next time.</p>
@@ -20,5 +20,5 @@ menu Project.Encrypt ggg?G&lt;CR&gt;
 <h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2016/1124_SimplevimpluginIintegratingnewcommands.html">Simple vim plugin I: integrating new commands | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2016-11-24T08:00:30.000+01:00:<a name="inreplytothispostsimplevimpluginiintegratingnewcommandsaninfinitemonkeynicolasbrailovsky39sblogblog_md20161124_simplevimpluginiintegratingnewcommands.mdcommented20161124t080030.0000100"></a></h2>
-<p>[&hellip;] tip: add these too if you want to have a GUI menu for your new commands as [&hellip;]</p>
+<p>[...] tip: add these too if you want to have a GUI menu for your new commands as [...]</p>
 <p>Original <a href="/blog/2015/0402_VimTipIwantmoremenus.html">published here</a>.</p>

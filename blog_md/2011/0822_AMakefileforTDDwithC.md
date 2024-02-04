@@ -64,6 +64,8 @@ test: $(TEST_SRCS)
 Now you just need to run make test. Remember to add the proper [Vim's mapping](/blog_md/2010/0629_Vimtipsmakethingsworkagain.md).
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » A Makefile for code coverage report with C++](/blog_md/2011/0830_AMakefileforcodecoveragereportwithC.md) commented @ 2011-08-30T11:14:37.000+02:00:
 

@@ -1,5 +1,5 @@
 <h1>Simple vim plugin III: a polymorphic project greper<a name="simplevimpluginiiiapolymorphicprojectgreper"></a></h1>
-<p>We&rsquo;ve recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">different key binding for different modes</a> we can do something a bit smarter . Let&rsquo;s create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:</p>
+<p>We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">different key binding for different modes</a> we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">function! FG_DoSearch(needle)
     let grepbin = &#x27;grep -nri &#x27;
     tabnew
@@ -26,4 +26,4 @@ endfunction
 nmap &lt;leader&gt;s :call FG_Search()&lt;CR&gt;
 vmap &lt;leader&gt;s :call FG_Visual_Search()&lt;CR&gt;
 </pre>
-<p>The magic here happens in the mapping: nmap will create a mapping that&rsquo;s only enabled when on &ldquo;normal&rdquo; mode, vmap when you&rsquo;re in visual mode. As usual, check :help map for more details.</p>
+<p>The magic here happens in the mapping: nmap will create a mapping that's only enabled when on "normal" mode, vmap when you're in visual mode. As usual, check :help map for more details.</p>

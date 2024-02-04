@@ -1,6 +1,5 @@
-<h1>C++ exceptions under the hood 14: multiple landing pads &amp; the teachings<a name="cexceptionsunderthehood14multiplelandingpadsamptheteachings"></a></h1>
-<p>of the guru</p>
-<p>After a lot of hard work, last time we finally got a working personality function capable of handling exceptions without help of libstdc++. It will indiscriminately handle all exceptions, but it does work. There is a big question we haven&rsquo;t answered yet: if we go back to the LSDA (language specific data area) we&rsquo;ll see something like this:</p>
+<h1>C++ exceptions under the hood 14: multiple landing pads &amp; the teachings of the guru<a name="cexceptionsunderthehood14multiplelandingpadstheteachingsoftheguru"></a></h1>
+<p>After a lot of hard work, last time we finally got a working personality function capable of handling exceptions without help of libstdc++. It will indiscriminately handle all exceptions, but it does work. There is a big question we haven't answered yet: if we go back to the LSDA (language specific data area) we'll see something like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">.local_lsda_call_site_table:
     .uleb128 .LEHB0-.LFB1
     .uleb128 .LEHE0-.LEHB0
@@ -19,7 +18,7 @@
 <p>There are 3 landing pads defined there, even though we wrote a single try/catch statement. What is going on there?</p>
 <p>If you read carefully the last entry on this topic maybe you noticed I added some comments to the definition of struct LSDA_CS:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct LSDA_CS {
-    // Note start, len and lp would be void*&amp;#x27;s, but they are actually relative
+    // Note start, len and lp would be void*&#x27;s, but they are actually relative
     // addresses: start and lp are relative to the start of the function, len
     // is relative to start
     // Offset into function from which we could handle a throw
@@ -40,23 +39,23 @@
         try {
             do_something();
     L1:
-        } catch (const Exception1&amp;amp; ex) {
-            &hellip;
-        } catch (const Exception2&amp;amp; ex) {
-            &hellip;
-        } catch (const ExceptionN&amp;amp; ex) {
-            &hellip;
-        } catch (&hellip;) {
+        } catch (const Exception1&amp; ex) {
+            ...
+        } catch (const Exception2&amp; ex) {
+            ...
+        } catch (const ExceptionN&amp; ex) {
+            ...
+        } catch (...) {
         }
     L2:
 }
 </pre>
 <ul>
 <li>lp: the offset from the start of the function where the landing pad starts. The value of lp for the following example would be L1 - addr_of(foo)</li>
-<li>action: an offset into an action table. This is used to run the cleanup actions while unwinding the stack. We haven&rsquo;t reached this point yet, we can ignore it for now.</li>
+<li>action: an offset into an action table. This is used to run the cleanup actions while unwinding the stack. We haven't reached this point yet, we can ignore it for now.</li>
 <li>start: the offset from the start of the function where the try block begins: in the example this would be L0 - addr_of(foo)</li>
 <li>len: the length of the try block. On the example this would be L1 - L0</li>
 </ul>
 <p>The interesting fields now are start and len: in a function with multiple try/catch blocks we can know whether we should handle an exception by checking if the instruction pointer for the current frame is between start and start + len.</p>
-<p>That solves the mystery of how a function with multiple try/catch blocks can handle an exception but we still have another question: why are there three call sites when we only specified a single landing pad? The other three are places where an exception might be thrown so they get added as a possible place for cleanup actions or landing pads. If we learned anything from GOTW it should be that exceptions can be thrown in the places we least expect. There is an entry in the call site table for our throw because it&rsquo;s a block that might throw; the compiler also detected another three.</p>
-<p>Now that we know what the start and len fields do, let&rsquo;s change our personality function so the correct landing pad can handle the exception being thrown. Go ahead. My implementation for the next time.</p>
+<p>That solves the mystery of how a function with multiple try/catch blocks can handle an exception but we still have another question: why are there three call sites when we only specified a single landing pad? The other three are places where an exception might be thrown so they get added as a possible place for cleanup actions or landing pads. If we learned anything from GOTW it should be that exceptions can be thrown in the places we least expect. There is an entry in the call site table for our throw because it's a block that might throw; the compiler also detected another three.</p>
+<p>Now that we know what the start and len fields do, let's change our personality function so the correct landing pad can handle the exception being thrown. Go ahead. My implementation for the next time.</p>

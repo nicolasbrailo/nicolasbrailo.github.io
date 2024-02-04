@@ -9,6 +9,6 @@ I admit it, hitting control enter to jump to a definition is a very useful featu
 Just add this magic spell to your .vimrc; next time you open a file in a project with a tags file generated just press ctrl-enter with your cursor over the definition you wish to find:
 
 ```c++
-map &lt;C-CR&gt; :tab split&lt;CR&gt;:exec("tag ".expand("&lt;cword&gt;"))&lt;CR&gt;
+map <C-CR> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 ```
 

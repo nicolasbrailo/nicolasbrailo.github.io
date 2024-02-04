@@ -1,5 +1,4 @@
-# C++ exceptions under the hood 17: reflecting on an exception type and
-reading .gcc_except_table
+# C++ exceptions under the hood 17: reflecting on an exception type and reading .gcc_except_table
 
 @meta publishDatetime 2013-05-14T09:00:00.000+02:00
 @meta author Nico Brailovsky
@@ -41,12 +40,12 @@ Check that last field, "action". That gives us an offset into the action table. 
 LSDA_ptr lsda = (uint8_t*)_Unwind_GetLanguageSpecificData(context);
 
 // Read LSDA headerfor the LSDA
-LSDA_Header header(&amp;lsda);
+LSDA_Header header(&lsda);
 
 const LSDA_ptr types_table_start = lsda + header.type_table_offset;
 
 // Read the LSDA CS header
-LSDA_CS_Header cs_header(&amp;lsda);
+LSDA_CS_Header cs_header(&lsda);
 
 // Calculate where the end of the LSDA CS table is
 const LSDA_ptr lsda_cs_table_end = lsda + cs_header.length;
@@ -55,7 +54,7 @@ const LSDA_ptr lsda_cs_table_end = lsda + cs_header.length;
 const LSDA_ptr action_tbl_start = lsda_cs_table_end;
 
 // Get the first call site
-LSDA_CS cs(&amp;lsda);
+LSDA_CS cs(&lsda);
 
 // cs.action is the offset + 1; that way cs.action == 0
 // means there is no associated entry in the action table
@@ -67,13 +66,13 @@ const LSDA_ptr action = action_tbl_start + action_offset;
 int type_index = action[0];
 
 // types_table_start actually points to the end of the table, so
-// we need to invert the type_index. There we&#x27;ll find a ptr to
+// we need to invert the type_index. There we'll find a ptr to
 // the std::type_info for the specification in our catch
 const void* catch_type_info = types_table_start[ -1 * type_index ];
 const std::type_info *catch_ti = (const std::type_info *) catch_type_info;
 
 // If everything went OK, this should print something like Fake_Exception
-printf("%s\n", catch_ti-&gt;name());
+printf("%s\n", catch_ti->name());
 ```
 
 The code looks complicated because there are several layers of indirection before actually reaching the struct type\_info, but it's not really doing anything complicated: it only reads the .gcc\_except\_table we found on the disassembly.

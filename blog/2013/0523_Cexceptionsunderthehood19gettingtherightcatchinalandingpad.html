@@ -1,7 +1,6 @@
-<h1>C++ exceptions under the hood 19: getting the right catch in a landing<a name="cexceptionsunderthehood19gettingtherightcatchinalanding"></a></h1>
-<p>pad</p>
-<p>19th entry about C++ exception handling: we have written a personality function that can so far, by reading the LSDA, choose the right landing pad on the right stack frame to handle a thrown exception, but it was having some difficulties finding the right catch inside a landing pad. To finally get a decently working personality function we&rsquo;ll need to check all the types an exception can handle by going through all the actions table in the .gcc_except_table.</p>
-<p>Remember the action table? Let&rsquo;s check it again but this time for a try with multiple catch blocks.</p>
+<h1>C++ exceptions under the hood 19: getting the right catch in a landing pad<a name="cexceptionsunderthehood19gettingtherightcatchinalandingpad"></a></h1>
+<p>19th entry about C++ exception handling: we have written a personality function that can so far, by reading the LSDA, choose the right landing pad on the right stack frame to handle a thrown exception, but it was having some difficulties finding the right catch inside a landing pad. To finally get a decently working personality function we'll need to check all the types an exception can handle by going through all the actions table in the .gcc_except_table.</p>
+<p>Remember the action table? Let's check it again but this time for a try with multiple catch blocks.</p>
 <pre style="display: inline-block; border: 1px solid red;"># Call site table
 .LLSDACSB2:
     # Call site 1
@@ -26,14 +25,14 @@
 </pre>
 <p>If we intend to read the exceptions supported by the landing pad 1 in the example above (that LSDA is for the catchit function, by the way) we need to do something like this:</p>
 <ul>
-<li>Get the action offset from the call site table, 2: remember you&rsquo;ll actually read the offset plus 1, so 0 means no action.</li>
+<li>Get the action offset from the call site table, 2: remember you'll actually read the offset plus 1, so 0 means no action.</li>
 <li>Go to action offset 2, get type index 1. The types table is indexed in reverse order (ie we have a pointer to its end and we need to access each element by using -1 * index).</li>
-<li>Go to types_table[-1]; you&rsquo;ll get a pointer to the type_info for Fake_Exception</li>
+<li>Go to types_table[-1]; you'll get a pointer to the type_info for Fake_Exception</li>
 <li>Fake_Exception is not the current exception being thrown; get the next action offset for our current action (0x7d)</li>
 <li>Reading 0x7d in uleb128 will actually yield -3; from the position where we read the offset move back 3 bytes to find the next action</li>
 <li>Read type index 2</li>
 <li>Get the type_info for Exception this time; it matches the current exception being thrown, so we can install the landing pad!</li>
 </ul>
-<p>It sounds complicated because there&rsquo;s, again, a lot of indirection for each step but you can check the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v11">in my github repo</a>.</p>
-<p>In the link above you will also see a bonus: a change to the personality function to correctly detect and use catch(&hellip;) blocks. That&rsquo;s an easy change once the personality functions knows how to read the types table: a type with a null pointer (ie a position in the table that instead of a valid pointer to an std::type_info holds null) represents a catch all block. This has an interesting side effect: a catch(T) will be able to handle only native (ie coming from C++) exceptions, whereas a catch(&hellip;) would catch also exceptions not thrown from within C++.</p>
-<p>We finally know how exceptions are thrown, how the stack is unwinded, how a personality function selects the correct stack frame to handle an exception and how the right catch inside a landing pad is selected, but we still have on more problem to solve: running destructors. We&rsquo;ll change our personality function to support RAII objects next time.</p>
+<p>It sounds complicated because there's, again, a lot of indirection for each step but you can check the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v11">in my github repo</a>.</p>
+<p>In the link above you will also see a bonus: a change to the personality function to correctly detect and use catch(...) blocks. That's an easy change once the personality functions knows how to read the types table: a type with a null pointer (ie a position in the table that instead of a valid pointer to an std::type_info holds null) represents a catch all block. This has an interesting side effect: a catch(T) will be able to handle only native (ie coming from C++) exceptions, whereas a catch(...) would catch also exceptions not thrown from within C++.</p>
+<p>We finally know how exceptions are thrown, how the stack is unwinded, how a personality function selects the correct stack frame to handle an exception and how the right catch inside a landing pad is selected, but we still have on more problem to solve: running destructors. We'll change our personality function to support RAII objects next time.</p>

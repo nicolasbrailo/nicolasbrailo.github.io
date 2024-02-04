@@ -1,5 +1,5 @@
 <h1>C++ exceptions under the hood 18: getting the right stack frame<a name="cexceptionsunderthehood18gettingtherightstackframe"></a></h1>
-<p>Our latest personality function knows whether it can handle an exception or not (assuming there is only one catch statement per try block and assuming no inheritance is used) but to make this knowledge useful, we have first to check if the exception we can handle matches the exception being thrown. Let&rsquo;s try to do this.</p>
+<p>Our latest personality function knows whether it can handle an exception or not (assuming there is only one catch statement per try block and assuming no inheritance is used) but to make this knowledge useful, we have first to check if the exception we can handle matches the exception being thrown. Let's try to do this.</p>
 <p>Of course, we need first to know the exception type. To do this we need to save the exception type when <strong>__cxa_throw</strong> is called (this is the chance the ABI gives us to set all our custom data):</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">in my github repo</a>.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void __cxa_throw(void<em> thrown_exception,
@@ -8,9 +8,9 @@
 {
     __cxa_exception <em>header = ((__cxa_exception </em>) thrown_exception - 1);
     // We need to save the type info in the exception header <em>Unwind</em> will
-    // receive, otherwise we won&amp;#x27;t be able to know it when unwinding
-    header-&amp;gt;exceptionType = tinfo;
-    _Unwind_RaiseException(&amp;amp;header-&amp;gt;unwindHeader);
+    // receive, otherwise we won&#x27;t be able to know it when unwinding
+    header-&gt;exceptionType = tinfo;
+    _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
 }
 </pre>
 <p>And now we can read the exception type in our personality function and easily check if the exception types match (the exception names are C++ strings, so doing a == is enough to check this:</p>
@@ -19,28 +19,28 @@ const void<em> catch_type_info = lsda.types_table_start[ -1 * type_index ];
 const std::type_info </em>catch_ti = (const std::type_info <em>) catch_type_info;
 // Get the type of the original exception being thrown
 __cxa_exception</em> exception_header = (__cxa_exception<em>)(unwind_exception+1) - 1;
-std::type_info </em>org_ex_type = exception_header-&amp;gt;exceptionType;
+std::type_info </em>org_ex_type = exception_header-&gt;exceptionType;
 printf(&quot;%s thrown, catch handles %s\n&quot;,
-            org_ex_type-&amp;gt;name(),
-            catch_ti-&amp;gt;name());
+            org_ex_type-&gt;name(),
+            catch_ti-&gt;name());
 // Check if the exception being thrown is of the same type
 // than the exception we can handle
-if (org_ex_type-&amp;gt;name() != catch_ti-&amp;gt;name())
+if (org_ex_type-&gt;name() != catch_ti-&gt;name())
     continue;
 </pre>
 <p>Check <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">here</a> for the full source with the new changes.</p>
-<p>Of course there would be a problem if we add that (can you see it?). If the exception is thrown in two phases and we said in the first one we would handle it, then we can&rsquo;t say on the second one we don&rsquo;t want it anymore. I don&rsquo;t know if _Unwind_ handles this case according to any documentation but this is most likely calling upon undefined behavior, so just saying we&rsquo;ll handle everything is no longer enough.</p>
-<p>Since we gave our personality function the ability to know if the landing pad can handle the exception being thrown we have been lying to _Unwind_ about which exceptions we can handle; even though we said we handle all of them on <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">our ABI 9</a>, the truth is that we didn&rsquo;t know whether we would be able to handle it. That&rsquo;s easy to change, we can do something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"><em>Unwind_Reason_Code __gxx_personality_v0 (&hellip;)
+<p>Of course there would be a problem if we add that (can you see it?). If the exception is thrown in two phases and we said in the first one we would handle it, then we can't say on the second one we don't want it anymore. I don't know if _Unwind_ handles this case according to any documentation but this is most likely calling upon undefined behavior, so just saying we'll handle everything is no longer enough.</p>
+<p>Since we gave our personality function the ability to know if the landing pad can handle the exception being thrown we have been lying to _Unwind_ about which exceptions we can handle; even though we said we handle all of them on <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">our ABI 9</a>, the truth is that we didn't know whether we would be able to handle it. That's easy to change, we can do something like this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"><em>Unwind_Reason_Code __gxx_personality_v0 (...)
 {
     printf(&quot;Personality function, searching for handler\n&quot;);
-    // &hellip;
+    // ...
     foreach (call site entry in lsda)
     {
         if (call site entry.not_good()) continue;
         // We found a landing pad for this exception; resume execution
         // If we are on search phase, tell _Unwind</em> we can handle this one
-        if (actions &amp;amp; _UA_SEARCH_PHASE) return _URC_HANDLER_FOUND;
+        if (actions &amp; _UA_SEARCH_PHASE) return _URC_HANDLER_FOUND;
         // If we are not on search phase then we are on _UA_CLEANUP_PHASE
         /<em> set everything so the landing pad can run </em>/
         return _URC_INSTALL_CONTEXT;
@@ -49,17 +49,17 @@ if (org_ex_type-&amp;gt;name() != catch_ti-&amp;gt;name())
 }
 </pre>
 <p>As usual, check the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v10">in my github repo</a>.</p>
-<p>So, what would we get if we run the personality function with this change? Fail, that&rsquo;s what we&rsquo;d get! Remember our throwing functions? This one should catch our exception:</p>
+<p>So, what would we get if we run the personality function with this change? Fail, that's what we'd get! Remember our throwing functions? This one should catch our exception:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void catchit() {
     try {
         try_but_dont_catch();
-    } catch(Fake_Exception&amp;amp;) {
+    } catch(Fake_Exception&amp;) {
         printf(&quot;Caught a Fake_Exception!\n&quot;);
-    } catch(Exception&amp;amp;) {
+    } catch(Exception&amp;) {
         printf(&quot;Caught an Exception!\n&quot;);
     }
     printf(&quot;catchit handled the exception\n&quot;);
 }
 </pre>
-<p>Unfortunately, our personality function only checks for the first type the landing pad can handle. If we delete the Fake_Exception catch block and try it again, though, we&rsquo;d get a different story: finally, success! Our personality function can now select the correct catch in the correct frame, provided there&rsquo;s no try block with multiple catches.</p>
-<p>Next time we&rsquo;ll be further improving this.</p>
+<p>Unfortunately, our personality function only checks for the first type the landing pad can handle. If we delete the Fake_Exception catch block and try it again, though, we'd get a different story: finally, success! Our personality function can now select the correct catch in the correct frame, provided there's no try block with multiple catches.</p>
+<p>Next time we'll be further improving this.</p>

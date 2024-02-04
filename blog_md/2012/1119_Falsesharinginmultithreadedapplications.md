@@ -17,7 +17,7 @@ void lots_of_sums(unsigned idx, int v[])
 {
 	const unsigned itrs = LOTS;
 
-	for (int i=0; i &lt; itrs; ++i)
+	for (int i=0; i < itrs; ++i)
 		v[idx].num = i;
 }
 ```

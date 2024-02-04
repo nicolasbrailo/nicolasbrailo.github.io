@@ -27,10 +27,10 @@ void raise() {
 If you try and compile that, gcc will complain: you can't use typeid with -fno-rtti specified. Which makes sense. Let's see what typeid does with a simple test:
 
 ```c++
-#include &lt;typeinfo&gt;
+#include <typeinfo>
 
 class Bar {};
-const std::type_info&amp; foo()
+const std::type_info& foo()
 {
         Bar bar;
             return typeid(bar);
@@ -105,6 +105,8 @@ That should indeed look familiar: the class being thrown is exactly the same as 
 
 We can now conclude what's going on: **the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends**. Specifying -fno-rtti on g++ only disables the "frontend" functions for RTTI: that means you won't be able to use typeid, and no RTTI classes will be generated... unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won't be able to access the RTTI information of this class via typeid, though).
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [C++ Performance: Common Wisdoms and Common “Wisdoms” - IT Hare](/blog_md/youfoundadeadlink.md) commented @ 2018-01-02T11:58:47.000+01:00:

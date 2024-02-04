@@ -1,10 +1,10 @@
 <h1>Vim utilities: Impl switcher<a name="vimutilitiesimplswitcher"></a></h1>
-<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented &ldquo;<a href="/blog/2016/0701_VimutilitiesBetterTabNew.html">BTN: Better Tab New</a>&rdquo;. Today it&rsquo;s the turn for &ldquo;Impl switcher&rdquo;.</p>
-<p>With its very imaginative name, &ldquo;Impl switcher&rdquo; has a very obvious purpose: it will just switch from a header file to an implementation file. So, between .h and .cpp. Surely there are lots of Vim plugins to do just that, why write another one?</p>
+<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "<a href="/blog/2016/0701_VimutilitiesBetterTabNew.html">BTN: Better Tab New</a>". Today it's the turn for "Impl switcher".</p>
+<p>With its very imaginative name, "Impl switcher" has a very obvious purpose: it will just switch from a header file to an implementation file. So, between .h and .cpp. Surely there are lots of Vim plugins to do just that, why write another one?</p>
 <p>Most impl-switcher plugins in the wild tend to, in my experience, require either a lot of configuration, a lot of dependencies, or a very specific project layout (or a combination of all three). They also seem to be huge and very complicated projects.</p>
-<p>Impl switcher will recursively go up your directory hierarchy and use &ldquo;find&rdquo; to locate any files named like your base file but with a different extension. That makes it very simple and it requires minimal (if any) configuration: just drop it in your .vimrc file and you&rsquo;re good to go. OK, not exactly: it requires a Linux-like system with utilities like &ldquo;find&rdquo;. Still, a good trade-off to keep the project&rsquo;s dependencies as small as possible.</p>
-<p>Get &ldquo;impl swicher&rdquo; here:</p>
+<p>Impl switcher will recursively go up your directory hierarchy and use "find" to locate any files named like your base file but with a different extension. That makes it very simple and it requires minimal (if any) configuration: just drop it in your .vimrc file and you're good to go. OK, not exactly: it requires a Linux-like system with utilities like "find". Still, a good trade-off to keep the project's dependencies as small as possible.</p>
+<p>Get "impl swicher" here:</p>
 <ul>
 <li><a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/impl_switcher.vim">Git hub repo</a></li>
-<li><a href="http://www.vim.org/scripts/script.php?script_id=5406">Impl switcher&rsquo;s Vim page</a></li>
+<li><a href="http://www.vim.org/scripts/script.php?script_id=5406">Impl switcher's Vim page</a></li>
 </ul>

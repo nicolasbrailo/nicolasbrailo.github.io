@@ -1,5 +1,4 @@
-# C++ exceptions under the hood 14: multiple landing pads &amp; the teachings
-of the guru
+# C++ exceptions under the hood 14: multiple landing pads & the teachings of the guru
 
 @meta publishDatetime 2013-04-23T09:00:00.000+02:00
 @meta author Nico Brailovsky
@@ -32,7 +31,7 @@ If you read carefully the last entry on this topic maybe you noticed I added som
 
 ```c++
 struct LSDA_CS {
-    // Note start, len and lp would be void*&#x27;s, but they are actually relative
+    // Note start, len and lp would be void*'s, but they are actually relative
     // addresses: start and lp are relative to the start of the function, len
     // is relative to start
 
@@ -58,11 +57,11 @@ void foo() {
         try {
             do_something();
     L1:
-        } catch (const Exception1&amp; ex) {
+        } catch (const Exception1& ex) {
             ...
-        } catch (const Exception2&amp; ex) {
+        } catch (const Exception2& ex) {
             ...
-        } catch (const ExceptionN&amp; ex) {
+        } catch (const ExceptionN& ex) {
             ...
         } catch (...) {
         }

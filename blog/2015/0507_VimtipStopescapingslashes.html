@@ -1,9 +1,9 @@
 <h1>Vim tip: Stop escaping slashes<a name="vimtipstopescapingslashes"></a></h1>
-<p>If you do a lot of search &amp; replace in Vim, eventually you&rsquo;ll end up escaping a lot of slashes. Whenever you have to replace a path, for example. Isn&rsquo;t that annoying? After a couple of levels you end up with a horrible &ldquo;\/path\/to\/foo\/bar&rdquo; pattern. And if you miss an escape slash, good luck. It&rsquo;s better to scrap the whole thing and start over.</p>
-<p>Luckily, when you are using the &lsquo;s&rsquo;earch command you can pick a different separator. Instead of typing &ldquo;%s/\/foo\/bar\/baz\//foo\/bar\//g&rdquo;, you can simply type &ldquo;%s#/foo/bar/baz/#foo/bar/#g&rdquo;. Vim will automagically detect you want to use &lsquo;#&rsquo; as a delimiter, and you&rsquo;ll end up with a much more readable pattern.</p>
+<p>If you do a lot of search &amp; replace in Vim, eventually you'll end up escaping a lot of slashes. Whenever you have to replace a path, for example. Isn't that annoying? After a couple of levels you end up with a horrible "\/path\/to\/foo\/bar" pattern. And if you miss an escape slash, good luck. It's better to scrap the whole thing and start over.</p>
+<p>Luckily, when you are using the 's'earch command you can pick a different separator. Instead of typing "%s/\/foo\/bar\/baz\//foo\/bar\//g", you can simply type "%s#/foo/bar/baz/#foo/bar/#g". Vim will automagically detect you want to use '#' as a delimiter, and you'll end up with a much more readable pattern.</p>
 <p>Extra tip: this also works in sed</p>
 <h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2019/0226_VimTipSearchandfreplace.html">VimTip: Search and f(replace) | An infinite monkey - Nico Brailovsky&#39;s blog</a> commented @ 2019-02-26T07:05:03.000+01:00:<a name="inreplytothispostvimtipsearchandfreplaceaninfinitemonkeynicobrailovsky39sblogblog_md20190226_vimtipsearchandfreplace.mdcommented20190226t070503.0000100"></a></h2>
-<p>[&hellip;] Pre-tip: When using search and replace in Vim, you don&rsquo;t need to use slashes [&hellip;]</p>
+<p>[&hellip;] Pre-tip: When using search and replace in Vim, you don't need to use slashes [&hellip;]</p>
 <p>Original <a href="/blog/2015/0507_VimtipStopescapingslashes.html">published here</a>.</p>

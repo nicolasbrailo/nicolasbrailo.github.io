@@ -37,13 +37,17 @@ void foo()
 I am not aware of many other uses for an anonymous type. Even more considering this idiom can now be replaced with a much cleaner lambda. But hey, it looks cool!
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Daniel]() commented @ 2019-02-20T23:47:19.000+01:00:
 
 An anonymous object
 An anonymous object is essentially a value that has no name.
-Because they have no name, there’s no way to refer to them beyond the point where they are created. Consequently, they have “expression scope”, meaning they are created, evaluated, and destroyed all within a single expression.
+Because they have no name, there's no way to refer to them beyond the point where they are created. Consequently, they have “expression scope”, meaning they are created, evaluated, and destroyed all within a single expression.
 Here's an add() function written using an anonymous object:
+
+```
 #include
 
 int add(int x, int y)
@@ -58,5 +62,6 @@ int main()
 return 0;
 
 }
+```
 
 Original [published here](/blog_md/2011/1220_AnonymousobjectsinC.md).

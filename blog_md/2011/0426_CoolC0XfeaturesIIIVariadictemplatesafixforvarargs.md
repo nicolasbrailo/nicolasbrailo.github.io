@@ -11,10 +11,10 @@
 void println() {}
 
 // General case
-template &lt;typename H, typename... T&gt;
+template <typename H, typename... T>
 void println(H p, T... t)
 {
-   std::cout &lt;&lt; p;
+   std::cout << p;
    println(t...);
 }
 
@@ -25,15 +25,16 @@ int main() {
 
 ```
 
-It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some [template-foo](/search/label/Templates) is required, not only because of the syntax but because we'll be talking about functional programming too.
+It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some [template-foo](/blog_md/youfoundadeadlink.md) is required, not only because of the syntax but because we'll be talking about functional programming too.
 
 With all that intro (the last 2 articles were just an intro!) now we are in a good shape to ask what a variadic template really is. In its easiest form, it's just a list of template arguments, like this:
 
 ```c++
-template &lt;typename... T&gt; void foo(T... t) {}
+template <typename... T> void foo(T... t) {}
 ```
 
 That simple template can accept as many parameters as you need, of any type. This is much safer than a vararg because:
+
 * Doesn't require the user to specify the number of args passed to foo, so it just can't get out of sync
 * It's typesafe; since C++ templates are type-safe, variadic templates are type safe too. You won't be able to request an int where a char is required, you'll just get a compiler error.
 * Compile time check: you get type safety just because this is all compiled code. If it doesn't compile, you get an error (albeit a little cryptic).
@@ -43,7 +44,7 @@ That simple template can accept as many parameters as you need, of any type. Thi
 Pretty neat, huh? But how does it work? Variadic templates are actually very similar to how Haskell handles lists, you get all the arguments as a list of types in which you can either get the head or the tail. To do something useful, get the head and continue processing the tail recursively.
 
 ```c++
-template &lt;typename H, typename... T&gt;
+template <typename H, typename... T>
 void do_something(H h, T... t)
 {
 	// Do something useful with h
@@ -76,20 +77,20 @@ With all that in mind, let's put together our typesafe printf:
 // Condition to stop processing
 void println() {}
 
-// Println receives a list of arguments. We don&#x27;t know it&#x27;s type nor
+// Println receives a list of arguments. We don't know it's type nor
 // how many there are, so we just get the head and expand the rest
-template &lt;typename H, typename... T&gt;
+template <typename H, typename... T>
 void println(H p, T... t)
 {
 	// Do something useful with the head
-	std::cout &lt;&lt; p;
+	std::cout << p;
 	// Expand the rest (pass it recursively to println)
 	println(t...);
 }
 
 int main() {
 	// See how it works even better than varargs?
-   println("Hola", " mundo ", 42, &#x27;n&#x27;);
+   println("Hola", " mundo ", 42, 'n');
    return 0;
 }
 

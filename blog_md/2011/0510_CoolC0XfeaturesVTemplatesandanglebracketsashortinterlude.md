@@ -11,13 +11,13 @@ C++0x doesn't do much to clean up this mess, it's probably impossible, but it do
 Up to C++0x, having two angle brackets together (>>) was parsed as the shift operator (like the one cout uses), meaning that if you had nested templates a lot of compiler errors ensued. C++0x corrects this, meaning that code which in C++ would be like this:
 
 ```c++
-Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt; &gt;
+Reduce<Sum, Lst<Num<2>, Lst<Num<4>, Lst<Num<6>, Lst< Num<8> > > > > >
 ```
 
 Can now be written like this:
 
 ```c++
-Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt;&gt;&gt;&gt;&gt;&gt;
+Reduce<Sum, Lst<Num<2>, Lst<Num<4>, Lst<Num<6>, Lst< Num<8>>>>>>
 ```
 
 Aaand, back to the normal schedule...

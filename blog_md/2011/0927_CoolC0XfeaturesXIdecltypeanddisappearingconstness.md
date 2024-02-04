@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/09/cool-c0x-features-xi-decltype-and.html
 
-After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the [last posts](/search/label/Series%3A Cool Cpp0X features) of this series.
+After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the [last posts](/blog_md/youfoundadeadlink.md) of this series.
 
 In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it's present for template type deduction too, but decltype adds a new level of complexity to it.
 
@@ -31,7 +31,7 @@ struct Foo {
 
 void f(const Foo foo)
 {
-	int&amp; x = foo.bar;
+	int& x = foo.bar;
 }
 ```
 
@@ -40,7 +40,7 @@ That won't compile either, you can't initialize an int reference from a const in
 ```c++
 void f(const Foo foo)
 {
-	const int&amp; x = foo.bar;
+	const int& x = foo.bar;
 }
 ```
 
@@ -56,7 +56,7 @@ struct Foo {
 void f(const Foo foo)
 {
 	// This won't compile
-	int&amp; x = foo.bar;
+	int& x = foo.bar;
 	// This will
 	decltype(foo.bar) x = 42;
 }
@@ -80,8 +80,8 @@ void f(const Foo foo)
 {
 	// These two statements are equivalent
 	decltype((foo.bar)) x = 42;
-	const int&amp; y = 42;
-	// It's very easy to confirm that the typeof x is now const int&amp;
+	const int& y = 42;
+	// It's very easy to confirm that the typeof x is now const int&
 	// This won't compile:
 	x = 24;
 }

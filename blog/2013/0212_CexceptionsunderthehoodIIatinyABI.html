@@ -1,6 +1,6 @@
 <h1>C++ exceptions under the hood II: a tiny ABI<a name="cexceptionsunderthehoodiiatinyabi"></a></h1>
-<p>If we are going to try and understand why exceptions are complex and how do they work, we can either read a lot of manuals or we can try to write something to handle the exceptions ourselves. Actually, I was surprised by the lack of good information on this topic: pretty much everything I found is either incredibly detailed or very basic, with one exception or two. Of course there are some specifications to implement (most notably the <a href="/blog/youfoundadeadlink.html">ABI for c++</a> but we also have <a href="http://www.logix.cz/michal/devel/gas-cfi/">CFI</a>, <a href="http://www.logix.cz/michal/devel/gas-cfi/dwarf-2.0.0.pdf">DWARF</a> and libstdc) but reading the specification alone is not enough to really learn what&rsquo;s going on under the hood.</p>
-<p>Let&rsquo;s start with the obvious then: wheel reinvention! We know for a fact that plain C doesn&rsquo;t handle exceptions, so let&rsquo;s try to link a throwing C++ program with a plain C linker and see what happens. I came up with something simple like this:</p>
+<p>If we are going to try and understand why exceptions are complex and how do they work, we can either read a lot of manuals or we can try to write something to handle the exceptions ourselves. Actually, I was surprised by the lack of good information on this topic: pretty much everything I found is either incredibly detailed or very basic, with one exception or two. Of course there are some specifications to implement (most notably the <a href="/blog/youfoundadeadlink.html">ABI for c++</a> but we also have <a href="http://www.logix.cz/michal/devel/gas-cfi/">CFI</a>, <a href="http://www.logix.cz/michal/devel/gas-cfi/dwarf-2.0.0.pdf">DWARF</a> and libstdc) but reading the specification alone is not enough to really learn what's going on under the hood.</p>
+<p>Let's start with the obvious then: wheel reinvention! We know for a fact that plain C doesn't handle exceptions, so let's try to link a throwing C++ program with a plain C linker and see what happens. I came up with something simple like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;throw.h&quot;
 extern &quot;C&quot; {
     void seppuku() {
@@ -8,7 +8,7 @@ extern &quot;C&quot; {
     }
 }
 </pre>
-<p>Don&rsquo;t forget the extern stuff, otherwise g++ will helpfully mangle our little function&rsquo;s name and we won&rsquo;t be able to link it with our plain C program. Of course, we need a header file to &ldquo;link&rdquo; (no pun intended) the C++ world with the C world:</p>
+<p>Don't forget the extern stuff, otherwise g++ will helpfully mangle our little function's name and we won't be able to link it with our plain C program. Of course, we need a header file to "link" (no pun intended) the C++ world with the C world:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Exception {};
 #ifdef __cplusplus
 extern &quot;C&quot; {
@@ -27,19 +27,19 @@ int main()
 }
 </pre>
 <p>What happens now if we try to compile and link together this frankencode?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&amp;gt; gcc -c -o main.o -O0 -ggdb main.c
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+&gt; gcc -c -o main.o -O0 -ggdb main.c
 </pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
 <p>So far so good. Both g++ and gcc are happy in their little world. Chaos will ensue once we try to link them, though:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; gcc main.o throw.o -o app
-throw.o: In function <code>foo()&amp;amp;#x27;:
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; gcc main.o throw.o -o app
+throw.o: In function <code>foo()&amp;#x27;:
 throw.cpp:4: undefined reference to
-</code>__cxa_allocate_exception&amp;#x27;
-throw.cpp:4: undefined reference to <code>__cxa_throw&amp;amp;#x27;
-throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to</code>vtable for __cxxabiv1::__class_type_info&amp;#x27;
+</code>__cxa_allocate_exception&#x27;
+throw.cpp:4: undefined reference to <code>__cxa_throw&amp;#x27;
+throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to</code>vtable for __cxxabiv1::__class_type_info&#x27;
 collect2: ld returned 1 exit status
 </pre>
-<p>And sure enough, gcc complains about missing C++ symbols. Those are very special C++ symbols, though. Check the last error line: a vtable for cxxabiv1 is missing. cxxabi, defined in libstdc++, refers to the application binary interface for C++. So now we have learned that the exception handling is done with some help of the standard C++ library with an interface defined by C++&rsquo;s ABI.</p>
-<p>The C++ ABI defines a standard binary format so we can link objects together in a single program; if we compile a .o file with two different compilers, and those compilers use a different ABI, we won&rsquo;t be able to link the .o objects into an application. The ABI will also define some other formats, like for example the interface to perform stack unwinding or the throwing of an exception. In this case, the ABI defines an interface (not necessarily a binary format, just an interface) between C++ and some other library in our program which will handle the stack unwinding, ie the ABI defines C++ specific stuff so it can talk to non-C++ libraries: this is what would enable exceptions thrown from other languages to be caught in C++, amongst other things.</p>
-<p>In any case, the linker errors are pointing us to the first layer into exception handling under the hood: an interface we&rsquo;ll have to implement ourselves, the cxxabi. For the next article we&rsquo;ll be starting our own mini ABI, as defined in the <a href="/blog/youfoundadeadlink.html">C++ ABI</a>.</p>
+<p>And sure enough, gcc complains about missing C++ symbols. Those are very special C++ symbols, though. Check the last error line: a vtable for cxxabiv1 is missing. cxxabi, defined in libstdc++, refers to the application binary interface for C++. So now we have learned that the exception handling is done with some help of the standard C++ library with an interface defined by C++'s ABI.</p>
+<p>The C++ ABI defines a standard binary format so we can link objects together in a single program; if we compile a .o file with two different compilers, and those compilers use a different ABI, we won't be able to link the .o objects into an application. The ABI will also define some other formats, like for example the interface to perform stack unwinding or the throwing of an exception. In this case, the ABI defines an interface (not necessarily a binary format, just an interface) between C++ and some other library in our program which will handle the stack unwinding, ie the ABI defines C++ specific stuff so it can talk to non-C++ libraries: this is what would enable exceptions thrown from other languages to be caught in C++, amongst other things.</p>
+<p>In any case, the linker errors are pointing us to the first layer into exception handling under the hood: an interface we'll have to implement ourselves, the cxxabi. For the next article we'll be starting our own mini ABI, as defined in the <a href="/blog/youfoundadeadlink.html">C++ ABI</a>.</p>

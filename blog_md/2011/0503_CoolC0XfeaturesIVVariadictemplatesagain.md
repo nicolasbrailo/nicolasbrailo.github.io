@@ -24,60 +24,60 @@ sum () <- 0
 
 ```
 
-Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my [template metaprogramming series](/search/label/Series%3A%20Template%20Metaprogramming)):
+Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my [template metaprogramming series](/blog_md/youfoundadeadlink.md)):
 
 ```c++
-#include &lt;iostream&gt;
+#include <iostream>
 
 struct Nil{};
-template &lt;typename H, typename T=Nil&gt; struct Lst {
+template <typename H, typename T=Nil> struct Lst {
 	typedef H Head;
 	typedef T Tail;
 };
 
-template &lt;
-		template&lt;typename A, typename B&gt; class Op,
+template <
+		template<typename A, typename B> class Op,
 		typename Head,
-		typename Lst&gt;
+		typename Lst>
 struct intForeach
 {
 	typedef typename intForeach
-		&lt; Op, typename Lst::Head, typename Lst::Tail &gt;::result Next;
-	typedef typename Op&lt; Head, Next &gt;::result result;
+		< Op, typename Lst::Head, typename Lst::Tail >::result Next;
+	typedef typename Op< Head, Next >::result result;
 };
 
-template &lt;
-		template&lt;typename A, typename B&gt; class Op,
-		typename Head&gt;
-struct intForeach &lt;Op, Head, Nil&gt;
+template <
+		template<typename A, typename B> class Op,
+		typename Head>
+struct intForeach <Op, Head, Nil>
 {
 	typedef Head result;
 };
 
-template &lt;
+template <
 		typename Lst,
-		template&lt;typename A,
-		typename B&gt;
-		class Op&gt;
+		template<typename A,
+		typename B>
+		class Op>
 struct Reduce
 {
 	typedef typename intForeach
-		&lt; Op, typename Lst::Head, typename Lst::Tail &gt;::result result;
+		< Op, typename Lst::Head, typename Lst::Tail >::result result;
 };
 
-template &lt;int N&gt; struct Num {
+template <int N> struct Num {
 	const static int value = N;
 };
 
-template &lt;typename A, typename B&gt; struct Sum {
+template <typename A, typename B> struct Sum {
 	static const int r = A::value + B::value;
-	typedef Num&lt;r&gt; result;
+	typedef Num<r> result;
 };
 
 int main() {
-	std::cout &lt;&lt; Reduce&lt;
-		Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt;,
-		Sum &gt;::result::value &lt;&lt; "n";
+	std::cout << Reduce<
+		Lst<Num<2>, Lst<Num<4>, Lst<Num<6>, Lst< Num<8> > > > >,
+		Sum >::result::value << "n";
 	return 0;
 }
 
@@ -86,13 +86,13 @@ int main() {
 Nothing too fancy, plain old recursion with a sum. Yet it's quite verbose, can we make this a little bit more terse and, hopefully, more clear? Yes, we can. Take a look at that Lst, Lst<...> It sucks. And it's the perfect place to use variadic templates, we just need to construct a structure getting a list of ints, like this:
 
 ```c++
-template &lt;
+template <
 	// The operation we wish to apply
-	template&lt;typename A, typename B&gt; class Op,
+	template<typename A, typename B> class Op,
 	// Current element to process
 	class H,
 	// All the rest
-	class... T&gt;
+	class... T>
 struct Reduce_V
 {
 	// TODO
@@ -103,56 +103,57 @@ That one should look familiar from last time article. Now, to implement a reduce
 
 ```c++
 // Remember how T... means to expand T for the next instance
-	typedef typename Reduce_V&lt;Op, T...&gt;::result Tail_Result
+	typedef typename Reduce_V<Op, T...>::result Tail_Result
 ```
 
 There's something missing. Can you see what? The ending condition, of course. Let's add it and we'll get something like this:
 
 ```c++
-template &lt;
+template <
         // The operation we wish to apply
-        template&lt;typename A, typename B&gt; class Op,
+        template<typename A, typename B> class Op,
         // All the rest
-        class... T&gt;
+        class... T>
 struct Reduce_V
 {
 };
 
-template &lt;
+template <
         // The operation we wish to apply
-        template&lt;typename A, typename B&gt; class Op,
+        template<typename A, typename B> class Op,
         // All the rest
-        class H&gt;
-struct Reduce_V&lt;Op, H&gt;
+        class H>
+struct Reduce_V<Op, H>
 {
 	typedef H result;
 };
 
-template &lt;
+template <
         // The operation we wish to apply
-        template&lt;typename A, typename B&gt; class Op,
+        template<typename A, typename B> class Op,
         // Current element to process
         class H,
         // All the rest
-        class... T&gt;
-struct Reduce_V&lt;Op, H, T...&gt;
+        class... T>
+struct Reduce_V<Op, H, T...>
 {
         // Remember how T… means to expand T for the next instance
-   typedef typename Reduce_V&lt;Op, T...&gt;::result Tail_Result;
+   typedef typename Reduce_V<Op, T...>::result Tail_Result;
 
    // Reduce current value with the next in line
-   typedef typename Op&lt;H, Tail_Result&gt;::result result;
+   typedef typename Op<H, Tail_Result>::result result;
 };
 ```
 
 And using it is very simple too:
 
 ```c++
-std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
+std::cout << Reduce_V< Sum, Num<1>, Num<2>, Num<3>, Num<4>>::result::value << "n";
 ```
 
 Next time we'll see another example for variadic templates and a new C++0x feature.
 
+# Comments
 
 ---
 ## In reply to [this post](), [Chaitanya]() commented @ 2013-09-06T22:10:04.000+02:00:

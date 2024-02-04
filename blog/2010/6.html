@@ -7,23 +7,23 @@
 </ul>
 <h1>Posts for 2010 June<a name="postsfor2010june"></a></h1>
 <h1>Vim tips: make things work again<a name="vimtipsmakethingsworkagain"></a></h1>
-<p>By Nico Brailovsky @ 2010-06-29</p>
-<p>Are you <a href="/blog/2010/0629_Vimtipsmakethingsworkagain.html">using :make within vim</a>? If you are, then you probably noticed that getting lots of compiler errors is not uncommon, and that vim has a tendency of jumping to the first error found&hellip; but what happens if you want to see subsequent errors too, because you&rsquo;re a really crappy programmer and need to find the 10 or 20 errors you just introduced with your single line edit?</p>
+<p>By Nico Brailovsky @ 2010-06-29 -  <a href="/blog/2010/0629_Vimtipsmakethingsworkagain.html">Permalink</a></p>
+<p>Are you <a href="/blog/2010/0629_Vimtipsmakethingsworkagain.html">using :make within vim</a>? If you are, then you probably noticed that getting lots of compiler errors is not uncommon, and that vim has a tendency of jumping to the first error found... but what happens if you want to see subsequent errors too, because you're a really crappy programmer and need to find the 10 or 20 errors you just introduced with your single line edit?</p>
 <p>Luckily Vim is always the anwser, just use <strong>cnext</strong> and <strong>cprev</strong> until you reach the error you are looking for.</p>
 <hr />
 <h1>There&#39;s still hope<a name="there39sstillhope"></a></h1>
-<p>By Nico Brailovsky @ 2010-06-25</p>
-<p>A log time ago, in a galaxy far away, I <a href="/blog/2008/1009_aptgetnewcomputer.html">posted</a> <a href="/blog/2008/1228_aptgetinstallnewcomputerII.html">a list</a> <a href="/blog/2009/0519_aptgetinstallnewcomputerIII.html">of stuff</a> I apt-get&rsquo;d as soon as my Buguntu install was ready. Well, fast forward to KK and this is the new apt-get script:</p>
+<p>By Nico Brailovsky @ 2010-06-25 -  <a href="/blog/2010/0625_There39sstillhope.html">Permalink</a></p>
+<p>A log time ago, in a galaxy far away, I <a href="/blog/2008/1009_aptgetnewcomputer.html">posted</a> <a href="/blog/2008/1228_aptgetinstallnewcomputerII.html">a list</a> <a href="/blog/2009/0519_aptgetinstallnewcomputerIII.html">of stuff</a> I apt-get'd as soon as my Buguntu install was ready. Well, fast forward to KK and this is the new apt-get script:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install opera mocp unclutter build-essential gimp \
         mmv gnome-do knetworkmanager xdiskusage iptraf sshfs \
         shntool cuetools flac wavpack unrar vlc vim gvim vim-doc \
         vim-full vim-gnome ddd devhelp doxygen doxygen-gui \
         exuberant-ctags ctags  subversion ifstat antiword
 </pre>
-<p>Quite a progress I&rsquo;d say, as these are mostly programs I use which don&rsquo;t come in the default install (even though they should). You know, I even have hopes for <a href="/blog/2010/0504_UbuntuSoundstillFUBARd.html">the sound system</a> in my notebook this time&hellip;</p>
+<p>Quite a progress I'd say, as these are mostly programs I use which don't come in the default install (even though they should). You know, I even have hopes for <a href="/blog/2010/0504_UbuntuSoundstillFUBARd.html">the sound system</a> in my notebook this time...</p>
 <hr />
 <h1>Nooooooooooo<a name="nooooooooooo"></a></h1>
-<p>By Nico Brailovsky @ 2010-06-23</p>
+<p>By Nico Brailovsky @ 2010-06-23 -  <a href="/blog/2010/0623_Nooooooooooo.html">Permalink</a></p>
 <pre style="display: inline-block; border: 1px solid red;">
 (gvim:13664): Gdk-CRITICAL **: gdk_window_get_user_data: assertion `GDK_IS_WINDOW (window)&#x27; failed
 Vim: capt&amp;eacute; una se&amp;ntilde;al de muerte SEGV
@@ -31,43 +31,43 @@ Vim: finalizado.
 </pre>
 <hr />
 <h1>C++ pretty functions<a name="cprettyfunctions"></a></h1>
-<p>By Nico Brailovsky @ 2010-06-22</p>
+<p>By Nico Brailovsky @ 2010-06-22 -  <a href="/blog/2010/0622_Cprettyfunctions.html">Permalink</a></p>
 <p>There are two well known macros from the preprocessor which every macro-sorcer must know. They are __FILE__ and __LINE__. You probably already know about them but anyway, __FILE__ will give you the current file and __LINE__ the current line. Easy, huh?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
    printf(&quot;%s : %i&quot;, <strong>FILE</strong>, <strong>LINE</strong>);
    return 0;
 }
 </pre>
-<p>The program above would give you &ldquo;main.cpp : 3&rdquo; as a result. There is nothing going on at execution time, it&rsquo;s all preprocesor wizardy. In fact with &ldquo;<strong>g{++/cc} -E</strong>&rdquo; you can even check what the &ldquo;real&rdquo; output is (-E means to return the preprocessor output. Keep in mind a lot of stuff will be included from the headers you use).</p>
+<p>The program above would give you "main.cpp : 3" as a result. There is nothing going on at execution time, it's all preprocesor wizardy. In fact with "<strong>g{++/cc} -E</strong>" you can even check what the "real" output is (-E means to return the preprocessor output. Keep in mind a lot of stuff will be included from the headers you use).</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
    printf(&quot;%s : %i&quot;, &quot;main.cpp&quot;, 3);
    return 0;
 }
 </pre>
-<p>Well that&rsquo;s nice and all, but g++ can top this easily:</p>
+<p>Well that's nice and all, but g++ can top this easily:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
    return 0;
 }
 </pre>
-<p>There are a couple of notable things about this new &ldquo;pretty function&rdquo; thing:
-* 1. It will demangle a function&rsquo;s name
-* 2. This time it isn&rsquo;t a preprocessor secret thing but a real variable g++ will create.</p>
+<p>There are a couple of notable things about this new "pretty function" thing:
+* 1. It will demangle a function's name
+* 2. This time it isn't a preprocessor secret thing but a real variable g++ will create.</p>
 <p>You can easily use this for better logging functions now (with some macro wizardy, obviously).</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Nicol&aacute;s Brailovsky » Blog Archive » Cool C++0X features VI: A variadic wrapper</a> commented @ 2011-05-17T09:06:06.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivecoolc0xfeaturesviavariadicwrapperblog_md20110531_coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype.mdcommented20110517t090606.0000200"></a></h2>
-<p>[&hellip;] you want to wrap do_something with something else (Remember __PRETTY_FUNCTION__?). This is a solution, the worst one [&hellip;]</p>
+<p>[...] you want to wrap do_something with something else (Remember __PRETTY_FUNCTION__?). This is a solution, the worst one [...]</p>
 <p>Original <a href="/blog/2010/0622_Cprettyfunctions.html">published here</a>.</p>
 <hr />
 <h1>Template metaprogramming X: Zero Minus Ten<a name="templatemetaprogrammingxzerominusten"></a></h1>
-<p>By Nico Brailovsky @ 2010-06-17</p>
-<p>So far we&rsquo;ve learned the basic constructs of template metaprogramming (loops, branching, return values) and some basic list operations (getting the length of a list, appending and prepending elements, checking if an element is included in a list). Let&rsquo;s put it all together by creating an operation to return the position of an element. It&rsquo;ll be very useful later on too.</p>
-<p>If we go back to the Includes operation we can get some help to define the Position operation: the position of an element in a list is one plus the position of the element we&rsquo;re searching for in the tail, or zero if the head equals said element. The operation is not defined if the element is not in the list.</p>
+<p>By Nico Brailovsky @ 2010-06-17 -  <a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">Permalink</a></p>
+<p>So far we've learned the basic constructs of template metaprogramming (loops, branching, return values) and some basic list operations (getting the length of a list, appending and prepending elements, checking if an element is included in a list). Let's put it all together by creating an operation to return the position of an element. It'll be very useful later on too.</p>
+<p>If we go back to the Includes operation we can get some help to define the Position operation: the position of an element in a list is one plus the position of the element we're searching for in the tail, or zero if the head equals said element. The operation is not defined if the element is not in the list.</p>
 <p>Translating to pseudo-code:</p>
 <pre style="display: inline-block; border: 1px solid red;">Position (lst.head, lst) &lt;- 0
 Position (e, lst) &lt;- 1 + Position(e, lst.tail)
 </pre>
-<p>The translation to C++ is not so trivial this time. Try it, I&rsquo;ll wait&hellip; ready? OK, let&rsquo;s start</p>
+<p>The translation to C++ is not so trivial this time. Try it, I'll wait... ready? OK, let's start</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class Elm, class Lst&amp;gt; struct Position {
     typedef typename Lst::head Head;
     typedef typename Lst::tail Tail;
@@ -76,7 +76,7 @@ Position (e, lst) &lt;- 1 + Position(e, lst.tail)
     static const int next = Position&amp;lt;Elm, Tail&amp;gt;::result;
 };
 </pre>
-<p>Looks easy&hellip; but doesn&rsquo;t work. First problem, we can&rsquo;t compare two types, remember? We need to use Eq again. Second problem, although we said the operation is undefined if the element is not included on the list, it would be nice if we could force the compiler to fail if (or when) that happens. Let&rsquo;s rewrite the operation using a façade again, but adding an Assert:</p>
+<p>Looks easy... but doesn't work. First problem, we can't compare two types, remember? We need to use Eq again. Second problem, although we said the operation is undefined if the element is not included on the list, it would be nice if we could force the compiler to fail if (or when) that happens. Let's rewrite the operation using a façade again, but adding an Assert:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename Elm, typename LST&amp;gt; struct _Position {
     typedef typename LST::head Head;
     typedef typename LST::tail Tail;
@@ -88,7 +88,7 @@ template &amp;lt;typename Elm, typename LST&amp;gt; struct Position {
     static const int result = _Position&amp;lt;Elm, LST&amp;gt;::result;
 };
 </pre>
-<p>Oh, we haven&rsquo;t defined assert yet! There&rsquo;s another problem, too: even if it won&rsquo;t compile, the compiler will try to expand _Position&lt; &hellip;, NIL &gt; indefinitely, causing an error after too many nested template calls. Not nice. We need to add a case to make the compiler stop:</p>
+<p>Oh, we haven't defined assert yet! There's another problem, too: even if it won't compile, the compiler will try to expand _Position&lt; ..., NIL &gt; indefinitely, causing an error after too many nested template calls. Not nice. We need to add a case to make the compiler stop:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
 // Helper: Will fail to compile if the assert is false
 class Assertion{};
@@ -115,45 +115,45 @@ template &amp;lt;typename Elm, typename LST&amp;gt; struct Position {
     static const int result = _Position&amp;lt;Elm, LST&amp;gt;::result;
 };
 </pre>
-<p>All that code for such a simple operation, man. Also, see what we did with Assert&lt;&gt;? It seems making a compile fail is actually quite easy. That&rsquo;s what I have most experience with.</p>
-<p>We&rsquo;ve been through quite a lot, and our toolboox should be quite big already. Next time we&rsquo;ll start steering towards some sort of applicability, trying to use some of all these stuff to implement a real, useful and working program&hellip; assuming that&rsquo;s even possible.</p>
+<p>All that code for such a simple operation, man. Also, see what we did with Assert&lt;&gt;? It seems making a compile fail is actually quite easy. That's what I have most experience with.</p>
+<p>We've been through quite a lot, and our toolboox should be quite big already. Next time we'll start steering towards some sort of applicability, trying to use some of all these stuff to implement a real, useful and working program... assuming that's even possible.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0916_Quoteoftheweek.html">Nicol&aacute;s Brailovsky » Blog Archive » Quote of the week</a> commented @ 2010-09-16T09:02:28.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivequoteoftheweekblog_md20100916_quoteoftheweek.mdcommented20100916t090228.0000200"></a></h2>
-<p>[&hellip;] &ldquo;Template metaprogramming&ldquo;, chapter 10 by [&hellip;]</p>
+<p>[...] &ldquo;Template metaprogramming&ldquo;, chapter 10 by [...]</p>
 <p>Original <a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">published here</a>.</p>
 <hr />
 <h1>Binary portability in Linux<a name="binaryportabilityinlinux"></a></h1>
-<p>By Nico Brailovsky @ 2010-06-15</p>
-<p>An interesting topic for a change: is Linux binary portable? That is, can we take a binary file and be sure it&rsquo;ll run in any other Linux system? What happens if we broaden that to any POSIX system, will it blend? Eh, I mean, will it run?
+<p>By Nico Brailovsky @ 2010-06-15 -  <a href="/blog/2010/0615_BinaryportabilityinLinux.html">Permalink</a></p>
+<p>An interesting topic for a change: is Linux binary portable? That is, can we take a binary file and be sure it'll run in any other Linux system? What happens if we broaden that to any POSIX system, will it blend? Eh, I mean, will it run?
 Doing some research on the subject I wrote down a list of the thought process which led my to an (inconclusive) answer:</p>
 <ol>
-<li>First we should define what a binary is for us: When we talk about a binary we are usually thinking about a compiled binary file, not an interpreted script file like Ruby or Python. Those are for people who like things to actually work, so let&rsquo;s focus on a compiled executable file, like a C/C++ application.
- - Defining compiled file: What could it be other than a sequence of bytes the microprocessor can understand? Yes, that&rsquo;s right, it&rsquo;s sort of interpreted code, only there&rsquo;s electronics behind, not more code. This brings us to the first interesting conclusion: the executable must be (leaving emulators aside) compatible with the architecture you&rsquo;re on. Running Sparc? Well then, the binary better be compiled for Sparc because otherwise to the uP will not make any sense.
- - Format: as any other thing, a binary file must have a format. That is a standard which defines the structure the file will follow. ELF is the binary format for Linux and it&rsquo;s quite standard. Of course, if the binary format is a standard then we should get perfect portability between different platforms running on equal architecture. Unfortunately that&rsquo;s not the case.
- - (Cont&rsquo;d) Why don&rsquo;t we? The binary depends not only on compile time &ldquo;stuff&rdquo; but a loading time linking occurs: the executable binary will get linked with the system files like glibc, or any other dependency on a shared library it may have.</li>
+<li>First we should define what a binary is for us: When we talk about a binary we are usually thinking about a compiled binary file, not an interpreted script file like Ruby or Python. Those are for people who like things to actually work, so let's focus on a compiled executable file, like a C/C++ application.</li>
+<li>Defining compiled file: What could it be other than a sequence of bytes the microprocessor can understand? Yes, that's right, it's sort of interpreted code, only there's electronics behind, not more code. This brings us to the first interesting conclusion: the executable must be (leaving emulators aside) compatible with the architecture you're on. Running Sparc? Well then, the binary better be compiled for Sparc because otherwise to the uP will not make any sense.</li>
+<li>Format: as any other thing, a binary file must have a format. That is a standard which defines the structure the file will follow. ELF is the binary format for Linux and it's quite standard. Of course, if the binary format is a standard then we should get perfect portability between different platforms running on equal architecture. Unfortunately that's not the case.</li>
+<li>(Cont'd) Why don't we? The binary depends not only on compile time "stuff" but a loading time linking occurs: the executable binary will get linked with the system files like glibc, or any other dependency on a shared library it may have.</li>
 </ol>
 <p>So, what are the keypoints for Linux binary portability? Architecture, binary format and system libraries.</p>
-<p>Of course, making the executable run is only part of the equation, as running and segfaulting on the spot is not so nice either. For this last part you&rsquo;ll have to closely follow the standards defined by POSIX for paths and stuff like that.</p>
+<p>Of course, making the executable run is only part of the equation, as running and segfaulting on the spot is not so nice either. For this last part you'll have to closely follow the standards defined by POSIX for paths and stuff like that.</p>
 <h3>Epilogue<a name="epilogue"></a></h3>
-<p>As an epilogue, we could add that Windows binary compatibility tends to be great. Running binaries from 12 years back is no small feat, yet this leads to a whole lot of other problems: an incredible complex loader, security bugs, backwards compatibility headaches, et al. <a href="http://blogs.msdn.com/oldnewthing/">The old new thing</a> is a great source of information for this topics, I&rsquo;m quite illiterate about Windows binaries nowdays :)</p>
+<p>As an epilogue, we could add that Windows binary compatibility tends to be great. Running binaries from 12 years back is no small feat, yet this leads to a whole lot of other problems: an incredible complex loader, security bugs, backwards compatibility headaches, et al. <a href="http://blogs.msdn.com/oldnewthing/">The old new thing</a> is a great source of information for this topics, I'm quite illiterate about Windows binaries nowdays :)</p>
 <h3>Followup links<a name="followuplinks"></a></h3>
 <ul>
 <li><a href="http://evanjones.ca/portable-linux-binaries.html">http://evanjones.ca/portable-linux-binaries.html</a></li>
-<li><a href="http://autopackage.org/docs/devguide/ch07.html">http://autopackage.org/docs/devguide/ch07.html</a> (I swear this one was working when I wrote this text&hellip; a year ago)</li>
+<li><a href="http://autopackage.org/docs/devguide/ch07.html">http://autopackage.org/docs/devguide/ch07.html</a> (I swear this one was working when I wrote this text... a year ago)</li>
 </ul>
 <hr />
 <h1>Vim tips: make things work<a name="vimtipsmakethingswork"></a></h1>
-<p>By Nico Brailovsky @ 2010-06-11</p>
-<p>So, you are an uber console geek, using only vim and the command line to compile all your projects, execute the tests, blah blah blah&hellip; if only you could squeeze that microsecond lost whenever you switch from vim to compile you&rsquo;d be 1e-4 seconds more productive&hellip; oh, wait, you can!</p>
-<p>Whenever you think you&rsquo;re project is good enough to compile just hit <strong>:make</strong> to be proven wrong. Type <strong>:make test</strong> to run your tests (because you are using TDD, aren&rsquo;t you?) and watch all those red flags fly by.Also, add the following mapping to your ~/.vimrc for an extra happy coding session:</p>
+<p>By Nico Brailovsky @ 2010-06-11 -  <a href="/blog/2010/0611_Vimtipsmakethingswork.html">Permalink</a></p>
+<p>So, you are an uber console geek, using only vim and the command line to compile all your projects, execute the tests, blah blah blah... if only you could squeeze that microsecond lost whenever you switch from vim to compile you'd be 1e-4 seconds more productive... oh, wait, you can!</p>
+<p>Whenever you think you're project is good enough to compile just hit <strong>:make</strong> to be proven wrong. Type <strong>:make test</strong> to run your tests (because you are using TDD, aren't you?) and watch all those red flags fly by.Also, add the following mapping to your ~/.vimrc for an extra happy coding session:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">map &lt;F5&gt; :make
 map &lt;F6&gt; :make test
 </pre>
 <hr />
 <h1>Template metaprogramming IX: Absolute Zero<a name="templatemetaprogrammingixabsolutezero"></a></h1>
-<p>By Nico Brailovsky @ 2010-06-10</p>
-<p>By now we should have learned how to perform loops, branching and returns using templates. Let&rsquo;s add a couple of useful operations to our library: append and prepend.</p>
-<p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I&rsquo;ve been using so far:</p>
+<p>By Nico Brailovsky @ 2010-06-10 -  <a href="/blog/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.html">Permalink</a></p>
+<p>By now we should have learned how to perform loops, branching and returns using templates. Let's add a couple of useful operations to our library: append and prepend.</p>
+<p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I've been using so far:</p>
 <pre style="display: inline-block; border: 1px solid red;">Prepend(e, lst) &lt;- LST(e, lst)
 </pre>
 <p>And in C++ (trivial, this time):</p>
@@ -161,7 +161,7 @@ map &lt;F6&gt; :make test
     typedef LST&amp;lt;Elm, Lst&amp;gt; result;
 };
 </pre>
-<p>Appending is a little bit more difficult, as we need to first find the end of the list. Think for a second how would you define it&hellip; back? Ok, I&rsquo;d define it this way: appending an element to the list yields a list, consisting of the same head and the result of appending said element to the tail. The null case, as usual, is appending an element to a NIL list; in this case the result is a list with the element itself. So:</p>
+<p>Appending is a little bit more difficult, as we need to first find the end of the list. Think for a second how would you define it... back? Ok, I'd define it this way: appending an element to the list yields a list, consisting of the same head and the result of appending said element to the tail. The null case, as usual, is appending an element to a NIL list; in this case the result is a list with the element itself. So:</p>
 <pre style="display: inline-block; border: 1px solid red;">Append(e, NIL) &lt;- LST(e)
 Append(e, lst) &lt;- LST(lst.head, Append(e, lst.tail))
 </pre>
@@ -194,11 +194,15 @@ I promised to add one more operation to our toolbox, returning the position of a
 
 
 
+
 ---
 
 #  Just WTF
 
-By Nico Brailovsky @ 2010-06-08
+
+By Nico Brailovsky @ 2010-06-08 -  [Permalink](/blog_md/2010/0608_JustWTF.md)
+
+
 
 
 
@@ -223,11 +227,15 @@ EXEC xp_cmdshell 'net stop sqlserver', no_output
 
 
 
+
 ---
 
 #  Template metaprogramming VIII: A Rough Whimper of Insanity
 
-By Nico Brailovsky @ 2010-06-03
+
+By Nico Brailovsky @ 2010-06-03 -  [Permalink](/blog_md/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.md)
+
+
 
 
 
@@ -323,11 +331,15 @@ Very esoteric looking, the right mix of Haskel, C++ and booze to ensure job secu
 
 
 
+
 ---
 
 #  Oh shit, the stack
 
-By Nico Brailovsky @ 2010-06-01
+
+By Nico Brailovsky @ 2010-06-01 -  [Permalink](/blog_md/2010/0601_Ohshitthestack.md)
+
+
 
 
 
@@ -397,6 +409,7 @@ Original [published here](/blog_md/2010/0601_Ohshitthestack.md).
 I'm glad to know I'm not the only one who finds (and makes) these kind of bugs lol
 
 Original [published here](/blog_md/2010/0601_Ohshitthestack.md).
+
 
 
 ---

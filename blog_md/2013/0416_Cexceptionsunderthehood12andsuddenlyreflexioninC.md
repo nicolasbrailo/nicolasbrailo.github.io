@@ -61,11 +61,11 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                      int version, _Unwind_Action actions, uint64_t exceptionClass,
                      _Unwind_Exception* unwind_exception, _Unwind_Context* context)
 {
-    if (actions &amp; _UA_SEARCH_PHASE)
+    if (actions & _UA_SEARCH_PHASE)
     {
         printf("Personality function, lookup phase\n");
         return _URC_HANDLER_FOUND;
-    } else if (actions &amp; _UA_CLEANUP_PHASE) {
+    } else if (actions & _UA_CLEANUP_PHASE) {
         printf("Personality function, cleanup\n");
 
         const uint8_t* lsda = (const uint8_t*)
@@ -75,7 +75,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
         LSDA_Call_Site_Header *cs_header = (LSDA_Call_Site_Header*)
                                                 (lsda + sizeof(LSDA_Header));
 
-        size_t cs_in_table = cs_header-&gt;length / sizeof(LSDA_Call_Site);
+        size_t cs_in_table = cs_header->length / sizeof(LSDA_Call_Site);
 
         // We must declare cs_table_base as uint8, otherwise we risk an
         // unaligned access
@@ -83,9 +83,9 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                                             + sizeof(LSDA_Call_Site_Header);
 
         // Go through every entry on the call site table
-        for (size_t i=0; i &lt; cs_in_table; ++i)
+        for (size_t i=0; i <: cs_in_table; ++i)
         {
-            const uint8_t *offset = &amp;cs_table_base[i * sizeof(LSDA_Call_Site)];
+            const uint8_t *offset = &cs_table_base[i * sizeof(LSDA_Call_Site)];
             LSDA_Call_Site cs(offset);
             printf("Found a CS:\n");
             printf("\tcs_start: %i\n", cs.cs_start);
@@ -116,9 +116,9 @@ We should now be able to solve our exceptional problem: let's try to modify our 
         ...
         const uint8_t *cs_table_base = lsda + sizeof(LSDA_Header)
                                             + sizeof(LSDA_Call_Site_Header);
-        for (size_t i=0; i &lt; cs_in_table; ++i)
+        for (size_t i=0; i <: cs_in_table; ++i)
         {
-            const uint8_t *offset = &amp;cs_table_base[i * sizeof(LSDA_Call_Site)];
+            const uint8_t *offset = &cs_table_base[i * sizeof(LSDA_Call_Site)];
             LSDA_Call_Site cs(offset);
 
             if (cs.cs_lp)

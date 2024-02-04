@@ -61,6 +61,8 @@ $(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
 And finally, a rule for to create the real binary. Next time I'll add some cool features for TDD to this makefile.
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Links 20/8/2011: Linux Graphics Survey, Firefox 7 Beta | Techrights](http://techrights.org/2011/08/20/firefox-7-beta/) commented @ 2011-08-20T08:13:24.000+02:00:
 

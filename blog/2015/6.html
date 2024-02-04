@@ -7,14 +7,14 @@
 </ul>
 <h1>Posts for 2015 June<a name="postsfor2015june"></a></h1>
 <h1>Android studio and ndk-gdb to debug a native app<a name="androidstudioandndkgdbtodebuganativeapp"></a></h1>
-<p>By Nico Brailovsky @ 2015-06-25</p>
-<p>I don&rsquo;t know how good Android Studio support for native apps is nowadays (it changes from week to week!). Up to a few months ago, Gradle, the build system used by AS, had poor support for native development. If you&rsquo;re having problems, you may find it easier to workaround it completely when it comes to build and debug C/C++ applications.</p>
-<p>To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here&rsquo;s a workaround I found:</p>
+<p>By Nico Brailovsky @ 2015-06-25 - 2 comments <a href="/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html">Permalink</a></p>
+<p>I don't know how good Android Studio support for native apps is nowadays (it changes from week to week!). Up to a few months ago, Gradle, the build system used by AS, had poor support for native development. If you're having problems, you may find it easier to workaround it completely when it comes to build and debug C/C++ applications.</p>
+<p>To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here's a workaround I found:</p>
 <ol>
-<li>Build your stuff the way you normally would (I&rsquo;m assuming you know already how to build a native app, and if you don&rsquo;t there are guides online that explain it much better than I could).</li>
+<li>Build your stuff the way you normally would (I'm assuming you know already how to build a native app, and if you don't there are guides online that explain it much better than I could).</li>
 <li>Deploy your application the way you normally would.</li>
-<li>Discover ndk-gdb won&rsquo;t run. Bang forehead against keyboard a few times.</li>
-<li>After losing some hours looking at logs, figure out there&rsquo;s no gdbserver included in your apk.</li>
+<li>Discover ndk-gdb won't run. Bang forehead against keyboard a few times.</li>
+<li>After losing some hours looking at logs, figure out there's no gdbserver included in your apk.</li>
 <li>Lose some more hours trying to figure out how to include it in your apk using Gradle.</li>
 <li>Give up. Bang forehead against keyboard some more.</li>
 <li>find the gdbserver and gdb.setup in your build directory.</li>
@@ -23,21 +23,11 @@
 <li>Profit! ndk-gdb now works.</li>
 </ol>
 <p>Edit: remember you may need to <a href="/blog/2015/0616_ndkgdblifetipuseverbose.html">chmod +777 your gdbserver</a>.</p>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">gaps</a> commented @ 2015-10-09T12:15:01.000+02:00:<a name="inreplytothispostgapscommented20151009t121501.0000200"></a></h2>
-<p>you just need to add &ldquo;jniDebuggable true&rdquo; to your debug buildType.
-This option is there for quite a long time.</p>
-<p>Original <a href="/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2015-10-09T12:33:09.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20151009t123309.0000200"></a></h2>
-<p>Thanks for the info! I recall trying that option and it still didn&rsquo;t manage to include the gdbserver binary. Hopefully it does now.</p>
-<p>Original <a href="/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html">published here</a>.</p>
 <hr />
 <h1>Useful predefined variables in make<a name="usefulpredefinedvariablesinmake"></a></h1>
-<p>By Nico Brailovsky @ 2015-06-23</p>
-<p>I always forget about two very useful make variables, so I&rsquo;ll leave this here: $(COMPILE.cpp), $(LINK.cpp).
-It&rsquo;s easy, instead of writing a rule as</p>
+<p>By Nico Brailovsky @ 2015-06-23 -  <a href="/blog/2015/0623_Usefulpredefinedvariablesinmake.html">Permalink</a></p>
+<p>I always forget about two very useful make variables, so I'll leave this here: $(COMPILE.cpp), $(LINK.cpp).
+It's easy, instead of writing a rule as</p>
 <pre style="display: inline-block; border: 1px solid red;">foo.o: foo.cpp
   g++ -c foo.coo
 </pre>
@@ -46,33 +36,18 @@ It&rsquo;s easy, instead of writing a rule as</p>
   $(COMPILE.cpp) foo.coo
 </pre>
 <p>COMPILE.cpp will have the default compiler you are supposed to use, and probably some helpful parameters as well. Likewise, LINK.cpp will have the linker you are supposed to use.</p>
-<p>There are many useful predefined variables in make. Be sure to check them all by running &ldquo;make -p&rdquo; in a console.</p>
+<p>There are many useful predefined variables in make. Be sure to check them all by running "make -p" in a console.</p>
 <hr />
 <h1>Vim tip: reload your vimrc<a name="vimtipreloadyourvimrc"></a></h1>
-<p>By Nico Brailovsky @ 2015-06-18</p>
-<p>If you&rsquo;re changing your vimrc, it can get boring to close and restart it only to see the changes applied. Want something quicker? You can &ldquo;:so %&rdquo;. So stands for source, so you&rsquo;ll just be telling vim &ldquo;include this file&rdquo;. % happens to be the path to the current file. If you&rsquo;re not editing your .vimrc but for some reason you still want to reload it, just use &ldquo;so ~/.vimrc&rdquo; instead.</p>
-<h1>Comments<a name="comments"></a></h1>
+<p>By Nico Brailovsky @ 2015-06-18 - 2 comments <a href="/blog/2015/0618_Vimtipreloadyourvimrc.html">Permalink</a></p>
+<p>If you're changing your vimrc, it can get boring to close and restart it only to see the changes applied. Want something quicker? You can ":so %". So stands for source, so you'll just be telling vim "include this file". % happens to be the path to the current file. If you're not editing your .vimrc but for some reason you still want to reload it, just use "so ~/.vimrc" instead.</p>
 <hr />
-<h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2015-06-21T14:30:22.000+02:00:<a name="inreplytothispostanonymouscommented20150621t143022.0000200"></a></h2>
-<pre style="display: inline-block; border: 1px solid red;">augroup MyAutoCmd
- &quot; Clear autocmds for this group
- autocmd!
-&quot; Automatically load vimrc when it is saved
-autocmd bufwritepost $MYVIMRC source $MYVIMRC
-augroup end
+<h1>ndk-gdb life tip: use --verbose<a name="ndkgdblifetipuseverbose"></a></h1>
+<p>By Nico Brailovsky @ 2015-06-16 -  <a href="/blog/2015/0616_ndkgdblifetipuseverbose.html">Permalink</a></p>
+<p>Crosscompiling is always fun. No matter how ready-to-use it's packaged, and Android does a pretty decent job at that, you're still bound to find problems that leak through the abstraction layers. If something says it's dummy-proof, I always find the way to perfect myself and be even dumber. For people like me; do yourselves a favour and start launching ndk-gdb this way:</p>
+<pre style="display: inline-block; border: 1px solid red;">ndk-gdb --start --verbose
 </pre>
-<p>Original <a href="/blog/2015/0618_Vimtipreloadyourvimrc.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2015-06-22T09:49:37.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20150622t094937.0000200"></a></h2>
-<p>Great tip, thanks Anon!</p>
-<p>Original <a href="/blog/2015/0618_Vimtipreloadyourvimrc.html">published here</a>.</p>
-<hr />
-<h1>ndk-gdb life tip: use &ndash;verbose<a name="ndkgdblifetipuseverbose"></a></h1>
-<p>By Nico Brailovsky @ 2015-06-16</p>
-<p>Crosscompiling is always fun. No matter how ready-to-use it&rsquo;s packaged, and Android does a pretty decent job at that, you&rsquo;re still bound to find problems that leak through the abstraction layers. If something says it&rsquo;s dummy-proof, I always find the way to perfect myself and be even dumber. For people like me; do yourselves a favour and start launching ndk-gdb this way:</p>
-<pre style="display: inline-block; border: 1px solid red;">ndk-gdb &ndash;start &ndash;verbose
-</pre>
-<p>Using the &ndash;verbose parameter will probably reveal some hidden errors. For example, when I forgot to chmod 777 my gdbserver binary:</p>
+<p>Using the --verbose parameter will probably reveal some hidden errors. For example, when I forgot to chmod 777 my gdbserver binary:</p>
 <pre style="display: inline-block; border: 1px solid red;">## COMMAND: adb_cmd pull /system/bin/app_process ./obj/local/armeabi-v7a/app_process
 run-as: exec failed for /data/data/com.nico.trippingsdcardphotomanager/lib/gdbserver Error:Permission denied
 117 KB/s (9560 bytes in 0.079s)
@@ -80,37 +55,27 @@ Pulled app_process from device/emulator.
 </pre>
 <hr />
 <h1>I now write Android apps: presenting Tripping Photo Manager<a name="inowwriteandroidappspresentingtrippingphotomanager"></a></h1>
-<p>By Nico Brailovsky @ 2015-06-11</p>
-<p>I have been working in an awesome Android app recently, so I&rsquo;d like to throw in a shameless self-plug here. Oh, wait, it&rsquo;s my blog. It&rsquo;s all basically a big shameless self-plug, isn&rsquo;t it? Anyway, I&rsquo;ve been working on <a href="https://github.com/nicolasbrailo/TrippingSdCardPhotoManager">https://github.com/nicolasbrailo/TrippingSdCardPhotoManager</a> , an open source SD card photo manager for Android.</p>
-<p>Why an SD card photo manager? Whenever I go on holidays I never have enough SD cards to store all the snaps I take. Luckily I&rsquo;m a crappy photographer, so I end up deleting half of the pictures I took during a day. This makes it easy to somewhat re-use the same SD card. In my experience, Android is not always great when it comes to managing files from an external SD card mounted through an USB adapter, hence this little app was born: it&rsquo;ll let you select the directory you want to use to manage pictures, from anywhere in the filesystem. It&rsquo;s also somewhat faster than the native gallery app, which is a plus when working with a slow-ish SD card.</p>
-<p>This app also supports some stuff I find useful in my workflow, like renaming the current directory to something more meaningful than &ldquo;YourCamera4242&rdquo;, backing stuff up in the device and batch deleting files. It also packs a version of <a href="http://www.imagemagick.org/script/index.php">ImageMagick</a> I ported for Android, so in theory you can use your Android device to do anything you can do with a regular &ldquo;mogrify&rdquo; command in Linux.</p>
-<p>The app is not available in Playstore, mostly because I&rsquo;m a cheap bastard and don&rsquo;t want to pay the 10 bucks Google charges you to create an account, only to publish an open source application.</p>
+<p>By Nico Brailovsky @ 2015-06-11 -  <a href="/blog/2015/0611_InowwriteAndroidappspresentingTrippingPhotoManager.html">Permalink</a></p>
+<p>I have been working in an awesome Android app recently, so I'd like to throw in a shameless self-plug here. Oh, wait, it's my blog. It's all basically a big shameless self-plug, isn't it? Anyway, I've been working on <a href="https://github.com/nicolasbrailo/TrippingSdCardPhotoManager">https://github.com/nicolasbrailo/TrippingSdCardPhotoManager</a> , an open source SD card photo manager for Android.</p>
+<p>Why an SD card photo manager? Whenever I go on holidays I never have enough SD cards to store all the snaps I take. Luckily I'm a crappy photographer, so I end up deleting half of the pictures I took during a day. This makes it easy to somewhat re-use the same SD card. In my experience, Android is not always great when it comes to managing files from an external SD card mounted through an USB adapter, hence this little app was born: it'll let you select the directory you want to use to manage pictures, from anywhere in the filesystem. It's also somewhat faster than the native gallery app, which is a plus when working with a slow-ish SD card.</p>
+<p>This app also supports some stuff I find useful in my workflow, like renaming the current directory to something more meaningful than "YourCamera4242", backing stuff up in the device and batch deleting files. It also packs a version of <a href="http://www.imagemagick.org/script/index.php">ImageMagick</a> I ported for Android, so in theory you can use your Android device to do anything you can do with a regular "mogrify" command in Linux.</p>
+<p>The app is not available in Playstore, mostly because I'm a cheap bastard and don't want to pay the 10 bucks Google charges you to create an account, only to publish an open source application.</p>
 <p>You can still install the APK from this link: <a href="https://github.com/nicolasbrailo/TrippingSdCardPhotoManager/releases">https://github.com/nicolasbrailo/TrippingSdCardPhotoManager/releases</a> - or you can contribute to the open source world (?) and buy me a Play Store account.</p>
 <hr />
 <h1>Debugging multiple processes with gdb<a name="debuggingmultipleprocesseswithgdb"></a></h1>
-<p>By Nico Brailovsky @ 2015-06-09</p>
-<p>If your buggy program generates lots of child processes, gdb will keep attached to the parent program and let all the children run loose. If you&rsquo;re having problems to find what causes&nbsp; your crash this is probably not what you want: for those occasions gdb has a very helpful flag called detach on fork.</p>
+<p>By Nico Brailovsky @ 2015-06-09 -  <a href="/blog/2015/0609_Debuggingmultipleprocesseswithgdb.html">Permalink</a></p>
+<p>If your buggy program generates lots of child processes, gdb will keep attached to the parent program and let all the children run loose. If you're having problems to find what causes&nbsp; your crash this is probably not what you want: for those occasions gdb has a very helpful flag called detach on fork.</p>
 <p>With <a href="https://sourceware.org/gdb/onlinedocs/gdb/Forks.html">detach on fork</a> you can tell gdb to keep debugging the parent, follow the children, or keep track of all processes. Must be nice to troubleshoot forkbombs with this option.</p>
 <hr />
 <h1>cerr vs cout<a name="cerrvscout"></a></h1>
-<p>By Nico Brailovsky @ 2015-06-04</p>
+<p>By Nico Brailovsky @ 2015-06-04 - 1 comments <a href="/blog/2015/0604_cerrvscout.html">Permalink</a></p>
 <p>In C++, is there a difference between cerr and cout, other than using a different file descriptor? Turns out you can learn something new every day.</p>
-<p>Whenever I just want to add a quick print statement because I&rsquo;m too lazy to debug something, I used to use cout. All along I thought cout and cerr would be exactly the same for my use case, but turns out there&rsquo;s a slight difference: cout is buffered, cerr is not. This very small difference can have a huge impact, because you shouldn&rsquo;t need to flush cerr after a write to make sure the changes are visible, it should happen automagicaly. In turn cerr might be slightly slower, but you probably don&rsquo;t care about that when writing cerr &lt;&lt; &ldquo;I&rsquo;m here!&rdquo;.</p>
-<h1>Comments<a name="comments"></a></h1>
+<p>Whenever I just want to add a quick print statement because I'm too lazy to debug something, I used to use cout. All along I thought cout and cerr would be exactly the same for my use case, but turns out there's a slight difference: cout is buffered, cerr is not. This very small difference can have a huge impact, because you shouldn't need to flush cerr after a write to make sure the changes are visible, it should happen automagicaly. In turn cerr might be slightly slower, but you probably don't care about that when writing cerr &lt;&lt; "I'm here!".</p>
 <hr />
-<h2>In reply to <a href="">this post</a>, <a href="https://plus.google.com/+MonahTuk">Monah Tuk</a> commented @ 2016-03-15T04:26:19.000+01:00:<a name="inreplytothispostmonahtukhttpsplus.google.commonahtukcommented20160315t042619.0000100"></a></h2>
-<p>Hi Nicolas!</p>
-<p>you forgot std::clog :-) clog = cerr + buffering. My selection:
-cerr - for error logging (it name correspond :-))
-clog - for any diagnostic loggings (with or without std::endl, that also flushes output)
-cout - produce regular program output that can be used in the pipe with other programs.</p>
-<p>In such way, piped application will work correct and diagnostic messages will not mixed to the regular output and will not confuse other programs in pipe. Also, you can redirect regular output to the file but observe diagnostic and error messages in terminal.</p>
-<p>Original <a href="/blog/2015/0604_cerrvscout.html">published here</a>.</p>
-<hr />
-<h1>Vim tip: &ldquo;polymorphic&rdquo; key bindings<a name="vimtippolymorphickeybindings"></a></h1>
-<p>By Nico Brailovsky @ 2015-06-02</p>
+<h1>Vim tip: "polymorphic" key bindings<a name="vimtippolymorphickeybindings"></a></h1>
+<p>By Nico Brailovsky @ 2015-06-02 - 1 comments <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">Permalink</a></p>
 <p>If you use vim daily, you probably have a bunch of maps for your most common tasks. You should also remember you can assign the same key to do different things according to which mode you are
-in. For example, let&rsquo;s say you have a mapping to open a new tab:</p>
+in. For example, let's say you have a mapping to open a new tab:</p>
 <pre style="display: inline-block; border: 1px solid red;">map &lt;leader&gt;t :tabnew&lt;cr&gt;
 </pre>
 <p>You can also map t to open a new tab using the selected text as a filename. You just need to define two mappings:</p>
@@ -118,10 +83,5 @@ in. For example, let&rsquo;s say you have a mapping to open a new tab:</p>
 vmap &lt;leader&gt;t :call Foo()&lt;cr&gt;
 </pre>
 <p>nmap stands for normal (mode) map, vmap for visual. How to get the text under the cursor is a bit more complex and out of scope for this vim tip, but <a href="http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_%28Part_1%29">you might want to check this link</a>.</p>
-<p>Remember to check &ldquo;:help map&rdquo; for a list of all mode mappings.</p>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.html">Simple vim plugin III: a polymorphic project greper | An infinite monkey - Nicolas Brailovsky&rsquo;s blog</a> commented @ 2016-11-30T08:02:07.000+01:00:<a name="inreplytothispostsimplevimpluginiiiapolymorphicprojectgreperaninfinitemonkeynicolasbrailovskysblogblog_md20161130_simplevimpluginiiiapolymorphicprojectgreper.mdcommented20161130t080207.0000100"></a></h2>
-<p>[&hellip;] grep to vim. We can improve it a little bit with very simple changes. Using this tip to have different key binding for different modes we can do something a bit smarter. Let&rsquo;s create two functions, one for normal mode that [&hellip;]</p>
-<p>Original <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">published here</a>.</p>
+<p>Remember to check ":help map" for a list of all mode mappings.</p>
 <hr />

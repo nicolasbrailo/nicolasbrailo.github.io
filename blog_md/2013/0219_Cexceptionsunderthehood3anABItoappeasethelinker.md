@@ -9,11 +9,11 @@ On our journey to understand exceptions we discovered that the heavy-lifting is 
 Anyway, we want to understand exactly how an exception is thrown, so we will try to implement our own mini-ABI, capable of throwing an exception. To do this, a lot of [RTFM](/blog_md/youfoundadeadlink.md) is needed, but a full ABI interface can be found [here, for LLVM](http://libcxxabi.llvm.org/spec.html). Let's start by remembering what those missing functions are:
 
 ```c++
-&gt; gcc main.o throw.o -o app
-throw.o: In function `foo()&#x27;:
-throw.cpp:4: undefined reference to `__cxa_allocate_exception&#x27;
-throw.cpp:4: undefined reference to `__cxa_throw&#x27;
-throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__class_type_info&#x27;
+> gcc main.o throw.o -o app
+throw.o: In function `foo()':
+throw.cpp:4: undefined reference to `__cxa_allocate_exception'
+throw.cpp:4: undefined reference to `__cxa_throw'
+throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__class_type_info'
 collect2: ld returned 1 exit status
 ```
 
@@ -32,9 +32,9 @@ A weird one... \_\_class\_type\_info is clearly some sort of RTTI, but what exac
 Lot's of stuff happen on these functions, but let's try to implement the simplest exception thrower possible: one that will call exit when an exception is thrown. Our application was almost OK but missing some ABI-stuff, so let's create a mycppabi.cpp. Reading [our ABI specification](/blog_md/youfoundadeadlink.md) we can figure out the signatures for **\_\_cxa\_allocate\_exception** and **\_\_cxa\_throw**:
 
 ```c++
-#include &lt;unistd.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 namespace __cxxabiv1 {
     struct __class_type_info {
@@ -50,13 +50,13 @@ extern "C" {
 void* __cxa_allocate_exception(size_t thrown_size)
 {
     printf("alloc ex %i\n", thrown_size);
-    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf("Exception too big");
-    return &amp;exception_buff;
+    if (thrown_size > EXCEPTION_BUFF_SIZE) printf("Exception too big");
+    return &exception_buff;
 }
 
 void __cxa_free_exception(void *thrown_exception);
 
-#include &lt;unwind.h&gt;
+#include <unwind.h>
 void __cxa_throw(
           void* thrown_exception,
           struct type_info *tinfo,

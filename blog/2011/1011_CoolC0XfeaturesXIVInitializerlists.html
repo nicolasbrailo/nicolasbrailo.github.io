@@ -2,27 +2,27 @@
 <p>We talked last time about ranged fors and how they can simplify our life in C++0x. Now we are going to take a trip back to old C land. Remember when you could initialize your arrays like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int v[] = {1, 2, 3, 4};
 </pre>
-<p>C++0X brought a lot of changes to the world, and suddenly instead of int[] you were supposed to use vector, and with it your initializer didn&rsquo;t work anymore. Though luck. Try to compile this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;vector&amp;gt;
+<p>C++0X brought a lot of changes to the world, and suddenly instead of int[] you were supposed to use vector, and with it your initializer didn't work anymore. Though luck. Try to compile this:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;vector&gt;
 int main() {
-    std::vector&amp;lt;int&amp;gt; v = {1,2,3,4};
+    std::vector&lt;int&gt; v = {1,2,3,4};
     return 0;
 }
 </pre>
 <p>If you did compile it with g++, you may have noticed an interesting error message:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">error: in C++98 ‘v’ must be initialized by constructor, not by ‘{&hellip;}’
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">error: in C++98 &#x27;v&#x27; must be initialized by constructor, not by &#x27;{...}&#x27;
 warning: extended initializer lists only available with -std=c++0x or -std=gnu++0x
 </pre>
-<p>That&rsquo;s interesting. Try to compile it with g++ again, but using C++0x instead of plain C++. Magic, now it works!</p>
+<p>That's interesting. Try to compile it with g++ again, but using C++0x instead of plain C++. Magic, now it works!</p>
 <p>Initializers lists bring the best of C to C++ world (?) by letting you use initialize any object with an initializer. And I mean *any* object, not just vectors. For example, say you have a map (a map and a bunch of other stuff):</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
-    map&amp;lt;string, vector&amp;lt;int&amp;gt;&amp;gt; v = {
+    map&lt;string, vector&lt;int&gt;&gt; v = {
             { &quot;a&quot;, {1,2,3} },
             { &quot;b&quot;, {4,5,6} },
             { &quot;c&quot;, {7,8,9} }
         };
-    cout &amp;lt;&amp;lt; v[&quot;b&quot;][1] &amp;lt;&amp;lt; &quot;n&quot;;
+    cout &lt;&lt; v[&quot;b&quot;][1] &lt;&lt; &quot;n&quot;;
     return 0;
 }
 </pre>
-<p>Yes, that works! Maps, vectors, pairs, and even your own custom objects, but we&rsquo;ll see that next time.</p>
+<p>Yes, that works! Maps, vectors, pairs, and even your own custom objects, but we'll see that next time.</p>

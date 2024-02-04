@@ -1,5 +1,5 @@
 <h1>Template metaprogramming II: Openning the box<a name="templatemetaprogrammingiiopenningthebox"></a></h1>
-<p>We saw last time how to print a factorial using only template metaprogramming, but didn&rsquo;t explain anything about it. I promised to fix that in this article. Starting by the very beginning:</p>
+<p>We saw last time how to print a factorial using only template metaprogramming, but didn't explain anything about it. I promised to fix that in this article. Starting by the very beginning:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N&amp;gt; struct Factorial {
     static const int result = N * Factorial&amp;lt;N-1&amp;gt;::result;
 };
@@ -12,9 +12,9 @@ int main() {
 }
 </pre>
 <h3>Why static const?<a name="whystaticconst"></a></h3>
-<p>Templates get evaluated on compile time, remember? That means all that code actually executes when compiling the source, not when executing the resulting binary (assuming it actually compiles, of course). Having as a constraint the fact that all your code must resolve on compile time means only const vars make sense. Also, as you&rsquo;re working with classes (templates are applied to classes, not objects) only static objects make sense.</p>
-<p>That explains the <em>static const</em> thing, what about the Factorial&lt;0&gt;? Well it&rsquo;s obviously an edge case. It describes a specific case of a Factorial. It&rsquo;s a specialization! Why do we need it? Take a look again at the definition of struct Factorial: it&rsquo;s a recursive definition. How do we break from the recursive loop? With a base case, obviously.</p>
-<p>If this is starting to remind you of anything then you are crazier than you think, and you already know some Haskel. Indeed, template metaprogramming has some resemblance to Haskel programming: no const &ldquo;variables&rdquo;, no for-loop (only recursion), base cases (pattern matching), and cryptic error messages which makes you want to jump of a cliff.</p>
+<p>Templates get evaluated on compile time, remember? That means all that code actually executes when compiling the source, not when executing the resulting binary (assuming it actually compiles, of course). Having as a constraint the fact that all your code must resolve on compile time means only const vars make sense. Also, as you're working with classes (templates are applied to classes, not objects) only static objects make sense.</p>
+<p>That explains the <em>static const</em> thing, what about the Factorial&lt;0&gt;? Well it's obviously an edge case. It describes a specific case of a Factorial. It's a specialization! Why do we need it? Take a look again at the definition of struct Factorial: it's a recursive definition. How do we break from the recursive loop? With a base case, obviously.</p>
+<p>If this is starting to remind you of anything then you are crazier than you think, and you already know some Haskel. Indeed, template metaprogramming has some resemblance to Haskel programming: no const "variables", no for-loop (only recursion), base cases (pattern matching), and cryptic error messages which makes you want to jump of a cliff.</p>
 <p>A useful trick I learned when working with Haskel (many many years ago) is to declare the problem, instead of thinking it. For our problem the factorial of a number is defined as said number times the factorial of that same number minus one, being the factorial of 0 always 1.</p>
 <p>Translating:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">// the factorial of a number is defined as said number times
@@ -27,13 +27,13 @@ template &amp;lt;&amp;gt; struct Factorial&amp;lt;0&amp;gt; {
     static const int result = 1;
 };
 </pre>
-<p>That&rsquo;s good for a first approach&hellip; next time something more complex (and less theory, promise).</p>
+<p>That's good for a first approach... next time something more complex (and less theory, promise).</p>
 <hr />
 <p>Thanks to St&eacute;phane Michaut for reporting broken code in this page.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Felix</a> commented @ 2020-10-29T10:18:31.000+01:00:<a name="inreplytothispostfelixcommented20201029t101831.0000100"></a></h2>
 <p>Hi!
-Maybe I am missing the point, but shouldn&rsquo;t it be</p>
+Maybe I am missing the point, but shouldn't it be</p>
 <p>template struct Factorial {
  static const int result = N * Factorial::result;
 };</p>
@@ -50,5 +50,5 @@ Anyway, thanks for your awesome blog posts!</p>
 <p>Original <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2020-10-29T17:55:51.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20201029t175551.0000100"></a></h2>
-<p>Lol! Yeah I gave up fixing those. It breaks every year or so. If you are reading this article in 2020, it&rsquo;s probably good if you can&rsquo;t compile the examples. You should be using constexprs nowadays anyway :)</p>
+<p>Lol! Yeah I gave up fixing those. It breaks every year or so. If you are reading this article in 2020, it's probably good if you can't compile the examples. You should be using constexprs nowadays anyway :)</p>
 <p>Original <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">published here</a>.</p>

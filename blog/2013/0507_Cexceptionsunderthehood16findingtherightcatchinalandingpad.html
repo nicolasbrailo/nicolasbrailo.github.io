@@ -1,12 +1,11 @@
 <h1>C++ exceptions under the hood 16: finding the right catch in a landing<a name="cexceptionsunderthehood16findingtherightcatchinalanding"></a></h1>
-<p>pad</p>
 <p>16th chapter on our quest to implement a mini-ABI capable of handling exceptions; last time we implemented our personality function so it would be able to handle functions with more than one landing pad. We are now trying to make it recognize whether a certain landing pad can handle a specific exception, so we can use the exception specification on the catch statement.</p>
 <p>Of course, to know whether a landing pad can handle a throw is a difficult task. Would you expect anything else? The biggest problems to overcome right now will be:</p>
 <ul>
 <li>First and foremost: how can we find the accepted types for a catch block?</li>
-<li>Assuming we can find the types for a catch, how can we handle a catch(&hellip;)?</li>
+<li>Assuming we can find the types for a catch, how can we handle a catch(...)?</li>
 <li>For a landing pad with multiple catch statements, how can we know all possibly catch types?</li>
-<li>Take the following example. Not only we&rsquo;ll have to check whether the landing pad accepts the current exception, we&rsquo;ll have to check if it accepts any of the current exception&rsquo;s parents!</li>
+<li>Take the following example. Not only we'll have to check whether the landing pad accepts the current exception, we'll have to check if it accepts any of the current exception's parents!</li>
 </ul>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">
 struct Base {};
@@ -15,11 +14,11 @@ void foo() { throw Child; }
 void bar()
 {
     try { foo(); }
-    catch(const Base&amp;amp;){ &hellip; }
+    catch(const Base&amp;){ ... }
 }
 </pre>
-<p>To make our work a bit easier let&rsquo;s say for now we work only with landing pads that have a single catch and no inheritance exists on our program. Still, how do we find out the accepted types for a landing pad?</p>
-<p>Turns there is a place in .gcc_except_table we haven&rsquo;t analyzed yet: the action table. Let&rsquo;s dissasemble our throw.cpp object and see what&rsquo;s in there, right after the call site table is finished, for our &ldquo;try but don&rsquo;t catch&rdquo; function:</p>
+<p>To make our work a bit easier let's say for now we work only with landing pads that have a single catch and no inheritance exists on our program. Still, how do we find out the accepted types for a landing pad?</p>
+<p>Turns there is a place in .gcc_except_table we haven't analyzed yet: the action table. Let's dissasemble our throw.cpp object and see what's in there, right after the call site table is finished, for our "try but don't catch" function:</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v07">in my github repo</a>.</p>
 <pre style="display: inline-block; border: 1px solid red;">.LLSDACSE1:
     .byte   0x1
@@ -28,7 +27,7 @@ void bar()
     .long   _ZTI14Fake_Exception
 .LLSDATT1:
 </pre>
-<p>Doesn&rsquo;t look like much, but there&rsquo;s a promising pointer (both a proverbial and a real pointer) to something that has our exception&rsquo;s name. Let&rsquo;s go to the definition of _ZTI14Fake_Exception:</p>
+<p>Doesn't look like much, but there's a promising pointer (both a proverbial and a real pointer) to something that has our exception's name. Let's go to the definition of _ZTI14Fake_Exception:</p>
 <pre style="display: inline-block; border: 1px solid red;">_ZTI14Fake_Exception:
     .long   _ZTVN10__cxxabiv117__class_type_infoE+8
     .long   _ZTS14Fake_Exception
@@ -38,4 +37,4 @@ void bar()
     .size   _ZTS9Exception, 11
 </pre>
 <p>And we reached something very interesting. Can you recognize it? This is the std::type_info for struct Fake_Exception!</p>
-<p>Now we know there is indeed a way to get a pointer to some kind of reflexion information for our exception. Can we programmatically find it? We&rsquo;ll see next time.</p>
+<p>Now we know there is indeed a way to get a pointer to some kind of reflexion information for our exception. Can we programmatically find it? We'll see next time.</p>

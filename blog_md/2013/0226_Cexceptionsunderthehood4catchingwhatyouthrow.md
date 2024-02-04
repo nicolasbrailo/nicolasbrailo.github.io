@@ -15,20 +15,20 @@ Quite simple so far, but exception catching is a bit more complicated, specially
 
 ```c++
 #include "throw.h"
-#include &lt;stdio.h&gt;
+#include <stdio.h>
 
-// Notice we&#x27;re adding a second exception type
+// Notice were adding a second exception type
 struct Fake_Exception {};
 
 void raise() {
     throw Exception();
 }
 
-// We will analyze what happens if a try block doesn&#x27;t catch an exception
+// We will analyze what happens if a try block doesnt catch an exception
 void try_but_dont_catch() {
     try {
         raise();
-    } catch(Fake_Exception&amp;) {
+    } catch(Fake_Exception&) {
         printf("Running try_but_dont_catch::catch(Fake_Exception)\n");
     }
 
@@ -39,9 +39,9 @@ void try_but_dont_catch() {
 void catchit() {
     try {
         try_but_dont_catch();
-    } catch(Exception&amp;) {
+    } catch(Exception&) {
         printf("Running try_but_dont_catch::catch(Exception)\n");
-    } catch(Fake_Exception&amp;) {
+    } catch(Fake_Exception&) {
         printf("Running try_but_dont_catch::catch(Fake_Exception)\n");
     }
 
@@ -62,17 +62,17 @@ Just like before, we have our seppuku function linking the C world with the C++ 
 And just like before, we get some linker errors about missing ABI functions:
 
 ```c++
-&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
-throw.o: In function `try_but_dont_catch()&#x27;:
-throw.cpp:12: undefined reference to `__cxa_begin_catch&#x27;
-throw.cpp:12: undefined reference to `__cxa_end_catch&#x27;
+> g++ -c -o throw.o -O0 -ggdb throw.cpp
+> gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
+throw.o: In function `try_but_dont_catch():
+throw.cpp:12: undefined reference to `__cxa_begin_catch
+throw.cpp:12: undefined reference to `__cxa_end_catch
 
-throw.o: In function `catchit()&#x27;:
-throw.cpp:20: undefined reference to `__cxa_begin_catch&#x27;
-throw.cpp:20: undefined reference to `__cxa_end_catch&#x27;
+throw.o: In function `catchit():
+throw.cpp:20: undefined reference to `__cxa_begin_catch
+throw.cpp:20: undefined reference to `__cxa_end_catch
 
-throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0&#x27;
+throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0
 
 collect2: ld returned 1 exit status
 ```

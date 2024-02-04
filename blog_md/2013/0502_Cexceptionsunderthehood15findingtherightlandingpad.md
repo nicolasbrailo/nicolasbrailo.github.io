@@ -9,7 +9,7 @@ This is now the 15th installment in what's becoming the longest series I've writ
 In a TDD fashion we can first build a test for our ABI. Let's modify our test program, throw.cpp, to have two try/catch blocks:
 
 ```c++
-#include &lt;stdio.h&gt;
+#include <stdio.h>
 #include "throw.h"
 
 struct Fake_Exception {};
@@ -21,13 +21,13 @@ void raise() {
 void try_but_dont_catch() {
     try {
         printf("Running a try which will never throw.\n");
-    } catch(Fake_Exception&amp;) {
+    } catch(Fake_Exception&) {
         printf("Exception caught... with the wrong catch!\n");
     }
 
     try {
         raise();
-    } catch(Fake_Exception&amp;) {
+    } catch(Fake_Exception&) {
         printf("Caught a Fake_Exception!\n");
     }
 
@@ -37,9 +37,9 @@ void try_but_dont_catch() {
 void catchit() {
     try {
         try_but_dont_catch();
-    } catch(Fake_Exception&amp;) {
+    } catch(Fake_Exception&) {
         printf("Caught a Fake_Exception!\n");
-    } catch(Exception&amp;) {
+    } catch(Exception&) {
         printf("Caught an Exception!\n");
     }
 
@@ -92,11 +92,11 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                              _Unwind_Exception* unwind_exception,
                              _Unwind_Context* context)
 {
-    if (actions &amp; _UA_SEARCH_PHASE)
+    if (actions & _UA_SEARCH_PHASE)
     {
         printf("Personality function, lookup phase\n");
         return _URC_HANDLER_FOUND;
-    } else if (actions &amp; _UA_CLEANUP_PHASE) {
+    } else if (actions & _UA_CLEANUP_PHASE) {
         printf("Personality function, cleanup\n");
 
         // Calculate what the instruction pointer was just before the
@@ -107,20 +107,20 @@ _Unwind_Reason_Code __gxx_personality_v0 (
         LSDA_ptr lsda = (uint8_t*)_Unwind_GetLanguageSpecificData(context);
 
         // Read LSDA headerfor the LSDA
-        LSDA_Header header(&amp;lsda);
+        LSDA_Header header(&lsda);
 
         // Read the LSDA CS header
-        LSDA_CS_Header cs_header(&amp;lsda);
+        LSDA_CS_Header cs_header(&lsda);
 
         // Calculate where the end of the LSDA CS table is
         const LSDA_ptr lsda_cs_table_end = lsda + cs_header.length;
 
         // Loop through each entry in the CS table
-        while (lsda &lt; lsda_cs_table_end)
+        while (lsda < lsda_cs_table_end)
         {
-            LSDA_CS cs(&amp;lsda);
+            LSDA_CS cs(&lsda);
 
-            // If there&#x27;s no LP we can&#x27;t handle this exception; move on
+            // If there's no LP we can't handle this exception; move on
             if (not cs.lp) continue;
 
             uintptr_t func_start = _Unwind_GetRegionStart(context);
@@ -132,8 +132,8 @@ _Unwind_Reason_Code __gxx_personality_v0 (
             uintptr_t try_end = func_start + cs.start + cs.len;
 
             // Check if this is the correct LP for the current try block
-            if (throw_ip &lt; try_start) continue;
-            if (throw_ip &gt; try_end) continue;
+            if (throw_ip < try_start) continue;
+            if (throw_ip > try_end) continue;
 
             // We found a landing pad for this exception; resume execution
             int r0 = __builtin_eh_return_data_regno(0);
@@ -141,7 +141,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 
             _Unwind_SetGR(context, r0, (uintptr_t)(unwind_exception));
             // Note the following code hardcodes the exception type;
-            // we&#x27;ll fix that later on
+            // we'll fix that later on
             _Unwind_SetGR(context, r1, (uintptr_t)(1));
 
             _Unwind_SetIP(context, func_start + cs.lp);

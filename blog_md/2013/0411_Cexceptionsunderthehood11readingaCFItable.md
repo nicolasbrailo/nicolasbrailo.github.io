@@ -27,10 +27,10 @@ This one is very easy: it's just a header to declare we're going to use \_\_gxx\
 
 ```c++
 .local_lsda_1:
-    # This declares the encoding type. We don&#x27;t care.
+    # This declares the encoding type. We don't care.
 	.byte	0xff
 
-    # This specifies the landing pads start; if zero, the func&#x27;s ptr is
+    # This specifies the landing pads start; if zero, the func's ptr is
     # assumed (_Unwind_GetRegionStart)
 	.byte	0
 
@@ -43,7 +43,7 @@ This now has some more info. Those labels are quite obscure but they do follow a
 
 ```c++
 .local_lsda_call_site_table_header:
-    # Encoding of items in the landing pad table. Again, we don&#x27;t care.
+    # Encoding of items in the landing pad table. Again, we don't care.
 	.byte	0x1.
 
     # The length of the call site table (ie the landing pads)

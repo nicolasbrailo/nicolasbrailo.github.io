@@ -1,9 +1,9 @@
 <h1>Simple vim plugin II: a psychic project greper<a name="simplevimpluginiiapsychicprojectgreper"></a></h1>
-<p>We have been working on a quick grep integration for Vim, and it&rsquo;s looking decent enough for a quick plugin. There&rsquo;s one more easy thing we can improve, though: let&rsquo;s make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That&rsquo;s so old fashioned. Let&rsquo;s make grep guess what to look for.</p>
-<p>In vim you have a psychic function, expand(&ldquo;&rdquo;). If you call expand(&ldquo;&rdquo;), it will return whatever word is under the cursor. No need to visually select it. If you&rsquo;re still using the same vimrc definitions, you can do something like</p>
+<p>We have been working on a quick grep integration for Vim, and it's looking decent enough for a quick plugin. There's one more easy thing we can improve, though: let's make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That's so old fashioned. Let's make grep guess what to look for.</p>
+<p>In vim you have a psychic function, expand(""). If you call expand(""), it will return whatever word is under the cursor. No need to visually select it. If you're still using the same vimrc definitions, you can do something like</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">nmap s :call FG_DoSearch(expand(&quot;&quot;))
 </pre>
-<p>Let&rsquo;s clean things up a little bit:</p>
+<p>Let's clean things up a little bit:</p>
 <pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Wrap a grep command: search for needle, show results in a new window
 function! FG_DoSearch(needle)
     let grepbin = &#x27;grep -nri &#x27;

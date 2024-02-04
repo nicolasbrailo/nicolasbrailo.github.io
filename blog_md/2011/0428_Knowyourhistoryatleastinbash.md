@@ -6,6 +6,7 @@
 
 I always wonder why do you see so many people pressing up a bazillion times when trying to bring a command they recently typed. Just use ctrl+r and type part of the previous command, it'll save you many hours of pressing up.
 
+# Comments
 
 ---
 ## In reply to [this post](), [Ridgeland]() commented @ 2011-04-29T12:02:02.000+02:00:

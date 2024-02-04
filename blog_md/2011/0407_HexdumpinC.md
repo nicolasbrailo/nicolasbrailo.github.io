@@ -19,7 +19,7 @@ void hex_dump(char *data, int size, char *caption=NULL)
 
 	memset(buffer, 0, 128);
 
-	printf("---------&gt; %s &lt;--------- (%d bytes from %p)n", caption, size, data);
+	printf("---------> %s <--------- (%d bytes from %p)n", caption, size, data);
 
 	// Printing the ruler...
 	printf("        +0          +4          +8          +c            0   4   8   c   n");
@@ -27,20 +27,20 @@ void hex_dump(char *data, int size, char *caption=NULL)
 	// Hex portion of the line is 8 (the padding) + 3 * 16 = 52 chars long
 	// We add another four bytes padding and place the ASCII version...
 	ascii = buffer + 58;
-	memset(buffer, &#x27; &#x27;, 58 + 16);
-	buffer[58 + 16] = &#x27;n&#x27;;
-	buffer[58 + 17] = &#x27;&#x27;;
-	buffer[0] = &#x27;+&#x27;;
-	buffer[1] = &#x27;0&#x27;;
-	buffer[2] = &#x27;0&#x27;;
-	buffer[3] = &#x27;0&#x27;;
-	buffer[4] = &#x27;0&#x27;;
-	for (i = 0, j = 0; i &lt; size; i++, j++)
+	memset(buffer, ' ', 58 + 16);
+	buffer[58 + 16] = 'n';
+	buffer[58 + 17] = '';
+	buffer[0] = '+';
+	buffer[1] = '0';
+	buffer[2] = '0';
+	buffer[3] = '0';
+	buffer[4] = '0';
+	for (i = 0, j = 0; i < size; i++, j++)
 	{
 		if (j == 16)
 		{
 			printf("%s", buffer);
-			memset(buffer, &#x27; &#x27;, 58 + 16);
+			memset(buffer, ' ', 58 + 16);
 
 			sprintf(temp, "+%04x", i);
 			memcpy(buffer, temp, 5);
@@ -48,12 +48,12 @@ void hex_dump(char *data, int size, char *caption=NULL)
 			j = 0;
 		}
 
-		sprintf(temp, "%02x", 0xff &amp; data[i]);
+		sprintf(temp, "%02x", 0xff & data[i]);
 		memcpy(buffer + 8 + (j * 3), temp, 2);
-		if ((data[i] &gt; 31) &amp;&amp; (data[i] &lt; 127))
+		if ((data[i] > 31) && (data[i] < 127))
 			ascii[j] = data[i];
 		else
-			ascii[j] = &#x27;.&#x27;;
+			ascii[j] = '.';
 	}
 
 	if (j != 0)

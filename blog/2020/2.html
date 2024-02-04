@@ -7,41 +7,25 @@
 </ul>
 <h1>Posts for 2020 February<a name="postsfor2020february"></a></h1>
 <h1>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h1>
-<p>By Nico Brailovsky @ 2020-02-27</p>
-<p>If you don&rsquo;t use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let&rsquo;s you query and filter json files from a cli. Just like awk or sed, js&rsquo;s &ldquo;language&rdquo; is basically write only, meaning whenever you need to do something there&rsquo;s a 99% chance you&rsquo;ll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
+<p>By Nico Brailovsky @ 2020-02-27 - 3 comments <a href="/blog/2020/0227_jqgrepandprettifyjson.html">Permalink</a></p>
+<p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
 <p><strong>cat a json file - with pretty print</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq . /path/to/json_file
 </pre>
 <p><strong>Select a single key</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq &#x27;.path.to.key&#x27;
 </pre>
-<p>The command above will return &ldquo;42&rdquo; for a json that looks like &ldquo;{path: {to: {key: 42}}}&rdquo;</p>
+<p>The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"</p>
 <p><strong>Delete all entries in an object, except for one</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq &#x27;.foo|=bar&#x27;
 </pre>
-<p>The command above will return &ldquo;{foo: {bar:&rsquo;&lsquo;}}&rdquo; for a json that looks like &ldquo;{foo: {bar:&rsquo;&lsquo;, baz: &lsquo;&rsquo;}}&rdquo;</p>
-<p>This is probably not even enough to get started. Luckily there&rsquo;s plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="http://www.zavyalov.nl">Vasiliy</a> commented @ 2020-03-01T11:17:18.000+01:00:<a name="inreplytothispostvasiliyhttpwww.zavyalov.nlcommented20200301t111718.0000100"></a></h2>
-<p>Coincidence. Using recently this tool as well. Might be good to mentioned to your message:</p>
-<p>-r .......... option to output raw format
-[1] ........ indexing elements of json array</p>
-<p>/Vasiliy</p>
-<p>Original <a href="/blog/2020/0227_jqgrepandprettifyjson.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2020-03-01T11:23:24.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20200301t112324.0000100"></a></h2>
-<p>That&rsquo;s awesome, thanks!</p>
-<p>Original <a href="/blog/2020/0227_jqgrepandprettifyjson.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">Gustavo</a> commented @ 2020-03-11T15:05:44.000+01:00:<a name="inreplytothispostgustavocommented20200311t150544.0000100"></a></h2>
-<p>Thanks. Very useful tool.</p>
-<p>Original <a href="/blog/2020/0227_jqgrepandprettifyjson.html">published here</a>.</p>
+<p>The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"</p>
+<p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
 <hr />
 <h1>Mixin(ish) classes with parameter packs in C++<a name="mixinishclasseswithparameterpacksinc"></a></h1>
-<p>By Nico Brailovsky @ 2020-02-18</p>
-<p>For some reason I couldn&rsquo;t find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"> int dummy[sizeof&hellip;(Config)] = { (Config::apply(p), 0)&hellip; };
+<p>By Nico Brailovsky @ 2020-02-18 - 2 comments <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a></p>
+<p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
 </pre>
 <p>This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.</p>
 <p>Full example:</p>
@@ -55,12 +39,12 @@ struct EnableFeatureB {
     cout &amp;lt;&amp;lt; T::b() &amp;lt;&amp;lt; endl;
   }
 };
-template &amp;lt;typename Impl, typename&hellip; Config&amp;gt;
+template &amp;lt;typename Impl, typename... Config&amp;gt;
 struct Foo {
   Foo(){
     // Call apply() for each type in Config
     Impl *p = nullptr;
-    int dummy[sizeof&hellip;(Config)] = { (Config::apply(p), 0)&hellip; };
+    int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
   }
 };
 struct Bar;
@@ -70,17 +54,4 @@ struct Bar : FwdFoo {
    static int b() { return 2; }
 };
 </pre>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="">Balazs Benics</a> commented @ 2020-02-18T18:57:18.000+01:00:<a name="inreplytothispostbalazsbenicscommented20200218t185718.0000100"></a></h2>
-<p>Keep in mind that parameter packs can be empty, in which case the array would try to have zero elements.
-Also, some apply function might return an object which overloaded the comma operator, in which case the result of the whole expression would otherwise.</p>
-<p>I would address the mentioned issues like this:
-int dummy[1 + sizeof&hellip;(Config)] = { 0, (static_cast(Config::apply(p)), 0)&hellip; };</p>
-<p>Note that nobody can override the comma operator there.</p>
-<p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2020-02-19T13:06:50.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20200219t130650.0000100"></a></h2>
-<p>Good catch, thanks!</p>
-<p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>
 <hr />

@@ -39,7 +39,7 @@ Services like DNS and DHCP are nice-to-have, but having real connectivity is way
 We'll do this by setting up NAT with iptables. We'll also have to configure the OS to forward connections from one network card to the other:
 
 ```c++
-echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
 # Add a line like this for each eth* LAN
 iptables --append FORWARD --in-interface eth1 -j ACCEPT
@@ -135,7 +135,7 @@ sudo apt-get install bind9
 This will get your DNS server up and running, but you will still need to add this server manually to your client (again, because there's no DHCP running):
 
 ```c++
-sudo echo "nameserver 192.168.10.1" &gt; /etc/resolv.conf
+sudo echo "nameserver 192.168.10.1" > /etc/resolv.conf
 ```
 
 And now:
@@ -360,6 +360,8 @@ We have quite a few configuration files now, with different settings for iptable
 
 Now anyone who changes a config file can run this script to have their new rule applied.
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [Abby Rhozabel]() commented @ 2016-04-17T19:39:23.000+02:00:

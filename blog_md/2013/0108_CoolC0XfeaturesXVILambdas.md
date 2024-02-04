@@ -7,12 +7,12 @@
 Last time we created a device to sum an initializer list of ints, something like this:
 
 ```c++
-void Add(initializer_list&lt;int&gt; lst) {
+void Add(initializer_list<int> lst) {
 	int sum = 0;
 	for (auto i = lst.begin(); i != lst.end(); ++i)
 		sum += *i;
 
-	cout &lt;&lt; sum &lt;&lt; "n";
+	cout << sum << "n";
 }
 
 ```
@@ -23,8 +23,8 @@ And then we said this can be improved using some new C++0x wizardry to support a
 
 // Note how we don't care about the type of OP, just that
 // it can be called (i.e. has an operator ())
-template &lt;class OP&gt;
-void do_something(OP op, int init, initializer_list&lt;int&gt; lst) {
+template <class OP>
+void do_something(OP op, int init, initializer_list<int> lst) {
 	int sum = init;
 	for (auto i = lst.begin(); i != lst.end(); ++i)
 	{
@@ -32,7 +32,7 @@ void do_something(OP op, int init, initializer_list&lt;int&gt; lst) {
 		sum = op(sum, x);
 	}
 
-	cout &lt;&lt; sum &lt;&lt; "n";
+	cout << sum << "n";
 }
 
 struct Sum {

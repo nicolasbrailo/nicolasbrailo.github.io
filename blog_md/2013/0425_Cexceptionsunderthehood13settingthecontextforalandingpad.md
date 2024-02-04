@@ -9,10 +9,10 @@ Last time we finally wrote an almost working personality function. We can detect
 Let's set the correct context for the landing pad and clean up a bit our ABI:
 
 ```c++
-#include &lt;unistd.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;stdint.h&gt;
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 namespace __cxxabiv1 {
     struct __class_type_info {
@@ -28,13 +28,13 @@ extern "C" {
 void* __cxa_allocate_exception(size_t thrown_size)
 {
     printf("alloc ex %i\n", thrown_size);
-    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf("Exception too big");
-    return &amp;exception_buff;
+    if (thrown_size > EXCEPTION_BUFF_SIZE) printf("Exception too big");
+    return &exception_buff;
 }
 
 void __cxa_free_exception(void *thrown_exception);
 
-#include &lt;unwind.h&gt;
+#include <unwind.h>
 
 typedef void (*unexpected_handler)(void);
 typedef void (*terminate_handler)(void);
@@ -63,7 +63,7 @@ void __cxa_throw(void* thrown_exception,
     printf("__cxa_throw called\n");
 
     __cxa_exception *header = ((__cxa_exception *) thrown_exception - 1);
-    _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
+    _Unwind_RaiseException(&header->unwindHeader);
 
     // __cxa_throw never returns
     printf("no one handled __cxa_throw, terminate!\n");
@@ -83,9 +83,9 @@ void __cxa_end_catch()
 /***********************************************************************/
 
 /**
- * The LSDA is a read only place in memory; we&#x27;ll create a typedef for
+ * The LSDA is a read only place in memory; we'll create a typedef for
  * this to avoid a const mess later on; LSDA_ptr refers to readonly and
- * &amp;LSDA_ptr will be a non-const pointer to a const place in memory
+ * &LSDA_ptr will be a non-const pointer to a const place in memory
  */
 typedef const uint8_t* LSDA_ptr;
 
@@ -135,7 +135,7 @@ struct LSDA_CS {
         *lsda = read_ptr + sizeof(LSDA_CS);
     }
 
-    // Note start, len and lp would be void*&#x27;s, but they are actually relative
+    // Note start, len and lp would be void*'s, but they are actually relative
     // addresses: start and lp are relative to the start of the function, len
     // is relative to start
 
@@ -159,29 +159,29 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                              _Unwind_Exception* unwind_exception,
                              _Unwind_Context* context)
 {
-    if (actions &amp; _UA_SEARCH_PHASE)
+    if (actions & _UA_SEARCH_PHASE)
     {
         printf("Personality function, lookup phase\n");
         return _URC_HANDLER_FOUND;
-    } else if (actions &amp; _UA_CLEANUP_PHASE) {
+    } else if (actions & _UA_CLEANUP_PHASE) {
         printf("Personality function, cleanup\n");
 
         // Pointer to the beginning of the raw LSDA
         LSDA_ptr lsda = (uint8_t*)_Unwind_GetLanguageSpecificData(context);
 
         // Read LSDA headerfor the LSDA
-        LSDA_Header header(&amp;lsda);
+        LSDA_Header header(&lsda);
 
         // Read the LSDA CS header
-        LSDA_CS_Header cs_header(&amp;lsda);
+        LSDA_CS_Header cs_header(&lsda);
 
         // Calculate where the end of the LSDA CS table is
         const LSDA_ptr lsda_cs_table_end = lsda + cs_header.length;
 
         // Loop through each entry in the CS table
-        while (lsda &lt; lsda_cs_table_end)
+        while (lsda < lsda_cs_table_end)
         {
-            LSDA_CS cs(&amp;lsda);
+            LSDA_CS cs(&lsda);
 
             if (cs.lp)
             {
@@ -190,7 +190,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 
                 _Unwind_SetGR(context, r0, (uintptr_t)(unwind_exception));
                 // Note the following code hardcodes the exception type;
-                // we&#x27;ll fix that later on
+                // we'll fix that later on
                 _Unwind_SetGR(context, r1, (uintptr_t)(1));
 
                 uintptr_t func_start = _Unwind_GetRegionStart(context);

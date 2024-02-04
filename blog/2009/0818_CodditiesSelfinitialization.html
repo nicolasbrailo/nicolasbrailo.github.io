@@ -1,8 +1,8 @@
 <h1>C++ oddities: Self initialization<a name="codditiesselfinitialization"></a></h1>
-<p>I get it, C++ is a complex language, but man, I&rsquo;d like a little warning (lol) when this happens:</p>
+<p>I get it, C++ is a complex language, but man, I'd like a little warning (lol) when this happens:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">class Foo {
   int bar;
   Foo() : bar(bar) {}
 };
 </pre>
-<p>Yeah, it bit me in the ass the other day. Why? A method&rsquo;s signature was awfully long, I wanted to delete a parameter and ended up deleting two. Luckly my <a href="http://code.google.com/p/googletest/">unit tests</a> where there to save the day, but regardless, WTF?</p>
+<p>Yeah, it bit me in the ass the other day. Why? A method's signature was awfully long, I wanted to delete a parameter and ended up deleting two. Luckly my <a href="http://code.google.com/p/googletest/">unit tests</a> where there to save the day, but regardless, WTF?</p>

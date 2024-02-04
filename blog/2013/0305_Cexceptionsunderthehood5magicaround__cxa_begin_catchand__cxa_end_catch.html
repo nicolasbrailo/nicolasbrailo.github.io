@@ -1,21 +1,19 @@
-<h1>C++ exceptions under the hood 5: magic around __cxa_begin_catch and<a name="cexceptionsunderthehood5magicaround__cxa_begin_catchand"></a></h1>
-<p>__cxa_end_catch</p>
+<h1>C++ exceptions under the hood 5: magic around __cxa_begin_catch and __cxa_end_catch<a name="cexceptionsunderthehood5magicaround__cxa_begin_catchand__cxa_end_catch"></a></h1>
 <p>After learning how exceptions are thrown we are now on our way to learn how they are caught. Last time we added to our example application a bunch of try/catch statements to see what they did, and sure enough we got a bunch of linker errors, just like we did when we were trying to find out what does the throw statement do. This is what the linker says when trying to process throw.o:</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&amp;gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
-throw.o: In function <code>try_but_dont_catch()&amp;amp;#x27;:
-throw.cpp:12: undefined reference to
-</code>__cxa_begin_catch&amp;#x27;
-throw.cpp:12: undefined reference to <code>__cxa_end_catch&amp;amp;#x27;
-throw.o: In function</code>catchit()&amp;#x27;:
-throw.cpp:20: undefined reference to <code>__cxa_begin_catch&amp;amp;#x27;
-throw.cpp:20: undefined reference to</code>__cxa_end_catch&amp;#x27;
-throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0&amp;#x27;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+&gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
+throw.o: In function &#x27;try_but_dont_catch()&#x27;:
+throw.cpp:12: undefined reference to &#x27;__cxa_begin_catch&#x27;
+throw.cpp:12: undefined reference to &#x27;__cxa_end_catch&#x27;
+throw.o: In function &#x27;catchit()&#x27;:
+throw.cpp:20: undefined reference to &#x27;__cxa_begin_catch&#x27;
+throw.cpp:20: undefined reference to &#x27;__cxa_end_catch&#x27;
+throw.o:(.eh_frame+0x47): undefined reference to &#x27;__gxx_personality_v0&#x27;
 collect2: ld returned 1 exit status
 </pre>
 <p>And our theory, of course, is that a catch statement is translated by the compiler into a pair of <strong>__cxa_begin_catch/end_catch</strong> calls into libstdc++, plus something new called <strong>the personality function</strong> of which we know nothing yet.</p>
-<p>Let&rsquo;s begin by checking if our theory about <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch holds</strong>. Let&rsquo;s compile throw.cpp with -S and analyze the assembly. There is a lot to see but if I strip it to the bare minimum this is what I get:</p>
+<p>Let's begin by checking if our theory about <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch holds</strong>. Let's compile throw.cpp with -S and analyze the assembly. There is a lot to see but if I strip it to the bare minimum this is what I get:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">_Z5raisev:
     call    __cxa_allocate_exception
     call    __cxa_throw
@@ -31,12 +29,12 @@ collect2: ld returned 1 exit status
 <li>The linker will use these according to a CFI specification; CFI stands for call frame information, and <a href="http://www.logix.cz/michal/devel/gas-cfi/">here</a> there is a full spec for it. It will be used, mostly, to unwind the stack.</li>
 <li><strong>LSDA</strong> on the other hand means language specific data area, and it will be used by the personality function to know which exceptions can be handled by this function</li>
 </ul>
-<p>We&rsquo;ll be talking a lot more about CFI and LSDA in the next articles; don&rsquo;t forget about them, but for now let&rsquo;s move on:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">    [&hellip;]
+<p>We'll be talking a lot more about CFI and LSDA in the next articles; don't forget about them, but for now let's move on:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">    [...]
     call    _Z5raisev
     jmp .L8
 </pre>
-<p>Another easy one: just call &ldquo;raise&rdquo;, and then jump to L8; L8 will return normally from this function. If raise didn&rsquo;t execute properly then the execution (somehow, we don&rsquo;t know how yet!) shouldn&rsquo;t resume in the next instruction but in the exception handlers (which in ABI-speak are called landing pads. More on that later).</p>
+<p>Another easy one: just call "raise", and then jump to L8; L8 will return normally from this function. If raise didn't execute properly then the execution (somehow, we don't know how yet!) shouldn't resume in the next instruction but in the exception handlers (which in ABI-speak are called landing pads. More on that later).</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">    cmpl    $1, %edx
     je  .L5
 .LEHB1:
@@ -46,7 +44,7 @@ collect2: ld returned 1 exit status
     call    __cxa_begin_catch
     call    __cxa_end_catch
 </pre>
-<p>This is quite difficult to follow but it&rsquo;s actually quite straight forward. Here most of the magic will happen: first we check if this is an exception we can handle, if we can&rsquo;t then we say so by calling _Unwind_Resume, if it is then we call __cxa_begin_catch and __cxa_end_catch; after calling these functions the execution should resume normally and thus L8 will be executed (that is, L8 is right below our catch block):</p>
+<p>This is quite difficult to follow but it's actually quite straight forward. Here most of the magic will happen: first we check if this is an exception we can handle, if we can't then we say so by calling _Unwind_Resume, if it is then we call __cxa_begin_catch and __cxa_end_catch; after calling these functions the execution should resume normally and thus L8 will be executed (that is, L8 is right below our catch block):</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">.L8:
     leave
     .cfi_restore 5
@@ -54,6 +52,6 @@ collect2: ld returned 1 exit status
     ret
     .cfi_endproc
 </pre>
-<p>Just a normal return from our function&hellip; with some CFI stuff on it.</p>
-<p>So this is it for exception catching, although we don&rsquo;t know yet how <strong>__cxa_begin/end_catch</strong> work, we have an idea that these pair forms what&rsquo;s called a landing pad, a place in the function to handle the raised exception. What we don&rsquo;t know yet is how the landing pads are found. _Unwind_ must somehow go through all the calls in the stack, check if any call (stack frame, to be precise) has a valid try block with a landing pad that can catch the exception, and then resume the execution there.</p>
-<p>This is no small feat, and we&rsquo;ll see how that works next time.</p>
+<p>Just a normal return from our function... with some CFI stuff on it.</p>
+<p>So this is it for exception catching, although we don't know yet how <strong>__cxa_begin/end_catch</strong> work, we have an idea that these pair forms what's called a landing pad, a place in the function to handle the raised exception. What we don't know yet is how the landing pads are found. _Unwind_ must somehow go through all the calls in the stack, check if any call (stack frame, to be precise) has a valid try block with a landing pad that can catch the exception, and then resume the execution there.</p>
+<p>This is no small feat, and we'll see how that works next time.</p>

@@ -1,5 +1,4 @@
 # C++ exceptions under the hood 16: finding the right catch in a landing
-pad
 
 @meta publishDatetime 2013-05-07T09:00:00.000+02:00
 @meta author Nico Brailovsky
@@ -23,7 +22,7 @@ void foo() { throw Child; }
 void bar()
 {
     try { foo(); }
-    catch(const Base&amp;){ ... }
+    catch(const Base&){ ... }
 }
 ```
 

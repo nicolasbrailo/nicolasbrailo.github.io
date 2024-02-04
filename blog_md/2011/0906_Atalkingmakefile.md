@@ -21,6 +21,8 @@ Try it. You'll love it.
 Bonus chatter: when Valgrind detects over $MUCHOS errors it'll print "Too many errors detected. Go and fix your program", then it won't print so much detail in the next backtraces.
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Links 7/9/2011: Linux World Domination, China Picks IBM’s GNU/Linux Mainframe | Techrights](http://techrights.org/2011/09/07/linux-world-domination/) commented @ 2011-09-07T20:13:23.000+02:00:
 

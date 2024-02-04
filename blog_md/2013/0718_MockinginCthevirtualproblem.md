@@ -25,6 +25,8 @@ Other possible solutions I've seen in the past are:
 To conclude, I don't think there's a perfect solution to the virtual problem. Just choose what looks better and accept we live in an imperfect world.
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Bas]() commented @ 2013-07-18T22:35:08.000+02:00:
 

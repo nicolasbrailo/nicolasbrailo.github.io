@@ -39,7 +39,7 @@ Some times you launch a background job, and you don't really care when it's done
 class X {
   void dispose() {
     delete this;
-    std::cout &lt;&lt; "Hello worldn";
+    std::cout << "Hello worldn";
   }
 };
 ```
@@ -49,6 +49,8 @@ Though "Hello world" will be printed, it will be running in a dead object. Which
 **Bonus reading**
 For a much more interesting note than mine, go and check [When does an object become available for garbage collection?](http://blogs.msdn.com/b/oldnewthing/archive/2010/08/10/10048149.aspx) in The Old New Thing.
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Living on a null object](/blog_md/2011/0816_Livingonanullobject.md) commented @ 2011-08-16T09:05:04.000+02:00:

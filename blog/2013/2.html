@@ -7,32 +7,32 @@
 </ul>
 <h1>Posts for 2013 February<a name="postsfor2013february"></a></h1>
 <h1>Powerpoint monkey<a name="powerpointmonkey"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-28</p>
-<p>I doubt this announcement will be of much use to anyone, but I&rsquo;ve uploaded most of my latex presentations to my <a href="https://github.com/nicolasbrailo/powerpoint_monkey">github repo</a> (those for which I found the source code, anyway).</p>
-<p>At least it&rsquo;s a great way to see crappy latex code which probably hasn&rsquo;t compiled in newer versions of latex for at least a couple of years.</p>
+<p>By Nico Brailovsky @ 2013-02-28 -  <a href="/blog/2013/0228_Powerpointmonkey.html">Permalink</a></p>
+<p>I doubt this announcement will be of much use to anyone, but I've uploaded most of my latex presentations to my <a href="https://github.com/nicolasbrailo/powerpoint_monkey">github repo</a> (those for which I found the source code, anyway).</p>
+<p>At least it's a great way to see crappy latex code which probably hasn't compiled in newer versions of latex for at least a couple of years.</p>
 <hr />
 <h1>C++ exceptions under the hood 4: catching what you throw<a name="cexceptionsunderthehood4catchingwhatyouthrow"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-26</p>
-<p>In this series about exception handling, we have discovered quite a bit about exception throwing by looking at compiler and linker errors but we have so far not learned anything yet about exception catching. Let&rsquo;s sum up the few things we learned about exception throwing:</p>
+<p>By Nico Brailovsky @ 2013-02-26 -  <a href="/blog/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.html">Permalink</a></p>
+<p>In this series about exception handling, we have discovered quite a bit about exception throwing by looking at compiler and linker errors but we have so far not learned anything yet about exception catching. Let's sum up the few things we learned about exception throwing:</p>
 <ul>
 <li>A throw statement will be translated by the compiler into two calls, <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong>.</li>
-<li><strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong> &ldquo;live&rdquo; on libstdc++</li>
+<li><strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong> "live" on libstdc++</li>
 <li><strong>__cxa_allocate_exception</strong> will allocate memory for the new exception.</li>
 <li><strong>__cxa_throw</strong> will prepare a bunch of stuff and forward this exception to <strong>_Unwind_</strong>, a set of functions that live in libstdc and perform the real stack unwinding (<a href="/blog/youfoundadeadlink.html">the ABI</a> defines the interface for these functions).</li>
 </ul>
-<p>Quite simple so far, but exception catching is a bit more complicated, specially because it requires certain degree of reflexion (that is, the ability of a program to analyze its own source code). Let&rsquo;s keep on trying our same old method, let&rsquo;s add some catch statements throughout our code, compile it and see what happens:</p>
+<p>Quite simple so far, but exception catching is a bit more complicated, specially because it requires certain degree of reflexion (that is, the ability of a program to analyze its own source code). Let's keep on trying our same old method, let's add some catch statements throughout our code, compile it and see what happens:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;throw.h&quot;
-#include &amp;lt;stdio.h&amp;gt;
-// Notice we&amp;#x27;re adding a second exception type
+#include &lt;stdio.h&gt;
+// Notice were adding a second exception type
 struct Fake_Exception {};
 void raise() {
     throw Exception();
 }
-// We will analyze what happens if a try block doesn&amp;#x27;t catch an exception
+// We will analyze what happens if a try block doesnt catch an exception
 void try_but_dont_catch() {
     try {
         raise();
-    } catch(Fake_Exception&amp;amp;) {
+    } catch(Fake_Exception&amp;) {
         printf(&quot;Running try_but_dont_catch::catch(Fake_Exception)\n&quot;);
     }
     printf(&quot;try_but_dont_catch handled an exception and resumed execution&quot;);
@@ -41,9 +41,9 @@ void try_but_dont_catch() {
 void catchit() {
     try {
         try_but_dont_catch();
-    } catch(Exception&amp;amp;) {
+    } catch(Exception&amp;) {
         printf(&quot;Running try_but_dont_catch::catch(Exception)\n&quot;);
-    } catch(Fake_Exception&amp;amp;) {
+    } catch(Fake_Exception&amp;) {
         printf(&quot;Running try_but_dont_catch::catch(Fake_Exception)\n&quot;);
     }
     printf(&quot;catchit handled an exception and resumed execution&quot;);
@@ -57,52 +57,52 @@ extern &quot;C&quot; {
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
 <p>Just like before, we have our seppuku function linking the C world with the C++ world, only this time we have added some more function calls to make our stack more interesting, plus we have added a bunch of try/catch blocks so we can analyze how does libstdc++ handles them.</p>
 <p>And just like before, we get some linker errors about missing ABI functions:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&amp;gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
-throw.o: In function <code>try_but_dont_catch()&amp;amp;#x27;:
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+&gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
+throw.o: In function <code>try_but_dont_catch():
 throw.cpp:12: undefined reference to
-</code>__cxa_begin_catch&amp;#x27;
-throw.cpp:12: undefined reference to <code>__cxa_end_catch&amp;amp;#x27;
-throw.o: In function</code>catchit()&amp;#x27;:
-throw.cpp:20: undefined reference to <code>__cxa_begin_catch&amp;amp;#x27;
-throw.cpp:20: undefined reference to</code>__cxa_end_catch&amp;#x27;
-throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0&amp;#x27;
+</code>__cxa_begin_catch
+throw.cpp:12: undefined reference to <code>__cxa_end_catch
+throw.o: In function</code>catchit():
+throw.cpp:20: undefined reference to <code>__cxa_begin_catch
+throw.cpp:20: undefined reference to</code>__cxa_end_catch
+throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0
 collect2: ld returned 1 exit status
 </pre>
-<p>Again we see a lot of interesting stuff going on here. The calls to <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong> are probably something we could have expected: we don&rsquo;t know what they are yet, but we can presume they are the equivalent of the <strong>throw/__cxa_allocate/throw</strong> conversions (you do remember that our throw keyword got translated to a pair of <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw functions</strong>, right?). The <strong>__gxx_personality_v0</strong> thing is new, though, and the central piece of the next few articles.</p>
+<p>Again we see a lot of interesting stuff going on here. The calls to <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong> are probably something we could have expected: we don't know what they are yet, but we can presume they are the equivalent of the <strong>throw/__cxa_allocate/throw</strong> conversions (you do remember that our throw keyword got translated to a pair of <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw functions</strong>, right?). The <strong>__gxx_personality_v0</strong> thing is new, though, and the central piece of the next few articles.</p>
 <p>What does the personality function do? We already said something about it on the introduction to this series but we will be looking into it with some more detail next time, together with our new two friends, <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong>.</p>
 <hr />
 <h1>Bebugging / Fault injection<a name="bebuggingfaultinjection"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-21</p>
+<p>By Nico Brailovsky @ 2013-02-21 -  <a href="/blog/2013/0221_BebuggingFaultinjection.html">Permalink</a></p>
 <p>Releasing any software with a degree of confidence on its quality can be a difficult task. A way to improve this confidence is adding test. Easy enough, but then how do you know if you are actually testing what needs to be tested? Metrics like code coverage are very helpful but they also provide a false sense of security that can be even worse than having no unit testing at all.</p>
 <p>One way of determining how reliable your testing suit is, is to test your testing suit. No, not by writing more tests but by writing more bugs!</p>
-<p>The idea is simple: give your code to someone who is not a programmer on the project, someone who can know nothing about the implicit assumptions and preconditions you and your team mates already have about the code, the same assumptions and preconditions necessary to make stuff don&rsquo;t crash. Ask him to break things. Nothing too fancy, only subtle stuff; a memory leak over there, a sign vs unsigned comparison over here, an equal changed by a non-equal in an if (and please do it in a branch!).</p>
+<p>The idea is simple: give your code to someone who is not a programmer on the project, someone who can know nothing about the implicit assumptions and preconditions you and your team mates already have about the code, the same assumptions and preconditions necessary to make stuff don't crash. Ask him to break things. Nothing too fancy, only subtle stuff; a memory leak over there, a sign vs unsigned comparison over here, an equal changed by a non-equal in an if (and please do it in a branch!).</p>
 <p>Once you get a faulty branch of your project, try to see how many of the bugs you can detect using your testing suite (yes, valgrind should probably be part of your testing suit, albeit not a unit-test). No diffs, please.</p>
 <p>Seeing how many bugs go unnoticed on a fault injection session can give you an idea of how comprehensive your unit tests are. It can be a very humbling experience, too.</p>
 <p>You can find more information about bebugging in <a href="http://en.wikipedia.org/wiki/Fault_injection">Wikipedia</a>.</p>
 <hr />
 <h1>C++ exceptions under the hood 3: an ABI to appease the linker<a name="cexceptionsunderthehood3anabitoappeasethelinker"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-19</p>
+<p>By Nico Brailovsky @ 2013-02-19 -  <a href="/blog/2013/0219_Cexceptionsunderthehood3anABItoappeasethelinker.html">Permalink</a></p>
 <p>On our journey to understand exceptions we discovered that the heavy-lifting is done in libstdc++ as specified by the C++ ABI. Reading some linker errors we deduced last time that for handling exceptions we need help from the C++ ABI; we created a throwing C++ program, linked it together with a plain C program and found that the compiler somehow translated our throw instruction into something that is now calling a few libstd++ functions to actually throw an exception. Lost already? You can check the sourcode for this project so far <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
-<p>Anyway, we want to understand exactly how an exception is thrown, so we will try to implement our own mini-ABI, capable of throwing an exception. To do this, a lot of <a href="/blog/youfoundadeadlink.html">RTFM</a> is needed, but a full ABI interface can be found <a href="http://libcxxabi.llvm.org/spec.html">here, for LLVM</a>. Let&rsquo;s start by remembering what those missing functions are:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; gcc main.o throw.o -o app
-throw.o: In function <code>foo()&amp;amp;#x27;:
+<p>Anyway, we want to understand exactly how an exception is thrown, so we will try to implement our own mini-ABI, capable of throwing an exception. To do this, a lot of <a href="/blog/youfoundadeadlink.html">RTFM</a> is needed, but a full ABI interface can be found <a href="http://libcxxabi.llvm.org/spec.html">here, for LLVM</a>. Let's start by remembering what those missing functions are:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; gcc main.o throw.o -o app
+throw.o: In function <code>foo()&amp;#x27;:
 throw.cpp:4: undefined reference to
-</code>__cxa_allocate_exception&amp;#x27;
-throw.cpp:4: undefined reference to <code>__cxa_throw&amp;amp;#x27;
-throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to</code>vtable for __cxxabiv1::__class_type_info&amp;#x27;
+</code>__cxa_allocate_exception&#x27;
+throw.cpp:4: undefined reference to <code>__cxa_throw&amp;#x27;
+throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to</code>vtable for __cxxabiv1::__class_type_info&#x27;
 collect2: ld returned 1 exit status
 </pre>
 <h3>__cxa_allocate_exception<a name="__cxa_allocate_exception"></a></h3>
-<p>The name is quite self explanatory, I guess. <strong>__cxa_allocate_exception</strong> receives a size_t and allocates enough memory to hold the exception being thrown. There is more to this that what you would expect: when an exception is being thrown some magic will be happening with the stack, so allocating stuff here is not a good idea. Allocating memory on the heap might also not be a good idea, though, because we might have to throw if we&rsquo;re out of memory. A static allocation is also not a good idea, since we need this to be thread safe (otherwise two throwing threads at the same time would equal disaster). Given these constraints, most implementations seem to allocate memory on a local thread storage (heap) but resort to an emergency storage (presumably static) if out of memory. We, of course, don&rsquo;t want to worry about the ugly details so we can just have a static buffer if we want to.</p>
+<p>The name is quite self explanatory, I guess. <strong>__cxa_allocate_exception</strong> receives a size_t and allocates enough memory to hold the exception being thrown. There is more to this that what you would expect: when an exception is being thrown some magic will be happening with the stack, so allocating stuff here is not a good idea. Allocating memory on the heap might also not be a good idea, though, because we might have to throw if we're out of memory. A static allocation is also not a good idea, since we need this to be thread safe (otherwise two throwing threads at the same time would equal disaster). Given these constraints, most implementations seem to allocate memory on a local thread storage (heap) but resort to an emergency storage (presumably static) if out of memory. We, of course, don't want to worry about the ugly details so we can just have a static buffer if we want to.</p>
 <h3>__cxa_throw<a name="__cxa_throw"></a></h3>
 <p>The function doing all the throw-magic! According to the ABI reference, once the exception has been created <strong>__cxa_throw</strong> will be called. This function will be responsible of starting the stack unwinding. An important effect of this: <strong>__cxa_throw</strong> is never supposed to return. It either delegates execution to the correct catch block to handle the exception or calls (by default) <strong>std::terminate</strong>, but it never ever returns.</p>
 <h3>vtable for __cxxabiv1::__class_type_info<a name="vtablefor__cxxabiv1__class_type_info"></a></h3>
-<p>A weird one&hellip; __class_type_info is clearly some sort of RTTI, but what exactly? It&rsquo;s not easy to answer this one now and it&rsquo;s not terribly important for our mini ABI; we&rsquo;ll leave it to an appendix for after we are done analyzing the process of throwing exceptions, for now let&rsquo;s just say this is the entry point the ABI defines to know (in runtime) whether two types are the same or not. This is the function that gets called to determine whether a catch(Parent) can handle a throw Child. For now we&rsquo;ll focus on the basics: we need to give it an address for the linker (ie defining it won&rsquo;t be enough, we need to instantiate it) and it has to have a vtable (that is, it must have a virtual method).</p>
-<p>Lot&rsquo;s of stuff happen on these functions, but let&rsquo;s try to implement the simplest exception thrower possible: one that will call exit when an exception is thrown. Our application was almost OK but missing some ABI-stuff, so let&rsquo;s create a mycppabi.cpp. Reading <a href="/blog/youfoundadeadlink.html">our ABI specification</a> we can figure out the signatures for <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong>:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;unistd.h&amp;gt;
-#include &amp;lt;stdio.h&amp;gt;
-#include &amp;lt;stdlib.h&amp;gt;
+<p>A weird one... __class_type_info is clearly some sort of RTTI, but what exactly? It's not easy to answer this one now and it's not terribly important for our mini ABI; we'll leave it to an appendix for after we are done analyzing the process of throwing exceptions, for now let's just say this is the entry point the ABI defines to know (in runtime) whether two types are the same or not. This is the function that gets called to determine whether a catch(Parent) can handle a throw Child. For now we'll focus on the basics: we need to give it an address for the linker (ie defining it won't be enough, we need to instantiate it) and it has to have a vtable (that is, it must have a virtual method).</p>
+<p>Lot's of stuff happen on these functions, but let's try to implement the simplest exception thrower possible: one that will call exit when an exception is thrown. Our application was almost OK but missing some ABI-stuff, so let's create a mycppabi.cpp. Reading <a href="/blog/youfoundadeadlink.html">our ABI specification</a> we can figure out the signatures for <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong>:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
 namespace __cxxabiv1 {
     struct __class_type_info {
         virtual void foo() {}
@@ -114,11 +114,11 @@ extern &quot;C&quot; {
 void<em> __cxa_allocate_exception(size_t thrown_size)
 {
     printf(&quot;alloc ex %i\n&quot;, thrown_size);
-    if (thrown_size &amp;gt; EXCEPTION_BUFF_SIZE) printf(&quot;Exception too big&quot;);
-    return &amp;amp;exception_buff;
+    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf(&quot;Exception too big&quot;);
+    return &amp;exception_buff;
 }
 void __cxa_free_exception(void </em>thrown_exception);
-#include &amp;lt;unwind.h&amp;gt;
+#include &lt;unwind.h&gt;
 void __cxa_throw(
           void<em> thrown_exception,
           struct type_info </em>tinfo,
@@ -131,23 +131,23 @@ void __cxa_throw(
 } // extern &quot;C&quot;
 </pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
-<p>If we now compile mycppabi.cpp and link it with the other two .o files, we&rsquo;ll get a working binary which should print &ldquo;alloc ex 1\nthrow&rdquo; and then exit. Pretty simple, but an amazing feat nonetheless: we&rsquo;ve managed to throw an exception without calling libc++. We&rsquo;ve written a (very small) part of a C++ ABI!</p>
-<p>Another important bit of wisdom we gained by creating our own mini ABI: the throw keyword is compiled into two function calls to libstdc++. No voodoo there, it&rsquo;s actually a pretty simple transformation. We can even disassemble our throwing function to verify it. Let&rsquo;s run this command &ldquo;g++ -S throw.cpp&rdquo;.</p>
+<p>If we now compile mycppabi.cpp and link it with the other two .o files, we'll get a working binary which should print "alloc ex 1\nthrow" and then exit. Pretty simple, but an amazing feat nonetheless: we've managed to throw an exception without calling libc++. We've written a (very small) part of a C++ ABI!</p>
+<p>Another important bit of wisdom we gained by creating our own mini ABI: the throw keyword is compiled into two function calls to libstdc++. No voodoo there, it's actually a pretty simple transformation. We can even disassemble our throwing function to verify it. Let's run this command "g++ -S throw.cpp".</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">seppuku:
 .LFB3:
-    [&hellip;]
+    [...]
     call    __cxa_allocate_exception
     movl    $0, 8(%esp)
     movl    $_ZTI9Exception, 4(%esp)
     movl    %eax, (%esp)
     call    __cxa_throw
-    [&hellip;]
+    [...]
 </pre>
-<p>Even more magic happening: when the throw keyword gets translated into these two calls, the compiler doesn&rsquo;t even know how the exception is going to be handled. Since libstdc++ is the one defining __cxa_throw and friends, and libstdc++ is dynamically linked on runtime, the exception handling method could be chosen when we first run our executable.</p>
-<p>We are now seeing some progress but we still have a long way to go. Our ABI can only throw exceptions right now. Can we extend it to handle a catch as well? We&rsquo;ll see how next time.</p>
+<p>Even more magic happening: when the throw keyword gets translated into these two calls, the compiler doesn't even know how the exception is going to be handled. Since libstdc++ is the one defining __cxa_throw and friends, and libstdc++ is dynamically linked on runtime, the exception handling method could be chosen when we first run our executable.</p>
+<p>We are now seeing some progress but we still have a long way to go. Our ABI can only throw exceptions right now. Can we extend it to handle a catch as well? We'll see how next time.</p>
 <hr />
 <h1>Monitor file changes on a CLI<a name="monitorfilechangesonacli"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-14</p>
+<p>By Nico Brailovsky @ 2013-02-14 -  <a href="/blog/2013/0214_MonitorfilechangesonaCLI.html">Permalink</a></p>
 <p>The other day I had a problem with a config file being overwritten. Some process, I did not know which one, was overwriting a configuration file I manually changed. Annoyed by this, I started looking for the culprit. lsof was no good, because that would list the open files; this process would most likely just open the file, write to it and then close it again. My chances of ever catching this process in the act were nil. Luckily I found auditd. Install it like this:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo apt-get install auditd
 </pre>
@@ -160,9 +160,9 @@ void __cxa_throw(
 <p>Voila, now you have your culprit. Kill -9 at will.</p>
 <hr />
 <h1>C++ exceptions under the hood II: a tiny ABI<a name="cexceptionsunderthehoodiiatinyabi"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-12</p>
-<p>If we are going to try and understand why exceptions are complex and how do they work, we can either read a lot of manuals or we can try to write something to handle the exceptions ourselves. Actually, I was surprised by the lack of good information on this topic: pretty much everything I found is either incredibly detailed or very basic, with one exception or two. Of course there are some specifications to implement (most notably the <a href="/blog/youfoundadeadlink.html">ABI for c++</a> but we also have <a href="http://www.logix.cz/michal/devel/gas-cfi/">CFI</a>, <a href="http://www.logix.cz/michal/devel/gas-cfi/dwarf-2.0.0.pdf">DWARF</a> and libstdc) but reading the specification alone is not enough to really learn what&rsquo;s going on under the hood.</p>
-<p>Let&rsquo;s start with the obvious then: wheel reinvention! We know for a fact that plain C doesn&rsquo;t handle exceptions, so let&rsquo;s try to link a throwing C++ program with a plain C linker and see what happens. I came up with something simple like this:</p>
+<p>By Nico Brailovsky @ 2013-02-12 -  <a href="/blog/2013/0212_CexceptionsunderthehoodIIatinyABI.html">Permalink</a></p>
+<p>If we are going to try and understand why exceptions are complex and how do they work, we can either read a lot of manuals or we can try to write something to handle the exceptions ourselves. Actually, I was surprised by the lack of good information on this topic: pretty much everything I found is either incredibly detailed or very basic, with one exception or two. Of course there are some specifications to implement (most notably the <a href="/blog/youfoundadeadlink.html">ABI for c++</a> but we also have <a href="http://www.logix.cz/michal/devel/gas-cfi/">CFI</a>, <a href="http://www.logix.cz/michal/devel/gas-cfi/dwarf-2.0.0.pdf">DWARF</a> and libstdc) but reading the specification alone is not enough to really learn what's going on under the hood.</p>
+<p>Let's start with the obvious then: wheel reinvention! We know for a fact that plain C doesn't handle exceptions, so let's try to link a throwing C++ program with a plain C linker and see what happens. I came up with something simple like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;throw.h&quot;
 extern &quot;C&quot; {
     void seppuku() {
@@ -170,7 +170,7 @@ extern &quot;C&quot; {
     }
 }
 </pre>
-<p>Don&rsquo;t forget the extern stuff, otherwise g++ will helpfully mangle our little function&rsquo;s name and we won&rsquo;t be able to link it with our plain C program. Of course, we need a header file to &ldquo;link&rdquo; (no pun intended) the C++ world with the C world:</p>
+<p>Don't forget the extern stuff, otherwise g++ will helpfully mangle our little function's name and we won't be able to link it with our plain C program. Of course, we need a header file to "link" (no pun intended) the C++ world with the C world:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Exception {};
 #ifdef __cplusplus
 extern &quot;C&quot; {
@@ -189,43 +189,45 @@ int main()
 }
 </pre>
 <p>What happens now if we try to compile and link together this frankencode?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&amp;gt; gcc -c -o main.o -O0 -ggdb main.c
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+&gt; gcc -c -o main.o -O0 -ggdb main.c
 </pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
 <p>So far so good. Both g++ and gcc are happy in their little world. Chaos will ensue once we try to link them, though:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; gcc main.o throw.o -o app
-throw.o: In function <code>foo()&amp;amp;#x27;:
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; gcc main.o throw.o -o app
+throw.o: In function <code>foo()&amp;#x27;:
 throw.cpp:4: undefined reference to
-</code>__cxa_allocate_exception&amp;#x27;
-throw.cpp:4: undefined reference to <code>__cxa_throw&amp;amp;#x27;
-throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to</code>vtable for __cxxabiv1::__class_type_info&amp;#x27;
+</code>__cxa_allocate_exception&#x27;
+throw.cpp:4: undefined reference to <code>__cxa_throw&amp;#x27;
+throw.o:(.rodata._ZTI9Exception[typeinfo for Exception]+0x0): undefined reference to</code>vtable for __cxxabiv1::__class_type_info&#x27;
 collect2: ld returned 1 exit status
 </pre>
-<p>And sure enough, gcc complains about missing C++ symbols. Those are very special C++ symbols, though. Check the last error line: a vtable for cxxabiv1 is missing. cxxabi, defined in libstdc++, refers to the application binary interface for C++. So now we have learned that the exception handling is done with some help of the standard C++ library with an interface defined by C++&rsquo;s ABI.</p>
-<p>The C++ ABI defines a standard binary format so we can link objects together in a single program; if we compile a .o file with two different compilers, and those compilers use a different ABI, we won&rsquo;t be able to link the .o objects into an application. The ABI will also define some other formats, like for example the interface to perform stack unwinding or the throwing of an exception. In this case, the ABI defines an interface (not necessarily a binary format, just an interface) between C++ and some other library in our program which will handle the stack unwinding, ie the ABI defines C++ specific stuff so it can talk to non-C++ libraries: this is what would enable exceptions thrown from other languages to be caught in C++, amongst other things.</p>
-<p>In any case, the linker errors are pointing us to the first layer into exception handling under the hood: an interface we&rsquo;ll have to implement ourselves, the cxxabi. For the next article we&rsquo;ll be starting our own mini ABI, as defined in the <a href="/blog/youfoundadeadlink.html">C++ ABI</a>.</p>
+<p>And sure enough, gcc complains about missing C++ symbols. Those are very special C++ symbols, though. Check the last error line: a vtable for cxxabiv1 is missing. cxxabi, defined in libstdc++, refers to the application binary interface for C++. So now we have learned that the exception handling is done with some help of the standard C++ library with an interface defined by C++'s ABI.</p>
+<p>The C++ ABI defines a standard binary format so we can link objects together in a single program; if we compile a .o file with two different compilers, and those compilers use a different ABI, we won't be able to link the .o objects into an application. The ABI will also define some other formats, like for example the interface to perform stack unwinding or the throwing of an exception. In this case, the ABI defines an interface (not necessarily a binary format, just an interface) between C++ and some other library in our program which will handle the stack unwinding, ie the ABI defines C++ specific stuff so it can talk to non-C++ libraries: this is what would enable exceptions thrown from other languages to be caught in C++, amongst other things.</p>
+<p>In any case, the linker errors are pointing us to the first layer into exception handling under the hood: an interface we'll have to implement ourselves, the cxxabi. For the next article we'll be starting our own mini ABI, as defined in the <a href="/blog/youfoundadeadlink.html">C++ ABI</a>.</p>
 <hr />
 <h1>Quick C/C++ reference on the console<a name="quickccreferenceontheconsole"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-07</p>
-<p>What do you usually do when you don&rsquo;t remember whether fp is the first argument for fprintf or for fwrite? (Hint: it&rsquo;s the first argument for one, the last for the other. Handy, huh?). Well, there&rsquo;s no need to go and check the answer on Google, just sudo apt-get install manpages-dev and then do &ldquo;man fprintf&rdquo; or &ldquo;man fwrite&rdquo;.</p>
+<p>By Nico Brailovsky @ 2013-02-07 -  <a href="/blog/2013/0207_QuickCCreferenceontheconsole.html">Permalink</a></p>
+<p>What do you usually do when you don't remember whether fp is the first argument for fprintf or for fwrite? (Hint: it's the first argument for one, the last for the other. Handy, huh?). Well, there's no need to go and check the answer on Google, just sudo apt-get install manpages-dev and then do "man fprintf" or "man fwrite".</p>
 <p>Note: you might also want posix-dev to check stuff like htons.</p>
 <hr />
 <h1>C++ exceptions under the hood<a name="cexceptionsunderthehood"></a></h1>
-<p>By Nico Brailovsky @ 2013-02-05</p>
-<p>Everyone knows that good exception handling is hard. Reasons for this abound, in every single layer of an exception &ldquo;lifetime&rdquo;: it&rsquo;s hard to write exception safe code, an exception might be thrown from unexpected places (pun intended!), it&rsquo;s can be complicated to understand badly designed exception hierarchies, it&rsquo;s slow because a lot of voodoo is happening under the hood, it&rsquo;s dangerous because improperly throwing an exception might call the unforgiving std::terminate. And although anyone who might have had to battle an &ldquo;exceptional&rdquo; program might know this, the reasons for this mess are not widespread knowledge.</p>
-<p>The first question we need to ask ourselves is then, how does it all work. This is the first article on a long series, in which I&rsquo;ll be writing about how exceptions are implemented under the hood in c++ (actually, c++ compiled with gcc on x86 platforms but this might apply to other platforms too). On these articles the process of throwing and catching an exception will be explained with quite a lot of detail, but for the impatient people here is a small brief of all the articles that will follow: how is an exception thrown in gcc/x86:
-1. When we write a throw statement, the compiler will translate it into a pair of calls into libstdc++ functions that allocate the exception and then start the stack unwinding process by calling libstdc.
-2. For each catch statement, the compiler will write some special information after the method&rsquo;s body, a table of exceptions this method can catch and a cleanup table (more on the cleanup table later).
-3. As the unwinder goes through the stack it will call a special function provided by libstdc++ (called personality routine) that checks for each function in the stack which exceptions can be caught.
-4. If no matching catch is found for the exception, std::terminate is called.
-5. If a matching catch is found, the unwinder now starts again on the top of the stack.
-6. As the unwinder goes through the stack a second time it will ask the personality routine to perform a cleanup for this method.
-7. The personality routine will check the cleanup table on the current method. If there are any cleanup actions to be run, it will &ldquo;jump&rdquo; into the current stack frame and run the cleanup code. This will run the destructor for each object allocated at the current scope.
-8. Once the unwinder reaches the frame in the stack that can handle the exception it will jump into the proper catch statement.
-9. Upon finishing the execution of the catch statement, a cleanup function will be called to release the memory held for the exception.</p>
-<p>This already looks quite complicated and we haven&rsquo;t even started; that was but a short and inaccurate description of all the complexities needed to handle an exception.</p>
-<p>To learn about all the details that happen under the hood on the next article we will start to implement our own mini libstdlibc++. Not all of it though, only the part that handles exceptions. Actually not even all of that, only the bare minimum we need to make a simple throw/catch statement work. Some assembly will be needed, but nothing too fancy. A lot of patience will be required, I&rsquo;m afraid.</p>
-<p>If you are too curious and want to start reading about exception handling implementation then you can start <a href="/blog/youfoundadeadlink.html">here</a>, for a full specification of what we are going to implement on the next few articles. I&rsquo;ll try to make these articles a bit more didactic and easier to follow though, so see you next time to start our ABI!</p>
-<h6>** Disclaimer note: I&rsquo;m in no way versed on the magic going on when an exception is thrown. These series will be about trying to demystify the stuff going on under the hood and learning something in the process, and while I hope some of it will be correct I have no doubts there will be a lot of subtleties not quite right. Let me know if you think I should correct something **</h6>
+<p>By Nico Brailovsky @ 2013-02-05 -  <a href="/blog/2013/0205_Cexceptionsunderthehood.html">Permalink</a></p>
+<p>Everyone knows that good exception handling is hard. Reasons for this abound, in every single layer of an exception "lifetime": it's hard to write exception safe code, an exception might be thrown from unexpected places (pun intended!), it's can be complicated to understand badly designed exception hierarchies, it's slow because a lot of voodoo is happening under the hood, it's dangerous because improperly throwing an exception might call the unforgiving std::terminate. And although anyone who might have had to battle an "exceptional" program might know this, the reasons for this mess are not widespread knowledge.</p>
+<p>The first question we need to ask ourselves is then, how does it all work. This is the first article on a long series, in which I'll be writing about how exceptions are implemented under the hood in c++ (actually, c++ compiled with gcc on x86 platforms but this might apply to other platforms too). On these articles the process of throwing and catching an exception will be explained with quite a lot of detail, but for the impatient people here is a small brief of all the articles that will follow: how is an exception thrown in gcc/x86:</p>
+<ol>
+<li>When we write a throw statement, the compiler will translate it into a pair of calls into libstdc++ functions that allocate the exception and then start the stack unwinding process by calling libstdc.</li>
+<li>For each catch statement, the compiler will write some special information after the method's body, a table of exceptions this method can catch and a cleanup table (more on the cleanup table later).</li>
+<li>As the unwinder goes through the stack it will call a special function provided by libstdc++ (called personality routine) that checks for each function in the stack which exceptions can be caught.</li>
+<li>If no matching catch is found for the exception, std::terminate is called.</li>
+<li>If a matching catch is found, the unwinder now starts again on the top of the stack.</li>
+<li>As the unwinder goes through the stack a second time it will ask the personality routine to perform a cleanup for this method.</li>
+<li>The personality routine will check the cleanup table on the current method. If there are any cleanup actions to be run, it will "jump" into the current stack frame and run the cleanup code. This will run the destructor for each object allocated at the current scope.</li>
+<li>Once the unwinder reaches the frame in the stack that can handle the exception it will jump into the proper catch statement.</li>
+<li>Upon finishing the execution of the catch statement, a cleanup function will be called to release the memory held for the exception.</li>
+</ol>
+<p>This already looks quite complicated and we haven't even started; that was but a short and inaccurate description of all the complexities needed to handle an exception.</p>
+<p>To learn about all the details that happen under the hood on the next article we will start to implement our own mini libstdlibc++. Not all of it though, only the part that handles exceptions. Actually not even all of that, only the bare minimum we need to make a simple throw/catch statement work. Some assembly will be needed, but nothing too fancy. A lot of patience will be required, I'm afraid.</p>
+<p>If you are too curious and want to start reading about exception handling implementation then you can start <a href="/blog/youfoundadeadlink.html">here</a>, for a full specification of what we are going to implement on the next few articles. I'll try to make these articles a bit more didactic and easier to follow though, so see you next time to start our ABI!</p>
+<h6>** Disclaimer note: I'm in no way versed on the magic going on when an exception is thrown. These series will be about trying to demystify the stuff going on under the hood and learning something in the process, and while I hope some of it will be correct I have no doubts there will be a lot of subtleties not quite right. Let me know if you think I should correct something **</h6>
 <hr />

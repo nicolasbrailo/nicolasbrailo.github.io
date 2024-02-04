@@ -1,5 +1,4 @@
-# C++ exceptions under the hood 19: getting the right catch in a landing
-pad
+# C++ exceptions under the hood 19: getting the right catch in a landing pad
 
 @meta publishDatetime 2013-05-23T09:00:00.000+02:00
 @meta author Nico Brailovsky

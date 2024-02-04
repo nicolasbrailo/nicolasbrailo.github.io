@@ -19,6 +19,9 @@ Read the help you just found. There is a lot of useful information there. Knowin
 "all" is probably the best option to annoy a fellow programmer. Just set the env var and watch him go crazy.
 
 
+
+# Comments
+
 ---
 ## In reply to [this post](), [Links 30/6/2011: Knoppix 2011 6.4, Netrunner 3.2 Released | Techrights](http://techrights.org/2011/06/30/netrunner-3-2-released/) commented @ 2011-06-30T09:54:08.000+02:00:
 

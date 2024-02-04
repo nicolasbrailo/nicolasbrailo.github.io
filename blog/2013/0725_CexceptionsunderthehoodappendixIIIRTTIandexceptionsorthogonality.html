@@ -1,51 +1,51 @@
 <h1>C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality<a name="cexceptionsunderthehoodappendixiiirttiandexceptionsorthogonality"></a></h1>
-<p>Exception handling on C++ requires a lot of reflexion. I don&rsquo;t mean the programmer should be reflecting on exception handling (though that&rsquo;s probably not a bad idea), I mean that a piece of C++ code should be able to understand things about itself. This looks a lot like run-time type information, RTTI. Are they the same? If they are, does exception handling work without RTTI?</p>
-<p>We might be able to get a clue about the difference between RTTI and exception handling by using -fno-rtti on gcc when compiling our ABI project. Let&rsquo;s use the <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/blob/master/abi_v12/throw.cpp">throw.cpp</a> file:</p>
+<p>Exception handling on C++ requires a lot of reflexion. I don't mean the programmer should be reflecting on exception handling (though that's probably not a bad idea), I mean that a piece of C++ code should be able to understand things about itself. This looks a lot like run-time type information, RTTI. Are they the same? If they are, does exception handling work without RTTI?</p>
+<p>We might be able to get a clue about the difference between RTTI and exception handling by using -fno-rtti on gcc when compiling our ABI project. Let's use the <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/blob/master/abi_v12/throw.cpp">throw.cpp</a> file:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">g++ -fno-rtti -S throw.cpp -o throw.nortti.s
 g++ -S throw.cpp -o throw.s
 diff throw.s throw.nortti.s
 </pre>
-<p>If you try that yourself you should see there&rsquo;s no difference between the RTTI and the No-RTTI version. Can we conclude then that gcc&rsquo;s exception handling is done with a mechanism different to RTTI? Not yet, let&rsquo;s see what happens if we try to use RTTI ourselves:</p>
+<p>If you try that yourself you should see there's no difference between the RTTI and the No-RTTI version. Can we conclude then that gcc's exception handling is done with a mechanism different to RTTI? Not yet, let's see what happens if we try to use RTTI ourselves:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void raise() {
     Exception ex;
     typeid(ex);
     throw Exception();
 }
 </pre>
-<p>If you try and compile that, gcc will complain: you can&rsquo;t use typeid with -fno-rtti specified. Which makes sense. Let&rsquo;s see what typeid does with a simple test:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;typeinfo&amp;gt;
+<p>If you try and compile that, gcc will complain: you can't use typeid with -fno-rtti specified. Which makes sense. Let's see what typeid does with a simple test:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;typeinfo&gt;
 class Bar {};
-const std::type_info&amp;amp; foo()
+const std::type_info&amp; foo()
 {
         Bar bar;
             return typeid(bar);
 }
 </pre>
-<p>If we compile this with &ldquo;g++ -O0 -S&rdquo;, you will see foo compiled into something like this:</p>
+<p>If we compile this with "g++ -O0 -S", you will see foo compiled into something like this:</p>
 <pre style="display: inline-block; border: 1px solid red;">_Z3foov:
 .LFB19:
-    # Prologue stuff&hellip;
+    # Prologue stuff...
     subl    $16, %esp
     # Bar bar
     movl    $_ZTI3Bar, %eax
     # typeid(bar)
     leave
-    # Epilogue stuff&hellip;
+    # Epilogue stuff...
 _ZTS3Bar:
-    # Definition for _ZTS3Bar&hellip;
+    # Definition for _ZTS3Bar...
 _ZTI3Bar:
     .long   _ZTVN10__cxxabiv117__class_type_infoE+8
     .long   _ZTS3Bar
     .ident  &quot;GCC: (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3&quot;
     .section    .note.GNU-stack,&quot;&quot;,@progbits
 </pre>
-<p>Does that look familiar? If it doesn&rsquo;t, then try changing the sample code to this one:</p>
+<p>Does that look familiar? If it doesn't, then try changing the sample code to this one:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">class Bar {};
 void foo() { throw Bar(); }
 </pre>
-<p>Compile it like &ldquo;g++ -O0 -fno-rtti -S test.cpp&rdquo; and see the resulting file. You should see something like this now:</p>
+<p>Compile it like "g++ -O0 -fno-rtti -S test.cpp" and see the resulting file. You should see something like this now:</p>
 <pre style="display: inline-block; border: 1px solid red;">_Z3foov:
-    # Prologue stuff&hellip;
+    # Prologue stuff...
     # Initialize exception
     subl    $24, %esp
     movl    $1, (%esp)
@@ -56,9 +56,9 @@ void foo() { throw Bar(); }
     movl    %eax, (%esp)
     # Handle exception
     call    __cxa_throw
-    # Epilogue stuff&hellip;
+    # Epilogue stuff...
 _ZTS3Bar:
-    # Definition for _ZTS3Bar&hellip;
+    # Definition for _ZTS3Bar...
 _ZTI3Bar:
     .long   _ZTVN10__cxxabiv117__class_type_infoE+8
     .long   _ZTS3Bar
@@ -66,7 +66,8 @@ _ZTI3Bar:
     .section    .note.GNU-stack,&quot;&quot;,@progbits
 </pre>
 <p>That should indeed look familiar: the class being thrown is exactly the same as the class that was used for typeid!</p>
-<p>We can now conclude what&rsquo;s going on: <strong>the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends</strong>. Specifying -fno-rtti on g++ only disables the &ldquo;frontend&rdquo; functions for RTTI: that means you won&rsquo;t be able to use typeid, and no RTTI classes will be generated&hellip; unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won&rsquo;t be able to access the RTTI information of this class via typeid, though).</p>
+<p>We can now conclude what's going on: <strong>the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends</strong>. Specifying -fno-rtti on g++ only disables the "frontend" functions for RTTI: that means you won't be able to use typeid, and no RTTI classes will be generated... unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won't be able to access the RTTI information of this class via typeid, though).</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">C++ Performance: Common Wisdoms and Common &ldquo;Wisdoms&rdquo; - IT Hare</a> commented @ 2018-01-02T11:58:47.000+01:00:<a name="inreplytothispostcperformancecommonwisdomsandcommonldquowisdomsrdquoithareblog_mdyoufoundadeadlink.mdcommented20180102t115847.0000100"></a></h2>
 <p>[&hellip;] [Brailovsky] Nicol&aacute;s Brailovsky, C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality [&hellip;]</p>

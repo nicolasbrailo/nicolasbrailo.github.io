@@ -7,20 +7,20 @@ struct MyStruct {
     const char *z;
 };
 </pre>
-<p>If you answered &ldquo;by typing really fast&rdquo;, you may be interested in knowing that the fastest way to create this constructor is to not write it at all!</p>
+<p>If you answered "by typing really fast", you may be interested in knowing that the fastest way to create this constructor is to not write it at all!</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;, &quot;World&quot;};
 </pre>
-<p>Yes, the line above works and it&rsquo;s perfectly legal C++. It&rsquo;s event C++ 98! This language feature is called aggregate initialization and it says the compiler should be smart enough to initialize MyStruct using each value successively. Of course C++11 has made this syntax somewhat simpler and a lot more uniform:</p>
+<p>Yes, the line above works and it's perfectly legal C++. It's event C++ 98! This language feature is called aggregate initialization and it says the compiler should be smart enough to initialize MyStruct using each value successively. Of course C++11 has made this syntax somewhat simpler and a lot more uniform:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a{42, &quot;Hello&quot;, &quot;World&quot;};
 </pre>
-<p>There are some caveats when using this initialization, namely that the initialized type must be an aggregate. An aggregate, in standard lingo, is a type that has some restrictions. No virtuals, no privates, etc. You can say it&rsquo;s a POD and in most cases you&rsquo;d be right.</p>
+<p>There are some caveats when using this initialization, namely that the initialized type must be an aggregate. An aggregate, in standard lingo, is a type that has some restrictions. No virtuals, no privates, etc. You can say it's a POD and in most cases you'd be right.</p>
 <p>Now, is this also legal?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;};
 </pre>
-<p>You&rsquo;d be tempted to say that&rsquo;s a syntax error. It&rsquo;s not, now z will just be default-initialized. What about this, then?</p>
+<p>You'd be tempted to say that's a syntax error. It's not, now z will just be default-initialized. What about this, then?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;, &quot;World&quot;, &quot;Extra!&quot;};
 </pre>
-<p>According to the standard, that&rsquo;s an error. Or&hellip; is it? Let&rsquo;s try out this example:</p>
+<p>According to the standard, that's an error. Or... is it? Let's try out this example:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct A {
     int x;
 };
@@ -35,18 +35,18 @@ struct C {
 C o = {42, &quot;Hello&quot;, &quot;World&quot;};
 </pre>
 <p>Yes. Believe it or not, the object o will now contain three members: o.b.a.x, o.b.y and o.z. All three will be properly initialized with their respective value.</p>
-<p>Aggregate initializations should, according to the standard, be smart enough to initialize aggregate objects and use any &ldquo;spill over&rdquo; to continue initializing other values/aggregate objects recursively.</p>
+<p>Aggregate initializations should, according to the standard, be smart enough to initialize aggregate objects and use any "spill over" to continue initializing other values/aggregate objects recursively.</p>
 <h3>Bonus I:<a name="bonusi"></a></h3>
 <p>Aggregate initialization is also what makes this idiom valid:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">char x[] = {1, 2, 3}
 </pre>
-<p>In this case, x will be of length 3 because that&rsquo;s the length of its aggregate initializer.</p>
+<p>In this case, x will be of length 3 because that's the length of its aggregate initializer.</p>
 <h3>Bonus II:<a name="bonusii"></a></h3>
-<p>I&rsquo;m sure anyone trying to get up to date with C++11 will have played around with variadic templates. One of the first exercises I&rsquo;d recommend for this would be a compile-time list of different types. Knowing about aggregate initializations now, how would you write a constructor for this type?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename H, typename&hellip; T&gt;
-struct Multilist&lt;H, T&hellip;&gt; {
+<p>I'm sure anyone trying to get up to date with C++11 will have played around with variadic templates. One of the first exercises I'd recommend for this would be a compile-time list of different types. Knowing about aggregate initializations now, how would you write a constructor for this type?</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename H, typename... T&gt;
+struct Multilist&lt;H, T...&gt; {
     H x;
-    Multilist&lt;T&hellip;&gt; next;
+    Multilist&lt;T...&gt; next;
 };
 Multilist&lt;int, string, float&gt; foo{42, &quot;XXX&quot;, 1.23};
 </pre>

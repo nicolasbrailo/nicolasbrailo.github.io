@@ -7,8 +7,8 @@
 </ul>
 <h1>Posts for 2009 June<a name="postsfor2009june"></a></h1>
 <h1>LaTeX: LyX Revisited<a name="latexlyxrevisited"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-29</p>
-<p>Seeing I&rsquo;m publishing a new LaTeX series it seems appropiate to review my old LyX article. This is just a copy &amp; paste from <a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/</a>
+<p>By Nico Brailovsky @ 2009-06-29 -  <a href="/blog/2009/0629_LaTeXLyXRevisited.html">Permalink</a></p>
+<p>Seeing I'm publishing a new LaTeX series it seems appropiate to review my old LyX article. This is just a copy &amp; paste from <a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/</a>
 Did you ever get to struggle against your text editor’s random format feature while trying to write a document? Open Office may be a great project, but when you want to focus on the content, it can be annoying to have your editor format or unformat your text, seemingly at random.</p>
 <p>Well there are good news for those of us using Vim to create content and then Abiword to format it: LyX is a text editor that produces beautiful documents, without the need of being a designer, and yet manages to stay out of the way. From the tutorial and the homepage (www.lyx.org):</p>
 <blockquote>
@@ -33,15 +33,15 @@ What LyX isn’t for</p>
 <p>According to it’s homepage, LyX 1.5.3 was released the 16 th of December, 2007. It’s available in Debian since Sarge (packages.debian.org/LyX). Lyx Version 1.5.1, released 4 th of August, 2007, is available in the repository of Ubuntu 7.10. Development is still active. There’s also a Windows version for those of us stuck with primitive a OS at work.</p>
 <hr />
 <h1>Welcome!<a name="welcome"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-27</p>
-<p>A good friend of mine (a programming junkie just like me) just <a href="http://lsecotaro.blogspot.com/">started his blog</a>, so this is kind of a welcome. Actually there&rsquo;s already a link somewhere in this page so this post is just an excuse to post this recommendation about writing articles for a blog:</p>
+<p>By Nico Brailovsky @ 2009-06-27 -  <a href="/blog/2009/0627_Welcome.html">Permalink</a></p>
+<p>A good friend of mine (a programming junkie just like me) just <a href="http://lsecotaro.blogspot.com/">started his blog</a>, so this is kind of a welcome. Actually there's already a link somewhere in this page so this post is just an excuse to post this recommendation about writing articles for a blog:</p>
 <blockquote>
-<p>Remember you didn&rsquo;t like books without pictures as a child? Well, Internet&rsquo;s mental age isn&rsquo;t a day over four years old, use pretty pictures whenever you can.</p>
+<p>Remember you didn't like books without pictures as a child? Well, Internet's mental age isn't a day over four years old, use pretty pictures whenever you can.</p>
 </blockquote>
 <hr />
 <h1>Unique var name with C/C++ macros<a name="uniquevarnamewithccmacros"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-25</p>
-<p>So, you&rsquo;re working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won&rsquo;t let you. There&rsquo;s a secret spell to do it anyway:</p>
+<p>By Nico Brailovsky @ 2009-06-25 -  <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">Permalink</a></p>
+<p>So, you're working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won't let you. There's a secret spell to do it anyway:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">// Do magic! Creates a unique name using the line number
 #define LINE_NAME( prefix ) JOIN( prefix, <strong>LINE</strong> )
 #define JOIN( symbol1, symbol2 ) _DO_JOIN( symbol1, symbol2 )
@@ -58,37 +58,39 @@ What LyX isn’t for</p>
 <p>Original <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">published here</a>.</p>
 <hr />
 <h1>LaTeX: format basics<a name="latexformatbasics"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-22</p>
+<p>By Nico Brailovsky @ 2009-06-22 -  <a href="/blog/2009/0622_LaTeXformatbasics.html">Permalink</a></p>
 <h3>Basic structure<a name="basicstructure"></a></h3>
-<p>So, what&rsquo;s the most basic structural elements for any document you write? <strong>Paragraphs</strong>, of course. I ussualy use LyX for writing paragraph-based documents (i.e. most of them) and presentations don&rsquo;t have many, so perhaps this is the structural element I use the least. Oh, wait, there&rsquo;s no element, just a &ldquo;nn&rdquo;. Point for LaTeX (take that, HTML).</p>
-<p>You&rsquo;ll also need to put titles, sections, subtitles and all that stuff to give your document a nice structure. Well, that&rsquo;s easy too, just use</p>
+<p>So, what's the most basic structural elements for any document you write? <strong>Paragraphs</strong>, of course. I ussualy use LyX for writing paragraph-based documents (i.e. most of them) and presentations don't have many, so perhaps this is the structural element I use the least. Oh, wait, there's no element, just a "nn". Point for LaTeX (take that, HTML).</p>
+<p>You'll also need to put titles, sections, subtitles and all that stuff to give your document a nice structure. Well, that's easy too, just use</p>
 <ul>
 <li>section{name}</li>
 <li>subsection{name}</li>
 <li>subsubsection{name}</li>
 </ul>
 <p>Easy, right? Check the example at the end of the post.</p>
-<p>There are some other commands you&rsquo;ll use in any LaTeX document:
-* <strong>Footnotes</strong>:
-</p>
+<p>There are some other commands you'll use in any LaTeX document:</p>
+<ul>
+<li><strong>Footnotes</strong>:</li>
+</ul>
 <pre style="display: inline-block; border: 1px solid red;">footnote{ Footnote text }
 </pre>
-<p>Just write your text, it&rsquo;ll be there when you compile the document
-* <strong>Vertical skip</strong>:
-</p>
+<p>Just write your text, it'll be there when you compile the document</p>
+<ul>
+<li><strong>Vertical skip</strong>:</li>
+</ul>
 <pre style="display: inline-block; border: 1px solid red;">bigskip
 </pre>
-<p>Because, some times, LaTeX default formatting won&rsquo;t be enough.
-* <strong>Align text</strong> Center:
-</p>
+<p>Because, some times, LaTeX default formatting won't be enough.</p>
+<ul>
+<li><strong>Align text</strong> Center:</li>
+</ul>
 <pre style="display: inline-block; border: 1px solid red;">begin{center}TEXTend{center}
 </pre>
-<p>Right:
-</p>
+<p>Right:</p>
 <pre style="display: inline-block; border: 1px solid red;">begin{flushright}TEXTend{flushright}
 </pre>
 <p>Again, some times you may need it. Not too often, though.</p>
-<p>You should now be able to write your first LaTeX document, starting from a template (always start with a template&hellip; it&rsquo;s easier). I&rsquo;m attaching to this post an example document in LyX, LaTeX and its compiled pdf, in case you&rsquo;re wondering what does it look like in the end. For the next entry: some &ldquo;advanced&rdquo; tips and tricks, now let&rsquo;s see an example LaTeX document:</p>
+<p>You should now be able to write your first LaTeX document, starting from a template (always start with a template... it's easier). I'm attaching to this post an example document in LyX, LaTeX and its compiled pdf, in case you're wondering what does it look like in the end. For the next entry: some "advanced" tips and tricks, now let's see an example LaTeX document:</p>
 <pre style="display: inline-block; border: 1px solid red;">documentstyle[11pt]{article}
 title{LaTeX Example}
 author{Nicol&#x27;as Brailovsky}
@@ -125,18 +127,18 @@ Or even better, use it to do the homework. \
 Math is a breeze in LaTeX: $x_n = sqrt{a + b}$ can be typeset inline.
 end{document}
 </pre>
-<p>You can download the compiled document from <a href="https://example.net/brokenlink/2009/06/simple1.pdf">this link.</a> May be it doesn&rsquo;t look too useful (I&rsquo;d use <a href="http://www.lyx.org">LyX</a> instead) but soon we&rsquo;ll start doing some cool stuff LyX can&rsquo;t handle. Keep tuned for the next LaTeX article.</p>
+<p>You can download the compiled document from <a href="/blog/youfoundadeadlink.html">this link.</a> May be it doesn't look too useful (I'd use <a href="http://www.lyx.org">LyX</a> instead) but soon we'll start doing some cool stuff LyX can't handle. Keep tuned for the next LaTeX article.</p>
 <hr />
 <h1>Vim Tip: Easy Indent<a name="vimtipeasyindent"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-14</p>
-<p>Editing source code means you&rsquo;ll be doing a lot of indenting and reindenting. There&rsquo;s an easy way to indent or de-indent a block, using just &ldquo;&lt;&rdquo; and &ldquo;&gt;&rdquo;.</p>
-<p>Using &ldquo;&gt;&rdquo; without anyother command will indent that line by itself; use <a href="/blog/2009/0507_VimTipVisualMode.html">visual mode</a> (Shift + V) to select several lines and indent them in one keystroke. You could also press &ldquo;v%&gt;&rdquo; while sitting at the beggining of a block to indent it. The same applies to &ldquo;&lt;&rdquo;.</p>
-<p>&ldquo;</p>
+<p>By Nico Brailovsky @ 2009-06-14 -  <a href="/blog/2009/0614_VimTipEasyIndent.html">Permalink</a></p>
+<p>Editing source code means you'll be doing a lot of indenting and reindenting. There's an easy way to indent or de-indent a block, using just "&lt;" and "&gt;".</p>
+<p>Using "&gt;" without anyother command will indent that line by itself; use <a href="/blog/2009/0507_VimTipVisualMode.html">visual mode</a> (Shift + V) to select several lines and indent them in one keystroke. You could also press "v%&gt;" while sitting at the beggining of a block to indent it. The same applies to "&lt;".</p>
+<p>"</p>
 <hr />
 <h1>vimrc: Vim startup file<a name="vimrcvimstartupfile"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-11</p>
-<p>I usually create a partition for /home, so whenever I decide to foobar my OS (i.e. do a kernel update on Ubuntu, or start playing with compiz too much) there&rsquo;s no need to copy my home folder to another disk and back again. Regardless of this, there are some essential files which I&rsquo;d be dead without. One of these is my .vimrc, the startup file for Vim.</p>
-<p>My .vimrc file has been organically growing since I started using this editor, a couple of years ago, so I&rsquo;ve decided to clean it up a little bit and post it here, just to be sure I won&rsquo;t be loosing it. It&rsquo;s got some tweaks to use Vim as an IDE, feel free to download it and change it or use it anyway you want.</p>
+<p>By Nico Brailovsky @ 2009-06-11 -  <a href="/blog/2009/0611_vimrcVimstartupfile.html">Permalink</a></p>
+<p>I usually create a partition for /home, so whenever I decide to foobar my OS (i.e. do a kernel update on Ubuntu, or start playing with compiz too much) there's no need to copy my home folder to another disk and back again. Regardless of this, there are some essential files which I'd be dead without. One of these is my .vimrc, the startup file for Vim.</p>
+<p>My .vimrc file has been organically growing since I started using this editor, a couple of years ago, so I've decided to clean it up a little bit and post it here, just to be sure I won't be loosing it. It's got some tweaks to use Vim as an IDE, feel free to download it and change it or use it anyway you want.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">colorscheme torte
 set nocompatible
 syntax on
@@ -199,8 +201,8 @@ inoremap { {}O
 </pre>
 <hr />
 <h1>apt-get install new computer IV: round up<a name="aptgetinstallnewcomputerivroundup"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-09</p>
-<p>Quick post this time - just a roundup of the &ldquo;apt-get install new computer&rdquo; series. This is a one liner I use in any new install I&rsquo;m planning to work with, hope it&rsquo;s useful for you too.</p>
+<p>By Nico Brailovsky @ 2009-06-09 -  <a href="/blog/2009/0609_aptgetinstallnewcomputerIVroundup.html">Permalink</a></p>
+<p>Quick post this time - just a roundup of the "apt-get install new computer" series. This is a one liner I use in any new install I'm planning to work with, hope it's useful for you too.</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">
 sudo apt-get install lyx mozilla-thunderbird tilda mmv \
    unclutter gnome-do moc ffmpeg shntool cuetools flac \
@@ -213,15 +215,15 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
 <p>New package: antiword - read office documents on console</p>
 <hr />
 <h1>Editors Learning Curves<a name="editorslearningcurves"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-07</p>
+<p>By Nico Brailovsky @ 2009-06-07 -  <a href="/blog/2009/0607_EditorsLearningCurves.html">Permalink</a></p>
 <p><img alt="" src="/blog_img/emacs_learning_curves1.png" /></p>
 <hr />
 <h1>Vim Tip: Know your blocks!<a name="vimtipknowyourblocks"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-05</p>
-<p>Vim is the best editor for programmers and as such it has some neat &ldquo;programmer commands&rdquo;, which make editing source code a lot easier. Take for example a block with code, or a function definition: how many times did you have to copy the code between parenthesis from one place to the other?</p>
+<p>By Nico Brailovsky @ 2009-06-05 -  <a href="/blog/2009/0605_VimTipKnowyourblocks.html">Permalink</a></p>
+<p>Vim is the best editor for programmers and as such it has some neat "programmer commands", which make editing source code a lot easier. Take for example a block with code, or a function definition: how many times did you have to copy the code between parenthesis from one place to the other?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int foo(int bar, int baz)
 </pre>
-<p>You could do &lsquo;0f(df)&rsquo; to delete &ldquo;int bar, int baz&rdquo; but that won&rsquo;t do if the definition is more complicated than that. &lsquo;dib&rsquo; is a better choice to delete the text.</p>
+<p>You could do '0f(df)' to delete "int bar, int baz" but that won't do if the definition is more complicated than that. 'dib' is a better choice to delete the text.</p>
 <p>(ACTION)i{b|B} applies ACTION to a block, for example, pressing diB in</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void foo() _ {
     /<em> Lots of source code </em>/
@@ -230,19 +232,19 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
 <p>(with the cursor placed at _) will delete lots of source code.</p>
 <hr />
 <h1>Testing &amp; mocking<a name="testingmocking"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-02</p>
+<p>By Nico Brailovsky @ 2009-06-02 -  <a href="/blog/2009/0602_Testingmocking.html">Permalink</a></p>
 <p><a href="http://www.intraway.com">Where I work</a> we have been working a lot with unit testing and continuous integration. <a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/testing/testing_mocking.pdf">This is a presentation</a> I worked with, about unit testing and mocking in general (language agnostic but only in spanish, sorry). The examples are in pseudo-ruby, check the next post for a presentation on C++ tools for testing and mocking.</p>
 <p><a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/testing/testing_mocking.pdf">Link to the article</a>
 <a href="/search/label/LaTeX">Article created with LaTeX</a></p>
 <hr />
 <h1>Testing &amp; mocking: C++<a name="testingampmockingc"></a></h1>
-<p>By Nico Brailovsky @ 2009-06-02</p>
+<p>By Nico Brailovsky @ 2009-06-02 -  <a href="/blog/2009/0602_TestingampmockingC.html">Permalink</a></p>
 <p>Check <a href="/blog/2009/0602_TestingampmockingC.html">the previous post</a> about this presentation.</p>
 <p><a href="http://www.intraway.com">Where I work</a> we have been working a lot with unit testing and continuous integration. <a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/cpp_testing/cpp_testing_mocking.pdf">This is a presentation</a> I worked with, about <a href="http://code.google.com/p/googletest">unit testing</a> and <a href="http://code.google.com/p/googlemock">mocking</a> tools in C++ (only in spanish, sorry).</p>
 <p><a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/cpp_testing/cpp_testing_mocking.pdf">Link to the article</a>
 <a href="/search/label/LaTeX">Article created with LaTeX</a></p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2009/0602_TestingampmockingC.html">Nicol&aacute;s Brailovsky » Blog Archive » Testing &amp; mocking: C++</a> commented @ 2009-06-02T12:23:13.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivetestingampmockingcblog_md20090602_testingampmockingc.mdcommented20090602t122313.0000200"></a></h2>
-<p>[&hellip;] the previous post about this [&hellip;]</p>
+<p>[...] the previous post about this [...]</p>
 <p>Original <a href="/blog/2009/0602_TestingampmockingC.html">published here</a>.</p>
 <hr />

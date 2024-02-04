@@ -1,5 +1,5 @@
 <h1>Anonymous objects in C++<a name="anonymousobjectsinc"></a></h1>
-<p>There are not many cases in which you can have an anonymous *anything* in your code, yet there&rsquo;s an idiom in C++ which lets you use an object with an anonymous type. Like this:</p>
+<p>There are not many cases in which you can have an anonymous *anything* in your code, yet there's an idiom in C++ which lets you use an object with an anonymous type. Like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void foo()
 {
    struct {
@@ -7,7 +7,7 @@
    };
 }
 </pre>
-<p>Why would this be useful, you may ask. That&rsquo;s a valid question. This idiom can be very useful to write callbacks, like this:</p>
+<p>Why would this be useful, you may ask. That's a valid question. This idiom can be very useful to write callbacks, like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Interface {
    void callback() = 0;
 };
@@ -15,26 +15,28 @@ void bar(Interface &amp;amp;c);
 void foo()
 {
    struct : public Interface {
-      /<em> &hellip; </em>/
+      /<em> ... </em>/
    } x;
    bar(x);
 }
 </pre>
 <p>I am not aware of many other uses for an anonymous type. Even more considering this idiom can now be replaced with a much cleaner lambda. But hey, it looks cool!</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Daniel</a> commented @ 2019-02-20T23:47:19.000+01:00:<a name="inreplytothispostdanielcommented20190220t234719.0000100"></a></h2>
 <p>An anonymous object
 An anonymous object is essentially a value that has no name.
-Because they have no name, there’s no way to refer to them beyond the point where they are created. Consequently, they have &ldquo;expression scope&rdquo;, meaning they are created, evaluated, and destroyed all within a single expression.
-Here&rsquo;s an add() function written using an anonymous object:</p>
-<h1>include<a name="include"></a></h1>
-<p>int add(int x, int y)
+Because they have no name, there's no way to refer to them beyond the point where they are created. Consequently, they have &ldquo;expression scope&rdquo;, meaning they are created, evaluated, and destroyed all within a single expression.
+Here's an add() function written using an anonymous object:</p>
+<pre style="display: inline-block; border: 1px solid red;">#include
+int add(int x, int y)
 {
  return x + y; // an anonymous object is created to hold and return the result of x + y
-}</p>
-<p>int main()
+}
+int main()
 {
- std::cout &lt;&lt; add(5, 3);</p>
-<p>return 0;</p>
-<p>}</p>
+ std::cout &lt;&lt; add(5, 3);
+return 0;
+}
+</pre>
 <p>Original <a href="/blog/2011/1220_AnonymousobjectsinC.html">published here</a>.</p>

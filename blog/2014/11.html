@@ -7,10 +7,10 @@
 </ul>
 <h1>Posts for 2014 November<a name="postsfor2014november"></a></h1>
 <h1>Gdb hit count: ignoring breakpoints (for a while)<a name="gdbhitcountignoringbreakpointsforawhile"></a></h1>
-<p>By Nico Brailovsky @ 2014-11-18</p>
+<p>By Nico Brailovsky @ 2014-11-18 - 2 comments <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">Permalink</a></p>
 <p>Some times a breakpoint is not enough; if you have a crash inside a loop, the object that makes your code crash might be in the 526th iteration. How can you debug this problem?</p>
-<p>One way would be to set up a <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">watch expression</a>. If you can&rsquo;t setup a watch expression, say, because you&rsquo;re using an iterator and it&rsquo;d be hard to set one, you can also tell gdb to setup a breakpoint, and then ignore it N times.</p>
-<p>Let&rsquo;s see how this works with this example:</p>
+<p>One way would be to set up a <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">watch expression</a>. If you can't setup a watch expression, say, because you're using an iterator and it'd be hard to set one, you can also tell gdb to setup a breakpoint, and then ignore it N times.</p>
+<p>Let's see how this works with this example:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">
 #include &lt;vector&gt;
 int main() {
@@ -22,7 +22,7 @@ int main() {
     return 0;
 }
 </pre>
-<p>After compiling we run it to see it crash; let&rsquo;s start it on gdb, then set a brakepoint on the line where it crashes.</p>
+<p>After compiling we run it to see it crash; let's start it on gdb, then set a brakepoint on the line where it crashes.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">
 (gdb) break foo.cpp:8
 Breakpoint 1 at 0x4007bc: file foo.cpp, line 8.
@@ -30,7 +30,7 @@ Breakpoint 1 at 0x4007bc: file foo.cpp, line 8.
 Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0x00000000004007bc in main() at foo.cpp:8
 </pre>
-<p>Typing &ldquo;info breakpoints&rdquo; will tell you the breakpoint number; then we can tell gdb to ignore this breakpoint forever (where forever is a very large number, so the program will run until it crashes):</p>
+<p>Typing "info breakpoints" will tell you the breakpoint number; then we can tell gdb to ignore this breakpoint forever (where forever is a very large number, so the program will run until it crashes):</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) ignore 1 99999
 Will ignore next 99999 crossings of breakpoint 1.
 (gdb) run
@@ -56,14 +56,4 @@ Breakpoint 1, main () at foo.cpp:8
 $1 = (int &amp;) @0x603024: 0
 </pre>
 <p>This time gdb will break exactly on the spot we want.</p>
-<h1>Comments<a name="comments"></a></h1>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Antiskeptic (@notthatsid)</a> commented @ 2015-03-26T11:23:21.000+01:00:<a name="inreplytothispostantiskepticnotthatsidblog_mdyoufoundadeadlink.mdcommented20150326t112321.0000100"></a></h2>
-<p>Why not use a print i command when you get the exception? Will it not tell you the iteration? I like your hack, but I want to know if this solution is the only way for your example.</p>
-<p>Original <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2015-03-26T11:37:20.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20150326t113720.0000100"></a></h2>
-<p>Hi Antiskeptic, for the first part of the article, you can indeed simply <code>print i</code> to know which iteration is triggering the bug. That should work just as fine as ignoring it forever and then checking the count in gdb, or writing <code>cout &lt;&lt; i</code> in the loop.</p>
-<p>For the second part of the article, you still need to use the ignore command. If you want to debug the problem by setting a breakpoint, and only have it trigger in the Nth iteration of the loop, I can&rsquo;t really think of any other ways than setting a (possible complicated) watch expression or using the ignore command. There may be and I&rsquo;m just not being imaginative enough. C++ is an amazing stack that way, people can come up with very creative solutions to all kinds of problems.</p>
-<p>Original <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">published here</a>.</p>
 <hr />

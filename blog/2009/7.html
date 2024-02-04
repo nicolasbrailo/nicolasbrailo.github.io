@@ -7,8 +7,8 @@
 </ul>
 <h1>Posts for 2009 July<a name="postsfor2009july"></a></h1>
 <h1>mocp rand<a name="mocprand"></a></h1>
-<p>By Nico Brailovsky @ 2009-07-23</p>
-<p>I&rsquo;m quite sure everyone reading this must have a respectable, if not massive, music collection. In this days and age is difficult finding someone who doesn&rsquo;t. It&rsquo;s also difficult to choose one, and only one, disk to listen at any given moment. Until we&rsquo;re upgraded to support concurrent music listening we&rsquo;re better of with a random disk selector, which is exactly what this little script does:</p>
+<p>By Nico Brailovsky @ 2009-07-23 -  <a href="/blog/2009/0723_mocprand.html">Permalink</a></p>
+<p>I'm quite sure everyone reading this must have a respectable, if not massive, music collection. In this days and age is difficult finding someone who doesn't. It's also difficult to choose one, and only one, disk to listen at any given moment. Until we're upgraded to support concurrent music listening we're better of with a random disk selector, which is exactly what this little script does:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
 SEARCH_DIR=&quot;/home/nico/M&amp;uacute;sica&quot;
 START_RANDOM=1
@@ -23,23 +23,23 @@ while (( 1 )); do
   echo &quot;Playing $RAND_DISC&quot;
   # Start from a random file?
   if (( $START_RANDOM )); then
-    mocp &ndash;on shuffle &amp;amp;
+    mocp --on shuffle &amp;amp;
     mocp -f &amp;amp;
-    mocp &ndash;off shuffle &amp;amp;
+    mocp --off shuffle &amp;amp;
   fi
   read
 done
 </pre>
-<p>Of course, it requires <a href="http://moc.daper.net/">mocp</a>, my favorite music (on console) player. And obviously, you&rsquo;ll have to configure SEARCH_DIR but I&rsquo;m sure some bash hacking is not that hard.</p>
+<p>Of course, it requires <a href="http://moc.daper.net/">mocp</a>, my favorite music (on console) player. And obviously, you'll have to configure SEARCH_DIR but I'm sure some bash hacking is not that hard.</p>
 <p>Beware though, using this + cron may have the undesired effect of awakening to the pleasant music of Cannibal Corpse.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0909_Sortingbyrandominbashandmocprandomupdated.html">Nicol&aacute;s Brailovsky » Blog Archive » Sorting by random in bash and mocp random updated</a> commented @ 2010-09-09T09:04:03.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivesortingbyrandominbashandmocprandomupdatedblog_md20100909_sortingbyrandominbashandmocprandomupdated.mdcommented20100909t090403.0000200"></a></h2>
-<p>[&hellip;] And now you can sort by random your output using sort -R. Why would this be useful? Well, I updated my mocp random script with a [&hellip;]</p>
+<p>[...] And now you can sort by random your output using sort -R. Why would this be useful? Well, I updated my mocp random script with a [...]</p>
 <p>Original <a href="/blog/2009/0723_mocprand.html">published here</a>.</p>
 <hr />
 <h1>C++: Magic member callbacks<a name="cmagicmembercallbacks"></a></h1>
-<p>By Nico Brailovsky @ 2009-07-21</p>
-<p>Short post about C++ this time - though calling it a request would be more appropiate. I&rsquo;m trying to create some kind of magic callback to do this:</p>
+<p>By Nico Brailovsky @ 2009-07-21 -  <a href="/blog/2009/0721_CMagicmembercallbacks.html">Permalink</a></p>
+<p>Short post about C++ this time - though calling it a request would be more appropiate. I'm trying to create some kind of magic callback to do this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">class Caller {
  Callback c;
   public:
@@ -47,25 +47,25 @@ done
  void doit(){ c(this); }
 };
 </pre>
-<p>Shouldn&rsquo;t be too difficult, right?</p>
+<p>Shouldn't be too difficult, right?</p>
 <p>There are some hidden complexities, of course, mostly regarding the callback parameter type, but the idea is simple, keep the caller dependant only in the callback, not in the callee.</p>
-<p>Templates are not a valid solution as the callee may have more than one callback (i.e. expect more than a single object to finish and call the callback) so the whole idea of this is having the callback &ldquo;bind&rdquo; to a member method when created, doesn&rsquo;t matter which one.</p>
-<p>I have a solution, tough I&rsquo;m not too happy about it for now. I&rsquo;ll post it next week, unless someone comes up with a better idea (you know how to submit it if you do, right?).</p>
+<p>Templates are not a valid solution as the callee may have more than one callback (i.e. expect more than a single object to finish and call the callback) so the whole idea of this is having the callback "bind" to a member method when created, doesn't matter which one.</p>
+<p>I have a solution, tough I'm not too happy about it for now. I'll post it next week, unless someone comes up with a better idea (you know how to submit it if you do, right?).</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Leonardo Secotaro</a> commented @ 2009-07-31T14:25:20.000+02:00:<a name="inreplytothispostleonardosecotarocommented20090731t142520.0000200"></a></h2>
 <p>/*This is my implementation*/</p>
 <p>/*----[CallBack.h]----*/
 class CallBack {
- /* &hellip; */
+ /* ... */
 public:
  virtual void operator() (void*) = 0;
 };</p>
 <p>/*----[Objeto.h]----*/</p>
-<h1>include &ldquo;CallBack.h&rdquo;<a name="includecallback.h"></a></h1>
-<h1>include &ldquo;Cain.h&rdquo;<a name="includecain.h"></a></h1>
-<h1>include &ldquo;Abel.h&rdquo;<a name="includeabel.h"></a></h1>
+<h1>include "CallBack.h"<a name="includecallback.h"></a></h1>
+<h1>include "Cain.h"<a name="includecain.h"></a></h1>
+<h1>include "Abel.h"<a name="includeabel.h"></a></h1>
 <p>class Objeto: public CallBack{
- /* &hellip; */
+ /* ... */
 public:
  void Execute(){
  Abel *pObj = new Abel( this );
@@ -77,13 +77,13 @@ public:
  }</p>
 <p>/////////////////////////////////////////////////////
  void Doit_Abel(Abel* Who){</p>
-<p>/* &hellip; */</p>
-<p>printf(&ldquo;I am a good Kidn&rdquo;);
+<p>/* ... */</p>
+<p>printf("I am a good Kidn");
  }</p>
 <p>//////////////////////////////////////////////////////
  void Doit_Cain(Cain* Who){</p>
-<p>/* &hellip; */</p>
-<p>printf(&ldquo;I am a killern&rdquo;);
+<p>/* ... */</p>
+<p>printf("I am a killern");
  }</p>
 <p>///////////////////////////////////////////////////////
  void operator() (void* Who) {
@@ -102,31 +102,31 @@ public:
  virtual Family WhoamI()=0;
 };</p>
 <p>/*----[Abel.h]----*/</p>
-<h1>include &ldquo;CallBack.h&rdquo;<a name="includecallback.h"></a></h1>
-<h1>include &ldquo;Adan.h&rdquo;<a name="includeadan.h"></a></h1>
+<h1>include "CallBack.h"<a name="includecallback.h"></a></h1>
+<h1>include "Adan.h"<a name="includeadan.h"></a></h1>
 <p>class Abel: public Adan{
- /* &hellip; */
+ /* ... */
  CallBack *_c;
 public:
  Abel(CallBack *c): _c(c){}</p>
 <p>Family WhoamI(){ return ABEL;}</p>
 <p>void execute(){
- /*&hellip;*/
- printf(&ldquo;Abel::executen&rdquo;);
+ /*...*/
+ printf("Abel::executen");
  (*_c)((void*)this);
  }
 };</p>
 <p>/*----[Cain.h]----*/</p>
-<h1>include &ldquo;CallBack.h&rdquo;<a name="includecallback.h"></a></h1>
+<h1>include "CallBack.h"<a name="includecallback.h"></a></h1>
 <p>class Cain: public Adan{
- /* &hellip; */
+ /* ... */
  CallBack *_c;
 public:
  Cain(CallBack *c): _c(c){}</p>
 <p>Family WhoamI(){ return CAIN;}</p>
 <p>void execute(){
- /*&hellip;*/
- printf(&ldquo;Cain::executen&rdquo;);
+ /*...*/
+ printf("Cain::executen");
  (*_c)((void*)this);
  }
 };</p>
@@ -146,28 +146,28 @@ I am a killer</p>
 <p>Original <a href="/blog/2009/0721_CMagicmembercallbacks.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2009-08-02T22:30:14.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20090802t223014.0000200"></a></h2>
-<p>It does work but you&rsquo;re missing part of the &ldquo;spec&rdquo;, you can&rsquo;t choose a callback function (i.e. you&rsquo;re tied to a single callback or a type overloaded callback).
-Other than that, the code is quite close to what I&rsquo;ve been looking for. Check the solution back in a couple of days (still working on it!)</p>
+<p>It does work but you're missing part of the "spec", you can't choose a callback function (i.e. you're tied to a single callback or a type overloaded callback).
+Other than that, the code is quite close to what I've been looking for. Check the solution back in a couple of days (still working on it!)</p>
 <p>Original <a href="/blog/2009/0721_CMagicmembercallbacks.html">published here</a>.</p>
 <hr />
 <h1>GNU/Linux: Emergency Restart<a name="gnulinuxemergencyrestart"></a></h1>
-<p>By Nico Brailovsky @ 2009-07-14</p>
-<p>It happens: we&rsquo;re happily hacking on some code and out of nowhere X server freezes. It may be the latest Compiz whose at fault, or perhaps a stray program that decided it should start consuming all available CPU. Anyway, it&rsquo;s easier to reboot than trying to fix whatever got broken but Ctrl - Alt - Backspace is unresponsive and we can&rsquo;t drop to a console. It&rsquo;s not ussual but it happens. What can we do about it?</p>
-<p>There&rsquo;s a cool shortcut to help us when shit happens, it&rsquo;ll reboot the computer and it&rsquo;s a little bit nicer than yanking out the power cord. You just need to remember REISUB and have some keyboard dexitry - holding down Ctrl - Alt - SysRQ/PrintScreen is required while typing REISUB (<strong>don&rsquo;t do it now, it&rsquo;ll reboot your computer!</strong>).</p>
-<p>So, what&rsquo;s REISUB all about? It&rsquo;s a little bit better than a forced hard reboot because it&rsquo;ll:</p>
+<p>By Nico Brailovsky @ 2009-07-14 -  <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">Permalink</a></p>
+<p>It happens: we're happily hacking on some code and out of nowhere X server freezes. It may be the latest Compiz whose at fault, or perhaps a stray program that decided it should start consuming all available CPU. Anyway, it's easier to reboot than trying to fix whatever got broken but Ctrl - Alt - Backspace is unresponsive and we can't drop to a console. It's not ussual but it happens. What can we do about it?</p>
+<p>There's a cool shortcut to help us when shit happens, it'll reboot the computer and it's a little bit nicer than yanking out the power cord. You just need to remember REISUB and have some keyboard dexitry - holding down Ctrl - Alt - SysRQ/PrintScreen is required while typing REISUB (<strong>don't do it now, it'll reboot your computer!</strong>).</p>
+<p>So, what's REISUB all about? It's a little bit better than a forced hard reboot because it'll:</p>
 <ol>
-<li>R: Restore console
- - E: Send SIGTERM to all processes
- - I: Send SIGKILL to all processes
- - S: Emergency sync of all filesystems (commit any changes to the phisical media)
- - U: Read only remount of all filesystems
- - B: Reboot now</li>
+<li>R: Restore console</li>
+<li>E: Send SIGTERM to all processes</li>
+<li>I: Send SIGKILL to all processes</li>
+<li>S: Emergency sync of all filesystems (commit any changes to the phisical media)</li>
+<li>U: Read only remount of all filesystems</li>
+<li>B: Reboot now</li>
 </ol>
-<p>So, off course, you&rsquo;ll have to wait a little bit between every keystroke. Press Ctrl + Alt + PrntScreen + H on a console to get some help on every command.</p>
+<p>So, off course, you'll have to wait a little bit between every keystroke. Press Ctrl + Alt + PrntScreen + H on a console to get some help on every command.</p>
 <h3>Why does it work?<a name="whydoesitwork"></a></h3>
-<p>There&rsquo;s a lot of magic involved to make this secret incantation work. It involves kernels, vectors and other mythical beasts. There&rsquo;s a crazy thing called interruption vector; it&rsquo;s the place where every (hardware) event gets dispatched to a handling function. There lives a function call to handle keyboard input, amongst other things. This function call will be executed always, though the SO may just decide to queue the keyboard input if it&rsquo;s too busy handling something else.</p>
-<p>Well, this key combination can&rsquo;t be delayed &lsquo;till later, it must be handled NOW, therefore, even if there&rsquo;s a stray process or a driver gone mad, it&rsquo;ll always be caught and the computer will be rebooted.</p>
-<p>What&rsquo;s the catch? You won&rsquo;t be saving that precious code you we&rsquo;re hacking away when it all started, but at least you&rsquo;ll save some fscking time on the next start up.</p>
+<p>There's a lot of magic involved to make this secret incantation work. It involves kernels, vectors and other mythical beasts. There's a crazy thing called interruption vector; it's the place where every (hardware) event gets dispatched to a handling function. There lives a function call to handle keyboard input, amongst other things. This function call will be executed always, though the SO may just decide to queue the keyboard input if it's too busy handling something else.</p>
+<p>Well, this key combination can't be delayed 'till later, it must be handled NOW, therefore, even if there's a stray process or a driver gone mad, it'll always be caught and the computer will be rebooted.</p>
+<p>What's the catch? You won't be saving that precious code you we're hacking away when it all started, but at least you'll save some fscking time on the next start up.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2010-02-14T21:23:58.000+01:00:<a name="inreplytothispostanonymouscommented20100214t212358.0000100"></a></h2>
 <p>Ctrl is not needed!</p>
@@ -179,17 +179,17 @@ Other than that, the code is quite close to what I&rsquo;ve been looking for. Ch
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Yuvi</a> commented @ 2010-05-18T15:28:45.000+02:00:<a name="inreplytothispostyuviblog_mdyoufoundadeadlink.mdcommented20100518t152845.0000200"></a></h2>
 <p>I knew only about the B, thanks for the others.</p>
-<p>And no, you don&rsquo;t have to press Ctrl :)</p>
+<p>And no, you don't have to press Ctrl :)</p>
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">dsfadsfgafgf</a> commented @ 2010-05-18T15:39:29.000+02:00:<a name="inreplytothispostdsfadsfgafgfblog_mdyoufoundadeadlink.mdcommented20100518t153929.0000200"></a></h2>
-<p>I have to keep a finger on my laptops Fn key to do this. It&rsquo;s most annoying. Almost snaps my fingers.</p>
+<p>I have to keep a finger on my laptops Fn key to do this. It's most annoying. Almost snaps my fingers.</p>
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">thisisabore</a> commented @ 2010-05-18T15:43:02.000+02:00:<a name="inreplytothispostthisisaboreblog_mdyoufoundadeadlink.mdcommented20100518t154302.0000200"></a></h2>
 <p>RESIUB, also remembered with the nice-to-know &ldquo;Raising Skinny Elephants Is Utterly Boring&rdquo;.</p>
 <p>RESIUO will Power-Off instead of rebooting, which might sometimes also be useful.</p>
-<p>You&rsquo;d be surprised how many kiosks running Linux don&rsquo;t have this sequence disabled&hellip;</p>
+<p>You'd be surprised how many kiosks running Linux don't have this sequence disabled&hellip;</p>
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2010-05-18T15:50:55.000+02:00:<a name="inreplytothispostanonymouscommented20100518t155055.0000200"></a></h2>
@@ -204,12 +204,12 @@ Other than that, the code is quite close to what I&rsquo;ve been looking for. Ch
 <blockquote>
 <p>thisisabore</p>
 </blockquote>
-<p>I&rsquo;ll have to try it next time I see one. There are not much of those over here, though. Most of the kiosks are Windows (it&rsquo;s fun to see the BSODs too)</p>
+<p>I'll have to try it next time I see one. There are not much of those over here, though. Most of the kiosks are Windows (it's fun to see the BSODs too)</p>
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">David</a> commented @ 2010-05-18T17:40:57.000+02:00:<a name="inreplytothispostdavidcommented20100518t174057.0000200"></a></h2>
-<p>Seems to me you don&rsquo;t need the first 3. &ldquo;R&rdquo; seems nice, though.
-&ldquo;SUB&rdquo; should be enough. I didn&rsquo;t know about &ldquo;U&rdquo;. I&rsquo;ve been doing &ldquo;SSSSSSB&rdquo; for years&hellip;</p>
+<p>Seems to me you don't need the first 3. "R" seems nice, though.
+"SUB" should be enough. I didn't know about "U". I've been doing "SSSSSSB" for years...</p>
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-05-18T17:51:10.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100518t175110.0000200"></a></h2>
@@ -220,44 +220,44 @@ Other than that, the code is quite close to what I&rsquo;ve been looking for. Ch
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Dan</a> commented @ 2010-05-18T18:21:33.000+02:00:<a name="inreplytothispostdancommented20100518t182133.0000200"></a></h2>
-<p>Why do people keep spelling fist f&ndash;king: &ldquo;fscking&rdquo;?</p>
+<p>Why do people keep spelling fist f--king: "fscking"?</p>
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">yono</a> commented @ 2010-05-24T18:53:29.000+02:00:<a name="inreplytothispostyonocommented20100524t185329.0000200"></a></h2>
-<p>that&rsquo;s because they actually mean &ldquo;fscking&rdquo; - as in the verb &ldquo;to run the fsck command&rdquo;</p>
+<p>that's because they actually mean "fscking" - as in the verb "to run the fsck command"</p>
 <p>http://linux.die.net/man/8/fsck</p>
 <p>the point of this article is to cleanly shutdown your computer when you cannot use conventional commands or menus to do so. this prevents data corruption or an inconsistent disk state, which can sometimes be fixed by running the fsck command on the disk.</p>
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Dan</a> commented @ 2011-06-27T04:09:35.000+02:00:<a name="inreplytothispostdancommented20110627t040935.0000200"></a></h2>
-<p>&ldquo;It&rsquo;s not usual but it happens.&rdquo;</p>
-<p>Yeah, like ever f&rsquo;ing day.</p>
+<p>"It's not usual but it happens."</p>
+<p>Yeah, like ever f'ing day.</p>
 <p>Original <a href="/blog/2009/0714_GNULinuxEmergencyRestart.html">published here</a>.</p>
 <hr />
 <h1>Vim Tip: Select everything<a name="vimtipselecteverything"></a></h1>
-<p>By Nico Brailovsky @ 2009-07-11</p>
-<p>There&rsquo;s an easy way to select the whole contents of the document: &ldquo;ggVG&rdquo;. May seem like a lot at first glance but let&rsquo;s review it part by part:</p>
+<p>By Nico Brailovsky @ 2009-07-11 -  <a href="/blog/2009/0711_VimTipSelecteverything.html">Permalink</a></p>
+<p>There's an easy way to select the whole contents of the document: "ggVG". May seem like a lot at first glance but let's review it part by part:</p>
 <ol>
-<li>gg: Go to the beggining of the document
- - V: Enter visual mode
- - G: Go to the end of the document</li>
+<li>gg: Go to the beggining of the document</li>
+<li>V: Enter visual mode</li>
+<li>G: Go to the end of the document</li>
 </ol>
-<p>Easy, isn&rsquo;t it? Now you can press any other command to copy, delete or whatever you like.</p>
+<p>Easy, isn't it? Now you can press any other command to copy, delete or whatever you like.</p>
 <hr />
 <h1>LaTeX: Including Source Code<a name="latexincludingsourcecode"></a></h1>
-<p>By Nico Brailovsky @ 2009-07-09</p>
-<p>I&rsquo;m sure every programmer has had to include source code in a document at least once, an architecture documentation for example, or perhaps as part of a presentation (beamer FTW, coming soon!). With most document formats including source code usually means writing the code and use some kind of manual syntax higlighting. Of course, any time you change the source you&rsquo;ll need to manualy update the document.</p>
-<p>In LaTeX there&rsquo;s an easy way to handle source code. Though it was difficult to figure out, once in place this requires no maintenance at all - no need to manually syntax highlight your code nor update any files other than the source code itself. Even more, you can even change the source code language and it won&rsquo;t even matter in the presentation.</p>
+<p>By Nico Brailovsky @ 2009-07-09 -  <a href="/blog/2009/0709_LaTeXIncludingSourceCode.html">Permalink</a></p>
+<p>I'm sure every programmer has had to include source code in a document at least once, an architecture documentation for example, or perhaps as part of a presentation (beamer FTW, coming soon!). With most document formats including source code usually means writing the code and use some kind of manual syntax higlighting. Of course, any time you change the source you'll need to manualy update the document.</p>
+<p>In LaTeX there's an easy way to handle source code. Though it was difficult to figure out, once in place this requires no maintenance at all - no need to manually syntax highlight your code nor update any files other than the source code itself. Even more, you can even change the source code language and it won't even matter in the presentation.</p>
 <h3>Preliminars<a name="preliminars"></a></h3>
-<p>You&rsquo;ll need &ldquo;pygmentyze&rdquo; which is provided by the package python-pygments:</p>
+<p>You'll need "pygmentyze" which is provided by the package python-pygments:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">apt-cache search pygment
 python-pygments - syntax highlighting package written in Python
 sudo apt-get install python-pygments
 </pre>
-<p>Using it is really easy, check the manpage. Anyway, I&rsquo;m too lazy to generate the syntax highlighted document by hand, let&rsquo;s add it to the makefile.</p>
+<p>Using it is really easy, check the manpage. Anyway, I'm too lazy to generate the syntax highlighted document by hand, let's add it to the makefile.</p>
 <h3>Automating the source code generation<a name="automatingthesourcecodegeneration"></a></h3>
-<p>Let&rsquo;s beging by adding a &ldquo;code&rdquo; folder inside our project. We&rsquo;ll store there all the source code files, and having them in a separated folder will enable us to add a target in the makefile to automatically update the source code in the LaTeX file.</p>
-<p>Remember the makefile from a couple of posts back? Let&rsquo;s add a target:</p>
+<p>Let's beging by adding a "code" folder inside our project. We'll store there all the source code files, and having them in a separated folder will enable us to add a target in the makefile to automatically update the source code in the LaTeX file.</p>
+<p>Remember the makefile from a couple of posts back? Let's add a target:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;"># Hack to make it work when foo.code =&amp;gt; foo.code.tex
 code/%.tex: code/%.<em> code/%.aux code/%.tex
   @rm code/</em>.aux
@@ -271,17 +271,17 @@ CODE_FILES_TGT:=$(addsuffix .tex, $(basename $(CODE_FILES_DEP)))
 main.pdf: $(shell ls </em>.tex) $(CODE_FILES_TGT)
   pdflatex main.tex &amp;gt; /dev/null
 </pre>
-<p>OK, maybe a couple more than one. It may seem like a lot of makefile code but all it does is define a code directory and a target to run pygmentize on each source file found there. We&rsquo;ll have to add a dependency in the document&rsquo;s target so it&rsquo;ll be automatically generated with each build:</p>
+<p>OK, maybe a couple more than one. It may seem like a lot of makefile code but all it does is define a code directory and a target to run pygmentize on each source file found there. We'll have to add a dependency in the document's target so it'll be automatically generated with each build:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">main.pdf: code_frames *.tex
   pdflatex main.tex &amp;amp;&amp;amp; pdflatex main.tex
 </pre>
-<p>and then, we&rsquo;ll need to clean up the new temp files:</p>
+<p>and then, we'll need to clean up the new temp files:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">code_clean:
  @rm -f $(CODE_FILES_TGT) code/*.aux
 </pre>
-<p>Don&rsquo;t worry, there&rsquo;s a link to the full makefile.</p>
+<p>Don't worry, there's a link to the full makefile.</p>
 <h3>At last!<a name="atlast"></a></h3>
-<p>It shouldn&rsquo;t have been too much work and we&rsquo;re done anyway. To include a source code file in your document now use the include command (like include{code/foobar.cpp) and re build. I&rsquo;m attaching a complete example in a zip file, with my latest implementation of a bogosort algorithm (now 50% faster).</p>
+<p>It shouldn't have been too much work and we're done anyway. To include a source code file in your document now use the include command (like include{code/foobar.cpp) and re build. I'm attaching a complete example in a zip file, with my latest implementation of a bogosort algorithm (now 50% faster).</p>
 <ul>
 <li><a href="https://example.net/brokenlink/2009/07/makefile">Makefile</a></li>
 <li><a href="https://example.net/brokenlink/2009/07/source_code_exampletar.gz">source_code_example.tar</a></li>
@@ -293,18 +293,16 @@ main.pdf: $(shell ls </em>.tex) $(CODE_FILES_TGT)
 <p>Original <a href="/blog/2009/0709_LaTeXIncludingSourceCode.html">published here</a>.</p>
 <hr />
 <h1>LaTeX: including documents<a name="latexincludingdocuments"></a></h1>
-<p>By Nico Brailovsky @ 2009-07-07</p>
+<p>By Nico Brailovsky @ 2009-07-07 -  <a href="/blog/2009/0707_LaTeXincludingdocuments.html">Permalink</a></p>
 <p>This is a post from my LaTeX series - <a href="/search/label/LaTeX">check the others too</a>!</p>
-<p>So far we&rsquo;ve seen some of LaTeX advantages, and a few basic commands to get you started. Let&rsquo;s see a trick to be more proficient with it:</p>
+<p>So far we've seen some of LaTeX advantages, and a few basic commands to get you started. Let's see a trick to be more proficient with it:</p>
 <h3>Including other tex files<a name="includingothertexfiles"></a></h3>
-<p>You should be able to write some simple documents now, some in LyX, some in LaTeX, but you&rsquo;ll soon start to notice that using a single text file to create a large document becomes cumbersome. Even more so if you need to split the work between several people in a team.</p>
-<p>There&rsquo;s an easy way to keep a main file and then several, smaller, files in which you can work more comfortably:
-</p>
+<p>You should be able to write some simple documents now, some in LyX, some in LaTeX, but you'll soon start to notice that using a single text file to create a large document becomes cumbersome. Even more so if you need to split the work between several people in a team.</p>
+<p>There's an easy way to keep a main file and then several, smaller, files in which you can work more comfortably:</p>
 <pre style="display: inline-block; border: 1px solid red;">include{file.tex}
 </pre>
 <p>Easy, right?</p>
-<p>Beware, you can&rsquo;t use an include inside an include. Why? No idea, but there&rsquo;s a way around this:
-</p>
+<p>Beware, you can't use an include inside an include. Why? No idea, but there's a way around this:</p>
 <pre style="display: inline-block; border: 1px solid red;">input{file.tex}
 </pre>
 <h3>Quick preview<a name="quickpreview"></a></h3>
@@ -312,24 +310,24 @@ main.pdf: $(shell ls </em>.tex) $(CODE_FILES_TGT)
 <pre style="display: inline-block; border: 1px solid red;">% Header declarations
 % Include packages
 % Document preamble
-% &hellip;
+% ...
 %input{chapter1.tex}
 %input{chapter2.tex}
 input{chapter3.tex}
 % input{chapter4.tex}
 </pre>
-<p>Just uncomment the chapter you&rsquo;re working with. In big documents this has a very noticeable effect, as compiling a large LaTeX file into an enormous pdf document (several MBs) may be quite slow.</p>
-<p>Of course, I use &ldquo;input&rdquo; in my main file so I can use include in the chapters themselves. I won&rsquo;t usually need to include other documents inside the chapters, it&rsquo;d get quite messy, but it&rsquo;s necessary to work with embedded documents, as we&rsquo;ll see in another post.</p>
+<p>Just uncomment the chapter you're working with. In big documents this has a very noticeable effect, as compiling a large LaTeX file into an enormous pdf document (several MBs) may be quite slow.</p>
+<p>Of course, I use "input" in my main file so I can use include in the chapters themselves. I won't usually need to include other documents inside the chapters, it'd get quite messy, but it's necessary to work with embedded documents, as we'll see in another post.</p>
 <hr />
 <h1>Vim Trivia<a name="vimtrivia"></a></h1>
-<p>By Nico Brailovsky @ 2009-07-04</p>
-<p>Did you knew that Vim can &ldquo;Make your woman smile for a week&rdquo;? Me neither: <a href="http://www.vim.org/trivia.php">http://www.vim.org/trivia.php</a>.</p>
+<p>By Nico Brailovsky @ 2009-07-04 -  <a href="/blog/2009/0704_VimTrivia.html">Permalink</a></p>
+<p>Did you knew that Vim can "Make your woman smile for a week"? Me neither: <a href="http://www.vim.org/trivia.php">http://www.vim.org/trivia.php</a>.</p>
 <p><img alt="Original: https://www.vim.org/images/vim_superman.jpg" src="/blog_img/vim_superman.jpg" /></p>
 <hr />
 <h1>LaTeX: Makefile<a name="latexmakefile"></a></h1>
-<p>By Nico Brailovsky @ 2009-07-02</p>
+<p>By Nico Brailovsky @ 2009-07-02 -  <a href="/blog/2009/0702_LaTeXMakefile.html">Permalink</a></p>
 <p>Remember I said that being a programmer would make you a lot more comfortable around LaTeX? The reason is quite simple, tex is just source code for a document. As with any source code in Linux (Windows too, but that is besides the point) you can use a Makefile to compile it and make your life easier.</p>
-<p>I have already posted this <a href="https://example.net/brokenlink/2009/05/makefile.html">Makefile</a> in <a href="/blog/2009/0528_LaTeXbasics.html">another entry</a> but it&rsquo;s time to explain how it works.</p>
+<p>I have already posted this <a href="https://example.net/brokenlink/2009/05/makefile.html">Makefile</a> in <a href="/blog/2009/0528_LaTeXbasics.html">another entry</a> but it's time to explain how it works.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">
 all: main.pdf
 main.pdf: code_frames <em>.tex
@@ -347,13 +345,13 @@ clean:
       sed &quot;s:*:$$PART:g&quot; | xargs rm -f;
  done
 </pre>
-<p>It&rsquo;s rather easy, let&rsquo;s check it target by target:</p>
+<p>It's rather easy, let's check it target by target:</p>
 <ul>
 <li><strong>all</strong>: create the main document - used as default target</li>
-<li><strong>main.pdf</strong>: document&rsquo;s target - no need to call it main.pdf, I just do it because the entry point in C programs is called &ldquo;main&rdquo; so I&rsquo;m used to it. Also, it looks better than foo.pdf. As a side note, it runs twice &ldquo;pdflatex&rdquo; because it first creates the document and the second time updates the document&rsquo;s index.</li>
+<li><strong>main.pdf</strong>: document's target - no need to call it main.pdf, I just do it because the entry point in C programs is called "main" so I'm used to it. Also, it looks better than foo.pdf. As a side note, it runs twice "pdflatex" because it first creates the document and the second time updates the document's index.</li>
 <li><strong>edit</strong>: I usually have a single document split in many files, so keeping a line to quickly open up your editor with all this files is handy. I just keep it as a Vim session, no need for more</li>
 <li><strong>run</strong>: target to open up the document in a pdf viewer. I call it run so I can use it with my default mapping in Vim</li>
-<li><strong>clean</strong>: clean up the files created while compiling a document. Some times it&rsquo;s needed if there&rsquo;s an error you can track - it may be a corrupted .aux file</li>
+<li><strong>clean</strong>: clean up the files created while compiling a document. Some times it's needed if there's an error you can track - it may be a corrupted .aux file</li>
 </ul>
 <p>Short entry this time - next: using source code from within LaTeX.</p>
 <hr />

@@ -14,9 +14,9 @@ I worked on a patch to check if a class and its parent share the same methods, b
 Even though this code will never be useful, I thought I might as well post this here, just in case anyone comes up with a solution for those problems.
 
 ```c++
-// :!g++ foo.cpp -lgtest_main -lgmock &amp;&amp; ./a.out
-#include &lt;gtest/gtest.h&gt;
-#include &lt;gmock/gmock.h&gt;
+// :!g++ foo.cpp -lgtest_main -lgmock && ./a.out
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 using namespace testing;
 
 /**
@@ -30,14 +30,14 @@ class Foo {
 
 class Do {
 	public:
-	int something(Foo &amp;foo){ return foo.bar(1); }
+	int something(Foo &foo){ return foo.bar(1); }
 };
 
 /**
  * Class used to compare method ptrs. We need to inherit from class C
  * to forward the calls to the derived methods.
  */
-template &lt;class C, class D&gt;
+template <class C, class D>
 class Mocks_Must_Exist_In : public C {
 	public:
 	// We don't know in the derived class the typeof the parent class
@@ -48,26 +48,26 @@ class Mocks_Must_Exist_In : public C {
 
 	// Function ptr definitions are ugly so we might as well use
 	// a template to hide it under the rug
-	template &lt;class F, class G&gt;
+	template <class F, class G>
 	void mock_created_for_unexisting_method(F f, G g){ f = g; }
 };
 
 #define METHOD_EXISTS(Method)
 	void defined_##Method() {
-		mock_created_for_unexisting_method(&amp;Self::Method, &amp;ParentClass::Method);
+		mock_created_for_unexisting_method(&Self::Method, &ParentClass::Method);
 	}
 
 /**
  * Checked mock, shouldn't compile if Foo's interface changes
  */
-class FooMock : public Mocks_Must_Exist_In&lt; Foo, FooMock &gt; {
+class FooMock : public Mocks_Must_Exist_In< Foo, FooMock > {
 	public:
 	MOCK_METHOD1(bar, int(int));
 	METHOD_EXISTS(bar);
 };
 
 /**
- * Unchecked mock, should compile if Foo&#x27;s interface changes
+ * Unchecked mock, should compile if Foos interface changes
  */
 class FooMock2 {
 	public:

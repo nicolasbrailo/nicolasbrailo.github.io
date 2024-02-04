@@ -1,17 +1,17 @@
 <h1>C preprocessor VII: Recursive expansion on function macros<a name="cpreprocessorviirecursiveexpansiononfunctionmacros"></a></h1>
-<p>The last time we talked about recursive expansion rules on C&rsquo;s preprocessor: to sum it up, each expansion creates a scope, that contains a list of all macros which have already been expanded in said scope, or in a parent scope. That gives us a very nice and easy to understand tree of already-expanded rules.</p>
-<p>Clearly that&rsquo;s too easy for C. We need more complexity: we need to make the expansion rules interact with the argument substitution process and the preprocessor operators too!</p>
-<p>How exactly? The whole process is specified by a very tiny paragraph, 16.3.1, on the standard, which despite being tiny contains a lot of information. Actually, it contains all the expansion and precedence rules for the preprocessor. And it&rsquo;s more or less like this:</p>
+<p>The last time we talked about recursive expansion rules on C's preprocessor: to sum it up, each expansion creates a scope, that contains a list of all macros which have already been expanded in said scope, or in a parent scope. That gives us a very nice and easy to understand tree of already-expanded rules.</p>
+<p>Clearly that's too easy for C. We need more complexity: we need to make the expansion rules interact with the argument substitution process and the preprocessor operators too!</p>
+<p>How exactly? The whole process is specified by a very tiny paragraph, 16.3.1, on the standard, which despite being tiny contains a lot of information. Actually, it contains all the expansion and precedence rules for the preprocessor. And it's more or less like this:</p>
 <ol>
-<li>Argument scanning: the perprocessor binds a set of tokens to each argument name. If there are extra arguments and the token &ldquo;&hellip;&rdquo; is part of the macro&rsquo;s signature, a __VA_ARGS__ argument is created. (to put it simply: it will bind a set of tokens like &ldquo;(a,b)&rdquo; to an identifier like &ldquo;ARG1&rdquo;).</li>
+<li>Argument scanning: the perprocessor binds a set of tokens to each argument name. If there are extra arguments and the token "..." is part of the macro's signature, a __VA_ARGS__ argument is created. (to put it simply: it will bind a set of tokens like "(a,b)" to an identifier like "ARG1").</li>
 <li>Stringify and token pasting is applied ONLY to the arguments, not to the body function.</li>
 <li>Each argument is recursively scanned for macro expansion, as if each argument was on a file on its own (imagine a new file is created with only preprocessor directives and the argument, then apply the expansion algorithm recursively to that file).</li>
-<li>After the arguments have been fully expanded, they are substituted on the macro&rsquo;s body.</li>
+<li>After the arguments have been fully expanded, they are substituted on the macro's body.</li>
 <li>The resulting definition is then rescanned for macro expansions or token pasting operators.</li>
 <li>A side effect of this multi-phase macro expansion is that the nice expansion tree we used to have no longer works.</li>
 </ol>
-<p>Let&rsquo;s take this example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define str(&hellip;) #<strong>VA_ARGS</strong>
+<p>Let's take this example:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define str(...) #<strong>VA_ARGS</strong>
 #define foo(a, b) foo a bar str(b)
 #define bar foo bar 1
 foo(bar, (1, 2, 3))

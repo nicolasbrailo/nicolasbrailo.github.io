@@ -17,24 +17,31 @@ You'll also need to put titles, sections, subtitles and all that stuff to give y
 Easy, right? Check the example at the end of the post.
 
 There are some other commands you'll use in any LaTeX document:
+
 * **Footnotes**:
+
 ```
 footnote{ Footnote text }
 ```
 
 Just write your text, it'll be there when you compile the document
+
 * **Vertical skip**:
+
 ```
 bigskip
 ```
 
 Because, some times, LaTeX default formatting won't be enough.
+
 * **Align text** Center:
+
 ```
 begin{center}TEXTend{center}
 ```
 
 Right:
+
 ```
 begin{flushright}TEXTend{flushright}
 ```
@@ -89,5 +96,5 @@ end{document}
 
 ```
 
-You can download the compiled document from [this link.](https://example.net/brokenlink/2009/06/simple1.pdf) May be it doesn't look too useful (I'd use [LyX](http://www.lyx.org) instead) but soon we'll start doing some cool stuff LyX can't handle. Keep tuned for the next LaTeX article.
+You can download the compiled document from [this link.](/blog_md/youfoundadeadlink.md) May be it doesn't look too useful (I'd use [LyX](http://www.lyx.org) instead) but soon we'll start doing some cool stuff LyX can't handle. Keep tuned for the next LaTeX article.
 

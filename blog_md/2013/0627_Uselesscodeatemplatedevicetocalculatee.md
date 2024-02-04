@@ -4,65 +4,65 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2013/06/useless-code-template-device-to.html
 
-Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review [and old article](/search/label/Series%3A Template Metaprogramming) I wrote about it (C++11 made some parts of those articles obsolete, but I'm surprised of how well it's aged). To practice a bit I decided to tackle a problem I'm sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn't be to hard.
+Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review [and old article](/blog_md/youfoundadeadlink.md) I wrote about it (C++11 made some parts of those articles obsolete, but I'm surprised of how well it's aged). To practice a bit I decided to tackle a problem I'm sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn't be to hard.
 
 ```c++
-template &lt;int N, int D&gt; struct Frak {
+template <int N, int D> struct Frak {
 	static const long Num = N;
 	static const long Den = D;
 };
 
-template &lt;class X, int N&gt; struct MultEscalar {
-	typedef Frak&lt; N*X::Num, N*X::Den &gt; result;
+template <class X, int N> struct MultEscalar {
+	typedef Frak< N*X::Num, N*X::Den > result;
 };
 
-template &lt;class X1, class Y1&gt; struct IgualBase {
-	typedef typename MultEscalar&lt; X1, Y1::Den &gt;::result X;
-	typedef typename MultEscalar&lt; Y1, X1::Den &gt;::result Y;
+template <class X1, class Y1> struct IgualBase {
+	typedef typename MultEscalar< X1, Y1::Den >::result X;
+	typedef typename MultEscalar< Y1, X1::Den >::result Y;
 };
 
-template &lt;int X, int Y&gt;	struct MCD {
-	static const long result = MCD&lt;Y, X % Y&gt;::result;
+template <int X, int Y>	struct MCD {
+	static const long result = MCD<Y, X % Y>::result;
 };
-template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
+template <int X> struct MCD<X, 0> {
 	static const long result = X;
 };
 
-template &lt;class F&gt; struct Simpl {
-	static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
-	typedef Frak&lt; F::Num / mcd, F::Den / mcd &gt; result;
+template <class F> struct Simpl {
+	static const long mcd = MCD<F::Num, F::Den>::result;
+	typedef Frak< F::Num / mcd, F::Den / mcd > result;
 };
 
-template &lt;class X, class Y&gt; struct Suma {
-	typedef IgualBase&lt;X, Y&gt; B;
+template <class X, class Y> struct Suma {
+	typedef IgualBase<X, Y> B;
 	static const long Num = B::X::Num + B::Y::Num;
 	static const long Den = B::Y::Den; // == B::X::Den
-	typedef typename Simpl&lt; Frak&lt;Num, Den&gt; &gt;::result result;
+	typedef typename Simpl< Frak<Num, Den> >::result result;
 };
 
-template &lt;int N&gt; struct Fact {
-	static const long result = N * Fact&lt;N-1&gt;::result;
+template <int N> struct Fact {
+	static const long result = N * Fact<N-1>::result;
 };
-template &lt;&gt; struct Fact&lt;0&gt; {
+template <> struct Fact<0> {
 	static const long result = 1;
 };
 
-template &lt;int N&gt; struct E {
+template <int N> struct E {
 	// e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
-	static const long Den = Fact&lt;N&gt;::result;
-	typedef Frak&lt; 1, Den &gt; term;
-	typedef typename E&lt;N-1&gt;::result next_term;
-	typedef typename Suma&lt; term, next_term &gt;::result result;
+	static const long Den = Fact<N>::result;
+	typedef Frak< 1, Den > term;
+	typedef typename E<N-1>::result next_term;
+	typedef typename Suma< term, next_term >::result result;
 };
-template &lt;&gt; struct E&lt;0&gt; {
-	typedef Frak&lt;1, 1&gt; result;
+template <> struct E<0> {
+	typedef Frak<1, 1> result;
 };
 
-#include &lt;iostream&gt;
+#include <iostream>
 int main() {
-	typedef E&lt;8&gt;::result X;
-	std::cout &lt;&lt; "e = " &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; "\n";
-	std::cout &lt;&lt; "e = " &lt;&lt; X::Num &lt;&lt;"/"&lt;&lt; X::Den &lt;&lt; "\n";
+	typedef E<8>::result X;
+	std::cout << "e = " << (1.0 * X::Num / X::Den) << "\n";
+	std::cout << "e = " << X::Num <<"/"<< X::Den << "\n";
 	return 0;
 }
 ```

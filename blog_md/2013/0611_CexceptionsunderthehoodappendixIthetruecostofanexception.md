@@ -18,6 +18,8 @@ If we talk about ARM, Sj/Lj seems to be the default option (I'm sure there's a g
 If you're interested on reading more about sjlj and zero cost exception handling [LLVM has great documentation](http://llvm.org/docs/ExceptionHandling.html).
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [N]() commented @ 2013-06-11T23:31:26.000+02:00:
 

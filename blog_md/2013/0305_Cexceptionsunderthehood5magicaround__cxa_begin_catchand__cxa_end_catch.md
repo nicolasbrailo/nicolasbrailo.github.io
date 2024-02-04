@@ -1,5 +1,4 @@
-# C++ exceptions under the hood 5: magic around __cxa_begin_catch and
-__cxa_end_catch
+# C++ exceptions under the hood 5: magic around __cxa_begin_catch and __cxa_end_catch
 
 @meta publishDatetime 2013-03-05T08:00:00.000+01:00
 @meta author Nico Brailovsky
@@ -10,17 +9,17 @@ After learning how exceptions are thrown we are now on our way to learn how they
 Note: You can download the full sourcecode for this project [in my github repo](https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02).
 
 ```c++
-&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
-throw.o: In function `try_but_dont_catch()&#x27;:
-throw.cpp:12: undefined reference to `__cxa_begin_catch&#x27;
-throw.cpp:12: undefined reference to `__cxa_end_catch&#x27;
+> g++ -c -o throw.o -O0 -ggdb throw.cpp
+> gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
+throw.o: In function 'try_but_dont_catch()':
+throw.cpp:12: undefined reference to '__cxa_begin_catch'
+throw.cpp:12: undefined reference to '__cxa_end_catch'
 
-throw.o: In function `catchit()&#x27;:
-throw.cpp:20: undefined reference to `__cxa_begin_catch&#x27;
-throw.cpp:20: undefined reference to `__cxa_end_catch&#x27;
+throw.o: In function 'catchit()':
+throw.cpp:20: undefined reference to '__cxa_begin_catch'
+throw.cpp:20: undefined reference to '__cxa_end_catch'
 
-throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0&#x27;
+throw.o:(.eh_frame+0x47): undefined reference to '__gxx_personality_v0'
 
 collect2: ld returned 1 exit status
 ```

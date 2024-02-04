@@ -1,94 +1,96 @@
 <h1>Easy bind dns log analyzer<a name="easybinddnsloganalyzer"></a></h1>
 <p>Any real-programmer (tm) should be able to memorize all the static IPs in his network and should feel more comfortable using the IP to access the LAN resources, instead of those user friendly URL things. Of course, not everyone is a real-programmer (tm), and these people usually drive crazy the poor guys who do remember all the static IPs in the office. For them, the DNS was invented.</p>
 <p>Some time ago I set up a bind9 on a spare server I had. Easy job, a side project of a boring late night. Of course, there was no point in just setting up my own TLD; I now had the power to have fun with DNS poisoning, and I could also create nice reports of the queries to the DNS server.</p>
-<p>Having fun with a DNS might be the topic for another post, for this one I&rsquo;ll just focus on how to get query statistics from a bind server.</p>
-<p>After grepping the web a little bit, I found a rather disconcerting lack of bind log analyzers. I just wanted a list of the most popular queries, as well as the ability to group the log by it&rsquo;s IP (and may be even to get the computer&rsquo;s SMB name). Couldn&rsquo;t have asked for a better chance to flex a little bit my Ruby-foo, and here is the hackish result for whoever may want to do something similar:</p>
-<p>[source lang=&rdquo;ruby&rdquo;]#!/usr/bin/ruby1.8</p>
-<p>class Hits
+<p>Having fun with a DNS might be the topic for another post, for this one I'll just focus on how to get query statistics from a bind server.</p>
+<p>After grepping the web a little bit, I found a rather disconcerting lack of bind log analyzers. I just wanted a list of the most popular queries, as well as the ability to group the log by it's IP (and may be even to get the computer's SMB name). Couldn't have asked for a better chance to flex a little bit my Ruby-foo, and here is the hackish result for whoever may want to do something similar:</p>
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">#!/usr/bin/ruby1.8
+class Hits
  def initialize(n,v,k=nil)
  @n=n
  @v=v
  @k=k
- end</p>
-<p>def n() @n; end
+ end
+ def n() @n; end
  def v() @v; end
- def k() @k; end</p>
-<p>def &lt;(o) @n &lt; o.n; end
-end</p>
-<p>if ARGV.length == 0 then
- puts &ldquo;Usage: dns.rb DNS_LOG [&ndash;domains] [&ndash;ip [&ndash;no-samba]]&rdquo;
- puts &rdquo; &ndash;domains will list all queried domains&rdquo;
- puts &rdquo; &ndash;ip will list every query gruoped by IP&rdquo;
+ def k() @k; end
+ def &lt;(o) @n &lt; o.n; end
+end
+if ARGV.length == 0 then
+ puts &quot;Usage: dns.rb DNS_LOG [--domains] [--ip [--no-samba]]&quot;
+ puts &quot; --domains will list all queried domains&quot;
+ puts &quot; --ip will list every query gruoped by IP&quot;
  exit
-end</p>
-<p>@domains = @ip = @nosamba = false
+end
+@domains = @ip = @nosamba = false
 ARGV.each { |arg|
  case arg
- when &lsquo;&ndash;domains&rsquo; then @domains = true
- when &lsquo;&ndash;ip&rsquo; then @ip = true
- when &lsquo;&ndash;no-samba&rsquo; then @nosamba = true
+ when &#x27;--domains&#x27; then @domains = true
+ when &#x27;--ip&#x27; then @ip = true
+ when &#x27;--no-samba&#x27; then @nosamba = true
  end
-}</p>
-<p>fp = File.open ARGV[0]</p>
-<p>queries_by_ip = {}
-queries_by_domain = {}</p>
-<p>fp.each_line { |l|
- v = l.split(&rsquo; &lsquo;)
+}
+fp = File.open ARGV[0]
+queries_by_ip = {}
+queries_by_domain = {}
+fp.each_line { |l|
+ v = l.split(&#x27; &#x27;)
  if not (v.nil? or v.length &lt; 4) then
- ip = v[1].split(&lsquo;#&rsquo;)[0]
- query = v[3]</p>
-<p>if queries_by_domain[query].nil? then queries_by_domain[query] = 0 end
- queries_by_domain[query] += 1</p>
-<p>if queries_by_ip[ip].nil? then queries_by_ip[ip] = [] end
+ ip = v[1].split(&#x27;#&#x27;)[0]
+ query = v[3]
+ if queries_by_domain[query].nil? then queries_by_domain[query] = 0 end
+ queries_by_domain[query] += 1
+ if queries_by_ip[ip].nil? then queries_by_ip[ip] = [] end
  queries_by_ip[ip].push query
  end
-}</p>
-<p>if @domains then
+}
+if @domains then
  hits = []
  queries_by_domain.each { |k,v|
  hits.push Hits.new(v, k)
- }</p>
-<p>hits.sort!.reverse!.each { |h|
- puts h.v + &rdquo; has &rdquo; + h.n.to_s + &rdquo; hits&rdquo;
  }
-end</p>
-<p>if @ip then
+ hits.sort!.reverse!.each { |h|
+ puts h.v + &quot; has &quot; + h.n.to_s + &quot; hits&quot;
+ }
+end
+if @ip then
  lst = []
  queries_by_ip.each { |ip,queries|
  lst.push Hits.new(queries.length, ip, queries)
- }</p>
-<p>lst.sort!.reverse!.each { |h|
- puts &ldquo;Report for &rdquo; + h.v + &ldquo;, Samba addr:&rdquo;
- if not @nosamba then Kernel.system &ldquo;nmblookup -A &rdquo; + h.v end
- puts &ldquo;Requested &rdquo; + h.n.to_s + &rdquo; URLs:&rdquo;
+ }
+ lst.sort!.reverse!.each { |h|
+ puts &quot;Report for &quot; + h.v + &quot;, Samba addr:&quot;
+ if not @nosamba then Kernel.system &quot;nmblookup -A &quot; + h.v end
+ puts &quot;Requested &quot; + h.n.to_s + &quot; URLs:&quot;
  h.k.uniq.each { |url|
- puts &ldquo;t&rdquo; + url
+ puts &quot;t&quot; + url
  }
- puts &ldquo;.&rdquo;
- puts &ldquo;.&rdquo;
+ puts &quot;.&quot;
+ puts &quot;.&quot;
  }
-end</p>
+end
+</pre>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">GLR</a> commented @ 2013-02-11T18:53:51.000+01:00:<a name="inreplytothispostglrcommented20130211t185351.0000100"></a></h2>
 <p>It seems they are some issues with HTML codes in this code, can you please repost a cleaned version ?
-I would be interested to test it&hellip;</p>
+I would be interested to test it...</p>
 <p>Original <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2013-02-12T11:12:29.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20130212t111229.0000100"></a></h2>
-<p>Every single time I migrate blogs&hellip; anyway, it should work now. Haven&rsquo;t tested it, though. Let me know if you found it useful.
+<p>Every single time I migrate blogs... anyway, it should work now. Haven't tested it, though. Let me know if you found it useful.
 Cheers</p>
 <p>Original <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">GLR</a> commented @ 2013-02-12T19:13:13.000+01:00:<a name="inreplytothispostglrcommented20130212t191313.0000100"></a></h2>
-<p>Thx. But I&rsquo;m still encountering a problem :</p>
-<p>./bind-dns-log-analyzer:14: syntax error, unexpected tIVAR, expecting tCOLON2 or &lsquo;.&rsquo;
+<p>Thx. But I'm still encountering a problem :</p>
+<p>./bind-dns-log-analyzer:14: syntax error, unexpected tIVAR, expecting tCOLON2 or '.'
  def (o) @n o.n; end
  ^
 ./bind-dns-log-analyzer:15: syntax error, unexpected kEND, expecting $end</p>
 <p>Original <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2013-02-13T10:43:08.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20130213t104308.0000100"></a></h2>
-<p>You&rsquo;re right, looks like the method name on line 14 is gone. I assume it&rsquo;s something like &ldquo;def &lt;(o) @n instead. Unfortunately I don&rsquo;t have a dns bind log to test it&hellip; let me know if you find out which one it is.</p>
+<p>You're right, looks like the method name on line 14 is gone. I assume it's something like "def &lt;(o) @n instead. Unfortunately I don't have a dns bind log to test it... let me know if you find out which one it is.</p>
 <p>Original <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="http://statdns.nedze.com">mcdir</a> commented @ 2013-11-16T10:24:08.000+01:00:<a name="inreplytothispostmcdirhttpstatdns.nedze.comcommented20131116t102408.0000100"></a></h2>
@@ -96,9 +98,9 @@ Cheers</p>
 <p>Original <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2013-11-18T10:53:15.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20131118t105315.0000100"></a></h2>
-<p>Thanks mcdir. That project looks like much less of a hack than mine. In my defense, it didn&rsquo;t exist back then :)</p>
+<p>Thanks mcdir. That project looks like much less of a hack than mine. In my defense, it didn't exist back then :)</p>
 <p>Original <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="http://statdns.nedze.com/">mcdir</a> commented @ 2013-11-18T11:54:14.000+01:00:<a name="inreplytothispostmcdirhttpstatdns.nedze.comcommented20131118t115414.0000100"></a></h2>
-<p>I&rsquo;ll just be happy if my program will enjoy anyone. Another demo was made available http://demo.statdns.nedze.com/</p>
+<p>I'll just be happy if my program will enjoy anyone. Another demo was made available http://demo.statdns.nedze.com/</p>
 <p>Original <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">published here</a>.</p>

@@ -1,6 +1,6 @@
 <h1>LaTeX: Makefile<a name="latexmakefile"></a></h1>
 <p>Remember I said that being a programmer would make you a lot more comfortable around LaTeX? The reason is quite simple, tex is just source code for a document. As with any source code in Linux (Windows too, but that is besides the point) you can use a Makefile to compile it and make your life easier.</p>
-<p>I have already posted this <a href="https://example.net/brokenlink/2009/05/makefile.html">Makefile</a> in <a href="/blog/2009/0528_LaTeXbasics.html">another entry</a> but it&rsquo;s time to explain how it works.</p>
+<p>I have already posted this <a href="https://example.net/brokenlink/2009/05/makefile.html">Makefile</a> in <a href="/blog/2009/0528_LaTeXbasics.html">another entry</a> but it's time to explain how it works.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">
 all: main.pdf
 main.pdf: code_frames <em>.tex
@@ -18,12 +18,12 @@ clean:
       sed &quot;s:*:$$PART:g&quot; | xargs rm -f;
  done
 </pre>
-<p>It&rsquo;s rather easy, let&rsquo;s check it target by target:</p>
+<p>It's rather easy, let's check it target by target:</p>
 <ul>
 <li><strong>all</strong>: create the main document - used as default target</li>
-<li><strong>main.pdf</strong>: document&rsquo;s target - no need to call it main.pdf, I just do it because the entry point in C programs is called &ldquo;main&rdquo; so I&rsquo;m used to it. Also, it looks better than foo.pdf. As a side note, it runs twice &ldquo;pdflatex&rdquo; because it first creates the document and the second time updates the document&rsquo;s index.</li>
+<li><strong>main.pdf</strong>: document's target - no need to call it main.pdf, I just do it because the entry point in C programs is called "main" so I'm used to it. Also, it looks better than foo.pdf. As a side note, it runs twice "pdflatex" because it first creates the document and the second time updates the document's index.</li>
 <li><strong>edit</strong>: I usually have a single document split in many files, so keeping a line to quickly open up your editor with all this files is handy. I just keep it as a Vim session, no need for more</li>
 <li><strong>run</strong>: target to open up the document in a pdf viewer. I call it run so I can use it with my default mapping in Vim</li>
-<li><strong>clean</strong>: clean up the files created while compiling a document. Some times it&rsquo;s needed if there&rsquo;s an error you can track - it may be a corrupted .aux file</li>
+<li><strong>clean</strong>: clean up the files created while compiling a document. Some times it's needed if there's an error you can track - it may be a corrupted .aux file</li>
 </ul>
 <p>Short entry this time - next: using source code from within LaTeX.</p>

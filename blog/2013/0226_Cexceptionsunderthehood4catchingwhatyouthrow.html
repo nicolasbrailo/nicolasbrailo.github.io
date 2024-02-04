@@ -1,24 +1,24 @@
 <h1>C++ exceptions under the hood 4: catching what you throw<a name="cexceptionsunderthehood4catchingwhatyouthrow"></a></h1>
-<p>In this series about exception handling, we have discovered quite a bit about exception throwing by looking at compiler and linker errors but we have so far not learned anything yet about exception catching. Let&rsquo;s sum up the few things we learned about exception throwing:</p>
+<p>In this series about exception handling, we have discovered quite a bit about exception throwing by looking at compiler and linker errors but we have so far not learned anything yet about exception catching. Let's sum up the few things we learned about exception throwing:</p>
 <ul>
 <li>A throw statement will be translated by the compiler into two calls, <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong>.</li>
-<li><strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong> &ldquo;live&rdquo; on libstdc++</li>
+<li><strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong> "live" on libstdc++</li>
 <li><strong>__cxa_allocate_exception</strong> will allocate memory for the new exception.</li>
 <li><strong>__cxa_throw</strong> will prepare a bunch of stuff and forward this exception to <strong>_Unwind_</strong>, a set of functions that live in libstdc and perform the real stack unwinding (<a href="/blog/youfoundadeadlink.html">the ABI</a> defines the interface for these functions).</li>
 </ul>
-<p>Quite simple so far, but exception catching is a bit more complicated, specially because it requires certain degree of reflexion (that is, the ability of a program to analyze its own source code). Let&rsquo;s keep on trying our same old method, let&rsquo;s add some catch statements throughout our code, compile it and see what happens:</p>
+<p>Quite simple so far, but exception catching is a bit more complicated, specially because it requires certain degree of reflexion (that is, the ability of a program to analyze its own source code). Let's keep on trying our same old method, let's add some catch statements throughout our code, compile it and see what happens:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &quot;throw.h&quot;
-#include &amp;lt;stdio.h&amp;gt;
-// Notice we&amp;#x27;re adding a second exception type
+#include &lt;stdio.h&gt;
+// Notice were adding a second exception type
 struct Fake_Exception {};
 void raise() {
     throw Exception();
 }
-// We will analyze what happens if a try block doesn&amp;#x27;t catch an exception
+// We will analyze what happens if a try block doesnt catch an exception
 void try_but_dont_catch() {
     try {
         raise();
-    } catch(Fake_Exception&amp;amp;) {
+    } catch(Fake_Exception&amp;) {
         printf(&quot;Running try_but_dont_catch::catch(Fake_Exception)\n&quot;);
     }
     printf(&quot;try_but_dont_catch handled an exception and resumed execution&quot;);
@@ -27,9 +27,9 @@ void try_but_dont_catch() {
 void catchit() {
     try {
         try_but_dont_catch();
-    } catch(Exception&amp;amp;) {
+    } catch(Exception&amp;) {
         printf(&quot;Running try_but_dont_catch::catch(Exception)\n&quot;);
-    } catch(Fake_Exception&amp;amp;) {
+    } catch(Fake_Exception&amp;) {
         printf(&quot;Running try_but_dont_catch::catch(Fake_Exception)\n&quot;);
     }
     printf(&quot;catchit handled an exception and resumed execution&quot;);
@@ -43,17 +43,17 @@ extern &quot;C&quot; {
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
 <p>Just like before, we have our seppuku function linking the C world with the C++ world, only this time we have added some more function calls to make our stack more interesting, plus we have added a bunch of try/catch blocks so we can analyze how does libstdc++ handles them.</p>
 <p>And just like before, we get some linker errors about missing ABI functions:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
-&amp;gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
-throw.o: In function <code>try_but_dont_catch()&amp;amp;#x27;:
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+&gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
+throw.o: In function <code>try_but_dont_catch():
 throw.cpp:12: undefined reference to
-</code>__cxa_begin_catch&amp;#x27;
-throw.cpp:12: undefined reference to <code>__cxa_end_catch&amp;amp;#x27;
-throw.o: In function</code>catchit()&amp;#x27;:
-throw.cpp:20: undefined reference to <code>__cxa_begin_catch&amp;amp;#x27;
-throw.cpp:20: undefined reference to</code>__cxa_end_catch&amp;#x27;
-throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0&amp;#x27;
+</code>__cxa_begin_catch
+throw.cpp:12: undefined reference to <code>__cxa_end_catch
+throw.o: In function</code>catchit():
+throw.cpp:20: undefined reference to <code>__cxa_begin_catch
+throw.cpp:20: undefined reference to</code>__cxa_end_catch
+throw.o:(.eh_frame+0x47): undefined reference to `__gxx_personality_v0
 collect2: ld returned 1 exit status
 </pre>
-<p>Again we see a lot of interesting stuff going on here. The calls to <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong> are probably something we could have expected: we don&rsquo;t know what they are yet, but we can presume they are the equivalent of the <strong>throw/__cxa_allocate/throw</strong> conversions (you do remember that our throw keyword got translated to a pair of <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw functions</strong>, right?). The <strong>__gxx_personality_v0</strong> thing is new, though, and the central piece of the next few articles.</p>
+<p>Again we see a lot of interesting stuff going on here. The calls to <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong> are probably something we could have expected: we don't know what they are yet, but we can presume they are the equivalent of the <strong>throw/__cxa_allocate/throw</strong> conversions (you do remember that our throw keyword got translated to a pair of <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw functions</strong>, right?). The <strong>__gxx_personality_v0</strong> thing is new, though, and the central piece of the next few articles.</p>
 <p>What does the personality function do? We already said something about it on the introduction to this series but we will be looking into it with some more detail next time, together with our new two friends, <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong>.</p>

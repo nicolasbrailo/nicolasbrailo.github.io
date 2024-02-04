@@ -29,14 +29,14 @@ Seems clear enough:
 Too bad this won't work. To begin with, the --dport option will fail, since it makes no sense to talk about ports without specifying a protocol (i.e. ports are a TCP layer concept, not an IP layer conecpt, so iptables doesn't know what to do with a --dport option!). Thus, let's rewrite our command like this:
 
 ```c++
-# Caution: This is wrong and won&#x27;t work!
+# Caution: This is wrong and won't work!
 iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 --to :1234
 ```
 
 Now iptables will complain about the --to option. This is because iptables can't rewrite a package (i.e. use the --to option) unless you specify to jump to the DNAT table (?). Now our command should look like this:
 
 ```c++
-# Caution: This is wrong and won&#x27;t work!
+# Caution: This is wrong and won't work!
 iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 -j DNAT --to :1234
 ```
 

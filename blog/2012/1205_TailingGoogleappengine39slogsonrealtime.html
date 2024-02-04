@@ -1,6 +1,6 @@
 <h1>Tailing Google app engine&#39;s logs on realtime<a name="tailinggoogleappengine39slogsonrealtime"></a></h1>
-<p>Knowing in real time when an error occurs on your GAE app is not as easy as it sounds. You can create a custom error handler and then mail you the exception log, but you have to develop that yourself (and if you do it wrong you may end up slowing down the whole app&hellip; yes, I know it first hand). You can also keep the GAE log page open and set your browser to refresh it every X seconds, but that&rsquo;s quite cumbersome.</p>
-<p>So, seeing there are a bunch of acceptable but not quite nice solutions out there, I decided to add yet another &ldquo;solution&rdquo; that works, but looks ugly. This script will probably break in a few months, or whenever any part of the auth protocol Google uses changes (since I think very little of it is supposed to be public) but until then you can use it to tail GAE&rsquo;s logs on real time.</p>
+<p>Knowing in real time when an error occurs on your GAE app is not as easy as it sounds. You can create a custom error handler and then mail you the exception log, but you have to develop that yourself (and if you do it wrong you may end up slowing down the whole app... yes, I know it first hand). You can also keep the GAE log page open and set your browser to refresh it every X seconds, but that's quite cumbersome.</p>
+<p>So, seeing there are a bunch of acceptable but not quite nice solutions out there, I decided to add yet another "solution" that works, but looks ugly. This script will probably break in a few months, or whenever any part of the auth protocol Google uses changes (since I think very little of it is supposed to be public) but until then you can use it to tail GAE's logs on real time.</p>
 <p>Note it will work polling a logs webservice @ Google (just like appcfg does); if you set the frequency too high you may see your daily cost increasing but if you set it too low then the script will only get the last error between intervals (so you might miss errors in between). If too many errors go undetected, though, your problem is likely a too-high error rate and not a low update frequency.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/usr/bin/python
 # Configure your account here
@@ -57,7 +57,7 @@ class Google_Authenticator(object):
     def _convert_auth_cookie(cls, auth):
         GOOG_COOKIE_URL = &quot;https://appengine.google.com/_ah/login?&quot;\
                           &quot;continue={0}&amp;amp;auth={1}&quot;
-        redir = &#x27;http%3A%2F%2Flocalhost%2F&#x27; # Anywhere (that&#x27;s listening)&hellip;
+        redir = &#x27;http%3A%2F%2Flocalhost%2F&#x27; # Anywhere (that&#x27;s listening)...
         url = GOOG_COOKIE_URL.format(redir, auth)
         try:
             res = urllib2.urlopen(url)

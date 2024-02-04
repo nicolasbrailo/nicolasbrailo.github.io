@@ -7,7 +7,7 @@
 </ul>
 <h1>Posts for 2010 May<a name="postsfor2010may"></a></h1>
 <h1>Template metaprogramming VII: The Enemy Within<a name="templatemetaprogrammingviitheenemywithin"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-27</p>
+<p>By Nico Brailovsky @ 2010-05-27 -  <a href="/blog/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.html">Permalink</a></p>
 <p>Remember where were we last time? We had this code to define a list:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct NIL {
     typedef NIL Head;
@@ -20,8 +20,8 @@ template &amp;lt;typename H, typename T=NIL&amp;gt; struct Lst {
 template &amp;lt;int N&amp;gt; struct Int{ static const int result = N; };
 typedef Lst&amp;lt; Int&amp;lt;1&amp;gt;, Lst&amp;lt; Int&amp;lt;2&amp;gt;, Lst&amp;lt; Int&amp;lt;3&amp;gt; &amp;gt; &amp;gt; &amp;gt; OneTwoThree;
 </pre>
-<p>Now, to increase our template-foo, let&rsquo;s practice some basic operations. The same operations you would implement to practice your skill any other functional language. If I remember correctly these where useful when learning Haskel: getting a list&rsquo;s lenght, getting the Nth element, appending and preppending elements&hellip; that sort of stuff.</p>
-<p>Let&rsquo;s start with the most basic: getting the length of a list. We don&rsquo;t really have a for loop so using recursion is the only way. It gets easier if we think again on our definition of list: &ldquo;think of a list as tuple, two elements, the first (called head) will be the first element of the list and the second element as another list or a NIL object&rdquo;. Whit this definition of a list, then it&rsquo;s length turns to be 1 (the head) + the length of the remaining list (the tail), with a special case for the length of a NIL object which should always be 0. In template-speak:</p>
+<p>Now, to increase our template-foo, let's practice some basic operations. The same operations you would implement to practice your skill any other functional language. If I remember correctly these where useful when learning Haskel: getting a list's lenght, getting the Nth element, appending and preppending elements... that sort of stuff.</p>
+<p>Let's start with the most basic: getting the length of a list. We don't really have a for loop so using recursion is the only way. It gets easier if we think again on our definition of list: "think of a list as tuple, two elements, the first (called head) will be the first element of the list and the second element as another list or a NIL object". Whit this definition of a list, then it's length turns to be 1 (the head) + the length of the remaining list (the tail), with a special case for the length of a NIL object which should always be 0. In template-speak:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename LST&amp;gt; struct Length {
     typedef typename LST::Tail Tail;
     static const unsigned int tail_length = Length&amp;lt; Tail &amp;gt;::result;
@@ -31,7 +31,7 @@ template &amp;lt;&amp;gt; struct Length &amp;lt;NIL&amp;gt; {
     static const unsigned int result = 0;
 };
 </pre>
-<p>I know. You are thinking &ldquo;wait, what?&rdquo;. Well, even for this basic case we need to use some esoteric language features:</p>
+<p>I know. You are thinking "wait, what?". Well, even for this basic case we need to use some esoteric language features:</p>
 <ul>
 <li>typename is needed to tell the compiler LST::Tail is a type and not a static variable (like Length::result is). Did you remember that from <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">chapter IV</a>?</li>
 <li>We have to use recursive templates, but you probably already figured that out. You should remember this from <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">chapter II</a>.</li>
@@ -45,37 +45,37 @@ template &amp;lt;&amp;gt; struct Length  {
     static const unsigned int result = 0;
 };
 </pre>
-<p>The rest of the &ldquo;basic&rdquo; list-operations are quite similar, but I&rsquo;ll leave that for another post.</p>
+<p>The rest of the "basic" list-operations are quite similar, but I'll leave that for another post.</p>
 <hr />
 <p>Thank you St&eacute;phane Michaut for pointing out typos and bugs in the code listings</p>
 <hr />
 <h1>Deleting &gt; Writing<a name="deletinggtwriting"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-25</p>
+<p>By Nico Brailovsky @ 2010-05-25 -  <a href="/blog/2010/0525_DeletinggtWriting.html">Permalink</a></p>
 <blockquote>
 <p>Perfection is finally attained not when there is no longer anything to add but when there is no longer anything to take away, when a body has been stripped down to its nakedness.</p>
 <p>Antoine de Saint-Exupery</p>
 </blockquote>
 <hr />
 <h1>Level up!<a name="levelup"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-23</p>
+<p>By Nico Brailovsky @ 2010-05-23 -  <a href="/blog/2010/0523_Levelup.html">Permalink</a></p>
 <p>Today it’s been 756864000 seconds of uptime since I was promoted from Release Candidate to V1.0. Hope none of you remember I made this same post 31536000 seconds ago.</p>
 <hr />
 <h1>Template metaprogramming VI: The Spider Webb<a name="templatemetaprogrammingvithespiderwebb"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-20</p>
+<p>By Nico Brailovsky @ 2010-05-20 -  <a href="/blog/2010/0520_TemplatemetaprogrammingVITheSpiderWebb.html">Permalink</a></p>
 <p>We have been building our template meta-foo for five chapters now, and I think we are ready to move on to more advanced topics. We will be borrowing a lot more from functional languages from now on, so you may want to actually start practicing some template metaprogramming to keep advancing.</p>
-<p>In our previous entries we worked with basic building blocks, making it quite easy to keep in mind the whole &ldquo;program flow&rdquo;. Now it won&rsquo;t be so easy anymore, as we&rsquo;ll be using real metaprogramming (i.e. templates operating on templates) so a lot more thought will be needed for each program.</p>
-<p>Another point to keep in mind, you don&rsquo;t have a debugger here. All the magic occurs at compile time so there is no gdb to step through your program to find a logic flaw. There&rsquo;s a little trick to check if you are too far off from the target but, mainly, you&rsquo;ll have to think for yourself.</p>
-<p>Let&rsquo;s start with any functional programming course basics: lists. We have to think, first, how can a list make any sense when you only have types and no values. It means you can have a list like &ldquo;int, char, void**, Foo&rdquo;, and not something like &ldquo;1, 2, 3&rdquo;. Or, can you? There&rsquo;s a way to trick the compiler into creating a type from a integral value:</p>
+<p>In our previous entries we worked with basic building blocks, making it quite easy to keep in mind the whole "program flow". Now it won't be so easy anymore, as we'll be using real metaprogramming (i.e. templates operating on templates) so a lot more thought will be needed for each program.</p>
+<p>Another point to keep in mind, you don't have a debugger here. All the magic occurs at compile time so there is no gdb to step through your program to find a logic flaw. There's a little trick to check if you are too far off from the target but, mainly, you'll have to think for yourself.</p>
+<p>Let's start with any functional programming course basics: lists. We have to think, first, how can a list make any sense when you only have types and no values. It means you can have a list like "int, char, void**, Foo", and not something like "1, 2, 3". Or, can you? There's a way to trick the compiler into creating a type from a integral value:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N&amp;gt; struct Int {
     static const int value = N;
 };
 </pre>
-<p>Voila! Now you can create a list of numbers. For our next trick, let&rsquo;s implement the list itself. No pointer magic, think of a functional definition of a list. Come on, I&rsquo;ll wait&hellip; ready? OK, a list is a tuple T of two values, in which the first element, called head, is the first element of the list and the second element, called tail, is either a list or the NULL element.</p>
-<p>Quite a mouthful&hellip; let&rsquo;s go over that definition again:</p>
+<p>Voila! Now you can create a list of numbers. For our next trick, let's implement the list itself. No pointer magic, think of a functional definition of a list. Come on, I'll wait... ready? OK, a list is a tuple T of two values, in which the first element, called head, is the first element of the list and the second element, called tail, is either a list or the NULL element.</p>
+<p>Quite a mouthful... let's go over that definition again:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">// A list is a tuple T of two values
-List: [ &hellip;, &hellip; ]
+List: [ ..., ... ]
 // in which the first element, called head, is the first element of the list
-List: [ Head, &hellip; ]
+List: [ Head, ... ]
 // and the second element, called tail,
 List: [ Head, Tail]
 // is either a list or the NULL element
@@ -85,13 +85,13 @@ Tail: List | Nil
 <p>So, as an example, a list of numbers could be expressed as:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">    List( 1, List( 2, List( 3, NIL ) ) )
 </pre>
-<p>Closing up&hellip; how would you define this list in C++? Easy:</p>
+<p>Closing up... how would you define this list in C++? Easy:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename H, typename T&amp;gt; LST {
     typedef H Head;
     typedef T Tail;
 };
 </pre>
-<p>We need here a NIL type to use as a list ending element. We could also use a default template type, so we won&rsquo;t have to write the last NIL to end a list definition. Thus we have now:</p>
+<p>We need here a NIL type to use as a list ending element. We could also use a default template type, so we won't have to write the last NIL to end a list definition. Thus we have now:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct NIL {
     typedef NIL Head;
     typedef NIL Tail;
@@ -103,37 +103,37 @@ template &amp;lt;typename H, typename T&amp;gt; struct LST {
 </pre>
 <p>Nice. You should remember the following rules:</p>
 <ol>
-<li>We can use template to define a template class, defining a new type based on a number instead of another type ;)
- - We can&rsquo;t &ldquo;store&rdquo; a value in a type&hellip; unless we store it as a static value, that is.
- - Using a convention for defining result holding variable names is very useful, as there are no interfaces and more than once we&rsquo;ll be using a result from an unknown class</li>
+<li>We can use template to define a template class, defining a new type based on a number instead of another type ;)</li>
+<li>We can't "store" a value in a type... unless we store it as a static value, that is.</li>
+<li>Using a convention for defining result holding variable names is very useful, as there are no interfaces and more than once we'll be using a result from an unknown class</li>
 </ol>
-<p>With that said, let&rsquo;s translate the list (1, 2, 3) to Tmpl C++</p>
+<p>With that said, let's translate the list (1, 2, 3) to Tmpl C++</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N&amp;gt; Int{ static const int result = N; };
 typedef Lst&amp;lt; Int&amp;lt;1&amp;gt;, Lst&amp;lt; Int&amp;lt;2&amp;gt;, Lst&amp;lt; Int&amp;lt;3&amp;gt; &amp;gt; &amp;gt; &amp;gt; OneTwoThree;
 </pre>
-<p>Not so bad to start with. Next time we&rsquo;ll be doing something a little bit more useful with this list.</p>
+<p>Not so bad to start with. Next time we'll be doing something a little bit more useful with this list.</p>
 <p>One last note, initializing a static const int in the definition of the class may be non portable (some compilers seem to have trouble with it). An enum may be used instead.</p>
 <hr />
 <h1>Dealing with Office on Linux<a name="dealingwithofficeonlinux"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-18</p>
+<p>By Nico Brailovsky @ 2010-05-18 -  <a href="/blog/2010/0518_DealingwithOfficeonLinux.html">Permalink</a></p>
 <p>Seen @ bash.org:</p>
 <blockquote>
-<p>&lt; adamkuj&gt; are there any good open source tools for working with Access DB&rsquo;s (mdb files)?
+<p>&lt; adamkuj&gt; are there any good open source tools for working with Access DB's (mdb files)?
 &lt;@Dopey&gt; rm
 Comment: #evilgeeks</p>
 </blockquote>
-<p>True, so true&hellip; It&rsquo;s been said a thousand times, but I kinda like ranting&hellip; like it or not Office files are a majority out there. If you work with Linux, using it in a real enterprise environment, sooner or later you&rsquo;ll run into someone using a propietary Office format. You&rsquo;ll also run into someone who doesn&rsquo;t know that you need OOO to open those weird odf files. You may need to produce an adecuately formated document sometime, and <a href="/search/label/LaTeX">LaTeX</a> may not be an option.</p>
+<p>True, so true... It's been said a thousand times, but I kinda like ranting... like it or not Office files are a majority out there. If you work with Linux, using it in a real enterprise environment, sooner or later you'll run into someone using a propietary Office format. You'll also run into someone who doesn't know that you need OOO to open those weird odf files. You may need to produce an adecuately formated document sometime, and <a href="/search/label/LaTeX">LaTeX</a> may not be an option.</p>
 <p>Deal with it. Install a VM, or Wine, and a copy of MS Office. Resistance is futile.</p>
 <hr />
 <h1>Template metaprogramming V: Face to face<a name="templatemetaprogrammingvfacetoface"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-12</p>
+<p>By Nico Brailovsky @ 2010-05-12 -  <a href="/blog/2010/0512_TemplatemetaprogrammingVFacetoface.html">Permalink</a></p>
 <p>By now we have learned the basics for a nice template metaprogramming toolkit:</p>
 <ul>
 <li><strong>Loops</strong> with recursive template definitions</li>
 <li><strong>Conditionals</strong> with partial template specializations</li>
 <li><strong>Returns</strong> using typedefs</li>
 </ul>
-<p>Unfortunately that&rsquo;s all you need for a Turing complete language, meaning now we have the power, bwahahaha! Mph, I&rsquo;m sorry, back on topic, it means we can now create a fully functional and useful template metaprogramming device&hellip; for approximating e, nonetheless. Oh, you think that&rsquo;s not useful? Well though luck, that&rsquo;s all you get for now:</p>
+<p>Unfortunately that's all you need for a Turing complete language, meaning now we have the power, bwahahaha! Mph, I'm sorry, back on topic, it means we can now create a fully functional and useful template metaprogramming device... for approximating e, nonetheless. Oh, you think that's not useful? Well though luck, that's all you get for now:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N, int D&amp;gt; struct Frak {
     static const long Num = N;
     static const long Den = D;
@@ -172,7 +172,7 @@ template &amp;lt;&amp;gt; struct Fact&amp;lt;0&amp;gt; {
     static const long result = 1;
 };
 template &amp;lt;int N&amp;gt; struct E {
-    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + &hellip;
+    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
     static const long Den = Fact&amp;lt;N&amp;gt;::result;
     typedef Frak&amp;lt; 1, Den &amp;gt; term;
     typedef typename E&amp;lt;N-1&amp;gt;::result next_term;
@@ -186,23 +186,23 @@ int main() {
     return 0;
 }
 </pre>
-<p>Looking nice, isn&rsquo;t it? You should have all what&rsquo;s needed to understand what&rsquo;s going on there. Even more, almost everything has been explained in previous articles, with the exception of EqBase. But that&rsquo;s left as an exersice for the reader because the writer is too lazy.</p>
+<p>Looking nice, isn't it? You should have all what's needed to understand what's going on there. Even more, almost everything has been explained in previous articles, with the exception of EqBase. But that's left as an exersice for the reader because the writer is too lazy.</p>
 <p>If you think any part of the code requires clarification ask in the comments. Next, a long overdue topic: lists using template metaprogramming. Guaranteed to blow your mind into little pieces!</p>
 <hr />
 <h1>Random WTFs<a name="randomwtfs"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-10</p>
+<p>By Nico Brailovsky @ 2010-05-10 -  <a href="/blog/2010/0510_RandomWTFs.html">Permalink</a></p>
 <h3>Random WTF 1<a name="randomwtf1"></a></h3>
 <blockquote>
 <p>Note: Use dapper instead of edgy to use Ubuntu Dapper</p>
 </blockquote>
 <p><a href="/blog/youfoundadeadlink.html">Thank you captian obvious.</a></p>
 <h3>Random WTF 2<a name="randomwtf2"></a></h3>
-<p>I&rsquo;ve been working with a big-co supplied ACS server, but it&rsquo;s IE only. WTF!? Aren&rsquo;t ACS all XMLy so they can work everywhere? I hate you all.</p>
+<p>I've been working with a big-co supplied ACS server, but it's IE only. WTF!? Aren't ACS all XMLy so they can work everywhere? I hate you all.</p>
 <hr />
 <h1>Template metaprogramming IV: Nightmares to come<a name="templatemetaprogrammingivnightmarestocome"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-06</p>
-<p>By now you should have noticed the warnings were not in vain: we are exploring a bizarre side of C++ here, a side many people prefer to, wisely, ignore. Luckily it probably is too late for you, there is no way back. Only a long spiraling way down into the arms of despair and cryptic compiler error messages&hellip; mwahahahaha. But now, let&rsquo;s see where we are.</p>
-<p>In previous entries we learned how to return values, how to define recursive devices and how to provide a partial specialization. Let&rsquo;s see know how can we use partial specialization and complex return type definitions for some more fun template metaprogramming tricks. We had a fraction and a ScalarMultiplication operation for Frak:</p>
+<p>By Nico Brailovsky @ 2010-05-06 -  <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">Permalink</a></p>
+<p>By now you should have noticed the warnings were not in vain: we are exploring a bizarre side of C++ here, a side many people prefer to, wisely, ignore. Luckily it probably is too late for you, there is no way back. Only a long spiraling way down into the arms of despair and cryptic compiler error messages... mwahahahaha. But now, let's see where we are.</p>
+<p>In previous entries we learned how to return values, how to define recursive devices and how to provide a partial specialization. Let's see know how can we use partial specialization and complex return type definitions for some more fun template metaprogramming tricks. We had a fraction and a ScalarMultiplication operation for Frak:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N, int D&amp;gt; struct Frak {
 static const long Num = N;
 static const long Den = D;
@@ -212,7 +212,7 @@ static const long Num = N * X::Num;
 static const long Den = N * X::Den;
 };
 </pre>
-<p>Let&rsquo;s try to add an operation to simplify a Fraction. Simplify&lt; Frak&lt;2, 4&gt; &gt; should return 1/2. Mph&hellip; simplifying a fraction means dividing it by the MCD. A quick trip to Wikipedia reveals a nice recursive way to implement an MCD device:</p>
+<p>Let's try to add an operation to simplify a Fraction. Simplify&lt; Frak&lt;2, 4&gt; &gt; should return 1/2. Mph... simplifying a fraction means dividing it by the MCD. A quick trip to Wikipedia reveals a nice recursive way to implement an MCD device:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int X, int Y&amp;gt;   struct MCD {
 static const long result = MCD&amp;lt;Y, X % Y&amp;gt;::result;
 };
@@ -220,7 +220,7 @@ template &amp;lt;int X&amp;gt; struct MCD&amp;lt;X, 0&amp;gt; {
 static const long result = X;
 };
 </pre>
-<p>I won&rsquo;t get into much detail as the link explains it a lot better than whatever I could try, but do take a look at the definition of MCD: that&rsquo;s a partial specialization. No magic there. Back to our simplifying device, we now have all the parts for it. Going back to it&rsquo;s definition we can see that simple(fraction) = fraction / mcd(fraction). Then:</p>
+<p>I won't get into much detail as the link explains it a lot better than whatever I could try, but do take a look at the definition of MCD: that's a partial specialization. No magic there. Back to our simplifying device, we now have all the parts for it. Going back to it's definition we can see that simple(fraction) = fraction / mcd(fraction). Then:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class F&amp;gt; struct Simpl {
 static const long mcd = MCD&amp;lt;F::Num, F::Den&amp;gt;::result;
 static const long new_num = F::Num / mcd;
@@ -229,36 +229,36 @@ typedef Frak&amp;lt; new_num, new_den &amp;gt; New_Frak;
 typedef typename New_Frak::result result;
 };
 </pre>
-<p>Quite a mouthful, but a lot simpler than what you think as there is a lot of unnecessary code there. Until new_num and new_den, no surprises. Typedeffing a Frak is not new, either. typedef typename is something new: typename tells the compiler you&rsquo;re referring to a name inside a template class, otherwise it&rsquo;d try to refer to a static variable inside said class (*). Knowing what each thing does we can simplify it:</p>
+<p>Quite a mouthful, but a lot simpler than what you think as there is a lot of unnecessary code there. Until new_num and new_den, no surprises. Typedeffing a Frak is not new, either. typedef typename is something new: typename tells the compiler you're referring to a name inside a template class, otherwise it'd try to refer to a static variable inside said class (*). Knowing what each thing does we can simplify it:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class F&amp;gt; struct Simpl {
 static const long mcd = MCD&amp;lt;F::Num, F::Den&amp;gt;::result;
 typedef typename Frak&amp;lt; F::Num / mcd, F::Den / mcd &amp;gt;::result New_Frak;
 };
 </pre>
-<p>It is a matter of style really. In this case I&rsquo;d rather use the second one because it matches better its colloquial definition, but if you think the first one is more readable go with it&hellip; it doesn&rsquo;t really matter though, no one will ever even try to read this kind of code if you intend to use it in a real application.</p>
-<p>Next time: a &ldquo;useful&rdquo; (**) and complete template metaprogramming device, using the complete toolset we&rsquo;ve been learning in this crazy templating series.</p>
+<p>It is a matter of style really. In this case I'd rather use the second one because it matches better its colloquial definition, but if you think the first one is more readable go with it... it doesn't really matter though, no one will ever even try to read this kind of code if you intend to use it in a real application.</p>
+<p>Next time: a "useful" (**) and complete template metaprogramming device, using the complete toolset we've been learning in this crazy templating series.</p>
 <p>(*) Think of it this way:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
    typedef int Bar;
    Bar bar;
 };
 </pre>
-<p>In a template you don&rsquo;t know if Bar is a typename or varname because there&rsquo;s no access to the specific template definition. As a rule of thumb, if the compiler complains then add typenames.</p>
+<p>In a template you don't know if Bar is a typename or varname because there's no access to the specific template definition. As a rule of thumb, if the compiler complains then add typenames.</p>
 <p>(**) Results may vary according to your definition of useful.</p>
 <hr />
-<h1>Ubuntu: Sound still FUBAR&rsquo;d<a name="ubuntusoundstillfubard"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-04</p>
-<p>Remember my problems with <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">dual screen support</a> in Ubuntu? Well, I still love bashing Ubuntu, and the sound system in Linux is certainly a topic to rant a lot. Making the sound work fine in Ubuntu is an odyssey in pain and frustration, unless it works fine out of the box. And even if it does, it may still have it&rsquo;s kirks. Lots of them.</p>
-<p>In my case the sound starts in mute. I know it&rsquo;s a problem with pulse (which is a WTF in itself) and alsa, I don&rsquo;t really care what&rsquo;s the problem though, I just want to play my mp3s collection without having to carefully turn the knobs up to eleven in alsamixer.</p>
-<p>After trying a lot of the &ldquo;solutions&rdquo; found on the internets I&rsquo;ve decided the best thing to do, short of switching back to windows me, is adding the following to my &ldquo;fix_ubuntu_fuckups.sh&rdquo; start script, which already contains my dual-screen pseudofix:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">amixer -c0 &ndash; sset Master playback -0dB unmute
-amixer -c0 &ndash; sset Headphone playback 0dB unmute
-amixer -c0 &ndash; sset Front playback 0dB unmute
-amixer -c0 &ndash; sset PCM playback -16dB unmute
+<h1>Ubuntu: Sound still FUBAR'd<a name="ubuntusoundstillfubard"></a></h1>
+<p>By Nico Brailovsky @ 2010-05-04 -  <a href="/blog/2010/0504_UbuntuSoundstillFUBARd.html">Permalink</a></p>
+<p>Remember my problems with <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">dual screen support</a> in Ubuntu? Well, I still love bashing Ubuntu, and the sound system in Linux is certainly a topic to rant a lot. Making the sound work fine in Ubuntu is an odyssey in pain and frustration, unless it works fine out of the box. And even if it does, it may still have it's kirks. Lots of them.</p>
+<p>In my case the sound starts in mute. I know it's a problem with pulse (which is a WTF in itself) and alsa, I don't really care what's the problem though, I just want to play my mp3s collection without having to carefully turn the knobs up to eleven in alsamixer.</p>
+<p>After trying a lot of the "solutions" found on the internets I've decided the best thing to do, short of switching back to windows me, is adding the following to my "fix_ubuntu_fuckups.sh" start script, which already contains my dual-screen pseudofix:</p>
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">amixer -c0 -- sset Master playback -0dB unmute
+amixer -c0 -- sset Headphone playback 0dB unmute
+amixer -c0 -- sset Front playback 0dB unmute
+amixer -c0 -- sset PCM playback -16dB unmute
 </pre>
-<p>This sets alsamixer to normal volume levels. As for the real fix, I&rsquo;ll wait till the next Ubuntu version. I wonder which sound subsystem will they chose next time.</p>
+<p>This sets alsamixer to normal volume levels. As for the real fix, I'll wait till the next Ubuntu version. I wonder which sound subsystem will they chose next time.</p>
 <hr />
 <h1>I&#39;m a pirate!<a name="i39mapirate"></a></h1>
-<p>By Nico Brailovsky @ 2010-05-02</p>
+<p>By Nico Brailovsky @ 2010-05-02 -  <a href="/blog/2010/0502_I39mapirate.html">Permalink</a></p>
 <p><a href="/blog/youfoundadeadlink.html"><img alt="Original: ./blog_img/img_lost.png" src="/blog_img/img_lost.png" /></a></p>
 <hr />

@@ -1,7 +1,7 @@
 <h1>Deobfuscate your bash<a name="deobfuscateyourbash"></a></h1>
-<p>Who hasn&rsquo;t written some read-only magical Bash voodoo, only to find you need to decrypt your own creation later on? Luckily, <a href="http://explainshell.com/">Explain Shell</a> can help with that. Here&rsquo;s an example from my .bash_history file:</p>
+<p>Who hasn't written some read-only magical Bash voodoo, only to find you need to decrypt your own creation later on? Luckily, <a href="http://explainshell.com/">Explain Shell</a> can help with that. Here's an example from my .bash_history file:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">for fn in *; do echo cat $fn | sed &quot;s|&#x27; &#x27;$URL&#x27;||g&quot; | sed &quot;s|curl -X POST -d &#x27;||g&quot; ; done
 </pre>
-<p>And <a href="http://explainshell.com/explain?cmd=for+fn+in+*%3B+do+echo+cat+%24fn+%7C+sed+%22s%7C%27+%27%24URL%27%7C%7Cg%22+%7C+sed+%22s%7Ccurl+-X+POST+-d+%27%7C%7Cg%22+%3B+done">Explain Shell&rsquo;s</a> explanation: it&rsquo;s no substitute for knowing Bash but it sure helps.</p>
-<p><strong>Bonus</strong>: while reading my bash history file, I realized I accidentally copy&amp;paste a lot of code to my terminals. There are way too many &ldquo;template <FOO>&rdquo; entries in there&hellip;</p>
-<p><strong>Bonus II</strong>: It&rsquo;s a good thing they wrote &ldquo;shell&rdquo; in a different color. I was wondering why I had &ldquo;explains hell&rdquo; in my bookmarks.</p>
+<p>And <a href="http://explainshell.com/explain?cmd=for+fn+in+*%3B+do+echo+cat+%24fn+%7C+sed+%22s%7C%27+%27%24URL%27%7C%7Cg%22+%7C+sed+%22s%7Ccurl+-X+POST+-d+%27%7C%7Cg%22+%3B+done">Explain Shell's</a> explanation: it's no substitute for knowing Bash but it sure helps.</p>
+<p><strong>Bonus</strong>: while reading my bash history file, I realized I accidentally copy&amp;paste a lot of code to my terminals. There are way too many "template <FOO>" entries in there...</p>
+<p><strong>Bonus II</strong>: It's a good thing they wrote "shell" in a different color. I was wondering why I had "explains hell" in my bookmarks.</p>

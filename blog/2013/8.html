@@ -7,15 +7,15 @@
 </ul>
 <h1>Posts for 2013 August<a name="postsfor2013august"></a></h1>
 <h1>Vrapper: a real text editor for Eclipse<a name="vrapperarealtexteditorforeclipse"></a></h1>
-<p>By Nico Brailovsky @ 2013-08-29</p>
-<p>It&rsquo;s been a while since I had to use Eclipse, and last time I did I was really disappointed at the lack of a real text editor embedded in it. There were a few Vim plugins for Eclipse back then, but all of them where paid. Luckly now there seems to be a decent open alternative: <a href="http://vrapper.sourceforge.net/documentation/" title="http://vrapper.sourceforge.net/documentation/">http://vrapper.sourceforge.net/documentation/</a></p>
-<p>Vrapper provides pretty decent text editing capabilities for Eclipse, I&rsquo;d almost say it makes it usable. And, as a beneficial side effect, now your coworkers wont&rsquo; be able to touch your Eclipse anymore!</p>
+<p>By Nico Brailovsky @ 2013-08-29 -  <a href="/blog/2013/0829_VrapperarealtexteditorforEclipse.html">Permalink</a></p>
+<p>It's been a while since I had to use Eclipse, and last time I did I was really disappointed at the lack of a real text editor embedded in it. There were a few Vim plugins for Eclipse back then, but all of them where paid. Luckly now there seems to be a decent open alternative: <a href="http://vrapper.sourceforge.net/documentation/" title="http://vrapper.sourceforge.net/documentation/">http://vrapper.sourceforge.net/documentation/</a></p>
+<p>Vrapper provides pretty decent text editing capabilities for Eclipse, I'd almost say it makes it usable. And, as a beneficial side effect, now your coworkers wont' be able to touch your Eclipse anymore!</p>
 <hr />
 <h1>C preprocessor II: stringify operator<a name="cpreprocessoriistringifyoperator"></a></h1>
-<p>By Nico Brailovsky @ 2013-08-27</p>
-<p>We all more or less know the list of operators that C++ provides for &ldquo;normal code&rdquo; but not everyone is aware that the preprocessor also has special operators we can use. Small difference: an operator like &lsquo;+&rsquo; will usually operate on numbers, but the preprocessor operates only on a single concept: source code tokens. What kind of operators could a preprocessor have, then? Two, actually. Let&rsquo;s start with the simpler one:</p>
+<p>By Nico Brailovsky @ 2013-08-27 -  <a href="/blog/2013/0827_CpreprocessorIIstringifyoperator.html">Permalink</a></p>
+<p>We all more or less know the list of operators that C++ provides for "normal code" but not everyone is aware that the preprocessor also has special operators we can use. Small difference: an operator like '+' will usually operate on numbers, but the preprocessor operates only on a single concept: source code tokens. What kind of operators could a preprocessor have, then? Two, actually. Let's start with the simpler one:</p>
 <p><strong>Stringify</strong>
-The &lsquo;#&rsquo; operator is the simplest operator of the preprocessor: it converts the next token to string. Something like this, for example:</p>
+The '#' operator is the simplest operator of the preprocessor: it converts the next token to string. Something like this, for example:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#define f(x) to_str(x) == #x
 f(123)
 </pre>
@@ -25,45 +25,45 @@ f(123)
 <p>A restriction applies to the stringify operator: it can only be applied to a macro param, not just any token. So this, for example, is an illegal macro:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#define f(x) #123 == #x
 </pre>
-<p>There&rsquo;s another operator, which is a bit more &ldquo;esoteric&rdquo;. We&rsquo;ll talk about token pasting next time.</p>
+<p>There's another operator, which is a bit more "esoteric". We'll talk about token pasting next time.</p>
 <hr />
 <h1>Crazy git error<a name="crazygiterror"></a></h1>
-<p>By Nico Brailovsky @ 2013-08-22</p>
+<p>By Nico Brailovsky @ 2013-08-22 -  <a href="/blog/2013/0822_Crazygiterror.html">Permalink</a></p>
 <p>Have you ever run into this error message on git before?</p>
 <p>fatal: example.com/repo.git/info/refs not found: did you run git update-server-info on the server?</p>
-<p>It can be very baffling, because it may happen even if you change absolutely nothing in your git&rsquo;s configuration. I&rsquo;ve read most people attribute this to a typo, and that seems to be the most common case, but I found yet another thing that might trigger this error: if you have set a proxy server, for example for wget, using an environment variable like http_proxy, https_proxy or ftp_proxy then git might be tripping up on your proxy and producing this error message.</p>
+<p>It can be very baffling, because it may happen even if you change absolutely nothing in your git's configuration. I've read most people attribute this to a typo, and that seems to be the most common case, but I found yet another thing that might trigger this error: if you have set a proxy server, for example for wget, using an environment variable like http_proxy, https_proxy or ftp_proxy then git might be tripping up on your proxy and producing this error message.</p>
 <hr />
 <h1>C preprocessor: Just a simple replacer?<a name="cpreprocessorjustasimplereplacer"></a></h1>
-<p>By Nico Brailovsky @ 2013-08-20</p>
+<p>By Nico Brailovsky @ 2013-08-20 -  <a href="/blog/2013/0820_CpreprocessorJustasimplereplacer.html">Permalink</a></p>
 <p>Lately, out of curiosity, I spent some time to better understand how the C preprocessor works. I admit it, I thought it was a very dumb copy-paste based replace mechanism, only capable of doing the simpler keyword matching and replacement. Boy, was I wrong. Turns out the preprocessor is actually an organically grown pseudo language (as opposed to a properly designed language feature) inside C, which later got standardized through an incredibly complex set of rules and definitions. Rules for recursion, expansion, pattern matching and crazy operators like # and ## are some of the things that I never before knew existed in the preprocessor.</p>
-<p>During my time toying with the preprocessor I learned a few things about recursion, the different operators supported by it and some crazy things about the order of conditional evaluation. I&rsquo;ll summarize some of the things I learned in the next few posts: you might want to check 16.3 in the C++ standard, since the next few articles will be only explanations about different paragraphs on this section.
+<p>During my time toying with the preprocessor I learned a few things about recursion, the different operators supported by it and some crazy things about the order of conditional evaluation. I'll summarize some of the things I learned in the next few posts: you might want to check 16.3 in the C++ standard, since the next few articles will be only explanations about different paragraphs on this section.
 Disclaimer: if you find any real-world utility to these bits of preprocessor trivia, you are probably doing something horribly wrong or horribly evil!</p>
 <hr />
 <h1>Avoid compile warnings from 3rd party libs with gcc<a name="avoidcompilewarningsfrom3rdpartylibswithgcc"></a></h1>
-<p>By Nico Brailovsky @ 2013-08-15</p>
-<p>So, your code is ferpect. It compiles cleanly with all warning options maxed out. You have already added -ansi, -pedantic, -Wall, -Wc++0x-compat, -Wextra and it all works. Even -Weffc++ emits no warning. And then, a wild third party library appears; your beautiful compile log is now littered with &ldquo;initialization out of order&rdquo; and &ldquo;should declare a virtual destructor&rdquo; warnings. What to do?</p>
-<p>When including a third party library (like, for example, boost) you will almost never have the option to fix any of the diagnostics that your compiler helpfully provides you. If there&rsquo;s nothing you can do about them, there&rsquo;s no point in getting the warnings either. Disabling -Weffc++ is also not a good idea. If you already took the effort of cleaning your code to such a high standard, you shouldn&rsquo;t now relax it.</p>
-<p>There&rsquo;s a third option: When compiling don&rsquo;t include those libs as &ldquo;-I /path/to/lib&rdquo;, do it as &ldquo;-isystem /path/to/lib&rdquo;. Gcc will now know those warnings are not your fault and it will stop nagging you.</p>
+<p>By Nico Brailovsky @ 2013-08-15 -  <a href="/blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.html">Permalink</a></p>
+<p>So, your code is ferpect. It compiles cleanly with all warning options maxed out. You have already added -ansi, -pedantic, -Wall, -Wc++0x-compat, -Wextra and it all works. Even -Weffc++ emits no warning. And then, a wild third party library appears; your beautiful compile log is now littered with "initialization out of order" and "should declare a virtual destructor" warnings. What to do?</p>
+<p>When including a third party library (like, for example, boost) you will almost never have the option to fix any of the diagnostics that your compiler helpfully provides you. If there's nothing you can do about them, there's no point in getting the warnings either. Disabling -Weffc++ is also not a good idea. If you already took the effort of cleaning your code to such a high standard, you shouldn't now relax it.</p>
+<p>There's a third option: When compiling don't include those libs as "-I /path/to/lib", do it as "-isystem /path/to/lib". Gcc will now know those warnings are not your fault and it will stop nagging you.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Seth</a> commented @ 2013-09-19T13:18:08.000+02:00:<a name="inreplytothispostsethcommented20130919t131808.0000200"></a></h2>
-<p>&ldquo;So, your code is ferpect&rdquo; - lol</p>
+<p>"So, your code is ferpect" - lol</p>
 <p>Original <a href="/blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.html">published here</a>.</p>
 <hr />
 <h1>Git tip: auto update your ctags<a name="gittipautoupdateyourctags"></a></h1>
-<p>By Nico Brailovsky @ 2013-08-13</p>
-<p>On any your .git/hooks folder; add this script in .git/hooks/post-merge (and don&rsquo;t forget to chmod +x it):</p>
+<p>By Nico Brailovsky @ 2013-08-13 -  <a href="/blog/2013/0813_Gittipautoupdateyourctags.html">Permalink</a></p>
+<p>On any your .git/hooks folder; add this script in .git/hooks/post-merge (and don't forget to chmod +x it):</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ctags -R -f .ctags .
 </pre>
 <p>Now every time you do a git pull your ctags file will automagically update. You might also want to copy or ln -s this script for the post-commit hook, if you want to run a ctags update on each git commit. Be aware that this will make your commits slower, if generating your tags file takes a long time.</p>
-<p>Extra tip: &ldquo;-f .ctags&rdquo; will make ctags write into a hidden file, .ctags, which you can then add to .gitignore. Now ctags magically works in Vim and you won&rsquo;t even need to see your tags file (just don&rsquo;t forget to &ldquo;set tags=./.ctags;/&rdquo; on vim).</p>
+<p>Extra tip: "-f .ctags" will make ctags write into a hidden file, .ctags, which you can then add to .gitignore. Now ctags magically works in Vim and you won't even need to see your tags file (just don't forget to "set tags=./.ctags;/" on vim).</p>
 <hr />
 <h1>Pictag: finally a simple geotagging tool for Linux<a name="pictagfinallyasimplegeotaggingtoolforlinux"></a></h1>
-<p>By Nico Brailovsky @ 2013-08-01</p>
+<p>By Nico Brailovsky @ 2013-08-01 -  <a href="/blog/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.html">Permalink</a></p>
 <p>TL;DR: Link to a mostly working <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
-<p>Since Google decided not to support Picasa for Linux anymore (yes, a long time ago) I&rsquo;ve been looking for a decent photo management alternative. Lately I&rsquo;ve settled with Digikam, it does everything Picasa used to do (and much better, I may add) except for providing a way to geotag your pictures on a map.</p>
-<p>Most geotagging solutions involve having an already created waypoints map from a GPS device, which then gets processed and magically added to the images&rsquo; exif data. That didn&rsquo;t cut it for me, I don&rsquo;t have, nor want, a GPS I can take on holidays, plus I really only want to drag and drop pictures on a map. That&rsquo;s where <a href="https://launchpad.net/pictag">pictag</a> comes in.</p>
-<p>At the moment <a href="https://launchpad.net/pictag">pictag</a> seems to be a bit abandoned, as there are no more packages for Ubuntu 13.04. Luckily with some hacking it&rsquo;s possible to get it running.</p>
-<p>First, since there&rsquo;s no package for Pictag you&rsquo;ll need to take care of the dependencies yourself. On a more or less vanilla 13.04 install, this should do the trick:</p>
+<p>Since Google decided not to support Picasa for Linux anymore (yes, a long time ago) I've been looking for a decent photo management alternative. Lately I've settled with Digikam, it does everything Picasa used to do (and much better, I may add) except for providing a way to geotag your pictures on a map.</p>
+<p>Most geotagging solutions involve having an already created waypoints map from a GPS device, which then gets processed and magically added to the images' exif data. That didn't cut it for me, I don't have, nor want, a GPS I can take on holidays, plus I really only want to drag and drop pictures on a map. That's where <a href="https://launchpad.net/pictag">pictag</a> comes in.</p>
+<p>At the moment <a href="https://launchpad.net/pictag">pictag</a> seems to be a bit abandoned, as there are no more packages for Ubuntu 13.04. Luckily with some hacking it's possible to get it running.</p>
+<p>First, since there's no package for Pictag you'll need to take care of the dependencies yourself. On a more or less vanilla 13.04 install, this should do the trick:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install python-setuptools \
                      python-distutils-extra \
                      geoclue-ubuntu-geoip \
@@ -76,7 +76,7 @@ Disclaimer: if you find any real-world utility to these bits of preprocessor tri
                      libclutter-gtk-1.0-0 \
                      libclutter-gtk-1.0-dev
 </pre>
-<p>After you&rsquo;ve taken care of that you can download the latest version from <a href="https://launchpad.net/pictag">Launchpad</a> (while writing this article that should be 12.07.17) and run ./bin/pictag, only to watch it fail miserably.</p>
-<p>Pictag seems to be using GSettings, a very annoying Gnome settings manager which won&rsquo;t work unless you actually install whatever program you&rsquo;re trying to run. Luckily we can just hack it out of Pictag simply by commenting out all references to self.settings in PictagWindow.py and Window.py. Either that or get my <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
-<p>With some luck, my hacked version of Pictag should run pretty much OK on Ubuntu 13.04 or newer. There seems to be a few issues with libchamplain (the mapping library) on earlier versions of Ubuntu that may cause the map to display only broken images. If you can&rsquo;t load any maps you&rsquo;ll have to get a newer Ubuntu. Or fork my repo and get hacking :)</p>
+<p>After you've taken care of that you can download the latest version from <a href="https://launchpad.net/pictag">Launchpad</a> (while writing this article that should be 12.07.17) and run ./bin/pictag, only to watch it fail miserably.</p>
+<p>Pictag seems to be using GSettings, a very annoying Gnome settings manager which won't work unless you actually install whatever program you're trying to run. Luckily we can just hack it out of Pictag simply by commenting out all references to self.settings in PictagWindow.py and Window.py. Either that or get my <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
+<p>With some luck, my hacked version of Pictag should run pretty much OK on Ubuntu 13.04 or newer. There seems to be a few issues with libchamplain (the mapping library) on earlier versions of Ubuntu that may cause the map to display only broken images. If you can't load any maps you'll have to get a newer Ubuntu. Or fork my repo and get hacking :)</p>
 <hr />

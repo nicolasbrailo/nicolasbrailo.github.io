@@ -9,7 +9,7 @@ We finished last chapter on the series about C++ exceptions by adding a personal
 We have been building up to this point quite a bit: the time where we can implement for the first time a personality function capable of detecting when an exception is thrown, and then saying "yes, I will handle this exception". For that we had to learn how the two-phase lookup work, so we can now reimplement our personality function and our throw test file:
 
 ```c++
-#include &lt;stdio.h&gt;
+#include <stdio.h>
 #include "throw.h"
 
 struct Fake_Exception {};
@@ -21,7 +21,7 @@ void raise() {
 void try_but_dont_catch() {
     try {
         raise();
-    } catch(Fake_Exception&amp;) {
+    } catch(Fake_Exception&) {
         printf("Caught a Fake_Exception!\n");
     }
 
@@ -31,7 +31,7 @@ void try_but_dont_catch() {
 void catchit() {
     try {
         try_but_dont_catch();
-    } catch(Exception&amp;) {
+    } catch(Exception&) {
         printf("Caught an Exception!\n");
     }
 
@@ -52,11 +52,11 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                      int version, _Unwind_Action actions, uint64_t exceptionClass,
                      _Unwind_Exception* unwind_exception, _Unwind_Context* context)
 {
-    if (actions &amp; _UA_SEARCH_PHASE)
+    if (actions & _UA_SEARCH_PHASE)
     {
         printf("Personality function, lookup phase\n");
         return _URC_HANDLER_FOUND;
-    } else if (actions &amp; _UA_CLEANUP_PHASE) {
+    } else if (actions & _UA_CLEANUP_PHASE) {
         printf("Personality function, cleanup\n");
         return _URC_INSTALL_CONTEXT;
     } else {

@@ -14,10 +14,10 @@ coverage_report:
 	# Reset code coverage counters and clean up previous reports
 	rm -rf coverage_report
 	lcov --zerocounters --directory .
-	$(MAKE) COMPILE_TYPE=code_coverage &amp;&amp;
+	$(MAKE) COMPILE_TYPE=code_coverage &&
 	$(MAKE) COMPILE_TYPE=code_coverage test
-	lcov --capture --directory $(BIN_DIR)/$(OBJ_DIR)/code_coverage --base-directory . -o salida.out &amp;&amp;
-	lcov --remove salida.out "*usr/include*" -o salida.out &amp;&amp;
+	lcov --capture --directory $(BIN_DIR)/$(OBJ_DIR)/code_coverage --base-directory . -o salida.out &&
+	lcov --remove salida.out "*usr/include*" -o salida.out &&
 	genhtml -o coverage_report salida.out
 	rm salida.out
 ```
@@ -32,5 +32,5 @@ pretty:
 
 Remember to change your astyle options as needed.
 
-Bonus II: Example project using gcov and gtest: [gcov\_gtest\_sample.tar](https://example.net/brokenlink/2010/08/gcov_gtest_sample.tar.gz). The irony? It doesn't use my common makefile, it predates it.
+Bonus II: Example project using gcov and gtest: [gcov\_gtest\_sample.tar](/blog_md/youfoundadeadlink.md). The irony? It doesn't use my common makefile, it predates it.
 

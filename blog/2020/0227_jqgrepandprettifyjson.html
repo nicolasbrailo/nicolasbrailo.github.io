@@ -1,17 +1,17 @@
 <h1>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h1>
-<p>If you don&rsquo;t use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let&rsquo;s you query and filter json files from a cli. Just like awk or sed, js&rsquo;s &ldquo;language&rdquo; is basically write only, meaning whenever you need to do something there&rsquo;s a 99% chance you&rsquo;ll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
+<p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
 <p><strong>cat a json file - with pretty print</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq . /path/to/json_file
 </pre>
 <p><strong>Select a single key</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq &#x27;.path.to.key&#x27;
 </pre>
-<p>The command above will return &ldquo;42&rdquo; for a json that looks like &ldquo;{path: {to: {key: 42}}}&rdquo;</p>
+<p>The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"</p>
 <p><strong>Delete all entries in an object, except for one</strong></p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">jq &#x27;.foo|=bar&#x27;
 </pre>
-<p>The command above will return &ldquo;{foo: {bar:&rsquo;&lsquo;}}&rdquo; for a json that looks like &ldquo;{foo: {bar:&rsquo;&lsquo;, baz: &lsquo;&rsquo;}}&rdquo;</p>
-<p>This is probably not even enough to get started. Luckily there&rsquo;s plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
+<p>The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"</p>
+<p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
 <h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="http://www.zavyalov.nl">Vasiliy</a> commented @ 2020-03-01T11:17:18.000+01:00:<a name="inreplytothispostvasiliyhttpwww.zavyalov.nlcommented20200301t111718.0000100"></a></h2>
@@ -22,7 +22,7 @@
 <p>Original <a href="/blog/2020/0227_jqgrepandprettifyjson.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2020-03-01T11:23:24.000+01:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20200301t112324.0000100"></a></h2>
-<p>That&rsquo;s awesome, thanks!</p>
+<p>That's awesome, thanks!</p>
 <p>Original <a href="/blog/2020/0227_jqgrepandprettifyjson.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Gustavo</a> commented @ 2020-03-11T15:05:44.000+01:00:<a name="inreplytothispostgustavocommented20200311t150544.0000100"></a></h2>

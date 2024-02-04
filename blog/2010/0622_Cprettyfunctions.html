@@ -5,23 +5,23 @@
    return 0;
 }
 </pre>
-<p>The program above would give you &ldquo;main.cpp : 3&rdquo; as a result. There is nothing going on at execution time, it&rsquo;s all preprocesor wizardy. In fact with &ldquo;<strong>g{++/cc} -E</strong>&rdquo; you can even check what the &ldquo;real&rdquo; output is (-E means to return the preprocessor output. Keep in mind a lot of stuff will be included from the headers you use).</p>
+<p>The program above would give you "main.cpp : 3" as a result. There is nothing going on at execution time, it's all preprocesor wizardy. In fact with "<strong>g{++/cc} -E</strong>" you can even check what the "real" output is (-E means to return the preprocessor output. Keep in mind a lot of stuff will be included from the headers you use).</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
    printf(&quot;%s : %i&quot;, &quot;main.cpp&quot;, 3);
    return 0;
 }
 </pre>
-<p>Well that&rsquo;s nice and all, but g++ can top this easily:</p>
+<p>Well that's nice and all, but g++ can top this easily:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
    std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
    return 0;
 }
 </pre>
-<p>There are a couple of notable things about this new &ldquo;pretty function&rdquo; thing:
-* 1. It will demangle a function&rsquo;s name
-* 2. This time it isn&rsquo;t a preprocessor secret thing but a real variable g++ will create.</p>
+<p>There are a couple of notable things about this new "pretty function" thing:
+* 1. It will demangle a function's name
+* 2. This time it isn't a preprocessor secret thing but a real variable g++ will create.</p>
 <p>You can easily use this for better logging functions now (with some macro wizardy, obviously).</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Nicol&aacute;s Brailovsky » Blog Archive » Cool C++0X features VI: A variadic wrapper</a> commented @ 2011-05-17T09:06:06.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivecoolc0xfeaturesviavariadicwrapperblog_md20110531_coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype.mdcommented20110517t090606.0000200"></a></h2>
-<p>[&hellip;] you want to wrap do_something with something else (Remember __PRETTY_FUNCTION__?). This is a solution, the worst one [&hellip;]</p>
+<p>[...] you want to wrap do_something with something else (Remember __PRETTY_FUNCTION__?). This is a solution, the worst one [...]</p>
 <p>Original <a href="/blog/2010/0622_Cprettyfunctions.html">published here</a>.</p>

@@ -1,6 +1,6 @@
 <h1>Watchpoints in gdb: wake me up when foo changes<a name="watchpointsingdbwakemeupwhenfoochanges"></a></h1>
-<p>I&rsquo;ve noticed a lot of people claim gdb is not a good debugger because it doesn&rsquo;t support feature X. X is many times the ability to monitor changes to a memory location (ie when the value of a variable changes). Most times, though, people believe gdb doesn&rsquo;t implement X only because not enough time was spent reading its manual.</p>
-<p>In gdb it&rsquo;s very easy to monitor variable changes using watchpoints. Here&rsquo;s a very simple example session:</p>
+<p>I've noticed a lot of people claim gdb is not a good debugger because it doesn't support feature X. X is many times the ability to monitor changes to a memory location (ie when the value of a variable changes). Most times, though, people believe gdb doesn't implement X only because not enough time was spent reading its manual.</p>
+<p>In gdb it's very easy to monitor variable changes using watchpoints. Here's a very simple example session:</p>
 <pre style="display: inline-block; border: 1px solid red;">(gdb) list
 1   int main()
 2   {
@@ -15,7 +15,7 @@
 <pre style="display: inline-block; border: 1px solid red;">(gdb) run
 Breakpoint 1, main () at test.cpp:3
 </pre>
-<p>Let&rsquo;s try to catch when b changes value:</p>
+<p>Let's try to catch when b changes value:</p>
 <pre style="display: inline-block; border: 1px solid red;">(gdb) watch b
 Hardware watchpoint 2: b
 </pre>
@@ -28,8 +28,8 @@ main () at test.cpp:7
 </pre>
 <p>Nice! gdb alerted us of the value change by breaking program execution. This can come in handy to fix race conditions.</p>
 <h2>Hardware and software watchpoints<a name="hardwareandsoftwarewatchpoints"></a></h2>
-<p>Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing &ldquo;step&rdquo; continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.</p>
-<p>As usual, <a href="/blog/youfoundadeadlink.html">gdb&rsquo;s manual</a> has a lot more info.</p>
+<p>Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing "step" continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.</p>
+<p>As usual, <a href="/blog/youfoundadeadlink.html">gdb's manual</a> has a lot more info.</p>
 <p>PS: Once you find your bug with the aid of a watchpoint, please go and read some books about encapsulation!</p>
 <h1>Comments<a name="comments"></a></h1>
 <hr />

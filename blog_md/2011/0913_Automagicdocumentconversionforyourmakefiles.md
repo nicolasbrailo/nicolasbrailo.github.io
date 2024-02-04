@@ -11,9 +11,11 @@ So, now you have [a common makefile](/blog_md/2011/0818_Makefiles.md), ready to 
 -- <http://www.oooninja.com/2008/02/batch-command-line-file-conversion-with.html>
 
 
----
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Open Office, master documents and headless](/blog_md/2011/1006_OpenOfficemasterdocumentsandheadless.md) commented @ 2011-10-06T09:06:58.000+02:00:
+# Comments
 
-[...] Oh, thanks a lot OO.org (?). BTW, exporting an odm to pdf with a headless set == FAIL (i.e. don’t even try to use this if you intend to autogenerate some documentation with your makefile). [...]
+---
+## In reply to [this post](), [Nicolás Brailovsky > Blog Archive > Open Office, master documents and headless](/blog_md/2011/1006_OpenOfficemasterdocumentsandheadless.md) commented @ 2011-10-06T09:06:58.000+02:00:
+
+[...] Oh, thanks a lot OO.org (?). BTW, exporting an odm to pdf with a headless set == FAIL (i.e. don't even try to use this if you intend to autogenerate some documentation with your makefile). [...]
 
 Original [published here](/blog_md/2011/0913_Automagicdocumentconversionforyourmakefiles.md).

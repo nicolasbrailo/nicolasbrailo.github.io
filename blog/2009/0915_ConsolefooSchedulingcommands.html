@@ -1,7 +1,6 @@
 <h1>Console foo: Scheduling commands<a name="consolefooschedulingcommands"></a></h1>
-<p>You can easily schedule a command using &ldquo;at&rdquo;, which recognizes a nicely formatted date string.</p>
-<p>For example:
-</p>
+<p>You can easily schedule a command using "at", which recognizes a nicely formatted date string.</p>
+<p>For example:</p>
 <pre lang="bash" style="display: inline-block; border: 1px solid red;">$ at today 3:00 AM
 </pre>
 <p>This will open a prompt. So, for example:</p>
@@ -9,6 +8,6 @@
 &gt; wget foobar.com/a_huge_file
 &gt; C-D
 </pre>
-<p>Will schedule a download of a huge file, today at 3:00 AM. Nice, isn&rsquo;t it?
+<p>Will schedule a download of a huge file, today at 3:00 AM. Nice, isn't it?
 To check the whole list of accepted formats check the man for at.</p>
-<p>One last note: at will &ldquo;remember&rdquo; the current environment variables, so PWD, USER, OLD_DIR and all that will be the same. This means if you schedule a command with a relative path it&rsquo;ll still work!</p>
+<p>One last note: at will "remember" the current environment variables, so PWD, USER, OLD_DIR and all that will be the same. This means if you schedule a command with a relative path it'll still work!</p>
