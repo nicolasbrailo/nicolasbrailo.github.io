@@ -1,5 +1,4 @@
-# std::is_constant_evaluated: make debugging a little bit harder for
-yourself!
+# std::is_constant_evaluated: make debugging a little bit harder for yourself!
 
 @meta publishDatetime 2019-08-03T13:25:00.001+02:00
 @meta author Nico Brailovsky
@@ -29,6 +28,8 @@ bool a() {
 
 I'm sure with careful usage, is\_constant\_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (`cout << foo()`, anyone?) prints different values than my `production` code.
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [aiusepsi]() commented @ 2019-08-03T18:58:11.000+02:00:

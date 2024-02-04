@@ -18,5 +18,6 @@ YouCompleteMe, though, was a pleasant surprise: its documentation explained how 
 Took me years but I'm very happy to finally find an autocomplete plugin that "just works" for my basic Vim setup.
 
 (\*) For some reason, I only feel this way about Vim
+
 (#) Disclaimer: Re-reading my own text, it may appear as I'm somewhat belittling Deoplete, CoC, Vundle, Pathogen, etc. That's not my intention. I have the maximum respect for these projects. The engineering effort in them is amazing, and I know for a fact they make life easier for a lot of people. I'm just not one of them.
 

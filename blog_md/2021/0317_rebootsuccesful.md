@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2021/03/reboot-succesful.html
 
-"Since "migrating" from Wordpress to Blogspot:
+Since "migrating" from Wordpress to Blogspot:
 
 * Traffic to Wordpress fell from ~100ish visitors a day to ~30 or ~40ish.
 * This site went from 0 to also ~30 or ~40ish.

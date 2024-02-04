@@ -63,7 +63,7 @@ int d() {
 
 int main() {
     cyg_profile_enable();
-    cout &lt;&lt; d() &lt;&lt; endl;
+    cout << d() << endl;
     cyg_profile_disable();
     return 0;
 }

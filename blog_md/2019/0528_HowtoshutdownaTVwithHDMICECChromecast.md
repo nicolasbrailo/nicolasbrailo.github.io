@@ -23,6 +23,7 @@ There's no easy way to make a Chromecast turn off a TV, so instead we'll interfa
 
 1. Follow the setup instructions for the [Google Assistant library](https://developers.google.com/assistant/sdk/guides/library/python/embed/setup), with the changes described below.
 2. The assistant examples need a microphone present, but we're not going to use it. If you don't have one and you're doing this in a RaspberryPi, just fake one by putting this in ~/.asoundrc:
+
 ```c++
 pcm.!default {
   type asym
@@ -35,6 +36,7 @@ pcm.mic {
   }
 }
 ```
+
 3. The same may be needed for a speaker.
 4. Continue the setup guide: create a project in the Actions console. Register also a dummy model to download the json credentials.
 5. Follow the "Install the SDK and Sample Code" instructions. In May 2019, they work fine in a RaspberryPI 3 with Raspbian.
@@ -50,6 +52,7 @@ I'm sure you expect I'll reveal a nice, clean way to invoke the assistant and ma
 
 * Use festival. echo "$Google assistant command" | text2wave -o cmd.wav will generate a command that (often) the assistant can understand. If you don't have such luck:
 * Just record yourself. Hackish? Sure, but if all you need is to shut down a TV, that's enough. **Important note**: Record yourself in mono 16KHz. Otherwise the assistant may not understand the wav file. If you run "file command.wav" it should look like this:
+
 ```c++
 command.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz
 ```
@@ -68,6 +71,7 @@ $ googlesamples-assistant-pushtotalk --device-model-id $AN_ID_YOU_GOT_FROM_GOOGL
 With a bit of luck that should shut down your TV.
 
 Linkdump:
+
 * https://developers.google.com/assistant/sdk/overview
 * https://developers.google.com/assistant/sdk/guides/library/python/
 * https://developers.google.com/assistant/sdk/guides/library/python/embed/setup

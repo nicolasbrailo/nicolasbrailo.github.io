@@ -1,5 +1,4 @@
-<h1>std::is_constant_evaluated: make debugging a little bit harder for<a name="stdis_constant_evaluatedmakedebuggingalittlebitharderfor"></a></h1>
-<p>yourself!</p>
+<h1>std::is_constant_evaluated: make debugging a little bit harder for yourself!<a name="stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself"></a></h1>
 <p>Let&rsquo;s pretend you find this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">const int a = foo();
 int b = foo();
@@ -15,6 +14,7 @@ bool a() {
 }
 </pre>
 <p>I&rsquo;m sure with careful usage, is_constant_evaluated will allow library writers to create much more performant code. I&rsquo;m also sure I&rsquo;ll lose a lot of hair trying to figure out why my debug code (<code>cout &lt;&lt; foo()</code>, anyone?) prints different values than my <code>production</code> code.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">aiusepsi</a> commented @ 2019-08-03T18:58:11.000+02:00:<a name="inreplytothispostaiusepsicommented20190803t185811.0000200"></a></h2>
 <p>From what I can glean from the standard, there&rsquo;s no debug/release mode difference here. In either case, the compiler is required to constant-evaluate foo() when initialising x. From reading P0595R2 it seems like they tightened up the semantics somewhat to make sure that this was the case.</p>

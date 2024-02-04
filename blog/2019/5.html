@@ -18,8 +18,7 @@
 <p>There&rsquo;s no easy way to make a Chromecast turn off a TV, so instead we&rsquo;ll interface with a Google assistant, then ask the assistant to do it for us. There&rsquo;s also no easy way to do this with an API, but the assistant&rsquo;s voice recognition is actually quite good. Let&rsquo;s start by installing the SDK:</p>
 <ol>
 <li>Follow the setup instructions for the <a href="https://developers.google.com/assistant/sdk/guides/library/python/embed/setup">Google Assistant library</a>, with the changes described below.</li>
-<li>The assistant examples need a microphone present, but we&rsquo;re not going to use it. If you don&rsquo;t have one and you&rsquo;re doing this in a RaspberryPi, just fake one by putting this in ~/.asoundrc:
-</li>
+<li>The assistant examples need a microphone present, but we&rsquo;re not going to use it. If you don&rsquo;t have one and you&rsquo;re doing this in a RaspberryPi, just fake one by putting this in ~/.asoundrc:</li>
 </ol>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">pcm.!default {
   type asym
@@ -32,14 +31,19 @@ pcm.mic {
   }
 }
 </pre>
+<ol start="3">
+<li>The same may be needed for a speaker.</li>
+<li>Continue the setup guide: create a project in the Actions console. Register also a dummy model to download the json credentials.</li>
+<li>Follow the &ldquo;Install the SDK and Sample Code&rdquo; instructions. In May 2019, they work fine in a RaspberryPI 3 with Raspbian.</li>
+<li>Try running the sample code. googlesamples-assistant-hotword segfaults but googlesamples-assistant-pushtotalk works fine.</li>
+</ol>
 <h3>Part 2: Hack the sample to turn off a TV<a name="part2hackthesampletoturnoffatv"></a></h3>
 <p>You should now have the samples from the SDK running. At least those that don&rsquo;t crash. If you have a microphone, you can ask anything you normally ask the Google assistant like&hellip; the weather?</p>
 <p>The assistant can turn off your TV if you say &ldquo;Turn off $Chromecast_Name&rdquo;. But what if you don&rsquo;t like talking to your phone?</p>
 <p>I&rsquo;m sure you expect I&rsquo;ll reveal a nice, clean way to invoke the assistant and make it turn off your Chromecast. Sorry, that would take too long. There is a text interface for the assistant but I wasn&rsquo;t able to have it running in less than 15 minutes, so these are your options:</p>
 <ul>
 <li>Use festival. echo &ldquo;$Google assistant command&rdquo; | text2wave -o cmd.wav will generate a command that (often) the assistant can understand. If you don&rsquo;t have such luck:</li>
-<li>Just record yourself. Hackish? Sure, but if all you need is to shut down a TV, that&rsquo;s enough. <strong>Important note</strong>: Record yourself in mono 16KHz. Otherwise the assistant may not understand the wav file. If you run &ldquo;file command.wav&rdquo; it should look like this:
-</li>
+<li>Just record yourself. Hackish? Sure, but if all you need is to shut down a TV, that&rsquo;s enough. <strong>Important note</strong>: Record yourself in mono 16KHz. Otherwise the assistant may not understand the wav file. If you run &ldquo;file command.wav&rdquo; it should look like this:</li>
 </ul>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">command.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz
 </pre>
@@ -50,10 +54,12 @@ pcm.mic {
 $ googlesamples-assistant-pushtotalk &ndash;device-model-id $AN_ID_YOU_GOT_FROM_GOOGLE &ndash;project-id $YOUR_GOOGLE_PROJECT_ID &ndash;once &ndash;verbose -i ./command.wav
 </pre>
 <p>With a bit of luck that should shut down your TV.</p>
-<p>Linkdump:
-* https://developers.google.com/assistant/sdk/overview
-* https://developers.google.com/assistant/sdk/guides/library/python/
-* https://developers.google.com/assistant/sdk/guides/library/python/embed/setup</p>
+<p>Linkdump:</p>
+<ul>
+<li>https://developers.google.com/assistant/sdk/overview</li>
+<li>https://developers.google.com/assistant/sdk/guides/library/python/</li>
+<li>https://developers.google.com/assistant/sdk/guides/library/python/embed/setup</li>
+</ul>
 <hr />
 <h1>Say nice things<a name="saynicethings"></a></h1>
 <p>By Nico Brailovsky @ 2019-05-14</p>
@@ -106,15 +112,9 @@ int d() {
 }
 int main() {
     cyg_profile_enable();
-    cout &amp;lt;&amp;lt; d() &amp;lt;&amp;lt; endl;
+    cout &lt;&lt; d() &lt;&lt; endl;
     cyg_profile_disable();
     return 0;
 }
 </pre>
 <hr />
-<ol start="3">
-<li>The same may be needed for a speaker.</li>
-<li>Continue the setup guide: create a project in the Actions console. Register also a dummy model to download the json credentials.</li>
-<li>Follow the &ldquo;Install the SDK and Sample Code&rdquo; instructions. In May 2019, they work fine in a RaspberryPI 3 with Raspbian.</li>
-<li>Try running the sample code. googlesamples-assistant-hotword segfaults but googlesamples-assistant-pushtotalk works fine.</li>
-</ol>

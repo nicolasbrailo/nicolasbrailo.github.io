@@ -6,5 +6,7 @@
 
 I keep forgetting about this one. Maybe writing it down will help me remember: Vim can search for (and highlight) multiple patterns at the same time. Just start your search with \v and split the patterns with |. Eg:
 
+```
 :/\vfoo|bar
+```
 

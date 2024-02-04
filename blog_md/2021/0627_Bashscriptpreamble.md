@@ -6,10 +6,10 @@
 
 All background Bash scripts should start with this preamble:
 
->
-> set -euo pipefail
-> exec > ~/log.log 2>&1
->
+```bash
+set -euo pipefail
+exec > ~/log.log 2>&1
+```
 
 There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:
 
