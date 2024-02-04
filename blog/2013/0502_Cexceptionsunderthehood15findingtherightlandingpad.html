@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,44 +9,44 @@
 <h1>C++ exceptions under the hood 15: finding the right landing pad<a name="cexceptionsunderthehood15findingtherightlandingpad"></a></h1>
 <p>This is now the 15th installment in what's becoming the longest series I've written for this blog; we have so far learned how exceptions are thrown and we have written a personality function capable of, with some sort of reflexion, detecting where the catch-blocks are (landing pads, in exception speak). In the last article we wrote a personality function that can handle exceptions, but it does so only with the first landing pad of the first call frame in the stack. Let's improve that a little bit, let's make our personality function capable of choosing the right landing pad in a function with multiple landing pads.</p>
 <p>In a TDD fashion we can first build a test for our ABI. Let's modify our test program, throw.cpp, to have two try/catch blocks:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;stdio.h&gt;
-#include &quot;throw.h&quot;
+<pre lang="c++"><code lang="c++">#include <stdio.h>
+#include "throw.h"
 struct Fake_Exception {};
 void raise() {
     throw Exception();
 }
 void try_but_dont_catch() {
     try {
-        printf(&quot;Running a try which will never throw.\n&quot;);
+        printf("Running a try which will never throw.\n");
     } catch(Fake_Exception&amp;) {
-        printf(&quot;Exception caught... with the wrong catch!\n&quot;);
+        printf("Exception caught... with the wrong catch!\n");
     }
     try {
         raise();
     } catch(Fake_Exception&amp;) {
-        printf(&quot;Caught a Fake_Exception!\n&quot;);
+        printf("Caught a Fake_Exception!\n");
     }
-    printf(&quot;try_but_dont_catch handled the exception\n&quot;);
+    printf("try_but_dont_catch handled the exception\n");
 }
 void catchit() {
     try {
         try_but_dont_catch();
     } catch(Fake_Exception&amp;) {
-        printf(&quot;Caught a Fake_Exception!\n&quot;);
+        printf("Caught a Fake_Exception!\n");
     } catch(Exception&amp;) {
-        printf(&quot;Caught an Exception!\n&quot;);
+        printf("Caught an Exception!\n");
     }
-    printf(&quot;catchit handled the exception\n&quot;);
+    printf("catchit handled the exception\n");
 }
-extern &quot;C&quot; {
+extern "C" {
     void seppuku() {
         catchit();
     }
 }
-</pre>
+</code></pre>
 <p>Before you test it, try to think about what will happen upon running this test. Focus on the try_but_dont_catch function: the first try/catch block will not throw, then the second block will throw. Since our ABI is quite dumb the first block will handle the second block's exception. What will happen after the first block has finished handling the exception? The execution will resume from where the catch/try ends, thus entering again on the second try/catch block. Infinite loop! We have reinvented yet again a very complicated while(true).</p>
 <p>Let's use our knowledge of the start/length fields in the call site table (LSDA) to properly choose our landing pad. For this we will need to know what the instruction pointer was when the exception was thrown, and we can do this with an _Unwind_ function we already know: _Unwind_GetIP. To understand what _Unwind_GetIP will return let's see an example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f1() {}
+<pre lang="c++"><code lang="c++">void f1() {}
 void f2() { throw 1; }
 void f3() {}
 void foo() {
@@ -56,16 +57,16 @@ L2:
 L3:
     try{ f3(); } catch(...) {}
 }
-</pre>
+</code></pre>
 <p>In this case our personality function would be called for the catch block for f2 and the stack would be like this:</p>
-<pre style="display: inline-block; border: 1px solid red;">+------------------------------+
+<pre><code>+------------------------------+
 |   IP: f2  stack frame: f2    |
 +------------------------------+
 |   IP: L3  stack frame: foo   |
 +------------------------------+
-</pre>
+</code></pre>
 <p>Note that IP will be at L3 but the exception will be thrown in L2; this is because the IP will point to the next instruction to execute. This also means we need to substract one if we need to find the IP where an exception was thrown, otherwise the result from _Unwind_GetIP would not be in the range of our landing pad. Back to our personality function:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Unwind_Reason_Code __gxx_personality_v0 (
+<pre lang="c++"><code lang="c++">_Unwind_Reason_Code __gxx_personality_v0 (
                              int version,
                              _Unwind_Action actions,
                              uint64_t exceptionClass,
@@ -74,10 +75,10 @@ L3:
 {
     if (actions &amp; _UA_SEARCH_PHASE)
     {
-        printf(&quot;Personality function, lookup phase\n&quot;);
+        printf("Personality function, lookup phase\n");
         return _URC_HANDLER_FOUND;
     } else if (actions &amp; _UA_CLEANUP_PHASE) {
-        printf(&quot;Personality function, cleanup\n&quot;);
+        printf("Personality function, cleanup\n");
         // Calculate what the instruction pointer was just before the
         // exception was thrown for this stack frame
         uintptr_t throw_ip = _Unwind_GetIP(context) - 1;
@@ -93,7 +94,7 @@ L3:
         while (lsda &lt; lsda_cs_table_end)
         {
             LSDA_CS cs(&amp;lsda);
-            // If there&#x27;s no LP we can&#x27;t handle this exception; move on
+            // If there's no LP we can't handle this exception; move on
             if (not cs.lp) continue;
             uintptr_t func_start = _Unwind_GetRegionStart(context);
             // Calculate the range of the instruction pointer valid for this
@@ -109,18 +110,18 @@ L3:
             int r1 = __builtin_eh_return_data_regno(1);
             _Unwind_SetGR(context, r0, (uintptr_t)(unwind_exception));
             // Note the following code hardcodes the exception type;
-            // we&#x27;ll fix that later on
+            // we'll fix that later on
             _Unwind_SetGR(context, r1, (uintptr_t)(1));
             _Unwind_SetIP(context, func_start + cs.lp);
             break;
         }
         return _URC_INSTALL_CONTEXT;
     } else {
-        printf(&quot;Personality function, error\n&quot;);
+        printf("Personality function, error\n");
         return _URC_FATAL_PHASE1_ERROR;
     }
 }
-</pre>
+</code></pre>
 <p>As usual: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v07">in my github repo</a>.</p>
 <p>Try the example again and voila, no more infinite loop! That was a simple change and we can now choose the correct landing pad. Next time we'll try to make our personality function also pick the correct stack frame instead of choosing the first one.</p>
 <hr />

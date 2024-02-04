@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,10 +9,10 @@
 <h1>C++ exceptions under the hood 13: setting the context for a landing pad<a name="cexceptionsunderthehood13settingthecontextforalandingpad"></a></h1>
 <p>Last time we finally wrote an almost working personality function. We can detect for each stack frame which landing pads are available and then tell _Unwind_ we want to run a specific landing pad. We hit a small issue, though: although we set the context for _Unwind_ to continue executing on the correct landing pad we didn't set the current exception on the register. This, in turn, means that the landing pad won't know which exception should be handling, so it will say "I can't handle this". _Unwind_ will then say "please try the next landing pad" but our ABI is so simple that it has no idea how it should find another landing pad and just tries the same. Over and over again. We have probably invented the most contrived example for a while(true)!</p>
 <p>Let's set the correct context for the landing pad and clean up a bit our ABI:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;unistd.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;stdint.h&gt;
+<pre lang="c++"><code lang="c++">#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 namespace __cxxabiv1 {
     struct __class_type_info {
         virtual void foo() {}
@@ -19,15 +20,15 @@ namespace __cxxabiv1 {
 }
 #define EXCEPTION_BUFF_SIZE 255
 char exception_buff[EXCEPTION_BUFF_SIZE];
-extern &quot;C&quot; {
+extern "C" {
 void<em> __cxa_allocate_exception(size_t thrown_size)
 {
-    printf(&quot;alloc ex %i\n&quot;, thrown_size);
-    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf(&quot;Exception too big&quot;);
+    printf("alloc ex %i\n", thrown_size);
+    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf("Exception too big");
     return &amp;exception_buff;
 }
 void __cxa_free_exception(void </em>thrown_exception);
-#include &lt;unwind.h&gt;
+#include <unwind.h>
 typedef void (<em>unexpected_handler)(void);
 typedef void (</em>terminate_handler)(void);
 struct __cxa_exception {
@@ -48,24 +49,24 @@ void __cxa_throw(void<em> thrown_exception,
                  struct type_info </em>tinfo,
                  void (<em>dest)(void</em>))
 {
-    printf(&quot;__cxa_throw called\n&quot;);
+    printf("__cxa_throw called\n");
     __cxa_exception <em>header = ((__cxa_exception </em>) thrown_exception - 1);
     _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
     // __cxa_throw never returns
-    printf(&quot;no one handled __cxa_throw, terminate!\n&quot;);
+    printf("no one handled __cxa_throw, terminate!\n");
     exit(0);
 }
 void __cxa_begin_catch()
 {
-    printf(&quot;begin FTW\n&quot;);
+    printf("begin FTW\n");
 }
 void __cxa_end_catch()
 {
-    printf(&quot;end FTW\n&quot;);
+    printf("end FTW\n");
 }
 /<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><em>/
 /</em><em>
- * The LSDA is a read only place in memory; we&#x27;ll create a typedef for
+ * The LSDA is a read only place in memory; we'll create a typedef for
  * this to avoid a const mess later on; LSDA_ptr refers to readonly and
  * &amp;LSDA_ptr will be a non-const pointer to a const place in memory
  </em>/
@@ -109,7 +110,7 @@ struct LSDA_CS {
         action = read_ptr[3];
         <em>lsda = read_ptr + sizeof(LSDA_CS);
     }
-    // Note start, len and lp would be void</em>&#x27;s, but they are actually relative
+    // Note start, len and lp would be void</em>'s, but they are actually relative
     // addresses: start and lp are relative to the start of the function, len
     // is relative to start
     // Offset into function from which we could handle a throw
@@ -132,10 +133,10 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 {
     if (actions &amp; _UA_SEARCH_PHASE)
     {
-        printf(&quot;Personality function, lookup phase\n&quot;);
+        printf("Personality function, lookup phase\n");
         return _URC_HANDLER_FOUND;
     } else if (actions &amp; _UA_CLEANUP_PHASE) {
-        printf(&quot;Personality function, cleanup\n&quot;);
+        printf("Personality function, cleanup\n");
         // Pointer to the beginning of the raw LSDA
         LSDA_ptr lsda = (uint8_t</em>)_Unwind_GetLanguageSpecificData(context);
         // Read LSDA headerfor the LSDA
@@ -154,7 +155,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
                 int r1 = __builtin_eh_return_data_regno(1);
                 _Unwind_SetGR(context, r0, (uintptr_t)(unwind_exception));
                 // Note the following code hardcodes the exception type;
-                // we&#x27;ll fix that later on
+                // we'll fix that later on
                 _Unwind_SetGR(context, r1, (uintptr_t)(1));
                 uintptr_t func_start = _Unwind_GetRegionStart(context);
                 _Unwind_SetIP(context, func_start + cs.lp);
@@ -163,15 +164,15 @@ _Unwind_Reason_Code __gxx_personality_v0 (
         }
         return _URC_INSTALL_CONTEXT;
     } else {
-        printf(&quot;Personality function, error\n&quot;);
+        printf("Personality function, error\n");
         return _URC_FATAL_PHASE1_ERROR;
     }
 }
 }
-</pre>
+</code></pre>
 <p>Note: For a more detailed description of the LSDA tables check <a href="/blog/youfoundadeadlink.html">here</a> and for the full source code <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v06">check my github repo</a>.</p>
 <p>Finally, it worked. You should see something like this if you run it:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">./app
+<pre lang="c++"><code lang="c++">./app
 alloc ex 1
 __cxa_throw called
 Personality function, lookup phase
@@ -181,7 +182,7 @@ Caught a Fake_Exception!
 end FTW
 try_but_dont_catch handled the exception
 catchit handled the exception
-</pre>
+</code></pre>
 <p>Of course we are lying a bit to _Unwind_: we are saying here that we will handle every exception, no mater what. This turns our catch(Exception&amp;) into a catch(...), and all hell will break loose if the first function up in the call frame doesn't have a catch statement. But still, we reached the first milestone for a very simple ABI.</p>
 <p>Can we now improve it and make it handle the correct exception on the correct frame? May be next time.</p>
 <hr />

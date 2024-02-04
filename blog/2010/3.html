@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,27 +12,27 @@
     <a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Last time</a> I told you about an evil snipet I found on Oracle Berkeley DB's manual:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  skey-&amp;gt;size = sizeof((struct student_record *)pdata-&amp;gt;data)-&amp;gt;last_name;
-</pre>
+<pre lang="c++"><code lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
+</code></pre>
 <p>And we concluded it's trying to... well, dereference a number. And yet it compiles. What the hell is going on there?</p>
 <p>The answer here is in the subtleties of the sizeof <strong>operator</strong>. That's right, <strong>operator</strong>, not function. Plus is an operator. Less is an operator. * is a (unary) operator. sizeof is a unary operator too. The relevance of this is that operators can behave in more bizzare ways than functions do. In this case there's a difference between this two lines:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  MyClass x;
+<pre lang="c++"><code lang="c++">  MyClass x;
   int a = sizeof(MyClass);
   int b = sizeof(x);
-</pre>
+</code></pre>
 <p>A very subtle difference. Can you spot it? a and b will have the exact same value, rest assured. The difference is in the operator itself: sizeof MUST have parenthesis when applied to a type name, yet parenthesis are optional when applied to an instance of a datatype, so this code is legal:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  MyClass x;
+<pre lang="c++"><code lang="c++">  MyClass x;
   int a = sizeof(MyClass);
   int b = sizeof x;
-</pre>
+</code></pre>
 <p>Oh, wait, the fun doesn't stop there: sizeof also has bizarre precedence order, meaning it won't get applied as you expect it. So, this is valid too:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  struct MyClass { int y; } x;
-  int b = sizeof x-&amp;gt;y;
-</pre>
+<pre lang="c++"><code lang="c++">  struct MyClass { int y; } x;
+  int b = sizeof x-&gt;y;
+</code></pre>
 <p>Can you see where we are going? Knowing that sizeof will be applied last lets you write something like this too:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  void <em>ptr = ...
-  int b = sizeof((X</em>)ptr)-&amp;gt;y;
-</pre>
+<pre lang="c++"><code lang="c++">  void <em>ptr = ...
+  int b = sizeof((X</em>)ptr)-&gt;y;
+</code></pre>
 <p>Which means nothing else than "store in b the size of member y in struct X. It should be easy to see why BDB's example does compile, and why did I spend half an hour trying to understand the reason it compiled fine.</p>
 <p>By using some more casts and a clever arangement of parenthesis you can come up with a great job security device.</p>
 <hr />
@@ -40,17 +41,17 @@
     <a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0326_ReadingBerkeley39sFM.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I got this from <a href="http://www.oracle.com/technology/documentation/berkeley-db/db/programmer_reference/BDB_Prog_Reference.pdf">Oracle Berkely DB's</a> <a href="/blog/youfoundadeadlink.html">FM</a>:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  skey-&amp;gt;size = sizeof((struct student_record *)pdata-&amp;gt;data)-&amp;gt;last_name;
-</pre>
+<pre lang="c++"><code lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
+</code></pre>
 <p>Take a good look at that pice of code:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  a_number = sizeof((T*)pdata-&amp;gt;data)-&amp;gt;last_name;
-</pre>
+<pre lang="c++"><code lang="c++">  a_number = sizeof((T*)pdata-&gt;data)-&gt;last_name;
+</code></pre>
 <p>Again:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  a_number = sizeof(Whatever)-&amp;gt;field;
-</pre>
+<pre lang="c++"><code lang="c++">  a_number = sizeof(Whatever)-&gt;field;
+</code></pre>
 <p>Wait a minute. typeof(sizeof(x)) == const unsigned int. Right? So, again:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  a_number = 42-&amp;gt;field;
-</pre>
+<pre lang="c++"><code lang="c++">  a_number = 42-&gt;field;
+</code></pre>
 <p>There's no way that first line can compile. Go and check it (in the example, not the last line please). I'll wait. Done? Yeap, I was surprised to, it does indeed compile. Mi first reaction towards this discovery went something like this:</p>
 <p>What is going on there? It took me a while to figure out how evil Berkely 's manual can be. The answer next time.</p>
 <hr />
@@ -134,18 +135,18 @@ as you discovered, but I’ll agree that it is hard to parse at first.</p>
 <p>Post by Nico Brailovsky @ 2010-03-18 -
     <a href="/blog/2010/0318_Cofeeeeeee.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0318_Cofeeeeeee.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 int main() {
     otl_connect db;
     otl_connect::otl_initialize();
-    db.rlogon(&quot;whatever&quot;);
+    db.rlogon("whatever");
     int cuarentaydos;
-    const char *sql = &quot;select 42 drom dual&quot;;
+    const char *sql = "select 42 drom dual";
     otl_stream stmt(1, sql, db);
-    if (!stmt.eof()) stmt &amp;gt;&amp;gt; cuarentaydos;
-    std::cout &amp;lt;&amp;lt; &quot;En la base 42 == &quot; &amp;lt;&amp;lt; cuarentaydos &amp;lt;&amp;lt; &quot;n&quot;;
+    if (!stmt.eof()) stmt &gt;&gt; cuarentaydos;
+    std::cout &lt;&lt; "En la base 42 == " &lt;&lt; cuarentaydos &lt;&lt; "n";
     db.logoff();
 }
-</pre>
+</code></pre>
 <p>I spent half an hour looking for the error. How come drom is not a standard sql keyword? Damn!</p>
 <hr />

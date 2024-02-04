@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,7 +8,7 @@
 </ul>
 <h1>C++ linking WTF<a name="clinkingwtf"></a></h1>
 <p>It is a commonly accepted fact that a succesfuly compiled application serves as enough proof of its correctness, but common wisdom doesn't say a thing about linking. If you like linker WTF moments, you'll love this snippet. Can you guess why won't it compile?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+<pre lang="c++"><code lang="c++">struct Foo {
     static const int x = 0;
     static const int y = 1;
     int z(bool x){
@@ -16,26 +17,26 @@
 };
 int main() {
     Foo z;
-    std::cout &amp;lt;&amp;lt; z.z(true);
+    std::cout &lt;&lt; z.z(true);
     return 0;
 }
-</pre>
+</code></pre>
 <p>Well, it does compile (gotcha!) but it just won't link. Yet it seems so simple... let's add some more mistery to this WTF moment, try this change:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">    int z(bool x){
+<pre lang="c++"><code lang="c++">    int z(bool x){
         int t = Foo::x;
         return (x)? t : Foo::y;
     }
-</pre>
+</code></pre>
 <p>Holy shit, now it compiles? WTF? Some more strangeness:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">    int z(bool){
+<pre lang="c++"><code lang="c++">    int z(bool){
         return (true)? Foo::x : Foo::y;
     }
-</pre>
+</code></pre>
 <p>And again, now it compiles. WTF? I'll make a final change, this one should give you a clue about why it won't compile. Revert all changes back to the original code but add this two lines after Foo:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 const int Foo::x;
 const int Foo::y;
-</pre>
+</code></pre>
 <p>Though weird at first, now you should have a clear picture:
 * The first case doesn't compiles: x and y are declared in struct Foo, yet the linker doesn't know in which translation unit they should be allocated.
 * The second and third cases... well I'm not sure why does this compiles but it's probably because the linker can asume in which translation unit x and y should be allocated. I'm to lazy to check.

@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,14 +8,14 @@
 </ul>
 <h1>Vim Tip: Know your blocks!<a name="vimtipknowyourblocks"></a></h1>
 <p>Vim is the best editor for programmers and as such it has some neat "programmer commands", which make editing source code a lot easier. Take for example a block with code, or a function definition: how many times did you have to copy the code between parenthesis from one place to the other?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int foo(int bar, int baz)
-</pre>
+<pre lang="c++"><code lang="c++">int foo(int bar, int baz)
+</code></pre>
 <p>You could do '0f(df)' to delete "int bar, int baz" but that won't do if the definition is more complicated than that. 'dib' is a better choice to delete the text.</p>
 <p>(ACTION)i{b|B} applies ACTION to a block, for example, pressing diB in</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void foo() _ {
+<pre lang="c++"><code lang="c++">void foo() _ {
     /<em> Lots of source code </em>/
 }
-</pre>
+</code></pre>
 <p>(with the cursor placed at _) will delete lots of source code.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2009-06-05 -

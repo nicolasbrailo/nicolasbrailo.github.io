@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -6,19 +7,19 @@
 <li><a href="/blog/history.html">History</a></li>
 </ul>
 <h1>Cofeeeeeee<a name="cofeeeeeee"></a></h1>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 int main() {
     otl_connect db;
     otl_connect::otl_initialize();
-    db.rlogon(&quot;whatever&quot;);
+    db.rlogon("whatever");
     int cuarentaydos;
-    const char *sql = &quot;select 42 drom dual&quot;;
+    const char *sql = "select 42 drom dual";
     otl_stream stmt(1, sql, db);
-    if (!stmt.eof()) stmt &amp;gt;&amp;gt; cuarentaydos;
-    std::cout &amp;lt;&amp;lt; &quot;En la base 42 == &quot; &amp;lt;&amp;lt; cuarentaydos &amp;lt;&amp;lt; &quot;n&quot;;
+    if (!stmt.eof()) stmt &gt;&gt; cuarentaydos;
+    std::cout &lt;&lt; "En la base 42 == " &lt;&lt; cuarentaydos &lt;&lt; "n";
     db.logoff();
 }
-</pre>
+</code></pre>
 <p>I spent half an hour looking for the error. How come drom is not a standard sql keyword? Damn!</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2010-03-18 -

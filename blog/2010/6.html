@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -18,46 +19,46 @@
     <a href="/blog/2010/0625_There39sstillhope.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0625_There39sstillhope.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A log time ago, in a galaxy far away, I <a href="/blog/2008/1009_aptgetnewcomputer.html">posted</a> <a href="/blog/2008/1228_aptgetinstallnewcomputerII.html">a list</a> <a href="/blog/2009/0519_aptgetinstallnewcomputerIII.html">of stuff</a> I apt-get'd as soon as my Buguntu install was ready. Well, fast forward to KK and this is the new apt-get script:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install opera mocp unclutter build-essential gimp \
+<pre lang="c++"><code lang="c++">sudo apt-get install opera mocp unclutter build-essential gimp \
         mmv gnome-do knetworkmanager xdiskusage iptraf sshfs \
         shntool cuetools flac wavpack unrar vlc vim gvim vim-doc \
         vim-full vim-gnome ddd devhelp doxygen doxygen-gui \
         exuberant-ctags ctags  subversion ifstat antiword
-</pre>
+</code></pre>
 <p>Quite a progress I'd say, as these are mostly programs I use which don't come in the default install (even though they should). You know, I even have hopes for <a href="/blog/2010/0504_UbuntuSoundstillFUBARd.html">the sound system</a> in my notebook this time...</p>
 <hr />
 <h1>Nooooooooooo<a name="nooooooooooo"></a></h1>
 <p>Post by Nico Brailovsky @ 2010-06-23 -
     <a href="/blog/2010/0623_Nooooooooooo.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0623_Nooooooooooo.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<pre style="display: inline-block; border: 1px solid red;">
-(gvim:13664): Gdk-CRITICAL **: gdk_window_get_user_data: assertion `GDK_IS_WINDOW (window)&#x27; failed
-Vim: capt&amp;eacute; una se&amp;ntilde;al de muerte SEGV
+<pre><code>
+(gvim:13664): Gdk-CRITICAL **: gdk_window_get_user_data: assertion `GDK_IS_WINDOW (window)' failed
+Vim: capt&eacute; una se&ntilde;al de muerte SEGV
 Vim: finalizado.
-</pre>
+</code></pre>
 <hr />
 <h1>C++ pretty functions<a name="cprettyfunctions"></a></h1>
 <p>Post by Nico Brailovsky @ 2010-06-22 -
     <a href="/blog/2010/0622_Cprettyfunctions.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0622_Cprettyfunctions.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There are two well known macros from the preprocessor which every macro-sorcer must know. They are __FILE__ and __LINE__. You probably already know about them but anyway, __FILE__ will give you the current file and __LINE__ the current line. Easy, huh?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
-   printf(&quot;%s : %i&quot;, <strong>FILE</strong>, <strong>LINE</strong>);
+<pre lang="c++"><code lang="c++">int main() {
+   printf("%s : %i", <strong>FILE</strong>, <strong>LINE</strong>);
    return 0;
 }
-</pre>
+</code></pre>
 <p>The program above would give you "main.cpp : 3" as a result. There is nothing going on at execution time, it's all preprocesor wizardy. In fact with "<strong>g{++/cc} -E</strong>" you can even check what the "real" output is (-E means to return the preprocessor output. Keep in mind a lot of stuff will be included from the headers you use).</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
-   printf(&quot;%s : %i&quot;, &quot;main.cpp&quot;, 3);
+<pre lang="c++"><code lang="c++">int main() {
+   printf("%s : %i", "main.cpp", 3);
    return 0;
 }
-</pre>
+</code></pre>
 <p>Well that's nice and all, but g++ can top this easily:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
-   std::cout &amp;lt;&amp;lt; <strong>PRETTY_FUNCTION</strong> &amp;lt;&amp;lt; &quot;n&quot;;
+<pre lang="c++"><code lang="c++">int main() {
+   std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
    return 0;
 }
-</pre>
+</code></pre>
 <p>There are a couple of notable things about this new "pretty function" thing:
 * 1. It will demangle a function's name
 * 2. This time it isn't a preprocessor secret thing but a real variable g++ will create.</p>
@@ -74,57 +75,57 @@ Vim: finalizado.
 <p>So far we've learned the basic constructs of template metaprogramming (loops, branching, return values) and some basic list operations (getting the length of a list, appending and prepending elements, checking if an element is included in a list). Let's put it all together by creating an operation to return the position of an element. It'll be very useful later on too.</p>
 <p>If we go back to the Includes operation we can get some help to define the Position operation: the position of an element in a list is one plus the position of the element we're searching for in the tail, or zero if the head equals said element. The operation is not defined if the element is not in the list.</p>
 <p>Translating to pseudo-code:</p>
-<pre style="display: inline-block; border: 1px solid red;">Position (lst.head, lst) &lt;- 0
+<pre><code>Position (lst.head, lst) &lt;- 0
 Position (e, lst) &lt;- 1 + Position(e, lst.tail)
-</pre>
+</code></pre>
 <p>The translation to C++ is not so trivial this time. Try it, I'll wait... ready? OK, let's start</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class Elm, class Lst&amp;gt; struct Position {
+<pre lang="c++"><code lang="c++">template &lt;class Elm, class Lst&gt; struct Position {
     typedef typename Lst::head Head;
     typedef typename Lst::tail Tail;
     static const bool found = (Head == Elm);
     static const int result = found? 0 : 1 + next;
-    static const int next = Position&amp;lt;Elm, Tail&amp;gt;::result;
+    static const int next = Position&lt;Elm, Tail&gt;::result;
 };
-</pre>
+</code></pre>
 <p>Looks easy... but doesn't work. First problem, we can't compare two types, remember? We need to use Eq again. Second problem, although we said the operation is undefined if the element is not included on the list, it would be nice if we could force the compiler to fail if (or when) that happens. Let's rewrite the operation using a façade again, but adding an Assert:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename Elm, typename LST&amp;gt; struct _Position {
+<pre lang="c++"><code lang="c++">template &lt;typename Elm, typename LST&gt; struct _Position {
     typedef typename LST::head Head;
     typedef typename LST::tail Tail;
-    static const bool found = Eq&amp;lt;Elm, Head&amp;gt;::result;
-    static const int result = (found)? 0 : 1 + _Position&amp;lt;Elm, Tail&amp;gt;::result;
+    static const bool found = Eq&lt;Elm, Head&gt;::result;
+    static const int result = (found)? 0 : 1 + _Position&lt;Elm, Tail&gt;::result;
 };
-template &amp;lt;typename Elm, typename LST&amp;gt; struct Position {
-    typedef typename Assert&amp;lt;Includes&amp;lt; Elm, LST &amp;gt;::result&amp;gt;::check include;
-    static const int result = _Position&amp;lt;Elm, LST&amp;gt;::result;
+template &lt;typename Elm, typename LST&gt; struct Position {
+    typedef typename Assert&lt;Includes&lt; Elm, LST &gt;::result&gt;::check include;
+    static const int result = _Position&lt;Elm, LST&gt;::result;
 };
-</pre>
+</code></pre>
 <p>Oh, we haven't defined assert yet! There's another problem, too: even if it won't compile, the compiler will try to expand _Position&lt; ..., NIL &gt; indefinitely, causing an error after too many nested template calls. Not nice. We need to add a case to make the compiler stop:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
+<pre lang="c++"><code lang="c++">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
 // Helper: Will fail to compile if the assert is false
 class Assertion{};
-template &amp;lt;bool cond, class T=Assertion&amp;gt; struct Assert {
+template &lt;bool cond, class T=Assertion&gt; struct Assert {
     typedef typename T::fail check;
 };
-template &amp;lt;&amp;gt; struct Assert&amp;lt;true&amp;gt; {
+template &lt;&gt; struct Assert&lt;true&gt; {
     typedef void check;
 };
 /</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>***/
-template &amp;lt;typename Elm, typename LST&amp;gt; struct _Position {
+template &lt;typename Elm, typename LST&gt; struct _Position {
     typedef typename LST::head Head;
     typedef typename LST::tail Tail;
-    static const bool found = Eq&amp;lt;Elm, Head&amp;gt;::result;
-    static const int result = (found)? 0 : 1 + _Position&amp;lt;Elm, Tail&amp;gt;::result;
+    static const bool found = Eq&lt;Elm, Head&gt;::result;
+    static const int result = (found)? 0 : 1 + _Position&lt;Elm, Tail&gt;::result;
 };
 // The compiler will try to expand the position check
-// after NIL has been reached if this isn&amp;#x27;t here
-template &amp;lt;typename Elm&amp;gt; struct _Position&amp;lt;Elm, NIL&amp;gt; {
+// after NIL has been reached if this isn&#x27;t here
+template &lt;typename Elm&gt; struct _Position&lt;Elm, NIL&gt; {
     static const int result = 0;
 };
-template &amp;lt;typename Elm, typename LST&amp;gt; struct Position {
-    typedef typename Assert&amp;lt;Includes&amp;lt; Elm, LST &amp;gt;::result&amp;gt;::check include;
-    static const int result = _Position&amp;lt;Elm, LST&amp;gt;::result;
+template &lt;typename Elm, typename LST&gt; struct Position {
+    typedef typename Assert&lt;Includes&lt; Elm, LST &gt;::result&gt;::check include;
+    static const int result = _Position&lt;Elm, LST&gt;::result;
 };
-</pre>
+</code></pre>
 <p>All that code for such a simple operation, man. Also, see what we did with Assert&lt;&gt;? It seems making a compile fail is actually quite easy. That's what I have most experience with.</p>
 <p>We've been through quite a lot, and our toolboox should be quite big already. Next time we'll start steering towards some sort of applicability, trying to use some of all these stuff to implement a real, useful and working program... assuming that's even possible.</p>
 <hr />
@@ -160,9 +161,9 @@ Doing some research on the subject I wrote down a list of the thought process wh
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0611_Vimtipsmakethingswork.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, you are an uber console geek, using only vim and the command line to compile all your projects, execute the tests, blah blah blah... if only you could squeeze that microsecond lost whenever you switch from vim to compile you'd be 1e-4 seconds more productive... oh, wait, you can!</p>
 <p>Whenever you think you're project is good enough to compile just hit <strong>:make</strong> to be proven wrong. Type <strong>:make test</strong> to run your tests (because you are using TDD, aren't you?) and watch all those red flags fly by.Also, add the following mapping to your ~/.vimrc for an extra happy coding session:</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">map &lt;F5&gt; :make
+<pre lang="bash"><code lang="bash">map &lt;F5&gt; :make
 map &lt;F6&gt; :make test
-</pre>
+</code></pre>
 <hr />
 <h1>Template metaprogramming IX: Absolute Zero<a name="templatemetaprogrammingixabsolutezero"></a></h1>
 <p>Post by Nico Brailovsky @ 2010-06-10 -
@@ -170,17 +171,17 @@ map &lt;F6&gt; :make test
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>By now we should have learned how to perform loops, branching and returns using templates. Let's add a couple of useful operations to our library: append and prepend.</p>
 <p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I've been using so far:</p>
-<pre style="display: inline-block; border: 1px solid red;">Prepend(e, lst) &lt;- LST(e, lst)
-</pre>
+<pre><code>Prepend(e, lst) &lt;- LST(e, lst)
+</code></pre>
 <p>And in C++ (trivial, this time):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename Elm, typename Lst=NIL&amp;gt; struct Prepend {
-    typedef LST&amp;lt;Elm, Lst&amp;gt; result;
+<pre lang="c++"><code lang="c++">template &lt;typename Elm, typename Lst=NIL&gt; struct Prepend {
+    typedef LST&lt;Elm, Lst&gt; result;
 };
-</pre>
+</code></pre>
 <p>Appending is a little bit more difficult, as we need to first find the end of the list. Think for a second how would you define it... back? Ok, I'd define it this way: appending an element to the list yields a list, consisting of the same head and the result of appending said element to the tail. The null case, as usual, is appending an element to a NIL list; in this case the result is a list with the element itself. So:</p>
-<pre style="display: inline-block; border: 1px solid red;">Append(e, NIL) &lt;- LST(e)
+<pre><code>Append(e, NIL) &lt;- LST(e)
 Append(e, lst) &lt;- LST(lst.head, Append(e, lst.tail))
-</pre>
+</code></pre>
 <p>Looks complicated but it follows the same structure as the rest of the basic-ops:</p>
 <p>```c++
 template &lt;class Elm, class Lst&gt; struct Append {

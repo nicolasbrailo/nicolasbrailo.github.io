@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,22 +8,22 @@
 </ul>
 <h1>C++: Composite objects and throwing constructors<a name="ccompositeobjectsandthrowingconstructors"></a></h1>
 <p>Check out the following code:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 struct Foo {
-        struct Foobar{ Foobar(){ throw &quot;foobar&amp;#x27;d&quot;; } };
+        struct Foobar{ Foobar(){ throw "foobar&#x27;d"; } };
         Foobar baz;
         Foo() try : baz() {
-                cout &amp;lt;&amp;lt; &quot;Ctr 1n&quot;;
+                cout &lt;&lt; "Ctr 1n";
         }catch(...){
-                cout &amp;lt;&amp;lt; &quot;Ctr 2n&quot;;
+                cout &lt;&lt; "Ctr 2n";
         }
 };
 int main() {
         Foo bar;
-        cout &amp;lt;&amp;lt; &quot;End!n&quot;;
+        cout &lt;&lt; "End!n";
         return 0;
 }
-</pre>
+</code></pre>
 <p>Nice, isn't it? Without using a compiler answer the following questions:</p>
 <ul>
 <li>Does it compile?</li>

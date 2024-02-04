@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,23 +9,23 @@
 <h1>LaTeX: Makefile<a name="latexmakefile"></a></h1>
 <p>Remember I said that being a programmer would make you a lot more comfortable around LaTeX? The reason is quite simple, tex is just source code for a document. As with any source code in Linux (Windows too, but that is besides the point) you can use a Makefile to compile it and make your life easier.</p>
 <p>I have already posted this <a href="https://example.net/brokenlink/2009/05/makefile.html">Makefile</a> in <a href="/blog/2009/0528_LaTeXbasics.html">another entry</a> but it's time to explain how it works.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 all: main.pdf
 main.pdf: code_frames <em>.tex
-  pdflatex main.tex &amp;amp;&amp;amp; pdflatex main.tex
+  pdflatex main.tex &amp;&amp; pdflatex main.tex
 .PHONY: run clean edit
 edit:
   gvim -S vim.sess
 run: main.pdf
- evince main.pdf &amp;amp;
+ evince main.pdf &amp;
 clean:
  @# for each .tex file, remove the extension
  @#    and delete its generated files
- @for PART in $(shell ls </em>.tex| sed &#x27;s:.tex::g&#x27;); do
-   echo &quot;<em>.out </em>.nav <em>.aux </em>.toc <em>.log </em>.snm <em>.pdf </em>.vrb&quot; | \
-      sed &quot;s:*:$$PART:g&quot; | xargs rm -f;
+ @for PART in $(shell ls </em>.tex| sed 's:.tex::g'); do
+   echo "<em>.out </em>.nav <em>.aux </em>.toc <em>.log </em>.snm <em>.pdf </em>.vrb" | \
+      sed "s:*:$$PART:g" | xargs rm -f;
  done
-</pre>
+</code></pre>
 <p>It's rather easy, let's check it target by target:</p>
 <ul>
 <li><strong>all</strong>: create the main document - used as default target</li>

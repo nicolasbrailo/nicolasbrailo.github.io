@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -16,27 +17,27 @@
 <li>Unwind will invoke the personality function with the current stack frame and the LSDA; this function should reply to unwind whether this stack can handle the exception or not</li>
 </ul>
 <p>Knowing this, it's about time we implement our own personality function. Our ABI used to print this when an exception was thrown:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">alloc ex 1
+<pre lang="c++"><code lang="c++">alloc ex 1
 __cxa_throw called
 no one handled __cxa_throw, terminate!
-</pre>
+</code></pre>
 <p>Let's go back to our mycppabi and let's add something like this (link to full mycppabi.cpp file):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void __gxx_personality_v0()
+<pre lang="c++"><code lang="c++">void __gxx_personality_v0()
 {
-    printf(&quot;Personality function FTW\n&quot;);
+    printf("Personality function FTW\n");
 }
-</pre>
+</code></pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
 <p>And sure enough, when we run it we should see our personality function being called. We know we're on the right track and now we have an idea of what we want for our personality function; let's start using the proper definition for this function:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Unwind_Reason_Code __gxx_personality_v0 (
+<pre lang="c++"><code lang="c++">_Unwind_Reason_Code __gxx_personality_v0 (
                      int version, _Unwind_Action actions, uint64_t exceptionClass,
                      _Unwind_Exception<em> unwind_exception, _Unwind_Context</em> context);
-</pre>
+</code></pre>
 <p>If we put that into our mycppabi.cpp file we get:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;unistd.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;stdint.h&gt;
+<pre lang="c++"><code lang="c++">#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 namespace __cxxabiv1 {
     struct __class_type_info {
         virtual void foo() {}
@@ -44,15 +45,15 @@ namespace __cxxabiv1 {
 }
 #define EXCEPTION_BUFF_SIZE 255
 char exception_buff[EXCEPTION_BUFF_SIZE];
-extern &quot;C&quot; {
+extern "C" {
 void<em> __cxa_allocate_exception(size_t thrown_size)
 {
-    printf(&quot;alloc ex %i\n&quot;, thrown_size);
-    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf(&quot;Exception too big&quot;);
+    printf("alloc ex %i\n", thrown_size);
+    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf("Exception too big");
     return &amp;exception_buff;
 }
 void __cxa_free_exception(void </em>thrown_exception);
-#include &lt;unwind.h&gt;
+#include <unwind.h>
 typedef void (<em>unexpected_handler)(void);
 typedef void (</em>terminate_handler)(void);
 struct __cxa_exception {
@@ -71,33 +72,33 @@ struct __cxa_exception {
 };
 void __cxa_throw(void<em> thrown_exception, struct type_info </em>tinfo, void (<em>dest)(void</em>))
 {
-    printf(&quot;__cxa_throw called\n&quot;);
+    printf("__cxa_throw called\n");
     __cxa_exception <em>header = ((__cxa_exception </em>) thrown_exception - 1);
     _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
     // __cxa_throw never returns
-    printf(&quot;no one handled __cxa_throw, terminate!\n&quot;);
+    printf("no one handled __cxa_throw, terminate!\n");
     exit(0);
 }
 void __cxa_begin_catch()
 {
-    printf(&quot;begin FTW\n&quot;);
+    printf("begin FTW\n");
 }
 void __cxa_end_catch()
 {
-    printf(&quot;end FTW\n&quot;);
+    printf("end FTW\n");
 }
 _Unwind_Reason_Code __gxx_personality_v0 (
                      int version, _Unwind_Action actions, uint64_t exceptionClass,
                      _Unwind_Exception<em> unwind_exception, _Unwind_Context</em> context)
 {
-    printf(&quot;Personality function FTW!\n&quot;);
+    printf("Personality function FTW!\n");
 }
 }
-</pre>
+</code></pre>
 <p>Code @ <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">my github repo</a>.</p>
 <p>Let's compile and link everything, then run it and start by analyzing each param to this function with some help of gdb:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">Breakpoint 1, __gxx_personality_v0 (version=1, actions=1, exceptionClass=134514792, unwind_exception=0x804a060, context=0xbffff0f0)
-</pre>
+<pre lang="c++"><code lang="c++">Breakpoint 1, __gxx_personality_v0 (version=1, actions=1, exceptionClass=134514792, unwind_exception=0x804a060, context=0xbffff0f0)
+</code></pre>
 <ul>
 <li>The version and the exceptionClass are related to language/ABI/compiler toolchain/native or non-native exception, etc. We don't need to worry about it for our mini ABI, we'll just handle all the exceptions.</li>
 <li>Actions: this is what _Unwind_ uses to tell the personality function what it should do (more on that later)</li>

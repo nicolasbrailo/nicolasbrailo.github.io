@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,28 +12,28 @@
     <a href="/blog/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Long time without updating this series. Last time we saw how the ugly</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">for (FooContainer::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
-</pre>
+<pre lang="c++"><code lang="c++">for (FooContainer::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
+</code></pre>
 <p>could be transformed into the much cleaner</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">for (auto i = foobar.begin(); i != foobar.end(); ++i)
-</pre>
+<pre lang="c++"><code lang="c++">for (auto i = foobar.begin(); i != foobar.end(); ++i)
+</code></pre>
 <p>Yet we are not done, we can clean that a lot more using for range statements.</p>
 <p>Ranged for is basically syntactic sugar (no flamewar intended) for shorter for statements. It's nothing new and it's been part of many languages for many years already, so there will be no lores about the greatness of C++ innovations (flamewar intended), but it still is a nice improvement to have, considering how tedious can be to write nested loops. This certainly looks much cleaner:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">for (auto x : foobar)
-</pre>
+<pre lang="c++"><code lang="c++">for (auto x : foobar)
+</code></pre>
 <p>This last for-statement, even though it looks good enough to print and hang in a wall, raises a lot of questions. What's the type of x? What if I want to change its value? Let's try to answer that.</p>
 <p>The type of the iterator will be the same as the type of the vector, so in this case x would be an int:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">std::vector foobar;
+<pre lang="c++"><code lang="c++">std::vector foobar;
 for (auto x : foobar) {
     std::cout &lt;&lt; (x+2);
 }
-</pre>
+</code></pre>
 <p>And now, what happens if you want to alter the contents of a list and not only display them? That's easy too, just declare x as an auto reference:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">std::vector foobar;
+<pre lang="c++"><code lang="c++">std::vector foobar;
 for (auto&amp; x : foobar) {
     std::cout &lt;&lt; (x+2);
 }
-</pre>
+</code></pre>
 <p>This looks really nice but it won't really do anything, for two different reasons:</p>
 <ul>
 <li>Ranged fors won't work until g++ 4.5.6 is released</li>
@@ -62,27 +63,27 @@ for (auto&amp; x : foobar) {
 <p>In the last entry we learned how an apparently parallel algorithm can turn into a sequential nightmare via false sharing; what you may think to be two independent variables may actually be spatially close, thus sharing a cache line which gets invalidated by each and every write across cores. But is this a real world issue? If so, how can we fix it?</p>
 <p>We'll work backwards: let's see first how can this be fixed, and then we'll check if this is actually a real world issue.</p>
 <p>Remember our code sample, from last time:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void lots_of_sums(unsigned idx, int v[])
+<pre lang="c++"><code lang="c++">void lots_of_sums(unsigned idx, int v[])
 {
     const unsigned itrs = 2000<em>1000</em>1000;
     for (int i=0; i &lt; itrs; ++i)
         v[idx].num = i;
 }
-</pre>
+</code></pre>
 <p>An easy way to avoid false sharing would be to just assign i to a temporary variable, then assign the real result to v[i]; this way, you would be writing only once, the intermediate results will be in <a href="http://en.wikipedia.org/wiki/Thread-local_storage">TSS</a>, thus avoiding the contention in the loop.</p>
 <p>The second strategy to solve this problem would be to use padding. Knowing that your cache line is made of 64 bytes will let you write something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Padded {
+<pre lang="c++"><code lang="c++">struct Padded {
     int num;
     char pad[60];
 };
-</pre>
+</code></pre>
 <p>Of course, this has another problem: what about the offset? We need not only padding but also spacing, for the alignment.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Padded {
+<pre lang="c++"><code lang="c++">struct Padded {
     char space[60];
     int num;
     char pad[60];
 };
-</pre>
+</code></pre>
 <p>Alternatively, you could use the align keyword of C++0x, but since it's not implemented on g++ I have never tested it before, so I have no idea how it's supposed to work. For more information on this you can check <a href="http://drdobbs.com/go-parallel/article/showArticle.jhtml?articleID=217500206">Herb Sutter's article, Eliminate False Sharing</a>.</p>
 <hr />
 <h1>False sharing in multi threaded applications<a name="falsesharinginmultithreadedapplications"></a></h1>
@@ -93,34 +94,34 @@ for (auto&amp; x : foobar) {
 <p>Running make &amp;&amp; make test only show lower numbers. You actually decreased the performance of your application, by making it multi-threaded! How can this be possible?</p>
 <p>While writing concurrent algorithms there are many places where you can fail, miserably. Contention is only one of them, but this is a very subtle way of failure; it will render your concurrent algorithms into a very complicated sequential algorithm, run in many cores. How can a simple concurrent algorithm turn into such a mess?</p>
 <p>In many cases, false sharing is the culprit of the lost performance. How exactly? Let's write a simple example for this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void lots_of_sums(unsigned idx, int v[])
+<pre lang="c++"><code lang="c++">void lots_of_sums(unsigned idx, int v[])
 {
     const unsigned itrs = LOTS;
     for (int i=0; i &lt; itrs; ++i)
         v[idx].num = i;
 }
-</pre>
+</code></pre>
 <p>Imagine this function, one running in each core and v defined as a simple array. We can expect this to have a linear scalability, right? Turns out it's not that simple. Why? Let's see how v is laid out in memory:</p>
-<pre style="display: inline-block; border: 1px solid red;">+------------+--+--+--+------+-----------------+
+<pre><code>+------------+--+--+--+------+-----------------+
 |Random stuff|V0|V1|V2|...|VN|More random stuff|
 +------------+--+--+--+------+-----------------+
-</pre>
+</code></pre>
 <p>So, v will (most likely) be made of adjacent chunks in memory. We can also assume that sizeof(v[i]) will be 4 or 8 bytes, or something small like that. Why is that important?</p>
 <p>Remember that nowadays a CPU core is amazingly fast, so much that they make main memory look like dial up. To avoid waiting for the main memory to complete a request, several levels of cache exists. These caches know nothing about your application (well, mostly) so they can't know that v0 and v1 are actually different variables. Notice how this would apply if instead of a vector they were two random variables which happen to be allocated spatially close.</p>
 <p>If the CPU cache, L1 for the friends, can't know that v0 and v1 are separate, it will probably try to cache a whole chunk of memory. Say, maybe 64 or 128 bytes. Why should you care?</p>
 <p>Let's go back to our code. When you see this</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">...
+<pre lang="c++"><code lang="c++">...
     v[idx].num = i;
 ...
-</pre>
+</code></pre>
 <p>you just see independent accesses to different variables. What will the cache see? Let's go back to our memory layout, but this time let's make up an offset too:</p>
-<pre style="display: inline-block; border: 1px solid red;">0xF00    0xF10  0xF14...                   0xF40
+<pre><code>0xF00    0xF10  0xF14...                   0xF40
 +------------+--+--+--+------+-----------------+
 |Random stuff|V0|V1|V2|...|VN|More random stuff|
 +------------+--+--+--+------+-----------------+
-</pre>
+</code></pre>
 <p>So, if we assume a 64 byte cache line, then how might the CPU see a read-write process for v[0]? Something like this, probably:</p>
-<pre style="display: inline-block; border: 1px solid red;"> +---------+-------------------+----------------------------+---------------------------+
+<pre><code> +---------+-------------------+----------------------------+---------------------------+
  |  C Code |       CPU         |             L1             |        Main Memory        |
  |---------|-------------------|----------------------------|---------------------------|
  |         |                   |                            |                           |
@@ -128,14 +129,14 @@ for (auto&amp; x : foobar) {
  | +------+|                   |                            |                           |
  |       +-&gt; Hey, get me 0xF10 |                            |                           |
  |         | +----------------+|                            |                           |
- |         |                  +&gt; Huh... I don&#x27;t have 0xF10, |                           |
+ |         |                  +&gt; Huh... I don't have 0xF10, |                           |
  |         |                   | let me get that for you... |                           |
  |         |                   |  +-----------------------+ |                           |
  |         |                   |                          +-&gt; 0xF00... yup, here you go |
  |         |                   |                            |                           |
  |         |                   |  I have it now!            |                           |
  +---------+-------------------+----------------------------+---------------------------+
-</pre>
+</code></pre>
 <p>Note an important bit there: the CPU requested 0xF10 but L1 cached the whole segment, from 0xF00 to 0xF40. Why is that? It's called <a href="http://en.wikipedia.org/wiki/Locality_of_reference">spatial locality or locality of reference</a> and since it's not the main goal of this article I'll just say that L1 will cache the whole segment just in case you want it.</p>
 <p>So far so good. What happens when you add more CPUs and write OPs? Remember that write OPs are cached as well.</p>
 <p>Looks pretty similar, but note an interesting thing: CPU1 will read v[0], which translates to 0xF10, whereas CPU2 will read v[1], which translates to 0xF14. Even though these are different addresses, they both correspond to 0xF00 segment, thus L1 will have actually read the same chunk of memory!</p>
@@ -153,7 +154,7 @@ Wow, a simple read from L1 cache now fails because it's been marked as dirty by 
 <p>Some time ago I set up a bind9 on a spare server I had. Easy job, a side project of a boring late night. Of course, there was no point in just setting up my own TLD; I now had the power to have fun with DNS poisoning, and I could also create nice reports of the queries to the DNS server.</p>
 <p>Having fun with a DNS might be the topic for another post, for this one I'll just focus on how to get query statistics from a bind server.</p>
 <p>After grepping the web a little bit, I found a rather disconcerting lack of bind log analyzers. I just wanted a list of the most popular queries, as well as the ability to group the log by it's IP (and may be even to get the computer's SMB name). Couldn't have asked for a better chance to flex a little bit my Ruby-foo, and here is the hackish result for whoever may want to do something similar:</p>
-<pre lang="ruby" style="display: inline-block; border: 1px solid red;">#!/usr/bin/ruby1.8
+<pre lang="ruby"><code lang="ruby">#!/usr/bin/ruby1.8
 class Hits
  def initialize(n,v,k=nil)
  @n=n
@@ -166,26 +167,26 @@ class Hits
  def &lt;(o) @n &lt; o.n; end
 end
 if ARGV.length == 0 then
- puts &quot;Usage: dns.rb DNS_LOG [--domains] [--ip [--no-samba]]&quot;
- puts &quot; --domains will list all queried domains&quot;
- puts &quot; --ip will list every query gruoped by IP&quot;
+ puts "Usage: dns.rb DNS_LOG [--domains] [--ip [--no-samba]]"
+ puts " --domains will list all queried domains"
+ puts " --ip will list every query gruoped by IP"
  exit
 end
 @domains = @ip = @nosamba = false
 ARGV.each { |arg|
  case arg
- when &#x27;--domains&#x27; then @domains = true
- when &#x27;--ip&#x27; then @ip = true
- when &#x27;--no-samba&#x27; then @nosamba = true
+ when '--domains' then @domains = true
+ when '--ip' then @ip = true
+ when '--no-samba' then @nosamba = true
  end
 }
 fp = File.open ARGV[0]
 queries_by_ip = {}
 queries_by_domain = {}
 fp.each_line { |l|
- v = l.split(&#x27; &#x27;)
+ v = l.split(' ')
  if not (v.nil? or v.length &lt; 4) then
- ip = v[1].split(&#x27;#&#x27;)[0]
+ ip = v[1].split('#')[0]
  query = v[3]
  if queries_by_domain[query].nil? then queries_by_domain[query] = 0 end
  queries_by_domain[query] += 1
@@ -199,7 +200,7 @@ if @domains then
  hits.push Hits.new(v, k)
  }
  hits.sort!.reverse!.each { |h|
- puts h.v + &quot; has &quot; + h.n.to_s + &quot; hits&quot;
+ puts h.v + " has " + h.n.to_s + " hits"
  }
 end
 if @ip then
@@ -208,17 +209,17 @@ if @ip then
  lst.push Hits.new(queries.length, ip, queries)
  }
  lst.sort!.reverse!.each { |h|
- puts &quot;Report for &quot; + h.v + &quot;, Samba addr:&quot;
- if not @nosamba then Kernel.system &quot;nmblookup -A &quot; + h.v end
- puts &quot;Requested &quot; + h.n.to_s + &quot; URLs:&quot;
+ puts "Report for " + h.v + ", Samba addr:"
+ if not @nosamba then Kernel.system "nmblookup -A " + h.v end
+ puts "Requested " + h.n.to_s + " URLs:"
  h.k.uniq.each { |url|
- puts &quot;t&quot; + url
+ puts "t" + url
  }
- puts &quot;.&quot;
- puts &quot;.&quot;
+ puts "."
+ puts "."
  }
 end
-</pre>
+</code></pre>
 <hr />
 <h1>Redirecting connections from one port to another with iptables<a name="redirectingconnectionsfromoneporttoanotherwithiptables"></a></h1>
 <p>Post by Nico Brailovsky @ 2012-11-06 -
@@ -226,31 +227,31 @@ end
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>People say iptables are incredibly useful. Mind you, I have gotten mostly headaches out of it, but it is easy to see they are a powerful tool. The other day (for reasons not relevant to this post) I needed to run a service on a port, yet have it accept connections in a different port. Say, the service should be listening on port 1234, but the server should accept any connection on port 4321 and "redirect" each package to the correct port. Turns out iptables is the tool for the job.</p>
 <p>For the impatient ones, this is the command I used:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">iptables -t nat -A PREROUTING -s 192.168.10.0/24 \
+<pre lang="c++"><code lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24 \
          -p tcp --dport 4321 -j DNAT --to :1234
-</pre>
+</code></pre>
 <p>Let's analyze this part by part. First I tried something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Caution: This is wrong and won&#x27;t work!
+<pre lang="c++"><code lang="c++"># Caution: This is wrong and won't work!
 iptables -A INPUT -s 192.168.1.0/24 --dport 4321 --to :1234
-</pre>
+</code></pre>
 <p>Seems clear enough:
 * <strong>-A INPUT</strong> will add this rule to the INPUT chain (i.e. the list of rules that are run for every incoming packet.
 * <strong>-s 192.168.1.0/24</strong> will filter the packages, so this rule will only be applied to the packets incoming from the 192.168.1.0/24 network.
 * <strong>--dport 4321</strong> will filter the packages again, so we can apply this rule not only to those packets incoming from the LAN but also to those packet to port 4321.
 * <strong>--to :1234</strong> is the rule to rewrite the destination port.</p>
 <p>Too bad this won't work. To begin with, the --dport option will fail, since it makes no sense to talk about ports without specifying a protocol (i.e. ports are a TCP layer concept, not an IP layer conecpt, so iptables doesn't know what to do with a --dport option!). Thus, let's rewrite our command like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Caution: This is wrong and won&#x27;t work!
+<pre lang="c++"><code lang="c++"># Caution: This is wrong and won't work!
 iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 --to :1234
-</pre>
+</code></pre>
 <p>Now iptables will complain about the --to option. This is because iptables can't rewrite a package (i.e. use the --to option) unless you specify to jump to the DNAT table (?). Now our command should look like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Caution: This is wrong and won&#x27;t work!
+<pre lang="c++"><code lang="c++"># Caution: This is wrong and won't work!
 iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 -j DNAT --to :1234
-</pre>
+</code></pre>
 <p>iptables will still complain: you can't use DNAT unless you use a nat table, so we have to add -t nat. If we do that, iptables will complain once more about not being able to use DNAT in the INPUT chain, it is only available in the PREROUTING/OUTPUT chains. This is related to the order in which iptables processes its rules.</p>
 <p>With all this in mind, we can now write a command that will run:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">iptables -t nat -A PREROUTING -s 192.168.10.0/24
+<pre lang="c++"><code lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24
          -p tcp --dport 4321 -j DNAT --to :1234
-</pre>
+</code></pre>
 <hr />
 <h1>stlfilt: read ugly tmpl errors<a name="stlfiltreaduglytmplerrors"></a></h1>
 <p>Post by Nico Brailovsky @ 2012-11-01 -

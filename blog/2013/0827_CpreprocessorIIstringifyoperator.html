@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -9,15 +10,15 @@
 <p>We all more or less know the list of operators that C++ provides for "normal code" but not everyone is aware that the preprocessor also has special operators we can use. Small difference: an operator like '+' will usually operate on numbers, but the preprocessor operates only on a single concept: source code tokens. What kind of operators could a preprocessor have, then? Two, actually. Let's start with the simpler one:</p>
 <p><strong>Stringify</strong>
 The '#' operator is the simplest operator of the preprocessor: it converts the next token to string. Something like this, for example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define f(x) to_str(x) == #x
+<pre lang="c++"><code lang="c++">#define f(x) to_str(x) == #x
 f(123)
-</pre>
+</code></pre>
 <p>Would print</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">to_str(123) == &quot;123&quot;
-</pre>
+<pre lang="c++"><code lang="c++">to_str(123) == "123"
+</code></pre>
 <p>A restriction applies to the stringify operator: it can only be applied to a macro param, not just any token. So this, for example, is an illegal macro:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define f(x) #123 == #x
-</pre>
+<pre lang="c++"><code lang="c++">#define f(x) #123 == #x
+</code></pre>
 <p>There's another operator, which is a bit more "esoteric". We'll talk about token pasting next time.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2013-08-27 -

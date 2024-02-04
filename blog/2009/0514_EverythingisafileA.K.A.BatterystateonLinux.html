@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,7 +9,7 @@
 <h1>Everything is a file A.K.A. Battery state on Linux<a name="everythingisafilea.k.a.batterystateonlinux"></a></h1>
 <p>I present to you the latest release from Wheel Reinventions Inc. - Already Invented dept. - a script to check the remaining battery time from Linux console.</p>
 <p>|</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 <pre class="c++">echo -n "Hours remaining: "
 &amp;&amp; echo "$(cat /proc/acpi/battery/BAT0/state
 &nbsp;&nbsp;&nbsp;&nbsp;  | grep &#x27;remaining capacity&#x27;
@@ -17,8 +18,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;  | grep &#x27;present rate&#x27;
 &nbsp;&nbsp;&nbsp;&nbsp;  | awk &#x27;{print $3}&#x27;)"
 &nbsp;&nbsp; | bc -l</pre>
-
-</pre>
+</code></pre>
 <p>Yes, I was bored, so? I'm planning to release a new bogosort implementation after this one, what do you think?</p>
 <p>Jokes aside, this nifty script shows how flexible can be the model "everything is a file" which Unix-y systems implement. With a couple of pipes (and an almost magical incantation for those uninitiated in the console cult) you can do lots of stuff with very little work</p>
 <p>This concept could be associated with the way polymorfism works in a programming language, but that's an entry for another day.</p>

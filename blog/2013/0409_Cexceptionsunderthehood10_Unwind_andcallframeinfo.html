@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -15,15 +16,15 @@
 </ul>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v04">in my github repo</a>.</p>
 <p>Let's check these functions with gdb. On my machine:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">Breakpoint 1, __gxx_personality_v0 (version=1, actions=6, exceptionClass=134515400, unwind_exception=0x804a060, context=0xbffff0f0)
+<pre lang="c++"><code lang="c++">Breakpoint 1, __gxx_personality_v0 (version=1, actions=6, exceptionClass=134515400, unwind_exception=0x804a060, context=0xbffff0f0)
     at mycppabi.cpp:77
 84          const uint8_t<em> lsda = (const uint8_t</em>)_Unwind_GetLanguageSpecificData(context);
 85          uintptr_t ip = _Unwind_GetIP(context) - 1;
 86          uintptr_t funcStart = _Unwind_GetRegionStart(context);
 87          uintptr_t ipOffset = ip - funcStart;
-</pre>
+</code></pre>
 <p>If we inspect those variables we can see that indeed _Unwind_GetRegionStart points to the current stack frame (try_but_dont_catch) and that _Unwind_GetIP is the IP for the position where the call to the next stack frame was done. The _Unwind_GetRegionStart is pointing us to the place where the exception was first thrown; it's a bit complicated to explain and we'll use that later, not now. Also, we don't see the LSDA here, but we can deduce it's after the function's code since _Unwind_GetLanguageSpecificData points directly after the function's end:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Unwind_GetIP = (void <em>) 0x804861d
+<pre lang="c++"><code lang="c++">_Unwind_GetIP = (void <em>) 0x804861d
 _Unwind_GetRegionStart = (void </em>) 0x8048612
 _Unwind_GetLanguageSpecificData = (void *) 0x8048e3c
 function pointer to try_but_dont_catch = 0x8048612 &lt;:try_but_dont_catch()&gt;
@@ -38,17 +39,17 @@ Dump of assembler code for function try_but_dont_catch():
    0x08048651 &lt;:+63&gt;:   call   0x804874a &lt;:__cxa_begin_catch()&gt;
    0x08048665 &lt;:+83&gt;:   call   0x804875e &lt;:__cxa_end_catch()&gt;
    0x0804866a &lt;:+88&gt;:   jmp    0x804861e &lt;:try_but_dont_catch()+12&gt;
-14          printf(&quot;Caught a Fake_Exception!\n&quot;);
+14          printf("Caught a Fake_Exception!\n");
    0x08048659 &lt;:+71&gt;:   movl   $0x8048971,(%esp)
-   0x08048660 &lt;:+78&gt;:   call   0x80484c0 &lt;:puts@plt&gt;
+   0x08048660 &lt;:+78&gt;:   call   0x80484c0 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#58;&#112;&#117;&#116;&#115;&#64;&#112;&#108;&#116;">&#58;&#112;&#117;&#116;&#115;&#64;&#112;&#108;&#116;</a>
 15      }
 16
-17      printf(&quot;try_but_dont_catch handled the exception\n&quot;);
+17      printf("try_but_dont_catch handled the exception\n");
    0x0804861e &lt;:+12&gt;:   movl   $0x8048948,(%esp)
-   0x08048625 &lt;:+19&gt;:   call   0x80484c0 &lt;:puts@plt&gt;
+   0x08048625 &lt;:+19&gt;:   call   0x80484c0 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#58;&#112;&#117;&#116;&#115;&#64;&#112;&#108;&#116;">&#58;&#112;&#117;&#116;&#115;&#64;&#112;&#108;&#116;</a>
 18  }
    0x0804862a &lt;:+24&gt;:   add    $0x24,%esp
-</pre>
+</code></pre>
 <p>With the help of _Unwind_ we are now able to get enough information about the current stack frame to decide whether we can or not handle an exception, an also how should we handle it. One more step is needed before we can detect the landing pad we want: we will need to interpret the CFI (call frame information) at the end of the function. This is part of the DWARF spec, the same gdb uses for debugging purposes, and it's not an easy spec to implement. Like we are doing with our ABI, we'll keep this to the bare minimum.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2013-04-09 -

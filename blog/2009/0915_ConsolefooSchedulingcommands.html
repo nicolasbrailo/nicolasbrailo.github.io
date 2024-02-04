@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,13 +9,13 @@
 <h1>Console foo: Scheduling commands<a name="consolefooschedulingcommands"></a></h1>
 <p>You can easily schedule a command using "at", which recognizes a nicely formatted date string.</p>
 <p>For example:</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">$ at today 3:00 AM
-</pre>
+<pre lang="bash"><code lang="bash">$ at today 3:00 AM
+</code></pre>
 <p>This will open a prompt. So, for example:</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">$ at today 3:30 PM
+<pre lang="bash"><code lang="bash">$ at today 3:30 PM
 &gt; wget foobar.com/a_huge_file
 &gt; C-D
-</pre>
+</code></pre>
 <p>Will schedule a download of a huge file, today at 3:00 AM. Nice, isn't it?
 To check the whole list of accepted formats check the man for at.</p>
 <p>One last note: at will "remember" the current environment variables, so PWD, USER, OLD_DIR and all that will be the same. This means if you schedule a command with a relative path it'll still work!</p>

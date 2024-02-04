@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,8 +12,8 @@
     <a href="/blog/2009/0723_mocprand.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0723_mocprand.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I'm quite sure everyone reading this must have a respectable, if not massive, music collection. In this days and age is difficult finding someone who doesn't. It's also difficult to choose one, and only one, disk to listen at any given moment. Until we're upgraded to support concurrent music listening we're better of with a random disk selector, which is exactly what this little script does:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
-SEARCH_DIR=&quot;/home/nico/M&amp;uacute;sica&quot;
+<pre lang="c++"><code lang="c++">#!/bin/bash
+SEARCH_DIR="/home/nico/M&uacute;sica"
 START_RANDOM=1
 RAND_MAX=32767
 while (( 1 )); do
@@ -20,18 +21,18 @@ while (( 1 )); do
   RAND=$(($NUM_DISCS * $RANDOM / $RAND_MAX))
   RAND_DISC=$(find $SEARCH_DIR -type d | head -n $RAND | tail -n 1)
   # Wake up moc
-  mocp -FS 2&amp;gt;/dev/null &amp;gt;/dev/null &amp;amp;
-  mocp -pca &quot;$RAND_DISC&quot; &amp;amp;
-  echo &quot;Playing $RAND_DISC&quot;
+  mocp -FS 2&gt;/dev/null &gt;/dev/null &amp;
+  mocp -pca "$RAND_DISC" &amp;
+  echo "Playing $RAND_DISC"
   # Start from a random file?
   if (( $START_RANDOM )); then
-    mocp --on shuffle &amp;amp;
-    mocp -f &amp;amp;
-    mocp --off shuffle &amp;amp;
+    mocp --on shuffle &amp;
+    mocp -f &amp;
+    mocp --off shuffle &amp;
   fi
   read
 done
-</pre>
+</code></pre>
 <p>Of course, it requires <a href="http://moc.daper.net/">mocp</a>, my favorite music (on console) player. And obviously, you'll have to configure SEARCH_DIR but I'm sure some bash hacking is not that hard.</p>
 <p>Beware though, using this + cron may have the undesired effect of awakening to the pleasant music of Cannibal Corpse.</p>
 <hr />
@@ -44,13 +45,13 @@ done
     <a href="/blog/2009/0721_CMagicmembercallbacks.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0721_CMagicmembercallbacks.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Short post about C++ this time - though calling it a request would be more appropiate. I'm trying to create some kind of magic callback to do this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Caller {
+<pre lang="c++"><code lang="c++">class Caller {
  Callback c;
   public:
   Caller(Callback c) : c(c) {}
  void doit(){ c(this); }
 };
-</pre>
+</code></pre>
 <p>Shouldn't be too difficult, right?</p>
 <p>There are some hidden complexities, of course, mostly regarding the callback parameter type, but the idea is simple, keep the caller dependant only in the callback, not in the callee.</p>
 <p>Templates are not a valid solution as the callee may have more than one callback (i.e. expect more than a single object to finish and call the callback) so the whole idea of this is having the callback "bind" to a member method when created, doesn't matter which one.</p>
@@ -260,35 +261,35 @@ Other than that, the code is quite close to what I've been looking for. Check th
 <p>In LaTeX there's an easy way to handle source code. Though it was difficult to figure out, once in place this requires no maintenance at all - no need to manually syntax highlight your code nor update any files other than the source code itself. Even more, you can even change the source code language and it won't even matter in the presentation.</p>
 <h3>Preliminars<a name="preliminars"></a></h3>
 <p>You'll need "pygmentyze" which is provided by the package python-pygments:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">apt-cache search pygment
+<pre lang="c++"><code lang="c++">apt-cache search pygment
 python-pygments - syntax highlighting package written in Python
 sudo apt-get install python-pygments
-</pre>
+</code></pre>
 <p>Using it is really easy, check the manpage. Anyway, I'm too lazy to generate the syntax highlighted document by hand, let's add it to the makefile.</p>
 <h3>Automating the source code generation<a name="automatingthesourcecodegeneration"></a></h3>
 <p>Let's beging by adding a "code" folder inside our project. We'll store there all the source code files, and having them in a separated folder will enable us to add a target in the makefile to automatically update the source code in the LaTeX file.</p>
 <p>Remember the makefile from a couple of posts back? Let's add a target:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Hack to make it work when foo.code =&amp;gt; foo.code.tex
+<pre lang="c++"><code lang="c++"># Hack to make it work when foo.code =&gt; foo.code.tex
 code/%.tex: code/%.<em> code/%.aux code/%.tex
   @rm code/</em>.aux
  $(MAKE) -C .
 code/%.tex: code/%.<em>
- pygmentize -f latex -O style=&amp;#x27;border=#000000,colorful,linenos=1&amp;#x27; $&amp;lt; &amp;gt; $@
+ pygmentize -f latex -O style=&#x27;border=#000000,colorful,linenos=1&#x27; $&lt; &gt; $@
 # Search each code file to format and include
-CODE_FILES:=$(shell ls code/|egrep -v &amp;#x27;.tex$ |.aux$ &amp;#x27; )
+CODE_FILES:=$(shell ls code/|egrep -v &#x27;.tex$ |.aux$ &#x27; )
 CODE_FILES_DEP:=$(addprefix code/, $(CODE_FILES))
 CODE_FILES_TGT:=$(addsuffix .tex, $(basename $(CODE_FILES_DEP)))
 main.pdf: $(shell ls </em>.tex) $(CODE_FILES_TGT)
-  pdflatex main.tex &amp;gt; /dev/null
-</pre>
+  pdflatex main.tex &gt; /dev/null
+</code></pre>
 <p>OK, maybe a couple more than one. It may seem like a lot of makefile code but all it does is define a code directory and a target to run pygmentize on each source file found there. We'll have to add a dependency in the document's target so it'll be automatically generated with each build:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">main.pdf: code_frames *.tex
-  pdflatex main.tex &amp;amp;&amp;amp; pdflatex main.tex
-</pre>
+<pre lang="c++"><code lang="c++">main.pdf: code_frames *.tex
+  pdflatex main.tex &amp;&amp; pdflatex main.tex
+</code></pre>
 <p>and then, we'll need to clean up the new temp files:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">code_clean:
+<pre lang="c++"><code lang="c++">code_clean:
  @rm -f $(CODE_FILES_TGT) code/*.aux
-</pre>
+</code></pre>
 <p>Don't worry, there's a link to the full makefile.</p>
 <h3>At last!<a name="atlast"></a></h3>
 <p>It shouldn't have been too much work and we're done anyway. To include a source code file in your document now use the include command (like include{code/foobar.cpp) and re build. I'm attaching a complete example in a zip file, with my latest implementation of a bogosort algorithm (now 50% faster).</p>
@@ -311,15 +312,15 @@ main.pdf: $(shell ls </em>.tex) $(CODE_FILES_TGT)
 <h3>Including other tex files<a name="includingothertexfiles"></a></h3>
 <p>You should be able to write some simple documents now, some in LyX, some in LaTeX, but you'll soon start to notice that using a single text file to create a large document becomes cumbersome. Even more so if you need to split the work between several people in a team.</p>
 <p>There's an easy way to keep a main file and then several, smaller, files in which you can work more comfortably:</p>
-<pre style="display: inline-block; border: 1px solid red;">include{file.tex}
-</pre>
+<pre><code>include{file.tex}
+</code></pre>
 <p>Easy, right?</p>
 <p>Beware, you can't use an include inside an include. Why? No idea, but there's a way around this:</p>
-<pre style="display: inline-block; border: 1px solid red;">input{file.tex}
-</pre>
+<pre><code>input{file.tex}
+</code></pre>
 <h3>Quick preview<a name="quickpreview"></a></h3>
 <p>Using includes has another advantage: you can have a quick preview while working with a chapter at a time. I usually keep the following structure within my projects:</p>
-<pre style="display: inline-block; border: 1px solid red;">% Header declarations
+<pre><code>% Header declarations
 % Include packages
 % Document preamble
 % ...
@@ -327,7 +328,7 @@ main.pdf: $(shell ls </em>.tex) $(CODE_FILES_TGT)
 %input{chapter2.tex}
 input{chapter3.tex}
 % input{chapter4.tex}
-</pre>
+</code></pre>
 <p>Just uncomment the chapter you're working with. In big documents this has a very noticeable effect, as compiling a large LaTeX file into an enormous pdf document (several MBs) may be quite slow.</p>
 <p>Of course, I use "input" in my main file so I can use include in the chapters themselves. I won't usually need to include other documents inside the chapters, it'd get quite messy, but it's necessary to work with embedded documents, as we'll see in another post.</p>
 <hr />
@@ -344,23 +345,23 @@ input{chapter3.tex}
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0702_LaTeXMakefile.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Remember I said that being a programmer would make you a lot more comfortable around LaTeX? The reason is quite simple, tex is just source code for a document. As with any source code in Linux (Windows too, but that is besides the point) you can use a Makefile to compile it and make your life easier.</p>
 <p>I have already posted this <a href="https://example.net/brokenlink/2009/05/makefile.html">Makefile</a> in <a href="/blog/2009/0528_LaTeXbasics.html">another entry</a> but it's time to explain how it works.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 all: main.pdf
 main.pdf: code_frames <em>.tex
-  pdflatex main.tex &amp;amp;&amp;amp; pdflatex main.tex
+  pdflatex main.tex &amp;&amp; pdflatex main.tex
 .PHONY: run clean edit
 edit:
   gvim -S vim.sess
 run: main.pdf
- evince main.pdf &amp;amp;
+ evince main.pdf &amp;
 clean:
  @# for each .tex file, remove the extension
  @#    and delete its generated files
- @for PART in $(shell ls </em>.tex| sed &#x27;s:.tex::g&#x27;); do
-   echo &quot;<em>.out </em>.nav <em>.aux </em>.toc <em>.log </em>.snm <em>.pdf </em>.vrb&quot; | \
-      sed &quot;s:*:$$PART:g&quot; | xargs rm -f;
+ @for PART in $(shell ls </em>.tex| sed 's:.tex::g'); do
+   echo "<em>.out </em>.nav <em>.aux </em>.toc <em>.log </em>.snm <em>.pdf </em>.vrb" | \
+      sed "s:*:$$PART:g" | xargs rm -f;
  done
-</pre>
+</code></pre>
 <p>It's rather easy, let's check it target by target:</p>
 <ul>
 <li><strong>all</strong>: create the main document - used as default target</li>

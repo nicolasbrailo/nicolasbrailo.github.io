@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -19,28 +20,28 @@
 <ul>
 <li><strong>Footnotes</strong>:</li>
 </ul>
-<pre style="display: inline-block; border: 1px solid red;">footnote{ Footnote text }
-</pre>
+<pre><code>footnote{ Footnote text }
+</code></pre>
 <p>Just write your text, it'll be there when you compile the document</p>
 <ul>
 <li><strong>Vertical skip</strong>:</li>
 </ul>
-<pre style="display: inline-block; border: 1px solid red;">bigskip
-</pre>
+<pre><code>bigskip
+</code></pre>
 <p>Because, some times, LaTeX default formatting won't be enough.</p>
 <ul>
 <li><strong>Align text</strong> Center:</li>
 </ul>
-<pre style="display: inline-block; border: 1px solid red;">begin{center}TEXTend{center}
-</pre>
+<pre><code>begin{center}TEXTend{center}
+</code></pre>
 <p>Right:</p>
-<pre style="display: inline-block; border: 1px solid red;">begin{flushright}TEXTend{flushright}
-</pre>
+<pre><code>begin{flushright}TEXTend{flushright}
+</code></pre>
 <p>Again, some times you may need it. Not too often, though.</p>
 <p>You should now be able to write your first LaTeX document, starting from a template (always start with a template... it's easier). I'm attaching to this post an example document in LyX, LaTeX and its compiled pdf, in case you're wondering what does it look like in the end. For the next entry: some "advanced" tips and tricks, now let's see an example LaTeX document:</p>
-<pre style="display: inline-block; border: 1px solid red;">documentstyle[11pt]{article}
+<pre><code>documentstyle[11pt]{article}
 title{LaTeX Example}
-author{Nicol&#x27;as Brailovsky}
+author{Nicol'as Brailovsky}
 setlength{topmargin}{-.5in}
 setlength{oddsidemargin}{.125in}
 setlength{textwidth}{6.25in}
@@ -55,7 +56,7 @@ Donec porta, enim eget tempus tempor, eros sem dapibus diam, vitae lacinia mauri
 end{quotation}
 subsection{Subsection}
 You can have subsections too ldots
-subsection{Subsection&#x27;}
+subsection{Subsection'}
 ldots as many as you want
 subsection{Random stuff}
 You can even create a shopping list in LaTeX, if you wish
@@ -73,7 +74,7 @@ end{center}
 Or even better, use it to do the homework. \
 Math is a breeze in LaTeX: $x_n = sqrt{a + b}$ can be typeset inline.
 end{document}
-</pre>
+</code></pre>
 <p>You can download the compiled document from <a href="/blog/youfoundadeadlink.html">this link.</a> May be it doesn't look too useful (I'd use <a href="http://www.lyx.org">LyX</a> instead) but soon we'll start doing some cool stuff LyX can't handle. Keep tuned for the next LaTeX article.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2009-06-22 -

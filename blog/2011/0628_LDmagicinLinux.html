@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,8 +9,8 @@
 <h1>LD magic in Linux<a name="ldmagicinlinux"></a></h1>
 <p>The linker is a magical beast which does all sort of crazy stuff with your binaries, without you even knowing it. Every Linux install has a linker living in the shadows, though seeing it in action is a rare supernatural event. There is an ancient tradition to communicate with the spirit of your linker. Not many know about this secret dark path and it's powers to annoy even the most experienced (L)user.</p>
 <p>You may begin your journey with the following enchanting:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">export LD_DEBUG=help
-</pre>
+<pre lang="c++"><code lang="c++">export LD_DEBUG=help
+</code></pre>
 <p>If everything went fine nothing will seem to happen, yet if the gods of the console have heard you, the next time you try to run any binary at all you'll start to see the real magic. Try it, a simple "ls" will do the trick (don't use commands which are not binaries, like echo or export, these are "hardcoded" in bash, so to speak, and won't work since no runtime linking is necessary: they have already been linked when bash started!).</p>
 <p>Read the help you just found. There is a lot of useful information there. Knowing the libs will give you an insight on the dependencies and the loading process of a binary. I have no idea what would be the use of knowing the files for each lib. The symbols and bindings are quite interesting, they remind me of an strace.</p>
 <p>"all" is probably the best option to annoy a fellow programmer. Just set the env var and watch him go crazy.</p>

@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,29 +8,29 @@
 </ul>
 <h1>More preprocessor wizardy: strings<a name="morepreprocessorwizardystrings"></a></h1>
 <p>No preprocesor wizard should go out of his house without the always useful string maker. Let's say you're trying to create a class with some sort of pseudo type-system (*):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class FooBar {
+<pre lang="c++"><code lang="c++">class FooBar {
    public:
-   const char* get_name(){ return &quot;FooBar&quot;; }
+   const char* get_name(){ return "FooBar"; }
 };
-</pre>
+</code></pre>
 <p>Why would you type ALL that when you can make a simple macro, MK_CLASS, like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">MK_CLASS( FooBar )
+<pre lang="c++"><code lang="c++">MK_CLASS( FooBar )
    /<em> Other methods </em>/
 };
-</pre>
+</code></pre>
 <p>Problem is, this will only print "Name":</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define MK_CLASS( Name )
+<pre lang="c++"><code lang="c++">#define MK_CLASS( Name )
       class Name { public:
-            const char *get_name(){ return &quot;Name&quot;; }
-</pre>
+            const char *get_name(){ return "Name"; }
+</code></pre>
 <p>Well, it's an easy fix, just prepend # to your string, like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define MK_CLASS( Name )
+<pre lang="c++"><code lang="c++">#define MK_CLASS( Name )
       class Name { public:
             const char *get_name(){ return #Name; }
-</pre>
+</code></pre>
 <p>Or use this nice string maker:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define MK_STR(str) #str
-</pre>
+<pre lang="c++"><code lang="c++">#define MK_STR(str) #str
+</code></pre>
 <p>As usual, use the preprocesor at your own risk.</p>
 <p>(*) Yeah, I know, OO purists will try to beat me to death for this, but it actually has some uses. I've found it to be a specially good solution when working with low level protocols.</p>
 <hr />

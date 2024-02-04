@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,33 +8,33 @@
 </ul>
 <h1>Template metaprogramming II: Openning the box<a name="templatemetaprogrammingiiopenningthebox"></a></h1>
 <p>We saw last time how to print a factorial using only template metaprogramming, but didn't explain anything about it. I promised to fix that in this article. Starting by the very beginning:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N&amp;gt; struct Factorial {
-    static const int result = N * Factorial&amp;lt;N-1&amp;gt;::result;
+<pre lang="c++"><code lang="c++">template &lt;int N&gt; struct Factorial {
+    static const int result = N * Factorial&lt;N-1&gt;::result;
 };
-template &amp;lt;&amp;gt; struct Factorial&amp;lt;0&amp;gt; {
+template &lt;&gt; struct Factorial&lt;0&gt; {
     static const int result = 1;
 };
 int main() {
-    std::cout &amp;lt;&amp;lt; Factorial&amp;lt;5&amp;gt;::result &amp;lt;&amp;lt; &quot;n&quot;;
+    std::cout &lt;&lt; Factorial&lt;5&gt;::result &lt;&lt; "n";
     return 0;
 }
-</pre>
+</code></pre>
 <h3>Why static const?<a name="whystaticconst"></a></h3>
 <p>Templates get evaluated on compile time, remember? That means all that code actually executes when compiling the source, not when executing the resulting binary (assuming it actually compiles, of course). Having as a constraint the fact that all your code must resolve on compile time means only const vars make sense. Also, as you're working with classes (templates are applied to classes, not objects) only static objects make sense.</p>
 <p>That explains the <em>static const</em> thing, what about the Factorial&lt;0&gt;? Well it's obviously an edge case. It describes a specific case of a Factorial. It's a specialization! Why do we need it? Take a look again at the definition of struct Factorial: it's a recursive definition. How do we break from the recursive loop? With a base case, obviously.</p>
 <p>If this is starting to remind you of anything then you are crazier than you think, and you already know some Haskel. Indeed, template metaprogramming has some resemblance to Haskel programming: no const "variables", no for-loop (only recursion), base cases (pattern matching), and cryptic error messages which makes you want to jump of a cliff.</p>
 <p>A useful trick I learned when working with Haskel (many many years ago) is to declare the problem, instead of thinking it. For our problem the factorial of a number is defined as said number times the factorial of that same number minus one, being the factorial of 0 always 1.</p>
 <p>Translating:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// the factorial of a number is defined as said number times
+<pre lang="c++"><code lang="c++">// the factorial of a number is defined as said number times
 // the factorial of that same number minus one
-template &amp;lt;int N&amp;gt; struct Factorial {
-    static const int result = N * Factorial&amp;lt;N-1&amp;gt;::result;
+template &lt;int N&gt; struct Factorial {
+    static const int result = N * Factorial&lt;N-1&gt;::result;
 };
 // being the factorial of 0 always 1.
-template &amp;lt;&amp;gt; struct Factorial&amp;lt;0&amp;gt; {
+template &lt;&gt; struct Factorial&lt;0&gt; {
     static const int result = 1;
 };
-</pre>
+</code></pre>
 <p>That's good for a first approach... next time something more complex (and less theory, promise).</p>
 <hr />
 <p>Thanks to St&eacute;phane Michaut for reporting broken code in this page.</p>

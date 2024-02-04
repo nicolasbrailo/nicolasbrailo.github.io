@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -13,12 +14,12 @@
 <li>You have no (easy) way of detecting if the method is defined in your parent's parent</li>
 </ul>
 <p>Even though this code will never be useful, I thought I might as well post this here, just in case anyone comes up with a solution for those problems.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// :!g++ foo.cpp -lgtest_main -lgmock &amp;&amp; ./a.out
+<pre lang="c++"><code lang="c++">// :!g++ foo.cpp -lgtest_main -lgmock &amp;&amp; ./a.out
 #include &lt;gtest/gtest.h&gt;
 #include &lt;gmock/gmock.h&gt;
 using namespace testing;
-/<strong>
- * &quot;Real&quot; application
+/**
+ * "Real" application
  */
 class Foo {
     public:
@@ -29,17 +30,17 @@ class Do {
     public:
     int something(Foo &amp;foo){ return foo.bar(1); }
 };
-/</strong>
+/**
  * Class used to compare method ptrs. We need to inherit from class C
  * to forward the calls to the derived methods.
- <em>/
+ */
 template &lt;class C, class D&gt;
 class Mocks_Must_Exist_In : public C {
     public:
-    // We don&#x27;t know in the derived class the typeof the parent class
+    // We don't know in the derived class the typeof the parent class
     // so we define a common name using some template magic
     typedef C ParentClass;
-    // Actually we don&#x27;t know our own class either
+    // Actually we don't know our own class either
     typedef D Self;
     // Function ptr definitions are ugly so we might as well use
     // a template to hide it under the rug
@@ -50,17 +51,17 @@ class Mocks_Must_Exist_In : public C {
     void defined_##Method() {
         mock_created_for_unexisting_method(&amp;Self::Method, &amp;ParentClass::Method);
     }
-/</em><em>
- * Checked mock, shouldn&#x27;t compile if Foo&#x27;s interface changes
- </em>/
+/**
+ * Checked mock, shouldn't compile if Foo's interface changes
+ */
 class FooMock : public Mocks_Must_Exist_In&lt; Foo, FooMock &gt; {
     public:
     MOCK_METHOD1(bar, int(int));
     METHOD_EXISTS(bar);
 };
-/*<em>
+/**
  * Unchecked mock, should compile if Foos interface changes
- </em>/
+ */
 class FooMock2 {
     public:
     MOCK_METHOD0(bar, int());
@@ -70,7 +71,7 @@ TEST(FooTest, ThisShouldCompile) {
     EXPECT_CALL(foo, bar(_)).WillOnce(Return(42));
     EXPECT_EQ(42, Do().something(foo));
 }
-</pre>
+</code></pre>
 <hr />
 <p>Post by Nico Brailovsky @ 2011-12-08 -
     <a href="/blog/2011/1208_CCheckingifamethodexistsinaparentclass.html">Permalink</a> -

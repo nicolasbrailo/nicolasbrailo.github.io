@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -18,13 +19,13 @@
 <li>A side effect of this multi-phase macro expansion is that the nice expansion tree we used to have no longer works.</li>
 </ol>
 <p>Let's take this example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define str(...) #<strong>VA_ARGS</strong>
+<pre lang="c++"><code lang="c++">#define str(...) #<strong>VA_ARGS</strong>
 #define foo(a, b) foo a bar str(b)
 #define bar foo bar 1
 foo(bar, (1, 2, 3))
-</pre>
+</code></pre>
 <p>How can we expand this macro call? Like this:</p>
-<pre style="display: inline-block; border: 1px solid red;">expand{ foo(bar) }
+<pre><code>expand{ foo(bar) }
         Match foo with definition of macro: foo(a)
             Bind a to bar
             Macro expand argument a -&gt; expand{ bar }
@@ -48,12 +49,12 @@ foo(bar, (1, 2, 3))
                 str((1, 2, 3)): Expand macro call
                         Bind (1, 2, 3) to <strong>VA_ARGS</strong>
                             Analyze (1, 2, 3) for further expansion
-                            Apply operator &#x27;#&#x27; to (1, 2, 3) -&gt; &quot;(1, 2, 3)&quot;
+                            Apply operator '#' to (1, 2, 3) -&gt; "(1, 2, 3)"
                         Replace #<strong>VA_ARGS</strong>
-                Replace the result of str((1,2,3)) -&gt; &quot;(1, 2, 3)&quot;
-        Replace the original call &quot;foo(bar, (1, 2, 3))&quot; for the result
-            -&gt; foo foo bar 1 foo bar 1 &quot;(1, 2, 3)&quot;
-</pre>
+                Replace the result of str((1,2,3)) -&gt; "(1, 2, 3)"
+        Replace the original call "foo(bar, (1, 2, 3))" for the result
+            -&gt; foo foo bar 1 foo bar 1 "(1, 2, 3)"
+</code></pre>
 <p>This last example should be a good representative of the complexities involved in a macro expansion; hopefully now you know more than you ever wanted to know about macros.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2013-10-01 -

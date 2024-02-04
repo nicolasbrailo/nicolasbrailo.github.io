@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,21 +8,21 @@
 </ul>
 <h1>Mixin(ish) classes with parameter packs in C++<a name="mixinishclasseswithparameterpacksinc"></a></h1>
 <p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
-</pre>
+<pre lang="c++"><code lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
+</code></pre>
 <p>This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.</p>
 <p>Full example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct EnableFeatureA {
-  template &amp;lt;typename T&amp;gt; static void apply(T <em>a) {
-    cout &amp;lt;&amp;lt; a-&amp;gt;a() &amp;lt;&amp;lt; endl;
+<pre lang="c++"><code lang="c++">struct EnableFeatureA {
+  template &lt;typename T&gt; static void apply(T *a) {
+    cout &lt;&lt; a-&gt;a() &lt;&lt; endl;
   }
 };
 struct EnableFeatureB {
-  template &amp;lt;typename T&amp;gt; static void apply(T </em>a) {
-    cout &amp;lt;&amp;lt; T::b() &amp;lt;&amp;lt; endl;
+  template &lt;typename T&gt; static void apply(T *a) {
+    cout &lt;&lt; T::b() &lt;&lt; endl;
   }
 };
-template &amp;lt;typename Impl, typename... Config&amp;gt;
+template &lt;typename Impl, typename... Config&gt;
 struct Foo {
   Foo(){
     // Call apply() for each type in Config
@@ -30,12 +31,12 @@ struct Foo {
   }
 };
 struct Bar;
-using FwdFoo = Foo&amp;lt;Bar, EnableFeatureA, EnableFeatureB&amp;gt;;
+using FwdFoo = Foo&lt;Bar, EnableFeatureA, EnableFeatureB&gt;;
 struct Bar : FwdFoo {
    int a() { return 4; }
    static int b() { return 2; }
 };
-</pre>
+</code></pre>
 <h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Balazs Benics</a> commented @ 2020-02-18T18:57:18.000+01:00:<a name="inreplytothispostbalazsbenicscommented20200218t185718.0000100"></a></h2>

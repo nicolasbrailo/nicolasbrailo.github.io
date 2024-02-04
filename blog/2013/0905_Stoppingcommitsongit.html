@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,14 +9,13 @@
 <h1>Stopping commits on git<a name="stoppingcommitsongit"></a></h1>
 <p>Who hasn't commited debug code by mistake? It's only normal to forget to remove an #include we added only to test some stuff. Luckily it's easy to tell git that we don't want to commit any changes with a certain string.</p>
 <p>On any (git) repo you'll find a .git/hooks folder; add this script in .git/hooks/pre-commit (and don't forget to chmod +x it):</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">#!/bin/sh
-if [ 0 != <code>git diff | grep &amp;quot;STOPCOMMIT&amp;quot; | wc -l
-</code> ]; then
-    echo &quot;Error: STOPCOMMIT found, remove it before commiting&quot;;
+<pre lang="bash"><code lang="bash">#!/bin/sh
+if [ 0 != <code>git diff | grep "STOPCOMMIT" | wc -l</code> ]; then
+    echo "Error: STOPCOMMIT found, remove it before commiting";
     git diff
     exit 1
 fi
-</pre>
+</code></pre>
 <p>Now git will check your commits and stop them if they contain the STOPCOMMIT string. Now you can add all the debug changes you want, as long as you add a //STOPCOMMIT after them you'll never end up commiting them by mistake.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2013-09-05 -

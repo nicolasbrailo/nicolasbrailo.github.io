@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -9,11 +10,11 @@
 <p>Remember my problems with <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">dual screen support</a> in Ubuntu? Well, I still love bashing Ubuntu, and the sound system in Linux is certainly a topic to rant a lot. Making the sound work fine in Ubuntu is an odyssey in pain and frustration, unless it works fine out of the box. And even if it does, it may still have it's kirks. Lots of them.</p>
 <p>In my case the sound starts in mute. I know it's a problem with pulse (which is a WTF in itself) and alsa, I don't really care what's the problem though, I just want to play my mp3s collection without having to carefully turn the knobs up to eleven in alsamixer.</p>
 <p>After trying a lot of the "solutions" found on the internets I've decided the best thing to do, short of switching back to windows me, is adding the following to my "fix_ubuntu_fuckups.sh" start script, which already contains my dual-screen pseudofix:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">amixer -c0 -- sset Master playback -0dB unmute
+<pre lang="c++"><code lang="c++">amixer -c0 -- sset Master playback -0dB unmute
 amixer -c0 -- sset Headphone playback 0dB unmute
 amixer -c0 -- sset Front playback 0dB unmute
 amixer -c0 -- sset PCM playback -16dB unmute
-</pre>
+</code></pre>
 <p>This sets alsamixer to normal volume levels. As for the real fix, I'll wait till the next Ubuntu version. I wonder which sound subsystem will they chose next time.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2010-05-04 -

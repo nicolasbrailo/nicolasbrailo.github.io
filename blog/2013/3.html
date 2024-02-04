@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -21,12 +22,12 @@
 <p>We finished last chapter on the series about C++ exceptions by adding a personality function that _Unwind_ was able to call. It didn't do much but there it was. The ABI we have been implementing can now throw exceptions and the catch is already halfway implemented, but the personality function needed to properly choose the catch block (landing pad) is bit dumb so far. Let's start this new chapter by trying to understand what are the parameters that the personality function receives and next time we'll begin adding some real behavior to __gxx_personality_v0: when __gxx_personality_v0 is called we should say "yes, this stack frame can indeed handle this exception".</p>
 <p>We already said we won't care for the version or the exceptionClass for our mini ABI. Let's ignore the context too, for now: we'll just handle every exception with the first stack frame above the function throwing; note this implies there must be a try/catch block on the function immediately above the throwing function, otherwise everything will break. This also implies the catch will ignore its exception specification, effectively turning it into a catch(...). How do we let _Unwind_ know we want to handle the current exception?</p>
 <p>_Unwind_Reason_Code is the return value from the personality functions; this tells _Unwind_ whether we found a landing pad to handle the exception or not. Let's implement our personality function to return _URC_HANDLER_FOUND then, and see what happens:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">alloc ex 1
+<pre lang="c++"><code lang="c++">alloc ex 1
 __cxa_throw called
 Personality function FTW
 Personality function FTW
 no one handled __cxa_throw, terminate!
-</pre>
+</code></pre>
 <p>See that? We told _Unwind_ we found a handler, and it called the personality function yet again! What is going on there?</p>
 <p>Remember the action parameter? That's how _Unwind_ tells us what he is expecting, and that is because the exception catching is handled in two phases: lookup and cleanup (or _UA_SEARCH_PHASE and _UA_CLEANUP_PHASE). Let's go again over our exception throwing and catching recipe:</p>
 <ul>
@@ -75,27 +76,27 @@ no one handled __cxa_throw, terminate!
 <li>Unwind will invoke the personality function with the current stack frame and the LSDA; this function should reply to unwind whether this stack can handle the exception or not</li>
 </ul>
 <p>Knowing this, it's about time we implement our own personality function. Our ABI used to print this when an exception was thrown:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">alloc ex 1
+<pre lang="c++"><code lang="c++">alloc ex 1
 __cxa_throw called
 no one handled __cxa_throw, terminate!
-</pre>
+</code></pre>
 <p>Let's go back to our mycppabi and let's add something like this (link to full mycppabi.cpp file):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void __gxx_personality_v0()
+<pre lang="c++"><code lang="c++">void __gxx_personality_v0()
 {
-    printf(&quot;Personality function FTW\n&quot;);
+    printf("Personality function FTW\n");
 }
-</pre>
+</code></pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
 <p>And sure enough, when we run it we should see our personality function being called. We know we're on the right track and now we have an idea of what we want for our personality function; let's start using the proper definition for this function:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Unwind_Reason_Code __gxx_personality_v0 (
+<pre lang="c++"><code lang="c++">_Unwind_Reason_Code __gxx_personality_v0 (
                      int version, _Unwind_Action actions, uint64_t exceptionClass,
                      _Unwind_Exception<em> unwind_exception, _Unwind_Context</em> context);
-</pre>
+</code></pre>
 <p>If we put that into our mycppabi.cpp file we get:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;unistd.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;stdint.h&gt;
+<pre lang="c++"><code lang="c++">#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 namespace __cxxabiv1 {
     struct __class_type_info {
         virtual void foo() {}
@@ -103,15 +104,15 @@ namespace __cxxabiv1 {
 }
 #define EXCEPTION_BUFF_SIZE 255
 char exception_buff[EXCEPTION_BUFF_SIZE];
-extern &quot;C&quot; {
+extern "C" {
 void<em> __cxa_allocate_exception(size_t thrown_size)
 {
-    printf(&quot;alloc ex %i\n&quot;, thrown_size);
-    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf(&quot;Exception too big&quot;);
+    printf("alloc ex %i\n", thrown_size);
+    if (thrown_size &gt; EXCEPTION_BUFF_SIZE) printf("Exception too big");
     return &amp;exception_buff;
 }
 void __cxa_free_exception(void </em>thrown_exception);
-#include &lt;unwind.h&gt;
+#include <unwind.h>
 typedef void (<em>unexpected_handler)(void);
 typedef void (</em>terminate_handler)(void);
 struct __cxa_exception {
@@ -130,33 +131,33 @@ struct __cxa_exception {
 };
 void __cxa_throw(void<em> thrown_exception, struct type_info </em>tinfo, void (<em>dest)(void</em>))
 {
-    printf(&quot;__cxa_throw called\n&quot;);
+    printf("__cxa_throw called\n");
     __cxa_exception <em>header = ((__cxa_exception </em>) thrown_exception - 1);
     _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
     // __cxa_throw never returns
-    printf(&quot;no one handled __cxa_throw, terminate!\n&quot;);
+    printf("no one handled __cxa_throw, terminate!\n");
     exit(0);
 }
 void __cxa_begin_catch()
 {
-    printf(&quot;begin FTW\n&quot;);
+    printf("begin FTW\n");
 }
 void __cxa_end_catch()
 {
-    printf(&quot;end FTW\n&quot;);
+    printf("end FTW\n");
 }
 _Unwind_Reason_Code __gxx_personality_v0 (
                      int version, _Unwind_Action actions, uint64_t exceptionClass,
                      _Unwind_Exception<em> unwind_exception, _Unwind_Context</em> context)
 {
-    printf(&quot;Personality function FTW!\n&quot;);
+    printf("Personality function FTW!\n");
 }
 }
-</pre>
+</code></pre>
 <p>Code @ <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">my github repo</a>.</p>
 <p>Let's compile and link everything, then run it and start by analyzing each param to this function with some help of gdb:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">Breakpoint 1, __gxx_personality_v0 (version=1, actions=1, exceptionClass=134514792, unwind_exception=0x804a060, context=0xbffff0f0)
-</pre>
+<pre lang="c++"><code lang="c++">Breakpoint 1, __gxx_personality_v0 (version=1, actions=1, exceptionClass=134514792, unwind_exception=0x804a060, context=0xbffff0f0)
+</code></pre>
 <ul>
 <li>The version and the exceptionClass are related to language/ABI/compiler toolchain/native or non-native exception, etc. We don't need to worry about it for our mini ABI, we'll just handle all the exceptions.</li>
 <li>Actions: this is what _Unwind_ uses to tell the personality function what it should do (more on that later)</li>
@@ -179,13 +180,13 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 <p>We learned last time that, just as a throw statement is translated into a pair of <strong>__cxa_allocate_exception/throw</strong> calls, a catch block is translated into a pair of <strong>__cxa_begin/end_catch</strong> calls, plus something called CFI (call frame information) to find the landing pads, the points on a function where an exception can be handled.</p>
 <p>What we don't yet know is how does _Unwind_* know where the landing pads are. When an exception is thrown there are a bunch of functions in the stack; all the CFI stuff will let Unwind know which functions these are but it's also necessary to know which landing pads each function provides so we can call each one and check if it wants to handle the exception (and we're ignoring functions with multiple try/catch blocks!).</p>
 <p>To know where the landing pads are, something called gcc_except_table is used. This can be found (with a bunch of CFI stuff) after the function's end:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">.LFE1:
+<pre lang="c++"><code lang="c++">.LFE1:
     .globl  __gxx_personality_v0
-    .section    .gcc_except_table,&quot;a&quot;,@progbits
+    .section    .gcc_except_table,"a",@progbits
     [...]
 .LLSDACSE1:
     .long   _ZTI14Fake_Exception
-</pre>
+</code></pre>
 <p>The section .gcc_except_table is where all information to locate a landing pad is stored, and we'll see more about it once we get to analyzing the personality function; for now, we'll just say that LSDA means language specific data area and it's the place where the personality function will check if there are any landing pads for a function (it is also used to run the destructors when unwinding the stack).</p>
 <p>To wrap it up: for every function where at least a catch is found, the compiler will translate this statement into a pair of <strong>__cxa_begin_catch/__cxa_end_catch</strong> calls and then the personality function, which will be called by <strong>__cxa_throw</strong>, will read the gcc_except_table for every method in the stack, to find something call LSDA. The personality function will then check in the LSDA whether a catch can handle an exception and if there is any cleanup code to run (this is what triggers the destructors when needed).</p>
 <p>We can also draw an interesting conclusion here: if we use the nothrow specifier (or the empty throw specifier) then the compiler can omit the gcc_except_table for this method. The way gcc implements exceptions, that won't have a great impact on performance but it will indeed reduce code size. What's the catch? If an exception is thrown when nothrow was specified the LSDA won't be there and the personality function won't know what to do. When the personality function doesn't know what to do it will invoke the default exception handler, meaning that in most cases throwing from a nothrow method will end up calling std::terminate.</p>
@@ -204,41 +205,41 @@ _Unwind_Reason_Code __gxx_personality_v0 (
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0305_Cexceptionsunderthehood5magicaround__cxa_begin_catchand__cxa_end_catch.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After learning how exceptions are thrown we are now on our way to learn how they are caught. Last time we added to our example application a bunch of try/catch statements to see what they did, and sure enough we got a bunch of linker errors, just like we did when we were trying to find out what does the throw statement do. This is what the linker says when trying to process throw.o:</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+<pre lang="c++"><code lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
 &gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
-throw.o: In function &#x27;try_but_dont_catch()&#x27;:
-throw.cpp:12: undefined reference to &#x27;__cxa_begin_catch&#x27;
-throw.cpp:12: undefined reference to &#x27;__cxa_end_catch&#x27;
-throw.o: In function &#x27;catchit()&#x27;:
-throw.cpp:20: undefined reference to &#x27;__cxa_begin_catch&#x27;
-throw.cpp:20: undefined reference to &#x27;__cxa_end_catch&#x27;
-throw.o:(.eh_frame+0x47): undefined reference to &#x27;__gxx_personality_v0&#x27;
+throw.o: In function 'try_but_dont_catch()':
+throw.cpp:12: undefined reference to '__cxa_begin_catch'
+throw.cpp:12: undefined reference to '__cxa_end_catch'
+throw.o: In function 'catchit()':
+throw.cpp:20: undefined reference to '__cxa_begin_catch'
+throw.cpp:20: undefined reference to '__cxa_end_catch'
+throw.o:(.eh_frame+0x47): undefined reference to '__gxx_personality_v0'
 collect2: ld returned 1 exit status
-</pre>
+</code></pre>
 <p>And our theory, of course, is that a catch statement is translated by the compiler into a pair of <strong>__cxa_begin_catch/end_catch</strong> calls into libstdc++, plus something new called <strong>the personality function</strong> of which we know nothing yet.</p>
 <p>Let's begin by checking if our theory about <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch holds</strong>. Let's compile throw.cpp with -S and analyze the assembly. There is a lot to see but if I strip it to the bare minimum this is what I get:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Z5raisev:
+<pre lang="c++"><code lang="c++">_Z5raisev:
     call    __cxa_allocate_exception
     call    __cxa_throw
-</pre>
+</code></pre>
 <p>So far so good: the same old definition we got for raise(), just throw an exception.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Z18try_but_dont_catchv:
+<pre lang="c++"><code lang="c++">_Z18try_but_dont_catchv:
     .cfi_startproc
     .cfi_personality 0,__gxx_personality_v0
     .cfi_lsda 0,.LLSDA1
-</pre>
+</code></pre>
 <p>The definition for try_but_dont_catch(), mangled by the compiler. There is something new, though: a reference to <strong>__gxx_personality_v0</strong> and to something else called <strong>LSDA</strong>. These are seemingly innocent declarations but they are actually quite important:</p>
 <ul>
 <li>The linker will use these according to a CFI specification; CFI stands for call frame information, and <a href="http://www.logix.cz/michal/devel/gas-cfi/">here</a> there is a full spec for it. It will be used, mostly, to unwind the stack.</li>
 <li><strong>LSDA</strong> on the other hand means language specific data area, and it will be used by the personality function to know which exceptions can be handled by this function</li>
 </ul>
 <p>We'll be talking a lot more about CFI and LSDA in the next articles; don't forget about them, but for now let's move on:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">    [...]
+<pre lang="c++"><code lang="c++">    [...]
     call    _Z5raisev
     jmp .L8
-</pre>
+</code></pre>
 <p>Another easy one: just call "raise", and then jump to L8; L8 will return normally from this function. If raise didn't execute properly then the execution (somehow, we don't know how yet!) shouldn't resume in the next instruction but in the exception handlers (which in ABI-speak are called landing pads. More on that later).</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">    cmpl    $1, %edx
+<pre lang="c++"><code lang="c++">    cmpl    $1, %edx
     je  .L5
 .LEHB1:
     call    _Unwind_Resume
@@ -246,15 +247,15 @@ collect2: ld returned 1 exit status
 .L5:
     call    __cxa_begin_catch
     call    __cxa_end_catch
-</pre>
+</code></pre>
 <p>This is quite difficult to follow but it's actually quite straight forward. Here most of the magic will happen: first we check if this is an exception we can handle, if we can't then we say so by calling _Unwind_Resume, if it is then we call __cxa_begin_catch and __cxa_end_catch; after calling these functions the execution should resume normally and thus L8 will be executed (that is, L8 is right below our catch block):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">.L8:
+<pre lang="c++"><code lang="c++">.L8:
     leave
     .cfi_restore 5
     .cfi_def_cfa 4, 4
     ret
     .cfi_endproc
-</pre>
+</code></pre>
 <p>Just a normal return from our function... with some CFI stuff on it.</p>
 <p>So this is it for exception catching, although we don't know yet how <strong>__cxa_begin/end_catch</strong> work, we have an idea that these pair forms what's called a landing pad, a place in the function to handle the raised exception. What we don't know yet is how the landing pads are found. _Unwind_ must somehow go through all the calls in the stack, check if any call (stack frame, to be precise) has a valid try block with a landing pad that can catch the exception, and then resume the execution there.</p>
 <p>This is no small feat, and we'll see how that works next time.</p>

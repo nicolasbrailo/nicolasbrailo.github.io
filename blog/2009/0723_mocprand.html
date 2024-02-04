@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,8 +8,8 @@
 </ul>
 <h1>mocp rand<a name="mocprand"></a></h1>
 <p>I'm quite sure everyone reading this must have a respectable, if not massive, music collection. In this days and age is difficult finding someone who doesn't. It's also difficult to choose one, and only one, disk to listen at any given moment. Until we're upgraded to support concurrent music listening we're better of with a random disk selector, which is exactly what this little script does:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
-SEARCH_DIR=&quot;/home/nico/M&amp;uacute;sica&quot;
+<pre lang="c++"><code lang="c++">#!/bin/bash
+SEARCH_DIR="/home/nico/M&uacute;sica"
 START_RANDOM=1
 RAND_MAX=32767
 while (( 1 )); do
@@ -16,18 +17,18 @@ while (( 1 )); do
   RAND=$(($NUM_DISCS * $RANDOM / $RAND_MAX))
   RAND_DISC=$(find $SEARCH_DIR -type d | head -n $RAND | tail -n 1)
   # Wake up moc
-  mocp -FS 2&amp;gt;/dev/null &amp;gt;/dev/null &amp;amp;
-  mocp -pca &quot;$RAND_DISC&quot; &amp;amp;
-  echo &quot;Playing $RAND_DISC&quot;
+  mocp -FS 2&gt;/dev/null &gt;/dev/null &amp;
+  mocp -pca "$RAND_DISC" &amp;
+  echo "Playing $RAND_DISC"
   # Start from a random file?
   if (( $START_RANDOM )); then
-    mocp --on shuffle &amp;amp;
-    mocp -f &amp;amp;
-    mocp --off shuffle &amp;amp;
+    mocp --on shuffle &amp;
+    mocp -f &amp;
+    mocp --off shuffle &amp;
   fi
   read
 done
-</pre>
+</code></pre>
 <p>Of course, it requires <a href="http://moc.daper.net/">mocp</a>, my favorite music (on console) player. And obviously, you'll have to configure SEARCH_DIR but I'm sure some bash hacking is not that hard.</p>
 <p>Beware though, using this + cron may have the undesired effect of awakening to the pleasant music of Cannibal Corpse.</p>
 <hr />

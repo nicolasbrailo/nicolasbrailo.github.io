@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -10,34 +11,34 @@
 <p>Running make &amp;&amp; make test only show lower numbers. You actually decreased the performance of your application, by making it multi-threaded! How can this be possible?</p>
 <p>While writing concurrent algorithms there are many places where you can fail, miserably. Contention is only one of them, but this is a very subtle way of failure; it will render your concurrent algorithms into a very complicated sequential algorithm, run in many cores. How can a simple concurrent algorithm turn into such a mess?</p>
 <p>In many cases, false sharing is the culprit of the lost performance. How exactly? Let's write a simple example for this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void lots_of_sums(unsigned idx, int v[])
+<pre lang="c++"><code lang="c++">void lots_of_sums(unsigned idx, int v[])
 {
     const unsigned itrs = LOTS;
     for (int i=0; i &lt; itrs; ++i)
         v[idx].num = i;
 }
-</pre>
+</code></pre>
 <p>Imagine this function, one running in each core and v defined as a simple array. We can expect this to have a linear scalability, right? Turns out it's not that simple. Why? Let's see how v is laid out in memory:</p>
-<pre style="display: inline-block; border: 1px solid red;">+------------+--+--+--+------+-----------------+
+<pre><code>+------------+--+--+--+------+-----------------+
 |Random stuff|V0|V1|V2|...|VN|More random stuff|
 +------------+--+--+--+------+-----------------+
-</pre>
+</code></pre>
 <p>So, v will (most likely) be made of adjacent chunks in memory. We can also assume that sizeof(v[i]) will be 4 or 8 bytes, or something small like that. Why is that important?</p>
 <p>Remember that nowadays a CPU core is amazingly fast, so much that they make main memory look like dial up. To avoid waiting for the main memory to complete a request, several levels of cache exists. These caches know nothing about your application (well, mostly) so they can't know that v0 and v1 are actually different variables. Notice how this would apply if instead of a vector they were two random variables which happen to be allocated spatially close.</p>
 <p>If the CPU cache, L1 for the friends, can't know that v0 and v1 are separate, it will probably try to cache a whole chunk of memory. Say, maybe 64 or 128 bytes. Why should you care?</p>
 <p>Let's go back to our code. When you see this</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">...
+<pre lang="c++"><code lang="c++">...
     v[idx].num = i;
 ...
-</pre>
+</code></pre>
 <p>you just see independent accesses to different variables. What will the cache see? Let's go back to our memory layout, but this time let's make up an offset too:</p>
-<pre style="display: inline-block; border: 1px solid red;">0xF00    0xF10  0xF14...                   0xF40
+<pre><code>0xF00    0xF10  0xF14...                   0xF40
 +------------+--+--+--+------+-----------------+
 |Random stuff|V0|V1|V2|...|VN|More random stuff|
 +------------+--+--+--+------+-----------------+
-</pre>
+</code></pre>
 <p>So, if we assume a 64 byte cache line, then how might the CPU see a read-write process for v[0]? Something like this, probably:</p>
-<pre style="display: inline-block; border: 1px solid red;"> +---------+-------------------+----------------------------+---------------------------+
+<pre><code> +---------+-------------------+----------------------------+---------------------------+
  |  C Code |       CPU         |             L1             |        Main Memory        |
  |---------|-------------------|----------------------------|---------------------------|
  |         |                   |                            |                           |
@@ -45,14 +46,14 @@
  | +------+|                   |                            |                           |
  |       +-&gt; Hey, get me 0xF10 |                            |                           |
  |         | +----------------+|                            |                           |
- |         |                  +&gt; Huh... I don&#x27;t have 0xF10, |                           |
+ |         |                  +&gt; Huh... I don't have 0xF10, |                           |
  |         |                   | let me get that for you... |                           |
  |         |                   |  +-----------------------+ |                           |
  |         |                   |                          +-&gt; 0xF00... yup, here you go |
  |         |                   |                            |                           |
  |         |                   |  I have it now!            |                           |
  +---------+-------------------+----------------------------+---------------------------+
-</pre>
+</code></pre>
 <p>Note an important bit there: the CPU requested 0xF10 but L1 cached the whole segment, from 0xF00 to 0xF40. Why is that? It's called <a href="http://en.wikipedia.org/wiki/Locality_of_reference">spatial locality or locality of reference</a> and since it's not the main goal of this article I'll just say that L1 will cache the whole segment just in case you want it.</p>
 <p>So far so good. What happens when you add more CPUs and write OPs? Remember that write OPs are cached as well.</p>
 <p>Looks pretty similar, but note an interesting thing: CPU1 will read v[0], which translates to 0xF10, whereas CPU2 will read v[1], which translates to 0xF14. Even though these are different addresses, they both correspond to 0xF00 segment, thus L1 will have actually read the same chunk of memory!</p>

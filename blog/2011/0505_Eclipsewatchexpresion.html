@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -10,7 +11,7 @@
 <p>Anyway, someone on the team was having weird issues. A switch would jump to unexpected places. The state of an object would change between method calls. WTF?</p>
 <p>After some debugging then it downed on me: I once (a long time before this strange behavior) saw this person using watch expressions to evaluate a method's return value. You now have enough information to troubleshoot this problem.</p>
 <p>Ready? It's easy. A watch expression of a method call has the ability to alter an object's status. So, if you have something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 class Foo {
    int a;
    public:
@@ -22,7 +23,7 @@ int main() {
    /<em> do something </em>/
    return 42;
 }
-</pre>
+</code></pre>
 <p>and then add a watch expression over bar.sumar(), then bar.a's value will be undefined for the execution of this program. Nice!</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2011-05-05 -

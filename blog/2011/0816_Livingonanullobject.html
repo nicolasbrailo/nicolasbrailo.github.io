@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,21 +8,21 @@
 </ul>
 <h1>Living on a null object<a name="livingonanullobject"></a></h1>
 <p>Check this out:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct S {
+<pre lang="c++"><code lang="c++">struct S {
    int f(){ return 42; }
 };
 int main() {
    S <em>x = (S</em>) NULL;
    return x-&gt;f();
 }
-</pre>
+</code></pre>
 <p>What does this do? Does it compile? Does it crash? I'll give you a second.</p>
 <p>Ready? It does compile, OK</p>
 <p>But it doesn't crash.</p>
 <p>Why, you may ask</p>
 <p>Think about it, you must.</p>
 <p>The compiler will mangle S::f and translate this into something like:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct S {};
+<pre lang="c++"><code lang="c++">struct S {};
 int mangled_S_f(struct S <em>this){
    return 42;
 }
@@ -29,7 +30,7 @@ int main() {
    S </em>x = (S*) NULL;
    mangled_S_f(x);
 }
-</pre>
+</code></pre>
 <p>Now, in this new "translated" code, what do you think? Will it crash? It won't, since no one is going to dereference "this". Crazy, huh? This crazy idiom also allows even crazier things, like <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">C++ objects committing sepuku</a></p>
 <hr />
 <p>Post by Nico Brailovsky @ 2011-08-16 -

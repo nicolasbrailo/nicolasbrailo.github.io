@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,24 +8,24 @@
 </ul>
 <h1>A C++ template device to obtain an underlying type<a name="actemplatedevicetoobtainanunderlyingtype"></a></h1>
 <p>What happens when you need to get the underlying data type of a pointer or reference? You can write some crazy metaprogram to do it for you. Like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename T&gt; struct get_real_type      { typedef T type; };
-template &lt;typename T&gt; struct get_real_type&lt;T<em>&gt;  { typedef T type; };
-template &lt;typename T&gt; struct get_real_type&lt;T&amp;amp;&gt;  { typedef T type; };
-template &lt;class T&gt;
+<pre lang="c++"><code lang="c++">template <typename T> struct get_real_type      { typedef T type; };
+template <typename T> struct get_real_type<T*>  { typedef T type; };
+template <typename T> struct get_real_type<T&amp;>  { typedef T type; };
+template <class T>
 int foo() {
-    return get_real_type&lt;T&gt;::type::N;
+    return get_real_type<T>::type::N;
 }
 struct Bar {
     static const int N=24;
 };
-#include &lt;iostream&gt;
+#include <iostream>
 using namespace std;
 int main() {
-    cout &lt;&lt; foo&lt;Bar</em>&gt;() &lt;&lt; endl;
-    cout &lt;&lt; foo&lt;Bar&amp;amp;&gt;() &lt;&lt; endl;
-    cout &lt;&lt; foo&lt;Bar&gt;() &lt;&lt; endl;
+    cout &lt;&lt; foo<Bar*>() &lt;&lt; endl;
+    cout &lt;&lt; foo<Bar&amp;>() &lt;&lt; endl;
+    cout &lt;&lt; foo<Bar>() &lt;&lt; endl;
 }
-</pre>
+</code></pre>
 <p>Incidentally, this is also the basis for the implementation of std::remove_reference. Actually you'd be better of using std::remove_reference, for your own sanity.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2013-10-15 -

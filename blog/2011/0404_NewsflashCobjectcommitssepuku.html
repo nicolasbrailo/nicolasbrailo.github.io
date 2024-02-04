@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,32 +8,32 @@
 </ul>
 <h1>Newsflash: C++ object commits sepuku<a name="newsflashcobjectcommitssepuku"></a></h1>
 <p>Check this out. Is it valid C++?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class X {
+<pre lang="c++"><code lang="c++">class X {
   void dispose() {
     delete this;
   }
 };
-</pre>
+</code></pre>
 <p>Strange pattern, isn't it?. What happens if you try to dispose a heap object?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
+<pre lang="c++"><code lang="c++">void f() {
    X x;
    x.dispose();
 }
-</pre>
+</code></pre>
 <p>Indeed, nasal demons FTW, you're trying to free an invalid pointer. Yet if we change that a little bit...</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
-   (new X)-&amp;gt;dispose();
+<pre lang="c++"><code lang="c++">void f() {
+   (new X)-&gt;dispose();
 }
-</pre>
+</code></pre>
 <p>Zomg now it works. It's weird, but it works. Why would anybody on earth do something like this? Can you guess when would this be useful?</p>
 <p>Some times you launch a background job, and you don't really care when it's done. You may use a <a href="/blog/2009/0803_CMagiccallbackssolved.html">callback</a> to be notified when the job is done, but if you don't really care then having an object which deletes itself is an option. You'll have to be very careful about it, though, because this is legal C++ too:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class X {
+<pre lang="c++"><code lang="c++">class X {
   void dispose() {
     delete this;
-    std::cout &lt;&lt; &quot;Hello worldn&quot;;
+    std::cout &lt;&lt; "Hello worldn";
   }
 };
-</pre>
+</code></pre>
 <p>Though "Hello world" will be printed, it will be running in a dead object. Which is fine, as far as the compiler cares, but if you do try to reference the this pointer, you'll be in a lot of trouble.</p>
 <p><strong>Bonus reading</strong>
 For a much more interesting note than mine, go and check <a href="http://blogs.msdn.com/b/oldnewthing/archive/2010/08/10/10048149.aspx">When does an object become available for garbage collection?</a> in The Old New Thing.</p>

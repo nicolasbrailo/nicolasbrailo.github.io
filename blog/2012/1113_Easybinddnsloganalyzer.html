@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -10,7 +11,7 @@
 <p>Some time ago I set up a bind9 on a spare server I had. Easy job, a side project of a boring late night. Of course, there was no point in just setting up my own TLD; I now had the power to have fun with DNS poisoning, and I could also create nice reports of the queries to the DNS server.</p>
 <p>Having fun with a DNS might be the topic for another post, for this one I'll just focus on how to get query statistics from a bind server.</p>
 <p>After grepping the web a little bit, I found a rather disconcerting lack of bind log analyzers. I just wanted a list of the most popular queries, as well as the ability to group the log by it's IP (and may be even to get the computer's SMB name). Couldn't have asked for a better chance to flex a little bit my Ruby-foo, and here is the hackish result for whoever may want to do something similar:</p>
-<pre lang="ruby" style="display: inline-block; border: 1px solid red;">#!/usr/bin/ruby1.8
+<pre lang="ruby"><code lang="ruby">#!/usr/bin/ruby1.8
 class Hits
  def initialize(n,v,k=nil)
  @n=n
@@ -23,26 +24,26 @@ class Hits
  def &lt;(o) @n &lt; o.n; end
 end
 if ARGV.length == 0 then
- puts &quot;Usage: dns.rb DNS_LOG [--domains] [--ip [--no-samba]]&quot;
- puts &quot; --domains will list all queried domains&quot;
- puts &quot; --ip will list every query gruoped by IP&quot;
+ puts "Usage: dns.rb DNS_LOG [--domains] [--ip [--no-samba]]"
+ puts " --domains will list all queried domains"
+ puts " --ip will list every query gruoped by IP"
  exit
 end
 @domains = @ip = @nosamba = false
 ARGV.each { |arg|
  case arg
- when &#x27;--domains&#x27; then @domains = true
- when &#x27;--ip&#x27; then @ip = true
- when &#x27;--no-samba&#x27; then @nosamba = true
+ when '--domains' then @domains = true
+ when '--ip' then @ip = true
+ when '--no-samba' then @nosamba = true
  end
 }
 fp = File.open ARGV[0]
 queries_by_ip = {}
 queries_by_domain = {}
 fp.each_line { |l|
- v = l.split(&#x27; &#x27;)
+ v = l.split(' ')
  if not (v.nil? or v.length &lt; 4) then
- ip = v[1].split(&#x27;#&#x27;)[0]
+ ip = v[1].split('#')[0]
  query = v[3]
  if queries_by_domain[query].nil? then queries_by_domain[query] = 0 end
  queries_by_domain[query] += 1
@@ -56,7 +57,7 @@ if @domains then
  hits.push Hits.new(v, k)
  }
  hits.sort!.reverse!.each { |h|
- puts h.v + &quot; has &quot; + h.n.to_s + &quot; hits&quot;
+ puts h.v + " has " + h.n.to_s + " hits"
  }
 end
 if @ip then
@@ -65,17 +66,17 @@ if @ip then
  lst.push Hits.new(queries.length, ip, queries)
  }
  lst.sort!.reverse!.each { |h|
- puts &quot;Report for &quot; + h.v + &quot;, Samba addr:&quot;
- if not @nosamba then Kernel.system &quot;nmblookup -A &quot; + h.v end
- puts &quot;Requested &quot; + h.n.to_s + &quot; URLs:&quot;
+ puts "Report for " + h.v + ", Samba addr:"
+ if not @nosamba then Kernel.system "nmblookup -A " + h.v end
+ puts "Requested " + h.n.to_s + " URLs:"
  h.k.uniq.each { |url|
- puts &quot;t&quot; + url
+ puts "t" + url
  }
- puts &quot;.&quot;
- puts &quot;.&quot;
+ puts "."
+ puts "."
  }
 end
-</pre>
+</code></pre>
 <h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">GLR</a> commented @ 2013-02-11T18:53:51.000+01:00:<a name="inreplytothispostglrcommented20130211t185351.0000100"></a></h2>

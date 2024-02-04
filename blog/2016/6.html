@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -33,18 +34,18 @@
     <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0602_CWhyisundefinednessimportant.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's start with an example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int <em>x = (int</em>) NULL;
+<pre lang="c++"><code lang="c++">int <em>x = (int</em>) NULL;
 x[0] = 42;
-</pre>
+</code></pre>
 <p>Luckily so far I've never seen anyone argue about this one: we all know we're dealing with undefined behavior and that it's bad. Things get a bit more tricky when the example is not so trivial.</p>
 <h3>C's abstract machine<a name="csabstractmachine"></a></h3>
 <p>In a way, C and C++ describe a "virtual machine". This is what the standard defines: what kind of operations are valid in this VM. This VM resembles an old single-thread mono-processor architecture. Most often, the code will run in a modern architecture that will resemble very little the design of C's VM. "New" features (like caching, vectorization, atomics, pipelining, etc) implemented by the target architecture make the process of mapping our code (in the VM that C defines) much more difficult. The compiler needs to map instructions in C's simple architecture to a much (*MUCH*) more complex design. To do that, it needs to analyze the code to guarantee certain constrains are met.</p>
 <p>Let's see how these constrains and undefined behavior relate to each other with this snippet:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename T&gt;
+<pre lang="c++"><code lang="c++">template <typename T>
     bool always_true(T x) {
     return (x &lt; x+1);
 }
-</pre>
+</code></pre>
 <p>From a math perspective, and assuming that T is a numeric type, always_true should always return true. Is that the case for C's virtual machine?</p>
 <p>If we call always_true with a type like "unsigned int", then x+1 may overflow and wrap around. This is fine because unsigned int's are allowed to wrap around. What happens if instead we use a signed type? Things get more interesting.</p>
 <p>Signed types are not allowed to overflow. If they do, the standard says the behavior is undefined. And the standard also says that our program can not invoke undefined behavior. This is a very important phrase: the standard says undefined behavior can NOT occur. There is no "if it does": it just can't, so the compiler will assume that UB will never happen. What if it does happen? Nasal demons, that's what!</p>

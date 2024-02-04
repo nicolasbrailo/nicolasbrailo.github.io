@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -15,34 +16,34 @@
 <p>It may be because you found a flaky piece of code or a test that exposes a heisenbug. Maybe the test itself is just unstable, or perhaps you are using TDD and want to submit a test to your CI before its implementation is ready. In these cases, you can choose to disable the offending test or let it run, possible halting your CI because of it. When that happens, you maybe masking other, real, problems.</p>
 <p>Most people would stick a "DISABLED_" before the test name, to let GTest know not to run it. Maybe even stick a "// TODO: reenable" in there too. When run, GTest will generate a message to let you know there is a disabled test. Even so, I find that people -myself included- tend to forget to re-enable the disabled tests.</p>
 <p>For one of my side projects, I hacked GTest to quarantine tests up to a certain date:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">TEST(Foo, Bar) {
-    QUARANTINE_UNTIL(&quot;16/8/22&quot;);
+<pre lang="c++"><code lang="c++">TEST(Foo, Bar) {
+    QUARANTINE_UNTIL("16/8/22");
     EXPECT_EQ(1,2);
 }
-</pre>
+</code></pre>
 <p>In my CI setup, that test will be showing a happy green (and a warning, which I will probably ignore) until the 22nd of August. By the 23rd the test will run again and fail if I haven't fixed the code. If I have indeed fixed it, it will print a warning to remind me that it's safe to delete the quarantine statement.</p>
 <p>Is there any advantage in this approach over the usual _DISABLE strategy? In my opinion, there is: if you ignore warnings in your test, for whatever reason, a _DISABLE might go unnoticed and it may hide a real problem. In the same scenario, for a quarantined test, nothing bad happens: the warning just says "you should delete this line" but the quarantined test is again part of your safety net.</p>
 <p>How does it work? The first caveat in my article mentions it: hackishly. There are a few facilities missing in GTest to make this implementation production-ready but, ugly as it looks, it should work as intended:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;ctime&gt;
-#include &lt;string&gt;
-#include &lt;sstream&gt;
+<pre lang="c++"><code lang="c++">#include <ctime>
+#include <string>
+#include <sstream>
 std::string now() {
     time_t t = time(0);
-    struct tm *now = localtime(&amp;amp;t);
+    struct tm *now = localtime(&amp;t);
     std::stringstream formatted_date;
-    formatted_date &lt;&lt; (now-&gt;tm_year+1900) &lt;&lt; &quot;/&quot;
-                   &lt;&lt; (now-&gt;tm_mon+1) &lt;&lt; &quot;/&quot;
+    formatted_date &lt;&lt; (now-&gt;tm_year+1900) &lt;&lt; "/"
+                   &lt;&lt; (now-&gt;tm_mon+1) &lt;&lt; "/"
                    &lt;&lt; now-&gt;tm_mday;
     return formatted_date.str();
 }
 #define QUARANTINE_UNTIL(date_limit)                                     \
         if (now() &lt; date_limit) {                                        \
-            GTEST_LOG_(WARNING) &lt;&lt; &quot;Test under quarantine!&quot;;             \
+            GTEST_LOG_(WARNING) &lt;&lt; "Test under quarantine!";             \
             return;                                                      \
         } else {                                                         \
-            GTEST_LOG_(WARNING) &lt;&lt; &quot;Quarantine expired on &quot; date_limit;  \
+            GTEST_LOG_(WARNING) &lt;&lt; "Quarantine expired on " date_limit;  \
         }
-</pre>
+</code></pre>
 <p>If I find there is interest in this approach for real world applications, I may try to come up with a nicer interface for it.</p>
 <hr />
 <h1>Vimcrypt<a name="vimcrypt"></a></h1>
@@ -73,17 +74,17 @@ std::string now() {
 <p>I recently wrote about some of the utilities I created for my Vim setup. Using someone else's Vim scripts is not nearly as fun as writing your own, so I decided to also write a short summary on what it takes to get started writting Vim plugins. For this task, I decided to start with greping.</p>
 <p>Greping can be improved a bit: if you do it a lot in a project, you might find it's useful to also grep the results themselves, to further refine your search. If you have your grep results in vim itself, that is trivial.</p>
 <p>Let's start hacking something in our .vimrc file. Try this:</p>
-<pre lang="ruby" style="display: inline-block; border: 1px solid red;">function! FG_Search()
-    let needle = input(&quot;Search for: &quot;)
+<pre lang="ruby"><code lang="ruby">function! FG_Search()
+    let needle = input("Search for: ")
     tabnew
     setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-    let grepbin = &#x27;grep -nri &#x27;
-    let cmd = grepbin . &#x27; &quot;&#x27; . needle . &#x27;&quot; *&#x27;
-    execute &#x27;$read !&#x27; . cmd
+    let grepbin = 'grep -nri '
+    let cmd = grepbin . ' "' . needle . '" *'
+    execute '$read !' . cmd
     setlocal nomodifiable
 endfunction
-map &lt;leader&gt;s :call FG_Search()&lt;CR&gt;
-</pre>
+map <leader>s :call FG_Search()<CR>
+</code></pre>
 <p>This function should be pretty clear: it will map <leader>s (in my case, ",s") to FG_Search(). FG_Search will prompt the user for a term to grep, then search for it executing the command. In the end the results are written to a new tab, which is declared as a temp non-modifiable buffer.</p>
 <p>Just paste that in your .vimrc and you're good to grep.</p>
 <p><strong>Extra tip</strong>: integrate this with my fast grep cache and you have a nice and quick project search integration for vim that works even for very large projects with tools available in most default Linux installs.</p>

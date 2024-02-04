@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,28 +8,28 @@
 </ul>
 <h1>Initialization oddities: Aggregate initialization<a name="initializationodditiesaggregateinitialization"></a></h1>
 <p>Do you know the quickest way to create a constructor that initializes the elements in this struct?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;string&gt;
+<pre lang="c++"><code lang="c++">#include <string>
 struct MyStruct {
     int x;
     std::string y;
     const char *z;
 };
-</pre>
+</code></pre>
 <p>If you answered "by typing really fast", you may be interested in knowing that the fastest way to create this constructor is to not write it at all!</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;, &quot;World&quot;};
-</pre>
+<pre lang="c++"><code lang="c++">MyStruct a = {42, "Hello", "World"};
+</code></pre>
 <p>Yes, the line above works and it's perfectly legal C++. It's event C++ 98! This language feature is called aggregate initialization and it says the compiler should be smart enough to initialize MyStruct using each value successively. Of course C++11 has made this syntax somewhat simpler and a lot more uniform:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a{42, &quot;Hello&quot;, &quot;World&quot;};
-</pre>
+<pre lang="c++"><code lang="c++">MyStruct a{42, "Hello", "World"};
+</code></pre>
 <p>There are some caveats when using this initialization, namely that the initialized type must be an aggregate. An aggregate, in standard lingo, is a type that has some restrictions. No virtuals, no privates, etc. You can say it's a POD and in most cases you'd be right.</p>
 <p>Now, is this also legal?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;};
-</pre>
+<pre lang="c++"><code lang="c++">MyStruct a = {42, "Hello"};
+</code></pre>
 <p>You'd be tempted to say that's a syntax error. It's not, now z will just be default-initialized. What about this, then?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">MyStruct a = {42, &quot;Hello&quot;, &quot;World&quot;, &quot;Extra!&quot;};
-</pre>
+<pre lang="c++"><code lang="c++">MyStruct a = {42, "Hello", "World", "Extra!"};
+</code></pre>
 <p>According to the standard, that's an error. Or... is it? Let's try out this example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct A {
+<pre lang="c++"><code lang="c++">struct A {
     int x;
 };
 struct B {
@@ -39,24 +40,24 @@ struct C {
     B b;
     const char *z;
 };
-C o = {42, &quot;Hello&quot;, &quot;World&quot;};
-</pre>
+C o = {42, "Hello", "World"};
+</code></pre>
 <p>Yes. Believe it or not, the object o will now contain three members: o.b.a.x, o.b.y and o.z. All three will be properly initialized with their respective value.</p>
 <p>Aggregate initializations should, according to the standard, be smart enough to initialize aggregate objects and use any "spill over" to continue initializing other values/aggregate objects recursively.</p>
 <h3>Bonus I:<a name="bonusi"></a></h3>
 <p>Aggregate initialization is also what makes this idiom valid:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">char x[] = {1, 2, 3}
-</pre>
+<pre lang="c++"><code lang="c++">char x[] = {1, 2, 3}
+</code></pre>
 <p>In this case, x will be of length 3 because that's the length of its aggregate initializer.</p>
 <h3>Bonus II:<a name="bonusii"></a></h3>
 <p>I'm sure anyone trying to get up to date with C++11 will have played around with variadic templates. One of the first exercises I'd recommend for this would be a compile-time list of different types. Knowing about aggregate initializations now, how would you write a constructor for this type?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename H, typename... T&gt;
+<pre lang="c++"><code lang="c++">template &lt;typename H, typename... T&gt;
 struct Multilist&lt;H, T...&gt; {
     H x;
     Multilist&lt;T...&gt; next;
 };
-Multilist&lt;int, string, float&gt; foo{42, &quot;XXX&quot;, 1.23};
-</pre>
+Multilist&lt;int, string, float&gt; foo{42, "XXX", 1.23};
+</code></pre>
 <hr />
 <p>Post by Nico Brailovsky @ 2016-05-10 -
     <a href="/blog/2016/0510_InitializationodditiesAggregateinitialization.html">Permalink</a> -

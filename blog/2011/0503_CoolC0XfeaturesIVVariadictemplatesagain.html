@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -17,18 +18,18 @@
 * It's very neat to confuse your coworkers</p>
 <p>So, what can we do with it besides implementing our own version of printf? Let's do something better, let's try adding up a list of numbers to start flexing our variadic templatefooness (?).</p>
 <p>What's the usual way of adding a list of numbers? In templates, that is. We need something like this:</p>
-<pre style="display: inline-block; border: 1px solid red;">sum (H:T) &lt;- H + sum(T)
+<pre><code>sum (H:T) &lt;- H + sum(T)
 sum () &lt;- 0
-</pre>
+</code></pre>
 <p>Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my <a href="/blog/youfoundadeadlink.html">template metaprogramming series</a>):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
+<pre lang="c++"><code lang="c++">#include <iostream>
 struct Nil{};
-template &lt;typename H, typename T=Nil&gt; struct Lst {
+template <typename H, typename T=Nil> struct Lst {
     typedef H Head;
     typedef T Tail;
 };
 template &lt;
-        template&lt;typename A, typename B&gt; class Op,
+        template<typename A, typename B> class Op,
         typename Head,
         typename Lst&gt;
 struct intForeach
@@ -38,40 +39,40 @@ struct intForeach
     typedef typename Op&lt; Head, Next &gt;::result result;
 };
 template &lt;
-        template&lt;typename A, typename B&gt; class Op,
+        template<typename A, typename B> class Op,
         typename Head&gt;
-struct intForeach &lt;Op, Head, Nil&gt;
+struct intForeach <Op, Head, Nil>
 {
     typedef Head result;
 };
 template &lt;
         typename Lst,
-        template&lt;typename A,
-        typename B&gt;
+        template<typename A,
+        typename B>
         class Op&gt;
 struct Reduce
 {
     typedef typename intForeach
         &lt; Op, typename Lst::Head, typename Lst::Tail &gt;::result result;
 };
-template &lt;int N&gt; struct Num {
+template <int N> struct Num {
     const static int value = N;
 };
-template &lt;typename A, typename B&gt; struct Sum {
+template <typename A, typename B> struct Sum {
     static const int r = A::value + B::value;
-    typedef Num&lt;r&gt; result;
+    typedef Num<r> result;
 };
 int main() {
     std::cout &lt;&lt; Reduce&lt;
         Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt;,
-        Sum &gt;::result::value &lt;&lt; &quot;n&quot;;
+        Sum &gt;::result::value &lt;&lt; "n";
     return 0;
 }
-</pre>
+</code></pre>
 <p>Nothing too fancy, plain old recursion with a sum. Yet it's quite verbose, can we make this a little bit more terse and, hopefully, more clear? Yes, we can. Take a look at that Lst, Lst&lt;...&gt; It sucks. And it's the perfect place to use variadic templates, we just need to construct a structure getting a list of ints, like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;
+<pre lang="c++"><code lang="c++">template &lt;
     // The operation we wish to apply
-    template&lt;typename A, typename B&gt; class Op,
+    template<typename A, typename B> class Op,
     // Current element to process
     class H,
     // All the rest
@@ -80,15 +81,15 @@ struct Reduce_V
 {
     // TODO
 }
-</pre>
+</code></pre>
 <p>That one should look familiar from last time article. Now, to implement a reduce operation we need to operate the current element with the result of reducing the tail, so we have to do something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// Remember how T... means to expand T for the next instance
-    typedef typename Reduce_V&lt;Op, T...&gt;::result Tail_Result
-</pre>
+<pre lang="c++"><code lang="c++">// Remember how T... means to expand T for the next instance
+    typedef typename Reduce_V<Op, T...>::result Tail_Result
+</code></pre>
 <p>There's something missing. Can you see what? The ending condition, of course. Let's add it and we'll get something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;
+<pre lang="c++"><code lang="c++">template &lt;
         // The operation we wish to apply
-        template&lt;typename A, typename B&gt; class Op,
+        template<typename A, typename B> class Op,
         // All the rest
         class... T&gt;
 struct Reduce_V
@@ -96,31 +97,31 @@ struct Reduce_V
 };
 template &lt;
         // The operation we wish to apply
-        template&lt;typename A, typename B&gt; class Op,
+        template<typename A, typename B> class Op,
         // All the rest
         class H&gt;
-struct Reduce_V&lt;Op, H&gt;
+struct Reduce_V<Op, H>
 {
     typedef H result;
 };
 template &lt;
         // The operation we wish to apply
-        template&lt;typename A, typename B&gt; class Op,
+        template<typename A, typename B> class Op,
         // Current element to process
         class H,
         // All the rest
         class... T&gt;
-struct Reduce_V&lt;Op, H, T...&gt;
+struct Reduce_V<Op, H, T...>
 {
-        // Remember how T&amp;hellip; means to expand T for the next instance
-   typedef typename Reduce_V&lt;Op, T...&gt;::result Tail_Result;
+        // Remember how T&hellip; means to expand T for the next instance
+   typedef typename Reduce_V<Op, T...>::result Tail_Result;
    // Reduce current value with the next in line
-   typedef typename Op&lt;H, Tail_Result&gt;::result result;
+   typedef typename Op<H, Tail_Result>::result result;
 };
-</pre>
+</code></pre>
 <p>And using it is very simple too:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; &quot;n&quot;;
-</pre>
+<pre lang="c++"><code lang="c++">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
+</code></pre>
 <p>Next time we'll see another example for variadic templates and a new C++0x feature.</p>
 <h1>Comments<a name="comments"></a></h1>
 <hr />

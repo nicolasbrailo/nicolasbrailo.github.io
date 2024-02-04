@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -12,7 +13,7 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0830_AMakefileforcodecoveragereportwithC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So far you should know how to <a href="/blog/2011/0822_AMakefileforTDDwithC.html">use makefiles</a> and you should have a nice <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">testable project</a>. Then you have everything ready to get a coverage report. Yeah, using makefiles, you guessed!</p>
 <p>This time we'll depend on two tools, gcov and gtest. These are in Ubuntu's repositories, so you should have no problem getting them. I won't even bother to explain this makefile (not because it's obvious but because I don't really remember how it works. I wrote this over a year ago).</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">.PHONY: clean coverage_report
+<pre lang="c++"><code lang="c++">.PHONY: clean coverage_report
 coverage_report:
     # Reset code coverage counters and clean up previous reports
     rm -rf coverage_report
@@ -20,15 +21,15 @@ coverage_report:
     $(MAKE) COMPILE_TYPE=code_coverage &amp;&amp;
     $(MAKE) COMPILE_TYPE=code_coverage test
     lcov --capture --directory $(BIN_DIR)/$(OBJ_DIR)/code_coverage --base-directory . -o salida.out &amp;&amp;
-    lcov --remove salida.out &quot;<em>usr/include</em>&quot; -o salida.out &amp;&amp;
+    lcov --remove salida.out "<em>usr/include</em>" -o salida.out &amp;&amp;
     genhtml -o coverage_report salida.out
     rm salida.out
-</pre>
+</code></pre>
 <p>Bonus makefile target: make your code pretty:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">.PHONY: pretty
+<pre lang="c++"><code lang="c++">.PHONY: pretty
 pretty:
-    find -L|egrep &#x27;.(cpp|h|hh)$$&#x27;|egrep -v &#x27;svn|_Test.cpp$$&#x27; | xargs astyle --options=none
-</pre>
+    find -L|egrep '.(cpp|h|hh)$$'|egrep -v 'svn|_Test.cpp$$' | xargs astyle --options=none
+</code></pre>
 <p>Remember to change your astyle options as needed.</p>
 <p>Bonus II: Example project using gcov and gtest: <a href="/blog/youfoundadeadlink.html">gcov_gtest_sample.tar</a>. The irony? It doesn't use my common makefile, it predates it.</p>
 <hr />
@@ -45,43 +46,43 @@ pretty:
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0822_AMakefileforTDDwithC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, after reading <a href="/blog/2011/0818_Makefiles.html">my post about makefiles</a> you decided that you like them but would like to add some TDD to be buzzword compliant? No problem, that's easy to do.</p>
 <p>Assuming you use a naming convention such as this one:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">path/to/src/Object.h
+<pre lang="c++"><code lang="c++">path/to/src/Object.h
 path/to/src/Object.cpp
 path/to/src/Object_Test.cpp
-</pre>
+</code></pre>
 <p>then it's easy to auto detect which tests should be built:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep &quot;_Test.cpp$$&quot; ) )
+<pre lang="c++"><code lang="c++">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep "_Test.cpp$$" ) )
 TEST_BINS := $(addprefix ./$(BIN_DIR)/, $(patsubst %.cpp, %, $(TEST_SRCS)) )
-</pre>
+</code></pre>
 <p>Then we have to define a special rule with pattern matching to compile the tests:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">$(BIN_DIR)/%_Test: $(patsubst $(BIN_DIR)/%, %, %_Test.cpp ) %.cpp %.h
-    @echo &quot;Making $@&quot;
+<pre lang="c++"><code lang="c++">$(BIN_DIR)/%_Test: $(patsubst $(BIN_DIR)/%, %, %_Test.cpp ) %.cpp %.h
+    @echo "Making $@"
     @mkdir -p $(shell dirname $@)
-    g++ $(CXXFLAGS) -g3 -O0 $&amp;lt; -o $@ -lpthread -lgtest_main -lgmock $(OBJECTS) $(LDFLAGS)
-</pre>
+    g++ $(CXXFLAGS) -g3 -O0 $&lt; -o $@ -lpthread -lgtest_main -lgmock $(OBJECTS) $(LDFLAGS)
+</code></pre>
 <p>and some magic to auto execute every test when we "make test":</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">test: $(TEST_SRCS)
+<pre lang="c++"><code lang="c++">test: $(TEST_SRCS)
     @for TEST in $(TEST_BINS); do
-        make &quot;$$TEST&quot;;
-        echo &quot;Execute $(TEST)&quot;;
+        make "$$TEST";
+        echo "Execute $(TEST)";
         ./$$TEST;
     done
-</pre>
+</code></pre>
 <p>Everything nice and tidy for a copy &amp; paste session:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep &quot;_Test.cpp$$&quot; ) )
+<pre lang="c++"><code lang="c++">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep "_Test.cpp$$" ) )
 TEST_BINS := $(addprefix ./$(BIN_DIR)/, $(patsubst %.cpp, %, $(TEST_SRCS)) )
 $(BIN_DIR)/%_Test: $(patsubst $(BIN_DIR)/%, %, %_Test.cpp ) %.cpp %.h
-    @echo &quot;Making $@&quot;
+    @echo "Making $@"
     @mkdir -p $(shell dirname $@)
-    g++ $(CXXFLAGS) -g3 -O0 $&amp;lt; -o $@ -lpthread -lgtest_main -lgmock $(OBJECTS) $(LDFLAGS)
+    g++ $(CXXFLAGS) -g3 -O0 $&lt; -o $@ -lpthread -lgtest_main -lgmock $(OBJECTS) $(LDFLAGS)
 .PHONY: test
 test: $(TEST_SRCS)
     @for TEST in $(TEST_BINS); do
-        make &quot;$$TEST&quot;;
-        echo &quot;Execute $(TEST)&quot;;
+        make "$$TEST";
+        echo "Execute $(TEST)";
         ./$$TEST;
     done
-</pre>
+</code></pre>
 <p>Now you just need to run make test. Remember to add the proper <a href="/blog/2010/0629_Vimtipsmakethingsworkagain.html">Vim's mapping</a>.</p>
 <hr />
 <h1>Makefiles<a name="makefiles"></a></h1>
@@ -91,39 +92,39 @@ test: $(TEST_SRCS)
 <p>For open source projects, makefiles are a must. All C++ projects need them, even though cmake is strong nowadays, and even though Java has its own version (actually, several of them, but that's not important now) a makefile could be used.</p>
 <p>Even if it is an ubiquitous build system, it is pretty much outdated nowadays, and although using its basic features is easy, mastering it is a complex task. Worst still, mastering makefiles means you'll probably produce write-only-code, and as makefiles are code themselves, and must therefore be maintained, this can be a nuisance to a newcomer to your project.</p>
 <p>There's an upside to makefiles being code: they can be reused. Once you find a configuration that suits your development process, you don't need to write it again. I'll post here some of the main targets I ussually include in a common.mk. As I mentioned, it's mostly write-only-code, yet you may find it useful:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Dependency directoy
+<pre lang="c++"><code lang="c++"># Dependency directoy
 df=$(BUILD_DIR)/$(<em>D)/$(</em>F)
 $(OBJECTS): $(BUILD_DIR)/%.o: %.cpp
     @mkdir -p $(BUILD_DIR)/$(<em>D)
-    $(COMPILE.cpp) -MD -o $@ $&amp;lt;
+    $(COMPILE.cpp) -MD -o $@ $&lt;
     @cp $(df).d $(df).P;
-    sed -e &#x27;s/#.</em>//&#x27; -e &#x27;s/^[^:]<em>: </em>//&#x27; -e &#x27;s/ *\$$//&#x27;
-        -e &#x27;/^$$/ d&#x27; -e &#x27;s/$$/ :/&#x27; &amp;lt; $(df).d &amp;gt;&amp;gt; $(df).P;
+    sed -e 's/#.</em>//' -e 's/^[^:]<em>: </em>//' -e 's/ *\$$//'
+        -e '/^$$/ d' -e 's/$$/ :/' &lt; $(df).d &gt;&gt; $(df).P;
     rm -f $(df).d
 $(MAIN_OBJ): $(MAIN_SRC)
-    $(COMPILE.cpp) -MD -o $@ $&amp;lt;
+    $(COMPILE.cpp) -MD -o $@ $&lt;
 # Binary name depends on BIN_DIR/BIN_NAME, so the call to create BIN can
 # be forwarded to BIN_DIR/BIN_NAME
 $(BINARY): $(BIN_DIR)/$(BINARY)
 $(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
     @mkdir -p $(BIN_DIR)
     @# Workaround for a linker bug: if the libs are not
-    @# at the end it won&#x27;t link (something to do with how the linker
+    @# at the end it won't link (something to do with how the linker
     @# lists the dependencies... too long for a comment, rtfm
     g++ $(CXXFLAGS) $^ -o $(BIN_DIR)/$@ $(LDFLAGS)
     @#$(LINK.cpp) $^ -o $@
 -include $(DEPENDS)
-</pre>
+</code></pre>
 <p>How is this used? Well, don't even try to understand the dependency autogeneration, it'll make your head explode.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">$(OBJECTS): $(BUILD_DIR)/%.o: %.cpp
-</pre>
+<pre lang="c++"><code lang="c++">$(OBJECTS): $(BUILD_DIR)/%.o: %.cpp
+</code></pre>
 <p>This defines a rule for building .o objects; a variable named OBJECTS should be present when including this file.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">$(MAIN_OBJ): $(MAIN_SRC)
-</pre>
+<pre lang="c++"><code lang="c++">$(MAIN_OBJ): $(MAIN_SRC)
+</code></pre>
 <p>A special rule is defined for a main object (actually this is needed to compile the tests, which we'll do next time, since you may have a different main function).</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">$(BINARY): $(BIN_DIR)/$(BINARY)
+<pre lang="c++"><code lang="c++">$(BINARY): $(BIN_DIR)/$(BINARY)
 $(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
-</pre>
+</code></pre>
 <p>And finally, a rule for to create the real binary. Next time I'll add some cool features for TDD to this makefile.</p>
 <hr />
 <h1>Living on a null object<a name="livingonanullobject"></a></h1>
@@ -131,21 +132,21 @@ $(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
     <a href="/blog/2011/0816_Livingonanullobject.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0816_Livingonanullobject.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Check this out:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct S {
+<pre lang="c++"><code lang="c++">struct S {
    int f(){ return 42; }
 };
 int main() {
    S <em>x = (S</em>) NULL;
    return x-&gt;f();
 }
-</pre>
+</code></pre>
 <p>What does this do? Does it compile? Does it crash? I'll give you a second.</p>
 <p>Ready? It does compile, OK</p>
 <p>But it doesn't crash.</p>
 <p>Why, you may ask</p>
 <p>Think about it, you must.</p>
 <p>The compiler will mangle S::f and translate this into something like:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct S {};
+<pre lang="c++"><code lang="c++">struct S {};
 int mangled_S_f(struct S <em>this){
    return 42;
 }
@@ -153,7 +154,7 @@ int main() {
    S </em>x = (S*) NULL;
    mangled_S_f(x);
 }
-</pre>
+</code></pre>
 <p>Now, in this new "translated" code, what do you think? Will it crash? It won't, since no one is going to dereference "this". Crazy, huh? This crazy idiom also allows even crazier things, like <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">C++ objects committing sepuku</a></p>
 <hr />
 <h1>Vacations are over<a name="vacationsareover"></a></h1>

@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -17,7 +18,7 @@
     <a href="/blog/2013/0528_Cexceptionsunderthehood20runningdestructorswhileunwinding.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0528_Cexceptionsunderthehood20runningdestructorswhileunwinding.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v11">mini ABI version 11</a> we have written last time was able to handle pretty much all the basics to handle an exception: we have an (almost working) ABI capable of throwing and catching exceptions, but it is still unable to properly run destructors. That's quite important if we want to write exception safe code. With what we know about .gcc_except_table running destructors is a piece of cake, we only need to see a bit of assembly:</p>
-<pre style="display: inline-block; border: 1px solid red;"># Call site table
+<pre><code># Call site table
 .LLSDACSB2:
     # Call site 1
     .uleb128 ip_range_start
@@ -37,7 +38,7 @@
     .long   _ZTI14Fake_Exception
 .LLSDATT2:
 # Types table start
-</pre>
+</code></pre>
 <p>On a regular landing pad, when an action has a type index greater than 0 it means we're seeing an index to a type tables, and we can use that to know which types the catch can handle; for a type index with a value of 0 it means we are instead seeing a cleanup block and we should run it anyway. Although the landing pad can't handle the exception it will still be able to perform the cleanup that's supposed to happen while unwinding. Of course the landing pad will call _Unwind_Resume when the cleanup is done and that will continue the regular stack unwinding process.</p>
 <p>I've uploaded this <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v12">latest and last version to my github repo</a>, but there are some bad news: remember how we cheated by saying that a uleb128 == char? As soon as we start adding blocks to run destructors the .gcc_except_table starts to get quite big (where "big" means we have offsets over 127 bytes long) and that assumption no longer holds.</p>
 <p>For the next version of this ABI we would have to rewrite our LSDA reading functions to read proper uleb128 code. Not a major change, but at this point we wouldn't gain much, we have already achieved our goal: a working minimal ABI capable of handling exceptions without the help of libcxxabi.</p>
@@ -49,7 +50,7 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0523_Cexceptionsunderthehood19gettingtherightcatchinalandingpad.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>19th entry about C++ exception handling: we have written a personality function that can so far, by reading the LSDA, choose the right landing pad on the right stack frame to handle a thrown exception, but it was having some difficulties finding the right catch inside a landing pad. To finally get a decently working personality function we'll need to check all the types an exception can handle by going through all the actions table in the .gcc_except_table.</p>
 <p>Remember the action table? Let's check it again but this time for a try with multiple catch blocks.</p>
-<pre style="display: inline-block; border: 1px solid red;"># Call site table
+<pre><code># Call site table
 .LLSDACSB2:
     # Call site 1
     .uleb128 ip_range_start
@@ -70,7 +71,7 @@
     .long   _ZTI14Fake_Exception
 .LLSDATT2:
 # Types table start
-</pre>
+</code></pre>
 <p>If we intend to read the exceptions supported by the landing pad 1 in the example above (that LSDA is for the catchit function, by the way) we need to do something like this:</p>
 <ul>
 <li>Get the action offset from the call site table, 2: remember you'll actually read the offset plus 1, so 0 means no action.</li>
@@ -99,38 +100,38 @@
 <p>Our latest personality function knows whether it can handle an exception or not (assuming there is only one catch statement per try block and assuming no inheritance is used) but to make this knowledge useful, we have first to check if the exception we can handle matches the exception being thrown. Let's try to do this.</p>
 <p>Of course, we need first to know the exception type. To do this we need to save the exception type when <strong>__cxa_throw</strong> is called (this is the chance the ABI gives us to set all our custom data):</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">in my github repo</a>.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void __cxa_throw(void<em> thrown_exception,
+<pre lang="c++"><code lang="c++">void __cxa_throw(void<em> thrown_exception,
                  std::type_info </em>tinfo,
                  void (<em>dest)(void</em>))
 {
     __cxa_exception <em>header = ((__cxa_exception </em>) thrown_exception - 1);
     // We need to save the type info in the exception header <em>Unwind</em> will
-    // receive, otherwise we won&#x27;t be able to know it when unwinding
+    // receive, otherwise we won't be able to know it when unwinding
     header-&gt;exceptionType = tinfo;
     _Unwind_RaiseException(&amp;header-&gt;unwindHeader);
 }
-</pre>
+</code></pre>
 <p>And now we can read the exception type in our personality function and easily check if the exception types match (the exception names are C++ strings, so doing a == is enough to check this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// Get the type of the exception we can handle
+<pre lang="c++"><code lang="c++">// Get the type of the exception we can handle
 const void<em> catch_type_info = lsda.types_table_start[ -1 * type_index ];
 const std::type_info </em>catch_ti = (const std::type_info <em>) catch_type_info;
 // Get the type of the original exception being thrown
 __cxa_exception</em> exception_header = (__cxa_exception<em>)(unwind_exception+1) - 1;
 std::type_info </em>org_ex_type = exception_header-&gt;exceptionType;
-printf(&quot;%s thrown, catch handles %s\n&quot;,
+printf("%s thrown, catch handles %s\n",
             org_ex_type-&gt;name(),
             catch_ti-&gt;name());
 // Check if the exception being thrown is of the same type
 // than the exception we can handle
 if (org_ex_type-&gt;name() != catch_ti-&gt;name())
     continue;
-</pre>
+</code></pre>
 <p>Check <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">here</a> for the full source with the new changes.</p>
 <p>Of course there would be a problem if we add that (can you see it?). If the exception is thrown in two phases and we said in the first one we would handle it, then we can't say on the second one we don't want it anymore. I don't know if _Unwind_ handles this case according to any documentation but this is most likely calling upon undefined behavior, so just saying we'll handle everything is no longer enough.</p>
 <p>Since we gave our personality function the ability to know if the landing pad can handle the exception being thrown we have been lying to _Unwind_ about which exceptions we can handle; even though we said we handle all of them on <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">our ABI 9</a>, the truth is that we didn't know whether we would be able to handle it. That's easy to change, we can do something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"><em>Unwind_Reason_Code __gxx_personality_v0 (...)
+<pre lang="c++"><code lang="c++"><em>Unwind_Reason_Code __gxx_personality_v0 (...)
 {
-    printf(&quot;Personality function, searching for handler\n&quot;);
+    printf("Personality function, searching for handler\n");
     // ...
     foreach (call site entry in lsda)
     {
@@ -144,20 +145,20 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
     }
     return _URC_CONTINUE_UNWIND;
 }
-</pre>
+</code></pre>
 <p>As usual, check the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v10">in my github repo</a>.</p>
 <p>So, what would we get if we run the personality function with this change? Fail, that's what we'd get! Remember our throwing functions? This one should catch our exception:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void catchit() {
+<pre lang="c++"><code lang="c++">void catchit() {
     try {
         try_but_dont_catch();
     } catch(Fake_Exception&amp;) {
-        printf(&quot;Caught a Fake_Exception!\n&quot;);
+        printf("Caught a Fake_Exception!\n");
     } catch(Exception&amp;) {
-        printf(&quot;Caught an Exception!\n&quot;);
+        printf("Caught an Exception!\n");
     }
-    printf(&quot;catchit handled the exception\n&quot;);
+    printf("catchit handled the exception\n");
 }
-</pre>
+</code></pre>
 <p>Unfortunately, our personality function only checks for the first type the landing pad can handle. If we delete the Fake_Exception catch block and try it again, though, we'd get a different story: finally, success! Our personality function can now select the correct catch in the correct frame, provided there's no try block with multiple catches.</p>
 <p>Next time we'll be further improving this.</p>
 <hr />
@@ -167,15 +168,15 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0514_Cexceptionsunderthehood17reflectingonanexceptiontypeandreading.gcc_except_table.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>By now we know that when an exception is thrown we can get a lot of reflexion information by reading the local data storage area AKA .gcc_except_table; reading this table we have been able to implement a personality function capable of deciding which landing pad to run when an exception is thrown. We also know how to read the action table part of the LSDA, so we should be able to modify our personality function to pick the correct catch statement inside a landing pad with multiple catches.</p>
 <p>We left our ABI implementation last time, and dedicated some time to analyze the assembly for .gcc_except_table to discover how can we find the types a catch can handle. We found that indeed there is a part of this table that holds a list of types where this information can be found. Let's try to read it on the cleanup phase, but first let's remember the definition for our LSDA header:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct LSDA_Header {
+<pre lang="c++"><code lang="c++">struct LSDA_Header {
     uint8_t start_encoding;
     uint8_t type_encoding;
     // This is the offset, from the end of the header, to the types table
     uint8_t type_table_offset;
 };
-</pre>
+</code></pre>
 <p>That last field is new (for us): it's giving us an offset into table of types. Let's also remember the definition of each call site:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct LSDA_CS {
+<pre lang="c++"><code lang="c++">struct LSDA_CS {
     // Offset into function from which we could handle a throw
     uint8_t start;
     // Length of the block that might throw
@@ -185,9 +186,9 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
     // Offset into action table + 1 (0 means no action)
     uint8_t action;
 };
-</pre>
+</code></pre>
 <p>Check that last field, "action". That gives us an offset into the action table. That means we can find the action for a specific CS. The trick here is that for landing pads where a catch exists, the action will hold an offset for the types table; we can then use the offset into the types table pointer, which we can get from the header. Quite a mouthful: let's better talk code:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// Pointer to the beginning of the raw LSDA
+<pre lang="c++"><code lang="c++">// Pointer to the beginning of the raw LSDA
 LSDA_ptr lsda = (uint8_t<em>)_Unwind_GetLanguageSpecificData(context);
 // Read LSDA headerfor the LSDA
 LSDA_Header header(&amp;lsda);
@@ -208,13 +209,13 @@ const LSDA_ptr action = action_tbl_start + action_offset;
 // hold an index to a list of types
 int type_index = action[0];
 // types_table_start actually points to the end of the table, so
-// we need to invert the type_index. There we&#x27;ll find a ptr to
+// we need to invert the type_index. There we'll find a ptr to
 // the std::type_info for the specification in our catch
 const void</em> catch_type_info = types_table_start[ -1 * type_index ];
 const std::type_info <em>catch_ti = (const std::type_info </em>) catch_type_info;
 // If everything went OK, this should print something like Fake_Exception
-printf(&quot;%s\n&quot;, catch_ti-&gt;name());
-</pre>
+printf("%s\n", catch_ti-&gt;name());
+</code></pre>
 <p>The code looks complicated because there are several layers of indirection before actually reaching the struct type_info, but it's not really doing anything complicated: it only reads the .gcc_except_table we found on the disassembly.</p>
 <p>Printing the name of the type is already a big step in the right direction. Also, our personality function is getting a bit messy. Most of the complexity of reading the LSDA can be hidden under the rug for almost no cost at all. You can check my <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v08">implementation here</a>
 Next time we'll see if we can match our newly found type to our original exception.</p>
@@ -246,7 +247,7 @@ Next time we'll see if we can match our newly found type to our original excepti
 <li>For a landing pad with multiple catch statements, how can we know all possibly catch types?</li>
 <li>Take the following example. Not only we'll have to check whether the landing pad accepts the current exception, we'll have to check if it accepts any of the current exception's parents!</li>
 </ul>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 struct Base {};
 struct Child : public Base {};
 void foo() { throw Child; }
@@ -255,26 +256,26 @@ void bar()
     try { foo(); }
     catch(const Base&amp;){ ... }
 }
-</pre>
+</code></pre>
 <p>To make our work a bit easier let's say for now we work only with landing pads that have a single catch and no inheritance exists on our program. Still, how do we find out the accepted types for a landing pad?</p>
 <p>Turns there is a place in .gcc_except_table we haven't analyzed yet: the action table. Let's dissasemble our throw.cpp object and see what's in there, right after the call site table is finished, for our "try but don't catch" function:</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v07">in my github repo</a>.</p>
-<pre style="display: inline-block; border: 1px solid red;">.LLSDACSE1:
+<pre><code>.LLSDACSE1:
     .byte   0x1
     .byte   0
     .align 4
     .long   _ZTI14Fake_Exception
 .LLSDATT1:
-</pre>
+</code></pre>
 <p>Doesn't look like much, but there's a promising pointer (both a proverbial and a real pointer) to something that has our exception's name. Let's go to the definition of _ZTI14Fake_Exception:</p>
-<pre style="display: inline-block; border: 1px solid red;">_ZTI14Fake_Exception:
+<pre><code>_ZTI14Fake_Exception:
     .long   _ZTVN10__cxxabiv117__class_type_infoE+8
     .long   _ZTS14Fake_Exception
     .weak   _ZTS9Exception
-    .section    .rodata._ZTS9Exception,&quot;aG&quot;,@progbits,_ZTS9Exception,comdat
+    .section    .rodata._ZTS9Exception,"aG",@progbits,_ZTS9Exception,comdat
     .type   _ZTS9Exception, @object
     .size   _ZTS9Exception, 11
-</pre>
+</code></pre>
 <p>And we reached something very interesting. Can you recognize it? This is the std::type_info for struct Fake_Exception!</p>
 <p>Now we know there is indeed a way to get a pointer to some kind of reflexion information for our exception. Can we programmatically find it? We'll see next time.</p>
 <hr />
@@ -284,44 +285,44 @@ void bar()
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0502_Cexceptionsunderthehood15findingtherightlandingpad.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>This is now the 15th installment in what's becoming the longest series I've written for this blog; we have so far learned how exceptions are thrown and we have written a personality function capable of, with some sort of reflexion, detecting where the catch-blocks are (landing pads, in exception speak). In the last article we wrote a personality function that can handle exceptions, but it does so only with the first landing pad of the first call frame in the stack. Let's improve that a little bit, let's make our personality function capable of choosing the right landing pad in a function with multiple landing pads.</p>
 <p>In a TDD fashion we can first build a test for our ABI. Let's modify our test program, throw.cpp, to have two try/catch blocks:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;stdio.h&gt;
-#include &quot;throw.h&quot;
+<pre lang="c++"><code lang="c++">#include <stdio.h>
+#include "throw.h"
 struct Fake_Exception {};
 void raise() {
     throw Exception();
 }
 void try_but_dont_catch() {
     try {
-        printf(&quot;Running a try which will never throw.\n&quot;);
+        printf("Running a try which will never throw.\n");
     } catch(Fake_Exception&amp;) {
-        printf(&quot;Exception caught... with the wrong catch!\n&quot;);
+        printf("Exception caught... with the wrong catch!\n");
     }
     try {
         raise();
     } catch(Fake_Exception&amp;) {
-        printf(&quot;Caught a Fake_Exception!\n&quot;);
+        printf("Caught a Fake_Exception!\n");
     }
-    printf(&quot;try_but_dont_catch handled the exception\n&quot;);
+    printf("try_but_dont_catch handled the exception\n");
 }
 void catchit() {
     try {
         try_but_dont_catch();
     } catch(Fake_Exception&amp;) {
-        printf(&quot;Caught a Fake_Exception!\n&quot;);
+        printf("Caught a Fake_Exception!\n");
     } catch(Exception&amp;) {
-        printf(&quot;Caught an Exception!\n&quot;);
+        printf("Caught an Exception!\n");
     }
-    printf(&quot;catchit handled the exception\n&quot;);
+    printf("catchit handled the exception\n");
 }
-extern &quot;C&quot; {
+extern "C" {
     void seppuku() {
         catchit();
     }
 }
-</pre>
+</code></pre>
 <p>Before you test it, try to think about what will happen upon running this test. Focus on the try_but_dont_catch function: the first try/catch block will not throw, then the second block will throw. Since our ABI is quite dumb the first block will handle the second block's exception. What will happen after the first block has finished handling the exception? The execution will resume from where the catch/try ends, thus entering again on the second try/catch block. Infinite loop! We have reinvented yet again a very complicated while(true).</p>
 <p>Let's use our knowledge of the start/length fields in the call site table (LSDA) to properly choose our landing pad. For this we will need to know what the instruction pointer was when the exception was thrown, and we can do this with an _Unwind_ function we already know: _Unwind_GetIP. To understand what _Unwind_GetIP will return let's see an example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f1() {}
+<pre lang="c++"><code lang="c++">void f1() {}
 void f2() { throw 1; }
 void f3() {}
 void foo() {
@@ -332,16 +333,16 @@ L2:
 L3:
     try{ f3(); } catch(...) {}
 }
-</pre>
+</code></pre>
 <p>In this case our personality function would be called for the catch block for f2 and the stack would be like this:</p>
-<pre style="display: inline-block; border: 1px solid red;">+------------------------------+
+<pre><code>+------------------------------+
 |   IP: f2  stack frame: f2    |
 +------------------------------+
 |   IP: L3  stack frame: foo   |
 +------------------------------+
-</pre>
+</code></pre>
 <p>Note that IP will be at L3 but the exception will be thrown in L2; this is because the IP will point to the next instruction to execute. This also means we need to substract one if we need to find the IP where an exception was thrown, otherwise the result from _Unwind_GetIP would not be in the range of our landing pad. Back to our personality function:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Unwind_Reason_Code __gxx_personality_v0 (
+<pre lang="c++"><code lang="c++">_Unwind_Reason_Code __gxx_personality_v0 (
                              int version,
                              _Unwind_Action actions,
                              uint64_t exceptionClass,
@@ -350,10 +351,10 @@ L3:
 {
     if (actions &amp; _UA_SEARCH_PHASE)
     {
-        printf(&quot;Personality function, lookup phase\n&quot;);
+        printf("Personality function, lookup phase\n");
         return _URC_HANDLER_FOUND;
     } else if (actions &amp; _UA_CLEANUP_PHASE) {
-        printf(&quot;Personality function, cleanup\n&quot;);
+        printf("Personality function, cleanup\n");
         // Calculate what the instruction pointer was just before the
         // exception was thrown for this stack frame
         uintptr_t throw_ip = _Unwind_GetIP(context) - 1;
@@ -369,7 +370,7 @@ L3:
         while (lsda &lt; lsda_cs_table_end)
         {
             LSDA_CS cs(&amp;lsda);
-            // If there&#x27;s no LP we can&#x27;t handle this exception; move on
+            // If there's no LP we can't handle this exception; move on
             if (not cs.lp) continue;
             uintptr_t func_start = _Unwind_GetRegionStart(context);
             // Calculate the range of the instruction pointer valid for this
@@ -385,18 +386,18 @@ L3:
             int r1 = __builtin_eh_return_data_regno(1);
             _Unwind_SetGR(context, r0, (uintptr_t)(unwind_exception));
             // Note the following code hardcodes the exception type;
-            // we&#x27;ll fix that later on
+            // we'll fix that later on
             _Unwind_SetGR(context, r1, (uintptr_t)(1));
             _Unwind_SetIP(context, func_start + cs.lp);
             break;
         }
         return _URC_INSTALL_CONTEXT;
     } else {
-        printf(&quot;Personality function, error\n&quot;);
+        printf("Personality function, error\n");
         return _URC_FATAL_PHASE1_ERROR;
     }
 }
-</pre>
+</code></pre>
 <p>As usual: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v07">in my github repo</a>.</p>
 <p>Try the example again and voila, no more infinite loop! That was a simple change and we can now choose the correct landing pad. Next time we'll try to make our personality function also pick the correct stack frame instead of choosing the first one.</p>
 <hr />

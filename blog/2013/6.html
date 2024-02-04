@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,12 +12,12 @@
     <a href="/blog/2013/0627_Uselesscodeatemplatedevicetocalculatee.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0627_Uselesscodeatemplatedevicetocalculatee.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review <a href="/blog/youfoundadeadlink.html">and old article</a> I wrote about it (C++11 made some parts of those articles obsolete, but I'm surprised of how well it's aged). To practice a bit I decided to tackle a problem I'm sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn't be to hard.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int N, int D&gt; struct Frak {
+<pre lang="c++"><code lang="c++">template &lt;int N, int D&gt; struct Frak {
     static const long Num = N;
     static const long Den = D;
 };
 template &lt;class X, int N&gt; struct MultEscalar {
-    typedef Frak&lt; N<em>X::Num, N</em>X::Den &gt; result;
+    typedef Frak&lt; N*X::Num, N*X::Den &gt; result;
 };
 template &lt;class X1, class Y1&gt; struct IgualBase {
     typedef typename MultEscalar&lt; X1, Y1::Den &gt;::result X;
@@ -57,11 +58,11 @@ template &lt;&gt; struct E&lt;0&gt; {
 #include &lt;iostream&gt;
 int main() {
     typedef E&lt;8&gt;::result X;
-    std::cout &lt;&lt; &quot;e = &quot; &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; &quot;\n&quot;;
-    std::cout &lt;&lt; &quot;e = &quot; &lt;&lt; X::Num &lt;&lt;&quot;/&quot;&lt;&lt; X::Den &lt;&lt; &quot;\n&quot;;
+    std::cout &lt;&lt; "e = " &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; "\n";
+    std::cout &lt;&lt; "e = " &lt;&lt; X::Num &lt;&lt;"/"&lt;&lt; X::Den &lt;&lt; "\n";
     return 0;
 }
-</pre>
+</code></pre>
 <hr />
 <h1>Watchpoints in gdb: wake me up when foo changes<a name="watchpointsingdbwakemeupwhenfoochanges"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-06-25 -
@@ -69,7 +70,7 @@ int main() {
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I've noticed a lot of people claim gdb is not a good debugger because it doesn't support feature X. X is many times the ability to monitor changes to a memory location (ie when the value of a variable changes). Most times, though, people believe gdb doesn't implement X only because not enough time was spent reading its manual.</p>
 <p>In gdb it's very easy to monitor variable changes using watchpoints. Here's a very simple example session:</p>
-<pre style="display: inline-block; border: 1px solid red;">(gdb) list
+<pre><code>(gdb) list
 1   int main()
 2   {
 3       int a = 1;
@@ -78,22 +79,22 @@ int main() {
 6       b = 42;
 7       return 0;
 8   }
-</pre>
+</code></pre>
 <p>Of course we need to be in the proper scope to set a watchpoint:</p>
-<pre style="display: inline-block; border: 1px solid red;">(gdb) run
+<pre><code>(gdb) run
 Breakpoint 1, main () at test.cpp:3
-</pre>
+</code></pre>
 <p>Let's try to catch when b changes value:</p>
-<pre style="display: inline-block; border: 1px solid red;">(gdb) watch b
+<pre><code>(gdb) watch b
 Hardware watchpoint 2: b
-</pre>
+</code></pre>
 <p>Interesting: a hardware watchpoint was set. What might that be?</p>
-<pre style="display: inline-block; border: 1px solid red;">(gdb) continue
+<pre><code>(gdb) continue
 Hardware watchpoint 2: b
   Old value = 0
   New value = 42
 main () at test.cpp:7
-</pre>
+</code></pre>
 <p>Nice! gdb alerted us of the value change by breaking program execution. This can come in handy to fix race conditions.</p>
 <h2>Hardware and software watchpoints<a name="hardwareandsoftwarewatchpoints"></a></h2>
 <p>Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing "step" continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.</p>
@@ -118,14 +119,14 @@ main () at test.cpp:7
     <a href="/blog/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A long time ago, when we where just starting to write our mini ABI to handle exceptions without libstdc++'s help, we had to add an empty class to appease the linker:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">namespace __cxxabiv1 {
+<pre lang="c++"><code lang="c++">namespace __cxxabiv1 {
     struct __class_type_info {
         virtual void foo() {}
     } ti;
 }
-</pre>
+</code></pre>
 <p>I mentioned this class is used to check whether a catch can handle a subtype of the exception thrown, but what does that exactly mean? Let's change a bit our throwing functions to see what happens when we start dealing with inheritance. You may want to check <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v12">the source code for these examples.</a></p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Derived_Exception : public Exception {};
+<pre lang="c++"><code lang="c++">struct Derived_Exception : public Exception {};
 void raise() {
     throw Derived_Exception();
 }
@@ -133,23 +134,23 @@ void catchit() {
     try {
         raise();
     } catch(Exception&amp;) {
-        printf(&quot;Caught an Exception!\n&quot;);
+        printf("Caught an Exception!\n");
     } catch(Derived_Exception&amp;) {
-        printf(&quot;Caught a Derived_Exception!\n&quot;);
+        printf("Caught a Derived_Exception!\n");
     }
-    printf(&quot;catchit handled the exception\n&quot;);
+    printf("catchit handled the exception\n");
 }
-</pre>
+</code></pre>
 <p>What should happen in this example is crystal clear: it should print "Caught an Exception", because that catch block should be able to handle both types, Exception and Derived_Exception. Not only that, if we compile throw.cpp we'll get a warning to let us know that the second catch is dead code:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">throw.cpp: In function void catchit():
+<pre lang="c++"><code lang="c++">throw.cpp: In function void catchit():
 throw.cpp:15:7: warning: exception of type Derived_Exception will be caught [enabled by default]
 throw.cpp:13:7: warning:    by earlier handler for Exception [enabled by default]
-</pre>
+</code></pre>
 <p>Luckily a warning won't stop compilation; we can continue and try to link the resulting .o; we'll find a linker error:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">throw.o:(.rodata._ZTI17Derived_Exception[typeinfo for Derived_Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__si_class_type_info&#x27;
-</pre>
+<pre lang="c++"><code lang="c++">throw.o:(.rodata._ZTI17Derived_Exception[typeinfo for Derived_Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__si_class_type_info'
+</code></pre>
 <p>And again we start seeing __type_info errors. If we create a fake __si_class_type_info to workaround this problem we we'll finally see our ABI breaks down when dealing with inheritance, in a rather funny way: the compiler will warn us about dead code and then we see that same code being executed by our ABI!</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">g++ -c -o throw.o -O0 -ggdb throw.cpp
+<pre lang="c++"><code lang="c++">g++ -c -o throw.o -O0 -ggdb throw.cpp
 throw.cpp: In function void catchit():
 throw.cpp:15:7: warning: exception of type Derived_Exception will be caught [enabled by default]
 throw.cpp:13:7: warning:    by earlier handler for Exception [enabled by default]
@@ -159,38 +160,38 @@ begin FTW
 Caught a Derived_Exception!
 end FTW
 catchit handled the exception
-</pre>
+</code></pre>
 <p>Clearly there's something wrong with our ABI, and it's very easy to trace this problem back to the definition of "can_handle", the part of the code that checks whether an exception can by caught by a catch block:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">bool can_handle(const std::type_info <em>thrown_exception,
+<pre lang="c++"><code lang="c++">bool can_handle(const std::type_info <em>thrown_exception,
                 const std::type_info </em>catch_type)
 {
     // If the catch has no type specifier we;re dealing with a catch(...)
     // and we can handle this exception regardless of what it is
     if (not catch_type) return true;
     // Naive type comparisson: only check if the type name is the same
-    // This won&#x27;t work with any kind of inheritance
+    // This won't work with any kind of inheritance
     if (thrown_exception-&gt;name() == catch_type-&gt;name())
         return true;
-    // If types don&#x27;t match just don&#x27;t handle the exception
+    // If types don't match just don't handle the exception
     return false;
 }
-</pre>
+</code></pre>
 <p>Our ABI gets the std::type_info for the exception being thrown and for the type which can be handled, and then compares if the names for these types is the same. This is fine as long as no inheritance is involved, but in the example above we already found a case where an exception should be handled even though a name is not shared.</p>
 <p>The same problem will arise when trying to catch a pointer to an exception: the names won't match. Even more interesting, if you try and link throw.cpp but change the catch to receive a pointer instead, you'll get a new linker error. If you fix it you should end up with something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">namespace __cxxabiv1 {
+<pre lang="c++"><code lang="c++">namespace __cxxabiv1 {
     struct __class_type_info    { virtual void foo() {} } ti;
     struct __si_class_type_info { virtual void foo() {} } si;
     struct __pointer_type_info  { virtual void foo() {} } ptr;
 }
-</pre>
+</code></pre>
 <p>A very interesting pattern is starting to emerge: there is a different *_type_info for each possible catch type used. In fact the compiler will generate a different structure for each throw style. For example, for these throws:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">throw new Exception;
+<pre lang="c++"><code lang="c++">throw new Exception;
 throw Exception;
-</pre>
+</code></pre>
 <p>the compiler would generate something like:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">__cxa_throw(_Struct_Type_Info__Ptr__Exception);
+<pre lang="c++"><code lang="c++">__cxa_throw(_Struct_Type_Info__Ptr__Exception);
 __cxa_throw(_Struct_Type_Info__Class__Exception);
-</pre>
+</code></pre>
 <p>In fact, even for this simple example, the inheritance web (not tree, web) is quite complex (note that I'm kind of inventing the mangling here, it's not what gcc uses):</p>
 <p><img alt="" src="/blog_img/type_info_inheritance.png" /></p>
 <p>All these classes are generated by the compiler to specify precisely which type is being thrown, and how. For example, if an exception of type "Ptr__Type_Info__Derived_Exception" is thrown then a catch can handle it if:</p>
@@ -217,18 +218,18 @@ __cxa_throw(_Struct_Type_Info__Class__Exception);
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0606_Bashscriptingandgetops.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Did you ever write a bash script and thought it looked too clean? Yeah, me neither. Anyway, now you can make it look even worse by using getopt. As an upside, you'll be able to read command line options from a user without having to resort to nasty hacks, like hardcoding the switch position into the argv.</p>
 <p>getopt should be installed by default in most Linux distros, and you can even run it as a command line program. It's quite easy to use on a bashcript. For example, something like:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
-while getopts &quot;bar&quot; opt; do
-    case &quot;$opt&quot; in
-        b) echo &quot;Option b is set&quot;
+<pre lang="c++"><code lang="c++">
+while getopts "bar" opt; do
+    case "$opt" in
+        b) echo "Option b is set"
            ;;
-        a) echo &quot;Option a is set&quot;
+        a) echo "Option a is set"
            ;;
-        r) echo &quot;Option r is set&quot;
+        r) echo "Option r is set"
            ;;
     esac
 done
-</pre>
+</code></pre>
 <p>It won't look pretty but it does get the job done. According to "man getopt" it supports things like short &amp; long options and defaults; if you need something more complex, you should probably be using a proper language instead of a bash script.</p>
 <hr />
 <h1>C++ exceptions under the hood 21: a summary and some final thoughts<a name="cexceptionsunderthehood21asummaryandsomefinalthoughts"></a></h1>

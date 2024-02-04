@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,11 +12,11 @@
     <a href="/blog/2015/0430_Globinginbash.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0430_Globinginbash.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There is a pretty common and unnecessary pattern used by bash scripts: whenever you need to loop through a list of file names in a path, you might tempted to write something like this.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">for fname in $(ls | grep foo); do echo $fname; done
-</pre>
+<pre lang="c++"><code lang="c++">for fname in $(ls | grep foo); do echo $fname; done
+</code></pre>
 <p>You can save some typing by using bash-globbing:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">for fname in <em>foo</em>; do echo $fname; done
-</pre>
+<pre lang="c++"><code lang="c++">for fname in <em>foo</em>; do echo $fname; done
+</code></pre>
 <p>Not only the script should be cleaner and faster, bash will take care of properly expanding the file names and you won't have to worry about things like filenames with spaces. This should also be portable to other shells too.</p>
 <p>Want to know more about bash globbibg? Check out http://www.linuxjournal.com/content/bash-extended-globbing</p>
 <hr />
@@ -25,9 +26,9 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0428_gdbPrintverylongstrings.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>gdb defaults are usually quite sensible and just "let you work". Some times, though, your project is not very sensible and you have to do weird things in gdb. An example: printing huge strings or vectors to try and reproduce a heisenbug. A lot of people get surprised at first because gdb will refuse to print very long strings, printing only the first few chars. Same for vectors. And if you have many repeating elements (eg "f000000000000000000000000000000bar") you might see something like "fooo0bar".
 Just type these magic commands to see the whole string:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; set print repeats 0
+<pre lang="c++"><code lang="c++">&gt; set print repeats 0
 &gt; set print elements 0
-</pre>
+</code></pre>
 <hr />
 <h1>gcc: Optimization levels and templates<a name="gccoptimizationlevelsandtemplates"></a></h1>
 <p>Post by Nico Brailovsky @ 2015-04-21 -
@@ -35,49 +36,49 @@ Just type these magic commands to see the whole string:</p>
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0421_gccOptimizationlevelsandtemplates.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Analyzing the assembly output for template devices can be a bit discouragging at times, specially when we spend hours trying to tune a mean looking template class only to find out the compiler is not able to reduce it's value like we expected. But hold on, before throwing all your templates away you might want to figure out why they are not optimized.</p>
 <p>Let's start with a simple example: a template device to return the next power of 2:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int n, long curr_pow, bool stop&gt;
+<pre lang="c++"><code lang="c++">template <int n, long curr_pow, bool stop>
 struct Impl_Next_POW2 {
     static const bool is_smaller = n &lt; curr_pow;
-    static const long next_pow = _Next_POW2&lt;n, curr_pow*2, is_smaller&gt;::pow;
+    static const long next_pow = _Next_POW2<n, curr_pow*2, is_smaller>::pow;
     static const long pow = is_smaller? curr_pow : next_pow;
 };
-template &lt;int n, long curr_pow&gt;
-struct Impl_Next_POW2&lt;n, curr_pow, true&gt; {
+template <int n, long curr_pow>
+struct Impl_Next_POW2<n, curr_pow, true> {
     // This specializtion is important to stop the expansion
     static const long pow = curr_pow;
 };
-template &lt;int n&gt;
+template <int n>
 struct Next_POW2 {
     // Just a wrapper for _Next_POW2, to hide away some
     // implementation details
-    static const long pow = _Next_POW2&lt;n, 1, false&gt;::pow;
+    static const long pow = _Next_POW2<n, 1, false>::pow;
 };
-</pre>
+</code></pre>
 <p>Gcc can easily optimize that away, if you compile with "g++ foo.cpp -c -S -o /dev/stdout" you'll just see the whole thing is replaced by a compile time constant. Let's make gcc's life a bit more complicated now:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int n, long curr_pow, bool stop&gt;
+<pre lang="c++"><code lang="c++">template <int n, long curr_pow, bool stop>
 struct Impl_Next_POW2 {
     static long get_pow() {
         static const bool is_smaller = n &lt; curr_pow;
         return is_smaller?
                     curr_pow :
-                    _Next_POW2&lt;n, curr_pow*2, is_smaller&gt;::get_pow();
+                    _Next_POW2<n, curr_pow*2, is_smaller>::get_pow();
     }
 };
-template &lt;int n, long curr_pow&gt;
-struct Impl_Next_POW2&lt;n, curr_pow, true&gt; {
+template <int n, long curr_pow>
+struct Impl_Next_POW2<n, curr_pow, true> {
     static long get_pow() {
         return curr_pow;
     }
 };
-template &lt;int n&gt;
+template <int n>
 struct Next_POW2 {
     static long get_pow() {
-        return _Next_POW2&lt;n, 1, false&gt;::get_pow();
+        return _Next_POW2<n, 1, false>::get_pow();
     }
 };
-</pre>
+</code></pre>
 <p>Same code but instead of using plain static values we wrap everything in a method. Compile with "g++ foo.cpp -c -S -fverbose-asm -o /dev/stdout | c++filt" and you'll see something like this now:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">main:
+<pre lang="c++"><code lang="c++">main:
     call    Next_POW2&lt;17&gt;::get_pow()
 Next_POW2&lt;17&gt;::get_pow():
     call    _Next_POW2&lt;17, 1l, false&gt;::get_pow()
@@ -93,7 +94,7 @@ _Next_POW2&lt;17, 16l, false&gt;::get_pow():
     call    _Next_POW2&lt;17, 32l, false&gt;::get_pow()
 _Next_POW2&lt;17, 32l, false&gt;::get_pow():
     movl    $32, %eax    #, D.2171
-</pre>
+</code></pre>
 <p>What went wrong? It's very clear for us the whole thing is just a chain of calls which could be replaced by the last one, however that information is now only available if you "inspect" the body of each function, and this is something the template instanciator (at least in gcc) can't do. Luckily you just need to enable optimizations, -O1 is enough, to have gcc output the reduced version again.</p>
 <p>Keep it in mind for the next time you're optimizing your code with template metaprogramming: some times the template expander needs some help from the optimizer too.</p>
 <hr />
@@ -102,12 +103,12 @@ _Next_POW2&lt;17, 32l, false&gt;::get_pow():
     <a href="/blog/2015/0416_BashtrapsalmostlikeRAIIforbash.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0416_BashtrapsalmostlikeRAIIforbash.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Everywhere, but specially in bash, cleaning up is annoying and error prone. Resource leaks can be common if your bash script is interrupted half-way. Do you need to execute something always, even if your script fails or gets killed? Try using traps:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
+<pre lang="c++"><code lang="c++">#!/bin/bash
 foobar() {
-    echo &quot;See ya!&quot;
+    echo "See ya!"
 }
-trap &quot;foobar&quot; EXIT
-</pre>
+trap "foobar" EXIT
+</code></pre>
 <p>It doesn't mater how you end this script, "foobar" will always be executed. Want to read more about bash traps? Check <a href="/blog/youfoundadeadlink.html">here.</a></p>
 <hr />
 <h1>C++: Invalidating references to elements in a vector<a name="cinvalidatingreferencestoelementsinavector"></a></h1>
@@ -115,26 +116,26 @@ trap &quot;foobar&quot; EXIT
     <a href="/blog/2015/0414_CInvalidatingreferencestoelementsinavector.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0414_CInvalidatingreferencestoelementsinavector.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Is this valid C++?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void do_something(const int&amp;amp;);
-#include &lt;vector&gt;
+<pre lang="c++"><code lang="c++">void do_something(const int&amp;);
+#include <vector>
 void foo() {
-    std::vector&lt;int&gt; v = {1,2,3,4,5};
+    std::vector<int> v = {1,2,3,4,5};
     const int &amp;num = v.at(1);
     v.push_back(42);
     do_something(num);
 }
-</pre>
+</code></pre>
 <p>Doesn't seem quite right, does it? push_back will most likely trigger a resize for the vector, and that will invalidate references to elements in the vector. num will end up pointing anywhere and so using it to call do_something is not valid C++. Or is it? What happens if we reserve some space for v?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void do_something(const int&amp;amp;);
-#include &lt;vector&gt;
+<pre lang="c++"><code lang="c++">void do_something(const int&amp;);
+#include <vector>
 void foo() {
-    std::vector&lt;int&gt; v = {1,2,3,4,5};
+    std::vector<int> v = {1,2,3,4,5};
     v.reserve(40);
     const int &amp;num = v.at(1);
     v.push_back(6);
     do_something(num);
 }
-</pre>
+</code></pre>
 <p>It again might seem wrong, but this in fact is valid C++ code. Common sense might tell us that a call to push_back automatically invalidates references to elements in the vector, and it only works because most implementations will do the reasonable thing (ie not to invalidate references unless they must). Turns out the standard makes a special prevision for this case in section 23.3.6.5: a resize for a vector is guaranteed to be triggerd if, and only if, the capacity of the vector is not enough, and references to elements in the vector are guaranteed to be valid unless resize is triggered.</p>
 <p>A bit of language laweyering shows that what seems like an error is in fact allowed by the standard, but even if this is valid C++ code you should always keep in mind that assuming that the capacity of a vector will be enough is a VERY big assumption, it's very easy to break and you won't get any warning when it happens (maybe a core dump, if you're lucky).</p>
 <hr />
@@ -160,20 +161,20 @@ void foo() {
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0402_VimTipIwantmoremenus.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>As a uber vim geek, you shouldn't be using a lot of gui menus. Scratch that, you shouldn't be using any menus at all, period. Still, I'll admit it's a bit hard to remember every single shortcut for actions you rarely use.</p>
 <p>Say, for example, you like to encrypt your text. Not always, but every once in a while. Enough to make a shortcut for it but not enough to remember what the shortcut is. You can try to grep your ~/.vimrc. You might find something like:</p>
-<pre style="display: inline-block; border: 1px solid red;">&quot; Encrypt my stuff
-map &lt;leader&gt;e ggg?G&lt;CR&gt;
-</pre>
+<pre><code>" Encrypt my stuff
+map <leader>e ggg?G<CR>
+</code></pre>
 <p>(Yes, that command will actually encrypt your text in Vim. Try it!)</p>
 <p>Wouldn't it be nice if you had a simpler way, though?</p>
 <p>Turns out you can add your "encrypt" command to your gui. Then "menu" commands work just like the "map" family, but they create a GUI menu instead. Change your vimrc to something like this:</p>
-<pre style="display: inline-block; border: 1px solid red;">&quot; Encrypt my stuff
-map &lt;leader&gt;e ggg?G&lt;CR&gt;
-menu Project.Encrypt ggg?G&lt;CR&gt;
-</pre>
+<pre><code>" Encrypt my stuff
+map <leader>e ggg?G<CR>
+menu Project.Encrypt ggg?G<CR>
+</code></pre>
 <p>Now if you reload your vimrc you'll find a new GUI menu created, from which you can easily encrypt your text. Decrypting is left as an exercise to the reader.</p>
 <p>Extra tip: Want to try to learn the actual shortcut, like a real vim'er? Then try this:</p>
-<pre style="display: inline-block; border: 1px solid red;">menu Project.Encrypt&lt;TAB&gt;ggg?G ggg?G&lt;CR&gt;
-</pre>
+<pre><code>menu Project.Encrypt<TAB>ggg?G ggg?G<CR>
+</code></pre>
 <p>Everything after the TAB will be right-aligned: you can use that space to annotate the key-combo you should use next time.</p>
 <p>As usual, for more info check :help menu</p>
 <hr />

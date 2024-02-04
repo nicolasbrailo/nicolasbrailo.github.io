@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -48,11 +49,11 @@ What LyX isn’t for</p>
     <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0625_UniquevarnamewithCCmacros.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, you're working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won't let you. There's a secret spell to do it anyway:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// Do magic! Creates a unique name using the line number
+<pre lang="c++"><code lang="c++">// Do magic! Creates a unique name using the line number
 #define LINE_NAME( prefix ) JOIN( prefix, <strong>LINE</strong> )
 #define JOIN( symbol1, symbol2 ) _DO_JOIN( symbol1, symbol2 )
 #define _DO_JOIN( symbol1, symbol2 ) symbol1##symbol2
-</pre>
+</code></pre>
 <p>Great, now you can keep obscuring your programs even more - have fun!</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Why is a level of indirection needed for this concatenation macro? | CopyQuery</a> commented @ 2013-10-29T19:25:53.000+01:00:<a name="inreplytothispostwhyisalevelofindirectionneededforthisconcatenationmacrocopyqueryblog_mdyoufoundadeadlink.mdcommented20131029t192553.0000100"></a></h2>
@@ -80,28 +81,28 @@ What LyX isn’t for</p>
 <ul>
 <li><strong>Footnotes</strong>:</li>
 </ul>
-<pre style="display: inline-block; border: 1px solid red;">footnote{ Footnote text }
-</pre>
+<pre><code>footnote{ Footnote text }
+</code></pre>
 <p>Just write your text, it'll be there when you compile the document</p>
 <ul>
 <li><strong>Vertical skip</strong>:</li>
 </ul>
-<pre style="display: inline-block; border: 1px solid red;">bigskip
-</pre>
+<pre><code>bigskip
+</code></pre>
 <p>Because, some times, LaTeX default formatting won't be enough.</p>
 <ul>
 <li><strong>Align text</strong> Center:</li>
 </ul>
-<pre style="display: inline-block; border: 1px solid red;">begin{center}TEXTend{center}
-</pre>
+<pre><code>begin{center}TEXTend{center}
+</code></pre>
 <p>Right:</p>
-<pre style="display: inline-block; border: 1px solid red;">begin{flushright}TEXTend{flushright}
-</pre>
+<pre><code>begin{flushright}TEXTend{flushright}
+</code></pre>
 <p>Again, some times you may need it. Not too often, though.</p>
 <p>You should now be able to write your first LaTeX document, starting from a template (always start with a template... it's easier). I'm attaching to this post an example document in LyX, LaTeX and its compiled pdf, in case you're wondering what does it look like in the end. For the next entry: some "advanced" tips and tricks, now let's see an example LaTeX document:</p>
-<pre style="display: inline-block; border: 1px solid red;">documentstyle[11pt]{article}
+<pre><code>documentstyle[11pt]{article}
 title{LaTeX Example}
-author{Nicol&#x27;as Brailovsky}
+author{Nicol'as Brailovsky}
 setlength{topmargin}{-.5in}
 setlength{oddsidemargin}{.125in}
 setlength{textwidth}{6.25in}
@@ -116,7 +117,7 @@ Donec porta, enim eget tempus tempor, eros sem dapibus diam, vitae lacinia mauri
 end{quotation}
 subsection{Subsection}
 You can have subsections too ldots
-subsection{Subsection&#x27;}
+subsection{Subsection'}
 ldots as many as you want
 subsection{Random stuff}
 You can even create a shopping list in LaTeX, if you wish
@@ -134,7 +135,7 @@ end{center}
 Or even better, use it to do the homework. \
 Math is a breeze in LaTeX: $x_n = sqrt{a + b}$ can be typeset inline.
 end{document}
-</pre>
+</code></pre>
 <p>You can download the compiled document from <a href="/blog/youfoundadeadlink.html">this link.</a> May be it doesn't look too useful (I'd use <a href="http://www.lyx.org">LyX</a> instead) but soon we'll start doing some cool stuff LyX can't handle. Keep tuned for the next LaTeX article.</p>
 <hr />
 <h1>Vim Tip: Easy Indent<a name="vimtipeasyindent"></a></h1>
@@ -151,73 +152,73 @@ end{document}
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0611_vimrcVimstartupfile.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I usually create a partition for /home, so whenever I decide to foobar my OS (i.e. do a kernel update on Ubuntu, or start playing with compiz too much) there's no need to copy my home folder to another disk and back again. Regardless of this, there are some essential files which I'd be dead without. One of these is my .vimrc, the startup file for Vim.</p>
 <p>My .vimrc file has been organically growing since I started using this editor, a couple of years ago, so I've decided to clean it up a little bit and post it here, just to be sure I won't be loosing it. It's got some tweaks to use Vim as an IDE, feel free to download it and change it or use it anyway you want.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">colorscheme torte
+<pre lang="c++"><code lang="c++">colorscheme torte
 set nocompatible
 syntax on
 set ruler
 set number
-set hls     &quot; Highlight search results
-set showmatch &quot; Show matching () {} []
-set wildmode=list:longest,full  &quot; Use tab-completition
-set mouse=a       &quot; Always use the mouse
-&quot; Set the working directory to the directory of the current file.
+set hls     " Highlight search results
+set showmatch " Show matching () {} []
+set wildmode=list:longest,full  " Use tab-completition
+set mouse=a       " Always use the mouse
+" Set the working directory to the directory of the current file.
 autocmd BufEnter * lcd %:p:h
-&quot; Allow movement to another buffer without saving the current one
+" Allow movement to another buffer without saving the current one
 set hidden
-&quot; <strong><em>*</em></strong><strong><em>* Text formatting </em></strong><strong><em>*</em></strong><strong><em>
+" *********** Text formatting *************
 set nowrap
 set beautify
 set shiftwidth=3
 set tabstop=3
 filetype on
 filetype plugin indent on
-&quot; </em></strong><strong><em>*</em></strong><em> Search &amp;amp; replace </em><strong><em>*</em></strong><strong><em>*</em>
-set ignorecase &quot; case insensitive
-set smartcase &quot; case insensitive only if there is no uppercase
-set incsearch &quot; incremental seach
-set gdefault &quot; default to /g on replace
-&quot; Load matchit (% to bounce from do to end, etc.)
+" *********** Search &amp; replace *************
+set ignorecase " case insensitive
+set smartcase " case insensitive only if there is no uppercase
+set incsearch " incremental seach
+set gdefault " default to /g on replace
+" Load matchit (% to bounce from do to end, etc.)
 runtime! macros/matchit.vim
 augroup myfiletypes
- &quot; Clear old autocmds in group
+ " Clear old autocmds in group
  autocmd!
- &quot; autoindent with two spaces, always expand tabs
+ " autoindent with two spaces, always expand tabs
   autocmd FileType ruby,eruby,yaml set ai sw=2 sts=2 et
 augroup END
-&quot; display the current mode and partially-typed commands in the status line:
+" display the current mode and partially-typed commands in the status line:
 set showmode
 set showcmd
 set autoindent
 set smartindent
-&quot; Show an error window (if there are errors)
+" Show an error window (if there are errors)
 cwindow
-&quot; </strong><strong><em>*</em></strong><strong> Mappings </strong><strong><em>*</em></strong>****
-&quot; Ctrl-t: Write tabnew (wait for filename and )
+" *********** Mappings *************
+" Ctrl-t: Write tabnew (wait for filename and )
 map  :tabnew
-&quot; Alt-R: Exec current file as script
+" Alt-R: Exec current file as script
 map  :!.%
-&quot; Ctrl-Alt-R
+" Ctrl-Alt-R
 map  :tabnew:make
-&quot; Spellcheck
+" Spellcheck
 map  :!ispell -x %:e!
-&quot; Comment a line
+" Comment a line
 map  0i//
 map  0xxx
-&quot; Build for a LaTeX file (assumes correct path and makefile)
+" Build for a LaTeX file (assumes correct path and makefile)
 autocmd filetype tex map  :w:make
-&quot; Automatic closing
+" Automatic closing
 kets
 inoremap do{ do{}while();O
 inoremap do{ do{}while();O
 inoremap { {}O
-</pre>
+</code></pre>
 <hr />
 <h1>apt-get install new computer IV: round up<a name="aptgetinstallnewcomputerivroundup"></a></h1>
 <p>Post by Nico Brailovsky @ 2009-06-09 -
     <a href="/blog/2009/0609_aptgetinstallnewcomputerIVroundup.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0609_aptgetinstallnewcomputerIVroundup.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Quick post this time - just a roundup of the "apt-get install new computer" series. This is a one liner I use in any new install I'm planning to work with, hope it's useful for you too.</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">
+<pre lang="bash"><code lang="bash">
 sudo apt-get install lyx mozilla-thunderbird tilda mmv \
    unclutter gnome-do moc ffmpeg shntool cuetools flac \
    wavpack vlc deluge bittornado-gui build-essential \
@@ -225,7 +226,7 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
    vim vim-gtk sun-java5-bin sun-java5-jdk sun-java5-jre \
    sun-java6-jdk antiword ifstat php5 php5-mysql php5-pgsql \
    php5-cli php5-gd php5-curl ruby1.9 irb1.9 rails rake valgrind
-</pre>
+</code></pre>
 <p>New package: antiword - read office documents on console</p>
 <hr />
 <h1>Editors Learning Curves<a name="editorslearningcurves"></a></h1>
@@ -239,14 +240,14 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
     <a href="/blog/2009/0605_VimTipKnowyourblocks.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0605_VimTipKnowyourblocks.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Vim is the best editor for programmers and as such it has some neat "programmer commands", which make editing source code a lot easier. Take for example a block with code, or a function definition: how many times did you have to copy the code between parenthesis from one place to the other?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int foo(int bar, int baz)
-</pre>
+<pre lang="c++"><code lang="c++">int foo(int bar, int baz)
+</code></pre>
 <p>You could do '0f(df)' to delete "int bar, int baz" but that won't do if the definition is more complicated than that. 'dib' is a better choice to delete the text.</p>
 <p>(ACTION)i{b|B} applies ACTION to a block, for example, pressing diB in</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void foo() _ {
+<pre lang="c++"><code lang="c++">void foo() _ {
     /<em> Lots of source code </em>/
 }
-</pre>
+</code></pre>
 <p>(with the cursor placed at _) will delete lots of source code.</p>
 <hr />
 <h1>Testing &amp; mocking<a name="testingmocking"></a></h1>

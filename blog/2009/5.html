@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -26,10 +27,10 @@
 <p>In GNU/Linux you can find lots of examples and templates in /usr/share/doc/texlive-doc/latex/ (no idea where may they be in Windows). Writing this article I found out lots of templates I didn't know about so go and take a look. Go on, I'll wait here. Done? Ok, let's move on.</p>
 <h3>Preamble<a name="preamble"></a></h3>
 <p>In LaTeX there's a basic structure every document follows:</p>
-<pre style="display: inline-block; border: 1px solid red;">% Preamble
+<pre><code>% Preamble
 begin{document}
 end{document}
-</pre>
+</code></pre>
 <p>What comes before the <em>begin</em>'ning is the preamble. There you can tell LaTeX:
 * Which packages are you going to use - there are lots of packages, some examples include source code highlighting, including images, absolute positioning of figures and much more. Include them with the usepackage command</p>
 <ul>
@@ -116,28 +117,28 @@ Disclaimer: I love that image and would have found other excuse to use it</p>
 <ul>
 <li>Install build tools:</li>
 </ul>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install g++ gdb build-essential g++-4.2 omniorb4 omniidl4-python omniidl4 libxerces-c2-dev
-</pre>
+<pre lang="c++"><code lang="c++">sudo apt-get install g++ gdb build-essential g++-4.2 omniorb4 omniidl4-python omniidl4 libxerces-c2-dev
+</code></pre>
 <ul>
 <li>Can't live without VIM:</li>
 </ul>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install vim gvim vim-common vim-doc vim-full vim-gnome vim-gtk
-</pre>
+<pre lang="c++"><code lang="c++">sudo apt-get install vim gvim vim-common vim-doc vim-full vim-gnome vim-gtk
+</code></pre>
 <ul>
 <li>Some additional tools:</li>
 </ul>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install ddd devhelp doxygen doxygen-gui exuberant-ctags ctags  subversion
-</pre>
+<pre lang="c++"><code lang="c++">sudo apt-get install ddd devhelp doxygen doxygen-gui exuberant-ctags ctags  subversion
+</code></pre>
 <ul>
 <li>Install bandwith monitor:</li>
 </ul>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install ifstat
-</pre>
+<pre lang="c++"><code lang="c++">sudo apt-get install ifstat
+</code></pre>
 <ul>
 <li>Don't you hate when you need to read an Office document while working on the console? Me too, try antiword:</li>
 </ul>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install antiword
-</pre>
+<pre lang="c++"><code lang="c++">sudo apt-get install antiword
+</code></pre>
 <p>Done, a couple of apt-get's and you are ready to build your c++ projects! (Ok, actually only the first one is needed, the others are nice-to-have programs).</p>
 <hr />
 <h1>Everything is a file A.K.A. Battery state on Linux<a name="everythingisafilea.k.a.batterystateonlinux"></a></h1>
@@ -146,7 +147,7 @@ Disclaimer: I love that image and would have found other excuse to use it</p>
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I present to you the latest release from Wheel Reinventions Inc. - Already Invented dept. - a script to check the remaining battery time from Linux console.</p>
 <p>|</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 <pre class="c++">echo -n "Hours remaining: "
 &amp;&amp; echo "$(cat /proc/acpi/battery/BAT0/state
 &nbsp;&nbsp;&nbsp;&nbsp;  | grep &#x27;remaining capacity&#x27;
@@ -155,8 +156,7 @@ Disclaimer: I love that image and would have found other excuse to use it</p>
 &nbsp;&nbsp;&nbsp;&nbsp;  | grep &#x27;present rate&#x27;
 &nbsp;&nbsp;&nbsp;&nbsp;  | awk &#x27;{print $3}&#x27;)"
 &nbsp;&nbsp; | bc -l</pre>
-
-</pre>
+</code></pre>
 <p>Yes, I was bored, so? I'm planning to release a new bogosort implementation after this one, what do you think?</p>
 <p>Jokes aside, this nifty script shows how flexible can be the model "everything is a file" which Unix-y systems implement. With a couple of pipes (and an almost magical incantation for those uninitiated in the console cult) you can do lots of stuff with very little work</p>
 <p>This concept could be associated with the way polymorfism works in a programming language, but that's an entry for another day.</p>

@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -28,24 +29,24 @@ $ ar: creating God</p>
 <h3>No, really. What is RAII?<a name="noreally.whatisraii"></a></h3>
 <p>If you made it past that long intro you are probably really interested in knowing what RAII is, and don't know how to search it in Wikipedia. OK, I'll explain it the best I can then: RAII means that a resource acquisition is the initialization.</p>
 <p>Seriously. That is all the secret there is to RAII. Talking in code:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template
+<pre lang="c++"><code lang="c++">template
 class RAII_Wrapper {
    T <em>resource;
    public:
       RAII_Wrapper (T </em>resource)
             : resource(resource)
       {
-         resource-&amp;gt;open();
+         resource-&gt;open();
       }
       ~RAII_Wrapper ()
       {
-         resource-&amp;gt;close();
+         resource-&gt;close();
       }
 };
-</pre>
+</code></pre>
 <h3>An example<a name="anexample"></a></h3>
 <p>Compare that to a visitor pattern. It's just too simple to be of any use, isn't it? Well, contrary to what Java fanboys tend to believe you can do lots of nice things without writing a bazillion lines of code.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int foo() {
+<pre lang="c++"><code lang="c++">int foo() {
     Expensive_Resource x;
     x.open();
     try {
@@ -55,27 +56,27 @@ class RAII_Wrapper {
         }
     } catch (...) {
         x.close();
-        throw &quot;up&quot;;
+        throw "up";
     }
     int ret;
     try {
         ret = baz();
     }catch(...) {
-        // We don&amp;#x27;t care, we&amp;#x27;re closing x anyway
+        // We don&#x27;t care, we&#x27;re closing x anyway
     }
     x.close();
     return ret;
 }
-</pre>
+</code></pre>
 <p>Wow... a whole lot of code just for calling bar and baz. And as I wrote that without even compiling I'm sure there are too many hidden bugs, lots of code-paths my simple programmer's mind can't even begin to imagine which will cause my Expensive_Resource to be leaked!</p>
 <p>Let's rewrite that using RAII:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void foo() {
+<pre lang="c++"><code lang="c++">void foo() {
     Expensive_Resource x;
-    RAII_Wrapper release(&amp;amp;x);
+    RAII_Wrapper release(&amp;x);
     if (not bar()) return -1;
     return baz();
 }
-</pre>
+</code></pre>
 <p>A lot nicer, isn't it? But, what happened to all the try/catch if's and closes there?</p>
 <h3>Where's the magic?<a name="wheresthemagic"></a></h3>
 <p>The magic of RAII lies in how C++ handles exceptions. When we have a built object (<a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">can an object be in an unbuilt state?</a>) it means it's constructor has correctly ran. It also means it's destructor will run when it goes out of scope, doesn't mater HOW it goes out of scope.</p>

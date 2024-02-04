@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,13 +8,13 @@
 </ul>
 <h1>C++: Magic member callbacks<a name="cmagicmembercallbacks"></a></h1>
 <p>Short post about C++ this time - though calling it a request would be more appropiate. I'm trying to create some kind of magic callback to do this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Caller {
+<pre lang="c++"><code lang="c++">class Caller {
  Callback c;
   public:
   Caller(Callback c) : c(c) {}
  void doit(){ c(this); }
 };
-</pre>
+</code></pre>
 <p>Shouldn't be too difficult, right?</p>
 <p>There are some hidden complexities, of course, mostly regarding the callback parameter type, but the idea is simple, keep the caller dependant only in the callback, not in the callee.</p>
 <p>Templates are not a valid solution as the callee may have more than one callback (i.e. expect more than a single object to finish and call the callback) so the whole idea of this is having the callback "bind" to a member method when created, doesn't matter which one.</p>

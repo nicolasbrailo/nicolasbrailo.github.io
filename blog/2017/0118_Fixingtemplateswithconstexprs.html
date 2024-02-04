@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,44 +9,44 @@
 <h1>Fixing templates with constexpr's<a name="fixingtemplateswithconstexprs"></a></h1>
 <p>For my hundredth (and a bit) c++ post I decided to do something I never did before: fix my old code!</p>
 <p>A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my <a href="/blog/youfoundadeadlink.html">template device to calculate e</a>. Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int N, int D&gt; struct Frak {
+<pre lang="c++"><code lang="c++">template <int N, int D> struct Frak {
         static const long Num = N;
         static const long Den = D;
 };
-template &lt;int N, typename F&gt; struct ScalarMultiplication {
-    typedef Frak&lt;N<em>F::Num, N</em>F::Den&gt; result;
+template <int N, typename F> struct ScalarMultiplication {
+    typedef Frak<N*F::Num, N*F::Den> result;
 };
-template &lt;int X, int Y&gt; struct MCD {
-        static const long result = MCD&lt;Y, X % Y&gt;::result;
+template <int X, int Y> struct MCD {
+        static const long result = MCD<Y, X % Y>::result;
 };
-template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
+template <int X> struct MCD<X, 0> {
         static const long result = X;
 };
-template &lt;class F&gt; struct Simpl {
-        static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+template <class F> struct Simpl {
+        static const long mcd = MCD<F::Num, F::Den>::result;
         typedef Frak&lt; F::Num / mcd, F::Den / mcd &gt; result;
 };
-template &lt;typename X1, typename Y1&gt; struct SameBase {
+template <typename X1, typename Y1> struct SameBase {
     typedef typename ScalarMultiplication&lt; Y1::Den, X1&gt;::result X;
     typedef typename ScalarMultiplication&lt; X1::Den, Y1&gt;::result Y;
 };
-template &lt;typename X, typename Y&gt; struct Sum {
-    typedef SameBase&lt;X, Y&gt; B;
+template <typename X, typename Y> struct Sum {
+    typedef SameBase<X, Y> B;
     static const long Num = B::X::Num + B::Y::Num;
     static const long Den = B::Y::Den; // == B::X::Den
-    typedef typename Simpl&lt; Frak&lt;Num, Den&gt; &gt;::result result;
+    typedef typename Simpl&lt; Frak<Num, Den> &gt;::result result;
 };
-template &lt;int N&gt; struct Fact {
-    static const long result = N * Fact&lt;N-1&gt;::result;
+template <int N> struct Fact {
+    static const long result = N * Fact<N-1>::result;
 };
 template &lt;&gt; struct Fact&lt;0&gt; {
     static const long result = 1;
 };
-template &lt;int N&gt; struct E {
+template <int N> struct E {
     // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
-    static const long Den = Fact&lt;N&gt;::result;
+    static const long Den = Fact<N>::result;
     typedef Frak&lt; 1, Den &gt; term;
-    typedef typename E&lt;N-1&gt;::result next_term;
+    typedef typename E<N-1>::result next_term;
     typedef typename Sum&lt; term, next_term &gt;::result result;
 };
 template &lt;&gt; struct E&lt;0&gt; {
@@ -53,36 +54,36 @@ template &lt;&gt; struct E&lt;0&gt; {
 };
 int main() {
   typedef E&lt;8&gt;::result X;
-  std::cout &lt;&lt; &quot;e = &quot; &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; &quot;\n&quot;;
-  std::cout &lt;&lt; &quot;e = &quot; &lt;&lt; X::Num &lt;&lt;&quot;/&quot;&lt;&lt; X::Den &lt;&lt; &quot;\n&quot;;
+  std::cout &lt;&lt; "e = " &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; "\n";
+  std::cout &lt;&lt; "e = " &lt;&lt; X::Num &lt;&lt;"/"&lt;&lt; X::Den &lt;&lt; "\n";
   return 0;
 }
-</pre>
+</code></pre>
 <p>While this is just a toy example to play with templates, it does illustrate code I've seen in the wild. Would this look cleaner in c++11? Yes, it would. Constexprs are, in my opinion, one of the most overlooked "killer" features of c++11.</p>
 <p>Starting with a simple example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">constexpr int foo(int a, int b) { return a+b; }
+<pre lang="c++"><code lang="c++">constexpr int foo(int a, int b) { return a+b; }
 static constexpr int n = foo(1, 2);
 int bar() { return n; }
-</pre>
+</code></pre>
 <p>Try to compile it with "g++ -std=c++11 -fverbose-asm -O0 -c -S -o /dev/stdout" and see what happens. You should get the equivalent of "return 3" - just as anyone would expect - but note that no optimizations were enabled. What about loops? Let's try this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">constexpr int f(int n) {
+<pre lang="c++"><code lang="c++">constexpr int f(int n) {
     return (n&lt;2)? 1 : n + f(n-1);
 }
 constexpr int n = f(999);
-</pre>
+</code></pre>
 <p>You'll probably get an error about maximum depth exceeded, but that's alright: we have loops in constexprs too! (note that some of these restrictions have been relaxed in C++17).</p>
 <p>In general, if you can express your function as a single const return statement, it should be a valid constexpr. With this new knowledge, let's convert the template meta-atrocity above to something a bit less hideous:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct PodFrac {
+<pre lang="c++"><code lang="c++">struct PodFrac {
     int num;
     int den;
 };
 constexpr int mcd(int a, int b) {
     return (b==0)? a : mcd(b, a%b);
 }
-constexpr PodFrac simpl(const PodFrac &amp;amp;f) {
+constexpr PodFrac simpl(const PodFrac &amp;f) {
     return PodFrac{f.num / mcd(f.num, f.den), f.den / mcd(f.num, f.den)};
 }
-constexpr PodFrac sum(const PodFrac &amp;amp;a, const PodFrac &amp;amp;b) {
+constexpr PodFrac sum(const PodFrac &amp;a, const PodFrac &amp;b) {
     return simpl(PodFrac{a.num<em>b.den + b.num</em>a.den, a.den<em>b.den});
 }
 constexpr int fact(int n) {
@@ -96,7 +97,7 @@ constexpr float e_num = 1.0 * e(8).num / e(8).den;
 float get_e() {
     return e_num;
 }
-</pre>
+</code></pre>
 <p>Disclaimer: while I explicitly stated this multiple times in my "<a href="/blog/youfoundadeadlink.html">C++ template metaprogramming introduction</a>" article, it's worth re-stating it: this code is meant as an example to showcase a c++ feature, not as a proper way of deriving a mathematical constant in production code.</p>
 <p>First thoughts after comparing the two versions: much, much [, much]*100 cleaner.</p>
 <p>As you may notice, all constexprs need to be a return statement. There's no multi-statement constexpr in c++11, which explains why loops are not really supported. For the same reason the implementation of e() is a bit hindered by this limitation: its code would be much more readable splitting it in a few lines with proper names. Good news: some of these restrictions have been relaxed in C++17.</p>

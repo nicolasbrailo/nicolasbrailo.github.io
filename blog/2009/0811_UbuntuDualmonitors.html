@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -10,8 +11,8 @@
 <p>Fortunately, in Ubuntu JJ having a dual screen setup is a breeze. Just <strong>plug the two monitors</strong> and hope it works. Of course, it may not. If that's the case you can go to <strong>System &gt; Preferences &gt; Screen</strong> for a nice GUI, which will let you select each screen's resolution and position. Nothing better for productivity than having your monitors swapped, or even better, flipped upside down.</p>
 <p>Well, sometimes "Screen Preferences" won't work either, too bad. In that' case you'll have to get dirty with <strong><a href="www.x.org/wiki/Projects/XRandR">xrandr</a></strong>. It's not too difficult but it's console based (you're not scared of the console, are you?).</p>
 <p>Though the man page for xrandr is a little bit intimidating at first you'll just have to do it once, so I won't write about using it, I will just copy &amp; paste a script I keep in my desktop to fix the screen whenever it brakes (my lapop tends to foobar my screen when being docked or undocked, not sure why)</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
-</pre>
+<pre lang="c++"><code lang="c++">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
+</code></pre>
 <p>I am sure you can figure out the rest on your own - enjoy the dual screen setup!</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2009-08-11 -

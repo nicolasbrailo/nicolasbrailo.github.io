@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -20,28 +21,28 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Exception handling on C++ requires a lot of reflexion. I don't mean the programmer should be reflecting on exception handling (though that's probably not a bad idea), I mean that a piece of C++ code should be able to understand things about itself. This looks a lot like run-time type information, RTTI. Are they the same? If they are, does exception handling work without RTTI?</p>
 <p>We might be able to get a clue about the difference between RTTI and exception handling by using -fno-rtti on gcc when compiling our ABI project. Let's use the <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/blob/master/abi_v12/throw.cpp">throw.cpp</a> file:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">g++ -fno-rtti -S throw.cpp -o throw.nortti.s
+<pre lang="c++"><code lang="c++">g++ -fno-rtti -S throw.cpp -o throw.nortti.s
 g++ -S throw.cpp -o throw.s
 diff throw.s throw.nortti.s
-</pre>
+</code></pre>
 <p>If you try that yourself you should see there's no difference between the RTTI and the No-RTTI version. Can we conclude then that gcc's exception handling is done with a mechanism different to RTTI? Not yet, let's see what happens if we try to use RTTI ourselves:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void raise() {
+<pre lang="c++"><code lang="c++">void raise() {
     Exception ex;
     typeid(ex);
     throw Exception();
 }
-</pre>
+</code></pre>
 <p>If you try and compile that, gcc will complain: you can't use typeid with -fno-rtti specified. Which makes sense. Let's see what typeid does with a simple test:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;typeinfo&gt;
+<pre lang="c++"><code lang="c++">#include <typeinfo>
 class Bar {};
 const std::type_info&amp; foo()
 {
         Bar bar;
             return typeid(bar);
 }
-</pre>
+</code></pre>
 <p>If we compile this with "g++ -O0 -S", you will see foo compiled into something like this:</p>
-<pre style="display: inline-block; border: 1px solid red;">_Z3foov:
+<pre><code>_Z3foov:
 .LFB19:
     # Prologue stuff...
     subl    $16, %esp
@@ -55,15 +56,15 @@ _ZTS3Bar:
 _ZTI3Bar:
     .long   _ZTVN10__cxxabiv117__class_type_infoE+8
     .long   _ZTS3Bar
-    .ident  &quot;GCC: (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3&quot;
-    .section    .note.GNU-stack,&quot;&quot;,@progbits
-</pre>
+    .ident  "GCC: (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3"
+    .section    .note.GNU-stack,"",@progbits
+</code></pre>
 <p>Does that look familiar? If it doesn't, then try changing the sample code to this one:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Bar {};
+<pre lang="c++"><code lang="c++">class Bar {};
 void foo() { throw Bar(); }
-</pre>
+</code></pre>
 <p>Compile it like "g++ -O0 -fno-rtti -S test.cpp" and see the resulting file. You should see something like this now:</p>
-<pre style="display: inline-block; border: 1px solid red;">_Z3foov:
+<pre><code>_Z3foov:
     # Prologue stuff...
     # Initialize exception
     subl    $24, %esp
@@ -81,9 +82,9 @@ _ZTS3Bar:
 _ZTI3Bar:
     .long   _ZTVN10__cxxabiv117__class_type_infoE+8
     .long   _ZTS3Bar
-    .ident  &quot;GCC: (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3&quot;
-    .section    .note.GNU-stack,&quot;&quot;,@progbits
-</pre>
+    .ident  "GCC: (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3"
+    .section    .note.GNU-stack,"",@progbits
+</code></pre>
 <p>That should indeed look familiar: the class being thrown is exactly the same as the class that was used for typeid!</p>
 <p>We can now conclude what's going on: <strong>the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends</strong>. Specifying -fno-rtti on g++ only disables the "frontend" functions for RTTI: that means you won't be able to use typeid, and no RTTI classes will be generated... unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won't be able to access the RTTI information of this class via typeid, though).</p>
 <hr />
@@ -93,7 +94,7 @@ _ZTI3Bar:
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0723_ArandomslideshowinUbuntu.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The other day I wanted to use my tv for a slideshow of my travel pictures. Something simple, just select a folder and have a program like Shotwell create a slideshow with a random order on my tv. Of course, Ubuntu and double screen equals fail. For some reaason all the programs I tried either were incapable of using the tv as the slideshow screen (even after cloning screens... now that's a wtf) or where not able to recursively use all the pictures in a folder.</p>
 <p>feh to the rescue. It's not pretty, but feh seems to be exactly what I was looking for. It's a CLI application for Linux and after some RTFM I came up with this script:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">feh ~/Pictures \
+<pre lang="c++"><code lang="c++">feh ~/Pictures \
      --scale-down \
      --geometry 1920x760 \
      --slideshow-delay 9 \
@@ -102,7 +103,7 @@ _ZTI3Bar:
      --auto-zoom \
      --draw-filename \
      --image-bg black
-</pre>
+</code></pre>
 <p>You can probably figure out by yourself what each option means. If not, just man feh.</p>
 <hr />
 <h1>Mocking in C++: the virtual problem<a name="mockingincthevirtualproblem"></a></h1>
@@ -130,66 +131,65 @@ _ZTI3Bar:
 <p>The other day I wanted to quickly monitor the status of a production nginx after applying some iptables rules and changing some VPN stuff. It's easy to know if you completely screwed up the server: the number of requests per second will drop to zero, all requests will have an httpstatus different from 200, or some other dramatic and easy to measure side effect.</p>
 <p>What happens if you broke something in a slightly more subtle way? Say, you screwed up something in ipsec (now, I wonder how that can happen...) and now networking is slow. Or iptables now enforces some kind of throttling in a way you didn't expect. To detect this type of errors I wrote a quick bash script to output how many lines per second are added to a file. This way I was able to monitor if the throughput of my nginx install didn't decrease after my config changes, without installing a full fledged solution like zabbix.</p>
 <p>I didn't find anything like this readily available, so I'm posting it here in case someone else finds it useful.</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">#!/bin/bash
+<pre lang="bash"><code lang="bash">#!/bin/bash
 # Time between checks
 T=5
 # argv[1] will be the file to check
 LOG_FILE=$1
 while true; do
-    tmp=<code>mktemp
-</code>
-    # tail a file into a temp. -n0 means don&#x27;t output anything at the start so
-    # we can sleep $T seconds and we don&#x27;t need to worry about previous entries
+    tmp=`mktemp`
+    # tail a file into a temp. -n0 means don't output anything at the start so
+    # we can sleep $T seconds and we don't need to worry about previous entries
     tail -n0 -f $LOG_FILE &gt; $tmp 2&gt;/dev/null &amp; sleep $T;
     kill $! &gt; /dev/null 2&gt;&amp;1
-    echo &quot;Requests in $LOG_FILE in the last $T seconds: <code>cat $tmp | wc -l</code>&quot;;
+    echo "Requests in $LOG_FILE in the last $T seconds: `cat $tmp | wc -l`";
     rm $tmp;
 done
-</pre>
+</code></pre>
 <hr />
 <h1>Starting an EMR job with Boto<a name="startinganemrjobwithboto"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-07-11 -
     <a href="/blog/2013/0711_StartinganEMRjobwithBoto.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0711_StartinganEMRjobwithBoto.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I've noticed there are not many articles about boto and Amazon web services. Although boto's documentation is quite good, it lacks some practical examples. Most specifically, I found quite a fair amount of RTFM was needed to get an elastic map reduce job started on Amazon using Boto (and I did it from Google app engine, just to go full cloud!). So here it goes, a very basic EMR job launcher using boto:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">zone_name = &#x27;eu-west-1&#x27;
+<pre lang="c++"><code lang="c++">zone_name = 'eu-west-1'
 access_id = ...
 private_key = ...
 # Connect to EMR
 conn = EmrConnection(access_id, private_key,
                     region=RegionInfo(name=zone_name,
-                    endpoint= zone_name + &#x27;.elasticmapreduce.amazonaws.com&#x27;))
+                    endpoint= zone_name + '.elasticmapreduce.amazonaws.com'))
 # Create a step for the EC2 instance to install Hive
-args = [u&#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/hive-script&#x27;,
-            u&#x27;--base-path&#x27;, u&#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/&#x27;,
-            u&#x27;--install-hive&#x27;, u&#x27;--hive-versions&#x27;, u&#x27;0.7.1&#x27;]
-start_jar = &#x27;s3://&#x27;+zone_name+ \
-            &#x27;.elasticmapreduce/libs/script-runner/script-runner.jar&#x27;
-setup_step = JarStep(&#x27;Hive setup&#x27;, start_jar, step_args=args)
+args = [u's3://'+zone_name+'.elasticmapreduce/libs/hive/hive-script',
+            u'--base-path', u's3://'+zone_name+'.elasticmapreduce/libs/hive/',
+            u'--install-hive', u'--hive-versions', u'0.7.1']
+start_jar = 's3://'+zone_name+ \
+            '.elasticmapreduce/libs/script-runner/script-runner.jar'
+setup_step = JarStep('Hive setup', start_jar, step_args=args)
 # Create a jobflow using the connection to EMR and specifying the
 # Hive setup step
 jobid = conn.run_jobflow(
-                    &quot;Hive job&quot;, log_bucket.get_bucket_url(),
+                    "Hive job", log_bucket.get_bucket_url(),
                     steps=[setup_step],
-                    keep_alive=keep_alive, action_on_failure=&#x27;CANCEL_AND_WAIT&#x27;,
-                    master_instance_type=&#x27;m1.medium&#x27;,
-                    slave_instance_type=&#x27;m1.medium&#x27;,
+                    keep_alive=keep_alive, action_on_failure='CANCEL_AND_WAIT',
+                    master_instance_type='m1.medium',
+                    slave_instance_type='m1.medium',
                     num_instances=2,
-                    hadoop_version=&quot;0.20&quot;)
-# Set the termination protection, so the job id won&#x27;t be killed after the
+                    hadoop_version="0.20")
+# Set the termination protection, so the job id won't be killed after the
 # script is finished (that way we can reuse the instance for something else
-# Don&#x27;t forget to shut it down when you&#x27;re done!
+# Don't forget to shut it down when you're done!
 conn.set_termination_protection(jobid, True)
-s3_url = &#x27;Link to a Hive SQL file in S3&#x27;
-args = [&#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/hive-script&#x27;,
-        &#x27;--base-path&#x27;, &#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/hive/&#x27;,
-        &#x27;--hive-versions&#x27;, &#x27;0.7.1&#x27;,
-        &#x27;--run-hive-script&#x27;, &#x27;--args&#x27;,
-        &#x27;-f&#x27;, s3_url]
-start_jar = &#x27;s3://&#x27;+zone_name+&#x27;.elasticmapreduce/libs/script-runner/script-runner.jar&#x27;
-step = JarStep(&#x27;Run SQL&#x27;, start_jar, step_args=args)
+s3_url = 'Link to a Hive SQL file in S3'
+args = ['s3://'+zone_name+'.elasticmapreduce/libs/hive/hive-script',
+        '--base-path', 's3://'+zone_name+'.elasticmapreduce/libs/hive/',
+        '--hive-versions', '0.7.1',
+        '--run-hive-script', '--args',
+        '-f', s3_url]
+start_jar = 's3://'+zone_name+'.elasticmapreduce/libs/script-runner/script-runner.jar'
+step = JarStep('Run SQL', start_jar, step_args=args)
 conn.add_jobflow_steps(jobid, [step])
-</pre>
+</code></pre>
 <hr />
 <h1>A coverage report for C++ unit tests<a name="acoveragereportforcunittests"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-07-09 -
@@ -259,7 +259,7 @@ conn.add_jobflow_steps(jobid, [step])
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0702_AtardisingdbReverseaprogramsexecution.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Have you ever been running a long debug session only to find you missed the spot by overstepping? I sure have and that can be one of the strongest motivators to invent a time machine. And it seems I'm not the only one who thinks so, given that gdb can now travel back in time. That's right, you can save a snapshot of a running program and then reverse the polarity to go back in time, just before you missed your breakpoint!</p>
 <p>It's very simple to use too, you don't need six people to use this feature. Just type "checkpoint" in gdb to let it know you want to record the execution's state, then "restore N" to go back in time. I've recorded a sample debugging session:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) list
+<pre lang="c++"><code lang="c++">(gdb) list
 1   int main()
 2   {
 3       int a = 1;
@@ -275,27 +275,27 @@ Breakpoint 1, main () at test.cpp:3
 4       int b =2 ;
 (gdb) p a
 $1 = 1
-</pre>
+</code></pre>
 <p>Next, create a checkpoint:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) checkpoint
+<pre lang="c++"><code lang="c++">(gdb) checkpoint
 checkpoint: fork returned pid 29192.
-</pre>
+</code></pre>
 <p>Interesting: a checkpoint is actually implemented as a fork. Moving on:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) n
+<pre lang="c++"><code lang="c++">(gdb) n
 5       a = b;
 (gdb) n
 6       b = 42;
 (gdb) p a
 $2 = 2
-</pre>
+</code></pre>
 <p>Ohnoes! We overstepped. Let's go back:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">(gdb) restart 1
+<pre lang="c++"><code lang="c++">(gdb) restart 1
 Switching to process 29192
 #0  main () at test.cpp:4
 4       int b =2 ;
 (gdb) p a
 $3 = 1
-</pre>
+</code></pre>
 <p>And we're back in time.</p>
 <h2>How does it work<a name="howdoesitwork"></a></h2>
 <p>Reversing to a previous execution state is not an easy task. Gdb implements this feature by forking out a new process, a process we can later switch to. This means that reverting to a previous state might break things. The way forking is implemented in Linux, things like open files shouldn't be much of a problem. Sockets should still be connected but, of course, whatever you already sent won't be "unsent".</p>

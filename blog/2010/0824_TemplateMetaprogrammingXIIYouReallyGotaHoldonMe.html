@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,48 +9,48 @@
 <h1>Template Metaprogramming XII: You Really Got a Hold on Me<a name="templatemetaprogrammingxiiyoureallygotaholdonme"></a></h1>
 <p>Remember our virtual template method problem, from the other time? (I know, I said the answer was scheduled for a week after that post, but then I just forgot about it). May be we could avoid the virtual part by keeping a list of all our caches... how would we know which one should we dispatch the message to? Easy, using templates.</p>
 <p>Instead of a list let's keep two, for twice the fun. One for the rows cache, another for the PKs. We can use PK to know which ROW Cache should we choose. Let's try to write a pseudo code for it:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">ROW get_row(PK id) {
-    pos &amp;lt;- Position of PK in pks_lst
+<pre lang="c++"><code lang="c++">ROW get_row(PK id) {
+    pos &lt;- Position of PK in pks_lst
     return cache[ pos ].get_row( id )
 }
-</pre>
+</code></pre>
 <p>Doesn't look too hard. Building on our previous toolbox, let's use Eq, Position and the definition of a list:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct NIL {
+<pre lang="c++"><code lang="c++">struct NIL {
     typedef NIL head;
     typedef NIL tail;
 };
-template &amp;lt; class H, class T=NIL&amp;gt; struct LST {
+template &lt; class H, class T=NIL&gt; struct LST {
     typedef H head;
     typedef T tail;
 };
-template &amp;lt;class X, class Y&amp;gt; struct Eq { static const bool result = false; };
-template &amp;lt;class X&amp;gt; struct Eq&amp;lt;X, X&amp;gt; { static const bool result = true; };
-template &amp;lt;class Elm, class LST&amp;gt; struct Position {
+template &lt;class X, class Y&gt; struct Eq { static const bool result = false; };
+template &lt;class X&gt; struct Eq&lt;X, X&gt; { static const bool result = true; };
+template &lt;class Elm, class LST&gt; struct Position {
     private:
     typedef typename LST::head H;
     typedef typename LST::tail T;
-    static const bool found = Eq&amp;lt;H, Elm&amp;gt;::result;
+    static const bool found = Eq&lt;H, Elm&gt;::result;
     public:
-    static const int result = found? 1 : 1 + Position&amp;lt;Elm, T&amp;gt;::result;
+    static const int result = found? 1 : 1 + Position&lt;Elm, T&gt;::result;
 };
-template &amp;lt;class Elm&amp;gt; struct Position&amp;lt;Elm, NIL&amp;gt; {
+template &lt;class Elm&gt; struct Position&lt;Elm, NIL&gt; {
     static const int result = 0;
 };
 class Facade {
-    typedef LST&amp;lt;int, LST&amp;lt;char, LST&amp;lt;float&amp;gt; &amp;gt; &amp;gt; Lst;
+    typedef LST&lt;int, LST&lt;char, LST&lt;float&gt; &gt; &gt; Lst;
     public:
-    template &amp;lt;class PK&amp;gt; int find(PK) {
-        return Position&amp;lt; PK, Lst &amp;gt;::result;
+    template &lt;class PK&gt; int find(PK) {
+        return Position&lt; PK, Lst &gt;::result;
     }
 };
-#include &amp;lt;iostream&amp;gt;
+#include &lt;iostream&gt;
 using std::cout;
 int main() {
     Facade f;
-    std::cout &amp;lt;&amp;lt; f.find(1.0) &amp;lt;&amp;lt; &quot;\n&quot;;
+    std::cout &lt;&lt; f.find(1.0) &lt;&lt; "\n";
     return 0;
 }
-</pre>
+</code></pre>
 <p>Great, now we can find an element on a list of types. The real virtual dispatch for the next entry :D</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2010-08-24 -

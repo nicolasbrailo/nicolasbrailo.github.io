@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,7 +9,7 @@
 <h1>C++ exceptions under the hood 19: getting the right catch in a landing pad<a name="cexceptionsunderthehood19gettingtherightcatchinalandingpad"></a></h1>
 <p>19th entry about C++ exception handling: we have written a personality function that can so far, by reading the LSDA, choose the right landing pad on the right stack frame to handle a thrown exception, but it was having some difficulties finding the right catch inside a landing pad. To finally get a decently working personality function we'll need to check all the types an exception can handle by going through all the actions table in the .gcc_except_table.</p>
 <p>Remember the action table? Let's check it again but this time for a try with multiple catch blocks.</p>
-<pre style="display: inline-block; border: 1px solid red;"># Call site table
+<pre><code># Call site table
 .LLSDACSB2:
     # Call site 1
     .uleb128 ip_range_start
@@ -29,7 +30,7 @@
     .long   _ZTI14Fake_Exception
 .LLSDATT2:
 # Types table start
-</pre>
+</code></pre>
 <p>If we intend to read the exceptions supported by the landing pad 1 in the example above (that LSDA is for the catchit function, by the way) we need to do something like this:</p>
 <ul>
 <li>Get the action offset from the call site table, 2: remember you'll actually read the offset plus 1, so 0 means no action.</li>

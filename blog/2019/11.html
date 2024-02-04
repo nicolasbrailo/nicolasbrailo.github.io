@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -45,7 +46,7 @@
     <a href="/blog/2019/1104_BashtipDefaultvalueforavariable.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2019/1104_BashtipDefaultvalueforavariable.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>In my Bash scripts, I used to hack my way around default values for variables. Turns out there is a very simple way to give your variables a default value while also letting other override them if they want to:</p>
-<pre style="display: inline-block; border: 1px solid red;">FOO=${BAR-bar}
-</pre>
+<pre><code>FOO=${BAR-bar}
+</code></pre>
 <p>If someone export's BAR, then FOO will equals the already exported value of $BAR, if $BAR doesn't exist then FOO will have the value of the literal 'bar'.</p>
 <hr />

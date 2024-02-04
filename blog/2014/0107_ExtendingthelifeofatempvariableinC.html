@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,17 +8,17 @@
 </ul>
 <h1>Extending the life of a temp variable in C++<a name="extendingthelifeofatempvariableinc"></a></h1>
 <p>Take a look at this code: what does it do?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct X {
-    X() { cout &lt;&lt; &quot;X&quot;; }
-    ~X() { cout &lt;&lt; &quot;~X&quot;; }
+<pre lang="c++"><code lang="c++">struct X {
+    X() { cout &lt;&lt; "X"; }
+    ~X() { cout &lt;&lt; "~X"; }
 };
 void foo() {
     X x;
 }
-</pre>
+</code></pre>
 <p>It's not hard to see this code will print "X", then "~X" immediately after it: X() is created as a temporary variable which gets constructed and then immediately destructed. Any side effects this object may have should happen in the constructor or the destructor.</p>
 <p>Now that we know a bit more about the lifetime of temp objects, is this valid C++?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct X {
+<pre lang="c++"><code lang="c++">struct X {
     int y;
     X(int y) : y(y) {}
 };
@@ -25,7 +26,7 @@ int foo() {
     const X &amp;ref = X(42);
     return ref.y;
 }
-</pre>
+</code></pre>
 <p>It looks a bit strange: ref is a reference to a temporary object. Temporary objects get destroyed as soon as they are created, so ref.y should be an undefined data access. Right? Not quite, the C++ standard has a special consideration for const references using a temporary object: according to 12.2.3 this is a valid read, as long as ref is a "const X&amp;". Even more interesting, in this case the lifetime of the temporary object "X(42)" gets extended until ref goes out of scope: only when the reference is gone the destructor for X will be run!</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2014-01-07 -

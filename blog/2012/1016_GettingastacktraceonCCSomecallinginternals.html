@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,7 +9,7 @@
 <h1>Getting a stacktrace on C/C++: Some calling internals<a name="gettingastacktraceonccsomecallinginternals"></a></h1>
 <p>High level languages tend to have a lot of features for introspection and metaprogramming. One of those useful features is the possibility to get a stacktrace of the current function. At first C++ would seem to lack that ability but once you think about it, high level languages internal workings are in the very basics not that different from lower level languages: they tend to be a virtual representation of the physical hardware. A function call, in the end, will most likely be implemented the same on both C++ and Ruby. So, although it may not be as straight forward as it is with a dynamic language, we should be able to get a stacktrace just fine. Also, there's a big clue for us: gdb can get stacktraces just fine, so why wouldn't we?</p>
 <p>Let's start by trying to figure out how we can get a stacktrace by ourselves, with no help of any other tools. Sounds like a daunting task? It isn't really. Let's write a simple program to figure out how gcc performs function calls:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int foo() {
+<pre lang="c++"><code lang="c++">int foo() {
     return 42;
 }
 void bar() {
@@ -18,24 +19,24 @@ int main() {
     bar();
     return 0;
 }
-</pre>
+</code></pre>
 <p>If we compile this with gcc -S we'll get a .s file with the disassembly. Of course this depends a lot on the compiler, architecture, OS, etc, etc. For the moment we'll just assume x86 gcc Linux with no optimizations. A lot of the code from the disassembly will be part of the compiler's preamble and postamble. Cleaning things up a bit we should see something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">_Z3barv:
+<pre lang="c++"><code lang="c++">_Z3barv:
 .LFB1:
     pushl   %ebp
     movl    %esp, %ebp
     call    _Z3foov
     popl    %ebp
     ret
-</pre>
+</code></pre>
 <p>Doesn't look so hard: it just pushes the current stack base pointer to the stack, sets a new stack pointer and calls the function (you might want to play around with c++filt if name mangling confuses you). Once it returns it just reads back the original stack base pointer and continues. Knowing that return addresses are in the stack makes it easy for us to retrieve this information, we just need a way to get the current stack pointer. Some assembler in C++ will be needed:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void *sp;
-asm(&quot;movl %%esp,%0&quot;; : &quot;=r&quot;(sp));
+<pre lang="c++"><code lang="c++">void *sp;
+asm("movl %%esp,%0"; : "=r"(sp));
 std::cout &lt;&lt; sp &lt;&lt; std::endl;
-</pre>
+</code></pre>
 <p>That should print the current function's start address. But from our disassembly we can also see that the current function's return address, ie its caller, would be stored in the first word of the current function's stack. Likewise, our caller's return address will be on its first stack word. Let's check if this holds up in the code:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void <em>sp;
-asm(&quot;movl %%esp,%0&quot;; : &quot;=r&quot;(sp));
+<pre lang="c++"><code lang="c++">void <em>sp;
+asm("movl %%esp,%0"; : "=r"(sp));
 void </em>caller_addr = <em>(void</em><em>)sp;
 void </em>caller_addr2 = <em>(void</em><em>)caller_addr;
 void </em>caller_addr3 = <em>(void</em>*)caller_addr2;
@@ -43,21 +44,21 @@ cout &lt;&lt; sp &lt;&lt; endl;
 cout &lt;&lt; caller_addr &lt;&lt; endl;
 cout &lt;&lt; caller_addr2 &lt;&lt; endl;
 cout &lt;&lt; caller_addr3 &lt;&lt; endl;
-</pre>
+</code></pre>
 <p>Looks ugly, but remember we are fighting the type system here: we need to tell the compiler that the void* we're trying to access is actually a void**. We'll clean that up later, for the moment if we run that on our sample we should see all the stack addresses that for our stack trace, ending with a null pointer for the main function. Pretty neat, huh? So far we only have function addresses, but we'll get some pretty names later. Let's make it a bit more generic before moving on.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Caller {
+<pre lang="c++"><code lang="c++">struct Caller {
         Caller <em>addr;
 };
 // Get the stack base ptr from a register
 void </em>sp;
-asm(&quot;movl %%ebp,%0&quot; : &quot;=r&quot;(sp));
+asm("movl %%ebp,%0" : "=r"(sp));
 // Loop through every caller
 Caller <em>caller = (Caller</em>)sp;
 while (caller) {
     cout &lt;&lt; caller-&gt;addr &lt;&lt; endl;
     caller = caller-&gt;addr;
 }
-</pre>
+</code></pre>
 <p>Of course this is very naive, as it will only work on a 32 bit platform, and it will break as soon as we change calling conventions, but it's still useful to draw some conclusions:</p>
 <ul>
 <li>Getting a stacktrace in C++ is indeed possible</li>

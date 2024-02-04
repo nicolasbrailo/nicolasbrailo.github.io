@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,14 +8,14 @@
 </ul>
 <h1>A talking makefile<a name="atalkingmakefile"></a></h1>
 <p>So, after learning <a href="/blog/2011/0818_Makefiles.html">how to use makefiles</a>, then <a href="/blog/2011/0822_AMakefileforTDDwithC.html">how to use makefiles for TDD</a> and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report</a>, now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">test: $(TEST_SRCS)
+<pre lang="c++"><code lang="c++">test: $(TEST_SRCS)
     @for TEST in $(TEST_BINS); do
-        make &quot;$$TEST&quot;;
-        echo &quot;Execute $(TEST)&quot;;
+        make "$$TEST";
+        echo "Execute $(TEST)";
         if ! ./$$TEST; then
-            echo &quot;Oh noes! I detected a failed test from $$TEST. Go and fix your program!&quot; | festival --tts ;
+            echo "Oh noes! I detected a failed test from $$TEST. Go and fix your program!" | festival --tts ;
     done
-</pre>
+</code></pre>
 <p>Try it. You'll love it.</p>
 <p>Bonus chatter: when Valgrind detects over $MUCHOS errors it'll print "Too many errors detected. Go and fix your program", then it won't print so much detail in the next backtraces.</p>
 <h1>Comments<a name="comments"></a></h1>

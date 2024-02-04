@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,110 +8,110 @@
 </ul>
 <h1>Template Metaprogramming XIV: Marathon<a name="templatemetaprogrammingxivmarathon"></a></h1>
 <p>If you remember previous entry, we got our evil device to the point of getting a specific instance using only a type hint. Now we need to put all the code together. I won't add much to the code, you should be able to parse it yourself.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
+<pre lang="c++"><code lang="c++">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
 struct NIL {
     typedef NIL head;
     typedef NIL tail;
 };
-template &amp;lt;class H, class T=NIL&amp;gt; struct LST {
+template &lt;class H, class T=NIL&gt; struct LST {
     typedef H head;
     typedef T tail;
 };
 /</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
 /</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
-template &amp;lt;class X, class Y&amp;gt; struct Eq { static const bool result = false; };
-template &amp;lt;class X&amp;gt; struct Eq&amp;lt;X, X&amp;gt; { static const bool result = true; };
+template &lt;class X, class Y&gt; struct Eq { static const bool result = false; };
+template &lt;class X&gt; struct Eq&lt;X, X&gt; { static const bool result = true; };
 /</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
 /</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
-template &amp;lt;class Elm, class LST&amp;gt; struct Position {
+template &lt;class Elm, class LST&gt; struct Position {
 private:
     typedef typename LST::head H;
     typedef typename LST::tail T;
-    static const bool found = Eq&amp;lt;H, Elm&amp;gt;::result;
+    static const bool found = Eq&lt;H, Elm&gt;::result;
 public:
-    static const int result = found? 1 : 1 + Position&amp;lt;Elm, T&amp;gt;::result;
+    static const int result = found? 1 : 1 + Position&lt;Elm, T&gt;::result;
 };
-template &amp;lt;class Elm&amp;gt; struct Position&amp;lt;Elm, NIL&amp;gt; {
+template &lt;class Elm&gt; struct Position&lt;Elm, NIL&gt; {
     static const int result = 0;
 };
 /</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
 /</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
-template &amp;lt;typename LST, int N&amp;gt; struct Nth {
+template &lt;typename LST, int N&gt; struct Nth {
     typedef typename LST::Tail Tail;
-    typedef typename Nth&amp;lt;Tail, N-1&amp;gt;::result result;
+    typedef typename Nth&lt;Tail, N-1&gt;::result result;
 };
-template &amp;lt;typename LST&amp;gt; struct Nth&amp;lt;LST, 0&amp;gt; {
+template &lt;typename LST&gt; struct Nth&lt;LST, 0&gt; {
     typedef typename LST::head result;
 };
 /</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
 /</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
-template &amp;lt;typename Lst&amp;gt; struct Instances {
+template &lt;typename Lst&gt; struct Instances {
     typedef typename Lst::head Elm;
     Elm instance;
-    Instances&amp;lt;typename Lst::tail&amp;gt; next;
+    Instances&lt;typename Lst::tail&gt; next;
 };
-template &amp;lt;&amp;gt; struct Instances&amp;lt;NIL&amp;gt; {};
+template &lt;&gt; struct Instances&lt;NIL&gt; {};
 /</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
 /</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
-template &amp;lt;int N, typename TypeLst&amp;gt; struct NthInstance {
+template &lt;int N, typename TypeLst&gt; struct NthInstance {
     // This one isnt easy...
     // This is the next type in the list
     typedef typename TypeLst::tail TypeNext;
     //  * Nth::result is the Nth type in Lst (i.e. char, int, ...)
-    typedef typename NthInstance&amp;lt;N-1, TypeNext&amp;gt;::NthInstanceType NthInstanceType;
-    //  * typename Nth::result &amp;amp; is a reference to said type and the ret type
-    template &amp;lt;typename InstancesLst&amp;gt;
-    static NthInstanceType&amp;amp; get(InstancesLst &amp;amp;instances_lst) {
-        return NthInstance&amp;lt;N-1, TypeNext&amp;gt;::get(instances_lst.next);
+    typedef typename NthInstance&lt;N-1, TypeNext&gt;::NthInstanceType NthInstanceType;
+    //  * typename Nth::result &amp; is a reference to said type and the ret type
+    template &lt;typename InstancesLst&gt;
+    static NthInstanceType&amp; get(InstancesLst &amp;instances_lst) {
+        return NthInstance&lt;N-1, TypeNext&gt;::get(instances_lst.next);
     }
 };
 // Remember, just for fun we choose a 1-based system (wtf..)
-template &amp;lt;typename TypeLst&amp;gt; struct NthInstance&amp;lt;1, TypeLst&amp;gt; {
+template &lt;typename TypeLst&gt; struct NthInstance&lt;1, TypeLst&gt; {
     typedef typename TypeLst::head NthInstanceType;
-    template &amp;lt;typename InstancesLst&amp;gt;
-    static NthInstanceType&amp;amp; get(InstancesLst &amp;amp;instances_lst) {
+    template &lt;typename InstancesLst&gt;
+    static NthInstanceType&amp; get(InstancesLst &amp;instances_lst) {
         return instances_lst.instance;
     }
 };
 /</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>***/
 class Facade {
-    typedef LST&amp;lt;int, LST&amp;lt;char, LST&amp;lt;double&amp;gt; &amp;gt; &amp;gt; Lst;
-    Instances&amp;lt;Lst&amp;gt; instances;
+    typedef LST&lt;int, LST&lt;char, LST&lt;double&gt; &gt; &gt; Lst;
+    Instances&lt;Lst&gt; instances;
     public:
-    template &amp;lt;typename PK&amp;gt; int find(PK) {
-        return Position&amp;lt;PK, Lst&amp;gt;::result;
+    template &lt;typename PK&gt; int find(PK) {
+        return Position&lt;PK, Lst&gt;::result;
     }
-    template &amp;lt;typename PK&amp;gt;
+    template &lt;typename PK&gt;
     // This is a difficult one... it should be parsed like this:
     //  1) Get the desired instance position using Position::result
     //  2) Get the type @ the desired position with NthInstance::Type
-    //  3) Define said type as a return type (with an &amp;amp; at the end, i.e. make
+    //  3) Define said type as a return type (with an &amp; at the end, i.e. make
     //      it a reference to the return type)
-    typename NthInstance&amp;lt; Position&amp;lt;PK, Lst&amp;gt;::result, Lst &amp;gt;::NthInstanceType&amp;amp;
+    typename NthInstance&lt; Position&lt;PK, Lst&gt;::result, Lst &gt;::NthInstanceType&amp;
     get_instance(PK) {
-        const int idx_position = Position&amp;lt;PK, Lst&amp;gt;::result;
-        typedef typename NthInstance&amp;lt;idx_position, Lst&amp;gt;::NthInstanceType IdxType;
-        IdxType &amp;amp;idx = NthInstance&amp;lt;idx_position, Lst&amp;gt;::get( instances );
+        const int idx_position = Position&lt;PK, Lst&gt;::result;
+        typedef typename NthInstance&lt;idx_position, Lst&gt;::NthInstanceType IdxType;
+        IdxType &amp;idx = NthInstance&lt;idx_position, Lst&gt;::get( instances );
         return idx;
     }
 };
-#include &amp;lt;iostream&amp;gt;
+#include &lt;iostream&gt;
 int main() {
     Facade f;
-    int &amp;amp;a = f.get_instance(1);
-    char &amp;amp;b = f.get_instance(&#x27;a&#x27;);
-    double &amp;amp;c = f.get_instance(1.0);
-    a = 42; b = &#x27;n&#x27;; c = 4.2;
-    std::cout &amp;lt;&amp;lt; f.get_instance(1) &amp;lt;&amp;lt; &quot;\n&quot;;
-    std::cout &amp;lt;&amp;lt; f.get_instance(&#x27;a&#x27;) &amp;lt;&amp;lt; &quot;\n&quot;;
-    std::cout &amp;lt;&amp;lt; f.get_instance(1.0) &amp;lt;&amp;lt; &quot;\n&quot;;
-    a = 43; b = &#x27;m&#x27;; c = 5.2;
-    std::cout &amp;lt;&amp;lt; f.get_instance(1) &amp;lt;&amp;lt; &quot;\n&quot;;
-    std::cout &amp;lt;&amp;lt; f.get_instance(&#x27;a&#x27;) &amp;lt;&amp;lt; &quot;\n&quot;;
-    std::cout &amp;lt;&amp;lt; f.get_instance(1.0) &amp;lt;&amp;lt; &quot;\n&quot;;
+    int &amp;a = f.get_instance(1);
+    char &amp;b = f.get_instance('a');
+    double &amp;c = f.get_instance(1.0);
+    a = 42; b = 'n'; c = 4.2;
+    std::cout &lt;&lt; f.get_instance(1) &lt;&lt; "\n";
+    std::cout &lt;&lt; f.get_instance('a') &lt;&lt; "\n";
+    std::cout &lt;&lt; f.get_instance(1.0) &lt;&lt; "\n";
+    a = 43; b = 'm'; c = 5.2;
+    std::cout &lt;&lt; f.get_instance(1) &lt;&lt; "\n";
+    std::cout &lt;&lt; f.get_instance('a') &lt;&lt; "\n";
+    std::cout &lt;&lt; f.get_instance(1.0) &lt;&lt; "\n";
     return 0;
 }
-</pre>
+</code></pre>
 <p>The only thing missing now is a map, to convert a primitive type to an index type, but that's trivial and so it will be left as an exercise for the reader (?). We just implemented the most evil code in the whole world. Next time, the conclusions.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2010-09-14 -

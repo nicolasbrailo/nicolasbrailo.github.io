@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,7 +8,7 @@
 </ul>
 <h1>C++: Magic callbacks solved<a name="cmagiccallbackssolved"></a></h1>
 <p>Long post this time - and lots of code too. How fun iz that? Anyway, <a href="/blog/2009/0721_CMagicmembercallbacks.html">remember where we left last time</a>? We're supposed to make this work:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Callee {
+<pre lang="c++"><code lang="c++">class Callee {
  Callback notify;
  public:
   Callee(Callback notify) : notify(notify) {}
@@ -16,10 +17,10 @@
 class Caller {
   Callee c;
   public:
-  Caller() : c(Callback(this, &amp;amp;Caller::im_done)) {}
+  Caller() : c(Callback(this, &amp;Caller::im_done)) {}
   void im_done(Callee*) { }
 };
-</pre>
+</code></pre>
 <p>I'll write about the different solutions I've tried and the problem each of these solutions had:</p>
 <ul>
 <li><a href="#exp1">Experiment 1: Templates</a></li>
@@ -32,57 +33,57 @@ class Caller {
 </ul>
 <h3>Experiment 1: Templates<a name="experiment1templates"></a></h3>
 <p>We could to this the easy way, with a template:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class Callback&amp;gt;
+<pre lang="c++"><code lang="c++">template &lt;class Callback&gt;
 class Callee {
   ...
 };
 class Caller {
- template &amp;lt;class T&amp;gt;
- void operator() (T p){ this-&amp;gt;im_done(p); }
+ template &lt;class T&gt;
+ void operator() (T p){ this-&gt;im_done(p); }
   ...
 };
-</pre>
+</code></pre>
 <p>This has some drawbacks:
 1. We need to change the definition of the Callee
 2. The Caller can only have one callback (or overloaded one callback)
 3. It's boring</p>
 <h3>Experiment 2: Template virtual method<a name="experiment2templatevirtualmethod"></a></h3>
 <p>So, lets try another approach: the naive one is an interface:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class iCallback {
+<pre lang="c++"><code lang="c++">class iCallback {
   public:
-  template &amp;lt;class T&amp;gt; void operator () (T o) = 0;
+  template &lt;class T&gt; void operator () (T o) = 0;
 };
-</pre>
+</code></pre>
 <p>Looks great, doesn't it? Too bad <strong>it's not valid C++</strong>, you can't have a virtual template method (what would the vtable size be?).
 If we can't have a template method let's make a template class:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class T&amp;gt;
+<pre lang="c++"><code lang="c++">template &lt;class T&gt;
 class iCallback {
   public:
   virtual void operator () (T o) = 0;
 };
 class Callee {
- iCallback&amp;lt;Callee<em>&amp;gt; </em>notify;
+ iCallback&lt;Callee<em>&gt; </em>notify;
   public:
-  Callee(iCallback&amp;lt;Callee<em>&amp;gt; </em>notify) : notify(notify) {}
+  Callee(iCallback&lt;Callee<em>&gt; </em>notify) : notify(notify) {}
  void finish(){ (<em>notify)(this); }
 };
-class Caller : public iCallback&amp;lt;Callee</em>&amp;gt; {
+class Caller : public iCallback&lt;Callee</em>&gt; {
  Callee c;
   public:
   Caller() : c(this) {}
   void im_done(Callee<em>) {}
  void operator ()(Callee </em>o){ im_done(o); }
 };
-</pre>
+</code></pre>
 <p>It may not be pretty but it works. Also, adding a callback means adding a new operator (). Lets try to improve it a little by removing the nasty inheritance (remember, <em>always prefer composition over inheritance</em>):</p>
 <h3>Experiment 3: Callback Object<a name="experiment3callbackobject"></a></h3>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class P&amp;gt;
+<pre lang="c++"><code lang="c++">template &lt;class P&gt;
 class iCallback {
  public:
   void operator () (P o) = 0;
 };
-template &amp;lt;class T, class P&amp;gt;
-class Callback : public iCallback&amp;lt;P&amp;gt; {
+template &lt;class T, class P&gt;
+class Callback : public iCallback&lt;P&gt; {
  // Notice this typedef: we have an object of type T and a
   // function accepting a parameter P
   typedef void (T::<em>member_func) (P);
@@ -91,48 +92,48 @@ class Callback : public iCallback&amp;lt;P&amp;gt; {
   Callback(T<em> cb_obj, member_func f)
      : cb_obj(cb_obj), f(f) {}
  inline void operator() (P o){
-    (cb_obj-&amp;gt;</em>f)(o); // -&amp;gt;* is the best voodoo operator
+    (cb_obj-&gt;</em>f)(o); // -&gt;* is the best voodoo operator
   }
 };
-</pre>
+</code></pre>
 <p>This new object should help us to:
 1. Implement different callback functions (not tied to an operator() nor a type overload) while staying type-safe
 2. Delete the inheritance
 3. Use the arrow-asterisk operator (!) which is way cool</p>
 <p>How would this change leave our code?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Caller;
+<pre lang="c++"><code lang="c++">class Caller;
 class Callee {
- Callback&amp;lt;Caller, Callee<em>&amp;gt; </em>notify;
+ Callback&lt;Caller, Callee<em>&gt; </em>notify;
  public:
-  Callee(Callback&amp;lt;Caller, Callee<em>&amp;gt; </em>notify) : notify(notify) {}
+  Callee(Callback&lt;Caller, Callee<em>&gt; </em>notify) : notify(notify) {}
   void finish(){ (<em>notify)(this); }
 };
 class Caller {
- Callback&amp;lt;Caller, Callee</em>&amp;gt; cb;
+ Callback&lt;Caller, Callee</em>&gt; cb;
   Callee c;
   public:
-  Caller() : cb(this, &amp;amp;Caller::im_done), c(&amp;amp;cb){}
+  Caller() : cb(this, &amp;Caller::im_done), c(&amp;cb){}
   void im_done(Callee*) {}
 };
-</pre>
+</code></pre>
 <p>Oops, looks like we took one step back: now Callee MUST know the type of Caller. Not nice. Luckily it is an easy fix:</p>
 <h3>Experiment 4: Callback interface<a name="experiment4callbackinterface"></a></h3>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Callee {
-  iCallback&amp;lt;Callee<em>&amp;gt; </em>notify;
+<pre lang="c++"><code lang="c++">class Callee {
+  iCallback&lt;Callee<em>&gt; </em>notify;
   public:
-  Callee(iCallback&amp;lt;Callee<em>&amp;gt; </em>notify) : notify(notify) {}
+  Callee(iCallback&lt;Callee<em>&gt; </em>notify) : notify(notify) {}
  void finish(){ (*notify)(this); }
 };
-</pre>
+</code></pre>
 <p>OK, we're back on track. We will solve that weird looking (*notify)(this) later, don't worry.</p>
 <p>We're almost there, but specifying the callback as  is ugly, Caller should be automagically inferred from the context by some template voodoo. Let's do it by implementing a wrapper:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class R&amp;gt;
+<pre lang="c++"><code lang="c++">template &lt;class R&gt;
 class WraperCallback {
-  iCallback&amp;lt;R&amp;gt; <em>cb;
+  iCallback&lt;R&gt; <em>cb;
   public:
-    template &amp;lt;class T, class F&amp;gt;
+    template &lt;class T, class F&gt;
     WraperCallback(T</em> cb_obj, F f)
-       : cb( new Callback&amp;lt;T, R&amp;gt;(cb_obj, f) ) {}
+       : cb( new Callback&lt;T, R&gt;(cb_obj, f) ) {}
     ~WraperCallback() {
       delete cb;
    }
@@ -140,39 +141,39 @@ class WraperCallback {
      (*cb)(o);
     }
 };
-</pre>
+</code></pre>
 <p>Now we no longer need to specify the Caller type. There's still a nasty issue about pointer-vs-object passing. Using (*notify)(this) is very ugly so let's do it like this:</p>
 <h3>Experiment 5: Callback object bis<a name="experiment5callbackobjectbis"></a></h3>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">class Callee {
-  WraperCallback&amp;lt;Callee<em>&amp;gt; notify;
+<pre lang="c++"><code lang="c++">class Callee {
+  WraperCallback&lt;Callee<em>&gt; notify;
   public:
-  Callee(WraperCallback&amp;lt;Callee</em>&amp;gt; notify) : notify(notify) {}
+  Callee(WraperCallback&lt;Callee</em>&gt; notify) : notify(notify) {}
  void finish(){ notify(this); }
 };
 class Caller {
   Callee c;
   public:
-  Caller() : c(WraperCallback&amp;lt;Callee<em>&amp;gt;(this, &amp;amp;Caller::im_done)) {}
+  Caller() : c(WraperCallback&lt;Callee<em>&gt;(this, &amp;Caller::im_done)) {}
  void do_it(){ c.finish(); }
   void im_done(Callee</em>) { }
 };
-</pre>
+</code></pre>
 <p>Nice, this time it should work as expected. Only it does not, <strong>there is something horribly wrong about it</strong>. Can you see what it is? Take a second, I'll wait... OK, back? Right, it <strong>segfaults</strong>! Why? Easy, take a look at this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">  Callee(Callback&amp;lt;Callee*&amp;gt; notify) : notify(notify) {}
-</pre>
+<pre lang="c++"><code lang="c++">  Callee(Callback&lt;Callee*&gt; notify) : notify(notify) {}
+</code></pre>
 <p>We are using a copy constructor here, and what does our wrapper store?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">    WraperCallback(T* cb_obj, F f)
-       : cb( new Callback&amp;lt;T, R&amp;gt;(cb_obj, f) ) {}
-</pre>
+<pre lang="c++"><code lang="c++">    WraperCallback(T* cb_obj, F f)
+       : cb( new Callback&lt;T, R&gt;(cb_obj, f) ) {}
+</code></pre>
 <p>Indeed, the copied WrapperCallback ends up pointing to a deleted Callback when the cb field of the original object gets copied and then destructed. We should have all the pieces to fix it now: we just need to implement the copy operator to make it work. How does the final version looks like?</p>
 <h3>Solution<a name="solution"></a></h3>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class P&amp;gt; class iCallback {
+<pre lang="c++"><code lang="c++">template &lt;class P&gt; class iCallback {
   public:
     virtual void operator()(P) = 0;
-    virtual iCallback&amp;lt;P&amp;gt;<em> clone() const = 0;
+    virtual iCallback&lt;P&gt;<em> clone() const = 0;
 };
-template &amp;lt;class T, class P&amp;gt;
-class RealCallback : public iCallback&amp;lt;P&amp;gt; {
+template &lt;class T, class P&gt;
+class RealCallback : public iCallback&lt;P&gt; {
   typedef void (T::</em>member_func) (P);
   T <em>cb_obj; member_func f;
  public:
@@ -182,22 +183,22 @@ class RealCallback : public iCallback&amp;lt;P&amp;gt; {
    * The clone operator is needed for the copy ctr of
    * the Callback object
   </em>/
-  inline iCallback&amp;lt;P&amp;gt;</em> clone() const {
-   return new RealCallback&amp;lt;T, P&amp;gt;(cb_obj, f);
+  inline iCallback&lt;P&gt;</em> clone() const {
+   return new RealCallback&lt;T, P&gt;(cb_obj, f);
   }
  inline void operator() (P o){
-    (cb_obj-&amp;gt;<em>f)(o); // -&amp;gt;</em> is the best vodoo operator
+    (cb_obj-&gt;<em>f)(o); // -&gt;</em> is the best vodoo operator
  }
 };
-template &amp;lt;class R&amp;gt;
+template &lt;class R&gt;
 class Callback {
-  iCallback&amp;lt;R&amp;gt; <em>cb;
+  iCallback&lt;R&gt; <em>cb;
   public:
-    template &amp;lt;class T, class F&amp;gt;
+    template &lt;class T, class F&gt;
     Callback(T</em> cb_obj, F f)
-       : cb( new RealCallback&amp;lt;T, R&amp;gt;(cb_obj, f) ) {}
-    Callback(const Callback&amp;amp; cpy)
-        : cb( cpy.cb-&amp;gt;clone()) {}
+       : cb( new RealCallback&lt;T, R&gt;(cb_obj, f) ) {}
+    Callback(const Callback&amp; cpy)
+        : cb( cpy.cb-&gt;clone()) {}
     ~Callback() {
       delete cb;
    }
@@ -205,7 +206,7 @@ class Callback {
      (*cb)(o);
     }
 };
-</pre>
+</code></pre>
 <h3>Conclusion<a name="conclusion"></a></h3>
 <p>Now we have a nice callback object which can link two objects without them knowing each other. There is room for future improvement, of course:
 1. Got any ideas to implement a generic callback to a function with an unknown number of params? I don't (variadic templates == cheating!)

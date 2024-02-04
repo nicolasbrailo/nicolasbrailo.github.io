@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -10,26 +11,26 @@
 <p>We have so far setup a device capable of working as a router for a medium sized LAN, providing NAT, DHCP and DNS services. This is great if you have a dedicated network admin, but you may prefer something easier for casual console users. We'll see how to "refactor" your server configuration now to make it more console friendly.</p>
 <h3>Moving DHCP config files<a name="movingdhcpconfigfiles"></a></h3>
 <p>Since I want to keep everything together for easy administration, I will move the configuration files for DHCP to /home/router/dhcp. Changing the dhcpd.conf file itself is easy, just move the subnets declarations and add this line:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">include &quot;/home/router/dhcp/subnets.conf&quot;;
-include &quot;/home/router/dhcp/static_hosts.conf&quot;;
-</pre>
+<pre lang="c++"><code lang="c++">include "/home/router/dhcp/subnets.conf";
+include "/home/router/dhcp/static_hosts.conf";
+</code></pre>
 <p>Like we did before with bind, we need to configure apparmor. vim /etc/apparmor.d/usr.sbin.dhcpd and add this two lines:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">/home/router/dhcp/ rw,
+<pre lang="c++"><code lang="c++">/home/router/dhcp/ rw,
 /home/router/dhcp/** rw,
-</pre>
+</code></pre>
 <p>Restart apparmor service, then restart dhcpd. Everything should work just fine.</p>
 <h3>Setting up static IPs<a name="settingupstaticips"></a></h3>
 <p>Remember the static_hosts file we created before? We can use that to define a static IP. Add the following to set a static IP host:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">host HostName {
+<pre lang="c++"><code lang="c++">host HostName {
     hardware ethernet 00:00:00:00:00:00
     fixed-address 192.168.10.50;
 }
-</pre>
+</code></pre>
 <p>After that, just restart the DHCP service and renew your client's IP. Done, it's static now!</p>
 <p>Wait a minute: how do you find the MAC for your host? I'm to lazy to copy and type it, so I did the following:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">cd /home/router/dhcp
+<pre lang="c++"><code lang="c++">cd /home/router/dhcp
 ln -s /var/lib/dhcp leases
-</pre>
+</code></pre>
 <p>Then you can check the hardware address in the leases/dhcpd.leases file. I created a symlink to keep this directory at hand, since it gives you a status of the current leases.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2013-10-31 -

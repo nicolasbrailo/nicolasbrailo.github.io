@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -9,60 +10,60 @@
 <p>After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the <a href="/blog/youfoundadeadlink.html">last posts</a> of this series.</p>
 <p>In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it's present for template type deduction too, but decltype adds a new level of complexity to it.</p>
 <p>Let's start with an example. Would this compile?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+<pre lang="c++"><code lang="c++">struct Foo {
     int bar;
 };
 void f(const Foo foo)
 {
     foo.bar = 42;
 }
-</pre>
+</code></pre>
 <p>Clearly not, having a const Foo means you can't touch foo.bar. How about this?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+<pre lang="c++"><code lang="c++">struct Foo {
     int bar;
 };
 void f(const Foo foo)
 {
     int&amp; x = foo.bar;
 }
-</pre>
+</code></pre>
 <p>That won't compile either, you can't initialize an int reference from a const int, yet we can do this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f(const Foo foo)
+<pre lang="c++"><code lang="c++">void f(const Foo foo)
 {
     const int&amp; x = foo.bar;
 }
-</pre>
+</code></pre>
 <p>If we know that works it must mean that s.result's type is const int. Right? Depends.</p>
 <p>Just as the name implies decltype yields the declared type of a variable, and what's the declared type for Foo.bar?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+<pre lang="c++"><code lang="c++">struct Foo {
     int bar;
 };
 void f(const Foo foo)
 {
-    // This won&#x27;t compile
+    // This won't compile
     int&amp; x = foo.bar;
     // This will
     decltype(foo.bar) x = 42;
 }
-</pre>
+</code></pre>
 <p>That's an interesting difference, but it makes sense once you are used to it. To make things more interesting, what happens if you start adding parenthesis (almost) randomly? Try to deduce the type of x:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f(const Foo foo)
+<pre lang="c++"><code lang="c++">void f(const Foo foo)
 {
     decltype((foo.bar)) x
 }
-</pre>
+</code></pre>
 <p>If <strong>decltype(x)</strong> is the type of <strong>x</strong> then <strong>decltype((foo.bar))</strong> is the type of <strong>(foo.bar)</strong>. Between <strong>foo.bar</strong> and <strong>(foo.bar)</strong> there's a very important difference; the first refers to a variable whilst the last refers to an expression. Even though <strong>foo.bar</strong> was declared as int, the expression <strong>(foo.bar)</strong> will yield a const int&amp;, since that's the type (though implicit and not declared, since the expression is not declared).</p>
 <p>This is how we would complete the example then:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f(const Foo foo)
+<pre lang="c++"><code lang="c++">void f(const Foo foo)
 {
     // These two statements are equivalent
     decltype((foo.bar)) x = 42;
     const int&amp; y = 42;
-    // It&#x27;s very easy to confirm that the typeof x is now const int&amp;
-    // This won&#x27;t compile:
+    // It's very easy to confirm that the typeof x is now const int&amp;
+    // This won't compile:
     x = 24;
 }
-</pre>
+</code></pre>
 <p>As I said, disappearing constness is not a C++0x specific problem as it may occur on template type deduction, but that's besides the point of this post. Next time we'll continue working with type deduction, but with the new auto feature this time.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2011-09-27 -

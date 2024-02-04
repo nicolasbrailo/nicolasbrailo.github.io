@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,53 +9,53 @@
 <h1>C preprocessor VI: Recursive macro expansion rules<a name="cpreprocessorvirecursivemacroexpansionrules"></a></h1>
 <p>What happens if you define a recursive macro? This might seem like a silly question, but by asking it we can gain some insight on the inner working of the preprocessor.</p>
 <p>Let's start with a simple example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define foo bar 1
+<pre lang="c++"><code lang="c++">#define foo bar 1
 #define bar foo 2
 foo
-</pre>
+</code></pre>
 <p>Luckily the preprocessor is smart enough not to trip up on this simple piece of code. When expanding foo on line three it will do something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define foo bar
+<pre lang="c++"><code lang="c++">#define foo bar
 #define bar foo
 foo
 // Applies foo -&gt; bar 1
 bar 1
 // Applies bar -&gt; foo 2
 foo 2 1
-// Scans foo again... but doesn&#x27;t expand it
-</pre>
+// Scans foo again... but doesn't expand it
+</code></pre>
 <p>The second time the preprocessor scans foo it won't expand it: it "knows" foo was already expanded, so it won't do it again. But how does it know that foo was already expanded? Let's try something a bit more complicated:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define foo bar a baz b
+<pre lang="c++"><code lang="c++">#define foo bar a baz b
 #define bar foo 1
 #define baz bar 2
 foo
-</pre>
+</code></pre>
 <p>And then let's see how foo is expanded, step by step:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define foo foo a bar b baz c
+<pre lang="c++"><code lang="c++">#define foo foo a bar b baz c
 #define bar foo 1
 #define baz bar 2
 foo
-</pre>
+</code></pre>
 <p>First the rule "foo -&gt; foo a bar b baz c" will be applied and the results rescanned: let's call this scope 1. We'll end up with:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">foo a bar b baz c
-</pre>
+<pre lang="c++"><code lang="c++">foo a bar b baz c
+</code></pre>
 <p>Now the results of this expansion will be scanned, in a new scope. Let's call it scope 2. The first token the preporcessor will see is "foo", which was already expanded on scope 1: it will be ignored and it will continue to the next expandable token, "bar", and it will expand it like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">foo a foo 1 b bar 2 c
-</pre>
+<pre lang="c++"><code lang="c++">foo a foo 1 b bar 2 c
+</code></pre>
 <p>On the scope that baz's expansion creates (scope 4), the parent's scope expansion rules are "inherited", so for scope 4 "foo" was already expanded but "bar" was not, because bar's expansion happened on scope 3 and scope 3 is not scope's 4 parent. Not following me? Try following this diagram:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">foo -&gt; foo a bar b baz c
+<pre lang="c++"><code lang="c++">foo -&gt; foo a bar b baz c
     foo -&gt; already expanded, ignore
     a   -&gt; not a macro, ignore
-    bar -&gt; expand to &quot;foo 1&quot;
+    bar -&gt; expand to "foo 1"
         foo -&gt; expanded at parent scope, ignore
         1   -&gt; not a macro, ignore
     b   -&gt; not a macro, ignore
-    baz -&gt; expand to &quot;bar 2&quot;
-        bar -&gt; expand to &quot;foo 1&quot;
+    baz -&gt; expand to "bar 2"
+        bar -&gt; expand to "foo 1"
             foo -&gt; already expanded at parent scope, ignore
             1   -&gt; not a macro, ignore
         2   -&gt; not a macro, ignore
     c   -&gt; not a macro, ignore
-</pre>
+</code></pre>
 <p>Hopefully the preprocessor expansion rules should be a bit more clear now: each expansion creates a scope, each scope inherits from parent's scopes whether a rule was applied or not and if it was then said rule is ignored in the current scope.</p>
 <p>Of course these rules get more complicated when dealing with token pasting and stringifying operators, because each phase (stringifying, token pasting, rescanning and expansion) will happen in a specific order. Things get even more complicated when you realize (by reading the standard) that said order is not the same when you deal with argument replacement.</p>
 <p>Then again, it's probably a good idea if your macros don't rely on the recursive expansion rules of the preprocessor.</p>

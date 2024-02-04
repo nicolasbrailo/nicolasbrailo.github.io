@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -18,14 +19,13 @@
     <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>When writing a bash script, often times you'll end up with something like this:</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">real_command | filter_stuff | prettify | do_something_else
-</pre>
+<pre lang="bash"><code lang="bash">real_command | filter_stuff | prettify | do_something_else
+</code></pre>
 <p>The problem arises when you try to figure out if your command succeeded or not. If you <code>echo $?</code> you'll get the return code for the last chain in the pipe. You don't really care about the output value of do_something_else, do you?</p>
 <p>I haven't found a solution I really like to this problem, but this idiom is handy:</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">out=<code>real_command
-</code> &amp;&amp; echo $out | filter_stuff | prettify | do_something_else
+<pre lang="bash"><code lang="bash">out=<code>real_command</code> &amp;&amp; echo $out | filter_stuff | prettify | do_something_else
 echo $?
-</pre>
+</code></pre>
 <p>Now $? will hold the value of real_command, and you can actually use it to diagnose the real problem.</p>
 <hr />
 <h1>smaps: A quick memory analysis<a name="smapsaquickmemoryanalysis"></a></h1>
@@ -34,8 +34,8 @@ echo $?
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0218_smapsAquickmemoryanalysis.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Many times you see your process' memory consumption skyrocketing even though you're quite certain you have no memory leaks. This usually marks for the beginning of a very lengthy debugging process with valgrind or a similar tool, but even so some times you might get stuck trying to debug some third party library.</p>
 <p>There's a quick tip in Linux that can help you track down a lib gone haywire:</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">cat /proc/&lt;pid&gt;/smaps
-</pre>
+<pre lang="bash"><code lang="bash">cat /proc/<pid>/smaps
+</code></pre>
 <p>smaps will report every mapped section of memory for a certain process, how big the memory allocation is and which binary created the allocation.</p>
 <hr />
 <h1>Some new set operations in C++11 stl<a name="somenewsetoperationsinc11stl"></a></h1>
@@ -43,19 +43,19 @@ echo $?
     <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0216_SomenewsetoperationsinC11stl.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The std header has a few cool additions that make life easier in C++11:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
-  vector&lt;int&gt; v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
+<pre lang="c++"><code lang="c++">void f() {
+  vector<int> v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
   auto less_than_10 = <a href="int x"></a>{ return x &lt; 10; };
   if (all_of(v.begin(), v.end(), less_than_10)) {
-    cout &lt;&lt; &quot;Yay!&quot;;
+    cout &lt;&lt; "Yay!";
   }
 }
-</pre>
+</code></pre>
 <p>Besides all_of, in you can also find any_of and none_of.</p>
 <p>Bonus: do you find that initializer list hideous? Just use std::iota, from stl too:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">vector&lt;int&gt; v(100, 0);
+<pre lang="c++"><code lang="c++">vector&lt;int&gt; v(100, 0);
 iota(v.begin(), v.end(), 0);
-</pre>
+</code></pre>
 <hr />
 <h1>Goto hell<a name="gotohell"></a></h1>
 <p>Post by Nico Brailovsky @ 2016-02-12 -
@@ -78,8 +78,8 @@ iota(v.begin(), v.end(), 0);
 <p>For some reason, one of my (seriously outdated) Kubuntu installations has the nasty habit of not locking the screen when pressing Ctrl+Alt+L. Not always, though. It seems to do this only when I'm in a hurry and need to quickly lock my PC before walking away. This happens often enough to be annoying, but not so frequently as to bother me enough to look for a proper solution.</p>
 <p>Instead of looking for a proper solution, trying to determine what's stealing the focus of the Ctrl+Alt+L key command, I just settled for an easier workaround: lock the screen from the command line. I use the terminal most of the time anyway, so why not just use it to lock the screen as well?</p>
 <p>The magic incantation is easy, if a bit cryptic at first:</p>
-<pre style="display: inline-block; border: 1px solid red;">qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock
-</pre>
+<pre><code>qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock
+</code></pre>
 <p>"qdbus" is a broadcasting service for KDE (Qt, actually). This command basically tells the screen saver service to lock the screen. Works every time, and with an alias in my <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash_aliases#L22" title="bashrc">bashrc</a>, I don't need to remember that horribly long command. Now I only need to determine if my computer detecting when I'm in a hurry is a sign of sentience, and whether this is a threat to mankind. Will report soon.</p>
 <hr />
 <h1>VLCFreemote: no need to leave the couch<a name="vlcfreemotenoneedtoleavethecouch"></a></h1>

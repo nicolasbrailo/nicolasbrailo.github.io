@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,24 +8,24 @@
 </ul>
 <h1>Cool C++0X features III: Variadic templates, a fix for varargs<a name="coolc0xfeaturesiiivariadictemplatesafixforvarargs"></a></h1>
 <p><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Last time</a> we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn't have the problems the varargs solution had, nor how does it work. Let's start by copying the solution here:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// Stop condition
+<pre lang="c++"><code lang="c++">// Stop condition
 void println() {}
 // General case
-template &lt;typename H, typename... T&gt;
+template <typename H, typename... T>
 void println(H p, T... t)
 {
    std::cout &lt;&lt; p;
    println(t...);
 }
 int main() {
-   println(&quot;Hola&quot;, &quot; mundo &quot;, 42, &#x27;n&#x27;;);
+   println("Hola", " mundo ", 42, 'n';);
    return 0;
 }
-</pre>
+</code></pre>
 <p>It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some <a href="/blog/youfoundadeadlink.html">template-foo</a> is required, not only because of the syntax but because we'll be talking about functional programming too.</p>
 <p>With all that intro (the last 2 articles were just an intro!) now we are in a good shape to ask what a variadic template really is. In its easiest form, it's just a list of template arguments, like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename... T&gt; void foo(T... t) {}
-</pre>
+<pre lang="c++"><code lang="c++">template <typename... T> void foo(T... t) {}
+</code></pre>
 <p>That simple template can accept as many parameters as you need, of any type. This is much safer than a vararg because:</p>
 <ul>
 <li>Doesn't require the user to specify the number of args passed to foo, so it just can't get out of sync</li>
@@ -34,7 +35,7 @@ int main() {
 <li>Better performance; small gain, but a gain indeed. Since this is all done in compile time there's no need to handle the stack dynamically, nor of having a loop getting the args. It's all known when you compile, thus the compiler can just optimize the hell out of everything</li>
 </ul>
 <p>Pretty neat, huh? But how does it work? Variadic templates are actually very similar to how Haskell handles lists, you get all the arguments as a list of types in which you can either get the head or the tail. To do something useful, get the head and continue processing the tail recursively.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename H, typename... T&gt;
+<pre lang="c++"><code lang="c++">template <typename H, typename... T>
 void do_something(H h, T... t)
 {
     // Do something useful with h
@@ -42,13 +43,13 @@ void do_something(H h, T... t)
     // Continue processing the tail
     do_something(t...);
 }
-</pre>
+</code></pre>
 <p>Of course, you'll eventually need a condition to stop processing: (we'll explain the new syntax later)</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void do_something()
+<pre lang="c++"><code lang="c++">void do_something()
 {
     // Do nothing :)
 }
-</pre>
+</code></pre>
 <p>When the list is completely processed the empty do_something function will be called. Easy, right? But it does have a lot of weird syntax. Let's see what each of those ellipses mean:</p>
 <ul>
 <li>When declaring typename... T you are saying "here goes a list of types". That is, when you use ellipses after the typename (or class) declaration but before the name of the type, then you are expecting a list of types there.</li>
@@ -56,11 +57,11 @@ void do_something(H h, T... t)
 <li>When you write t..., you are saying "expand the list of arguments". You declared t as a list of objects, but you have no way of accessing each of those objects, just to the list as a whole. When you write the name of the object followed by ellipses, you are saying expand these types and their instance for the called function</li>
 </ul>
 <p>With all that in mind, let's put together our typesafe printf:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// Condition to stop processing
+<pre lang="c++"><code lang="c++">// Condition to stop processing
 void println() {}
-// Println receives a list of arguments. We don&#x27;t know it&#x27;s type nor
+// Println receives a list of arguments. We don't know it's type nor
 // how many there are, so we just get the head and expand the rest
-template &lt;typename H, typename... T&gt;
+template <typename H, typename... T>
 void println(H p, T... t)
 {
     // Do something useful with the head
@@ -70,10 +71,10 @@ void println(H p, T... t)
 }
 int main() {
     // See how it works even better than varargs?
-   println(&quot;Hola&quot;, &quot; mundo &quot;, 42, &#x27;n&#x27;);
+   println("Hola", " mundo ", 42, 'n');
    return 0;
 }
-</pre>
+</code></pre>
 <p>Next time, we'll see a more complex (and fun) example of variadic templates.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2011-04-26 -

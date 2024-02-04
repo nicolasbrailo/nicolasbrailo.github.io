@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,12 +8,12 @@
 </ul>
 <h1>Bash traps: almost like RAII for bash<a name="bashtrapsalmostlikeraiiforbash"></a></h1>
 <p>Everywhere, but specially in bash, cleaning up is annoying and error prone. Resource leaks can be common if your bash script is interrupted half-way. Do you need to execute something always, even if your script fails or gets killed? Try using traps:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
+<pre lang="c++"><code lang="c++">#!/bin/bash
 foobar() {
-    echo &quot;See ya!&quot;
+    echo "See ya!"
 }
-trap &quot;foobar&quot; EXIT
-</pre>
+trap "foobar" EXIT
+</code></pre>
 <p>It doesn't mater how you end this script, "foobar" will always be executed. Want to read more about bash traps? Check <a href="/blog/youfoundadeadlink.html">here.</a></p>
 <hr />
 <p>Post by Nico Brailovsky @ 2015-04-16 -

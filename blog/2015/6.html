@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -32,13 +33,13 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0623_Usefulpredefinedvariablesinmake.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I always forget about two very useful make variables, so I'll leave this here: $(COMPILE.cpp), $(LINK.cpp).
 It's easy, instead of writing a rule as</p>
-<pre style="display: inline-block; border: 1px solid red;">foo.o: foo.cpp
+<pre><code>foo.o: foo.cpp
   g++ -c foo.coo
-</pre>
+</code></pre>
 <p>you should instead write this:</p>
-<pre style="display: inline-block; border: 1px solid red;">foo.o: foo.cpp
+<pre><code>foo.o: foo.cpp
   $(COMPILE.cpp) foo.coo
-</pre>
+</code></pre>
 <p>COMPILE.cpp will have the default compiler you are supposed to use, and probably some helpful parameters as well. Likewise, LINK.cpp will have the linker you are supposed to use.</p>
 <p>There are many useful predefined variables in make. Be sure to check them all by running "make -p" in a console.</p>
 <hr />
@@ -53,14 +54,14 @@ It's easy, instead of writing a rule as</p>
     <a href="/blog/2015/0616_ndkgdblifetipuseverbose.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0616_ndkgdblifetipuseverbose.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Crosscompiling is always fun. No matter how ready-to-use it's packaged, and Android does a pretty decent job at that, you're still bound to find problems that leak through the abstraction layers. If something says it's dummy-proof, I always find the way to perfect myself and be even dumber. For people like me; do yourselves a favour and start launching ndk-gdb this way:</p>
-<pre style="display: inline-block; border: 1px solid red;">ndk-gdb --start --verbose
-</pre>
+<pre><code>ndk-gdb --start --verbose
+</code></pre>
 <p>Using the --verbose parameter will probably reveal some hidden errors. For example, when I forgot to chmod 777 my gdbserver binary:</p>
-<pre style="display: inline-block; border: 1px solid red;">## COMMAND: adb_cmd pull /system/bin/app_process ./obj/local/armeabi-v7a/app_process
+<pre><code>## COMMAND: adb_cmd pull /system/bin/app_process ./obj/local/armeabi-v7a/app_process
 run-as: exec failed for /data/data/com.nico.trippingsdcardphotomanager/lib/gdbserver Error:Permission denied
 117 KB/s (9560 bytes in 0.079s)
 Pulled app_process from device/emulator.
-</pre>
+</code></pre>
 <hr />
 <h1>I now write Android apps: presenting Tripping Photo Manager<a name="inowwriteandroidappspresentingtrippingphotomanager"></a></h1>
 <p>Post by Nico Brailovsky @ 2015-06-11 -
@@ -92,12 +93,12 @@ Pulled app_process from device/emulator.
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0602_Vimtippolymorphickeybindings.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you use vim daily, you probably have a bunch of maps for your most common tasks. You should also remember you can assign the same key to do different things according to which mode you are
 in. For example, let's say you have a mapping to open a new tab:</p>
-<pre style="display: inline-block; border: 1px solid red;">map &lt;leader&gt;t :tabnew&lt;cr&gt;
-</pre>
+<pre><code>map <leader>t :tabnew<cr>
+</code></pre>
 <p>You can also map t to open a new tab using the selected text as a filename. You just need to define two mappings:</p>
-<pre style="display: inline-block; border: 1px solid red;">nmap &lt;leader&gt;t :tabnew&lt;cr&gt;
-vmap &lt;leader&gt;t :call Foo()&lt;cr&gt;
-</pre>
+<pre><code>nmap <leader>t :tabnew<cr>
+vmap <leader>t :call Foo()<cr>
+</code></pre>
 <p>nmap stands for normal (mode) map, vmap for visual. How to get the text under the cursor is a bit more complex and out of scope for this vim tip, but <a href="http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_%28Part_1%29">you might want to check this link</a>.</p>
 <p>Remember to check ":help map" for a list of all mode mappings.</p>
 <hr />

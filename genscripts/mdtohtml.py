@@ -65,12 +65,16 @@ class CodeProcessor(BlockProcessor):
                     block_after_marker = ""
 
                 # render fenced area inside a new div
-                e = etree.SubElement(parent, 'pre')
-                e.set('style', 'display: inline-block; border: 1px solid red;')
+                pre = etree.SubElement(parent, 'pre')
+                # pre.set('style', 'display: inline-block; border: 1px solid red;')
+                code = etree.SubElement(pre, 'code')
                 if lang is not None:
-                    e.set('lang', lang)
-                # No html parsing: self.parser.parseBlocks(e, blocks[0:block_num + 1])
-                e.text = html.escape('\n'.join(blocks[0:block_num] + [block_before_marker]))
+                    pre.set('lang', lang)
+                    code.set('lang', lang)
+                # TODO: Do I need html.escape?
+                # No html parsing: self.parser.parseBlocks(pre, blocks[0:block_num + 1])
+                #code.text = html.escape('\n'.join(blocks[0:block_num] + [block_before_marker]))
+                code.text = '\n'.join(blocks[0:block_num] + [block_before_marker])
                 # remove used blocks
                 for i in range(0, block_num + 1):
                     blocks.pop(0)

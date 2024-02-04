@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -42,18 +43,18 @@
     <a href="/blog/2009/1019_Methodsandinstancevariablesshouldtherebeadifference.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/1019_Methodsandinstancevariablesshouldtherebeadifference.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Many times I find myself forgetting the parenthesis for a method with no arguments and a nasty compiler error. This reminds me of my Rubyst times. There's no difference between methods and instance variables in Ruby, so this:</p>
-<pre lang="ruby" style="display: inline-block; border: 1px solid red;">class Foo
+<pre lang="ruby"><code lang="ruby">class Foo
   @bar
 end
 foo.bar = 1
-</pre>
+</code></pre>
 <p>Could be changed to</p>
-<pre lang="ruby" style="display: inline-block; border: 1px solid red;">class Foo
+<pre lang="ruby"><code lang="ruby">class Foo
   @bar
   def bar=(val) @bar = val end
 end
 foo.bar = 1
-</pre>
+</code></pre>
 <p>and the dependant objects using the property would use the new behaviour without ever needing a change in the way bar is accessed.</p>
 <p>In languages like C++ the parentheses are mandatory so you can have a clear difference between instance variables and methods, and between a method call and a function pointer (which should be referenced as &amp;Foo::bar and not Foo::bar anyway).</p>
 <p>All of this always leads to the same conclusion: closing parenthesis should not be needed!</p>
@@ -72,15 +73,15 @@ foo.bar = 1
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/1015_WriteinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>From <a href="http://www.youtube.com/watch?v=J5LNTTGDKYo&amp;feature=related">http://www.youtube.com/watch?v=J5LNTTGDKYo&amp;feature=related</a>
 <strong>Write in C</strong></p>
-<pre style="display: inline-block; border: 1px solid red;">
+<pre><code>
 When I find my code in tons of trouble,
 Friends and colleagues come to me,
 Speaking words of wisdom:
-&quot;Write in C.&quot;
+"Write in C."
 As the deadline fast approaches,
 And bugs are all that I can see,
 Somewhere, someone whispers:
-&quot;Write in C.&quot;
+"Write in C."
 Write in C, write in C,
 Write in C, oh, write in C.
 LISP is dead and buried,
@@ -89,7 +90,7 @@ I used to write a lot of FORTRAN,
 For science it worked flawlessly.
 Try using it for graphics!
 Write in C.
-If you&#x27;ve just spent nearly 30 hours
+If you've just spent nearly 30 hours
 Debugging some assembly,
 Soon you will be glad to
 Write in C.
@@ -99,15 +100,15 @@ BASIC is for wimps.
 Write in C.
 Write in C, write in C,
 Write in C, oh, write in C.
-Pascal won&#x27;t quite cut it.
+Pascal won't quite cut it.
 Write in C.
 Write in C, write in C,
 Write in C, yeah, write in C.
-Don&#x27;t even mention COBOL.
+Don't even mention COBOL.
 Write in C.
 And when the screen is fuzzy,
 And the editor is bugging me.
-I&#x27;m sick of ones and zeros,
+I'm sick of ones and zeros,
 Write in C.
 A thousand people swear that T.P.
 Seven is the one for me.
@@ -115,7 +116,7 @@ I hate the word PROCEDURE,
 Write in C.
 Write in C, write in C,
 Write in C, yeah, write in C.
-PL1 is &#x27;80s,
+PL1 is '80s,
 Write in C.
 Write in C, write in C,
 Write in C, yeah, write in C.
@@ -123,9 +124,9 @@ The government loves ADA,
 Write in C.
 Write in C, write in C,
 Write in C, yeah, write in C.
-Java&#x27;s not quite there yet,
+Java's not quite there yet,
 Write in C.
-</pre>
+</code></pre>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Daniel</a> commented @ 2010-03-02T14:20:24.000+01:00:<a name="inreplytothispostdanielcommented20100302t142024.0000100"></a></h2>
 <p>Just only a question: &iquest;I must write in C?</p>
@@ -140,8 +141,8 @@ Write in C.
     <a href="/blog/2009/1014_LightyWTF.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/1014_LightyWTF.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Seen @ <a href="http://www.lighttpd.net/">Lighttpd</a></p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">242:    srv-&amp;gt;srvconf.reject_expect_100_with_417 = 1;
-</pre>
+<pre lang="c++"><code lang="c++">242:    srv-&gt;srvconf.reject_expect_100_with_417 = 1;
+</code></pre>
 <p>That line should totally be "= 42"</p>
 <hr />
 <h1>What I like about Linux and C++<a name="whatilikeaboutlinuxandc"></a></h1>
@@ -175,8 +176,8 @@ lie!</p>
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/1006_VimTipFoldingFTW.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I always say methods should have two levels of indentation at most, but even if your code is perfect like mine you may still have to dwell with other people's code (which, obviously, is ugly code), people how may have lots of fun shaping the program like a pyramid.</p>
 <p>Not all is lost, you don't have to commit sepuku (at least not for this one). Just use Vim's indent method like this:</p>
-<pre style="display: inline-block; border: 1px solid red;">:set foldmethod=indent
-</pre>
+<pre><code>:set foldmethod=indent
+</code></pre>
 <p>That should give you a better view of the code flow. As always, use '%' to navigate all those pesky { and }.</p>
 <hr />
 <h1>Your money or your life!<a name="yourmoneyoryourlife"></a></h1>

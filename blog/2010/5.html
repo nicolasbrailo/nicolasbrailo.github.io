@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,28 +12,28 @@
     <a href="/blog/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Remember where were we last time? We had this code to define a list:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct NIL {
+<pre lang="c++"><code lang="c++">struct NIL {
     typedef NIL Head;
     typedef NIL Tail;
 };
-template &amp;lt;typename H, typename T=NIL&amp;gt; struct Lst {
+template &lt;typename H, typename T=NIL&gt; struct Lst {
     typedef H Head;
     typedef T Tail;
 };
-template &amp;lt;int N&amp;gt; struct Int{ static const int result = N; };
-typedef Lst&amp;lt; Int&amp;lt;1&amp;gt;, Lst&amp;lt; Int&amp;lt;2&amp;gt;, Lst&amp;lt; Int&amp;lt;3&amp;gt; &amp;gt; &amp;gt; &amp;gt; OneTwoThree;
-</pre>
+template &lt;int N&gt; struct Int{ static const int result = N; };
+typedef Lst&lt; Int&lt;1&gt;, Lst&lt; Int&lt;2&gt;, Lst&lt; Int&lt;3&gt; &gt; &gt; &gt; OneTwoThree;
+</code></pre>
 <p>Now, to increase our template-foo, let's practice some basic operations. The same operations you would implement to practice your skill any other functional language. If I remember correctly these where useful when learning Haskel: getting a list's lenght, getting the Nth element, appending and preppending elements... that sort of stuff.</p>
 <p>Let's start with the most basic: getting the length of a list. We don't really have a for loop so using recursion is the only way. It gets easier if we think again on our definition of list: "think of a list as tuple, two elements, the first (called head) will be the first element of the list and the second element as another list or a NIL object". Whit this definition of a list, then it's length turns to be 1 (the head) + the length of the remaining list (the tail), with a special case for the length of a NIL object which should always be 0. In template-speak:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename LST&amp;gt; struct Length {
+<pre lang="c++"><code lang="c++">template &lt;typename LST&gt; struct Length {
     typedef typename LST::Tail Tail;
-    static const unsigned int tail_length = Length&amp;lt; Tail &amp;gt;::result;
+    static const unsigned int tail_length = Length&lt; Tail &gt;::result;
     static const unsigned int result = 1 + tail_length;
 };
-template &amp;lt;&amp;gt; struct Length &amp;lt;NIL&amp;gt; {
+template &lt;&gt; struct Length &lt;NIL&gt; {
     static const unsigned int result = 0;
 };
-</pre>
+</code></pre>
 <p>I know. You are thinking "wait, what?". Well, even for this basic case we need to use some esoteric language features:</p>
 <ul>
 <li>typename is needed to tell the compiler LST::Tail is a type and not a static variable (like Length::result is). Did you remember that from <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">chapter IV</a>?</li>
@@ -40,13 +41,13 @@ template &amp;lt;&amp;gt; struct Length &amp;lt;NIL&amp;gt; {
 <li>We can provide a spetialization of a template. You should also remember this from <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">chapter II</a>.</li>
 </ul>
 <p>Obviously, you can write it this way too:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename LST&amp;gt; struct Length {
-    static const unsigned int result = 1 + Length&amp;lt; typename LST::Tail &amp;gt;::result;
+<pre lang="c++"><code lang="c++">template &lt;typename LST&gt; struct Length {
+    static const unsigned int result = 1 + Length&lt; typename LST::Tail &gt;::result;
 };
-template &amp;lt;&amp;gt; struct Length  {
+template &lt;&gt; struct Length  {
     static const unsigned int result = 0;
 };
-</pre>
+</code></pre>
 <p>The rest of the "basic" list-operations are quite similar, but I'll leave that for another post.</p>
 <hr />
 <p>Thank you St&eacute;phane Michaut for pointing out typos and bugs in the code listings</p>
@@ -74,13 +75,13 @@ template &amp;lt;&amp;gt; struct Length  {
 <p>In our previous entries we worked with basic building blocks, making it quite easy to keep in mind the whole "program flow". Now it won't be so easy anymore, as we'll be using real metaprogramming (i.e. templates operating on templates) so a lot more thought will be needed for each program.</p>
 <p>Another point to keep in mind, you don't have a debugger here. All the magic occurs at compile time so there is no gdb to step through your program to find a logic flaw. There's a little trick to check if you are too far off from the target but, mainly, you'll have to think for yourself.</p>
 <p>Let's start with any functional programming course basics: lists. We have to think, first, how can a list make any sense when you only have types and no values. It means you can have a list like "int, char, void**, Foo", and not something like "1, 2, 3". Or, can you? There's a way to trick the compiler into creating a type from a integral value:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N&amp;gt; struct Int {
+<pre lang="c++"><code lang="c++">template &lt;int N&gt; struct Int {
     static const int value = N;
 };
-</pre>
+</code></pre>
 <p>Voila! Now you can create a list of numbers. For our next trick, let's implement the list itself. No pointer magic, think of a functional definition of a list. Come on, I'll wait... ready? OK, a list is a tuple T of two values, in which the first element, called head, is the first element of the list and the second element, called tail, is either a list or the NULL element.</p>
 <p>Quite a mouthful... let's go over that definition again:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">// A list is a tuple T of two values
+<pre lang="c++"><code lang="c++">// A list is a tuple T of two values
 List: [ ..., ... ]
 // in which the first element, called head, is the first element of the list
 List: [ Head, ... ]
@@ -89,26 +90,26 @@ List: [ Head, Tail]
 // is either a list or the NULL element
 List: [ Head, Tail]
 Tail: List | Nil
-</pre>
+</code></pre>
 <p>So, as an example, a list of numbers could be expressed as:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">    List( 1, List( 2, List( 3, NIL ) ) )
-</pre>
+<pre lang="c++"><code lang="c++">    List( 1, List( 2, List( 3, NIL ) ) )
+</code></pre>
 <p>Closing up... how would you define this list in C++? Easy:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename H, typename T&amp;gt; LST {
+<pre lang="c++"><code lang="c++">template &lt;typename H, typename T&gt; LST {
     typedef H Head;
     typedef T Tail;
 };
-</pre>
+</code></pre>
 <p>We need here a NIL type to use as a list ending element. We could also use a default template type, so we won't have to write the last NIL to end a list definition. Thus we have now:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct NIL {
+<pre lang="c++"><code lang="c++">struct NIL {
     typedef NIL Head;
     typedef NIL Tail;
 };
-template &amp;lt;typename H, typename T&amp;gt; struct LST {
+template &lt;typename H, typename T&gt; struct LST {
     typedef H Head;
     typedef T Tail;
 };
-</pre>
+</code></pre>
 <p>Nice. You should remember the following rules:</p>
 <ol>
 <li>We can use template to define a template class, defining a new type based on a number instead of another type ;)</li>
@@ -116,9 +117,9 @@ template &amp;lt;typename H, typename T&amp;gt; struct LST {
 <li>Using a convention for defining result holding variable names is very useful, as there are no interfaces and more than once we'll be using a result from an unknown class</li>
 </ol>
 <p>With that said, let's translate the list (1, 2, 3) to Tmpl C++</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N&amp;gt; Int{ static const int result = N; };
-typedef Lst&amp;lt; Int&amp;lt;1&amp;gt;, Lst&amp;lt; Int&amp;lt;2&amp;gt;, Lst&amp;lt; Int&amp;lt;3&amp;gt; &amp;gt; &amp;gt; &amp;gt; OneTwoThree;
-</pre>
+<pre lang="c++"><code lang="c++">template &lt;int N&gt; Int{ static const int result = N; };
+typedef Lst&lt; Int&lt;1&gt;, Lst&lt; Int&lt;2&gt;, Lst&lt; Int&lt;3&gt; &gt; &gt; &gt; OneTwoThree;
+</code></pre>
 <p>Not so bad to start with. Next time we'll be doing something a little bit more useful with this list.</p>
 <p>One last note, initializing a static const int in the definition of the class may be non portable (some compilers seem to have trouble with it). An enum may be used instead.</p>
 <hr />
@@ -146,58 +147,58 @@ Comment: #evilgeeks</p>
 <li><strong>Returns</strong> using typedefs</li>
 </ul>
 <p>Unfortunately that's all you need for a Turing complete language, meaning now we have the power, bwahahaha! Mph, I'm sorry, back on topic, it means we can now create a fully functional and useful template metaprogramming device... for approximating e, nonetheless. Oh, you think that's not useful? Well though luck, that's all you get for now:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N, int D&amp;gt; struct Frak {
+<pre lang="c++"><code lang="c++">template &lt;int N, int D&gt; struct Frak {
     static const long Num = N;
     static const long Den = D;
 };
-template &amp;lt;class X, int N&amp;gt; struct ScalarMultiplication {
+template &lt;class X, int N&gt; struct ScalarMultiplication {
     static const long Num = N * X::Num;
     static const long Den = N * X::Den;
-    typedef Frak&amp;lt;Num, Den&amp;gt; result;
+    typedef Frak&lt;Num, Den&gt; result;
 };
-template &amp;lt; class X1, class Y1 &amp;gt; struct SameBase {
-    typedef typename ScalarMultiplication&amp;lt; X1, Y1::Den &amp;gt;::result X;
-    typedef typename ScalarMultiplication&amp;lt; Y1, X1::Den &amp;gt;::result Y;
+template &lt; class X1, class Y1 &gt; struct SameBase {
+    typedef typename ScalarMultiplication&lt; X1, Y1::Den &gt;::result X;
+    typedef typename ScalarMultiplication&lt; Y1, X1::Den &gt;::result Y;
 };
-template &amp;lt;int X, int Y&amp;gt; struct MCD {
-    static const long result = MCD&amp;lt;Y, X % Y&amp;gt;::result;
+template &lt;int X, int Y&gt; struct MCD {
+    static const long result = MCD&lt;Y, X % Y&gt;::result;
 };
-template &amp;lt;int X&amp;gt; struct MCD&amp;lt;X, 0&amp;gt; {
+template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
     static const long result = X;
 };
-template &amp;lt;class F&amp;gt; struct Simpl {
-    static const long mcd = MCD&amp;lt;F::Num, F::Den&amp;gt;::result;
+template &lt;class F&gt; struct Simpl {
+    static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
     static const long new_num = F::Num / mcd;
     static const long new_den = F::Den / mcd;
-    typedef Frak&amp;lt; new_num, new_den &amp;gt; result;
+    typedef Frak&lt; new_num, new_den &gt; result;
 };
-template &amp;lt; class F1, class F2 &amp;gt; struct Sum {
-    typedef SameBase&amp;lt;F1, F2&amp;gt; B;
+template &lt; class F1, class F2 &gt; struct Sum {
+    typedef SameBase&lt;F1, F2&gt; B;
     static const long Num = B::X::Num + B::Y::Num;
     static const long Den = B::Y::Den; // == B::X::Den
-    typedef typename Simpl&amp;lt; Frak&amp;lt;Num, Den&amp;gt; &amp;gt;::result result;
+    typedef typename Simpl&lt; Frak&lt;Num, Den&gt; &gt;::result result;
 };
-template &amp;lt;int N&amp;gt; struct Fact {
-    static const long result = N * Fact&amp;lt;N-1&amp;gt;::result;
+template &lt;int N&gt; struct Fact {
+    static const long result = N * Fact&lt;N-1&gt;::result;
 };
-template &amp;lt;&amp;gt; struct Fact&amp;lt;0&amp;gt; {
+template &lt;&gt; struct Fact&lt;0&gt; {
     static const long result = 1;
 };
-template &amp;lt;int N&amp;gt; struct E {
+template &lt;int N&gt; struct E {
     // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
-    static const long Den = Fact&amp;lt;N&amp;gt;::result;
-    typedef Frak&amp;lt; 1, Den &amp;gt; term;
-    typedef typename E&amp;lt;N-1&amp;gt;::result next_term;
-    typedef typename Sum&amp;lt; term, next_term &amp;gt;::result result;
+    static const long Den = Fact&lt;N&gt;::result;
+    typedef Frak&lt; 1, Den &gt; term;
+    typedef typename E&lt;N-1&gt;::result next_term;
+    typedef typename Sum&lt; term, next_term &gt;::result result;
 };
-template &amp;lt;&amp;gt; struct E&amp;lt;0&amp;gt; {
-    typedef Frak&amp;lt;1, 1&amp;gt; result;
+template &lt;&gt; struct E&lt;0&gt; {
+    typedef Frak&lt;1, 1&gt; result;
 };
 int main() {
-    cout &amp;lt;&amp;lt; (1.0 * E&amp;lt;8&amp;gt;::result::Num /  E&amp;lt;8&amp;gt;::result::Den) &amp;lt;&amp;lt; endl;
+    cout &lt;&lt; (1.0 * E&lt;8&gt;::result::Num /  E&lt;8&gt;::result::Den) &lt;&lt; endl;
     return 0;
 }
-</pre>
+</code></pre>
 <p>Looking nice, isn't it? You should have all what's needed to understand what's going on there. Even more, almost everything has been explained in previous articles, with the exception of EqBase. But that's left as an exersice for the reader because the writer is too lazy.</p>
 <p>If you think any part of the code requires clarification ask in the comments. Next, a long overdue topic: lists using template metaprogramming. Guaranteed to blow your mind into little pieces!</p>
 <hr />
@@ -219,46 +220,46 @@ int main() {
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0506_TemplatemetaprogrammingIVNightmarestocome.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>By now you should have noticed the warnings were not in vain: we are exploring a bizarre side of C++ here, a side many people prefer to, wisely, ignore. Luckily it probably is too late for you, there is no way back. Only a long spiraling way down into the arms of despair and cryptic compiler error messages... mwahahahaha. But now, let's see where we are.</p>
 <p>In previous entries we learned how to return values, how to define recursive devices and how to provide a partial specialization. Let's see know how can we use partial specialization and complex return type definitions for some more fun template metaprogramming tricks. We had a fraction and a ScalarMultiplication operation for Frak:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int N, int D&amp;gt; struct Frak {
+<pre lang="c++"><code lang="c++">template &lt;int N, int D&gt; struct Frak {
 static const long Num = N;
 static const long Den = D;
 };
-template &amp;lt;int N, class X&amp;gt; struct ScalarMultiplication {
+template &lt;int N, class X&gt; struct ScalarMultiplication {
 static const long Num = N * X::Num;
 static const long Den = N * X::Den;
 };
-</pre>
+</code></pre>
 <p>Let's try to add an operation to simplify a Fraction. Simplify&lt; Frak&lt;2, 4&gt; &gt; should return 1/2. Mph... simplifying a fraction means dividing it by the MCD. A quick trip to Wikipedia reveals a nice recursive way to implement an MCD device:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int X, int Y&amp;gt;   struct MCD {
-static const long result = MCD&amp;lt;Y, X % Y&amp;gt;::result;
+<pre lang="c++"><code lang="c++">template &lt;int X, int Y&gt;   struct MCD {
+static const long result = MCD&lt;Y, X % Y&gt;::result;
 };
-template &amp;lt;int X&amp;gt; struct MCD&amp;lt;X, 0&amp;gt; {
+template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
 static const long result = X;
 };
-</pre>
+</code></pre>
 <p>I won't get into much detail as the link explains it a lot better than whatever I could try, but do take a look at the definition of MCD: that's a partial specialization. No magic there. Back to our simplifying device, we now have all the parts for it. Going back to it's definition we can see that simple(fraction) = fraction / mcd(fraction). Then:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class F&amp;gt; struct Simpl {
-static const long mcd = MCD&amp;lt;F::Num, F::Den&amp;gt;::result;
+<pre lang="c++"><code lang="c++">template &lt;class F&gt; struct Simpl {
+static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
 static const long new_num = F::Num / mcd;
 static const long new_den = F::Den / mcd;
-typedef Frak&amp;lt; new_num, new_den &amp;gt; New_Frak;
+typedef Frak&lt; new_num, new_den &gt; New_Frak;
 typedef typename New_Frak::result result;
 };
-</pre>
+</code></pre>
 <p>Quite a mouthful, but a lot simpler than what you think as there is a lot of unnecessary code there. Until new_num and new_den, no surprises. Typedeffing a Frak is not new, either. typedef typename is something new: typename tells the compiler you're referring to a name inside a template class, otherwise it'd try to refer to a static variable inside said class (*). Knowing what each thing does we can simplify it:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;class F&amp;gt; struct Simpl {
-static const long mcd = MCD&amp;lt;F::Num, F::Den&amp;gt;::result;
-typedef typename Frak&amp;lt; F::Num / mcd, F::Den / mcd &amp;gt;::result New_Frak;
+<pre lang="c++"><code lang="c++">template &lt;class F&gt; struct Simpl {
+static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+typedef typename Frak&lt; F::Num / mcd, F::Den / mcd &gt;::result New_Frak;
 };
-</pre>
+</code></pre>
 <p>It is a matter of style really. In this case I'd rather use the second one because it matches better its colloquial definition, but if you think the first one is more readable go with it... it doesn't really matter though, no one will ever even try to read this kind of code if you intend to use it in a real application.</p>
 <p>Next time: a "useful" (**) and complete template metaprogramming device, using the complete toolset we've been learning in this crazy templating series.</p>
 <p>(*) Think of it this way:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">struct Foo {
+<pre lang="c++"><code lang="c++">struct Foo {
    typedef int Bar;
    Bar bar;
 };
-</pre>
+</code></pre>
 <p>In a template you don't know if Bar is a typename or varname because there's no access to the specific template definition. As a rule of thumb, if the compiler complains then add typenames.</p>
 <p>(**) Results may vary according to your definition of useful.</p>
 <hr />
@@ -269,11 +270,11 @@ typedef typename Frak&amp;lt; F::Num / mcd, F::Den / mcd &amp;gt;::result New_Fr
 <p>Remember my problems with <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">dual screen support</a> in Ubuntu? Well, I still love bashing Ubuntu, and the sound system in Linux is certainly a topic to rant a lot. Making the sound work fine in Ubuntu is an odyssey in pain and frustration, unless it works fine out of the box. And even if it does, it may still have it's kirks. Lots of them.</p>
 <p>In my case the sound starts in mute. I know it's a problem with pulse (which is a WTF in itself) and alsa, I don't really care what's the problem though, I just want to play my mp3s collection without having to carefully turn the knobs up to eleven in alsamixer.</p>
 <p>After trying a lot of the "solutions" found on the internets I've decided the best thing to do, short of switching back to windows me, is adding the following to my "fix_ubuntu_fuckups.sh" start script, which already contains my dual-screen pseudofix:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">amixer -c0 -- sset Master playback -0dB unmute
+<pre lang="c++"><code lang="c++">amixer -c0 -- sset Master playback -0dB unmute
 amixer -c0 -- sset Headphone playback 0dB unmute
 amixer -c0 -- sset Front playback 0dB unmute
 amixer -c0 -- sset PCM playback -16dB unmute
-</pre>
+</code></pre>
 <p>This sets alsamixer to normal volume levels. As for the real fix, I'll wait till the next Ubuntu version. I wonder which sound subsystem will they chose next time.</p>
 <hr />
 <h1>I&#39;m a pirate!<a name="i39mapirate"></a></h1>

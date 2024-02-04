@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,7 +9,7 @@
 <h1>A random slideshow in Ubuntu<a name="arandomslideshowinubuntu"></a></h1>
 <p>The other day I wanted to use my tv for a slideshow of my travel pictures. Something simple, just select a folder and have a program like Shotwell create a slideshow with a random order on my tv. Of course, Ubuntu and double screen equals fail. For some reaason all the programs I tried either were incapable of using the tv as the slideshow screen (even after cloning screens... now that's a wtf) or where not able to recursively use all the pictures in a folder.</p>
 <p>feh to the rescue. It's not pretty, but feh seems to be exactly what I was looking for. It's a CLI application for Linux and after some RTFM I came up with this script:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">feh ~/Pictures \
+<pre lang="c++"><code lang="c++">feh ~/Pictures \
      --scale-down \
      --geometry 1920x760 \
      --slideshow-delay 9 \
@@ -17,7 +18,7 @@
      --auto-zoom \
      --draw-filename \
      --image-bg black
-</pre>
+</code></pre>
 <p>You can probably figure out by yourself what each option means. If not, just man feh.</p>
 <h1>Comments<a name="comments"></a></h1>
 <hr />

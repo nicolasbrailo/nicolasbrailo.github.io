@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,66 +9,66 @@
 <h1>vimrc: Vim startup file<a name="vimrcvimstartupfile"></a></h1>
 <p>I usually create a partition for /home, so whenever I decide to foobar my OS (i.e. do a kernel update on Ubuntu, or start playing with compiz too much) there's no need to copy my home folder to another disk and back again. Regardless of this, there are some essential files which I'd be dead without. One of these is my .vimrc, the startup file for Vim.</p>
 <p>My .vimrc file has been organically growing since I started using this editor, a couple of years ago, so I've decided to clean it up a little bit and post it here, just to be sure I won't be loosing it. It's got some tweaks to use Vim as an IDE, feel free to download it and change it or use it anyway you want.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">colorscheme torte
+<pre lang="c++"><code lang="c++">colorscheme torte
 set nocompatible
 syntax on
 set ruler
 set number
-set hls     &quot; Highlight search results
-set showmatch &quot; Show matching () {} []
-set wildmode=list:longest,full  &quot; Use tab-completition
-set mouse=a       &quot; Always use the mouse
-&quot; Set the working directory to the directory of the current file.
+set hls     " Highlight search results
+set showmatch " Show matching () {} []
+set wildmode=list:longest,full  " Use tab-completition
+set mouse=a       " Always use the mouse
+" Set the working directory to the directory of the current file.
 autocmd BufEnter * lcd %:p:h
-&quot; Allow movement to another buffer without saving the current one
+" Allow movement to another buffer without saving the current one
 set hidden
-&quot; <strong><em>*</em></strong><strong><em>* Text formatting </em></strong><strong><em>*</em></strong><strong><em>
+" *********** Text formatting *************
 set nowrap
 set beautify
 set shiftwidth=3
 set tabstop=3
 filetype on
 filetype plugin indent on
-&quot; </em></strong><strong><em>*</em></strong><em> Search &amp;amp; replace </em><strong><em>*</em></strong><strong><em>*</em>
-set ignorecase &quot; case insensitive
-set smartcase &quot; case insensitive only if there is no uppercase
-set incsearch &quot; incremental seach
-set gdefault &quot; default to /g on replace
-&quot; Load matchit (% to bounce from do to end, etc.)
+" *********** Search &amp; replace *************
+set ignorecase " case insensitive
+set smartcase " case insensitive only if there is no uppercase
+set incsearch " incremental seach
+set gdefault " default to /g on replace
+" Load matchit (% to bounce from do to end, etc.)
 runtime! macros/matchit.vim
 augroup myfiletypes
- &quot; Clear old autocmds in group
+ " Clear old autocmds in group
  autocmd!
- &quot; autoindent with two spaces, always expand tabs
+ " autoindent with two spaces, always expand tabs
   autocmd FileType ruby,eruby,yaml set ai sw=2 sts=2 et
 augroup END
-&quot; display the current mode and partially-typed commands in the status line:
+" display the current mode and partially-typed commands in the status line:
 set showmode
 set showcmd
 set autoindent
 set smartindent
-&quot; Show an error window (if there are errors)
+" Show an error window (if there are errors)
 cwindow
-&quot; </strong><strong><em>*</em></strong><strong> Mappings </strong><strong><em>*</em></strong>****
-&quot; Ctrl-t: Write tabnew (wait for filename and )
+" *********** Mappings *************
+" Ctrl-t: Write tabnew (wait for filename and )
 map  :tabnew
-&quot; Alt-R: Exec current file as script
+" Alt-R: Exec current file as script
 map  :!.%
-&quot; Ctrl-Alt-R
+" Ctrl-Alt-R
 map  :tabnew:make
-&quot; Spellcheck
+" Spellcheck
 map  :!ispell -x %:e!
-&quot; Comment a line
+" Comment a line
 map  0i//
 map  0xxx
-&quot; Build for a LaTeX file (assumes correct path and makefile)
+" Build for a LaTeX file (assumes correct path and makefile)
 autocmd filetype tex map  :w:make
-&quot; Automatic closing
+" Automatic closing
 kets
 inoremap do{ do{}while();O
 inoremap do{ do{}while();O
 inoremap { {}O
-</pre>
+</code></pre>
 <hr />
 <p>Post by Nico Brailovsky @ 2009-06-11 -
     <a href="/blog/2009/0611_vimrcVimstartupfile.html">Permalink</a> -

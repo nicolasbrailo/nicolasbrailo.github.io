@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -14,7 +15,7 @@
 <li>For a landing pad with multiple catch statements, how can we know all possibly catch types?</li>
 <li>Take the following example. Not only we'll have to check whether the landing pad accepts the current exception, we'll have to check if it accepts any of the current exception's parents!</li>
 </ul>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 struct Base {};
 struct Child : public Base {};
 void foo() { throw Child; }
@@ -23,26 +24,26 @@ void bar()
     try { foo(); }
     catch(const Base&amp;){ ... }
 }
-</pre>
+</code></pre>
 <p>To make our work a bit easier let's say for now we work only with landing pads that have a single catch and no inheritance exists on our program. Still, how do we find out the accepted types for a landing pad?</p>
 <p>Turns there is a place in .gcc_except_table we haven't analyzed yet: the action table. Let's dissasemble our throw.cpp object and see what's in there, right after the call site table is finished, for our "try but don't catch" function:</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v07">in my github repo</a>.</p>
-<pre style="display: inline-block; border: 1px solid red;">.LLSDACSE1:
+<pre><code>.LLSDACSE1:
     .byte   0x1
     .byte   0
     .align 4
     .long   _ZTI14Fake_Exception
 .LLSDATT1:
-</pre>
+</code></pre>
 <p>Doesn't look like much, but there's a promising pointer (both a proverbial and a real pointer) to something that has our exception's name. Let's go to the definition of _ZTI14Fake_Exception:</p>
-<pre style="display: inline-block; border: 1px solid red;">_ZTI14Fake_Exception:
+<pre><code>_ZTI14Fake_Exception:
     .long   _ZTVN10__cxxabiv117__class_type_infoE+8
     .long   _ZTS14Fake_Exception
     .weak   _ZTS9Exception
-    .section    .rodata._ZTS9Exception,&quot;aG&quot;,@progbits,_ZTS9Exception,comdat
+    .section    .rodata._ZTS9Exception,"aG",@progbits,_ZTS9Exception,comdat
     .type   _ZTS9Exception, @object
     .size   _ZTS9Exception, 11
-</pre>
+</code></pre>
 <p>And we reached something very interesting. Can you recognize it? This is the std::type_info for struct Fake_Exception!</p>
 <p>Now we know there is indeed a way to get a pointer to some kind of reflexion information for our exception. Can we programmatically find it? We'll see next time.</p>
 <hr />

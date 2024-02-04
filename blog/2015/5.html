@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -31,7 +32,7 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0505_CAjumptablewithatemplatedevice.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">few articles ago</a> we saw how gcc might need some help when mixing template instanciation (pure compile time data) with function calls (deducible compile time information, but not available to the template expander). Now we'll go one step further and combine all three types: pure compile time data, deducible compile time data and pure run time data (*). Just to annoy the compiler, and to see how gcc is able to optimize the results.</p>
 <p>Let's build a simple example, similar to what we used last time: an object that will determine the range of an integer and then invoke a callback with the closest range. Something like this could be used, for example, to allocate a buffer.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void boring(int x, func f) {
+<pre lang="c++"><code lang="c++">void boring(int x, func f) {
     if (x &lt; 2) {
         f(2);
     } else if (x &lt; 4) {
@@ -42,10 +43,10 @@
         // You get the idea...
     }
 }
-</pre>
+</code></pre>
 <p>Can we build a prettier template version of this code, without any overhead? Let's try:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">typedef void (*func)(int);
-template &lt;int My_Size&gt;
+<pre lang="c++"><code lang="c++">typedef void (*func)(int);
+template <int My_Size>
 struct Foo {
     void bar(size_t size, func callback) {
         if (size &gt; My_Size) {
@@ -54,7 +55,7 @@ struct Foo {
             next_foo.bar(size, callback);
         }
     }
-    Foo&lt;My_Size/2&gt; next_foo;
+    Foo<My_Size/2> next_foo;
 };
 // Stop condition
 template&lt;&gt; struct Foo&lt;0&gt; {
@@ -64,9 +65,9 @@ void wrapper(int x, func f) {
     Foo&lt;512&gt; jump_table;
     jump_table.bar(x, f);
 }
-</pre>
+</code></pre>
 <p>And now, let's compile like as "g++ -fverbose-asm -S -O0 -c foo.cpp -o /dev/stdout | c++filt". You'll see something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">wrapper(int, void (<em>)(int)):
+<pre lang="c++"><code lang="c++">wrapper(int, void (<em>)(int)):
     call    Foo&lt;512&gt;::bar(unsigned long, void (</em>)(int))
 Foo&lt;512&gt;::bar(unsigned long, void (<em>)(int)):
     cmpq    $512, %rsi    #, size
@@ -89,9 +90,9 @@ Foo&lt;256&gt;::bar(unsigned long, void (</em>)(int)):
 # You get the idea, right?
 Foo&lt;0&gt;::bar(unsigned long, void (*)(int)):
     # Stop condition, do nothing
-</pre>
+</code></pre>
 <p>That doesn't look too good, does it? We don't need to worry: we already learned that gcc needs help from the optimizer to handle template expansion and non static function calls. Let's move to O1:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">rapper(int, void (<em>)(int)):
+<pre lang="c++"><code lang="c++">rapper(int, void (<em>)(int)):
 .LFB14:
     cmpq    $512, %rdi    #, D.2974
     jbe    .L2    #,
@@ -104,7 +105,7 @@ Foo&lt;0&gt;::bar(unsigned long, void (*)(int)):
     movl    $256, %edi    #,
     call    <em>%rsi    # f
     jmp    .L1    #
-# Again, it should be clear what&amp;#x27;s going on...
+# Again, it should be clear what&#x27;s going on...
 .L11:
     cmpq    $1, %rdi    #, D.2974
     .p2align 4,,2
@@ -113,9 +114,9 @@ Foo&lt;0&gt;::bar(unsigned long, void (*)(int)):
     .p2align 4,,2
     call    </em>%rsi    # f
 .L1:
-</pre>
+</code></pre>
 <p>It's better than last time, but it doesn't look great either: gcc managed to inline all calls, but it stopped there. Let's move to O2 and see what happens:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
+<pre lang="c++"><code lang="c++">
 wrapper(int, void (<em>)(int)):
     movslq    %edi, %rdi    # x, D.2987
     cmpq    $512, %rdi    #, D.2987
@@ -140,7 +141,7 @@ wrapper(int, void (<em>)(int)):
     ret
     .p2align 4,,10
     .p2align 3
-</pre>
+</code></pre>
 <p>Now, that looks much better. And we can now see that gcc generates the same code at -O2 for both versions of our code.</p>
 <p>(*) Just for the sake of completion:</p>
 <ul>

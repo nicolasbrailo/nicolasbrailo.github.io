@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,11 +8,11 @@
 </ul>
 <h1>Globing in bash<a name="globinginbash"></a></h1>
 <p>There is a pretty common and unnecessary pattern used by bash scripts: whenever you need to loop through a list of file names in a path, you might tempted to write something like this.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">for fname in $(ls | grep foo); do echo $fname; done
-</pre>
+<pre lang="c++"><code lang="c++">for fname in $(ls | grep foo); do echo $fname; done
+</code></pre>
 <p>You can save some typing by using bash-globbing:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">for fname in <em>foo</em>; do echo $fname; done
-</pre>
+<pre lang="c++"><code lang="c++">for fname in <em>foo</em>; do echo $fname; done
+</code></pre>
 <p>Not only the script should be cleaner and faster, bash will take care of properly expanding the file names and you won't have to worry about things like filenames with spaces. This should also be portable to other shells too.</p>
 <p>Want to know more about bash globbibg? Check out http://www.linuxjournal.com/content/bash-extended-globbing</p>
 <hr />

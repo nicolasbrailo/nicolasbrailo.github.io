@@ -1,3 +1,10 @@
+"""
+Known issues
+* In code blocks \n\n (2+) seems folded to \n
+* In code blocks, using backticks sometimes works and sometimes will generate an inner code block
+"""
+
+
 from mdtohtml import build_anchor_for_title, apply_template, MdToHtml
 
 from datetime import datetime
@@ -7,7 +14,9 @@ import sys
 
 
 BLOG_HEADER = """
-# Blog title
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+
+# Nico Brailovsky's blog
 
 # Menu
 * [Home](/)
@@ -231,6 +240,7 @@ dst_path = sys.argv[2]
 mode = sys.argv[3]
 
 mdconvert = MdToHtml(src_path, dst_path)
+
 
 if mode == 'index':
     build_index = True

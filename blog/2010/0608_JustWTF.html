@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,21 +8,21 @@
 </ul>
 <h1>Just WTF<a name="justwtf"></a></h1>
 <p>Who the hell can create a monster like this one?</p>
-<pre lang="sql" style="display: inline-block; border: 1px solid red;">CREATE PROC shutdown10
+<pre lang="sql"><code lang="sql">CREATE PROC shutdown10
 AS
-EXEC xp_cmdshell &#x27;net send /domain:SQL_USERS &#x27;&#x27;SQL Server
+EXEC xp_cmdshell 'net send /domain:SQL_USERS ''SQL Server
 shutting down in 10 minutes. No more connections
-allowed.&#x27;, no_output
-EXEC xp_cmdshell &#x27;net pause sqlserver&#x27;
-WAITFOR DELAY &#x27;00:05:00&#x27;
-EXEC xp_cmdshell &#x27;net send /domain: SQL_USERS &#x27;&#x27;SQL Server
-shutting down in 5 minutes.&#x27;, no_output
-WAITFOR DELAY &#x27;00:04:00&#x27;
-EXEC xp_cmdshell &#x27;net send /domain:SQL_USERS &#x27;&#x27;SQL Server
-shutting down in 1 minute. Log off now.&#x27;, no_output
-WAITFOR DELAY &#x27;00:01:00&#x27;
-EXEC xp_cmdshell &#x27;net stop sqlserver&#x27;, no_output
-</pre>
+allowed.', no_output
+EXEC xp_cmdshell 'net pause sqlserver'
+WAITFOR DELAY '00:05:00'
+EXEC xp_cmdshell 'net send /domain: SQL_USERS ''SQL Server
+shutting down in 5 minutes.', no_output
+WAITFOR DELAY '00:04:00'
+EXEC xp_cmdshell 'net send /domain:SQL_USERS ''SQL Server
+shutting down in 1 minute. Log off now.', no_output
+WAITFOR DELAY '00:01:00'
+EXEC xp_cmdshell 'net stop sqlserver', no_output
+</code></pre>
 <hr />
 <p>Post by Nico Brailovsky @ 2010-06-08 -
     <a href="/blog/2010/0608_JustWTF.html">Permalink</a> -

@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,32 +12,32 @@
     <a href="/blog/2013/0110_CoolC0XfeaturesXVIILambdassyntax.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0110_CoolC0XfeaturesXVIILambdassyntax.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After creating a device to sum an initializer list as an example of this new feature last time, we created a generic function to receive a function object, which worked just very similarly to Smalltalk's inject. After creating the usual function object, overloading the () operator, we saw a much cooler way of doing that using lambdas, like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
+<pre lang="c++"><code lang="c++">int main() {
     auto f = [] (int a, int b){ return a+b; } ;
     do_something(f, 0, {1, 2, 3, 4});
     return 0;
 }
-</pre>
+</code></pre>
 <p>Pretty cool. Pretty weird too. Let's analyze how to declare a lambda before we continue discussing about the usage of this new feature.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto f
-</pre>
+<pre lang="c++"><code lang="c++">auto f
+</code></pre>
 <p>Auto f. Lambdas have a type, and you can explicitly declare it. The type might be quite complicated though, and it doesn't really add any information that makes reading the code any easier, so we are better off using C++0x's new feature, auto, which will infer the type for us. Saves a lot of typing, trust me.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto f = [] (int a, int b)
-</pre>
+<pre lang="c++"><code lang="c++">auto f = [] (int a, int b)
+</code></pre>
 <p>Brackets, and then the parameters specification. Looks weird but the brackets are there just to tell the compiler "hey, an anonymous method comes here" (actually the brackets could be omitted in this case but we'll need them later on). After that, it's just a normal method declaration. Useless trivia: before C++0x you could have anonymous objects but not anonymous methods. Can you think where would you have an anonymous object? I think I even wrote an article about it on this blog, but I'm too lazy to search for it.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto f = [] (int a, int b) { return a+b; }
-</pre>
+<pre lang="c++"><code lang="c++">auto f = [] (int a, int b) { return a+b; }
+</code></pre>
 <p>After the lambda's signature, which is the same as the signature of a common method, you have the body of the method. It can be as short or as long as you want, it's just a method's body (though for the sanity of the maintainer you'd better keep it short).</p>
 <p>Watch out though, that's not the end of the declaration, we're missing a crucial piece on this lambda:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto f = [] (int a, int b) { return a+b; };
-</pre>
+<pre lang="c++"><code lang="c++">auto f = [] (int a, int b) { return a+b; };
+</code></pre>
 <p>I'd use the blink tag, but I think it has been deprecated. Notice that last semicolon; when you declare the lambda's body you finish with a semicolon inside, just as you would inside a normal method, but that's not the end of the expression, for the lambda declared outside the body of that method still needs another semicolon to appraise the compiler god.</p>
 <p>And now, we know almost everything we need to know about lambda's syntax. Notice how the return type of the method is automagically deduced. That's useful, but there's something the compiler can't deduce by itself about the return type. If you are trying to return a reference to something, you need to make this explicit, the compiler has no way of detecting if you need a copy return or a reference return (until the next draft of C++, which I heard incorporates mind reading capabilities into the compiler. You may have to wait a couple of years though). This is easy to specify, though:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto f = [&amp;amp;] (int a, int b) { return a+b; };
-</pre>
+<pre lang="c++"><code lang="c++">auto f = [&amp;] (int a, int b) { return a+b; };
+</code></pre>
 <p>Just add an ampersand between the brackets and the lambda will return a reference instead of a copy of whatever object you're trying to return. How about receiving a reference instead of returning one? That's easy, remember the signature is the same as any other method:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">auto f = [] (int&amp;amp; a, int&amp;amp; b) { return a+b; };
-</pre>
+<pre lang="c++"><code lang="c++">auto f = [] (int&amp; a, int&amp; b) { return a+b; };
+</code></pre>
 <p>That's it, now we know how to use basic lambdas. You should keep in mind, though, this mythical beast has a lot more to it than just its syntax. We'll discuss about some of it's darkest secrets, how to use it, when to use it, how does it work. That discussion is for next time, though.</p>
 <hr />
 <h1>Cool C++0X features XVI: Lambdas<a name="coolc0xfeaturesxvilambdas"></a></h1>
@@ -44,26 +45,26 @@
     <a href="/blog/2013/0108_CoolC0XfeaturesXVILambdas.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0108_CoolC0XfeaturesXVILambdas.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Last time we created a device to sum an initializer list of ints, something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void Add(initializer_list&lt;int&gt; lst) {
+<pre lang="c++"><code lang="c++">void Add(initializer_list<int> lst) {
     int sum = 0;
     for (auto i = lst.begin(); i != lst.end(); ++i)
         sum += *i;
-    cout &lt;&lt; sum &lt;&lt; &quot;n&quot;;
+    cout &lt;&lt; sum &lt;&lt; "n";
 }
-</pre>
+</code></pre>
 <p>And then we said this can be improved using some new C++0x wizardry to support actions other than adding. How would we do that? Easy, we need to decouple the iteration of the list from the operation logic. We can do something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
-// Note how we don&#x27;t care about the type of OP, just that
+<pre lang="c++"><code lang="c++">
+// Note how we don't care about the type of OP, just that
 // it can be called (i.e. has an operator ())
-template &lt;class OP&gt;
-void do_something(OP op, int init, initializer_list&lt;int&gt; lst) {
+template <class OP>
+void do_something(OP op, int init, initializer_list<int> lst) {
     int sum = init;
     for (auto i = lst.begin(); i != lst.end(); ++i)
     {
         int x = *i;
         sum = op(sum, x);
     }
-    cout &lt;&lt; sum &lt;&lt; &quot;n&quot;;
+    cout &lt;&lt; sum &lt;&lt; "n";
 }
 struct Sum {
     int operator() (int a, int b)
@@ -75,15 +76,15 @@ int main() {
     do_something(Sum(), 0, {1, 2, 3, 4});
     return 0;
 }
-</pre>
+</code></pre>
 <p>We had to do some changes other than passing the operation-object into the do_something method; since the start value (zero) was hardcoded we had to remove it to really decouple the action from the iteration.</p>
 <p>Other than creating a function object (which is the correct name for the object wrapping our operation) we don't see any strange changes, there's no C++0x there, but C++0x gives us a little tool which gives you the power of creating much simpler and nicer code, or to make the next maintainers' life a living hell. That's a discussion for other time though, now let's take a sneak preview a lambdas, the evolution of function objects:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">int main() {
+<pre lang="c++"><code lang="c++">int main() {
     auto f = [] (int a, int b){ return a+b; } ;
     do_something(f, 0, {1, 2, 3, 4});
     return 0;
 }
-</pre>
+</code></pre>
 <p>Note that we didn't change anything on the method iterating the list, we just changed main! There's a lot to talk about lambdas, so this is only an intro to the subject. Next time we'll discuss the subtleties of the new syntax.</p>
 <hr />
 <h1>"The VM session was closed before any attempt to power it on"<a name="thevmsessionwasclosedbeforeanyattempttopoweriton"></a></h1>

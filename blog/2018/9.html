@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,10 +12,10 @@
     <a href="/blog/2018/0930_Wmisleadingindentation.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2018/0930_Wmisleadingindentation.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>This gcc switch is a few years old but I discovered it recently. I'm not sure if that means my code is always very clean or my toolchain too oudated... in any case, -Wmisleading-indentation (which you get with -Wall) warns about this gotcha:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">if (foo)
+<pre lang="c++"><code lang="c++">if (foo)
    bar();
    baz();
-</pre>
+</code></pre>
 <p>Neat!</p>
 <hr />
 <h1>GitHub tip: Prefill a bug report<a name="githubtipprefillabugreport"></a></h1>

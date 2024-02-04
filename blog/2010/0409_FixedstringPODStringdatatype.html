@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -14,14 +15,14 @@
 <p>Although this definition gives us quite a hard constraint we can create a quasi POD object (!) that does not conform to the standard definition of POD, yet has all the properties of one. This is the kind of struct we'll be creating. It would crash our program if used in a printf, but resides completly on the stack.</p>
 <h3>Implementing a POD string<a name="implementingapodstring"></a></h3>
 <p>A word of warning: ignore for now the "template " part; that's a template metaprogramming technique which we'll discuss some other day.</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template  &amp;lt;int N&amp;gt; struct FixedString {
+<pre lang="c++"><code lang="c++">template  &lt;int N&gt; struct FixedString {
    mutable char str[N];
-   FixedString() { str[0] = &#x27;X&#x27;; }
+   FixedString() { str[0] = 'X'; }
    FixedString(const char<em> rid){ memcpy(str, rid, sizeof(str)); }
-   FixedString(const FixedString &amp;amp;rid){ memcpy(str, rid.str, sizeof(str)); }
+   FixedString(const FixedString &amp;rid){ memcpy(str, rid.str, sizeof(str)); }
    operator const char</em>() const { return str; }
 };
-</pre>
+</code></pre>
 <p>You can see now why I called it a trade-off: it works as we intend it to work but it does have its rough edges (most notably the const char/mutable part). It'll allow you to use a char[N] with some behaviour of an std::string; use it with caution.</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2010-04-09 -

@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,19 +8,19 @@
 </ul>
 <h1>Some new set operations in C++11 stl<a name="somenewsetoperationsinc11stl"></a></h1>
 <p>The std header has a few cool additions that make life easier in C++11:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void f() {
-  vector&lt;int&gt; v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
+<pre lang="c++"><code lang="c++">void f() {
+  vector<int> v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
   auto less_than_10 = <a href="int x"></a>{ return x &lt; 10; };
   if (all_of(v.begin(), v.end(), less_than_10)) {
-    cout &lt;&lt; &quot;Yay!&quot;;
+    cout &lt;&lt; "Yay!";
   }
 }
-</pre>
+</code></pre>
 <p>Besides all_of, in you can also find any_of and none_of.</p>
 <p>Bonus: do you find that initializer list hideous? Just use std::iota, from stl too:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">vector&lt;int&gt; v(100, 0);
+<pre lang="c++"><code lang="c++">vector&lt;int&gt; v(100, 0);
 iota(v.begin(), v.end(), 0);
-</pre>
+</code></pre>
 <h1>Comments<a name="comments"></a></h1>
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">pauljurczak</a> commented @ 2016-02-18T05:27:58.000+01:00:<a name="inreplytothispostpauljurczakblog_mdyoufoundadeadlink.mdcommented20160218t052758.0000100"></a></h2>
 <p>Inequality symbols are rendered as &lt; and &gt; in your post. I checked with Chrome and Explorer.</p>

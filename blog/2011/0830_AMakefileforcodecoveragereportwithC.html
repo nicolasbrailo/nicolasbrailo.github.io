@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,7 +9,7 @@
 <h1>A Makefile for code coverage report with C++<a name="amakefileforcodecoveragereportwithc"></a></h1>
 <p>So far you should know how to <a href="/blog/2011/0822_AMakefileforTDDwithC.html">use makefiles</a> and you should have a nice <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">testable project</a>. Then you have everything ready to get a coverage report. Yeah, using makefiles, you guessed!</p>
 <p>This time we'll depend on two tools, gcov and gtest. These are in Ubuntu's repositories, so you should have no problem getting them. I won't even bother to explain this makefile (not because it's obvious but because I don't really remember how it works. I wrote this over a year ago).</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">.PHONY: clean coverage_report
+<pre lang="c++"><code lang="c++">.PHONY: clean coverage_report
 coverage_report:
     # Reset code coverage counters and clean up previous reports
     rm -rf coverage_report
@@ -16,15 +17,15 @@ coverage_report:
     $(MAKE) COMPILE_TYPE=code_coverage &amp;&amp;
     $(MAKE) COMPILE_TYPE=code_coverage test
     lcov --capture --directory $(BIN_DIR)/$(OBJ_DIR)/code_coverage --base-directory . -o salida.out &amp;&amp;
-    lcov --remove salida.out &quot;<em>usr/include</em>&quot; -o salida.out &amp;&amp;
+    lcov --remove salida.out "<em>usr/include</em>" -o salida.out &amp;&amp;
     genhtml -o coverage_report salida.out
     rm salida.out
-</pre>
+</code></pre>
 <p>Bonus makefile target: make your code pretty:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">.PHONY: pretty
+<pre lang="c++"><code lang="c++">.PHONY: pretty
 pretty:
-    find -L|egrep &#x27;.(cpp|h|hh)$$&#x27;|egrep -v &#x27;svn|_Test.cpp$$&#x27; | xargs astyle --options=none
-</pre>
+    find -L|egrep '.(cpp|h|hh)$$'|egrep -v 'svn|_Test.cpp$$' | xargs astyle --options=none
+</code></pre>
 <p>Remember to change your astyle options as needed.</p>
 <p>Bonus II: Example project using gcov and gtest: <a href="/blog/youfoundadeadlink.html">gcov_gtest_sample.tar</a>. The irony? It doesn't use my common makefile, it predates it.</p>
 <hr />

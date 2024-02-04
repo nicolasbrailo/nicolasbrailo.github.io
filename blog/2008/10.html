@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -14,17 +15,17 @@
 <p>What to do when you get a <strong>cue</strong> file with a single huge <strong>flac</strong> file, or even worse, an <strong>ape</strong> file? With the right packages it's an easy task (getting the packages right may be hard tough).</p>
 <p>There are three parts to this problem: getting the ape file to a more user friendly format (flac), splitting it and then renaming the splitted files.</p>
 <h3>Needed packages<a name="neededpackages"></a></h3>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4_b3-1_i386.deb &amp;&amp;
+<pre lang="bash"><code lang="bash">wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4_b3-1_i386.deb &amp;&amp;
     sudo dpkg -i mac-3.99-u4_b3-1_i386.deb &amp;&amp;
     rm -f mac-3.99-u4_b3-1_i386.deb
-</pre>
+</code></pre>
 <p>Source: <a href="/blog/youfoundadeadlink.html">BROKENLINK</a></p>
 <p>Now install cuetools:</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">  sudo apt-get install cuetools
-</pre>
+<pre lang="bash"><code lang="bash">  sudo apt-get install cuetools
+</code></pre>
 <h3>Splitting the file<a name="splittingthefile"></a></h3>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">  cuebreakpoints <em>.cue|shnsplit </em>.ape -o flac
-</pre>
+<pre lang="bash"><code lang="bash">  cuebreakpoints <em>.cue|shnsplit </em>.ape -o flac
+</code></pre>
 <h3>Renaming the splitted parts<a name="renamingthesplittedparts"></a></h3>
 <p>In the cue file there should be a list of the original file names. I hacked a script to parse &amp; rename the files from the previous step, you can get it here: <a href="/blog/youfoundadeadlink.html">cue-rename</a></p>
 <p>For this script to run you'll need php-cli package. Just run it in the same folder the cue file is, as any other bash script. There's a flag to get a preview instead of a complete rename; it's somewhere in the file and I don't have much plans to clean it up anytime soon. Drop me a line if you do.</p>
@@ -40,7 +41,7 @@
     <a href="/blog/2008/1016_RubyMethodchaining.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2008/1016_RubyMethodchaining.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Interesante :)</p>
-<pre lang="ruby" style="display: inline-block; border: 1px solid red;">
+<pre lang="ruby"><code lang="ruby">
 #!/usr/bin/ruby1.8
 module MethodDecorator
 # Create a chain between methods:
@@ -54,7 +55,7 @@ def add_chain org_mthd, new_mthd, org_alias
   end
   # Extremly evil code ahead!
   def decorate method, decorator
-    # Create a chain counter if it doesn&#x27;t exist
+    # Create a chain counter if it doesn't exist
     @chain_counter ||= 0
     # Use the chain counter as a method id
     i = (@chain_counter += 1)
@@ -65,17 +66,17 @@ def add_chain org_mthd, new_mthd, org_alias
         chain_original#{i} *params                                                                                                                                  end
     EOM
     # Once the method was created, add chain
-    eval &quot;add_chain method, :chain_dispatcher#{i}, :chain_original#{i}&quot;
+    eval "add_chain method, :chain_dispatcher#{i}, :chain_original#{i}"
   end
 end
 class Foo
   include MethodDecorator
-  def foo; print &quot;Hello &quot;; end
-  def bar; print &quot;worldn&quot;; end
+  def foo; print "Hello "; end
+  def bar; print "worldn"; end
   def initialize; decorate :bar, :foo; end
 end
 Foo.new.bar
-</pre>
+</code></pre>
 <p>Ahora si, tengo que buscar ya un plugin para c&oacute;digo.</p>
 <p><em>Edit: Agregado el plugin para c&oacute;digo!</em></p>
 <hr />

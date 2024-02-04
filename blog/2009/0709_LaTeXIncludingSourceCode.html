@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -10,35 +11,35 @@
 <p>In LaTeX there's an easy way to handle source code. Though it was difficult to figure out, once in place this requires no maintenance at all - no need to manually syntax highlight your code nor update any files other than the source code itself. Even more, you can even change the source code language and it won't even matter in the presentation.</p>
 <h3>Preliminars<a name="preliminars"></a></h3>
 <p>You'll need "pygmentyze" which is provided by the package python-pygments:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">apt-cache search pygment
+<pre lang="c++"><code lang="c++">apt-cache search pygment
 python-pygments - syntax highlighting package written in Python
 sudo apt-get install python-pygments
-</pre>
+</code></pre>
 <p>Using it is really easy, check the manpage. Anyway, I'm too lazy to generate the syntax highlighted document by hand, let's add it to the makefile.</p>
 <h3>Automating the source code generation<a name="automatingthesourcecodegeneration"></a></h3>
 <p>Let's beging by adding a "code" folder inside our project. We'll store there all the source code files, and having them in a separated folder will enable us to add a target in the makefile to automatically update the source code in the LaTeX file.</p>
 <p>Remember the makefile from a couple of posts back? Let's add a target:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;"># Hack to make it work when foo.code =&amp;gt; foo.code.tex
+<pre lang="c++"><code lang="c++"># Hack to make it work when foo.code =&gt; foo.code.tex
 code/%.tex: code/%.<em> code/%.aux code/%.tex
   @rm code/</em>.aux
  $(MAKE) -C .
 code/%.tex: code/%.<em>
- pygmentize -f latex -O style=&amp;#x27;border=#000000,colorful,linenos=1&amp;#x27; $&amp;lt; &amp;gt; $@
+ pygmentize -f latex -O style=&#x27;border=#000000,colorful,linenos=1&#x27; $&lt; &gt; $@
 # Search each code file to format and include
-CODE_FILES:=$(shell ls code/|egrep -v &amp;#x27;.tex$ |.aux$ &amp;#x27; )
+CODE_FILES:=$(shell ls code/|egrep -v &#x27;.tex$ |.aux$ &#x27; )
 CODE_FILES_DEP:=$(addprefix code/, $(CODE_FILES))
 CODE_FILES_TGT:=$(addsuffix .tex, $(basename $(CODE_FILES_DEP)))
 main.pdf: $(shell ls </em>.tex) $(CODE_FILES_TGT)
-  pdflatex main.tex &amp;gt; /dev/null
-</pre>
+  pdflatex main.tex &gt; /dev/null
+</code></pre>
 <p>OK, maybe a couple more than one. It may seem like a lot of makefile code but all it does is define a code directory and a target to run pygmentize on each source file found there. We'll have to add a dependency in the document's target so it'll be automatically generated with each build:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">main.pdf: code_frames *.tex
-  pdflatex main.tex &amp;amp;&amp;amp; pdflatex main.tex
-</pre>
+<pre lang="c++"><code lang="c++">main.pdf: code_frames *.tex
+  pdflatex main.tex &amp;&amp; pdflatex main.tex
+</code></pre>
 <p>and then, we'll need to clean up the new temp files:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">code_clean:
+<pre lang="c++"><code lang="c++">code_clean:
  @rm -f $(CODE_FILES_TGT) code/*.aux
-</pre>
+</code></pre>
 <p>Don't worry, there's a link to the full makefile.</p>
 <h3>At last!<a name="atlast"></a></h3>
 <p>It shouldn't have been too much work and we're done anyway. To include a source code file in your document now use the include command (like include{code/foobar.cpp) and re build. I'm attaching a complete example in a zip file, with my latest implementation of a bogosort algorithm (now 50% faster).</p>

@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -7,20 +8,20 @@
 </ul>
 <h1>MySQL upsert, Oracle merge<a name="mysqlupsertoraclemerge"></a></h1>
 <p>How many times have you seen this "pattern"?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">unsigned int row_count = foo-&amp;gt;update();
+<pre lang="c++"><code lang="c++">unsigned int row_count = foo-&gt;update();
 if (row_count == 0) {
-   foo-&amp;gt;insert();
+   foo-&gt;insert();
 }
-</pre>
+</code></pre>
 <p>Wouldn't it be nice if you could write all that in a single line? Say, something like</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">foo-&amp;gt;update_or_insert_if_it_doesnt_exists();
-</pre>
+<pre lang="c++"><code lang="c++">foo-&gt;update_or_insert_if_it_doesnt_exists();
+</code></pre>
 <p>Well, good news, you can! Obviously it's not standard SQL, nothing useful ever is, but even so I think using an upsert (who comes up with those names?) can be quite good for your health.</p>
 <p>So, how do you use it? It's easy;</p>
-<pre lang="sql" style="display: inline-block; border: 1px solid red;">INSERT INTO Table ( col1, col2 )
-SELECT &#x27;a&#x27;, &#x27;b&#x27;
-ON DUPLICATE KEY UPDATE col1 = &#x27;a&#x27;, col2 = &#x27;b&#x27;;
-</pre>
+<pre lang="sql"><code lang="sql">INSERT INTO Table ( col1, col2 )
+SELECT 'a', 'b'
+ON DUPLICATE KEY UPDATE col1 = 'a', col2 = 'b';
+</code></pre>
 <p>Go on, try it, I'll wait. What? It didn't work? Oh, I forgot, you need to create a unique key so the engine can recognize when there is a duplicate key (say, 'create index unique on col1'). Try it now.</p>
 <p>Nice, isn't it? Oracle has its own version of upsert, called merge (at least the name is better) but it itches a little bit when I write about Oracle, so go and check <a href="http://psoug.org/reference/merge.html">this page</a> instead.</p>
 <hr />

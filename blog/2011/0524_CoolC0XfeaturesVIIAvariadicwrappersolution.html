@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,55 +9,55 @@
 <h1>Cool C++0X features VII: A variadic wrapper solution<a name="coolc0xfeaturesviiavariadicwrappersolution"></a></h1>
 <p><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Last time</a> we were trying to build a wrapper function, in which we don't control the class being wrapped nor the user of the wrapper (meaning we can't change either of those but they could change without warning).</p>
 <p>This was the first approach:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
-void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;; }
+<pre lang="c++"><code lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 void wrap() {
-    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;;
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
     do_something();
 }
 int main() {
     wrap();
     return 0;
 }
-</pre>
+</code></pre>
 <p>Yet, as we saw, it's not scalable, when either part changes the whole things break. We proposed then a variadic template solution, which, if you tried it yourself, should look something like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
-void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;; }
-void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;; }
-template &lt;class... Args&gt;
+<pre lang="c++"><code lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+template <class... Args>
 void wrap(Args... a) {
-    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;;
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
     do_something(a...);
 }
 int main() {
     wrap();
-    wrap(&quot;nice&quot;);
+    wrap("nice");
     return 0;
 }
-</pre>
+</code></pre>
 <p>That's better. Now we don't care about which parameters do_something should get, nor how many of them are there supposed to be, just how it's called. If you read the <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">previous entries on variadic templates</a> this should be a walk in the park. It still has a flaw though: we need to know the return type of do_something!</p>
 <p>Is there a way to write a wrapper without knowing the return type of a function you are wrapping? Yes, in Ruby you can. But now you can do it in C++0x too, and we'll see how to do it next time.</p>
 <p>A closing remark: You could do something like this wrapping everything in a class:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;iostream&gt;
+<pre lang="c++"><code lang="c++">#include <iostream>
 struct Foo {
-    void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;\n&quot;; }
-    void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;\n&quot;; }
+    void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "\n"; }
+    void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "\n"; }
 };
 template
 struct Wrapper : public Base {
-    template &lt;class... Args&gt;
+    template <class... Args>
     void wrap(Args... a) {
-        std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; &quot;n&quot;;
+        std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
         Base::do_something(a...);
     }
 };
 int main() {
     Wrapper w;
     w.wrap();
-    w.wrap(&quot;nice&quot;);
+    w.wrap("nice");
     return 0;
 }
-</pre>
+</code></pre>
 <p>The above works just fine, but due to some limitations in the current (stable) version of gcc we will use the former version (the problem with this form will be clear later, I promise).</p>
 <hr />
 <p>Post by Nico Brailovsky @ 2011-05-24 -

@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -11,9 +12,9 @@
     <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:</p>
-<pre lang="bash" style="display: inline-block; border: 1px solid red;">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
-sudo echo &#x27;/usr/share/spotify/spotify.real --uri=&quot;$1&quot;&#x27; &gt; /usr/share/spotify/spotify
-</pre>
+<pre lang="bash"><code lang="bash">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
+sudo echo '/usr/share/spotify/spotify.real --uri="$1"' &gt; /usr/share/spotify/spotify
+</code></pre>
 <p>Seems old versions of spotify would try to open anything as a deeplink, but new versions require a <code>--uri</code> parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.</p>
 <p>In the "reminder to myself" category, as there is zero chance I'll remember this next time I'm setting up a computer.</p>
 <h3>(*) SpotiWeb: custom Spotify UI<a name="spotiwebcustomspotifyui"></a></h3>

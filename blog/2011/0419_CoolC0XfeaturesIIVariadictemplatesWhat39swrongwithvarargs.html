@@ -1,4 +1,5 @@
-<h1>Blog title<a name="blogtitle"></a></h1>
+<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
+<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
 <h1>Menu<a name="menu"></a></h1>
 <ul>
 <li><a href="/">Home</a></li>
@@ -8,9 +9,9 @@
 <h1>Cool C++0X features II, Variadic templates: What&#39;s wrong with varargs<a name="coolc0xfeaturesiivariadictemplateswhat39swrongwithvarargs"></a></h1>
 <p><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Last time</a> we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?</p>
 <p>Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;stdarg.h&gt;
-#include &lt;iostream&gt;
-// My god, it&#x27;s full of bugs
+<pre lang="c++"><code lang="c++">#include <stdarg.h>
+#include <iostream>
+// My god, it's full of bugs
 void va_println(int args_left, ...) {
    va_list arg_lst;
    va_start(arg_lst, args_left);
@@ -21,10 +22,10 @@ void va_println(int args_left, ...) {
    va_end(arg_lst);
 }
 int main() {
-   va_println(3, &quot;Hola &quot;, &quot;mundo&quot;, &quot;n&quot;);
+   va_println(3, "Hola ", "mundo", "n");
    return 0;
 }
-</pre>
+</code></pre>
 <p>This implementation of a function with variable arguments is, more or less, the best C can give us, yet it riddled with bugs and hidden problems. Let's go one by one:</p>
 <ul>
 <li><strong>Arg num will get out of sync</strong>: You need to specify the list of args as well as how many you have. That WILL get out of sync. Trust me, it's just a mater of time. And when it does, you'll have a coredump.</li>
@@ -32,7 +33,7 @@ int main() {
 <li><strong>No, really, coredump</strong>: Where are so many coredumps coming from, you may ask. Easy, varargs it's just a way of handling the stack. Calling va_arg just moves the stack pointer by the sizeof the datatype you requested. That means no compile-time checks are included.</li>
 <li><strong>No pod types</strong>: Remember POD types? Try running this code:</li>
 </ul>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;stdarg.h&gt;
+<pre lang="c++"><code lang="c++">#include <stdarg.h>
 struct X { virtual ~X(){} };
 void va_println(int args_left, ...) {
    va_list arg_lst;
@@ -47,19 +48,19 @@ int main() {
    va_println(3, x, y, z);
    return 0;
 }
-</pre>
+</code></pre>
 <h3>And how do we fix it?<a name="andhowdowefixit"></a></h3>
 <p>The fix is easy. Too easy. You just need C++0X. We will discuss why this is better next time, but just as a sneak peak:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">void println() {}
-template &lt;typename H, typename... T&gt; void println(H p, T... t) {
+<pre lang="c++"><code lang="c++">void println() {}
+template <typename H, typename... T> void println(H p, T... t) {
    std::cout &lt;&lt; p;
    println(t...);
 }
 int main() {
-   println(&quot;Hola&quot;, &quot; mundo &quot;, 42, &#x27;n&#x27;);
+   println("Hola", " mundo ", 42, 'n');
    return 0;
 }
-</pre>
+</code></pre>
 <p>Remember to compile using -std=c++0x in gcc.</p>
 <p><strong>(Thanks Hugo Arregui for correcting the POD example)</strong></p>
 <h1>Comments<a name="comments"></a></h1>
