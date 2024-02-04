@@ -18,14 +18,16 @@ nmap <leader>t :tabnew<cr>
 vmap <leader>t :call Foo()<cr>
 ```
 
-nmap stands for normal (mode) map, vmap for visual. How to get the text under the cursor is a bit more complex and out of scope for this vim tip, but you might want to check http://vim.wikia.com/wiki/Mapping\_keys\_in\_Vim\_-\_Tutorial\_%28Part\_1%29.
+nmap stands for normal (mode) map, vmap for visual. How to get the text under the cursor is a bit more complex and out of scope for this vim tip, but [you might want to check this link](http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_%28Part_1%29).
 
 Remember to check ":help map" for a list of all mode mappings.
 
 
----
-## In reply to [this post](), [Simple vim plugin III: a polymorphic project greper | An infinite monkey - Nicolas Brailovsky&#39;s blog](/blog_md/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.md) commented @ 2016-11-30T08:02:07.000+01:00:
+# Comments
 
-[…] grep to vim. We can improve it a little bit with very simple changes. Using this tip to have different key binding for different modes we can do something a bit smarter . Let’s create two functions, one for normal mode that […]
+---
+## In reply to [this post](), [Simple vim plugin III: a polymorphic project greper | An infinite monkey - Nicolas Brailovsky's blog](/blog_md/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.md) commented @ 2016-11-30T08:02:07.000+01:00:
+
+[…] grep to vim. We can improve it a little bit with very simple changes. Using this tip to have different key binding for different modes we can do something a bit smarter. Let's create two functions, one for normal mode that […]
 
 Original [published here](/blog_md/2015/0602_Vimtippolymorphickeybindings.md).

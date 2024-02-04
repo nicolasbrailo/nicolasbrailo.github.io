@@ -56,7 +56,7 @@ Yes, it is!
 <h1>Initialization oddities: Aggregate initialization<a name="initializationodditiesaggregateinitialization"></a></h1>
 <p>By Nico Brailovsky @ 2016-05-10</p>
 <p>Do you know the quickest way to create a constructor that initializes the elements in this struct?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;string&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;string&gt;
 struct MyStruct {
     int x;
     std::string y;
@@ -99,11 +99,11 @@ C o = {42, &quot;Hello&quot;, &quot;World&quot;};
 <p>In this case, x will be of length 3 because that&rsquo;s the length of its aggregate initializer.</p>
 <h3>Bonus II:<a name="bonusii"></a></h3>
 <p>I&rsquo;m sure anyone trying to get up to date with C++11 will have played around with variadic templates. One of the first exercises I&rsquo;d recommend for this would be a compile-time list of different types. Knowing about aggregate initializations now, how would you write a constructor for this type?</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename H, typename&hellip; T&amp;gt;
-struct Multilist&amp;lt;H, T&hellip;&amp;gt; {
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename H, typename&hellip; T&gt;
+struct Multilist&lt;H, T&hellip;&gt; {
     H x;
-    Multilist&amp;lt;T&hellip;&amp;gt; next;
+    Multilist&lt;T&hellip;&gt; next;
 };
-Multilist&amp;lt;int, string, float&amp;gt; foo{42, &quot;XXX&quot;, 1.23};
+Multilist&lt;int, string, float&gt; foo{42, &quot;XXX&quot;, 1.23};
 </pre>
 <hr />

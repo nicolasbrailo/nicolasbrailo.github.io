@@ -1,44 +1,44 @@
 <h1>gcc: Optimization levels and templates<a name="gccoptimizationlevelsandtemplates"></a></h1>
 <p>Analyzing the assembly output for template devices can be a bit discouragging at times, specially when we spend hours trying to tune a mean looking template class only to find out the compiler is not able to reduce it&rsquo;s value like we expected. But hold on, before throwing all your templates away you might want to figure out why they are not optimized.</p>
 <p>Let&rsquo;s start with a simple example: a template device to return the next power of 2:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int n, long curr_pow, bool stop&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int n, long curr_pow, bool stop&gt;
 struct Impl_Next_POW2 {
-    static const bool is_smaller = n &amp;lt; curr_pow;
-    static const long next_pow = _Next_POW2&amp;lt;n, curr_pow*2, is_smaller&amp;gt;::pow;
+    static const bool is_smaller = n &lt; curr_pow;
+    static const long next_pow = _Next_POW2&lt;n, curr_pow*2, is_smaller&gt;::pow;
     static const long pow = is_smaller? curr_pow : next_pow;
 };
-template &amp;lt;int n, long curr_pow&amp;gt;
-struct Impl_Next_POW2&amp;lt;n, curr_pow, true&amp;gt; {
+template &lt;int n, long curr_pow&gt;
+struct Impl_Next_POW2&lt;n, curr_pow, true&gt; {
     // This specializtion is important to stop the expansion
     static const long pow = curr_pow;
 };
-template &amp;lt;int n&amp;gt;
+template &lt;int n&gt;
 struct Next_POW2 {
     // Just a wrapper for _Next_POW2, to hide away some
     // implementation details
-    static const long pow = _Next_POW2&amp;lt;n, 1, false&amp;gt;::pow;
+    static const long pow = _Next_POW2&lt;n, 1, false&gt;::pow;
 };
 </pre>
 <p>Gcc can easily optimize that away, if you compile with &ldquo;g++ foo.cpp -c -S -o /dev/stdout&rdquo; you&rsquo;ll just see the whole thing is replaced by a compile time constant. Let&rsquo;s make gcc&rsquo;s life a bit more complicated now:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int n, long curr_pow, bool stop&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int n, long curr_pow, bool stop&gt;
 struct Impl_Next_POW2 {
     static long get_pow() {
-        static const bool is_smaller = n &amp;lt; curr_pow;
+        static const bool is_smaller = n &lt; curr_pow;
         return is_smaller?
                     curr_pow :
-                    _Next_POW2&amp;lt;n, curr_pow*2, is_smaller&amp;gt;::get_pow();
+                    _Next_POW2&lt;n, curr_pow*2, is_smaller&gt;::get_pow();
     }
 };
-template &amp;lt;int n, long curr_pow&amp;gt;
-struct Impl_Next_POW2&amp;lt;n, curr_pow, true&amp;gt; {
+template &lt;int n, long curr_pow&gt;
+struct Impl_Next_POW2&lt;n, curr_pow, true&gt; {
     static long get_pow() {
         return curr_pow;
     }
 };
-template &amp;lt;int n&amp;gt;
+template &lt;int n&gt;
 struct Next_POW2 {
     static long get_pow() {
-        return _Next_POW2&amp;lt;n, 1, false&amp;gt;::get_pow();
+        return _Next_POW2&lt;n, 1, false&gt;::get_pow();
     }
 };
 </pre>
@@ -62,6 +62,7 @@ _Next_POW2&lt;17, 32l, false&gt;::get_pow():
 </pre>
 <p>What went wrong? It&rsquo;s very clear for us the whole thing is just a chain of calls which could be replaced by the last one, however that information is now only available if you &ldquo;inspect&rdquo; the body of each function, and this is something the template instanciator (at least in gcc) can&rsquo;t do. Luckily you just need to enable optimizations, -O1 is enough, to have gcc output the reduced version again.</p>
 <p>Keep it in mind for the next time you&rsquo;re optimizing your code with template metaprogramming: some times the template expander needs some help from the optimizer too.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Griwes</a> commented @ 2015-04-22T10:44:15.000+02:00:<a name="inreplytothispostgriwesblog_mdyoufoundadeadlink.mdcommented20150422t104415.0000200"></a></h2>
 <p>So&hellip; you don&rsquo;t like that GCC doesn&rsquo;t optimize when you don&rsquo;t pass optimization flags or what?</p>

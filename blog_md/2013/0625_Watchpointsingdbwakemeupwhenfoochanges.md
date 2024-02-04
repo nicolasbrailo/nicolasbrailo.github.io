@@ -51,10 +51,12 @@ Hardware and software watchpoints
 
 Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing "step" continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.
 
-As usual, [gdb's manual](http://sourceware.org/gdb/current/onlinedocs/gdbint/Algorithms.html#Algorithms) has a lot more info.
+As usual, [gdb's manual](/blog_md/youfoundadeadlink.md) has a lot more info.
 
 PS: Once you find your bug with the aid of a watchpoint, please go and read some books about encapsulation!
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog](/blog_md/2013/1105_Automagicallysetupbreakpointswithgdb.md) commented @ 2013-11-05T08:00:59.000+01:00:

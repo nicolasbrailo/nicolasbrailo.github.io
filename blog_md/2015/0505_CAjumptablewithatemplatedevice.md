@@ -10,13 +10,13 @@ Let's build a simple example, similar to what we used last time: an object that 
 
 ```c++
 void boring(int x, func f) {
-    if (x &lt; 2) {
+    if (x < 2) {
         f(2);
-    } else if (x &lt; 4) {
+    } else if (x < 4) {
         f(4);
-    } else if (x &lt; 8) {
+    } else if (x < 8) {
         f(8);
-    } else if (x &lt; 16) {
+    } else if (x < 16) {
         // You get the idea...
     }
 }
@@ -27,26 +27,26 @@ Can we build a prettier template version of this code, without any overhead? Let
 ```c++
 typedef void (*func)(int);
 
-template &lt;int My_Size&gt;
+template <int My_Size>
 struct Foo {
     void bar(size_t size, func callback) {
-        if (size &gt; My_Size) {
+        if (size > My_Size) {
             callback(My_Size);
         } else {
             next_foo.bar(size, callback);
         }
     }
 
-    Foo&lt;My_Size/2&gt; next_foo;
+    Foo<My_Size/2> next_foo;
 };
 
 // Stop condition
-template&lt;&gt; struct Foo&lt;0&gt; {
+template<> struct Foo<0> {
     void bar(size_t, func) { }
 };
 
 void wrapper(int x, func f) {
-    Foo&lt;512&gt; jump_table;
+    Foo<512> jump_table;
     jump_table.bar(x, f);
 }
 ```
@@ -55,31 +55,31 @@ And now, let's compile like as "g++ -fverbose-asm -S -O0 -c foo.cpp -o /dev/stdo
 
 ```c++
 wrapper(int, void (*)(int)):
-    call    Foo&lt;512&gt;::bar(unsigned long, void (*)(int))
+    call    Foo<512>::bar(unsigned long, void (*)(int))
 
-Foo&lt;512&gt;::bar(unsigned long, void (*)(int)):
+Foo<512>::bar(unsigned long, void (*)(int)):
     cmpq    $512, %rsi    #, size
     jbe    .L4
     call    *%rdx    # callback
     jmp    .L3
 .L4:
-    call    Foo&lt;256&gt;::bar(unsigned long, void (*)(int))    #
+    call    Foo<256>::bar(unsigned long, void (*)(int))    #
 .L3:
     leave
 
-Foo&lt;256&gt;::bar(unsigned long, void (*)(int)):
+Foo<256>::bar(unsigned long, void (*)(int)):
     cmpq    $256, %rsi    #, size
     jbe    .L4
     call    *%rdx    # callback
     jmp    .L3
 .L4:
-    call    Foo&lt;128&gt;::bar(unsigned long, void (*)(int))    #
+    call    Foo<128>::bar(unsigned long, void (*)(int))    #
 .L3:
     leave
 
 # You get the idea, right?
 
-Foo&lt;0&gt;::bar(unsigned long, void (*)(int)):
+Foo<0>::bar(unsigned long, void (*)(int)):
     # Stop condition, do nothing
 
 ```
@@ -152,10 +152,13 @@ wrapper(int, void (*)(int)):
 Now, that looks much better. And we can now see that gcc generates the same code at -O2 for both versions of our code.
 
 (\*) Just for the sake of completion:
+
 * Pure compile time data is information directly available during compilation time, like a constant.
 * Deducible compile time data means something that can easily be deduced, like a function call to a non virtual method.
 * Run-time only data means something that a compiler could never deduce, like a volatile variable or the parameter of a function called from outside the current translation unit.
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [ploxiln](/blog_md/youfoundadeadlink.md) commented @ 2015-05-06T05:33:48.000+02:00:

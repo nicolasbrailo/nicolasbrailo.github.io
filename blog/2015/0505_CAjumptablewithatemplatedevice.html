@@ -2,62 +2,62 @@
 <p>A <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">few articles ago</a> we saw how gcc might need some help when mixing template instanciation (pure compile time data) with function calls (deducible compile time information, but not available to the template expander). Now we&rsquo;ll go one step further and combine all three types: pure compile time data, deducible compile time data and pure run time data (*). Just to annoy the compiler, and to see how gcc is able to optimize the results.</p>
 <p>Let&rsquo;s build a simple example, similar to what we used last time: an object that will determine the range of an integer and then invoke a callback with the closest range. Something like this could be used, for example, to allocate a buffer.</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void boring(int x, func f) {
-    if (x &amp;lt; 2) {
+    if (x &lt; 2) {
         f(2);
-    } else if (x &amp;lt; 4) {
+    } else if (x &lt; 4) {
         f(4);
-    } else if (x &amp;lt; 8) {
+    } else if (x &lt; 8) {
         f(8);
-    } else if (x &amp;lt; 16) {
+    } else if (x &lt; 16) {
         // You get the idea&hellip;
     }
 }
 </pre>
 <p>Can we build a prettier template version of this code, without any overhead? Let&rsquo;s try:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">typedef void (*func)(int);
-template &amp;lt;int My_Size&amp;gt;
+template &lt;int My_Size&gt;
 struct Foo {
     void bar(size_t size, func callback) {
-        if (size &amp;gt; My_Size) {
+        if (size &gt; My_Size) {
             callback(My_Size);
         } else {
             next_foo.bar(size, callback);
         }
     }
-    Foo&amp;lt;My_Size/2&amp;gt; next_foo;
+    Foo&lt;My_Size/2&gt; next_foo;
 };
 // Stop condition
-template&amp;lt;&amp;gt; struct Foo&amp;lt;0&amp;gt; {
+template&lt;&gt; struct Foo&lt;0&gt; {
     void bar(size_t, func) { }
 };
 void wrapper(int x, func f) {
-    Foo&amp;lt;512&amp;gt; jump_table;
+    Foo&lt;512&gt; jump_table;
     jump_table.bar(x, f);
 }
 </pre>
 <p>And now, let&rsquo;s compile like as &ldquo;g++ -fverbose-asm -S -O0 -c foo.cpp -o /dev/stdout | c++filt&rdquo;. You&rsquo;ll see something like this:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">wrapper(int, void (<em>)(int)):
-    call    Foo&amp;lt;512&amp;gt;::bar(unsigned long, void (</em>)(int))
-Foo&amp;lt;512&amp;gt;::bar(unsigned long, void (<em>)(int)):
+    call    Foo&lt;512&gt;::bar(unsigned long, void (</em>)(int))
+Foo&lt;512&gt;::bar(unsigned long, void (<em>)(int)):
     cmpq    $512, %rsi    #, size
     jbe    .L4
     call    </em>%rdx    # callback
     jmp    .L3
 .L4:
-    call    Foo&amp;lt;256&amp;gt;::bar(unsigned long, void (<em>)(int))    #
+    call    Foo&lt;256&gt;::bar(unsigned long, void (<em>)(int))    #
 .L3:
     leave
-Foo&amp;lt;256&amp;gt;::bar(unsigned long, void (</em>)(int)):
+Foo&lt;256&gt;::bar(unsigned long, void (</em>)(int)):
     cmpq    $256, %rsi    #, size
     jbe    .L4
     call    <em>%rdx    # callback
     jmp    .L3
 .L4:
-    call    Foo&amp;lt;128&amp;gt;::bar(unsigned long, void (</em>)(int))    #
+    call    Foo&lt;128&gt;::bar(unsigned long, void (</em>)(int))    #
 .L3:
     leave
 # You get the idea, right?
-Foo&amp;lt;0&amp;gt;::bar(unsigned long, void (*)(int)):
+Foo&lt;0&gt;::bar(unsigned long, void (*)(int)):
     # Stop condition, do nothing
 </pre>
 <p>That doesn&rsquo;t look too good, does it? We don&rsquo;t need to worry: we already learned that gcc needs help from the optimizer to handle template expansion and non static function calls. Let&rsquo;s move to O1:</p>
@@ -112,10 +112,13 @@ wrapper(int, void (<em>)(int)):
     .p2align 3
 </pre>
 <p>Now, that looks much better. And we can now see that gcc generates the same code at -O2 for both versions of our code.</p>
-<p>(*) Just for the sake of completion:
-* Pure compile time data is information directly available during compilation time, like a constant.
-* Deducible compile time data means something that can easily be deduced, like a function call to a non virtual method.
-* Run-time only data means something that a compiler could never deduce, like a volatile variable or the parameter of a function called from outside the current translation unit.</p>
+<p>(*) Just for the sake of completion:</p>
+<ul>
+<li>Pure compile time data is information directly available during compilation time, like a constant.</li>
+<li>Deducible compile time data means something that can easily be deduced, like a function call to a non virtual method.</li>
+<li>Run-time only data means something that a compiler could never deduce, like a volatile variable or the parameter of a function called from outside the current translation unit.</li>
+</ul>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">ploxiln</a> commented @ 2015-05-06T05:33:48.000+02:00:<a name="inreplytothispostploxilnblog_mdyoufoundadeadlink.mdcommented20150506t053348.0000200"></a></h2>
 <p>Maybe I&rsquo;m being dumb, but I don&rsquo;t think</p>

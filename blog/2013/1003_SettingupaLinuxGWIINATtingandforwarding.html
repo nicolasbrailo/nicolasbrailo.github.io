@@ -1,7 +1,7 @@
 <h1>Setting up a Linux GW II: NATting and forwarding<a name="settingupalinuxgwiinattingandforwarding"></a></h1>
 <p>For our Linux GW, services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let&rsquo;s set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
 <p>We&rsquo;ll do this by setting up NAT with iptables. We&rsquo;ll also have to configure the OS to forward connections from one network card to the other:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">echo 1 &amp;gt; /proc/sys/net/ipv4/ip_forward
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 iptables &ndash;table nat &ndash;append POSTROUTING &ndash;out-interface eth0 -j MASQUERADE
 # Add a line like this for each eth* LAN
 iptables &ndash;append FORWARD &ndash;in-interface eth1 -j ACCEPT

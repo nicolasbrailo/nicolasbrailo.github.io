@@ -9,18 +9,21 @@
 <h1>Android studio and ndk-gdb to debug a native app<a name="androidstudioandndkgdbtodebuganativeapp"></a></h1>
 <p>By Nico Brailovsky @ 2015-06-25</p>
 <p>I don&rsquo;t know how good Android Studio support for native apps is nowadays (it changes from week to week!). Up to a few months ago, Gradle, the build system used by AS, had poor support for native development. If you&rsquo;re having problems, you may find it easier to workaround it completely when it comes to build and debug C/C++ applications.</p>
-<p>To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here&rsquo;s a workaround I found:
-1. Build your stuff the way you normally would (I&rsquo;m assuming you know already how to build a native app, and if you don&rsquo;t there are guides online that explain it much better than I could).
-2. Deploy your application the way you normally would.
-3. Discover ndk-gdb won&rsquo;t run. Bang forehead against keyboard a few times.
-4. After losing some hours looking at logs, figure out there&rsquo;s no gdbserver included in your apk.
-5. Lose some more hours trying to figure out how to include it in your apk using Gradle.
-6. Give up. Bang forehead against keyboard some more.
-7. find the gdbserver and gdb.setup in your build directory.
-8. adb push each of these files to the device.
-9. Using adb shell, move the files you copied to /data/app-lib/com.yourapp/ - you may need to root your device for this.
-10. Profit! ndk-gdb now works.</p>
+<p>To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here&rsquo;s a workaround I found:</p>
+<ol>
+<li>Build your stuff the way you normally would (I&rsquo;m assuming you know already how to build a native app, and if you don&rsquo;t there are guides online that explain it much better than I could).</li>
+<li>Deploy your application the way you normally would.</li>
+<li>Discover ndk-gdb won&rsquo;t run. Bang forehead against keyboard a few times.</li>
+<li>After losing some hours looking at logs, figure out there&rsquo;s no gdbserver included in your apk.</li>
+<li>Lose some more hours trying to figure out how to include it in your apk using Gradle.</li>
+<li>Give up. Bang forehead against keyboard some more.</li>
+<li>find the gdbserver and gdb.setup in your build directory.</li>
+<li>adb push each of these files to the device.</li>
+<li>Using adb shell, move the files you copied to /data/app-lib/com.yourapp/ - you may need to root your device for this.</li>
+<li>Profit! ndk-gdb now works.</li>
+</ol>
 <p>Edit: remember you may need to <a href="/blog/2015/0616_ndkgdblifetipuseverbose.html">chmod +777 your gdbserver</a>.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">gaps</a> commented @ 2015-10-09T12:15:01.000+02:00:<a name="inreplytothispostgapscommented20151009t121501.0000200"></a></h2>
 <p>you just need to add &ldquo;jniDebuggable true&rdquo; to your debug buildType.
@@ -48,14 +51,16 @@ It&rsquo;s easy, instead of writing a rule as</p>
 <h1>Vim tip: reload your vimrc<a name="vimtipreloadyourvimrc"></a></h1>
 <p>By Nico Brailovsky @ 2015-06-18</p>
 <p>If you&rsquo;re changing your vimrc, it can get boring to close and restart it only to see the changes applied. Want something quicker? You can &ldquo;:so %&rdquo;. So stands for source, so you&rsquo;ll just be telling vim &ldquo;include this file&rdquo;. % happens to be the path to the current file. If you&rsquo;re not editing your .vimrc but for some reason you still want to reload it, just use &ldquo;so ~/.vimrc&rdquo; instead.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2015-06-21T14:30:22.000+02:00:<a name="inreplytothispostanonymouscommented20150621t143022.0000200"></a></h2>
-<p>augroup MyAutoCmd
- &rdquo; Clear autocmds for this group
- autocmd!</p>
-<p>&rdquo; Automatically load vimrc when it is saved
-autocmd bufwritepost $MYVIMRC source $MYVIMRC</p>
-<p>augroup end</p>
+<pre style="display: inline-block; border: 1px solid red;">augroup MyAutoCmd
+ &quot; Clear autocmds for this group
+ autocmd!
+&quot; Automatically load vimrc when it is saved
+autocmd bufwritepost $MYVIMRC source $MYVIMRC
+augroup end
+</pre>
 <p>Original <a href="/blog/2015/0618_Vimtipreloadyourvimrc.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2015-06-22T09:49:37.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20150622t094937.0000200"></a></h2>
@@ -91,6 +96,7 @@ Pulled app_process from device/emulator.
 <p>By Nico Brailovsky @ 2015-06-04</p>
 <p>In C++, is there a difference between cerr and cout, other than using a different file descriptor? Turns out you can learn something new every day.</p>
 <p>Whenever I just want to add a quick print statement because I&rsquo;m too lazy to debug something, I used to use cout. All along I thought cout and cerr would be exactly the same for my use case, but turns out there&rsquo;s a slight difference: cout is buffered, cerr is not. This very small difference can have a huge impact, because you shouldn&rsquo;t need to flush cerr after a write to make sure the changes are visible, it should happen automagicaly. In turn cerr might be slightly slower, but you probably don&rsquo;t care about that when writing cerr &lt;&lt; &ldquo;I&rsquo;m here!&rdquo;.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="https://plus.google.com/+MonahTuk">Monah Tuk</a> commented @ 2016-03-15T04:26:19.000+01:00:<a name="inreplytothispostmonahtukhttpsplus.google.commonahtukcommented20160315t042619.0000100"></a></h2>
 <p>Hi Nicolas!</p>
@@ -111,10 +117,11 @@ in. For example, let&rsquo;s say you have a mapping to open a new tab:</p>
 <pre style="display: inline-block; border: 1px solid red;">nmap &lt;leader&gt;t :tabnew&lt;cr&gt;
 vmap &lt;leader&gt;t :call Foo()&lt;cr&gt;
 </pre>
-<p>nmap stands for normal (mode) map, vmap for visual. How to get the text under the cursor is a bit more complex and out of scope for this vim tip, but you might want to check http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_%28Part_1%29.</p>
+<p>nmap stands for normal (mode) map, vmap for visual. How to get the text under the cursor is a bit more complex and out of scope for this vim tip, but <a href="http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_%28Part_1%29">you might want to check this link</a>.</p>
 <p>Remember to check &ldquo;:help map&rdquo; for a list of all mode mappings.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.html">Simple vim plugin III: a polymorphic project greper | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2016-11-30T08:02:07.000+01:00:<a name="inreplytothispostsimplevimpluginiiiapolymorphicprojectgreperaninfinitemonkeynicolasbrailovsky39sblogblog_md20161130_simplevimpluginiiiapolymorphicprojectgreper.mdcommented20161130t080207.0000100"></a></h2>
-<p>[&hellip;] grep to vim. We can improve it a little bit with very simple changes. Using this tip to have different key binding for different modes&nbsp;we can do something a bit smarter . Let’s create two functions, one for normal mode that [&hellip;]</p>
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.html">Simple vim plugin III: a polymorphic project greper | An infinite monkey - Nicolas Brailovsky&rsquo;s blog</a> commented @ 2016-11-30T08:02:07.000+01:00:<a name="inreplytothispostsimplevimpluginiiiapolymorphicprojectgreperaninfinitemonkeynicolasbrailovskysblogblog_md20161130_simplevimpluginiiiapolymorphicprojectgreper.mdcommented20161130t080207.0000100"></a></h2>
+<p>[&hellip;] grep to vim. We can improve it a little bit with very simple changes. Using this tip to have different key binding for different modes we can do something a bit smarter. Let&rsquo;s create two functions, one for normal mode that [&hellip;]</p>
 <p>Original <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">published here</a>.</p>
 <hr />

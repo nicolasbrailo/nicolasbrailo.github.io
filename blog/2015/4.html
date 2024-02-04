@@ -21,52 +21,52 @@
 <p>By Nico Brailovsky @ 2015-04-28</p>
 <p>gdb defaults are usually quite sensible and just &ldquo;let you work&rdquo;. Some times, though, your project is not very sensible and you have to do weird things in gdb. An example: printing huge strings or vectors to try and reproduce a heisenbug. A lot of people get surprised at first because gdb will refuse to print very long strings, printing only the first few chars. Same for vectors. And if you have many repeating elements (eg &ldquo;f000000000000000000000000000000bar&rdquo;) you might see something like &ldquo;fooo0bar&rdquo;.
 Just type these magic commands to see the whole string:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; set print repeats 0
-&amp;gt; set print elements 0
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; set print repeats 0
+&gt; set print elements 0
 </pre>
 <hr />
 <h1>gcc: Optimization levels and templates<a name="gccoptimizationlevelsandtemplates"></a></h1>
 <p>By Nico Brailovsky @ 2015-04-21</p>
 <p>Analyzing the assembly output for template devices can be a bit discouragging at times, specially when we spend hours trying to tune a mean looking template class only to find out the compiler is not able to reduce it&rsquo;s value like we expected. But hold on, before throwing all your templates away you might want to figure out why they are not optimized.</p>
 <p>Let&rsquo;s start with a simple example: a template device to return the next power of 2:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int n, long curr_pow, bool stop&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int n, long curr_pow, bool stop&gt;
 struct Impl_Next_POW2 {
-    static const bool is_smaller = n &amp;lt; curr_pow;
-    static const long next_pow = _Next_POW2&amp;lt;n, curr_pow*2, is_smaller&amp;gt;::pow;
+    static const bool is_smaller = n &lt; curr_pow;
+    static const long next_pow = _Next_POW2&lt;n, curr_pow*2, is_smaller&gt;::pow;
     static const long pow = is_smaller? curr_pow : next_pow;
 };
-template &amp;lt;int n, long curr_pow&amp;gt;
-struct Impl_Next_POW2&amp;lt;n, curr_pow, true&amp;gt; {
+template &lt;int n, long curr_pow&gt;
+struct Impl_Next_POW2&lt;n, curr_pow, true&gt; {
     // This specializtion is important to stop the expansion
     static const long pow = curr_pow;
 };
-template &amp;lt;int n&amp;gt;
+template &lt;int n&gt;
 struct Next_POW2 {
     // Just a wrapper for _Next_POW2, to hide away some
     // implementation details
-    static const long pow = _Next_POW2&amp;lt;n, 1, false&amp;gt;::pow;
+    static const long pow = _Next_POW2&lt;n, 1, false&gt;::pow;
 };
 </pre>
 <p>Gcc can easily optimize that away, if you compile with &ldquo;g++ foo.cpp -c -S -o /dev/stdout&rdquo; you&rsquo;ll just see the whole thing is replaced by a compile time constant. Let&rsquo;s make gcc&rsquo;s life a bit more complicated now:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;int n, long curr_pow, bool stop&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;int n, long curr_pow, bool stop&gt;
 struct Impl_Next_POW2 {
     static long get_pow() {
-        static const bool is_smaller = n &amp;lt; curr_pow;
+        static const bool is_smaller = n &lt; curr_pow;
         return is_smaller?
                     curr_pow :
-                    _Next_POW2&amp;lt;n, curr_pow*2, is_smaller&amp;gt;::get_pow();
+                    _Next_POW2&lt;n, curr_pow*2, is_smaller&gt;::get_pow();
     }
 };
-template &amp;lt;int n, long curr_pow&amp;gt;
-struct Impl_Next_POW2&amp;lt;n, curr_pow, true&amp;gt; {
+template &lt;int n, long curr_pow&gt;
+struct Impl_Next_POW2&lt;n, curr_pow, true&gt; {
     static long get_pow() {
         return curr_pow;
     }
 };
-template &amp;lt;int n&amp;gt;
+template &lt;int n&gt;
 struct Next_POW2 {
     static long get_pow() {
-        return _Next_POW2&amp;lt;n, 1, false&amp;gt;::get_pow();
+        return _Next_POW2&lt;n, 1, false&gt;::get_pow();
     }
 };
 </pre>
@@ -90,6 +90,7 @@ _Next_POW2&lt;17, 32l, false&gt;::get_pow():
 </pre>
 <p>What went wrong? It&rsquo;s very clear for us the whole thing is just a chain of calls which could be replaced by the last one, however that information is now only available if you &ldquo;inspect&rdquo; the body of each function, and this is something the template instanciator (at least in gcc) can&rsquo;t do. Luckily you just need to enable optimizations, -O1 is enough, to have gcc output the reduced version again.</p>
 <p>Keep it in mind for the next time you&rsquo;re optimizing your code with template metaprogramming: some times the template expander needs some help from the optimizer too.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Griwes</a> commented @ 2015-04-22T10:44:15.000+02:00:<a name="inreplytothispostgriwesblog_mdyoufoundadeadlink.mdcommented20150422t104415.0000200"></a></h2>
 <p>So&hellip; you don&rsquo;t like that GCC doesn&rsquo;t optimize when you don&rsquo;t pass optimization flags or what?</p>
@@ -120,30 +121,32 @@ _Next_POW2&lt;17, 32l, false&gt;::get_pow():
 <p>By Nico Brailovsky @ 2015-04-16</p>
 <p>Everywhere, but specially in bash, cleaning up is annoying and error prone. Resource leaks can be common if your bash script is interrupted half-way. Do you need to execute something always, even if your script fails or gets killed? Try using traps:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
-foobar() {&lt;br/&gt;    echo &quot;See ya!&quot;&lt;br/&gt;}
+foobar() {
+    echo &quot;See ya!&quot;
+}
 trap &quot;foobar&quot; EXIT
 </pre>
-<p>It doesn&rsquo;t mater how you end this script, &ldquo;foobar&rdquo; will always be executed. Want to read more about bash traps? Check <a href="http://linuxcommand.org/wss0160.php">http://linuxcommand.org/wss0160.php</a></p>
+<p>It doesn&rsquo;t mater how you end this script, &ldquo;foobar&rdquo; will always be executed. Want to read more about bash traps? Check <a href="/blog/youfoundadeadlink.html">here.</a></p>
 <hr />
 <h1>C++: Invalidating references to elements in a vector<a name="cinvalidatingreferencestoelementsinavector"></a></h1>
 <p>By Nico Brailovsky @ 2015-04-14</p>
 <p>Is this valid C++?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void do_something(const int&amp;amp;);
-#include &amp;lt;vector&amp;gt;
+#include &lt;vector&gt;
 void foo() {
-    std::vector&amp;lt;int&amp;gt; v = {1,2,3,4,5};
-    const int &amp;amp;num = v.at(1);
+    std::vector&lt;int&gt; v = {1,2,3,4,5};
+    const int &amp;num = v.at(1);
     v.push_back(42);
     do_something(num);
 }
 </pre>
 <p>Doesn&rsquo;t seem quite right, does it? push_back will most likely trigger a resize for the vector, and that will invalidate references to elements in the vector. num will end up pointing anywhere and so using it to call do_something is not valid C++. Or is it? What happens if we reserve some space for v?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">void do_something(const int&amp;amp;);
-#include &amp;lt;vector&amp;gt;
+#include &lt;vector&gt;
 void foo() {
-    std::vector&amp;lt;int&amp;gt; v = {1,2,3,4,5};
+    std::vector&lt;int&gt; v = {1,2,3,4,5};
     v.reserve(40);
-    const int &amp;amp;num = v.at(1);
+    const int &amp;num = v.at(1);
     v.push_back(6);
     do_something(num);
 }
@@ -154,6 +157,7 @@ void foo() {
 <h1>Code natural selection<a name="codenaturalselection"></a></h1>
 <p>By Nico Brailovsky @ 2015-04-09</p>
 <p>A funny thought just came to me: if you write nice clean code, it&rsquo;s easy to replace it. Just plug out an object somewhere, replace it with another one implementing the same interface, run the tests. Tada! On the other hand, if you write crappy code it might be nigh impossible to replace it. It will probably be worked around whenever a change is needed, simply adding layers of crust. Maybe that&rsquo;s why legacy code sucks: it&rsquo;s simply code natural selection - and the fittest to survive is simply the crappiest one. I think I&rsquo;m depressed now.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Adar</a> commented @ 2015-04-21T11:17:03.000+02:00:<a name="inreplytothispostadarcommented20150421t111703.0000200"></a></h2>
 <p>You can look at it from the other side: nice code is more likely to be replicated and used in more projects.</p>
@@ -187,6 +191,7 @@ menu Project.Encrypt ggg?G&lt;CR&gt;
 </pre>
 <p>Everything after the TAB will be right-aligned: you can use that space to annotate the key-combo you should use next time.</p>
 <p>As usual, for more info check :help menu</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2016/1124_SimplevimpluginIintegratingnewcommands.html">Simple vim plugin I: integrating new commands | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2016-11-24T08:00:30.000+01:00:<a name="inreplytothispostsimplevimpluginiintegratingnewcommandsaninfinitemonkeynicolasbrailovsky39sblogblog_md20161124_simplevimpluginiintegratingnewcommands.mdcommented20161124t080030.0000100"></a></h2>
 <p>[&hellip;] tip: add these too if you want to have a GUI menu for your new commands as [&hellip;]</p>

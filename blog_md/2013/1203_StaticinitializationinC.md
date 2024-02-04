@@ -44,7 +44,7 @@ Note: the throw()'s are in there only to tell the compiler we don't want any kin
     .comm    guard variable for foo()::x,8,8
     .text
 
-# Skipping the actual foo definition, we&#x27;ll see that later
+# Skipping the actual foo definition, we'll see that later
 
 .LFE0:
     .size    foo(), .-foo()
@@ -96,6 +96,8 @@ Eventually, \_\_cxa\_guard\_acquire will check if this object was already initia
 
 There's another bit of information in here which is not immediately obvious: in case X's constructor fails (ie an exception is thrown within this method), x\_is\_initialized won't be set to true. Assuming the exception is caught somewhere else, if foo() is called again the initialization for foo()::x will be attempted to run once again.
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [jeff hill](http://www.aps.anl.gov/epics/) commented @ 2014-02-11T20:21:47.000+01:00:

@@ -7,7 +7,7 @@
 Do you know the quickest way to create a constructor that initializes the elements in this struct?
 
 ```c++
-#include &lt;string&gt;
+#include <string>
 struct MyStruct {
     int x;
     std::string y;
@@ -80,12 +80,12 @@ In this case, x will be of length 3 because that's the length of its aggregate i
 I'm sure anyone trying to get up to date with C++11 will have played around with variadic templates. One of the first exercises I'd recommend for this would be a compile-time list of different types. Knowing about aggregate initializations now, how would you write a constructor for this type?
 
 ```c++
-template &lt;typename H, typename... T&gt;
-struct Multilist&lt;H, T...&gt; {
+template <typename H, typename... T>
+struct Multilist<H, T...> {
     H x;
-    Multilist&lt;T...&gt; next;
+    Multilist<T...> next;
 };
 
-Multilist&lt;int, string, float&gt; foo{42, "XXX", 1.23};
+Multilist<int, string, float> foo{42, "XXX", 1.23};
 ```
 

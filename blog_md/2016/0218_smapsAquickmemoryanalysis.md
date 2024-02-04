@@ -8,8 +8,8 @@ Many times you see your process' memory consumption skyrocketing even though you
 
 There's a quick tip in Linux that can help you track down a lib gone haywire:
 
-```c++
-cat /proc/&lt;pid&gt;/smaps
+```bash
+cat /proc/<pid>/smaps
 ```
 
 smaps will report every mapped section of memory for a certain process, how big the memory allocation is and which binary created the allocation.

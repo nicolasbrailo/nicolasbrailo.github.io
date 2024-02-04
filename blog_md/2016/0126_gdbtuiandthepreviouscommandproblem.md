@@ -11,6 +11,8 @@ In the gdb-TUI mode, the arrow keys are used by the active window for scrolling.
 Bonus tip: if pressing "up" (or C-p) in gdb doesn't bring back the previous command, it probably means you don't have the readline package installed. Go ahead an install it. It'll change your life.
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [UncleNinja](/blog_md/youfoundadeadlink.md) commented @ 2017-12-03T17:39:34.000+01:00:
 

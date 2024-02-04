@@ -7,11 +7,14 @@
 Please don't do this. But if you do: leave a comment here!
 
 ```c++
-<br/>#define private public;<br/>#include "something";<br/>#define private private;<br/>
+#define private public
+#include "something"
+#define private private
 ```
 
 Found in some random project.
 
+# Comments
 
 ---
 ## In reply to [this post](), [Tanzinul Islam]() commented @ 2016-11-28T06:53:49.000+01:00:

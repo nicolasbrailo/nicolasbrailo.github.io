@@ -8,8 +8,8 @@ Take a look at this code: what does it do?
 
 ```c++
 struct X {
-    X() { cout &lt;&lt; "X"; }
-    ~X() { cout &lt;&lt; "~X"; }
+    X() { cout << "X"; }
+    ~X() { cout << "~X"; }
 };
 
 void foo() {
@@ -28,7 +28,7 @@ struct X {
 };
 
 int foo() {
-    const X &amp;ref = X(42);
+    const X &ref = X(42);
     return ref.y;
 }
 ```

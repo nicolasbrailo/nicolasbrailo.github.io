@@ -23,7 +23,7 @@ sudo apt-get install bind9
 This will get your DNS server up and running, but you will still need to add this server manually to your client (again, because there's no DHCP running):
 
 ```c++
-sudo echo "nameserver 192.168.10.1" &gt; /etc/resolv.conf
+sudo echo "nameserver 192.168.10.1" > /etc/resolv.conf
 ```
 
 And now:

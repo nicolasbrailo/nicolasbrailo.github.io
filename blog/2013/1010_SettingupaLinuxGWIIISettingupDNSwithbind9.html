@@ -8,7 +8,7 @@
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install bind9
 </pre>
 <p>This will get your DNS server up and running, but you will still need to add this server manually to your client (again, because there&rsquo;s no DHCP running):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo echo &quot;nameserver 192.168.10.1&quot; &amp;gt; /etc/resolv.conf
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo echo &quot;nameserver 192.168.10.1&quot; &gt; /etc/resolv.conf
 </pre>
 <p>And now:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ping google.com

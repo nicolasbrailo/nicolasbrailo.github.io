@@ -91,22 +91,22 @@ ifconfig
 <h1>A C++ template device to obtain an underlying type<a name="actemplatedevicetoobtainanunderlyingtype"></a></h1>
 <p>By Nico Brailovsky @ 2013-10-15</p>
 <p>What happens when you need to get the underlying data type of a pointer or reference? You can write some crazy metaprogram to do it for you. Like this:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename T&amp;gt; struct get_real_type      { typedef T type; };
-template &amp;lt;typename T&amp;gt; struct get_real_type&amp;lt;T<em>&amp;gt;  { typedef T type; };
-template &amp;lt;typename T&amp;gt; struct get_real_type&amp;lt;T&amp;amp;&amp;gt;  { typedef T type; };
-template &amp;lt;class T&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename T&gt; struct get_real_type      { typedef T type; };
+template &lt;typename T&gt; struct get_real_type&lt;T<em>&gt;  { typedef T type; };
+template &lt;typename T&gt; struct get_real_type&lt;T&amp;amp;&gt;  { typedef T type; };
+template &lt;class T&gt;
 int foo() {
-    return get_real_type&amp;lt;T&amp;gt;::type::N;
+    return get_real_type&lt;T&gt;::type::N;
 }
 struct Bar {
     static const int N=24;
 };
-#include &amp;lt;iostream&amp;gt;
+#include &lt;iostream&gt;
 using namespace std;
 int main() {
-    cout &amp;lt;&amp;lt; foo&amp;lt;Bar</em>&amp;gt;() &amp;lt;&amp;lt; endl;
-    cout &amp;lt;&amp;lt; foo&amp;lt;Bar&amp;amp;&amp;gt;() &amp;lt;&amp;lt; endl;
-    cout &amp;lt;&amp;lt; foo&amp;lt;Bar&amp;gt;() &amp;lt;&amp;lt; endl;
+    cout &lt;&lt; foo&lt;Bar</em>&gt;() &lt;&lt; endl;
+    cout &lt;&lt; foo&lt;Bar&amp;amp;&gt;() &lt;&lt; endl;
+    cout &lt;&lt; foo&lt;Bar&gt;() &lt;&lt; endl;
 }
 </pre>
 <p>Incidentally, this is also the basis for the implementation of std::remove_reference. Actually you&rsquo;d be better of using std::remove_reference, for your own sanity.</p>
@@ -122,7 +122,7 @@ int main() {
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo apt-get install bind9
 </pre>
 <p>This will get your DNS server up and running, but you will still need to add this server manually to your client (again, because there&rsquo;s no DHCP running):</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo echo &quot;nameserver 192.168.10.1&quot; &amp;gt; /etc/resolv.conf
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">sudo echo &quot;nameserver 192.168.10.1&quot; &gt; /etc/resolv.conf
 </pre>
 <p>And now:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">ping google.com
@@ -205,7 +205,7 @@ router           IN      A       192.168.0.1
 <p>By Nico Brailovsky @ 2013-10-03</p>
 <p>For our Linux GW, services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let&rsquo;s set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
 <p>We&rsquo;ll do this by setting up NAT with iptables. We&rsquo;ll also have to configure the OS to forward connections from one network card to the other:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">echo 1 &amp;gt; /proc/sys/net/ipv4/ip_forward
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 iptables &ndash;table nat &ndash;append POSTROUTING &ndash;out-interface eth0 -j MASQUERADE
 # Add a line like this for each eth* LAN
 iptables &ndash;append FORWARD &ndash;in-interface eth1 -j ACCEPT

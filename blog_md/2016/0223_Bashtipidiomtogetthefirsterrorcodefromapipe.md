@@ -6,7 +6,7 @@
 
 When writing a bash script, often times you'll end up with something like this:
 
-```c++
+```bash
 real_command | filter_stuff | prettify | do_something_else
 ```
 
@@ -14,15 +14,16 @@ The problem arises when you try to figure out if your command succeeded or not. 
 
 I haven't found a solution I really like to this problem, but this idiom is handy:
 
-```c++
-out=`real_command` &amp;&amp; echo $out | filter_stuff | prettify | do_something_else
+```bash
+out=`real_command` && echo $out | filter_stuff | prettify | do_something_else
 echo $?
 ```
 
 Now $? will hold the value of real\_command, and you can actually use it to diagnose the real problem.
 
 
----
+# Comments
+
 ## In reply to [this post](), [denisss025]() commented @ 2016-03-15T06:00:04.000+01:00:
 
 Have you tried set -o pipefail? Here is the description.

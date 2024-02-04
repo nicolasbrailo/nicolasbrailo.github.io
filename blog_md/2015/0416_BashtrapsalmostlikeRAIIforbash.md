@@ -8,9 +8,11 @@ Everywhere, but specially in bash, cleaning up is annoying and error prone. Reso
 
 ```c++
 #!/bin/bash
-foobar() {<br/>    echo "See ya!"<br/>}
+foobar() {
+    echo "See ya!"
+}
 trap "foobar" EXIT
 ```
 
-It doesn't mater how you end this script, "foobar" will always be executed. Want to read more about bash traps? Check <http://linuxcommand.org/wss0160.php>
+It doesn't mater how you end this script, "foobar" will always be executed. Want to read more about bash traps? Check [here.](/blog_md/youfoundadeadlink.md)
 

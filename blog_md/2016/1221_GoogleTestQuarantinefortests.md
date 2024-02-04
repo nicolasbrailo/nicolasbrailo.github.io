@@ -28,27 +28,27 @@ Is there any advantage in this approach over the usual \_DISABLE strategy? In my
 How does it work? The first caveat in my article mentions it: hackishly. There are a few facilities missing in GTest to make this implementation production-ready but, ugly as it looks, it should work as intended:
 
 ```c++
-#include &lt;ctime&gt;
-#include &lt;string&gt;
-#include &lt;sstream&gt;
+#include <ctime>
+#include <string>
+#include <sstream>
 std::string now() {
     time_t t = time(0);
     struct tm *now = localtime(&amp;t);
 
     std::stringstream formatted_date;
-    formatted_date &lt;&lt; (now-&gt;tm_year+1900) &lt;&lt; &#x27;/&#x27;
-                   &lt;&lt; (now-&gt;tm_mon+1) &lt;&lt; &#x27;/&#x27;
-                   &lt;&lt; now-&gt;tm_mday;
+    formatted_date << (now->tm_year+1900) << "/"
+                   << (now->tm_mon+1) << "/"
+                   << now->tm_mday;
 
     return formatted_date.str();
 }
 
 #define QUARANTINE_UNTIL(date_limit)                                     \
-        if (now() &lt; date_limit) {                                        \
-            GTEST_LOG_(WARNING) &lt;&lt; "Test under quarantine!";             \
+        if (now() < date_limit) {                                        \
+            GTEST_LOG_(WARNING) << "Test under quarantine!";             \
             return;                                                      \
         } else {                                                         \
-            GTEST_LOG_(WARNING) &lt;&lt; "Quarantine expired on " date_limit;  \
+            GTEST_LOG_(WARNING) << "Quarantine expired on " date_limit;  \
         }
 
 ```

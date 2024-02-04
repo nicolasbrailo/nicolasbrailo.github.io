@@ -7,6 +7,7 @@
 I don't know how good Android Studio support for native apps is nowadays (it changes from week to week!). Up to a few months ago, Gradle, the build system used by AS, had poor support for native development. If you're having problems, you may find it easier to workaround it completely when it comes to build and debug C/C++ applications.
 
 To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here's a workaround I found:
+
 1. Build your stuff the way you normally would (I'm assuming you know already how to build a native app, and if you don't there are guides online that explain it much better than I could).
 2. Deploy your application the way you normally would.
 3. Discover ndk-gdb won't run. Bang forehead against keyboard a few times.
@@ -20,6 +21,8 @@ To debug a native Android application, a binary called gdbserver and its associa
 
 Edit: remember you may need to [chmod +777 your gdbserver](/blog_md/2015/0616_ndkgdblifetipuseverbose.md).
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [gaps]() commented @ 2015-10-09T12:15:01.000+02:00:

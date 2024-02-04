@@ -9,51 +9,51 @@ Analyzing the assembly output for template devices can be a bit discouragging at
 Let's start with a simple example: a template device to return the next power of 2:
 
 ```c++
-template &lt;int n, long curr_pow, bool stop&gt;
+template <int n, long curr_pow, bool stop>
 struct Impl_Next_POW2 {
-    static const bool is_smaller = n &lt; curr_pow;
-    static const long next_pow = _Next_POW2&lt;n, curr_pow*2, is_smaller&gt;::pow;
+    static const bool is_smaller = n < curr_pow;
+    static const long next_pow = _Next_POW2<n, curr_pow*2, is_smaller>::pow;
     static const long pow = is_smaller? curr_pow : next_pow;
 };
 
-template &lt;int n, long curr_pow&gt;
-struct Impl_Next_POW2&lt;n, curr_pow, true&gt; {
+template <int n, long curr_pow>
+struct Impl_Next_POW2<n, curr_pow, true> {
     // This specializtion is important to stop the expansion
     static const long pow = curr_pow;
 };
 
-template &lt;int n&gt;
+template <int n>
 struct Next_POW2 {
     // Just a wrapper for _Next_POW2, to hide away some
     // implementation details
-    static const long pow = _Next_POW2&lt;n, 1, false&gt;::pow;
+    static const long pow = _Next_POW2<n, 1, false>::pow;
 };
 ```
 
 Gcc can easily optimize that away, if you compile with "g++ foo.cpp -c -S -o /dev/stdout" you'll just see the whole thing is replaced by a compile time constant. Let's make gcc's life a bit more complicated now:
 
 ```c++
-template &lt;int n, long curr_pow, bool stop&gt;
+template <int n, long curr_pow, bool stop>
 struct Impl_Next_POW2 {
     static long get_pow() {
-        static const bool is_smaller = n &lt; curr_pow;
+        static const bool is_smaller = n < curr_pow;
         return is_smaller?
                     curr_pow :
-                    _Next_POW2&lt;n, curr_pow*2, is_smaller&gt;::get_pow();
+                    _Next_POW2<n, curr_pow*2, is_smaller>::get_pow();
     }
 };
 
-template &lt;int n, long curr_pow&gt;
-struct Impl_Next_POW2&lt;n, curr_pow, true&gt; {
+template <int n, long curr_pow>
+struct Impl_Next_POW2<n, curr_pow, true> {
     static long get_pow() {
         return curr_pow;
     }
 };
 
-template &lt;int n&gt;
+template <int n>
 struct Next_POW2 {
     static long get_pow() {
-        return _Next_POW2&lt;n, 1, false&gt;::get_pow();
+        return _Next_POW2<n, 1, false>::get_pow();
     }
 };
 ```
@@ -91,6 +91,8 @@ What went wrong? It's very clear for us the whole thing is just a chain of calls
 
 Keep it in mind for the next time you're optimizing your code with template metaprogramming: some times the template expander needs some help from the optimizer too.
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [Griwes](/blog_md/youfoundadeadlink.md) commented @ 2015-04-22T10:44:15.000+02:00:

@@ -8,7 +8,7 @@ gdb defaults are usually quite sensible and just "let you work". Some times, tho
 Just type these magic commands to see the whole string:
 
 ```c++
-&gt; set print repeats 0
-&gt; set print elements 0
+> set print repeats 0
+> set print elements 0
 ```
 

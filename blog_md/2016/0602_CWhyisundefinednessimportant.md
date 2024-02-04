@@ -20,9 +20,9 @@ In a way, C and C++ describe a "virtual machine". This is what the standard defi
 Let's see how these constrains and undefined behavior relate to each other with this snippet:
 
 ```c++
-template &lt;typename T&gt;
-bool always_true(T x) {
-return (x &lt; x+1);
+template <typename T>
+    bool always_true(T x) {
+    return (x < x+1);
 }
 ```
 
@@ -39,6 +39,8 @@ The compiler, by analyzing our program, can detect what conditions might trigger
 Undefined behavior is not (only) to make programmer's lives miserable, it actually is needed to create optimizing compilers.
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [anon12]() commented @ 2016-06-02T12:54:44.000+02:00:
 
@@ -51,7 +53,7 @@ Are you kidding me ?
 Original [published here](/blog_md/2016/0602_CWhyisundefinednessimportant.md).
 
 ---
-## In reply to [this post](), [Undefined, implementation defined and unspecified behaviors in C++ – Native Coding](/blog_md/youfoundadeadlink.md) commented @ 2016-06-02T23:47:33.000+02:00:
+## In reply to [this post](), [Undefined, implementation defined and unspecified behaviors in C++ - Native Coding](/blog_md/youfoundadeadlink.md) commented @ 2016-06-02T23:47:33.000+02:00:
 
 […] And another explanation here : /blog_md/2016/06/02/c-why-is-undefinedness-important/ […]
 

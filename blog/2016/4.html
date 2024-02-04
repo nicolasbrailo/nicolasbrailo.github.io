@@ -9,85 +9,53 @@
 <h1>Code and Google translate: awesomeness<a name="codeandgoogletranslateawesomeness"></a></h1>
 <p>By Nico Brailovsky @ 2016-04-08</p>
 <p>Some time ago I found out one of my articles was translated to another language (yay for that, woo for not letting me know about it). To understand what my own article said, I had to use Google translate on the site. Guess what? c++ and Google translate can produce hilarious results:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">
-# The include &quot;throw.h&quot; the extern &quot;the C&quot; {void seppuku () {throw statement the Exception () ; }}
+<pre lang="c++" style="display: inline-block; border: 1px solid red;"># The include &quot;throw.h&quot; the extern &quot;the C&quot; {void seppuku () {throw statement the Exception () ; }}
 </pre>
 <p>Another one I liked:</p>
-<p>```c++</p>
-<p>the struct the Exception {};</p>
-<h1>ifdef __cplusplus<a name="ifdef__cplusplus"></a></h1>
-<p>the extern &ldquo;the C&rdquo; {</p>
-<h1>endif<a name="endif"></a></h1>
-<p>void seppuku ();
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">the struct the Exception {};
+#ifdef __cplusplus
+the extern &quot;the C&quot; {
+#endif
+void seppuku ();
 # Ifdef __cplusplus
 }
 # endif
-
-```
-
-Now you know it. Next time you're looking at some incomprehensible c++ code, run it through Google translate. It may improve it.
-
-
-
----
-
-#  Ubuntu 15.10: Ubuntu ME
-
-By Nico Brailovsky @ 2016-04-05
-
-
-
-Warning: semi-useless rant ahead. TL;DR: Avoid Ubuntu 15.10 - it's the closest Linux has ever been to Windows ME.
-
-I have been using Ubuntu for a while now. From the time when Canonical actually mailed real, physical CDs of the distro. So get of my lawn.
-
-In all of my Linux years I have never, ever, had such a horrible installation experience as I did this weekend with Ubuntu 15.10. I may go as far as saying not even Windows ME was this horrible to install. I hit dozens of critical show-stopper bugs, from poor UEFI support to an installer that crashed when clicking "Go back". And that's only the installation, don't get me started on the new KDE Plasma 5 desktop... (hint: my big desktop screen is NOT a phone. Swiping to login? Bad idea for a mouse).
-
-A few hints for any other poor souls that made the fatal mistake of installing Ubuntu ME:
+</pre>
+<p>Now you know it. Next time you&rsquo;re looking at some incomprehensible c++ code, run it through Google translate. It may improve it.</p>
+<hr />
+<h1>Ubuntu 15.10: Ubuntu ME<a name="ubuntu15.10ubuntume"></a></h1>
+<p>By Nico Brailovsky @ 2016-04-05</p>
+<p>Warning: semi-useless rant ahead. TL;DR: Avoid Ubuntu 15.10 - it&rsquo;s the closest Linux has ever been to Windows ME.</p>
+<p>I have been using Ubuntu for a while now. From the time when Canonical actually mailed real, physical CDs of the distro. So get of my lawn.</p>
+<p>In all of my Linux years I have never, ever, had such a horrible installation experience as I did this weekend with Ubuntu 15.10. I may go as far as saying not even Windows ME was this horrible to install. I hit dozens of critical show-stopper bugs, from poor UEFI support to an installer that crashed when clicking &ldquo;Go back&rdquo;. And that&rsquo;s only the installation, don&rsquo;t get me started on the new KDE Plasma 5 desktop&hellip; (hint: my big desktop screen is NOT a phone. Swiping to login? Bad idea for a mouse).</p>
+<p>A few hints for any other poor souls that made the fatal mistake of installing Ubuntu ME:
 * UEFI? Say no. Get a different computer if you can. Try to set it in legacy mode if you can not.
 * Try not to repartition and install Ubuntu on the same go. Even more so if you have UEFI. First install, then rearrange partitions with a live cd.
-* If you get a few (or a few dozen) "system crash notifications" when starting up your GUI, check /var/crash. Delete everything from there.
-* If you want Kubuntu, don't install Ubuntu and then apt-get install kubuntu-desktop. That's broken. If you want Kubuntu just get its install image.
-* Don't install Kubuntu. Really, it's horrible and it crashes. (You though I called 15.10 Ubuntu ME for no reason?)
-* Don't like Gnome? XFCE is usable and can be configured to look more or less like a sane version of KDE. It still crashes but at least it's quick to boot.
-* If you get a disk check on every startup just disable it on fstab. No, it's not nice. I haven't found any other workarounds yet.
-
-I have no idea when has Ubuntu gone so horribly bad, but I'm not looking forward to installing any Ubuntu distro anytime soon. I wonder what Slackware looks like these days.
-
-2016? Still not the year of the Linux desktop.
-
-**Update:** XFCE is great... except it doesn't really support moving the mouse. Seems Ubuntu is having a nostalgic release and decided to introduce [old bugs from 2012](http://askubuntu.com/questions/701119/xfce-drag-and-drop-pointer-stuck-on-some-windows)!
-
-
----
-## In reply to [this post](), [ffuugoo](/blog_md/youfoundadeadlink.md) commented @ 2016-04-05T09:56:12.000+02:00:
-
- 2016? Still not the year of the Linux desktop.
- It is! Haven't you heard about "Ubuntu-on-Windows" yet?.. :)
-
-Original [published here](/blog_md/2016/0405_Ubuntu15.10UbuntuME.md).
-
----
-## In reply to [this post](), [ffuugoo](/blog_md/youfoundadeadlink.md) commented @ 2016-04-05T09:56:28.000+02:00:
-
- 2016? Still not the year of the Linux desktop.
- It is! Haven’t you heard about &ldquo;Ubuntu-on-Windows&rdquo; yet?..:)
-
-Original [published here](/blog_md/2016/0405_Ubuntu15.10UbuntuME.md).
-
----
-## In reply to [this post](), [ffuugoo](/blog_md/youfoundadeadlink.md) commented @ 2016-04-05T09:57:36.000+02:00:
-
-Sorry for the double-comment.
-
-Original [published here](/blog_md/2016/0405_Ubuntu15.10UbuntuME.md).
-
----
-## In reply to [this post](), [nicolasbrailo](/blog_md) commented @ 2016-04-05T10:02:55.000+02:00:
-
-I'm not sure what to think about the Ubuntu on Windows thing, since I don't use Windows. I did assume it was a 1st of April thing, since that's when I read it... maybe ubuntu 15.10 was just a huge 1st of April prank?
-
-Original [published here](/blog_md/2016/0405_Ubuntu15.10UbuntuME.md).
-
-
----
+* If you get a few (or a few dozen) &ldquo;system crash notifications&rdquo; when starting up your GUI, check /var/crash. Delete everything from there.
+* If you want Kubuntu, don&rsquo;t install Ubuntu and then apt-get install kubuntu-desktop. That&rsquo;s broken. If you want Kubuntu just get its install image.
+* Don&rsquo;t install Kubuntu. Really, it&rsquo;s horrible and it crashes. (You though I called 15.10 Ubuntu ME for no reason?)
+* Don&rsquo;t like Gnome? XFCE is usable and can be configured to look more or less like a sane version of KDE. It still crashes but at least it&rsquo;s quick to boot.
+* If you get a disk check on every startup just disable it on fstab. No, it&rsquo;s not nice. I haven&rsquo;t found any other workarounds yet.</p>
+<p>I have no idea when has Ubuntu gone so horribly bad, but I&rsquo;m not looking forward to installing any Ubuntu distro anytime soon. I wonder what Slackware looks like these days.</p>
+<p>2016? Still not the year of the Linux desktop.</p>
+<p><strong>Update:</strong> XFCE is great&hellip; except it doesn&rsquo;t really support moving the mouse. Seems Ubuntu is having a nostalgic release and decided to introduce <a href="http://askubuntu.com/questions/701119/xfce-drag-and-drop-pointer-stuck-on-some-windows">old bugs from 2012</a>!</p>
+<h1>Comments<a name="comments"></a></h1>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">ffuugoo</a> commented @ 2016-04-05T09:56:12.000+02:00:<a name="inreplytothispostffuugooblog_mdyoufoundadeadlink.mdcommented20160405t095612.0000200"></a></h2>
+<p>2016? Still not the year of the Linux desktop.
+ It is! Haven&rsquo;t you heard about &ldquo;Ubuntu-on-Windows&rdquo; yet?.. :)</p>
+<p>Original <a href="/blog/2016/0405_Ubuntu15.10UbuntuME.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">ffuugoo</a> commented @ 2016-04-05T09:56:28.000+02:00:<a name="inreplytothispostffuugooblog_mdyoufoundadeadlink.mdcommented20160405t095628.0000200"></a></h2>
+<p>2016? Still not the year of the Linux desktop.
+ It is! Haven’t you heard about &ldquo;Ubuntu-on-Windows&rdquo; yet?..:)</p>
+<p>Original <a href="/blog/2016/0405_Ubuntu15.10UbuntuME.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">ffuugoo</a> commented @ 2016-04-05T09:57:36.000+02:00:<a name="inreplytothispostffuugooblog_mdyoufoundadeadlink.mdcommented20160405t095736.0000200"></a></h2>
+<p>Sorry for the double-comment.</p>
+<p>Original <a href="/blog/2016/0405_Ubuntu15.10UbuntuME.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2016-04-05T10:02:55.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20160405t100255.0000200"></a></h2>
+<p>I&rsquo;m not sure what to think about the Ubuntu on Windows thing, since I don&rsquo;t use Windows. I did assume it was a 1st of April thing, since that&rsquo;s when I read it&hellip; maybe ubuntu 15.10 was just a huge 1st of April prank?</p>
+<p>Original <a href="/blog/2016/0405_Ubuntu15.10UbuntuME.html">published here</a>.</p>
+<hr />

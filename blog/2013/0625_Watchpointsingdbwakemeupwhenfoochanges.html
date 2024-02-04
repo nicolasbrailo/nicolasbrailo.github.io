@@ -29,8 +29,9 @@ main () at test.cpp:7
 <p>Nice! gdb alerted us of the value change by breaking program execution. This can come in handy to fix race conditions.</p>
 <h2>Hardware and software watchpoints<a name="hardwareandsoftwarewatchpoints"></a></h2>
 <p>Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing &ldquo;step&rdquo; continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.</p>
-<p>As usual, <a href="http://sourceware.org/gdb/current/onlinedocs/gdbint/Algorithms.html#Algorithms">gdb&rsquo;s manual</a> has a lot more info.</p>
+<p>As usual, <a href="/blog/youfoundadeadlink.html">gdb&rsquo;s manual</a> has a lot more info.</p>
 <p>PS: Once you find your bug with the aid of a watchpoint, please go and read some books about encapsulation!</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog/2013/1105_Automagicallysetupbreakpointswithgdb.html">Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2013-11-05T08:00:59.000+01:00:<a name="inreplytothispostautomagicallysetupbreakpointswithgdbaninfinitemonkeynicolasbrailovsky39sblogblog_md20131105_automagicallysetupbreakpointswithgdb.mdcommented20131105t080059.0000100"></a></h2>
 <p>[&hellip;] debugging session. This can be quite frustrating, when you have gdb workset full of breakpoints, watch expressions and all that [&hellip;]</p>

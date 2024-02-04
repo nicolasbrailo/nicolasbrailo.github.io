@@ -11,9 +11,11 @@ Luckily, when you are using the 's'earch command you can pick a different separa
 Extra tip: this also works in sed
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [VimTip: Search and f(replace) | An infinite monkey - Nico Brailovsky&#39;s blog](/blog_md/2019/0226_VimTipSearchandfreplace.md) commented @ 2019-02-26T07:05:03.000+01:00:
 
-[…] Pre-tip: When using search and replace in Vim, you don’t need to use slashes […]
+[…] Pre-tip: When using search and replace in Vim, you don't need to use slashes […]
 
 Original [published here](/blog_md/2015/0507_VimtipStopescapingslashes.md).

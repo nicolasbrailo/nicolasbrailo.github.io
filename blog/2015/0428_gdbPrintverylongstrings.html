@@ -1,6 +1,6 @@
 <h1>gdb: Print very long strings<a name="gdbprintverylongstrings"></a></h1>
 <p>gdb defaults are usually quite sensible and just &ldquo;let you work&rdquo;. Some times, though, your project is not very sensible and you have to do weird things in gdb. An example: printing huge strings or vectors to try and reproduce a heisenbug. A lot of people get surprised at first because gdb will refuse to print very long strings, printing only the first few chars. Same for vectors. And if you have many repeating elements (eg &ldquo;f000000000000000000000000000000bar&rdquo;) you might see something like &ldquo;fooo0bar&rdquo;.
 Just type these magic commands to see the whole string:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&amp;gt; set print repeats 0
-&amp;gt; set print elements 0
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">&gt; set print repeats 0
+&gt; set print elements 0
 </pre>

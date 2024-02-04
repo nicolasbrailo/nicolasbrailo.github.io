@@ -97,7 +97,7 @@ map  &lt;leader&gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quo
 <p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here&rsquo;s some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
 <p>Longer version:
 We can extend our quick grep integration to other commands, quite easily. Since we defined a few wrappers to request input, get it from visual mode or just guess it, we can also have a helper function to create a scratch buffer and read a system command into it:</p>
-<pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Find&amp;amp;Grep command wrapper: execute cmd, shows the results in a scratch buffer
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">&quot; Find&amp;Grep command wrapper: execute cmd, shows the results in a scratch buffer
 function! FG_EvalSysCmdInNewBuff(cmd)
     tabnew
     setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
@@ -107,7 +107,7 @@ endfunction
 &quot; Wrap a normal action: ask the user for input, then call func with it
 function! FG_RequestInputAction(msg, func)
     let needle = input(a:msg)
-    if strlen(needle) &amp;gt; 0
+    if strlen(needle) &gt; 0
         execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
     endif
 endfunction
@@ -125,14 +125,14 @@ function! FG_VAction(func)
     let needle = substitute(needle, &quot;\n\+&quot;,&quot;&quot;,&quot;g&quot;)
     let needle = substitute(needle, &quot;\r\+&quot;,&quot;&quot;,&quot;g&quot;)
     let needle = substitute(needle, &quot;^\s\+\|\s\+$&quot;,&quot;&quot;,&quot;g&quot;)
-    if strlen(needle) &amp;gt; 0
+    if strlen(needle) &gt; 0
         execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
     endif
 endfunction
 &quot; Wrap a normal action: call func with whatever is under the cursor
 function! FG_NAction(func)
-    let needle = expand(&quot;&amp;lt;cword&amp;gt;&quot;)
-    if strlen(needle) &amp;gt; 0
+    let needle = expand(&quot;&lt;cword&gt;&quot;)
+    if strlen(needle) &gt; 0
         execute &#x27;call&#x27; a:func .&#x27;(&quot;&#x27;. needle . &#x27;&quot;)&#x27;
     endif
 endfunction
@@ -150,12 +150,12 @@ function! FG_DoSearchText(needle)
 endfunction
 </pre>
 <p>Then just add a few key bindings and you&rsquo;re good to go:</p>
-<pre lang="ruby" style="display: inline-block; border: 1px solid red;">gt;f :call FG_NAction(&quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
-vmap &amp;lt;leader&amp;gt;f :call FG_VAction(&quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
-map  &amp;lt;leader&amp;gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
-nmap &amp;lt;leader&amp;gt;s :call FG_NAction(&quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
-vmap &amp;lt;leader&amp;gt;s :call FG_VAction(&quot;FG_DoSearchText&quot;)&amp;lt;CR&amp;gt;
-map  &amp;lt;leader&amp;gt;F :call FG_RequestInputAction(&quot;Find file: &quot;, &quot;FG_DoFindFile&quot;)&amp;lt;CR&amp;gt;
+<pre lang="ruby" style="display: inline-block; border: 1px solid red;">gt;f :call FG_NAction(&quot;FG_DoFindFile&quot;)&lt;CR&gt;
+vmap &lt;leader&gt;f :call FG_VAction(&quot;FG_DoFindFile&quot;)&lt;CR&gt;
+map  &lt;leader&gt;S :call FG_RequestInputAction(&quot;Text search: &quot;, &quot;FG_DoSearchText&quot;)&lt;CR&gt;
+nmap &lt;leader&gt;s :call FG_NAction(&quot;FG_DoSearchText&quot;)&lt;CR&gt;
+vmap &lt;leader&gt;s :call FG_VAction(&quot;FG_DoSearchText&quot;)&lt;CR&gt;
+map  &lt;leader&gt;F :call FG_RequestInputAction(&quot;Find file: &quot;, &quot;FG_DoFindFile&quot;)&lt;CR&gt;
 </pre>
 <p>This is an actual plugin I use in my Vim setup. You can grab the <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">latest version from my Github repo.</a></p>
 <p>Extra tip: add these too if you want to have a <a href="/blog/2015/0402_VimTipIwantmoremenus.html">GUI menu</a> for your new commands as well.</p>
@@ -166,9 +166,12 @@ menu Project.Text\ Search :call FG_RequestInputAction(&quot;FG_DoSearchText&quot
 <h1>The best hack you should never use<a name="thebesthackyoushouldneveruse"></a></h1>
 <p>By Nico Brailovsky @ 2016-11-22</p>
 <p>Please don&rsquo;t do this. But if you do: leave a comment here!</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">&lt;br/&gt;#define private public;&lt;br/&gt;#include &quot;something&quot;;&lt;br/&gt;#define private private;&lt;br/&gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#define private public
+#include &quot;something&quot;
+#define private private
 </pre>
 <p>Found in some random project.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Tanzinul Islam</a> commented @ 2016-11-28T06:53:49.000+01:00:<a name="inreplytothisposttanzinulislamcommented20161128t065349.0000100"></a></h2>
 <p>You also probably want to do: #define class struct</p>

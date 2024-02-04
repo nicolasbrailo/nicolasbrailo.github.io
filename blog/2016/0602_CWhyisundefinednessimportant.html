@@ -7,9 +7,9 @@ x[0] = 42;
 <h3>C&rsquo;s abstract machine<a name="csabstractmachine"></a></h3>
 <p>In a way, C and C++ describe a &ldquo;virtual machine&rdquo;. This is what the standard defines: what kind of operations are valid in this VM. This VM resembles an old single-thread mono-processor architecture. Most often, the code will run in a modern architecture that will resemble very little the design of C&rsquo;s VM. &ldquo;New&rdquo; features (like caching, vectorization, atomics, pipelining, etc) implemented by the target architecture make the process of mapping our code (in the VM that C defines) much more difficult. The compiler needs to map instructions in C&rsquo;s simple architecture to a much (*MUCH*) more complex design. To do that, it needs to analyze the code to guarantee certain constrains are met.</p>
 <p>Let&rsquo;s see how these constrains and undefined behavior relate to each other with this snippet:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &amp;lt;typename T&amp;gt;
-bool always_true(T x) {
-return (x &amp;lt; x+1);
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">template &lt;typename T&gt;
+    bool always_true(T x) {
+    return (x &lt; x+1);
 }
 </pre>
 <p>From a math perspective, and assuming that T is a numeric type, always_true should always return true. Is that the case for C&rsquo;s virtual machine?</p>
@@ -18,6 +18,7 @@ return (x &amp;lt; x+1);
 <p>Knowing that UB can&rsquo;t happen, and in our example above, the compiler can assume that x+1 will never overflow. If it will never overflow, (x&lt;x+1) will always be true.</p>
 <p>The compiler, by analyzing our program, can detect what conditions might trigger undefined behavior. By knowing that undefined behavior is not allowed, it can assume those conditions will never happen. That&rsquo;s why, for the sample above, any optimizing-compiler will just produce code similar to &ldquo;return true&rdquo;, at least for -O2.</p>
 <p>Undefined behavior is not (only) to make programmer&rsquo;s lives miserable, it actually is needed to create optimizing compilers.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">anon12</a> commented @ 2016-06-02T12:54:44.000+02:00:<a name="inreplytothispostanon12commented20160602t125444.0000200"></a></h2>
 <p>&ldquo;From a math perspective, and assuming that T is a numeric type, always_true should always return true&rdquo;</p>
@@ -25,7 +26,7 @@ return (x &amp;lt; x+1);
 <p>Are you kidding me ?</p>
 <p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
 <hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Undefined, implementation defined and unspecified behaviors in C++ – Native Coding</a> commented @ 2016-06-02T23:47:33.000+02:00:<a name="inreplytothispostundefinedimplementationdefinedandunspecifiedbehaviorsincnativecodingblog_mdyoufoundadeadlink.mdcommented20160602t234733.0000200"></a></h2>
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">Undefined, implementation defined and unspecified behaviors in C++ - Native Coding</a> commented @ 2016-06-02T23:47:33.000+02:00:<a name="inreplytothispostundefinedimplementationdefinedandunspecifiedbehaviorsincnativecodingblog_mdyoufoundadeadlink.mdcommented20160602t234733.0000200"></a></h2>
 <p>[&hellip;] And another explanation here :&nbsp;/blog_md/2016/06/02/c-why-is-undefinedness-important/ [&hellip;]</p>
 <p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
 <hr />

@@ -12,10 +12,10 @@ Let's see how this works with this example:
 
 ```c++
 
-#include &lt;vector&gt;
+#include <vector>
 
 int main() {
-    std::vector&lt;int&gt; v = {1,2,3,4,5,0,7,8,9};
+    std::vector<int> v = {1,2,3,4,5,0,7,8,9};
     int x = 42;
 
     for (auto i = v.begin(); i != v.end(); ++i) {
@@ -28,13 +28,16 @@ int main() {
 
 After compiling we run it to see it crash; let's start it on gdb, then set a brakepoint on the line where it crashes.
 
+
 ```c++
+
 (gdb) break foo.cpp:8
 Breakpoint 1 at 0x4007bc: file foo.cpp, line 8.
 
-<p>(gdb) info breakpoints
+(gdb) info breakpoints
 Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0x00000000004007bc in main() at foo.cpp:8
+
 ```
 
 Typing "info breakpoints" will tell you the breakpoint number; then we can tell gdb to ignore this breakpoint forever (where forever is a very large number, so the program will run until it crashes):
@@ -67,11 +70,13 @@ Starting program: /home/nico/src/a.out
 Breakpoint 1, main () at foo.cpp:8
 8            x = x / *i;
 (gdb) p *i
-$1 = (int &amp;) @0x603024: 0
+$1 = (int &) @0x603024: 0
 ```
 
 This time gdb will break exactly on the spot we want.
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [Antiskeptic (@notthatsid)](/blog_md/youfoundadeadlink.md) commented @ 2015-03-26T11:23:21.000+01:00:

@@ -8,11 +8,11 @@ Is this valid C++?
 
 ```c++
 void do_something(const int&amp;);
-#include &lt;vector&gt;
+#include <vector>
 
 void foo() {
-    std::vector&lt;int&gt; v = {1,2,3,4,5};
-    const int &amp;num = v.at(1);
+    std::vector<int> v = {1,2,3,4,5};
+    const int &num = v.at(1);
     v.push_back(42);
     do_something(num);
 }
@@ -22,12 +22,12 @@ Doesn't seem quite right, does it? push\_back will most likely trigger a resize 
 
 ```c++
 void do_something(const int&amp;);
-#include &lt;vector&gt;
+#include <vector>
 
 void foo() {
-    std::vector&lt;int&gt; v = {1,2,3,4,5};
+    std::vector<int> v = {1,2,3,4,5};
     v.reserve(40);
-    const int &amp;num = v.at(1);
+    const int &num = v.at(1);
     v.push_back(6);
     do_something(num);
 }

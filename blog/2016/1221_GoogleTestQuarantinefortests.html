@@ -12,24 +12,24 @@
 <p>In my CI setup, that test will be showing a happy green (and a warning, which I will probably ignore) until the 22nd of August. By the 23rd the test will run again and fail if I haven&rsquo;t fixed the code. If I have indeed fixed it, it will print a warning to remind me that it&rsquo;s safe to delete the quarantine statement.</p>
 <p>Is there any advantage in this approach over the usual _DISABLE strategy? In my opinion, there is: if you ignore warnings in your test, for whatever reason, a _DISABLE might go unnoticed and it may hide a real problem. In the same scenario, for a quarantined test, nothing bad happens: the warning just says &ldquo;you should delete this line&rdquo; but the quarantined test is again part of your safety net.</p>
 <p>How does it work? The first caveat in my article mentions it: hackishly. There are a few facilities missing in GTest to make this implementation production-ready but, ugly as it looks, it should work as intended:</p>
-<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &amp;lt;ctime&amp;gt;
-#include &amp;lt;string&amp;gt;
-#include &amp;lt;sstream&amp;gt;
+<pre lang="c++" style="display: inline-block; border: 1px solid red;">#include &lt;ctime&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
 std::string now() {
     time_t t = time(0);
     struct tm *now = localtime(&amp;amp;t);
     std::stringstream formatted_date;
-    formatted_date &amp;lt;&amp;lt; (now-&amp;gt;tm_year+1900) &amp;lt;&amp;lt; &amp;#x27;/&amp;#x27;
-                   &amp;lt;&amp;lt; (now-&amp;gt;tm_mon+1) &amp;lt;&amp;lt; &amp;#x27;/&amp;#x27;
-                   &amp;lt;&amp;lt; now-&amp;gt;tm_mday;
+    formatted_date &lt;&lt; (now-&gt;tm_year+1900) &lt;&lt; &quot;/&quot;
+                   &lt;&lt; (now-&gt;tm_mon+1) &lt;&lt; &quot;/&quot;
+                   &lt;&lt; now-&gt;tm_mday;
     return formatted_date.str();
 }
 #define QUARANTINE_UNTIL(date_limit)                                     \
-        if (now() &amp;lt; date_limit) {                                        \
-            GTEST_LOG_(WARNING) &amp;lt;&amp;lt; &quot;Test under quarantine!&quot;;             \
+        if (now() &lt; date_limit) {                                        \
+            GTEST_LOG_(WARNING) &lt;&lt; &quot;Test under quarantine!&quot;;             \
             return;                                                      \
         } else {                                                         \
-            GTEST_LOG_(WARNING) &amp;lt;&amp;lt; &quot;Quarantine expired on &quot; date_limit;  \
+            GTEST_LOG_(WARNING) &lt;&lt; &quot;Quarantine expired on &quot; date_limit;  \
         }
 </pre>
 <p>If I find there is interest in this approach for real world applications, I may try to come up with a nicer interface for it.</p>

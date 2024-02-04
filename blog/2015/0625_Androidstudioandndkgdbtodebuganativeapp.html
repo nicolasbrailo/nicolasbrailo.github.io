@@ -1,17 +1,20 @@
 <h1>Android studio and ndk-gdb to debug a native app<a name="androidstudioandndkgdbtodebuganativeapp"></a></h1>
 <p>I don&rsquo;t know how good Android Studio support for native apps is nowadays (it changes from week to week!). Up to a few months ago, Gradle, the build system used by AS, had poor support for native development. If you&rsquo;re having problems, you may find it easier to workaround it completely when it comes to build and debug C/C++ applications.</p>
-<p>To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here&rsquo;s a workaround I found:
-1. Build your stuff the way you normally would (I&rsquo;m assuming you know already how to build a native app, and if you don&rsquo;t there are guides online that explain it much better than I could).
-2. Deploy your application the way you normally would.
-3. Discover ndk-gdb won&rsquo;t run. Bang forehead against keyboard a few times.
-4. After losing some hours looking at logs, figure out there&rsquo;s no gdbserver included in your apk.
-5. Lose some more hours trying to figure out how to include it in your apk using Gradle.
-6. Give up. Bang forehead against keyboard some more.
-7. find the gdbserver and gdb.setup in your build directory.
-8. adb push each of these files to the device.
-9. Using adb shell, move the files you copied to /data/app-lib/com.yourapp/ - you may need to root your device for this.
-10. Profit! ndk-gdb now works.</p>
+<p>To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here&rsquo;s a workaround I found:</p>
+<ol>
+<li>Build your stuff the way you normally would (I&rsquo;m assuming you know already how to build a native app, and if you don&rsquo;t there are guides online that explain it much better than I could).</li>
+<li>Deploy your application the way you normally would.</li>
+<li>Discover ndk-gdb won&rsquo;t run. Bang forehead against keyboard a few times.</li>
+<li>After losing some hours looking at logs, figure out there&rsquo;s no gdbserver included in your apk.</li>
+<li>Lose some more hours trying to figure out how to include it in your apk using Gradle.</li>
+<li>Give up. Bang forehead against keyboard some more.</li>
+<li>find the gdbserver and gdb.setup in your build directory.</li>
+<li>adb push each of these files to the device.</li>
+<li>Using adb shell, move the files you copied to /data/app-lib/com.yourapp/ - you may need to root your device for this.</li>
+<li>Profit! ndk-gdb now works.</li>
+</ol>
 <p>Edit: remember you may need to <a href="/blog/2015/0616_ndkgdblifetipuseverbose.html">chmod +777 your gdbserver</a>.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">gaps</a> commented @ 2015-10-09T12:15:01.000+02:00:<a name="inreplytothispostgapscommented20151009t121501.0000200"></a></h2>
 <p>you just need to add &ldquo;jniDebuggable true&rdquo; to your debug buildType.

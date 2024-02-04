@@ -9,6 +9,8 @@ In C++, is there a difference between cerr and cout, other than using a differen
 Whenever I just want to add a quick print statement because I'm too lazy to debug something, I used to use cout. All along I thought cout and cerr would be exactly the same for my use case, but turns out there's a slight difference: cout is buffered, cerr is not. This very small difference can have a huge impact, because you shouldn't need to flush cerr after a write to make sure the changes are visible, it should happen automagicaly. In turn cerr might be slightly slower, but you probably don't care about that when writing cerr << "I'm here!".
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Monah Tuk](https://plus.google.com/+MonahTuk) commented @ 2016-03-15T04:26:19.000+01:00:
 

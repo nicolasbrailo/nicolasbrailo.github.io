@@ -1,13 +1,15 @@
 <h1>Vim tip: reload your vimrc<a name="vimtipreloadyourvimrc"></a></h1>
 <p>If you&rsquo;re changing your vimrc, it can get boring to close and restart it only to see the changes applied. Want something quicker? You can &ldquo;:so %&rdquo;. So stands for source, so you&rsquo;ll just be telling vim &ldquo;include this file&rdquo;. % happens to be the path to the current file. If you&rsquo;re not editing your .vimrc but for some reason you still want to reload it, just use &ldquo;so ~/.vimrc&rdquo; instead.</p>
+<h1>Comments<a name="comments"></a></h1>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="">Anonymous</a> commented @ 2015-06-21T14:30:22.000+02:00:<a name="inreplytothispostanonymouscommented20150621t143022.0000200"></a></h2>
-<p>augroup MyAutoCmd
- &rdquo; Clear autocmds for this group
- autocmd!</p>
-<p>&rdquo; Automatically load vimrc when it is saved
-autocmd bufwritepost $MYVIMRC source $MYVIMRC</p>
-<p>augroup end</p>
+<pre style="display: inline-block; border: 1px solid red;">augroup MyAutoCmd
+ &quot; Clear autocmds for this group
+ autocmd!
+&quot; Automatically load vimrc when it is saved
+autocmd bufwritepost $MYVIMRC source $MYVIMRC
+augroup end
+</pre>
 <p>Original <a href="/blog/2015/0618_Vimtipreloadyourvimrc.html">published here</a>.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="/blog_md">nicolasbrailo</a> commented @ 2015-06-22T09:49:37.000+02:00:<a name="inreplytothispostnicolasbrailoblog_mdcommented20150622t094937.0000200"></a></h2>

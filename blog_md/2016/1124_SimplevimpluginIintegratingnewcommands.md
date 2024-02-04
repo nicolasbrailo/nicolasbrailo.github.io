@@ -10,7 +10,7 @@ Longer version:
 We can extend our quick grep integration to other commands, quite easily. Since we defined a few wrappers to request input, get it from visual mode or just guess it, we can also have a helper function to create a scratch buffer and read a system command into it:
 
 ```ruby
-" Find&amp;Grep command wrapper: execute cmd, shows the results in a scratch buffer
+" Find&Grep command wrapper: execute cmd, shows the results in a scratch buffer
 function! FG_EvalSysCmdInNewBuff(cmd)
     tabnew
     setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
@@ -21,7 +21,7 @@ endfunction
 " Wrap a normal action: ask the user for input, then call func with it
 function! FG_RequestInputAction(msg, func)
     let needle = input(a:msg)
-    if strlen(needle) &gt; 0
+    if strlen(needle) > 0
         execute 'call' a:func .'("'. needle . '")'
     endif
 endfunction
@@ -42,15 +42,15 @@ function! FG_VAction(func)
     let needle = substitute(needle, "\\r\\+","","g")
     let needle = substitute(needle, "^\\s\\+\\|\\s\\+$","","g")
 
-    if strlen(needle) &gt; 0
+    if strlen(needle) > 0
         execute 'call' a:func .'("'. needle . '")'
     endif
 endfunction
 
 " Wrap a normal action: call func with whatever is under the cursor
 function! FG_NAction(func)
-    let needle = expand("&lt;cword&gt;")
-    if strlen(needle) &gt; 0
+    let needle = expand("<cword>")
+    if strlen(needle) > 0
         execute 'call' a:func .'("'. needle . '")'
     endif
 endfunction
@@ -75,13 +75,13 @@ endfunction
 Then just add a few key bindings and you're good to go:
 
 ```ruby
-gt;f :call FG_NAction("FG_DoFindFile")&lt;CR&gt;
-vmap &lt;leader&gt;f :call FG_VAction("FG_DoFindFile")&lt;CR&gt;
-map  &lt;leader&gt;S :call FG_RequestInputAction("Text search: ", "FG_DoSearchText")&lt;CR&gt;
+gt;f :call FG_NAction("FG_DoFindFile")<CR>
+vmap <leader>f :call FG_VAction("FG_DoFindFile")<CR>
+map  <leader>S :call FG_RequestInputAction("Text search: ", "FG_DoSearchText")<CR>
 
-nmap &lt;leader&gt;s :call FG_NAction("FG_DoSearchText")&lt;CR&gt;
-vmap &lt;leader&gt;s :call FG_VAction("FG_DoSearchText")&lt;CR&gt;
-map  &lt;leader&gt;F :call FG_RequestInputAction("Find file: ", "FG_DoFindFile")&lt;CR&gt;
+nmap <leader>s :call FG_NAction("FG_DoSearchText")<CR>
+vmap <leader>s :call FG_VAction("FG_DoSearchText")<CR>
+map  <leader>F :call FG_RequestInputAction("Find file: ", "FG_DoFindFile")<CR>
 ```
 
 This is an actual plugin I use in my Vim setup. You can grab the [latest version from my Github repo.](https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim)

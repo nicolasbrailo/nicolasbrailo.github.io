@@ -19,8 +19,10 @@ Unfortunately, it is. According to 3.3.2 in the standard, a definition is availa
 Fun stuff, right?
 
 
+# Comments
+
 ---
-## In reply to [this post](), [Jason Turner](https://plus.google.com/102904103501525380999) commented @ 2015-04-08T14:30:09.000+02:00:
+## In reply to [this post](), Jason Turner commented @ 2015-04-08T14:30:09.000+02:00:
 
 It's issues like this that make me recommend enabling warnings of shadow variables, if your compiler supports it (https://github.com/lefticus/cppbestpractices/blob/master/02-Use\_the\_Tools\_Available.md#compilers)
 

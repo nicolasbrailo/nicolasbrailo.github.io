@@ -38,9 +38,11 @@ Everything after the TAB will be right-aligned: you can use that space to annota
 As usual, for more info check :help menu
 
 
+# Comments
+
 ---
 ## In reply to [this post](), [Simple vim plugin I: integrating new commands | An infinite monkey - Nicolas Brailovsky&#39;s blog](/blog_md/2016/1124_SimplevimpluginIintegratingnewcommands.md) commented @ 2016-11-24T08:00:30.000+01:00:
 
-[…] tip: add these too if you want to have a GUI menu for your new commands as […]
+[...] tip: add these too if you want to have a GUI menu for your new commands as [...]
 
 Original [published here](/blog_md/2015/0402_VimTipIwantmoremenus.md).

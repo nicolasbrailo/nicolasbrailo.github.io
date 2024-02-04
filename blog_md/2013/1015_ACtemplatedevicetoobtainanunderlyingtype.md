@@ -7,25 +7,25 @@
 What happens when you need to get the underlying data type of a pointer or reference? You can write some crazy metaprogram to do it for you. Like this:
 
 ```c++
-template &lt;typename T&gt; struct get_real_type      { typedef T type; };
-template &lt;typename T&gt; struct get_real_type&lt;T*&gt;  { typedef T type; };
-template &lt;typename T&gt; struct get_real_type&lt;T&amp;&gt;  { typedef T type; };
+template <typename T> struct get_real_type      { typedef T type; };
+template <typename T> struct get_real_type<T*>  { typedef T type; };
+template <typename T> struct get_real_type<T&amp;>  { typedef T type; };
 
-template &lt;class T&gt;
+template <class T>
 int foo() {
-    return get_real_type&lt;T&gt;::type::N;
+    return get_real_type<T>::type::N;
 }
 
 struct Bar {
     static const int N=24;
 };
 
-#include &lt;iostream&gt;
+#include <iostream>
 using namespace std;
 int main() {
-    cout &lt;&lt; foo&lt;Bar*&gt;() &lt;&lt; endl;
-    cout &lt;&lt; foo&lt;Bar&amp;&gt;() &lt;&lt; endl;
-    cout &lt;&lt; foo&lt;Bar&gt;() &lt;&lt; endl;
+    cout << foo<Bar*>() << endl;
+    cout << foo<Bar&amp;>() << endl;
+    cout << foo<Bar>() << endl;
 }
 ```
 

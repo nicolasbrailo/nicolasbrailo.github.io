@@ -9,11 +9,13 @@ Switching from header to implementation in vim takes up precious milliseconds of
 Add it to your bundles in vim and, for extra magic, just map some key to :AT in your vimrc. I have added this one:
 
 ```c++
-map &lt;F4&gt; :AT&lt;CR&gt;
+map <F4> :AT<CR>
 ```
 
 I don't know how I lived without this for such a long time.
 
+
+# Comments
 
 ---
 ## In reply to [this post](), [Matt]() commented @ 2013-11-19T21:29:34.000+01:00:

@@ -1,8 +1,8 @@
 <h1>Extending the life of a temp variable in C++<a name="extendingthelifeofatempvariableinc"></a></h1>
 <p>Take a look at this code: what does it do?</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">struct X {
-    X() { cout &amp;lt;&amp;lt; &quot;X&quot;; }
-    ~X() { cout &amp;lt;&amp;lt; &quot;~X&quot;; }
+    X() { cout &lt;&lt; &quot;X&quot;; }
+    ~X() { cout &lt;&lt; &quot;~X&quot;; }
 };
 void foo() {
     X x;
@@ -15,7 +15,7 @@ void foo() {
     X(int y) : y(y) {}
 };
 int foo() {
-    const X &amp;amp;ref = X(42);
+    const X &amp;ref = X(42);
     return ref.y;
 }
 </pre>

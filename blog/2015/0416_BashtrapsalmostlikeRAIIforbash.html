@@ -1,7 +1,9 @@
 <h1>Bash traps: almost like RAII for bash<a name="bashtrapsalmostlikeraiiforbash"></a></h1>
 <p>Everywhere, but specially in bash, cleaning up is annoying and error prone. Resource leaks can be common if your bash script is interrupted half-way. Do you need to execute something always, even if your script fails or gets killed? Try using traps:</p>
 <pre lang="c++" style="display: inline-block; border: 1px solid red;">#!/bin/bash
-foobar() {&lt;br/&gt;    echo &quot;See ya!&quot;&lt;br/&gt;}
+foobar() {
+    echo &quot;See ya!&quot;
+}
 trap &quot;foobar&quot; EXIT
 </pre>
-<p>It doesn&rsquo;t mater how you end this script, &ldquo;foobar&rdquo; will always be executed. Want to read more about bash traps? Check <a href="http://linuxcommand.org/wss0160.php">http://linuxcommand.org/wss0160.php</a></p>
+<p>It doesn&rsquo;t mater how you end this script, &ldquo;foobar&rdquo; will always be executed. Want to read more about bash traps? Check <a href="/blog/youfoundadeadlink.html">here.</a></p>

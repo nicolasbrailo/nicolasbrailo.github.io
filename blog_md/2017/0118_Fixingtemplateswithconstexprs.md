@@ -6,65 +6,65 @@
 
 For my hundredth (and a bit) c++ post I decided to do something I never did before: fix my old code!
 
-A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my [template device to calculate e](/search/label/Series%3A Template Metaprogramming). Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):
+A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my [template device to calculate e](/blog_md/youfoundadeadlink.md). Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):
 
 ```c++
-template &lt;int N, int D&gt; struct Frak {
+template <int N, int D> struct Frak {
         static const long Num = N;
         static const long Den = D;
 };
 
-template &lt;int N, typename F&gt; struct ScalarMultiplication {
-    typedef Frak&lt;N*F::Num, N*F::Den&gt; result;
+template <int N, typename F> struct ScalarMultiplication {
+    typedef Frak<N*F::Num, N*F::Den> result;
 };
 
-template &lt;int X, int Y&gt; struct MCD {
-        static const long result = MCD&lt;Y, X % Y&gt;::result;
+template <int X, int Y> struct MCD {
+        static const long result = MCD<Y, X % Y>::result;
 };
 
-template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
+template <int X> struct MCD<X, 0> {
         static const long result = X;
 };
 
-template &lt;class F&gt; struct Simpl {
-        static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
-        typedef Frak&lt; F::Num / mcd, F::Den / mcd &gt; result;
+template <class F> struct Simpl {
+        static const long mcd = MCD<F::Num, F::Den>::result;
+        typedef Frak< F::Num / mcd, F::Den / mcd > result;
 };
 
-template &lt;typename X1, typename Y1&gt; struct SameBase {
-    typedef typename ScalarMultiplication&lt; Y1::Den, X1&gt;::result X;
-    typedef typename ScalarMultiplication&lt; X1::Den, Y1&gt;::result Y;
+template <typename X1, typename Y1> struct SameBase {
+    typedef typename ScalarMultiplication< Y1::Den, X1>::result X;
+    typedef typename ScalarMultiplication< X1::Den, Y1>::result Y;
 };
 
-template &lt;typename X, typename Y&gt; struct Sum {
-    typedef SameBase&lt;X, Y&gt; B;
+template <typename X, typename Y> struct Sum {
+    typedef SameBase<X, Y> B;
     static const long Num = B::X::Num + B::Y::Num;
     static const long Den = B::Y::Den; // == B::X::Den
-    typedef typename Simpl&lt; Frak&lt;Num, Den&gt; &gt;::result result;
+    typedef typename Simpl< Frak<Num, Den> >::result result;
 };
 
-template &lt;int N&gt; struct Fact {
-    static const long result = N * Fact&lt;N-1&gt;::result;
+template <int N> struct Fact {
+    static const long result = N * Fact<N-1>::result;
 };
-template &lt;&gt; struct Fact&lt;0&gt; {
+template <> struct Fact<0> {
     static const long result = 1;
 };
 
-template &lt;int N&gt; struct E {
+template <int N> struct E {
     // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
-    static const long Den = Fact&lt;N&gt;::result;
-    typedef Frak&lt; 1, Den &gt; term;
-    typedef typename E&lt;N-1&gt;::result next_term;
-    typedef typename Sum&lt; term, next_term &gt;::result result;
+    static const long Den = Fact<N>::result;
+    typedef Frak< 1, Den > term;
+    typedef typename E<N-1>::result next_term;
+    typedef typename Sum< term, next_term >::result result;
 };
-template &lt;&gt; struct E&lt;0&gt; {
-    typedef Frak&lt;1, 1&gt; result;
+template <> struct E<0> {
+    typedef Frak<1, 1> result;
 };
 
 int main() {
-  typedef E&lt;8&gt;::result X;
-  std::cout &lt;&lt; "e = " &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; "\n";
-  std::cout &lt;&lt; "e = " &lt;&lt; X::Num &lt;&lt;"/"&lt;&lt; X::Den &lt;&lt; "\n";
+  typedef E<8>::result X;
+  std::cout << "e = " << (1.0 * X::Num / X::Den) << "\n";
+  std::cout << "e = " << X::Num <<"/"<< X::Den << "\n";
   return 0;
 }
 ```
@@ -83,7 +83,7 @@ Try to compile it with "g++ -std=c++11 -fverbose-asm -O0 -c -S -o /dev/stdout" a
 
 ```c++
 constexpr int f(int n) {
-    return (n&lt;2)? 1 : n + f(n-1);
+    return (n<2)? 1 : n + f(n-1);
 }
 
 constexpr int n = f(999);
@@ -127,7 +127,7 @@ float get_e() {
 }
 ```
 
-Disclaimer: while I explicitly stated this multiple times in my "[C++ template metaprogramming introduction](/search/label/Series%3A Template Metaprogramming)" article, it's worth re-stating it: this code is meant as an example to showcase a c++ feature, not as a proper way of deriving a mathematical constant in production code.
+Disclaimer: while I explicitly stated this multiple times in my "[C++ template metaprogramming introduction](/blog_md/youfoundadeadlink.md)" article, it's worth re-stating it: this code is meant as an example to showcase a c++ feature, not as a proper way of deriving a mathematical constant in production code.
 
 First thoughts after comparing the two versions: much, much [, much]\*100 cleaner.
 
@@ -138,9 +138,11 @@ Note that if you analyze your compiler's output when building without optimizati
 I called constexpr's one of c++11's killer features, and hopefully you can see why I'm so enthusiastic about them now: there's much less incentive for people to write horrible template metaprogramming devices when simply adding a little keyword to a normal function has the same effect, only cleaner.
 
 
----
-## In reply to [this post](), [Fixing templates with constexpr’s | patwanjau](/blog_md/youfoundadeadlink.md) commented @ 2017-01-19T13:01:02.000+01:00:
+# Comments
 
-[…] Source: Fixing templates with constexpr’s […]
+---
+## In reply to this post, [Fixing templates with constexpr's | patwanjau](/blog_md/youfoundadeadlink.md) commented @ 2017-01-19T13:01:02.000+01:00:
+
+[…] Source: Fixing templates with constexpr's […]
 
 Original [published here](/blog_md/2017/0118_Fixingtemplateswithconstexprs.md).
