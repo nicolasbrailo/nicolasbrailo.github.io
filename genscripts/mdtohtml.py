@@ -96,6 +96,8 @@ class EscapeMoreChars(Preprocessor):
         '¿': '&iquest;',
         '“': '&ldquo;',
         '”': '&rdquo;',
+        '…': '&hellip;',
+        ' ': '&nbsp;',
         'Ú': '&Uacute;',
         'ú': '&uacute;',
         'Ó': '&Oacute;',
@@ -176,6 +178,11 @@ class MdToHtml:
         if dst[len(dst)-1] != '/':
             dst = dst + '/'
         self.link_abs_dst = dst
+
+    def read_md_write_html(self, mdpath):
+        with open(mdpath, 'r') as fp:
+            md = fp.read()
+        return self.write_file(mdpath, md)
 
     def write_file(self, relpath, md_txt):
         if self.src_path in relpath:

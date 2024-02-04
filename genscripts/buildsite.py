@@ -198,22 +198,26 @@ mdconvert = MdToHtml(src_path, dst_path)
 if mode == 'index':
     build_index = True
     build_history = False
+    build_individual_pages = False
 if mode == 'full':
     build_index = True
     build_history = True
+    build_individual_pages = True
 
 
 if src_path[:-1] != '/':
     src_path = f'{src_path}/'
 all_posts, root_pages  = get_all_posts(src_path)
 
+
+if build_individual_pages:
+    for p in all_posts:
+        mdconvert.read_md_write_html(p)
+
 if build_index:
     mdconvert.write_file('index.html', build_index_md(all_posts))
-    for md_f in root_pages:
-        print(md_f)
-        with open(md_f, 'r') as fp:
-            md = fp.read()
-        mdconvert.write_file(md_f, md)
+    for p in root_pages:
+        mdconvert.read_md_write_html(p)
 
 if build_history:
     date_indexed_posts = date_index(src_path, all_posts)
