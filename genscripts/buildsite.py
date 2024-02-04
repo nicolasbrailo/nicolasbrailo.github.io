@@ -101,6 +101,8 @@ def read_post_md_file(fpath):
     # eg: '## foo bar\n'
     title = post_txt[post_txt.find(' '):post_txt.find('\n')]
     post_txt = post_txt[post_txt.find('\n')+1:]
+    if '# Comments' in post_txt:
+        post_txt = post_txt[:post_txt.find('# Comments')]
 
     pre_procd = POST_TMPL.replace('{{content}}', post_txt)
     txt = apply_template(pre_procd, {'title': title})
@@ -213,11 +215,11 @@ all_posts, root_pages  = get_all_posts(src_path)
 if build_individual_pages:
     for p in all_posts:
         mdconvert.read_md_write_html(p)
+    for p in root_pages:
+        mdconvert.read_md_write_html(p)
 
 if build_index:
     mdconvert.write_file('index.html', build_index_md(all_posts))
-    for p in root_pages:
-        mdconvert.read_md_write_html(p)
 
 if build_history:
     date_indexed_posts = date_index(src_path, all_posts)
