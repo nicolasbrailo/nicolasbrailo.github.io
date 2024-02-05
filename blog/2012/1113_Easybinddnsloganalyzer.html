@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,20 +19,29 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Easy bind dns log analyzer<a name="easybinddnsloganalyzer"></a></h1>
 <p>Any real-programmer (tm) should be able to memorize all the static IPs in his network and should feel more comfortable using the IP to access the LAN resources, instead of those user friendly URL things. Of course, not everyone is a real-programmer (tm), and these people usually drive crazy the poor guys who do remember all the static IPs in the office. For them, the DNS was invented.</p>
 <p>Some time ago I set up a bind9 on a spare server I had. Easy job, a side project of a boring late night. Of course, there was no point in just setting up my own TLD; I now had the power to have fun with DNS poisoning, and I could also create nice reports of the queries to the DNS server.</p>
 <p>Having fun with a DNS might be the topic for another post, for this one I'll just focus on how to get query statistics from a bind server.</p>
 <p>After grepping the web a little bit, I found a rather disconcerting lack of bind log analyzers. I just wanted a list of the most popular queries, as well as the ability to group the log by it's IP (and may be even to get the computer's SMB name). Couldn't have asked for a better chance to flex a little bit my Ruby-foo, and here is the hackish result for whoever may want to do something similar:</p>
-<pre lang="ruby"><code lang="ruby">#!/usr/bin/ruby1.8
+<pre lang="ruby"><code class="language-ruby" lang="ruby">#!/usr/bin/ruby1.8
 class Hits
  def initialize(n,v,k=nil)
  @n=n
@@ -134,13 +143,17 @@ Cheers</p>
 <p>I'll just be happy if my program will enjoy anyone. Another demo was made available http://demo.statdns.nedze.com/</p>
 <p>Original <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2012/1113_Easybinddnsloganalyzer.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1113_Easybinddnsloganalyzer.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-13 -
+    <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1113_Easybinddnsloganalyzer.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

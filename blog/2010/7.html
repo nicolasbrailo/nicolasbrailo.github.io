@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2010 July<a name="postsfor2010july"></a></h1>
 <h1>Oh my god<a name="ohmygod"></a></h1>
 <p>Post by Nico Brailovsky @ 2010-07-29 -
@@ -50,7 +59,7 @@ $ ar: creating God</p>
 <h3>No, really. What is RAII?<a name="noreally.whatisraii"></a></h3>
 <p>If you made it past that long intro you are probably really interested in knowing what RAII is, and don't know how to search it in Wikipedia. OK, I'll explain it the best I can then: RAII means that a resource acquisition is the initialization.</p>
 <p>Seriously. That is all the secret there is to RAII. Talking in code:</p>
-<pre lang="c++"><code lang="c++">template
+<pre lang="c++"><code class="language-c++" lang="c++">template
 class RAII_Wrapper {
    T <em>resource;
    public:
@@ -67,7 +76,7 @@ class RAII_Wrapper {
 </code></pre>
 <h3>An example<a name="anexample"></a></h3>
 <p>Compare that to a visitor pattern. It's just too simple to be of any use, isn't it? Well, contrary to what Java fanboys tend to believe you can do lots of nice things without writing a bazillion lines of code.</p>
-<pre lang="c++"><code lang="c++">int foo() {
+<pre lang="c++"><code class="language-c++" lang="c++">int foo() {
     Expensive_Resource x;
     x.open();
     try {
@@ -91,7 +100,7 @@ class RAII_Wrapper {
 </code></pre>
 <p>Wow... a whole lot of code just for calling bar and baz. And as I wrote that without even compiling I'm sure there are too many hidden bugs, lots of code-paths my simple programmer's mind can't even begin to imagine which will cause my Expensive_Resource to be leaked!</p>
 <p>Let's rewrite that using RAII:</p>
-<pre lang="c++"><code lang="c++">void foo() {
+<pre lang="c++"><code class="language-c++" lang="c++">void foo() {
     Expensive_Resource x;
     RAII_Wrapper release(&amp;x);
     if (not bar()) return -1;
@@ -175,6 +184,9 @@ A: :set notitle</p>
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

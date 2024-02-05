@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Setting up a Linux gateway/router, a guide for non network admins<a name="settingupalinuxgatewayrouteraguidefornonnetworkadmins"></a></h1>
 <p>Setting up a Linux GW or router is not as hard as it may seem, as long as you are reading a friendly enough guide. Yes, there are a lot of guides for this, but since I needed to document how I did it, I might as well write a post about it here. My addition to the usual "setting up a linux gw guide": I'll do it using Virtualbox first, so I can test my setup before actually deploying it.</p>
 <p>I'm going to write about how can you setup a regular Linux distro to be your border router/gateway for your LAN, but for easy of use I'll base my examples on Ubuntu.</p>
@@ -62,13 +71,17 @@
 </ol>
 <p>You are all set now, with this virtual setup you can begin setting up your router. We'll see how next time.</p>
 <hr />
-<p><a href="/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-26 -
+    <a href="/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

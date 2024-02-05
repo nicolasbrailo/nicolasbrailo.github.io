@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,17 +19,26 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Fix Spotify deeplinking in Linux + custom SpotiWeb UI<a name="fixspotifydeeplinkinginlinuxcustomspotiwebui"></a></h1>
 <p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:</p>
-<pre lang="bash"><code lang="bash">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
+<pre lang="bash"><code class="language-bash" lang="bash">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
 sudo echo '/usr/share/spotify/spotify.real --uri="$1"' &gt; /usr/share/spotify/spotify
 </code></pre>
 <p>Seems old versions of spotify would try to open anything as a deeplink, but new versions require a <code>--uri</code> parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.</p>
@@ -38,13 +47,17 @@ sudo echo '/usr/share/spotify/spotify.real --uri="$1"' &gt; /usr/share/spotify/s
 <p>I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, <a href="https://nicolasbrailo.github.io/SpotiWeb/">so I rolled out my own</a>. It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)</p>
 <p>The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and <a href="https://github.com/nicolasbrailo/SpotiWeb">either run your own, or check out there's no server side processing involved.</a></p>
 <hr />
-<p><a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2023-12-16 -
+    <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Fixing keyboard problems in Ubuntu J.J.<a name="fixingkeyboardproblemsinubuntuj.j."></a></h1>
 <p>I recently metioned in my <a href="blog_md/2009/0427_UbuntuJ.J..md">Ubuntu J.J. review</a> I was experiencing some issues with the keyboard in Opera. Well, the solution is simple, though not easy to find: the culprit was a missing language pack.</p>
 <p>While installing the OS I didn't have Internet connection (the Squid server died and left me with no repos to work with after installing) so it didn't download some required language files, thus screwing up non Gnome programs (Opera, in my case).</p>
@@ -35,13 +44,17 @@
 <p>(1) Sistema &gt; Administraci&oacute;n &gt; Soporte de Idiomas
 (2) Usar motores de m&eacute;todo de entrada (IME) para ...</p>
 <hr />
-<p><a href="/blog/2009/0505_FixingkeyboardproblemsinUbuntuJ.J..html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0505_FixingkeyboardproblemsinUbuntuJ.J..md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-05-05 -
+    <a href="/blog/2009/0505_FixingkeyboardproblemsinUbuntuJ.J..html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0505_FixingkeyboardproblemsinUbuntuJ.J..md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

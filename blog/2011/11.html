@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2011 November<a name="postsfor2011november"></a></h1>
 <h1>svn tip: branch stable version, then use externals<a name="svntipbranchstableversionthenuseexternals"></a></h1>
 <p>Post by Nico Brailovsky @ 2011-11-24 -
@@ -38,7 +47,7 @@
 <p>This is horrible, whenever BestLibEver is updated you need to manually update BestAppEver. Thus, we come to the second (but not quite the best) solution: <a href="http://svnbook.red-bean.com/en/1.0/ch07s03.html">svn externals</a>. They work like this:</p>
 <p><img alt="" src="/blog_img/svn_externals21.png" /></p>
 <p>Again, although I said svn externals, most version control systems have their own externals version. For a detailed explanation on how externals work you should read the link above, for the moment let's just say this is enough to setup the external:</p>
-<pre lang="c++"><code lang="c++">$ svn pe svn:externals .
+<pre lang="c++"><code class="language-c++" lang="c++">$ svn pe svn:externals .
 # This will open your default editor. Now write this:
 LibName           LibURL
 </code></pre>
@@ -52,10 +61,10 @@ LibName           LibURL
     <a href="/blog/2011/1122_FixingsomeannoyingGTKWarnings.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1122_FixingsomeannoyingGTKWarnings.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, new Buguntu upgrade, new problems. The usual deal. I don't like Unity so I installed the usual gnome desktop. Now when I start gVim I get a bunch of errors like this:</p>
-<pre lang="c++"><code lang="c++">(gvim:7189): Gtk-WARNING **: Unable to locate theme engine in module_path: "pixmap"
+<pre lang="c++"><code class="language-c++" lang="c++">(gvim:7189): Gtk-WARNING **: Unable to locate theme engine in module_path: "pixmap"
 </code></pre>
 <p>OK, not errors, just warnings. I don't like them anyway, so I did this to fix it:</p>
-<pre lang="c++"><code lang="c++">sudo apt-get install gtk2-engines-pixbuf
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install gtk2-engines-pixbuf
 </code></pre>
 <p>Now it works. One problem less, NaN to go... time to move back to Debian?</p>
 <hr />
@@ -66,11 +75,11 @@ LibName           LibURL
 <p>There is a topic I have referred to several times on this blog, yet in four years I still haven't explained what it is. I plan to correct this by explaining a little bit about C++ name mangling, and although I won't expect to write anything you couldn't learn by reading <a href="http://en.wikipedia.org/wiki/Name_mangling">Wikipedia</a>, I'll try to have a more practical approach.</p>
 <p>Whenever you compile and link something, there is a lot of information the compiler deduces that you don't really care about. Things like calling conventions, overloads or namespaces. Yet this information is crucial for other stages of the compiler (or linker) to work. For this reason, the compiler will create a decorated version of any object's or function's name.</p>
 <p>In its most simple case, it would be something like this:</p>
-<pre lang="c++"><code lang="c++">void overloaded_function(int);
+<pre lang="c++"><code class="language-c++" lang="c++">void overloaded_function(int);
 void overloaded_function(string);
 </code></pre>
 <p>Which would then be translated to something like:</p>
-<pre lang="c++"><code lang="c++">void fastcall_int_overloaded_function(int);
+<pre lang="c++"><code class="language-c++" lang="c++">void fastcall_int_overloaded_function(int);
 void fastcall_string_overloaded_function(string);
 </code></pre>
 <p>Of course, for more complex functions (like class methods) the mangling is much more complicated. Also, remember that's just a mangling convention I just invented, and most likely not used by any compiler in existence.</p>
@@ -83,7 +92,7 @@ void fastcall_string_overloaded_function(string);
 <p>gdb already takes care of this so it may be transparent to you, but if you are using a debugger not aware of how your compiler mangles names, you may end up with a lot of very difficult to understand names.</p>
 <h3>Bonus: Demangling C++ names<a name="bonusdemanglingcnames"></a></h3>
 <p>If you find yourself in the last case, for example when running an nm to get the names defined in a (compiled) object, you can use c++ filt. Like this:</p>
-<pre lang="c++"><code lang="c++">nm foo.o | c++filt
+<pre lang="c++"><code class="language-c++" lang="c++">nm foo.o | c++filt
 </code></pre>
 <hr />
 <h1>New Buguntu, new GUI, new problems<a name="newbuguntunewguinewproblems"></a></h1>
@@ -102,6 +111,9 @@ void fastcall_string_overloaded_function(string);
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Open Office, master documents and headless<a name="openofficemasterdocumentsandheadless"></a></h1>
 <p>I have been writing some documentation lately (crazy, I know) and needed due to some bizarre business requirements all the documentation for the application was supposed to be in a single .doc file. That's write, a single file for user manual, technical manual, administration manual and so on. And I had no LaTeX either (damn those MS Office files, I hate them) so using multiple tex files and including them together wasn't an option.</p>
 <p>Choosing the least of all evils, I decided to use Open Office and master documents. With them you can create several different .doc files and then join them together in a single .odm file, which can then be exported to pdf (or .doc, if your boss says so). It's a nice feature, but for such a simple thing as having multiple documents #included in a single one you would expect it to work better. From OO manual:</p>
@@ -35,13 +44,17 @@
 </blockquote>
 <p>Oh, thanks a lot OO.org (?). BTW, exporting an odm to pdf with a headless set == FAIL (i.e. don't even try to use this if you intend to <a href="/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html">autogenerate some documentation with your makefile</a>).</p>
 <hr />
-<p><a href="/blog/2011/1006_OpenOfficemasterdocumentsandheadless.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1006_OpenOfficemasterdocumentsandheadless.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-10-06 -
+    <a href="/blog/2011/1006_OpenOfficemasterdocumentsandheadless.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1006_OpenOfficemasterdocumentsandheadless.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

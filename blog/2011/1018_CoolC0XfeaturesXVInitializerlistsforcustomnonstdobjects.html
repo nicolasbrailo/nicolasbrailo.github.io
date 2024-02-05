@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,21 +19,30 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Cool C++0X features XV: Initializer lists for custom (non-std) objects<a name="coolc0xfeaturesxvinitializerlistsforcustomnonstdobjects"></a></h1>
 <p>Last time we saw how you can use C style array-initialization for C++ objects, like this:</p>
-<pre lang="c++"><code lang="c++">    std::vector<int> v = {1,2,3,4};
+<pre lang="c++"><code class="language-c++" lang="c++">    std::vector<int> v = {1,2,3,4};
 </code></pre>
 <p>We also saw this works for may types of objects, like maps and pairs. How about custom developed objects? Yes, that's right, you can have initilizer lists for your own objects too, and it's quite easy. C++0x offers initializer_lists which you can use on your constructors (or any other methods, for that mater) to have C-style initialization. Let's see an example. We already know how to sum a list of numbers using template lists and variadic templates, so let's try adding an initializer consisting of numbers:</p>
 <p>Let's start by creating a class which can accept an initializer list:</p>
-<pre lang="c++"><code lang="c++">#include <initializer_list>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <initializer_list>
 using namespace std;
 struct Add_List {
     Add_List(initializer_list<int> lst) {
@@ -45,7 +54,7 @@ int main() {
 }
 </code></pre>
 <p>That's interesting, as you can see an initializer list is actualy a template class, meaning that nested initializers can easily be defined too. Now, we have the interface, how can we access each element of the list? Let's do the same thing I did when I found out about initilizers, let's search for the header file.</p>
-<pre lang="c++"><code lang="c++">  template<class _E>
+<pre lang="c++"><code class="language-c++" lang="c++">  template<class _E>
     class initializer_list
     {
     public:
@@ -75,7 +84,7 @@ int main() {
   };
 </code></pre>
 <p>Looks surprisingly easy (note that this is for G++ 4.something only). And it is, most of the magic happens in the compiler, so the userland code is quite straight forward. According to that header file, we could build something like this:</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 #include <initializer_list>
 using namespace std;
 struct Add_List {
@@ -94,13 +103,17 @@ int main() {
 <p>As you can see, the initializer lists can be used in any place an iterable container is required, as long as it's const. There's not much more magic to it, but we can use some more C++0x devices to make our list-adding device much more cool, for example to support different actions and not only addition. Next time, though.</p>
 <p>PS: An important lesson from this article: don't be afraid to look into the system headers, they won't bite. You should never ever change them, but taking a peek can only improve your C++ knowledge.</p>
 <hr />
-<p><a href="/blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-10-18 -
+    <a href="/blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

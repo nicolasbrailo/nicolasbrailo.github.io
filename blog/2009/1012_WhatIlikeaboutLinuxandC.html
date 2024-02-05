@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>What I like about Linux and C++<a name="whatilikeaboutlinuxandc"></a></h1>
 <p>Some time ago I worked in a team with a guy who liked programming in Java. Really like it, to the point where the weaknesess of the language were all in his blindspot. I did the only sensible thing a guy like me can do, sent him a mail stating that the lack of <a href="http://en.wikipedia.org/wiki/Closure_(computer_science)">closures</a> in Java would doom the language as soon as C++0X comes out.</p>
 <p>That is not really my opinion but it sure served my pourpose. Trolling. Obviously I recieved a three page email back, explaining why adopting closures as part of the Java specification was irrelevant due the use of inner classes (?) or something like that, I don't remember now.</p>
@@ -38,13 +47,17 @@
 <p>Far more important than actually choosing the perfect OS, the perfect language, the perfect whatever, choose what better fits your skills and your team, then know your limitations by hearth. It'll save you lots of trouble.</p>
 <p>PS: I like the new category, "Grumpy". Here I'll post all kind of rants and subjective opinions I feel like posting.</p>
 <hr />
-<p><a href="/blog/2009/1012_WhatIlikeaboutLinuxandC.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/1012_WhatIlikeaboutLinuxandC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-10-12 -
+    <a href="/blog/2009/1012_WhatIlikeaboutLinuxandC.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/1012_WhatIlikeaboutLinuxandC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

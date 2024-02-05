@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2013 May<a name="postsfor2013may"></a></h1>
 <h1>Vim tip: remember undos<a name="vimtiprememberundos"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-05-30 -
@@ -121,7 +130,7 @@
 <p>Our latest personality function knows whether it can handle an exception or not (assuming there is only one catch statement per try block and assuming no inheritance is used) but to make this knowledge useful, we have first to check if the exception we can handle matches the exception being thrown. Let's try to do this.</p>
 <p>Of course, we need first to know the exception type. To do this we need to save the exception type when <strong>__cxa_throw</strong> is called (this is the chance the ABI gives us to set all our custom data):</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">in my github repo</a>.</p>
-<pre lang="c++"><code lang="c++">void __cxa_throw(void<em> thrown_exception,
+<pre lang="c++"><code class="language-c++" lang="c++">void __cxa_throw(void<em> thrown_exception,
                  std::type_info </em>tinfo,
                  void (<em>dest)(void</em>))
 {
@@ -133,7 +142,7 @@
 }
 </code></pre>
 <p>And now we can read the exception type in our personality function and easily check if the exception types match (the exception names are C++ strings, so doing a == is enough to check this:</p>
-<pre lang="c++"><code lang="c++">// Get the type of the exception we can handle
+<pre lang="c++"><code class="language-c++" lang="c++">// Get the type of the exception we can handle
 const void<em> catch_type_info = lsda.types_table_start[ -1 * type_index ];
 const std::type_info </em>catch_ti = (const std::type_info <em>) catch_type_info;
 // Get the type of the original exception being thrown
@@ -150,7 +159,7 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
 <p>Check <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">here</a> for the full source with the new changes.</p>
 <p>Of course there would be a problem if we add that (can you see it?). If the exception is thrown in two phases and we said in the first one we would handle it, then we can't say on the second one we don't want it anymore. I don't know if _Unwind_ handles this case according to any documentation but this is most likely calling upon undefined behavior, so just saying we'll handle everything is no longer enough.</p>
 <p>Since we gave our personality function the ability to know if the landing pad can handle the exception being thrown we have been lying to _Unwind_ about which exceptions we can handle; even though we said we handle all of them on <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v09">our ABI 9</a>, the truth is that we didn't know whether we would be able to handle it. That's easy to change, we can do something like this:</p>
-<pre lang="c++"><code lang="c++"><em>Unwind_Reason_Code __gxx_personality_v0 (...)
+<pre lang="c++"><code class="language-c++" lang="c++"><em>Unwind_Reason_Code __gxx_personality_v0 (...)
 {
     printf("Personality function, searching for handler\n");
     // ...
@@ -169,7 +178,7 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
 </code></pre>
 <p>As usual, check the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v10">in my github repo</a>.</p>
 <p>So, what would we get if we run the personality function with this change? Fail, that's what we'd get! Remember our throwing functions? This one should catch our exception:</p>
-<pre lang="c++"><code lang="c++">void catchit() {
+<pre lang="c++"><code class="language-c++" lang="c++">void catchit() {
     try {
         try_but_dont_catch();
     } catch(Fake_Exception&amp;) {
@@ -189,7 +198,7 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0514_Cexceptionsunderthehood17reflectingonanexceptiontypeandreading.gcc_except_table.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>By now we know that when an exception is thrown we can get a lot of reflexion information by reading the local data storage area AKA .gcc_except_table; reading this table we have been able to implement a personality function capable of deciding which landing pad to run when an exception is thrown. We also know how to read the action table part of the LSDA, so we should be able to modify our personality function to pick the correct catch statement inside a landing pad with multiple catches.</p>
 <p>We left our ABI implementation last time, and dedicated some time to analyze the assembly for .gcc_except_table to discover how can we find the types a catch can handle. We found that indeed there is a part of this table that holds a list of types where this information can be found. Let's try to read it on the cleanup phase, but first let's remember the definition for our LSDA header:</p>
-<pre lang="c++"><code lang="c++">struct LSDA_Header {
+<pre lang="c++"><code class="language-c++" lang="c++">struct LSDA_Header {
     uint8_t start_encoding;
     uint8_t type_encoding;
     // This is the offset, from the end of the header, to the types table
@@ -197,7 +206,7 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
 };
 </code></pre>
 <p>That last field is new (for us): it's giving us an offset into table of types. Let's also remember the definition of each call site:</p>
-<pre lang="c++"><code lang="c++">struct LSDA_CS {
+<pre lang="c++"><code class="language-c++" lang="c++">struct LSDA_CS {
     // Offset into function from which we could handle a throw
     uint8_t start;
     // Length of the block that might throw
@@ -209,7 +218,7 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
 };
 </code></pre>
 <p>Check that last field, "action". That gives us an offset into the action table. That means we can find the action for a specific CS. The trick here is that for landing pads where a catch exists, the action will hold an offset for the types table; we can then use the offset into the types table pointer, which we can get from the header. Quite a mouthful: let's better talk code:</p>
-<pre lang="c++"><code lang="c++">// Pointer to the beginning of the raw LSDA
+<pre lang="c++"><code class="language-c++" lang="c++">// Pointer to the beginning of the raw LSDA
 LSDA_ptr lsda = (uint8_t<em>)_Unwind_GetLanguageSpecificData(context);
 // Read LSDA headerfor the LSDA
 LSDA_Header header(&amp;lsda);
@@ -268,7 +277,7 @@ Next time we'll see if we can match our newly found type to our original excepti
 <li>For a landing pad with multiple catch statements, how can we know all possibly catch types?</li>
 <li>Take the following example. Not only we'll have to check whether the landing pad accepts the current exception, we'll have to check if it accepts any of the current exception's parents!</li>
 </ul>
-<pre lang="c++"><code lang="c++">
+<pre lang="c++"><code class="language-c++" lang="c++">
 struct Base {};
 struct Child : public Base {};
 void foo() { throw Child; }
@@ -306,7 +315,7 @@ void bar()
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0502_Cexceptionsunderthehood15findingtherightlandingpad.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>This is now the 15th installment in what's becoming the longest series I've written for this blog; we have so far learned how exceptions are thrown and we have written a personality function capable of, with some sort of reflexion, detecting where the catch-blocks are (landing pads, in exception speak). In the last article we wrote a personality function that can handle exceptions, but it does so only with the first landing pad of the first call frame in the stack. Let's improve that a little bit, let's make our personality function capable of choosing the right landing pad in a function with multiple landing pads.</p>
 <p>In a TDD fashion we can first build a test for our ABI. Let's modify our test program, throw.cpp, to have two try/catch blocks:</p>
-<pre lang="c++"><code lang="c++">#include <stdio.h>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdio.h>
 #include "throw.h"
 struct Fake_Exception {};
 void raise() {
@@ -343,7 +352,7 @@ extern "C" {
 </code></pre>
 <p>Before you test it, try to think about what will happen upon running this test. Focus on the try_but_dont_catch function: the first try/catch block will not throw, then the second block will throw. Since our ABI is quite dumb the first block will handle the second block's exception. What will happen after the first block has finished handling the exception? The execution will resume from where the catch/try ends, thus entering again on the second try/catch block. Infinite loop! We have reinvented yet again a very complicated while(true).</p>
 <p>Let's use our knowledge of the start/length fields in the call site table (LSDA) to properly choose our landing pad. For this we will need to know what the instruction pointer was when the exception was thrown, and we can do this with an _Unwind_ function we already know: _Unwind_GetIP. To understand what _Unwind_GetIP will return let's see an example:</p>
-<pre lang="c++"><code lang="c++">void f1() {}
+<pre lang="c++"><code class="language-c++" lang="c++">void f1() {}
 void f2() { throw 1; }
 void f3() {}
 void foo() {
@@ -363,7 +372,7 @@ L3:
 +------------------------------+
 </code></pre>
 <p>Note that IP will be at L3 but the exception will be thrown in L2; this is because the IP will point to the next instruction to execute. This also means we need to substract one if we need to find the IP where an exception was thrown, otherwise the result from _Unwind_GetIP would not be in the range of our landing pad. Back to our personality function:</p>
-<pre lang="c++"><code lang="c++">_Unwind_Reason_Code __gxx_personality_v0 (
+<pre lang="c++"><code class="language-c++" lang="c++">_Unwind_Reason_Code __gxx_personality_v0 (
                              int version,
                              _Unwind_Action actions,
                              uint64_t exceptionClass,
@@ -427,6 +436,9 @@ L3:
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

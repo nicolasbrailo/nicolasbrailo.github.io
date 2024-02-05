@@ -71,6 +71,7 @@ class CodeProcessor(BlockProcessor):
                 if lang is not None:
                     pre.set('lang', lang)
                     code.set('lang', lang)
+                    code.set('class', f'language-{lang}')
                 # TODO: Do I need html.escape?
                 # No html parsing: self.parser.parseBlocks(pre, blocks[0:block_num + 1])
                 #code.text = html.escape('\n'.join(blocks[0:block_num] + [block_before_marker]))

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Cool C++0X features X: type inference with decltype<a name="coolc0xfeaturesxtypeinferencewithdecltype"></a></h1>
 <p>After creating a <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">wrapper object</a> on the last entries, we were left with three syntax changes two analyze:</p>
 <ul>
@@ -35,7 +44,7 @@
 <li>auto</li>
 </ul>
 <p>We already saw the first, and we'll be talking about the other two this time. This was the original wrapper function which led us here:</p>
-<pre lang="c++"><code lang="c++">template <class... Args>
+<pre lang="c++"><code class="language-c++" lang="c++">template <class... Args>
 auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
     std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
     return do_something(a...);
@@ -44,12 +53,12 @@ auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
 <p>Back on topic: <strong>decltype</strong>
 This operator (yes, decltype is an operator) is a cousin of sizeof which will yield the type of an expression. Why do I say it's a cousin of sizeof? Because it's been in the compilers for a long time, only in disguise. This is because you can't get the size of an expression without knowing it's type, so even though it's implementation has existed for a long time only now it's available to the programmer.</p>
 <p>One of it's interesting features is that the expression with which you call decltype won't be evaluated, so you can safely use a function call within a decltype, like this:</p>
-<pre lang="c++"><code lang="c++">auto foo(int x) -&gt; decltype( bar(x) ) {
+<pre lang="c++"><code class="language-c++" lang="c++">auto foo(int x) -&gt; decltype( bar(x) ) {
     return bar(x);
 }
 </code></pre>
 <p>Doing this with, say, a macro, would get bar(x) evaluated twice, yet with decltype it will be evaluated only once. Any valid C++ expression can go within a decltype operator, so for example this is valid too:</p>
-<pre lang="c++"><code lang="c++">template <typename A, typename B>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename A, typename B>
 auto multiply(A x, B y) -&gt; decltype( x<em>y )
 {
     return x</em>y;
@@ -58,7 +67,7 @@ auto multiply(A x, B y) -&gt; decltype( x<em>y )
 <p>What's the type of A and B? What's the type of A*B? We don't care, the compiler will take care of that for us. Let's look again at that example, more closely:</p>
 <p><strong>-&gt; (delayed declaration) and decltype</strong>
 Why bother creating a delayed type declaration at all and not just use the decltype in place of the auto? That's because of a scope problem, see this:</p>
-<pre lang="c++"><code lang="c++">// Declare a template function receiving two types as param
+<pre lang="c++"><code class="language-c++" lang="c++">// Declare a template function receiving two types as param
 template <typename A, typename B>
 // If we are declaring a multiplication operation, what&#x27;s the return type of A<em>B?
 // We can&#x27;t multiply classes, and we don&#x27;t know any instances of them
@@ -73,19 +82,23 @@ auto multiply(A x, B y)
 </code></pre>
 <p><strong>decltype</strong>
 As you see, decltype can be a very powerful tool if the return type of a function is not known for the programmer when writing the code, but you can use it to declare any type, anywhere, if you are too lazy to type. If you, for example, are very bad at math and don't remember that the integers group is closed for multiplication, you could write this:</p>
-<pre lang="c++"><code lang="c++">    int x = 2;
+<pre lang="c++"><code class="language-c++" lang="c++">    int x = 2;
     int y = 3;
     decltype(x<em>y) z = x</em>y;
 </code></pre>
 <p>Yes, you can use it as VB's dim! (kidding, just kidding, please don't hit me). Even though this works and it's perfectly legal, auto is a better option for this. We'll see that on the next entry.</p>
 <hr />
-<p><a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-06-10 -
+    <a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

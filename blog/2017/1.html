@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2017 January<a name="postsfor2017january"></a></h1>
 <h1>Fixing templates with constexpr's<a name="fixingtemplateswithconstexprs"></a></h1>
 <p>Post by Nico Brailovsky @ 2017-01-18 -
@@ -34,7 +43,7 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2017/0118_Fixingtemplateswithconstexprs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For my hundredth (and a bit) c++ post I decided to do something I never did before: fix my old code!</p>
 <p>A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my <a href="/blog/youfoundadeadlink.html">template device to calculate e</a>. Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):</p>
-<pre lang="c++"><code lang="c++">template <int N, int D> struct Frak {
+<pre lang="c++"><code class="language-c++" lang="c++">template <int N, int D> struct Frak {
         static const long Num = N;
         static const long Den = D;
 };
@@ -86,19 +95,19 @@ int main() {
 </code></pre>
 <p>While this is just a toy example to play with templates, it does illustrate code I've seen in the wild. Would this look cleaner in c++11? Yes, it would. Constexprs are, in my opinion, one of the most overlooked "killer" features of c++11.</p>
 <p>Starting with a simple example:</p>
-<pre lang="c++"><code lang="c++">constexpr int foo(int a, int b) { return a+b; }
+<pre lang="c++"><code class="language-c++" lang="c++">constexpr int foo(int a, int b) { return a+b; }
 static constexpr int n = foo(1, 2);
 int bar() { return n; }
 </code></pre>
 <p>Try to compile it with "g++ -std=c++11 -fverbose-asm -O0 -c -S -o /dev/stdout" and see what happens. You should get the equivalent of "return 3" - just as anyone would expect - but note that no optimizations were enabled. What about loops? Let's try this:</p>
-<pre lang="c++"><code lang="c++">constexpr int f(int n) {
+<pre lang="c++"><code class="language-c++" lang="c++">constexpr int f(int n) {
     return (n&lt;2)? 1 : n + f(n-1);
 }
 constexpr int n = f(999);
 </code></pre>
 <p>You'll probably get an error about maximum depth exceeded, but that's alright: we have loops in constexprs too! (note that some of these restrictions have been relaxed in C++17).</p>
 <p>In general, if you can express your function as a single const return statement, it should be a valid constexpr. With this new knowledge, let's convert the template meta-atrocity above to something a bit less hideous:</p>
-<pre lang="c++"><code lang="c++">struct PodFrac {
+<pre lang="c++"><code class="language-c++" lang="c++">struct PodFrac {
     int num;
     int den;
 };
@@ -134,7 +143,7 @@ float get_e() {
     <a href="/blog/2017/0104_Quickrefresherargumentdependentlookup.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2017/0104_Quickrefresherargumentdependentlookup.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Since I wasted a few precious minutes stuck on an ADL problem, I figured I needed a quick reminder on how they work. Check this code: does it compile?</p>
-<pre lang="c++"><code lang="c++">namespace N {
+<pre lang="c++"><code class="language-c++" lang="c++">namespace N {
     int foo() {
     }
 }
@@ -143,7 +152,7 @@ int main() {
 }
 </code></pre>
 <p>Of course it doesn't! You'd expect a 'foo' not declared/out of scope error from your compiler. What about this other example?</p>
-<pre lang="c++"><code lang="c++">namespace N {
+<pre lang="c++"><code class="language-c++" lang="c++">namespace N {
     struct Dummy;
     int foo(Dummy<em>) {
         return 0;
@@ -162,6 +171,9 @@ int main() {
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

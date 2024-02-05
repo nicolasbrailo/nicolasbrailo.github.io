@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,17 +19,26 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>C++: Magic callbacks solved<a name="cmagiccallbackssolved"></a></h1>
 <p>Long post this time - and lots of code too. How fun iz that? Anyway, <a href="/blog/2009/0721_CMagicmembercallbacks.html">remember where we left last time</a>? We're supposed to make this work:</p>
-<pre lang="c++"><code lang="c++">class Callee {
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
  Callback notify;
  public:
   Callee(Callback notify) : notify(notify) {}
@@ -54,7 +63,7 @@ class Caller {
 </ul>
 <h3>Experiment 1: Templates<a name="experiment1templates"></a></h3>
 <p>We could to this the easy way, with a template:</p>
-<pre lang="c++"><code lang="c++">template &lt;class Callback&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Callback&gt;
 class Callee {
   ...
 };
@@ -70,14 +79,14 @@ class Caller {
 3. It's boring</p>
 <h3>Experiment 2: Template virtual method<a name="experiment2templatevirtualmethod"></a></h3>
 <p>So, lets try another approach: the naive one is an interface:</p>
-<pre lang="c++"><code lang="c++">class iCallback {
+<pre lang="c++"><code class="language-c++" lang="c++">class iCallback {
   public:
   template &lt;class T&gt; void operator () (T o) = 0;
 };
 </code></pre>
 <p>Looks great, doesn't it? Too bad <strong>it's not valid C++</strong>, you can't have a virtual template method (what would the vtable size be?).
 If we can't have a template method let's make a template class:</p>
-<pre lang="c++"><code lang="c++">template &lt;class T&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class T&gt;
 class iCallback {
   public:
   virtual void operator () (T o) = 0;
@@ -98,7 +107,7 @@ class Caller : public iCallback&lt;Callee</em>&gt; {
 </code></pre>
 <p>It may not be pretty but it works. Also, adding a callback means adding a new operator (). Lets try to improve it a little by removing the nasty inheritance (remember, <em>always prefer composition over inheritance</em>):</p>
 <h3>Experiment 3: Callback Object<a name="experiment3callbackobject"></a></h3>
-<pre lang="c++"><code lang="c++">template &lt;class P&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class P&gt;
 class iCallback {
  public:
   void operator () (P o) = 0;
@@ -122,7 +131,7 @@ class Callback : public iCallback&lt;P&gt; {
 2. Delete the inheritance
 3. Use the arrow-asterisk operator (!) which is way cool</p>
 <p>How would this change leave our code?</p>
-<pre lang="c++"><code lang="c++">class Caller;
+<pre lang="c++"><code class="language-c++" lang="c++">class Caller;
 class Callee {
  Callback&lt;Caller, Callee<em>&gt; </em>notify;
  public:
@@ -139,7 +148,7 @@ class Caller {
 </code></pre>
 <p>Oops, looks like we took one step back: now Callee MUST know the type of Caller. Not nice. Luckily it is an easy fix:</p>
 <h3>Experiment 4: Callback interface<a name="experiment4callbackinterface"></a></h3>
-<pre lang="c++"><code lang="c++">class Callee {
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
   iCallback&lt;Callee<em>&gt; </em>notify;
   public:
   Callee(iCallback&lt;Callee<em>&gt; </em>notify) : notify(notify) {}
@@ -148,7 +157,7 @@ class Caller {
 </code></pre>
 <p>OK, we're back on track. We will solve that weird looking (*notify)(this) later, don't worry.</p>
 <p>We're almost there, but specifying the callback as  is ugly, Caller should be automagically inferred from the context by some template voodoo. Let's do it by implementing a wrapper:</p>
-<pre lang="c++"><code lang="c++">template &lt;class R&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class R&gt;
 class WraperCallback {
   iCallback&lt;R&gt; <em>cb;
   public:
@@ -165,7 +174,7 @@ class WraperCallback {
 </code></pre>
 <p>Now we no longer need to specify the Caller type. There's still a nasty issue about pointer-vs-object passing. Using (*notify)(this) is very ugly so let's do it like this:</p>
 <h3>Experiment 5: Callback object bis<a name="experiment5callbackobjectbis"></a></h3>
-<pre lang="c++"><code lang="c++">class Callee {
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
   WraperCallback&lt;Callee<em>&gt; notify;
   public:
   Callee(WraperCallback&lt;Callee</em>&gt; notify) : notify(notify) {}
@@ -180,15 +189,15 @@ class Caller {
 };
 </code></pre>
 <p>Nice, this time it should work as expected. Only it does not, <strong>there is something horribly wrong about it</strong>. Can you see what it is? Take a second, I'll wait... OK, back? Right, it <strong>segfaults</strong>! Why? Easy, take a look at this:</p>
-<pre lang="c++"><code lang="c++">  Callee(Callback&lt;Callee*&gt; notify) : notify(notify) {}
+<pre lang="c++"><code class="language-c++" lang="c++">  Callee(Callback&lt;Callee*&gt; notify) : notify(notify) {}
 </code></pre>
 <p>We are using a copy constructor here, and what does our wrapper store?</p>
-<pre lang="c++"><code lang="c++">    WraperCallback(T* cb_obj, F f)
+<pre lang="c++"><code class="language-c++" lang="c++">    WraperCallback(T* cb_obj, F f)
        : cb( new Callback&lt;T, R&gt;(cb_obj, f) ) {}
 </code></pre>
 <p>Indeed, the copied WrapperCallback ends up pointing to a deleted Callback when the cb field of the original object gets copied and then destructed. We should have all the pieces to fix it now: we just need to implement the copy operator to make it work. How does the final version looks like?</p>
 <h3>Solution<a name="solution"></a></h3>
-<pre lang="c++"><code lang="c++">template &lt;class P&gt; class iCallback {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class P&gt; class iCallback {
   public:
     virtual void operator()(P) = 0;
     virtual iCallback&lt;P&gt;<em> clone() const = 0;
@@ -242,13 +251,17 @@ class Callback {
 <p>[...] you launch a background job, and you don’t really care when it’s done. You may use a callback to be notified when the job is done, but if you don’t really care then having an object which [...]</p>
 <p>Original <a href="/blog/2009/0803_CMagiccallbackssolved.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2009/0803_CMagiccallbackssolved.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0803_CMagiccallbackssolved.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-08-03 -
+    <a href="/blog/2009/0803_CMagiccallbackssolved.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0803_CMagiccallbackssolved.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

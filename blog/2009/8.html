@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2009 August<a name="postsfor2009august"></a></h1>
 <h1>"Good Linux users don&#39;t talk about Microsoft"<a name="goodlinuxusersdon39ttalkaboutmicrosoft"></a></h1>
 <p>Post by Nico Brailovsky @ 2009-08-27 -
@@ -44,28 +53,28 @@
     <a href="/blog/2009/0825_Morepreprocessorwizardystrings.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0825_Morepreprocessorwizardystrings.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>No preprocesor wizard should go out of his house without the always useful string maker. Let's say you're trying to create a class with some sort of pseudo type-system (*):</p>
-<pre lang="c++"><code lang="c++">class FooBar {
+<pre lang="c++"><code class="language-c++" lang="c++">class FooBar {
    public:
    const char* get_name(){ return "FooBar"; }
 };
 </code></pre>
 <p>Why would you type ALL that when you can make a simple macro, MK_CLASS, like this:</p>
-<pre lang="c++"><code lang="c++">MK_CLASS( FooBar )
+<pre lang="c++"><code class="language-c++" lang="c++">MK_CLASS( FooBar )
    /<em> Other methods </em>/
 };
 </code></pre>
 <p>Problem is, this will only print "Name":</p>
-<pre lang="c++"><code lang="c++">#define MK_CLASS( Name )
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_CLASS( Name )
       class Name { public:
             const char *get_name(){ return "Name"; }
 </code></pre>
 <p>Well, it's an easy fix, just prepend # to your string, like this:</p>
-<pre lang="c++"><code lang="c++">#define MK_CLASS( Name )
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_CLASS( Name )
       class Name { public:
             const char *get_name(){ return #Name; }
 </code></pre>
 <p>Or use this nice string maker:</p>
-<pre lang="c++"><code lang="c++">#define MK_STR(str) #str
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_STR(str) #str
 </code></pre>
 <p>As usual, use the preprocesor at your own risk.</p>
 <p>(*) Yeah, I know, OO purists will try to beat me to death for this, but it actually has some uses. I've found it to be a specially good solution when working with low level protocols.</p>
@@ -83,7 +92,7 @@
     <a href="/blog/2009/0818_CodditiesSelfinitialization.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0818_CodditiesSelfinitialization.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I get it, C++ is a complex language, but man, I'd like a little warning (lol) when this happens:</p>
-<pre lang="c++"><code lang="c++">class Foo {
+<pre lang="c++"><code class="language-c++" lang="c++">class Foo {
   int bar;
   Foo() : bar(bar) {}
 };
@@ -98,7 +107,7 @@
 <p>Fortunately, in Ubuntu JJ having a dual screen setup is a breeze. Just <strong>plug the two monitors</strong> and hope it works. Of course, it may not. If that's the case you can go to <strong>System &gt; Preferences &gt; Screen</strong> for a nice GUI, which will let you select each screen's resolution and position. Nothing better for productivity than having your monitors swapped, or even better, flipped upside down.</p>
 <p>Well, sometimes "Screen Preferences" won't work either, too bad. In that' case you'll have to get dirty with <strong><a href="www.x.org/wiki/Projects/XRandR">xrandr</a></strong>. It's not too difficult but it's console based (you're not scared of the console, are you?).</p>
 <p>Though the man page for xrandr is a little bit intimidating at first you'll just have to do it once, so I won't write about using it, I will just copy &amp; paste a script I keep in my desktop to fix the screen whenever it brakes (my lapop tends to foobar my screen when being docked or undocked, not sure why)</p>
-<pre lang="c++"><code lang="c++">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
+<pre lang="c++"><code class="language-c++" lang="c++">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
 </code></pre>
 <p>I am sure you can figure out the rest on your own - enjoy the dual screen setup!</p>
 <hr />
@@ -119,7 +128,7 @@
     <a href="/blog/2009/0803_CMagiccallbackssolved.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0803_CMagiccallbackssolved.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Long post this time - and lots of code too. How fun iz that? Anyway, <a href="/blog/2009/0721_CMagicmembercallbacks.html">remember where we left last time</a>? We're supposed to make this work:</p>
-<pre lang="c++"><code lang="c++">class Callee {
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
  Callback notify;
  public:
   Callee(Callback notify) : notify(notify) {}
@@ -144,7 +153,7 @@ class Caller {
 </ul>
 <h3>Experiment 1: Templates<a name="experiment1templates"></a></h3>
 <p>We could to this the easy way, with a template:</p>
-<pre lang="c++"><code lang="c++">template &lt;class Callback&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Callback&gt;
 class Callee {
   ...
 };
@@ -160,14 +169,14 @@ class Caller {
 3. It's boring</p>
 <h3>Experiment 2: Template virtual method<a name="experiment2templatevirtualmethod"></a></h3>
 <p>So, lets try another approach: the naive one is an interface:</p>
-<pre lang="c++"><code lang="c++">class iCallback {
+<pre lang="c++"><code class="language-c++" lang="c++">class iCallback {
   public:
   template &lt;class T&gt; void operator () (T o) = 0;
 };
 </code></pre>
 <p>Looks great, doesn't it? Too bad <strong>it's not valid C++</strong>, you can't have a virtual template method (what would the vtable size be?).
 If we can't have a template method let's make a template class:</p>
-<pre lang="c++"><code lang="c++">template &lt;class T&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class T&gt;
 class iCallback {
   public:
   virtual void operator () (T o) = 0;
@@ -188,7 +197,7 @@ class Caller : public iCallback&lt;Callee</em>&gt; {
 </code></pre>
 <p>It may not be pretty but it works. Also, adding a callback means adding a new operator (). Lets try to improve it a little by removing the nasty inheritance (remember, <em>always prefer composition over inheritance</em>):</p>
 <h3>Experiment 3: Callback Object<a name="experiment3callbackobject"></a></h3>
-<pre lang="c++"><code lang="c++">template &lt;class P&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class P&gt;
 class iCallback {
  public:
   void operator () (P o) = 0;
@@ -212,7 +221,7 @@ class Callback : public iCallback&lt;P&gt; {
 2. Delete the inheritance
 3. Use the arrow-asterisk operator (!) which is way cool</p>
 <p>How would this change leave our code?</p>
-<pre lang="c++"><code lang="c++">class Caller;
+<pre lang="c++"><code class="language-c++" lang="c++">class Caller;
 class Callee {
  Callback&lt;Caller, Callee<em>&gt; </em>notify;
  public:
@@ -229,7 +238,7 @@ class Caller {
 </code></pre>
 <p>Oops, looks like we took one step back: now Callee MUST know the type of Caller. Not nice. Luckily it is an easy fix:</p>
 <h3>Experiment 4: Callback interface<a name="experiment4callbackinterface"></a></h3>
-<pre lang="c++"><code lang="c++">class Callee {
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
   iCallback&lt;Callee<em>&gt; </em>notify;
   public:
   Callee(iCallback&lt;Callee<em>&gt; </em>notify) : notify(notify) {}
@@ -238,7 +247,7 @@ class Caller {
 </code></pre>
 <p>OK, we're back on track. We will solve that weird looking (*notify)(this) later, don't worry.</p>
 <p>We're almost there, but specifying the callback as  is ugly, Caller should be automagically inferred from the context by some template voodoo. Let's do it by implementing a wrapper:</p>
-<pre lang="c++"><code lang="c++">template &lt;class R&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class R&gt;
 class WraperCallback {
   iCallback&lt;R&gt; <em>cb;
   public:
@@ -255,7 +264,7 @@ class WraperCallback {
 </code></pre>
 <p>Now we no longer need to specify the Caller type. There's still a nasty issue about pointer-vs-object passing. Using (*notify)(this) is very ugly so let's do it like this:</p>
 <h3>Experiment 5: Callback object bis<a name="experiment5callbackobjectbis"></a></h3>
-<pre lang="c++"><code lang="c++">class Callee {
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
   WraperCallback&lt;Callee<em>&gt; notify;
   public:
   Callee(WraperCallback&lt;Callee</em>&gt; notify) : notify(notify) {}
@@ -270,15 +279,15 @@ class Caller {
 };
 </code></pre>
 <p>Nice, this time it should work as expected. Only it does not, <strong>there is something horribly wrong about it</strong>. Can you see what it is? Take a second, I'll wait... OK, back? Right, it <strong>segfaults</strong>! Why? Easy, take a look at this:</p>
-<pre lang="c++"><code lang="c++">  Callee(Callback&lt;Callee*&gt; notify) : notify(notify) {}
+<pre lang="c++"><code class="language-c++" lang="c++">  Callee(Callback&lt;Callee*&gt; notify) : notify(notify) {}
 </code></pre>
 <p>We are using a copy constructor here, and what does our wrapper store?</p>
-<pre lang="c++"><code lang="c++">    WraperCallback(T* cb_obj, F f)
+<pre lang="c++"><code class="language-c++" lang="c++">    WraperCallback(T* cb_obj, F f)
        : cb( new Callback&lt;T, R&gt;(cb_obj, f) ) {}
 </code></pre>
 <p>Indeed, the copied WrapperCallback ends up pointing to a deleted Callback when the cb field of the original object gets copied and then destructed. We should have all the pieces to fix it now: we just need to implement the copy operator to make it work. How does the final version looks like?</p>
 <h3>Solution<a name="solution"></a></h3>
-<pre lang="c++"><code lang="c++">template &lt;class P&gt; class iCallback {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class P&gt; class iCallback {
   public:
     virtual void operator()(P) = 0;
     virtual iCallback&lt;P&gt;<em> clone() const = 0;
@@ -337,6 +346,9 @@ class Callback {
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

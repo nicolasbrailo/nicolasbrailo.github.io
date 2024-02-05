@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2015 May<a name="postsfor2015may"></a></h1>
 <h1>PSA: Use nautilus (GTK) in Kubuntu if Dolphin crashes<a name="psausenautilusgtkinkubuntuifdolphincrashes"></a></h1>
 <p>Post by Nico Brailovsky @ 2015-05-27 -
@@ -53,7 +62,7 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0505_CAjumptablewithatemplatedevice.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">few articles ago</a> we saw how gcc might need some help when mixing template instanciation (pure compile time data) with function calls (deducible compile time information, but not available to the template expander). Now we'll go one step further and combine all three types: pure compile time data, deducible compile time data and pure run time data (*). Just to annoy the compiler, and to see how gcc is able to optimize the results.</p>
 <p>Let's build a simple example, similar to what we used last time: an object that will determine the range of an integer and then invoke a callback with the closest range. Something like this could be used, for example, to allocate a buffer.</p>
-<pre lang="c++"><code lang="c++">void boring(int x, func f) {
+<pre lang="c++"><code class="language-c++" lang="c++">void boring(int x, func f) {
     if (x &lt; 2) {
         f(2);
     } else if (x &lt; 4) {
@@ -66,7 +75,7 @@
 }
 </code></pre>
 <p>Can we build a prettier template version of this code, without any overhead? Let's try:</p>
-<pre lang="c++"><code lang="c++">typedef void (*func)(int);
+<pre lang="c++"><code class="language-c++" lang="c++">typedef void (*func)(int);
 template <int My_Size>
 struct Foo {
     void bar(size_t size, func callback) {
@@ -88,7 +97,7 @@ void wrapper(int x, func f) {
 }
 </code></pre>
 <p>And now, let's compile like as "g++ -fverbose-asm -S -O0 -c foo.cpp -o /dev/stdout | c++filt". You'll see something like this:</p>
-<pre lang="c++"><code lang="c++">wrapper(int, void (<em>)(int)):
+<pre lang="c++"><code class="language-c++" lang="c++">wrapper(int, void (<em>)(int)):
     call    Foo&lt;512&gt;::bar(unsigned long, void (</em>)(int))
 Foo&lt;512&gt;::bar(unsigned long, void (<em>)(int)):
     cmpq    $512, %rsi    #, size
@@ -113,7 +122,7 @@ Foo&lt;0&gt;::bar(unsigned long, void (*)(int)):
     # Stop condition, do nothing
 </code></pre>
 <p>That doesn't look too good, does it? We don't need to worry: we already learned that gcc needs help from the optimizer to handle template expansion and non static function calls. Let's move to O1:</p>
-<pre lang="c++"><code lang="c++">rapper(int, void (<em>)(int)):
+<pre lang="c++"><code class="language-c++" lang="c++">rapper(int, void (<em>)(int)):
 .LFB14:
     cmpq    $512, %rdi    #, D.2974
     jbe    .L2    #,
@@ -137,7 +146,7 @@ Foo&lt;0&gt;::bar(unsigned long, void (*)(int)):
 .L1:
 </code></pre>
 <p>It's better than last time, but it doesn't look great either: gcc managed to inline all calls, but it stopped there. Let's move to O2 and see what happens:</p>
-<pre lang="c++"><code lang="c++">
+<pre lang="c++"><code class="language-c++" lang="c++">
 wrapper(int, void (<em>)(int)):
     movslq    %edi, %rdi    # x, D.2987
     cmpq    $512, %rdi    #, D.2987
@@ -176,6 +185,9 @@ wrapper(int, void (<em>)(int)):
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

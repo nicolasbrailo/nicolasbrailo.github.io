@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>I thought we had deprecated regedit<a name="ithoughtwehaddeprecatedregedit"></a></h1>
 <p>Guys, I thought we had already agreed on this <a href="http://www.codinghorror.com/blog/2007/08/was-the-windows-registry-a-good-idea.html">a long time ago</a>. Windows registry sucks. It's a pain in the ass.</p>
 <p>Why TF is <a href="https://help.ubuntu.com/community/RestoreNautilusLocationBar">regedit</a> still used in Gnome? I'd switch to KDE, if only I wasn't so lazy.</p>
@@ -40,13 +49,17 @@
 <p>Agreeing with NotReally, all gconf-editor is, is a user friendly wrapper for GNOME and surrounding graphical environment. Redegit is not even close to the same thing as it retains core system and subsystem values and variables. Everything in the Windows environment relies on the registry. With a GTK enabled environment, this is never the case.</p>
 <p>Original <a href="/blog/2011/0222_Ithoughtwehaddeprecatedregedit.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2011/0222_Ithoughtwehaddeprecatedregedit.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0222_Ithoughtwehaddeprecatedregedit.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-02-22 -
+    <a href="/blog/2011/0222_Ithoughtwehaddeprecatedregedit.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0222_Ithoughtwehaddeprecatedregedit.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

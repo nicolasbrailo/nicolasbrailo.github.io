@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,18 +19,27 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Oh shit, the stack<a name="ohshitthestack"></a></h1>
 <p>Post from the wayback machine. I wrote this a long time ago but it got way down the posts queue, don't know why</p>
 <p>I liked my vacations very much, thank you. Some people enjoyed vacations from me too. At work they even decided to keep this gem for my return. Upon my arrival a nice coredump was waiting at my desk, so to speak. Check it out, isn't it beautiful?</p>
-<pre lang="c++"><code lang="c++">0 0xff05d070 in inflate_fast () from /usr/lib/libz.so
+<pre lang="c++"><code class="language-c++" lang="c++">0 0xff05d070 in inflate_fast () from /usr/lib/libz.so
 1 0xff05a13c in inflate () from /usr/lib/libz.so
 2 0x00146224 in ZDecompress::decompress (this=0xfbc7b300, sauce=@0xfbe7b740, dest=@0x27c910) at Compressor.h:134
 3 0x00145e80 in HandleClient::get_client_data (this=0x27c810, output_stream=0x27c910) at IPC/DataReceiver.cpp:54
@@ -39,7 +48,7 @@
 <p>The next step was getting zlib's code and adding enough printf's to know the problem was in the middle of the file, not at the beginning nor the end; indeed, most of the file could be correctly decoded, but then it just died. This looked more and more like a bug in zlib.</p>
 <p>I began to scramble things around, trying to isolate the problem. Things just got weirder, the same code worked fine if instead of being inside a thread I was on the main thread. If you have psychic powers you now have enough information to know what the problem was. Although I should have known too (this wasn't even the first time I saw a problem like this one!) I was mindset on finding a bug in zlib, which now, it seems, only appears while interacting with ACE (in my defence, I did see these kind of bugs too).</p>
 <p>Fiddling around with the code some more, even stranger backtraces began to appear. First this one:</p>
-<pre lang="c++"><code lang="c++">Program received signal SIGSEGV, Segmentation fault.
+<pre lang="c++"><code class="language-c++" lang="c++">Program received signal SIGSEGV, Segmentation fault.
 [Switching to LWP 10]
 0xfd6b88fc in _pollsys () from /usr/lib/libc.so.1
 (gdb) bt
@@ -48,7 +57,7 @@
 #2  0x696e7661 in ?? ()
 </code></pre>
 <p>And then this other one, which led me into the right direction:</p>
-<pre lang="c++"><code lang="c++">Program received signal SIGSEGV, Segmentation fault.
+<pre lang="c++"><code class="language-c++" lang="c++">Program received signal SIGSEGV, Segmentation fault.
 [Switching to LWP 9]
 0x000b6784 in std::operator| (__a=Cannot access memory at address 0xfbb7b094
 )
@@ -73,13 +82,17 @@
 <p>I'm glad to know I'm not the only one who finds (and makes) these kind of bugs lol</p>
 <p>Original <a href="/blog/2010/0601_Ohshitthestack.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2010/0601_Ohshitthestack.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0601_Ohshitthestack.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-06-01 -
+    <a href="/blog/2010/0601_Ohshitthestack.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0601_Ohshitthestack.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

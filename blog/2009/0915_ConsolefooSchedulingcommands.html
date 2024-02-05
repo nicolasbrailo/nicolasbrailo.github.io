@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,21 +19,30 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Console foo: Scheduling commands<a name="consolefooschedulingcommands"></a></h1>
 <p>You can easily schedule a command using "at", which recognizes a nicely formatted date string.</p>
 <p>For example:</p>
-<pre lang="bash"><code lang="bash">$ at today 3:00 AM
+<pre lang="bash"><code class="language-bash" lang="bash">$ at today 3:00 AM
 </code></pre>
 <p>This will open a prompt. So, for example:</p>
-<pre lang="bash"><code lang="bash">$ at today 3:30 PM
+<pre lang="bash"><code class="language-bash" lang="bash">$ at today 3:30 PM
 &gt; wget foobar.com/a_huge_file
 &gt; C-D
 </code></pre>
@@ -41,13 +50,17 @@
 To check the whole list of accepted formats check the man for at.</p>
 <p>One last note: at will "remember" the current environment variables, so PWD, USER, OLD_DIR and all that will be the same. This means if you schedule a command with a relative path it'll still work!</p>
 <hr />
-<p><a href="/blog/2009/0915_ConsolefooSchedulingcommands.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0915_ConsolefooSchedulingcommands.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-15 -
+    <a href="/blog/2009/0915_ConsolefooSchedulingcommands.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0915_ConsolefooSchedulingcommands.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

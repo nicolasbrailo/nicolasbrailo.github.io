@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,21 +19,30 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Template metaprogramming IX: Absolute Zero<a name="templatemetaprogrammingixabsolutezero"></a></h1>
 <p>By now we should have learned how to perform loops, branching and returns using templates. Let's add a couple of useful operations to our library: append and prepend.</p>
 <p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I've been using so far:</p>
 <pre><code>Prepend(e, lst) &lt;- LST(e, lst)
 </code></pre>
 <p>And in C++ (trivial, this time):</p>
-<pre lang="c++"><code lang="c++">template &lt;typename Elm, typename Lst=NIL&gt; struct Prepend {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename Elm, typename Lst=NIL&gt; struct Prepend {
     typedef LST&lt;Elm, Lst&gt; result;
 };
 </code></pre>
@@ -72,13 +81,17 @@ I promised to add one more operation to our toolbox, returning the position of a
 
 ---
 
-[Permalink](/blog_md/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md) -
-[Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2010-06-10 -
+    [Permalink](/blog_md/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md) -
+    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md&body=I%20have%20a%20comment!)
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

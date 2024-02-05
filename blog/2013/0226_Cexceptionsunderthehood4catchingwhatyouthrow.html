@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>C++ exceptions under the hood 4: catching what you throw<a name="cexceptionsunderthehood4catchingwhatyouthrow"></a></h1>
 <p>In this series about exception handling, we have discovered quite a bit about exception throwing by looking at compiler and linker errors but we have so far not learned anything yet about exception catching. Let's sum up the few things we learned about exception throwing:</p>
 <ul>
@@ -36,7 +45,7 @@
 <li><strong>__cxa_throw</strong> will prepare a bunch of stuff and forward this exception to <strong>_Unwind_</strong>, a set of functions that live in libstdc and perform the real stack unwinding (<a href="/blog/youfoundadeadlink.html">the ABI</a> defines the interface for these functions).</li>
 </ul>
 <p>Quite simple so far, but exception catching is a bit more complicated, specially because it requires certain degree of reflexion (that is, the ability of a program to analyze its own source code). Let's keep on trying our same old method, let's add some catch statements throughout our code, compile it and see what happens:</p>
-<pre lang="c++"><code lang="c++">#include "throw.h"
+<pre lang="c++"><code class="language-c++" lang="c++">#include "throw.h"
 #include <stdio.h>
 // Notice were adding a second exception type
 struct Fake_Exception {};
@@ -72,7 +81,7 @@ extern "C" {
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
 <p>Just like before, we have our seppuku function linking the C world with the C++ world, only this time we have added some more function calls to make our stack more interesting, plus we have added a bunch of try/catch blocks so we can analyze how does libstdc++ handles them.</p>
 <p>And just like before, we get some linker errors about missing ABI functions:</p>
-<pre lang="c++"><code lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+<pre lang="c++"><code class="language-c++" lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
 &gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
 throw.o: In function <code>try_but_dont_catch():
 throw.cpp:12: undefined reference to</code>__cxa_begin_catch
@@ -86,13 +95,17 @@ collect2: ld returned 1 exit status
 <p>Again we see a lot of interesting stuff going on here. The calls to <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong> are probably something we could have expected: we don't know what they are yet, but we can presume they are the equivalent of the <strong>throw/__cxa_allocate/throw</strong> conversions (you do remember that our throw keyword got translated to a pair of <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw functions</strong>, right?). The <strong>__gxx_personality_v0</strong> thing is new, though, and the central piece of the next few articles.</p>
 <p>What does the personality function do? We already said something about it on the introduction to this series but we will be looking into it with some more detail next time, together with our new two friends, <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch</strong>.</p>
 <hr />
-<p><a href="/blog/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-26 -
+    <a href="/blog/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,32 +19,45 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Setting up a Linux GW IV: Setting up apparmor<a name="settingupalinuxgwivsettingupapparmor"></a></h1>
 <p>Apparmor is a service that runs in the background, checking what other binaries can and can't do. For example, it will allow bind9 to open a listening socket on port 53 (DNS), but it will deny an attempt to open a listening socket on port 64. This is a security measure to limit the damage a compromised bind9 binary running as root might do. And since we are going to use a non standard configuration, we need to tell apparmor that it's OK.</p>
 <p>After installing bind9 we should get a new file in /etc/apparmor.d/usr.sbin.named. Add the following lines at the bottom:</p>
-<pre lang="c++"><code lang="c++">  /home/router/named/** rw,
+<pre lang="c++"><code class="language-c++" lang="c++">  /home/router/named/** rw,
   /home/router/named/ rw,
 </code></pre>
 <p>And restart apparmor service:</p>
-<pre lang="c++"><code lang="c++">/./etc/init.d/apparmor restart
+<pre lang="c++"><code class="language-c++" lang="c++">/./etc/init.d/apparmor restart
 </code></pre>
 <p>Since we were modifying apparmor to allow a non-standard bind installation, now restart bind too. This time it will start without any errors, and you should be able to tail -f /home/router/named/dns.log to see the DNS queries on real time. If it doesn't, check that /home/router/named is writable to the bind user (I did a chgrp -R bind named).</p>
 <hr />
-<p><a href="/blog/2013/1017_SettingupaLinuxGWIVSettingupapparmor.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1017_SettingupaLinuxGWIVSettingupapparmor.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-10-17 -
+    <a href="/blog/2013/1017_SettingupaLinuxGWIVSettingupapparmor.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1017_SettingupaLinuxGWIVSettingupapparmor.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

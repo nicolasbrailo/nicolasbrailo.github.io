@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,38 +19,47 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2012 November<a name="postsfor2012november"></a></h1>
 <h1>Cool C++0X features XIII: auto and ranged for, cleaner loops FTW<a name="coolc0xfeaturesxiiiautoandrangedforcleanerloopsftw"></a></h1>
 <p>Post by Nico Brailovsky @ 2012-11-29 -
     <a href="/blog/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Long time without updating this series. Last time we saw how the ugly</p>
-<pre lang="c++"><code lang="c++">for (FooContainer::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
+<pre lang="c++"><code class="language-c++" lang="c++">for (FooContainer::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
 </code></pre>
 <p>could be transformed into the much cleaner</p>
-<pre lang="c++"><code lang="c++">for (auto i = foobar.begin(); i != foobar.end(); ++i)
+<pre lang="c++"><code class="language-c++" lang="c++">for (auto i = foobar.begin(); i != foobar.end(); ++i)
 </code></pre>
 <p>Yet we are not done, we can clean that a lot more using for range statements.</p>
 <p>Ranged for is basically syntactic sugar (no flamewar intended) for shorter for statements. It's nothing new and it's been part of many languages for many years already, so there will be no lores about the greatness of C++ innovations (flamewar intended), but it still is a nice improvement to have, considering how tedious can be to write nested loops. This certainly looks much cleaner:</p>
-<pre lang="c++"><code lang="c++">for (auto x : foobar)
+<pre lang="c++"><code class="language-c++" lang="c++">for (auto x : foobar)
 </code></pre>
 <p>This last for-statement, even though it looks good enough to print and hang in a wall, raises a lot of questions. What's the type of x? What if I want to change its value? Let's try to answer that.</p>
 <p>The type of the iterator will be the same as the type of the vector, so in this case x would be an int:</p>
-<pre lang="c++"><code lang="c++">std::vector foobar;
+<pre lang="c++"><code class="language-c++" lang="c++">std::vector foobar;
 for (auto x : foobar) {
     std::cout &lt;&lt; (x+2);
 }
 </code></pre>
 <p>And now, what happens if you want to alter the contents of a list and not only display them? That's easy too, just declare x as an auto reference:</p>
-<pre lang="c++"><code lang="c++">std::vector foobar;
+<pre lang="c++"><code class="language-c++" lang="c++">std::vector foobar;
 for (auto&amp; x : foobar) {
     std::cout &lt;&lt; (x+2);
 }
@@ -84,7 +93,7 @@ for (auto&amp; x : foobar) {
 <p>In the last entry we learned how an apparently parallel algorithm can turn into a sequential nightmare via false sharing; what you may think to be two independent variables may actually be spatially close, thus sharing a cache line which gets invalidated by each and every write across cores. But is this a real world issue? If so, how can we fix it?</p>
 <p>We'll work backwards: let's see first how can this be fixed, and then we'll check if this is actually a real world issue.</p>
 <p>Remember our code sample, from last time:</p>
-<pre lang="c++"><code lang="c++">void lots_of_sums(unsigned idx, int v[])
+<pre lang="c++"><code class="language-c++" lang="c++">void lots_of_sums(unsigned idx, int v[])
 {
     const unsigned itrs = 2000<em>1000</em>1000;
     for (int i=0; i &lt; itrs; ++i)
@@ -93,13 +102,13 @@ for (auto&amp; x : foobar) {
 </code></pre>
 <p>An easy way to avoid false sharing would be to just assign i to a temporary variable, then assign the real result to v[i]; this way, you would be writing only once, the intermediate results will be in <a href="http://en.wikipedia.org/wiki/Thread-local_storage">TSS</a>, thus avoiding the contention in the loop.</p>
 <p>The second strategy to solve this problem would be to use padding. Knowing that your cache line is made of 64 bytes will let you write something like this:</p>
-<pre lang="c++"><code lang="c++">struct Padded {
+<pre lang="c++"><code class="language-c++" lang="c++">struct Padded {
     int num;
     char pad[60];
 };
 </code></pre>
 <p>Of course, this has another problem: what about the offset? We need not only padding but also spacing, for the alignment.</p>
-<pre lang="c++"><code lang="c++">struct Padded {
+<pre lang="c++"><code class="language-c++" lang="c++">struct Padded {
     char space[60];
     int num;
     char pad[60];
@@ -115,7 +124,7 @@ for (auto&amp; x : foobar) {
 <p>Running make &amp;&amp; make test only show lower numbers. You actually decreased the performance of your application, by making it multi-threaded! How can this be possible?</p>
 <p>While writing concurrent algorithms there are many places where you can fail, miserably. Contention is only one of them, but this is a very subtle way of failure; it will render your concurrent algorithms into a very complicated sequential algorithm, run in many cores. How can a simple concurrent algorithm turn into such a mess?</p>
 <p>In many cases, false sharing is the culprit of the lost performance. How exactly? Let's write a simple example for this:</p>
-<pre lang="c++"><code lang="c++">void lots_of_sums(unsigned idx, int v[])
+<pre lang="c++"><code class="language-c++" lang="c++">void lots_of_sums(unsigned idx, int v[])
 {
     const unsigned itrs = LOTS;
     for (int i=0; i &lt; itrs; ++i)
@@ -131,7 +140,7 @@ for (auto&amp; x : foobar) {
 <p>Remember that nowadays a CPU core is amazingly fast, so much that they make main memory look like dial up. To avoid waiting for the main memory to complete a request, several levels of cache exists. These caches know nothing about your application (well, mostly) so they can't know that v0 and v1 are actually different variables. Notice how this would apply if instead of a vector they were two random variables which happen to be allocated spatially close.</p>
 <p>If the CPU cache, L1 for the friends, can't know that v0 and v1 are separate, it will probably try to cache a whole chunk of memory. Say, maybe 64 or 128 bytes. Why should you care?</p>
 <p>Let's go back to our code. When you see this</p>
-<pre lang="c++"><code lang="c++">...
+<pre lang="c++"><code class="language-c++" lang="c++">...
     v[idx].num = i;
 ...
 </code></pre>
@@ -175,7 +184,7 @@ Wow, a simple read from L1 cache now fails because it's been marked as dirty by 
 <p>Some time ago I set up a bind9 on a spare server I had. Easy job, a side project of a boring late night. Of course, there was no point in just setting up my own TLD; I now had the power to have fun with DNS poisoning, and I could also create nice reports of the queries to the DNS server.</p>
 <p>Having fun with a DNS might be the topic for another post, for this one I'll just focus on how to get query statistics from a bind server.</p>
 <p>After grepping the web a little bit, I found a rather disconcerting lack of bind log analyzers. I just wanted a list of the most popular queries, as well as the ability to group the log by it's IP (and may be even to get the computer's SMB name). Couldn't have asked for a better chance to flex a little bit my Ruby-foo, and here is the hackish result for whoever may want to do something similar:</p>
-<pre lang="ruby"><code lang="ruby">#!/usr/bin/ruby1.8
+<pre lang="ruby"><code class="language-ruby" lang="ruby">#!/usr/bin/ruby1.8
 class Hits
  def initialize(n,v,k=nil)
  @n=n
@@ -248,11 +257,11 @@ end
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>People say iptables are incredibly useful. Mind you, I have gotten mostly headaches out of it, but it is easy to see they are a powerful tool. The other day (for reasons not relevant to this post) I needed to run a service on a port, yet have it accept connections in a different port. Say, the service should be listening on port 1234, but the server should accept any connection on port 4321 and "redirect" each package to the correct port. Turns out iptables is the tool for the job.</p>
 <p>For the impatient ones, this is the command I used:</p>
-<pre lang="c++"><code lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24 \
+<pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24 \
          -p tcp --dport 4321 -j DNAT --to :1234
 </code></pre>
 <p>Let's analyze this part by part. First I tried something like this:</p>
-<pre lang="c++"><code lang="c++"># Caution: This is wrong and won't work!
+<pre lang="c++"><code class="language-c++" lang="c++"># Caution: This is wrong and won't work!
 iptables -A INPUT -s 192.168.1.0/24 --dport 4321 --to :1234
 </code></pre>
 <p>Seems clear enough:
@@ -261,16 +270,16 @@ iptables -A INPUT -s 192.168.1.0/24 --dport 4321 --to :1234
 * <strong>--dport 4321</strong> will filter the packages again, so we can apply this rule not only to those packets incoming from the LAN but also to those packet to port 4321.
 * <strong>--to :1234</strong> is the rule to rewrite the destination port.</p>
 <p>Too bad this won't work. To begin with, the --dport option will fail, since it makes no sense to talk about ports without specifying a protocol (i.e. ports are a TCP layer concept, not an IP layer conecpt, so iptables doesn't know what to do with a --dport option!). Thus, let's rewrite our command like this:</p>
-<pre lang="c++"><code lang="c++"># Caution: This is wrong and won't work!
+<pre lang="c++"><code class="language-c++" lang="c++"># Caution: This is wrong and won't work!
 iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 --to :1234
 </code></pre>
 <p>Now iptables will complain about the --to option. This is because iptables can't rewrite a package (i.e. use the --to option) unless you specify to jump to the DNAT table (?). Now our command should look like this:</p>
-<pre lang="c++"><code lang="c++"># Caution: This is wrong and won't work!
+<pre lang="c++"><code class="language-c++" lang="c++"># Caution: This is wrong and won't work!
 iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 -j DNAT --to :1234
 </code></pre>
 <p>iptables will still complain: you can't use DNAT unless you use a nat table, so we have to add -t nat. If we do that, iptables will complain once more about not being able to use DNAT in the INPUT chain, it is only available in the PREROUTING/OUTPUT chains. This is related to the order in which iptables processes its rules.</p>
 <p>With all this in mind, we can now write a command that will run:</p>
-<pre lang="c++"><code lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24
+<pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24
          -p tcp --dport 4321 -j DNAT --to :1234
 </code></pre>
 <hr />
@@ -286,6 +295,9 @@ iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 -j DNAT --to :1234
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

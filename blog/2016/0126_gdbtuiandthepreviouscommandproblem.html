@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>gdb-tui and the previous-command problem<a name="gdbtuiandthepreviouscommandproblem"></a></h1>
 <p>Raise your hand if you have run gdb in <a href="/blog/2009/0922_gdbgraphictuimode.html">tui</a> (graphical) mode, only to find you can't refer to the previous command when pressing "up". I can't see you but I know this is true for pretty much everyone reading this blog. All three of you.</p>
 <p>In the gdb-TUI mode, the arrow keys are used by the active window for scrolling. This means they are not available for readline, the component that takes care of the magic invocations needed to bring back the previous command from the land of the dead. Luckily there are alternative readline keybindings: just try C-p, C-n, C-b and C-f. Takes a while getting used to it but you can finally use gdb-TUI and forget about copy-pasting every gdb command.</p>
@@ -78,13 +87,17 @@ Thanks Anon</p>
 <p>Thank you very much, I am learning GDB and this saves me so many grey hairs.</p>
 <p>Original <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0126_gdbtuiandthepreviouscommandproblem.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2016-01-26 -
+    <a href="/blog/2016/0126_gdbtuiandthepreviouscommandproblem.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0126_gdbtuiandthepreviouscommandproblem.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

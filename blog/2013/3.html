@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2013 March<a name="postsfor2013march"></a></h1>
 <h1>Awesome festival<a name="awesomefestival"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-03-28 -
@@ -43,7 +52,7 @@
 <p>We finished last chapter on the series about C++ exceptions by adding a personality function that _Unwind_ was able to call. It didn't do much but there it was. The ABI we have been implementing can now throw exceptions and the catch is already halfway implemented, but the personality function needed to properly choose the catch block (landing pad) is bit dumb so far. Let's start this new chapter by trying to understand what are the parameters that the personality function receives and next time we'll begin adding some real behavior to __gxx_personality_v0: when __gxx_personality_v0 is called we should say "yes, this stack frame can indeed handle this exception".</p>
 <p>We already said we won't care for the version or the exceptionClass for our mini ABI. Let's ignore the context too, for now: we'll just handle every exception with the first stack frame above the function throwing; note this implies there must be a try/catch block on the function immediately above the throwing function, otherwise everything will break. This also implies the catch will ignore its exception specification, effectively turning it into a catch(...). How do we let _Unwind_ know we want to handle the current exception?</p>
 <p>_Unwind_Reason_Code is the return value from the personality functions; this tells _Unwind_ whether we found a landing pad to handle the exception or not. Let's implement our personality function to return _URC_HANDLER_FOUND then, and see what happens:</p>
-<pre lang="c++"><code lang="c++">alloc ex 1
+<pre lang="c++"><code class="language-c++" lang="c++">alloc ex 1
 __cxa_throw called
 Personality function FTW
 Personality function FTW
@@ -97,24 +106,24 @@ no one handled __cxa_throw, terminate!
 <li>Unwind will invoke the personality function with the current stack frame and the LSDA; this function should reply to unwind whether this stack can handle the exception or not</li>
 </ul>
 <p>Knowing this, it's about time we implement our own personality function. Our ABI used to print this when an exception was thrown:</p>
-<pre lang="c++"><code lang="c++">alloc ex 1
+<pre lang="c++"><code class="language-c++" lang="c++">alloc ex 1
 __cxa_throw called
 no one handled __cxa_throw, terminate!
 </code></pre>
 <p>Let's go back to our mycppabi and let's add something like this (link to full mycppabi.cpp file):</p>
-<pre lang="c++"><code lang="c++">void __gxx_personality_v0()
+<pre lang="c++"><code class="language-c++" lang="c++">void __gxx_personality_v0()
 {
     printf("Personality function FTW\n");
 }
 </code></pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
 <p>And sure enough, when we run it we should see our personality function being called. We know we're on the right track and now we have an idea of what we want for our personality function; let's start using the proper definition for this function:</p>
-<pre lang="c++"><code lang="c++">_Unwind_Reason_Code __gxx_personality_v0 (
+<pre lang="c++"><code class="language-c++" lang="c++">_Unwind_Reason_Code __gxx_personality_v0 (
                      int version, _Unwind_Action actions, uint64_t exceptionClass,
                      _Unwind_Exception<em> unwind_exception, _Unwind_Context</em> context);
 </code></pre>
 <p>If we put that into our mycppabi.cpp file we get:</p>
-<pre lang="c++"><code lang="c++">#include <unistd.h>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -177,7 +186,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 </code></pre>
 <p>Code @ <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">my github repo</a>.</p>
 <p>Let's compile and link everything, then run it and start by analyzing each param to this function with some help of gdb:</p>
-<pre lang="c++"><code lang="c++">Breakpoint 1, __gxx_personality_v0 (version=1, actions=1, exceptionClass=134514792, unwind_exception=0x804a060, context=0xbffff0f0)
+<pre lang="c++"><code class="language-c++" lang="c++">Breakpoint 1, __gxx_personality_v0 (version=1, actions=1, exceptionClass=134514792, unwind_exception=0x804a060, context=0xbffff0f0)
 </code></pre>
 <ul>
 <li>The version and the exceptionClass are related to language/ABI/compiler toolchain/native or non-native exception, etc. We don't need to worry about it for our mini ABI, we'll just handle all the exceptions.</li>
@@ -201,7 +210,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 <p>We learned last time that, just as a throw statement is translated into a pair of <strong>__cxa_allocate_exception/throw</strong> calls, a catch block is translated into a pair of <strong>__cxa_begin/end_catch</strong> calls, plus something called CFI (call frame information) to find the landing pads, the points on a function where an exception can be handled.</p>
 <p>What we don't yet know is how does _Unwind_* know where the landing pads are. When an exception is thrown there are a bunch of functions in the stack; all the CFI stuff will let Unwind know which functions these are but it's also necessary to know which landing pads each function provides so we can call each one and check if it wants to handle the exception (and we're ignoring functions with multiple try/catch blocks!).</p>
 <p>To know where the landing pads are, something called gcc_except_table is used. This can be found (with a bunch of CFI stuff) after the function's end:</p>
-<pre lang="c++"><code lang="c++">.LFE1:
+<pre lang="c++"><code class="language-c++" lang="c++">.LFE1:
     .globl  __gxx_personality_v0
     .section    .gcc_except_table,"a",@progbits
     [...]
@@ -226,7 +235,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0305_Cexceptionsunderthehood5magicaround__cxa_begin_catchand__cxa_end_catch.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After learning how exceptions are thrown we are now on our way to learn how they are caught. Last time we added to our example application a bunch of try/catch statements to see what they did, and sure enough we got a bunch of linker errors, just like we did when we were trying to find out what does the throw statement do. This is what the linker says when trying to process throw.o:</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
-<pre lang="c++"><code lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+<pre lang="c++"><code class="language-c++" lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
 &gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
 throw.o: In function 'try_but_dont_catch()':
 throw.cpp:12: undefined reference to '__cxa_begin_catch'
@@ -239,12 +248,12 @@ collect2: ld returned 1 exit status
 </code></pre>
 <p>And our theory, of course, is that a catch statement is translated by the compiler into a pair of <strong>__cxa_begin_catch/end_catch</strong> calls into libstdc++, plus something new called <strong>the personality function</strong> of which we know nothing yet.</p>
 <p>Let's begin by checking if our theory about <strong>__cxa_begin_catch</strong> and <strong>__cxa_end_catch holds</strong>. Let's compile throw.cpp with -S and analyze the assembly. There is a lot to see but if I strip it to the bare minimum this is what I get:</p>
-<pre lang="c++"><code lang="c++">_Z5raisev:
+<pre lang="c++"><code class="language-c++" lang="c++">_Z5raisev:
     call    __cxa_allocate_exception
     call    __cxa_throw
 </code></pre>
 <p>So far so good: the same old definition we got for raise(), just throw an exception.</p>
-<pre lang="c++"><code lang="c++">_Z18try_but_dont_catchv:
+<pre lang="c++"><code class="language-c++" lang="c++">_Z18try_but_dont_catchv:
     .cfi_startproc
     .cfi_personality 0,__gxx_personality_v0
     .cfi_lsda 0,.LLSDA1
@@ -255,12 +264,12 @@ collect2: ld returned 1 exit status
 <li><strong>LSDA</strong> on the other hand means language specific data area, and it will be used by the personality function to know which exceptions can be handled by this function</li>
 </ul>
 <p>We'll be talking a lot more about CFI and LSDA in the next articles; don't forget about them, but for now let's move on:</p>
-<pre lang="c++"><code lang="c++">    [...]
+<pre lang="c++"><code class="language-c++" lang="c++">    [...]
     call    _Z5raisev
     jmp .L8
 </code></pre>
 <p>Another easy one: just call "raise", and then jump to L8; L8 will return normally from this function. If raise didn't execute properly then the execution (somehow, we don't know how yet!) shouldn't resume in the next instruction but in the exception handlers (which in ABI-speak are called landing pads. More on that later).</p>
-<pre lang="c++"><code lang="c++">    cmpl    $1, %edx
+<pre lang="c++"><code class="language-c++" lang="c++">    cmpl    $1, %edx
     je  .L5
 .LEHB1:
     call    _Unwind_Resume
@@ -270,7 +279,7 @@ collect2: ld returned 1 exit status
     call    __cxa_end_catch
 </code></pre>
 <p>This is quite difficult to follow but it's actually quite straight forward. Here most of the magic will happen: first we check if this is an exception we can handle, if we can't then we say so by calling _Unwind_Resume, if it is then we call __cxa_begin_catch and __cxa_end_catch; after calling these functions the execution should resume normally and thus L8 will be executed (that is, L8 is right below our catch block):</p>
-<pre lang="c++"><code lang="c++">.L8:
+<pre lang="c++"><code class="language-c++" lang="c++">.L8:
     leave
     .cfi_restore 5
     .cfi_def_cfa 4, 4
@@ -286,6 +295,9 @@ collect2: ld returned 1 exit status
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

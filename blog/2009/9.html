@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2009 September<a name="postsfor2009september"></a></h1>
 <h1>Ubuntu Day<a name="ubuntuday"></a></h1>
 <p>Post by Nico Brailovsky @ 2009-09-28 -
@@ -52,7 +61,6 @@ Long version: The other day, while stranded on a CLI (using ssh) I did a wget $I
 ---
 
 #  sed magic: a simple guide
-
 
 Post by Nico Brailovsky @ 2009-09-24 -
     [Permalink](/blog_md/2009/0924_sedmagicasimpleguide.md) -
@@ -82,7 +90,6 @@ Have fun!
 
 #  gdb: graphic (tui) mode
 
-
 Post by Nico Brailovsky @ 2009-09-22 -
     [Permalink](/blog_md/2009/0922_gdbgraphictuimode.md) -
     [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0922_gdbgraphictuimode.md&body=I%20have%20a%20comment!)
@@ -109,7 +116,6 @@ Don't know enough about gdb? Read <http://beej.us/guide/bggdb/>, a great gdb int
 
 #  First Ubuntu Day in Buenos Aires
 
-
 Post by Nico Brailovsky @ 2009-09-21 -
     [Permalink](/blog_md/2009/0921_FirstUbuntuDayinBuenosAires.md) -
     [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0921_FirstUbuntuDayinBuenosAires.md&body=I%20have%20a%20comment!)
@@ -127,7 +133,6 @@ See you @ Ubuntu Day :)
 ---
 
 #  Vim Tip: Rot 13
-
 
 Post by Nico Brailovsky @ 2009-09-15 -
     [Permalink](/blog_md/2009/0915_VimTipRot13.md) -
@@ -148,7 +153,6 @@ This is all very nice but I'm still trying to figure out a way to convert back f
 ---
 
 #  Console foo: Scheduling commands
-
 
 Post by Nico Brailovsky @ 2009-09-15 -
     [Permalink](/blog_md/2009/0915_ConsolefooSchedulingcommands.md) -
@@ -185,7 +189,6 @@ One last note: at will "remember" the current environment variables, so PWD, USE
 
 #  C++: incredibly useless stuff
 
-
 Post by Nico Brailovsky @ 2009-09-10 -
     [Permalink](/blog_md/2009/0910_Cincrediblyuselessstuff.md) -
     [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0910_Cincrediblyuselessstuff.md&body=I%20have%20a%20comment!)
@@ -211,7 +214,6 @@ Answer in rot 13: Vg jbexf. uggc: vf n ynory, // vf n pbzzrag, gur erfg bs gur y
 
 #  non-vacations
 
-
 Post by Nico Brailovsky @ 2009-09-07 -
     [Permalink](/blog_md/2009/0907_nonvacations.md) -
     [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0907_nonvacations.md&body=I%20have%20a%20comment!)
@@ -232,6 +234,9 @@ In the meantime, enjoy a pretty picture. [BROKENLINK]
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

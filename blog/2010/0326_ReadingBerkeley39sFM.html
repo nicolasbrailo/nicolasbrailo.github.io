@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,26 +19,35 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Reading Berkeley&#39;s FM<a name="readingberkeley39sfm"></a></h1>
 <p>I got this from <a href="http://www.oracle.com/technology/documentation/berkeley-db/db/programmer_reference/BDB_Prog_Reference.pdf">Oracle Berkely DB's</a> <a href="/blog/youfoundadeadlink.html">FM</a>:</p>
-<pre lang="c++"><code lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
+<pre lang="c++"><code class="language-c++" lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
 </code></pre>
 <p>Take a good look at that pice of code:</p>
-<pre lang="c++"><code lang="c++">  a_number = sizeof((T*)pdata-&gt;data)-&gt;last_name;
+<pre lang="c++"><code class="language-c++" lang="c++">  a_number = sizeof((T*)pdata-&gt;data)-&gt;last_name;
 </code></pre>
 <p>Again:</p>
-<pre lang="c++"><code lang="c++">  a_number = sizeof(Whatever)-&gt;field;
+<pre lang="c++"><code class="language-c++" lang="c++">  a_number = sizeof(Whatever)-&gt;field;
 </code></pre>
 <p>Wait a minute. typeof(sizeof(x)) == const unsigned int. Right? So, again:</p>
-<pre lang="c++"><code lang="c++">  a_number = 42-&gt;field;
+<pre lang="c++"><code class="language-c++" lang="c++">  a_number = 42-&gt;field;
 </code></pre>
 <p>There's no way that first line can compile. Go and check it (in the example, not the last line please). I'll wait. Done? Yeap, I was surprised to, it does indeed compile. Mi first reaction towards this discovery went something like this:</p>
 <p>What is going on there? It took me a while to figure out how evil Berkely 's manual can be. The answer next time.</p>
@@ -47,13 +56,17 @@
 <p>[...] Last time I told you about an evil snipet I found on Oracle Berkeley DB’s manual: [...]</p>
 <p>Original <a href="/blog/2010/0326_ReadingBerkeley39sFM.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0326_ReadingBerkeley39sFM.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-03-26 -
+    <a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0326_ReadingBerkeley39sFM.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

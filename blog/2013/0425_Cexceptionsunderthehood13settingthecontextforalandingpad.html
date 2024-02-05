@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,18 +19,27 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>C++ exceptions under the hood 13: setting the context for a landing pad<a name="cexceptionsunderthehood13settingthecontextforalandingpad"></a></h1>
 <p>Last time we finally wrote an almost working personality function. We can detect for each stack frame which landing pads are available and then tell _Unwind_ we want to run a specific landing pad. We hit a small issue, though: although we set the context for _Unwind_ to continue executing on the correct landing pad we didn't set the current exception on the register. This, in turn, means that the landing pad won't know which exception should be handling, so it will say "I can't handle this". _Unwind_ will then say "please try the next landing pad" but our ABI is so simple that it has no idea how it should find another landing pad and just tries the same. Over and over again. We have probably invented the most contrived example for a while(true)!</p>
 <p>Let's set the correct context for the landing pad and clean up a bit our ABI:</p>
-<pre lang="c++"><code lang="c++">#include <unistd.h>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -193,7 +202,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 </code></pre>
 <p>Note: For a more detailed description of the LSDA tables check <a href="/blog/youfoundadeadlink.html">here</a> and for the full source code <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v06">check my github repo</a>.</p>
 <p>Finally, it worked. You should see something like this if you run it:</p>
-<pre lang="c++"><code lang="c++">./app
+<pre lang="c++"><code class="language-c++" lang="c++">./app
 alloc ex 1
 __cxa_throw called
 Personality function, lookup phase
@@ -207,13 +216,17 @@ catchit handled the exception
 <p>Of course we are lying a bit to _Unwind_: we are saying here that we will handle every exception, no mater what. This turns our catch(Exception&amp;) into a catch(...), and all hell will break loose if the first function up in the call frame doesn't have a catch statement. But still, we reached the first milestone for a very simple ABI.</p>
 <p>Can we now improve it and make it handle the correct exception on the correct frame? May be next time.</p>
 <hr />
-<p><a href="/blog/2013/0425_Cexceptionsunderthehood13settingthecontextforalandingpad.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0425_Cexceptionsunderthehood13settingthecontextforalandingpad.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-25 -
+    <a href="/blog/2013/0425_Cexceptionsunderthehood13settingthecontextforalandingpad.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0425_Cexceptionsunderthehood13settingthecontextforalandingpad.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

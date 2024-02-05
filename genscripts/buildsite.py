@@ -37,7 +37,6 @@ POSTS_IDX_TMPL = """
 POST_IN_IDX_TMPL = """
 # {{title}}
 
-
 Post by {{author}} @ {{publishDate}} -
     [Permalink]({{srcFile}}) -
     [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
@@ -53,8 +52,9 @@ POST_STANDALONE_TMPL = """
 
 ---
 
-[Permalink]({{srcFile}}) -
-[Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
+Post by {{author}} @ {{publishDate}} -
+    [Permalink]({{srcFile}}) -
+    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
 
 """
 

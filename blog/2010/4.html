@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2010 April<a name="postsfor2010april"></a></h1>
 <h1>Buguntu family album<a name="buguntufamilyalbum"></a></h1>
 <p>Post by Nico Brailovsky @ 2010-04-30 -
@@ -41,25 +50,25 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0429_TemplatemetaprogrammingIIIEnteringPandemonium.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you are here and you have read the previous two parts then you are crazy. If you haven't then go and read it, then never come back if you value your sanity at all. We saw last time an example of a factorial using template metaprogramming, now it's time for something a little bit more fun. I was thinking on lists, but that's a bit too much for starters: let's do some more math. Now with fractions!</p>
 <p>So, how would you express a fraction? The fun part, and you already know this, you have only types (*), there are no variables. Luckly static const int saves the day:</p>
-<pre lang="c++"><code lang="c++">template &lt; int N, int D &gt; struct Frak {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt; int N, int D &gt; struct Frak {
     static const long Num = N;
     static const long Den = D;
 };
 </code></pre>
 <p>Woo hoo... how boring, let's do something on those Fraktions, so they don't get bored... like multiplying:</p>
-<pre lang="c++"><code lang="c++">template &lt; int N, typename X &gt; struct ScalarMultiplication {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt; int N, typename X &gt; struct ScalarMultiplication {
     static const long Num = N * X::Num;
     static const long Den = N * X::Den;
 };
 </code></pre>
 <p>Well that does the job, I guess, but it's ugly. Too ugly... why would we redefine a Fraction when we already have a great definition? Let's try again:</p>
-<pre lang="c++"><code lang="c++">template &lt; int N, typename X &gt; struct ScalarMultiplication {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt; int N, typename X &gt; struct ScalarMultiplication {
     typedef Frak&lt; N<em>X::Num, N</em>X::Den &gt; result;
 };
 </code></pre>
 <p>OK, now you think I'm pulling your leg, but, promise, I'm not. This actually works, and it looks nice! Check out that sexy typedef: you can't have variables, we said, so instead we return types. Frak is a type when binded to two concrete values, so Frak is a type too. Just typedef it to a result and be done with it.</p>
 <p>How do we test if it worked? Easy:</p>
-<pre lang="c++"><code lang="c++">int main() {
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
     typedef Frak&lt; 2, 3 &gt; Two_Thirds;
     typedef ScalarMultiplication&lt; 2, Two_Thirds &gt;::result Four_Sixths;
     std::cout &lt;&lt; Four_Sixths::Num &lt;&lt; "/" &lt;&lt; Four_Sixths::Den &lt;&lt; "n";
@@ -75,10 +84,10 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0427_UbuntuDualscreenstillFUBARd.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I'm quite sure I have written about this before but I'm too lazy to search for the article right now. Well, dual screens in Ubuntu still sucks. Much less than ever before, granted, but it still works quite bad. In my specific case the whole desktop is shown, in both monitors (which by itself is a huge improvement over previous versions) but the working area is clipped to the notebook's monitor size. Not nice.</p>
 <p>To fix this problem (more like hacking it away, actually) I keep a handy bash script in the top left corner on my desktop:</p>
-<pre lang="c++"><code lang="c++">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
+<pre lang="c++"><code class="language-c++" lang="c++">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
 </code></pre>
 <p>Also, as I have two nice rotable monitors at work it's nice that now Ubuntu supports actually rotating the picture displayed in the monitor (thanks Ubuntu for coming up to speed... with windows 98, that is). Obviously I keep another script for this, as it doesn't really work by default:</p>
-<pre lang="c++"><code lang="c++">xrandr --output HDMI-1 --left-of HDMI-2 --mode 1680x1050 --rotate left
+<pre lang="c++"><code class="language-c++" lang="c++">xrandr --output HDMI-1 --left-of HDMI-2 --mode 1680x1050 --rotate left
 xrandr --output HDMI-2 --left-of HDMI-1 --mode 1680x1050 --rotate normal
 </code></pre>
 <p>Even though I love bashing Ubuntu (and bash) I'm quite confident most, if not all, of this issues will be gone in future versions of the OS.</p>
@@ -92,7 +101,7 @@ xrandr --output HDMI-2 --left-of HDMI-1 --mode 1680x1050 --rotate normal
     <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We saw last time how to print a factorial using only template metaprogramming, but didn't explain anything about it. I promised to fix that in this article. Starting by the very beginning:</p>
-<pre lang="c++"><code lang="c++">template &lt;int N&gt; struct Factorial {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N&gt; struct Factorial {
     static const int result = N * Factorial&lt;N-1&gt;::result;
 };
 template &lt;&gt; struct Factorial&lt;0&gt; {
@@ -109,7 +118,7 @@ int main() {
 <p>If this is starting to remind you of anything then you are crazier than you think, and you already know some Haskel. Indeed, template metaprogramming has some resemblance to Haskel programming: no const "variables", no for-loop (only recursion), base cases (pattern matching), and cryptic error messages which makes you want to jump of a cliff.</p>
 <p>A useful trick I learned when working with Haskel (many many years ago) is to declare the problem, instead of thinking it. For our problem the factorial of a number is defined as said number times the factorial of that same number minus one, being the factorial of 0 always 1.</p>
 <p>Translating:</p>
-<pre lang="c++"><code lang="c++">// the factorial of a number is defined as said number times
+<pre lang="c++"><code class="language-c++" lang="c++">// the factorial of a number is defined as said number times
 // the factorial of that same number minus one
 template &lt;int N&gt; struct Factorial {
     static const int result = N * Factorial&lt;N-1&gt;::result;
@@ -176,7 +185,7 @@ Third method: Type g^g (g, CTRL+g) and watch the bottom of your screen.</p>
 <p>Template metaprogramming is much more fun than mere generic classes. The template processing in C++ is a language on it's own (no, really, like a Turing complete language and everything), though a language with very weird syntax and a very strange "design". Design between quotes because there was no design in its initial stages, template processing is a sub-language organically grown as a side effect of adding partial templates specialization (more on this later), so don't expect a nice language. Here, let me show you an example of another organically grown language: Microsoft's .bat scripting. You can imagine now what kind of beast this is if we are comparing it to bat scripts, right? (Nitpickers note. yup, I do know bat scripting is not a real language as it's not Turing complete. The comparison still stands though).</p>
 <h3>First step<a name="firststep"></a></h3>
 <p>Enough chatter. Let's start with an empty program and work our way down from there:</p>
-<pre lang="c++"><code lang="c++">template &lt;int N&gt; struct Factorial {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N&gt; struct Factorial {
  static const int result = N * Factorial::result;
 };
 template &lt;&gt; struct Factorial&lt;0&gt; {
@@ -203,7 +212,7 @@ int main() {
 <p>Post by Nico Brailovsky @ 2010-04-10 -
     <a href="/blog/2010/0410_IhearthBerkeley.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0410_IhearthBerkeley.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<pre lang="c++"><code lang="c++">error: cannot convert ‘Db<strong>’ to ‘DB</strong>’ for argument ‘1’ to ‘int db_create(DB*<em>, DB_ENV</em>, u_int32_t)’
+<pre lang="c++"><code class="language-c++" lang="c++">error: cannot convert ‘Db<strong>’ to ‘DB</strong>’ for argument ‘1’ to ‘int db_create(DB*<em>, DB_ENV</em>, u_int32_t)’
 </code></pre>
 <p>Thank you very much, Oracle Berkeley, for having a type named Db and another one named DB, and for never using namespaces. It makes my work a much more interesting challenge (*).</p>
 <p>(*) Yeah, I know, Db is for the C++ wrapper and DB is for the plain C API (**). So what, I hate you all anyway.
@@ -222,7 +231,7 @@ int main() {
 <p>Although this definition gives us quite a hard constraint we can create a quasi POD object (!) that does not conform to the standard definition of POD, yet has all the properties of one. This is the kind of struct we'll be creating. It would crash our program if used in a printf, but resides completly on the stack.</p>
 <h3>Implementing a POD string<a name="implementingapodstring"></a></h3>
 <p>A word of warning: ignore for now the "template " part; that's a template metaprogramming technique which we'll discuss some other day.</p>
-<pre lang="c++"><code lang="c++">template  &lt;int N&gt; struct FixedString {
+<pre lang="c++"><code class="language-c++" lang="c++">template  &lt;int N&gt; struct FixedString {
    mutable char str[N];
    FixedString() { str[0] = 'X'; }
    FixedString(const char<em> rid){ memcpy(str, rid, sizeof(str)); }
@@ -237,7 +246,7 @@ int main() {
     <a href="/blog/2010/0407_PODtypesinC.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0407_PODtypesinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's say you have something like this:</p>
-<pre lang="c++"><code lang="c++">typedef int A;
+<pre lang="c++"><code class="language-c++" lang="c++">typedef int A;
 void x(A);
 struct B {
    int b;
@@ -246,7 +255,7 @@ struct B {
 };
 </code></pre>
 <p>Regardless of what does function x do, what's the difference between A and B? Without getting too picky and leaving semantics aside, we may say there is no difference in behaviour. There's however a small gotcha there, which is completely irrelevant for C++ code but can bite you in the ass when interfacing C and C++. Would this work?</p>
-<pre lang="c++"><code lang="c++">{
+<pre lang="c++"><code class="language-c++" lang="c++">{
    A a; B b;
    // Case 1
    A <em>p = malloc(sizeof(A));
@@ -258,7 +267,7 @@ struct B {
 </code></pre>
 <p>The answer is perhaps. In most cases it would work, in some cases it won't. C++ uses a vtable to dispatch virtual methods, so if I were to perform a memcpy of an object, then store it on disk and retrieve it afterwards I don't have any guarantees the vtable will still be valid. And that's leaving aside the case of objects having dynamically allocated memory themselves.</p>
 <p>Wrapping up, the difference between A and B is simple: A is a POD (Plain Old Datatype, POJO for you Java guys) type, B is not. There are some other things non-POD objects can't do, for example this is invalid:</p>
-<pre lang="c++"><code lang="c++">   B b;
+<pre lang="c++"><code class="language-c++" lang="c++">   B b;
    printf("%i", b);
 </code></pre>
 <p>Not only it's invalid: g++ emits a warning and then crashes on runtime (this is related to the use of vargs in functions with "..." params, but it's not important now).</p>
@@ -273,6 +282,9 @@ struct B {
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

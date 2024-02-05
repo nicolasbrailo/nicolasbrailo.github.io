@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,21 +19,30 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2009 July<a name="postsfor2009july"></a></h1>
 <h1>mocp rand<a name="mocprand"></a></h1>
 <p>Post by Nico Brailovsky @ 2009-07-23 -
     <a href="/blog/2009/0723_mocprand.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0723_mocprand.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I'm quite sure everyone reading this must have a respectable, if not massive, music collection. In this days and age is difficult finding someone who doesn't. It's also difficult to choose one, and only one, disk to listen at any given moment. Until we're upgraded to support concurrent music listening we're better of with a random disk selector, which is exactly what this little script does:</p>
-<pre lang="c++"><code lang="c++">#!/bin/bash
+<pre lang="c++"><code class="language-c++" lang="c++">#!/bin/bash
 SEARCH_DIR="/home/nico/M&uacute;sica"
 START_RANDOM=1
 RAND_MAX=32767
@@ -66,7 +75,7 @@ done
     <a href="/blog/2009/0721_CMagicmembercallbacks.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0721_CMagicmembercallbacks.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Short post about C++ this time - though calling it a request would be more appropiate. I'm trying to create some kind of magic callback to do this:</p>
-<pre lang="c++"><code lang="c++">class Caller {
+<pre lang="c++"><code class="language-c++" lang="c++">class Caller {
  Callback c;
   public:
   Caller(Callback c) : c(c) {}
@@ -282,7 +291,7 @@ Other than that, the code is quite close to what I've been looking for. Check th
 <p>In LaTeX there's an easy way to handle source code. Though it was difficult to figure out, once in place this requires no maintenance at all - no need to manually syntax highlight your code nor update any files other than the source code itself. Even more, you can even change the source code language and it won't even matter in the presentation.</p>
 <h3>Preliminars<a name="preliminars"></a></h3>
 <p>You'll need "pygmentyze" which is provided by the package python-pygments:</p>
-<pre lang="c++"><code lang="c++">apt-cache search pygment
+<pre lang="c++"><code class="language-c++" lang="c++">apt-cache search pygment
 python-pygments - syntax highlighting package written in Python
 sudo apt-get install python-pygments
 </code></pre>
@@ -290,7 +299,7 @@ sudo apt-get install python-pygments
 <h3>Automating the source code generation<a name="automatingthesourcecodegeneration"></a></h3>
 <p>Let's beging by adding a "code" folder inside our project. We'll store there all the source code files, and having them in a separated folder will enable us to add a target in the makefile to automatically update the source code in the LaTeX file.</p>
 <p>Remember the makefile from a couple of posts back? Let's add a target:</p>
-<pre lang="c++"><code lang="c++"># Hack to make it work when foo.code =&gt; foo.code.tex
+<pre lang="c++"><code class="language-c++" lang="c++"># Hack to make it work when foo.code =&gt; foo.code.tex
 code/%.tex: code/%.<em> code/%.aux code/%.tex
   @rm code/</em>.aux
  $(MAKE) -C .
@@ -304,11 +313,11 @@ main.pdf: $(shell ls </em>.tex) $(CODE_FILES_TGT)
   pdflatex main.tex &gt; /dev/null
 </code></pre>
 <p>OK, maybe a couple more than one. It may seem like a lot of makefile code but all it does is define a code directory and a target to run pygmentize on each source file found there. We'll have to add a dependency in the document's target so it'll be automatically generated with each build:</p>
-<pre lang="c++"><code lang="c++">main.pdf: code_frames *.tex
+<pre lang="c++"><code class="language-c++" lang="c++">main.pdf: code_frames *.tex
   pdflatex main.tex &amp;&amp; pdflatex main.tex
 </code></pre>
 <p>and then, we'll need to clean up the new temp files:</p>
-<pre lang="c++"><code lang="c++">code_clean:
+<pre lang="c++"><code class="language-c++" lang="c++">code_clean:
  @rm -f $(CODE_FILES_TGT) code/*.aux
 </code></pre>
 <p>Don't worry, there's a link to the full makefile.</p>
@@ -366,7 +375,7 @@ input{chapter3.tex}
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0702_LaTeXMakefile.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Remember I said that being a programmer would make you a lot more comfortable around LaTeX? The reason is quite simple, tex is just source code for a document. As with any source code in Linux (Windows too, but that is besides the point) you can use a Makefile to compile it and make your life easier.</p>
 <p>I have already posted this <a href="https://example.net/brokenlink/2009/05/makefile.html">Makefile</a> in <a href="/blog/2009/0528_LaTeXbasics.html">another entry</a> but it's time to explain how it works.</p>
-<pre lang="c++"><code lang="c++">
+<pre lang="c++"><code class="language-c++" lang="c++">
 all: main.pdf
 main.pdf: code_frames <em>.tex
   pdflatex main.tex &amp;&amp; pdflatex main.tex
@@ -398,6 +407,9 @@ clean:
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

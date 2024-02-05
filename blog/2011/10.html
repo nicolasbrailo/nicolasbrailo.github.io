@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2011 October<a name="postsfor2011october"></a></h1>
 <h1>Annoying "unable to find a medium containing a live file system" in Ubuntu<a name="annoyingunabletofindamediumcontainingalivefilesysteminubuntu"></a></h1>
 <p>Post by Nico Brailovsky @ 2011-10-27 -
@@ -41,10 +50,10 @@
     <a href="/blog/2011/1025_Passwordlessssh.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1025_Passwordlessssh.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>This is one of those things that are terribly easy nowadays, but since I only do it every once in a while I never remember how it's done: setting up a passwordless ssh. I won't write any explanation, just the command to set it up so I can keep it as reference for the next time I have to do it:</p>
-<pre lang="bash"><code lang="bash">ssh-keygen -t rsa &amp;&amp; ssh-copy-id USR@HOST
+<pre lang="bash"><code class="language-bash" lang="bash">ssh-keygen -t rsa &amp;&amp; ssh-copy-id USR@HOST
 </code></pre>
 <p>You might also want to specify that HOST requires USR, instead of $(whoami), so you won't have to type ssh USR@HOST next time you want a passwordless loggin. This can be done in /etc/ssh/ssh_config, like this:</p>
-<pre lang="bash"><code lang="bash">
+<pre lang="bash"><code class="language-bash" lang="bash">
 Host $HOST
     User $USER
 </code></pre>
@@ -68,11 +77,11 @@ Host $HOST
     <a href="/blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Last time we saw how you can use C style array-initialization for C++ objects, like this:</p>
-<pre lang="c++"><code lang="c++">    std::vector<int> v = {1,2,3,4};
+<pre lang="c++"><code class="language-c++" lang="c++">    std::vector<int> v = {1,2,3,4};
 </code></pre>
 <p>We also saw this works for may types of objects, like maps and pairs. How about custom developed objects? Yes, that's right, you can have initilizer lists for your own objects too, and it's quite easy. C++0x offers initializer_lists which you can use on your constructors (or any other methods, for that mater) to have C-style initialization. Let's see an example. We already know how to sum a list of numbers using template lists and variadic templates, so let's try adding an initializer consisting of numbers:</p>
 <p>Let's start by creating a class which can accept an initializer list:</p>
-<pre lang="c++"><code lang="c++">#include <initializer_list>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <initializer_list>
 using namespace std;
 struct Add_List {
     Add_List(initializer_list<int> lst) {
@@ -84,7 +93,7 @@ int main() {
 }
 </code></pre>
 <p>That's interesting, as you can see an initializer list is actualy a template class, meaning that nested initializers can easily be defined too. Now, we have the interface, how can we access each element of the list? Let's do the same thing I did when I found out about initilizers, let's search for the header file.</p>
-<pre lang="c++"><code lang="c++">  template<class _E>
+<pre lang="c++"><code class="language-c++" lang="c++">  template<class _E>
     class initializer_list
     {
     public:
@@ -114,7 +123,7 @@ int main() {
   };
 </code></pre>
 <p>Looks surprisingly easy (note that this is for G++ 4.something only). And it is, most of the magic happens in the compiler, so the userland code is quite straight forward. According to that header file, we could build something like this:</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 #include <initializer_list>
 using namespace std;
 struct Add_List {
@@ -138,7 +147,7 @@ int main() {
     <a href="/blog/2011/1013_StartingUbuntuinconsolemode.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1013_StartingUbuntuinconsolemode.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Like it or not, Ubuntu is so easy to install that even for servers is very comfortable to just mount the iso and create as many virtual machines as you may need. Sometimes you already have an iso for Ubuntu, but are too lazy to download the server version. For those occasions you can either decide to waste precious RAM running a GUI for a server that will never need it, or you can remove all traces of the graphical login. Like this:</p>
-<pre lang="c++"><code lang="c++">sudo update-rc.d -f gdm remove
+<pre lang="c++"><code class="language-c++" lang="c++">sudo update-rc.d -f gdm remove
 </code></pre>
 <p>This will remove GDM from the startup scripts, meaning you can still fire up the graphical interface (*) if you want, but it will start Ubuntu without loading any graphics stuff. This is very useful to save on RAM, startup time and processing power, which even if not that useful for a desktop machine is incredible beneficial when you have several virtual machines running in a single physical server.</p>
 <p>(*) More precisely, if you have users that need it. Remember though, if it can't be done in console mode, it ain't worth doing.</p>
@@ -157,22 +166,22 @@ int main() {
     <a href="/blog/2011/1011_CoolC0XfeaturesXIVInitializerlists.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1011_CoolC0XfeaturesXIVInitializerlists.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We talked last time about ranged fors and how they can simplify our life in C++0x. Now we are going to take a trip back to old C land. Remember when you could initialize your arrays like this:</p>
-<pre lang="c++"><code lang="c++">int v[] = {1, 2, 3, 4};
+<pre lang="c++"><code class="language-c++" lang="c++">int v[] = {1, 2, 3, 4};
 </code></pre>
 <p>C++0X brought a lot of changes to the world, and suddenly instead of int[] you were supposed to use vector, and with it your initializer didn't work anymore. Though luck. Try to compile this:</p>
-<pre lang="c++"><code lang="c++">#include <vector>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <vector>
 int main() {
     std::vector<int> v = {1,2,3,4};
     return 0;
 }
 </code></pre>
 <p>If you did compile it with g++, you may have noticed an interesting error message:</p>
-<pre lang="c++"><code lang="c++">error: in C++98 'v' must be initialized by constructor, not by '{...}'
+<pre lang="c++"><code class="language-c++" lang="c++">error: in C++98 'v' must be initialized by constructor, not by '{...}'
 warning: extended initializer lists only available with -std=c++0x or -std=gnu++0x
 </code></pre>
 <p>That's interesting. Try to compile it with g++ again, but using C++0x instead of plain C++. Magic, now it works!</p>
 <p>Initializers lists bring the best of C to C++ world (?) by letting you use initialize any object with an initializer. And I mean *any* object, not just vectors. For example, say you have a map (a map and a bunch of other stuff):</p>
-<pre lang="c++"><code lang="c++">int main() {
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
     map<string, vector\<int>> v = {
             { "a", {1,2,3} },
             { "b", {4,5,6} },
@@ -200,38 +209,38 @@ warning: extended initializer lists only available with -std=c++0x or -std=gnu++
     <a href="/blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>In the last four entries we worked on a simple example, like the one I'm pasting below, of type inference with decltype, which led us to learn about <a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">delayed type declaration</a> and <a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">decltypes with auto</a>. This time I want to focus just on the auto keyword instead.</p>
-<pre lang="c++"><code lang="c++">template <class... Args>
+<pre lang="c++"><code class="language-c++" lang="c++">template <class... Args>
 auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
     std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
     return do_something(a...);
 }
 </code></pre>
 <p>We saw <a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">last time</a> how decltype can be used in a contrived way to create a local variable without specifying its type, only how to deduce the type for this variable. Luckily, that verbose method of type declaration can be summed up in the following way:</p>
-<pre lang="c++"><code lang="c++">    int x = 2;
+<pre lang="c++"><code class="language-c++" lang="c++">    int x = 2;
     int y = 3;
     decltype(x<em>y) z = x</em>y;
 </code></pre>
 <p>Should be written as:</p>
-<pre lang="c++"><code lang="c++">    int x = 2;
+<pre lang="c++"><code class="language-c++" lang="c++">    int x = 2;
     int y = 3;
     auto z = x*y;
 </code></pre>
 <p>That's right, when you are declaring local variables it's easier and cleaner to just use auto. This feature isn't even "in the wild" yet, so you can't really predict what will people do with it, but it seems to me that limiting its use to local variables with a very short lived scope is the best strategy. We are yet to see what monstrosities the abuse of this feature will produce, and I'm sure there will be many. Regardless of their potential to drive insane any maintainers, its best use probably comes in loops.</p>
 <p>In any C++ application, you'll find code like this:</p>
-<pre lang="c++"><code lang="c++">for (FooContainer<Bar>::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
+<pre lang="c++"><code class="language-c++" lang="c++">for (FooContainer<Bar>::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
 </code></pre>
 <p>This ugly code can be eliminated with something much more elegant:</p>
-<pre lang="c++"><code lang="c++">for (auto i = foobar.begin(); i != foobar.end(); ++i)
+<pre lang="c++"><code class="language-c++" lang="c++">for (auto i = foobar.begin(); i != foobar.end(); ++i)
 </code></pre>
 <p>Looks nicer indeed, but we can improve it much further with other tools. We'll see how the next time. For the time being, let's see for what auto is not to be used.</p>
 <p>When using auto, keep in mind it was designed to simplify the declaration of a variable with a complex or difficult to reason type, not as a replacement for other language features like templates. This is a common mistake:</p>
 <p>Wrong:</p>
-<pre lang="c++"><code lang="c++">void f(auto x) {
+<pre lang="c++"><code class="language-c++" lang="c++">void f(auto x) {
     cout &lt;&lt; x;
 }
 </code></pre>
 <p>Less wrong:</p>
-<pre lang="c++"><code lang="c++">template <T>
+<pre lang="c++"><code class="language-c++" lang="c++">template <T>
 void f(T x) {
     cout &lt;&lt; x;
 }
@@ -243,6 +252,9 @@ void f(T x) {
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

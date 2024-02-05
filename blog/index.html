@@ -4,7 +4,7 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,20 +19,29 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div id="content">
+<div id="content" class="language-clike">
 <h1>Fix Spotify deeplinking in Linux + custom SpotiWeb UI<a name="fixspotifydeeplinkinginlinuxcustomspotiwebui"></a></h1>
 <p>Post by Nico Brailovsky @ 2023-12-16 -
     <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:</p>
-<pre lang="bash"><code lang="bash">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
+<pre lang="bash"><code class="language-bash" lang="bash">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
 sudo echo '/usr/share/spotify/spotify.real --uri="$1"' &gt; /usr/share/spotify/spotify
 </code></pre>
 <p>Seems old versions of spotify would try to open anything as a deeplink, but new versions require a <code>--uri</code> parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.</p>
@@ -54,7 +63,7 @@ sudo echo '/usr/share/spotify/spotify.real --uri="$1"' &gt; /usr/share/spotify/s
     <a href="/blog/2021/0627_Bashscriptpreamble.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2021/0627_Bashscriptpreamble.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>All background Bash scripts should start with this preamble:</p>
-<pre lang="bash"><code lang="bash">set -euo pipefail
+<pre lang="bash"><code class="language-bash" lang="bash">set -euo pipefail
 exec &gt; ~/log.log 2&gt;&amp;1
 </code></pre>
 <p>There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:</p>
@@ -102,11 +111,11 @@ exec &gt; ~/log.log 2&gt;&amp;1
     <a href="/blog/2020/0508_VimtipOpenpath.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0508_VimtipOpenpath.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:</p>
-<pre lang="c++"><code lang="c++">#include "foo/bar.h"
+<pre lang="c++"><code class="language-c++" lang="c++">#include "foo/bar.h"
 </code></pre>
 <p>Place your cursor anywhere in "foo/bar.h" and press <code>gf</code> to open the referenced path. More interestingly, you can also do <code>C-w</code>, release and then <code>gf</code> to open in a new tab.</p>
 <p>Today I learned you can also do this for arbitrary URLs. If you have a file like this:</p>
-<pre lang="c++"><code lang="c++">#include "foo/bar.h"
+<pre lang="c++"><code class="language-c++" lang="c++">#include "foo/bar.h"
 // https://github.com/nicolasbrailo/Nico.rc/blob/master/README.md
 ...
 </code></pre>
@@ -117,14 +126,14 @@ exec &gt; ~/log.log 2&gt;&amp;1
     <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I recently worked with a c-style API interface which wasn't very open to mocking. The API in question looked something like this:</p>
-<pre lang="c++"><code lang="c++">handle_t h = api_open();
+<pre lang="c++"><code class="language-c++" lang="c++">handle_t h = api_open();
 api_foo(h, param1, param2);
 api_foo2(h, 42);
 api_close(h);
 </code></pre>
 <p>This *almost* looks like a C++ interface, with extra steps that make it really really hard to mock (and, thus, to test). If it were a c++ interface, it would be possible to "virtualize" the different methods from the, even if this required a bit of patching to the original library. While a c interface doesn't provide this facility, there is another feature that makes mocking such an API with gmock possible: linker weak symbols!</p>
 <p>In the header, you can patch your target library to export its symbols like this:</p>
-<pre lang="c++"><code lang="c++">handle_t api_open() <strong>attribute</strong>((weak));
+<pre lang="c++"><code class="language-c++" lang="c++">handle_t api_open() <strong>attribute</strong>((weak));
 void api_foo(handle_t h, int, float) <strong>attribute</strong>((weak));
 void api_foo2(handle_t h, int) <strong>attribute</strong>((weak));
 void api_close(handle_t h) <strong>attribute</strong>((weak));
@@ -132,7 +141,7 @@ void api_close(handle_t h) <strong>attribute</strong>((weak));
 <p>The <a href="https://gcc.gnu.org/onlinedocs/gcc-3.2/gcc/Function-Attributes.html">weak attribute</a> will tell the compiler to emit this symbol marked as 'w'. If you compile this library and inspect it with <code>nm</code>, you'll see the (possibly mangled) symbol name and a w next to it. In turn, this tells the linker that this symbol can be overridden.</p>
 <p>Normally, if you define 'api_open' in more than a single .object file, and then link them all in a single binary, you'll end up with a linker error. Something about "multiple symbol definition", which seems reasonable. If the symbols are instead marked as weak, then the compiler will simply override the symbol table with the last seen instance of that symbol.</p>
 <p>Once all mock-able symbols are defined as week, creating a mock is "easy", albeit not necessarily pretty. Following the example:</p>
-<pre lang="c++"><code lang="c++">// Mock definition
+<pre lang="c++"><code class="language-c++" lang="c++">// Mock definition
 struct MockApi {
  public:
   MOCK_METHOD(handle_t, api_open, ());
@@ -147,7 +156,7 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
 // ...
 </code></pre>
 <p>Note how mocked_api_instance has to be a global singleton; since your test under code will probably expect to be able to call this API directly, it's necessary to rely on a global object that everyone can access - both your test and their overridden API symbols and the module under test. With all this scaffolding in place, you can now write almost-normal tests.</p>
-<pre lang="c++"><code lang="c++">TEST(Foo, Bar) {
+<pre lang="c++"><code class="language-c++" lang="c++">TEST(Foo, Bar) {
   EXPECT_CALL(mocked_api_instance, api_open).WillOnce(Return(nullptr));
   MyObject o;
   o.run_test();
@@ -161,14 +170,14 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0227_jqgrepandprettifyjson.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
 <p><strong>cat a json file - with pretty print</strong></p>
-<pre lang="c++"><code lang="c++">jq . /path/to/json_file
+<pre lang="c++"><code class="language-c++" lang="c++">jq . /path/to/json_file
 </code></pre>
 <p><strong>Select a single key</strong></p>
-<pre lang="c++"><code lang="c++">jq '.path.to.key'
+<pre lang="c++"><code class="language-c++" lang="c++">jq '.path.to.key'
 </code></pre>
 <p>The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"</p>
 <p><strong>Delete all entries in an object, except for one</strong></p>
-<pre lang="c++"><code lang="c++">jq '.foo|=bar'
+<pre lang="c++"><code class="language-c++" lang="c++">jq '.foo|=bar'
 </code></pre>
 <p>The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"</p>
 <p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
@@ -178,11 +187,11 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
     <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0218_MixinishclasseswithparameterpacksinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
-<pre lang="c++"><code lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
+<pre lang="c++"><code class="language-c++" lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
 </code></pre>
 <p>This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.</p>
 <p>Full example:</p>
-<pre lang="c++"><code lang="c++">struct EnableFeatureA {
+<pre lang="c++"><code class="language-c++" lang="c++">struct EnableFeatureA {
   template &lt;typename T&gt; static void apply(T *a) {
     cout &lt;&lt; a-&gt;a() &lt;&lt; endl;
   }
@@ -213,6 +222,9 @@ struct Bar : FwdFoo {
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

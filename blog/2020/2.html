@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2020 February<a name="postsfor2020february"></a></h1>
 <h1>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h1>
 <p>Post by Nico Brailovsky @ 2020-02-27 -
@@ -34,14 +43,14 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0227_jqgrepandprettifyjson.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
 <p><strong>cat a json file - with pretty print</strong></p>
-<pre lang="c++"><code lang="c++">jq . /path/to/json_file
+<pre lang="c++"><code class="language-c++" lang="c++">jq . /path/to/json_file
 </code></pre>
 <p><strong>Select a single key</strong></p>
-<pre lang="c++"><code lang="c++">jq '.path.to.key'
+<pre lang="c++"><code class="language-c++" lang="c++">jq '.path.to.key'
 </code></pre>
 <p>The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"</p>
 <p><strong>Delete all entries in an object, except for one</strong></p>
-<pre lang="c++"><code lang="c++">jq '.foo|=bar'
+<pre lang="c++"><code class="language-c++" lang="c++">jq '.foo|=bar'
 </code></pre>
 <p>The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"</p>
 <p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
@@ -51,11 +60,11 @@
     <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2020/0218_MixinishclasseswithparameterpacksinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
-<pre lang="c++"><code lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
+<pre lang="c++"><code class="language-c++" lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
 </code></pre>
 <p>This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.</p>
 <p>Full example:</p>
-<pre lang="c++"><code lang="c++">struct EnableFeatureA {
+<pre lang="c++"><code class="language-c++" lang="c++">struct EnableFeatureA {
   template &lt;typename T&gt; static void apply(T *a) {
     cout &lt;&lt; a-&gt;a() &lt;&lt; endl;
   }
@@ -86,6 +95,9 @@ struct Bar : FwdFoo {
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

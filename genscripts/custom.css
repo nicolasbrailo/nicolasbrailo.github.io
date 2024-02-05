@@ -1,0 +1,50 @@
+#siteheader h1 {
+  padding-left: 1rem;
+  font-size: xxx-large;
+  font-weight: bolder;
+}
+
+#siteheader a {
+  font-weight: bold;
+}
+
+#sitesearch {
+  padding: 3rem;
+}
+
+#content {
+  padding: 3rem;
+}
+
+#content img {
+  border: 1px black solid;
+  max-height: 50vh;
+}
+
+#content pre {
+  border: 1px black solid;
+  overflow-x: scroll;
+}
+
+
+@media screen and (max-width: 600px) {
+  #siteheader h1 {
+    display: none;
+  }
+
+  #siteheader a {
+    font-size: x-small;
+    width: fit-content;
+    display: contents;
+  }
+
+  #content {
+    padding: 0rem;
+  }
+
+  #content h1 {
+    font-size: small;
+    font-weight: bold;
+  }
+}
+

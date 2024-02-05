@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2011 August<a name="postsfor2011august"></a></h1>
 <h1>A Makefile for code coverage report with C++<a name="amakefileforcodecoveragereportwithc"></a></h1>
 <p>Post by Nico Brailovsky @ 2011-08-30 -
@@ -34,7 +43,7 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0830_AMakefileforcodecoveragereportwithC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So far you should know how to <a href="/blog/2011/0822_AMakefileforTDDwithC.html">use makefiles</a> and you should have a nice <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">testable project</a>. Then you have everything ready to get a coverage report. Yeah, using makefiles, you guessed!</p>
 <p>This time we'll depend on two tools, gcov and gtest. These are in Ubuntu's repositories, so you should have no problem getting them. I won't even bother to explain this makefile (not because it's obvious but because I don't really remember how it works. I wrote this over a year ago).</p>
-<pre lang="c++"><code lang="c++">.PHONY: clean coverage_report
+<pre lang="c++"><code class="language-c++" lang="c++">.PHONY: clean coverage_report
 coverage_report:
     # Reset code coverage counters and clean up previous reports
     rm -rf coverage_report
@@ -47,7 +56,7 @@ coverage_report:
     rm salida.out
 </code></pre>
 <p>Bonus makefile target: make your code pretty:</p>
-<pre lang="c++"><code lang="c++">.PHONY: pretty
+<pre lang="c++"><code class="language-c++" lang="c++">.PHONY: pretty
 pretty:
     find -L|egrep '.(cpp|h|hh)$$'|egrep -v 'svn|_Test.cpp$$' | xargs astyle --options=none
 </code></pre>
@@ -67,22 +76,22 @@ pretty:
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0822_AMakefileforTDDwithC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, after reading <a href="/blog/2011/0818_Makefiles.html">my post about makefiles</a> you decided that you like them but would like to add some TDD to be buzzword compliant? No problem, that's easy to do.</p>
 <p>Assuming you use a naming convention such as this one:</p>
-<pre lang="c++"><code lang="c++">path/to/src/Object.h
+<pre lang="c++"><code class="language-c++" lang="c++">path/to/src/Object.h
 path/to/src/Object.cpp
 path/to/src/Object_Test.cpp
 </code></pre>
 <p>then it's easy to auto detect which tests should be built:</p>
-<pre lang="c++"><code lang="c++">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep "_Test.cpp$$" ) )
+<pre lang="c++"><code class="language-c++" lang="c++">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep "_Test.cpp$$" ) )
 TEST_BINS := $(addprefix ./$(BIN_DIR)/, $(patsubst %.cpp, %, $(TEST_SRCS)) )
 </code></pre>
 <p>Then we have to define a special rule with pattern matching to compile the tests:</p>
-<pre lang="c++"><code lang="c++">$(BIN_DIR)/%_Test: $(patsubst $(BIN_DIR)/%, %, %_Test.cpp ) %.cpp %.h
+<pre lang="c++"><code class="language-c++" lang="c++">$(BIN_DIR)/%_Test: $(patsubst $(BIN_DIR)/%, %, %_Test.cpp ) %.cpp %.h
     @echo "Making $@"
     @mkdir -p $(shell dirname $@)
     g++ $(CXXFLAGS) -g3 -O0 $&lt; -o $@ -lpthread -lgtest_main -lgmock $(OBJECTS) $(LDFLAGS)
 </code></pre>
 <p>and some magic to auto execute every test when we "make test":</p>
-<pre lang="c++"><code lang="c++">test: $(TEST_SRCS)
+<pre lang="c++"><code class="language-c++" lang="c++">test: $(TEST_SRCS)
     @for TEST in $(TEST_BINS); do
         make "$$TEST";
         echo "Execute $(TEST)";
@@ -90,7 +99,7 @@ TEST_BINS := $(addprefix ./$(BIN_DIR)/, $(patsubst %.cpp, %, $(TEST_SRCS)) )
     done
 </code></pre>
 <p>Everything nice and tidy for a copy &amp; paste session:</p>
-<pre lang="c++"><code lang="c++">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep "_Test.cpp$$" ) )
+<pre lang="c++"><code class="language-c++" lang="c++">TEST_SRCS := $(patsubst ./%, %, $(shell find -L|grep -v svn|egrep "_Test.cpp$$" ) )
 TEST_BINS := $(addprefix ./$(BIN_DIR)/, $(patsubst %.cpp, %, $(TEST_SRCS)) )
 $(BIN_DIR)/%_Test: $(patsubst $(BIN_DIR)/%, %, %_Test.cpp ) %.cpp %.h
     @echo "Making $@"
@@ -113,7 +122,7 @@ test: $(TEST_SRCS)
 <p>For open source projects, makefiles are a must. All C++ projects need them, even though cmake is strong nowadays, and even though Java has its own version (actually, several of them, but that's not important now) a makefile could be used.</p>
 <p>Even if it is an ubiquitous build system, it is pretty much outdated nowadays, and although using its basic features is easy, mastering it is a complex task. Worst still, mastering makefiles means you'll probably produce write-only-code, and as makefiles are code themselves, and must therefore be maintained, this can be a nuisance to a newcomer to your project.</p>
 <p>There's an upside to makefiles being code: they can be reused. Once you find a configuration that suits your development process, you don't need to write it again. I'll post here some of the main targets I ussually include in a common.mk. As I mentioned, it's mostly write-only-code, yet you may find it useful:</p>
-<pre lang="c++"><code lang="c++"># Dependency directoy
+<pre lang="c++"><code class="language-c++" lang="c++"># Dependency directoy
 df=$(BUILD_DIR)/$(<em>D)/$(</em>F)
 $(OBJECTS): $(BUILD_DIR)/%.o: %.cpp
     @mkdir -p $(BUILD_DIR)/$(<em>D)
@@ -137,13 +146,13 @@ $(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
 -include $(DEPENDS)
 </code></pre>
 <p>How is this used? Well, don't even try to understand the dependency autogeneration, it'll make your head explode.</p>
-<pre lang="c++"><code lang="c++">$(OBJECTS): $(BUILD_DIR)/%.o: %.cpp
+<pre lang="c++"><code class="language-c++" lang="c++">$(OBJECTS): $(BUILD_DIR)/%.o: %.cpp
 </code></pre>
 <p>This defines a rule for building .o objects; a variable named OBJECTS should be present when including this file.</p>
-<pre lang="c++"><code lang="c++">$(MAIN_OBJ): $(MAIN_SRC)
+<pre lang="c++"><code class="language-c++" lang="c++">$(MAIN_OBJ): $(MAIN_SRC)
 </code></pre>
 <p>A special rule is defined for a main object (actually this is needed to compile the tests, which we'll do next time, since you may have a different main function).</p>
-<pre lang="c++"><code lang="c++">$(BINARY): $(BIN_DIR)/$(BINARY)
+<pre lang="c++"><code class="language-c++" lang="c++">$(BINARY): $(BIN_DIR)/$(BINARY)
 $(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
 </code></pre>
 <p>And finally, a rule for to create the real binary. Next time I'll add some cool features for TDD to this makefile.</p>
@@ -153,7 +162,7 @@ $(BIN_DIR)/$(BINARY): $(OBJECTS) $(DEPS_OBJECTS) $(MAIN_OBJ)
     <a href="/blog/2011/0816_Livingonanullobject.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0816_Livingonanullobject.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Check this out:</p>
-<pre lang="c++"><code lang="c++">struct S {
+<pre lang="c++"><code class="language-c++" lang="c++">struct S {
    int f(){ return 42; }
 };
 int main() {
@@ -167,7 +176,7 @@ int main() {
 <p>Why, you may ask</p>
 <p>Think about it, you must.</p>
 <p>The compiler will mangle S::f and translate this into something like:</p>
-<pre lang="c++"><code lang="c++">struct S {};
+<pre lang="c++"><code class="language-c++" lang="c++">struct S {};
 int mangled_S_f(struct S <em>this){
    return 42;
 }
@@ -189,6 +198,9 @@ int main() {
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

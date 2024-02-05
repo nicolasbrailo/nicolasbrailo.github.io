@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2011 September<a name="postsfor2011september"></a></h1>
 <h1>DIY gnome applets<a name="diygnomeapplets"></a></h1>
 <p>Post by Nico Brailovsky @ 2011-09-29 -
@@ -44,7 +53,7 @@
 <p>After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the <a href="/blog/youfoundadeadlink.html">last posts</a> of this series.</p>
 <p>In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it's present for template type deduction too, but decltype adds a new level of complexity to it.</p>
 <p>Let's start with an example. Would this compile?</p>
-<pre lang="c++"><code lang="c++">struct Foo {
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
     int bar;
 };
 void f(const Foo foo)
@@ -53,7 +62,7 @@ void f(const Foo foo)
 }
 </code></pre>
 <p>Clearly not, having a const Foo means you can't touch foo.bar. How about this?</p>
-<pre lang="c++"><code lang="c++">struct Foo {
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
     int bar;
 };
 void f(const Foo foo)
@@ -62,14 +71,14 @@ void f(const Foo foo)
 }
 </code></pre>
 <p>That won't compile either, you can't initialize an int reference from a const int, yet we can do this:</p>
-<pre lang="c++"><code lang="c++">void f(const Foo foo)
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
 {
     const int&amp; x = foo.bar;
 }
 </code></pre>
 <p>If we know that works it must mean that s.result's type is const int. Right? Depends.</p>
 <p>Just as the name implies decltype yields the declared type of a variable, and what's the declared type for Foo.bar?</p>
-<pre lang="c++"><code lang="c++">struct Foo {
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
     int bar;
 };
 void f(const Foo foo)
@@ -81,14 +90,14 @@ void f(const Foo foo)
 }
 </code></pre>
 <p>That's an interesting difference, but it makes sense once you are used to it. To make things more interesting, what happens if you start adding parenthesis (almost) randomly? Try to deduce the type of x:</p>
-<pre lang="c++"><code lang="c++">void f(const Foo foo)
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
 {
     decltype((foo.bar)) x
 }
 </code></pre>
 <p>If <strong>decltype(x)</strong> is the type of <strong>x</strong> then <strong>decltype((foo.bar))</strong> is the type of <strong>(foo.bar)</strong>. Between <strong>foo.bar</strong> and <strong>(foo.bar)</strong> there's a very important difference; the first refers to a variable whilst the last refers to an expression. Even though <strong>foo.bar</strong> was declared as int, the expression <strong>(foo.bar)</strong> will yield a const int&amp;, since that's the type (though implicit and not declared, since the expression is not declared).</p>
 <p>This is how we would complete the example then:</p>
-<pre lang="c++"><code lang="c++">void f(const Foo foo)
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
 {
     // These two statements are equivalent
     decltype((foo.bar)) x = 42;
@@ -105,7 +114,7 @@ void f(const Foo foo)
     <a href="/blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Running Windows is something I don't usually like (running of Windows is a different story) but having to run something on Windows command line interface is something I wouldn't wish even to my worst enemies. I was stuck in that situation, don't remember why, but I needed to run a command in a Windows machine, automatically, and I only had ssh (is there a better way of automating scripted tasks in Windows, remotely and without a GUI?). Well, this is what I came up with:</p>
-<pre lang="c++"><code lang="c++">ssh host cmd /c dir
+<pre lang="c++"><code class="language-c++" lang="c++">ssh host cmd /c dir
 </code></pre>
 <p>Running that in a bash shell will show the directory listing of C: in machine "host". Ugly as hell, but it's a good way of kickstarting a batch script.</p>
 <hr />
@@ -129,10 +138,10 @@ void f(const Foo foo)
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0915_ZeropaddingforBashscripts.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Lately I found myself trying to generate a video from a series of images generated by a program. Doesn't sound difficult, until you start running into a stupid issue: your 1000th frame will come before your 2nd frame!</p>
 <p>Luckily there's a very easy fix for this problem, just add zero padding in a bash script. How?</p>
-<pre lang="c++"><code lang="c++">for i in <code>seq 1 10</code>; do echo $i; done
+<pre lang="c++"><code class="language-c++" lang="c++">for i in <code>seq 1 10</code>; do echo $i; done
 </code></pre>
 <p>That will print all the numbers between 1 and 10. This one will do the same, with zero padding:</p>
-<pre lang="c++"><code lang="c++">for i in `seq 1 10`; do printf "%02dn" $i; done
+<pre lang="c++"><code class="language-c++" lang="c++">for i in `seq 1 10`; do printf "%02dn" $i; done
 </code></pre>
 <hr />
 <h1>200th post!<a name="200thpost"></a></h1>
@@ -164,7 +173,7 @@ void f(const Foo foo)
     <a href="/blog/2011/0906_Atalkingmakefile.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0906_Atalkingmakefile.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, after learning <a href="/blog/2011/0818_Makefiles.html">how to use makefiles</a>, then <a href="/blog/2011/0822_AMakefileforTDDwithC.html">how to use makefiles for TDD</a> and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report</a>, now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?</p>
-<pre lang="c++"><code lang="c++">test: $(TEST_SRCS)
+<pre lang="c++"><code class="language-c++" lang="c++">test: $(TEST_SRCS)
     @for TEST in $(TEST_BINS); do
         make "$$TEST";
         echo "Execute $(TEST)";
@@ -187,6 +196,9 @@ void f(const Foo foo)
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

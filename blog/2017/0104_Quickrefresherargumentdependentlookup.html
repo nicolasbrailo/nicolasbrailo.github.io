@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,17 +19,26 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Quick refresher: argument dependent lookup<a name="quickrefresherargumentdependentlookup"></a></h1>
 <p>Since I wasted a few precious minutes stuck on an ADL problem, I figured I needed a quick reminder on how they work. Check this code: does it compile?</p>
-<pre lang="c++"><code lang="c++">namespace N {
+<pre lang="c++"><code class="language-c++" lang="c++">namespace N {
     int foo() {
     }
 }
@@ -38,7 +47,7 @@ int main() {
 }
 </code></pre>
 <p>Of course it doesn't! You'd expect a 'foo' not declared/out of scope error from your compiler. What about this other example?</p>
-<pre lang="c++"><code lang="c++">namespace N {
+<pre lang="c++"><code class="language-c++" lang="c++">namespace N {
     struct Dummy;
     int foo(Dummy<em>) {
         return 0;
@@ -52,13 +61,17 @@ int main() {
 </code></pre>
 <p>You'd be tempted to say it won't work either. (Un?)fortunately, 'argument dependant lookup' is a thing, and the second code sample works. How? The compiler will look for 'foo' in the global namespace, and also in the namespace of the arguments to 'foo'. Seeing 'N::Dummy' in there, the compiler is allowed to peak into the namespace N for method 'foo'. Why? Short: operator overloading. Long: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2103.pdf">check here</a> (the 'Why ADL' section is very good).</p>
 <hr />
-<p><a href="/blog/2017/0104_Quickrefresherargumentdependentlookup.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2017/0104_Quickrefresherargumentdependentlookup.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2017-01-04 -
+    <a href="/blog/2017/0104_Quickrefresherargumentdependentlookup.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2017/0104_Quickrefresherargumentdependentlookup.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

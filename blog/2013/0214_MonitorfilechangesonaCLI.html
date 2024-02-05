@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,33 +19,46 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Monitor file changes on a CLI<a name="monitorfilechangesonacli"></a></h1>
 <p>The other day I had a problem with a config file being overwritten. Some process, I did not know which one, was overwriting a configuration file I manually changed. Annoyed by this, I started looking for the culprit. lsof was no good, because that would list the open files; this process would most likely just open the file, write to it and then close it again. My chances of ever catching this process in the act were nil. Luckily I found auditd. Install it like this:</p>
-<pre lang="bash"><code lang="bash">sudo apt-get install auditd
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install auditd
 </code></pre>
 <p>Then to monitor a file you can use the following command:</p>
-<pre lang="bash"><code lang="bash">sudo auditctl -w $FILE -p war
+<pre lang="bash"><code class="language-bash" lang="bash">sudo auditctl -w $FILE -p war
 </code></pre>
 <p>Wait until $FILE has changed, then execute this command to get the results:</p>
 <pre><code>ausearch -f $FILE
 </code></pre>
 <p>Voila, now you have your culprit. Kill -9 at will.</p>
 <hr />
-<p><a href="/blog/2013/0214_MonitorfilechangesonaCLI.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0214_MonitorfilechangesonaCLI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-02-14 -
+    <a href="/blog/2013/0214_MonitorfilechangesonaCLI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0214_MonitorfilechangesonaCLI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

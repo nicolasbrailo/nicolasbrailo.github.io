@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Cool C++0X features IV: Variadic templates again<a name="coolc0xfeaturesivvariadictemplatesagain"></a></h1>
 <p>Last time we finally solved the varargs problem. Let's review what we learned:
 * Variadic templates let us create something receiving a variable set of arguments
@@ -43,7 +52,7 @@
 sum () &lt;- 0
 </code></pre>
 <p>Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my <a href="/blog/youfoundadeadlink.html">template metaprogramming series</a>):</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 struct Nil{};
 template <typename H, typename T=Nil> struct Lst {
     typedef H Head;
@@ -91,7 +100,7 @@ int main() {
 }
 </code></pre>
 <p>Nothing too fancy, plain old recursion with a sum. Yet it's quite verbose, can we make this a little bit more terse and, hopefully, more clear? Yes, we can. Take a look at that Lst, Lst&lt;...&gt; It sucks. And it's the perfect place to use variadic templates, we just need to construct a structure getting a list of ints, like this:</p>
-<pre lang="c++"><code lang="c++">template &lt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;
     // The operation we wish to apply
     template<typename A, typename B> class Op,
     // Current element to process
@@ -104,11 +113,11 @@ struct Reduce_V
 }
 </code></pre>
 <p>That one should look familiar from last time article. Now, to implement a reduce operation we need to operate the current element with the result of reducing the tail, so we have to do something like this:</p>
-<pre lang="c++"><code lang="c++">// Remember how T... means to expand T for the next instance
+<pre lang="c++"><code class="language-c++" lang="c++">// Remember how T... means to expand T for the next instance
     typedef typename Reduce_V<Op, T...>::result Tail_Result
 </code></pre>
 <p>There's something missing. Can you see what? The ending condition, of course. Let's add it and we'll get something like this:</p>
-<pre lang="c++"><code lang="c++">template &lt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;
         // The operation we wish to apply
         template<typename A, typename B> class Op,
         // All the rest
@@ -141,7 +150,7 @@ struct Reduce_V<Op, H, T...>
 };
 </code></pre>
 <p>And using it is very simple too:</p>
-<pre lang="c++"><code lang="c++">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
+<pre lang="c++"><code class="language-c++" lang="c++">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
 </code></pre>
 <p>Next time we'll see another example for variadic templates and a new C++0x feature.</p>
 <h1>Comments<a name="comments"></a></h1>
@@ -154,13 +163,17 @@ struct Reduce_V<Op, H, T...>
 <p>Glad you find them useful Chaitanya, thanks for the feedback</p>
 <p>Original <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-03 -
+    <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Mocking in C++: the virtual problem<a name="mockingincthevirtualproblem"></a></h1>
 <p>Mocking objects is crucial for a good test suite. If you don't have a way to mock heavy objects you'll end up with slow and unreliable tests that depend on database status to work. On the other hand, C++ mocking tends to be a bit harder than it is on dynamic languages. A frequent problem people find when mocking are virtual methods.</p>
 <p>What's the problem with virtual methods? C++ has the policy of "not paying for what you don't use". That means, not using virtual methods is "cheaper" than using them. Classes with no virtual methods don't require a virtual dispatch nor a vtable, which speeds things up. So, for a lot of critical objects people will try to avoid virtual methods.</p>
@@ -78,13 +87,17 @@
 <p>Also remember that this won't work with any methods that are called from ctors and dtors, since they won't be virtually dispatched. With luck, your compiler will warn you if you get that wrong.</p>
 <p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2013/0718_MockinginCthevirtualproblem.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0718_MockinginCthevirtualproblem.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-18 -
+    <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0718_MockinginCthevirtualproblem.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

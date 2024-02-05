@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2011 April<a name="postsfor2011april"></a></h1>
 <h1>Know your history (at least in bash)<a name="knowyourhistoryatleastinbash"></a></h1>
 <p>Post by Nico Brailovsky @ 2011-04-28 -
@@ -39,7 +48,7 @@
     <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Last time</a> we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn't have the problems the varargs solution had, nor how does it work. Let's start by copying the solution here:</p>
-<pre lang="c++"><code lang="c++">// Stop condition
+<pre lang="c++"><code class="language-c++" lang="c++">// Stop condition
 void println() {}
 // General case
 template <typename H, typename... T>
@@ -55,7 +64,7 @@ int main() {
 </code></pre>
 <p>It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some <a href="/blog/youfoundadeadlink.html">template-foo</a> is required, not only because of the syntax but because we'll be talking about functional programming too.</p>
 <p>With all that intro (the last 2 articles were just an intro!) now we are in a good shape to ask what a variadic template really is. In its easiest form, it's just a list of template arguments, like this:</p>
-<pre lang="c++"><code lang="c++">template <typename... T> void foo(T... t) {}
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename... T> void foo(T... t) {}
 </code></pre>
 <p>That simple template can accept as many parameters as you need, of any type. This is much safer than a vararg because:</p>
 <ul>
@@ -66,7 +75,7 @@ int main() {
 <li>Better performance; small gain, but a gain indeed. Since this is all done in compile time there's no need to handle the stack dynamically, nor of having a loop getting the args. It's all known when you compile, thus the compiler can just optimize the hell out of everything</li>
 </ul>
 <p>Pretty neat, huh? But how does it work? Variadic templates are actually very similar to how Haskell handles lists, you get all the arguments as a list of types in which you can either get the head or the tail. To do something useful, get the head and continue processing the tail recursively.</p>
-<pre lang="c++"><code lang="c++">template <typename H, typename... T>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename H, typename... T>
 void do_something(H h, T... t)
 {
     // Do something useful with h
@@ -76,7 +85,7 @@ void do_something(H h, T... t)
 }
 </code></pre>
 <p>Of course, you'll eventually need a condition to stop processing: (we'll explain the new syntax later)</p>
-<pre lang="c++"><code lang="c++">void do_something()
+<pre lang="c++"><code class="language-c++" lang="c++">void do_something()
 {
     // Do nothing :)
 }
@@ -88,7 +97,7 @@ void do_something(H h, T... t)
 <li>When you write t..., you are saying "expand the list of arguments". You declared t as a list of objects, but you have no way of accessing each of those objects, just to the list as a whole. When you write the name of the object followed by ellipses, you are saying expand these types and their instance for the called function</li>
 </ul>
 <p>With all that in mind, let's put together our typesafe printf:</p>
-<pre lang="c++"><code lang="c++">// Condition to stop processing
+<pre lang="c++"><code class="language-c++" lang="c++">// Condition to stop processing
 void println() {}
 // Println receives a list of arguments. We don't know it's type nor
 // how many there are, so we just get the head and expand the rest
@@ -124,7 +133,7 @@ int main() {
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Last time</a> we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?</p>
 <p>Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:</p>
-<pre lang="c++"><code lang="c++">#include <stdarg.h>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
 #include <iostream>
 // My god, it's full of bugs
 void va_println(int args_left, ...) {
@@ -148,7 +157,7 @@ int main() {
 <li><strong>No, really, coredump</strong>: Where are so many coredumps coming from, you may ask. Easy, varargs it's just a way of handling the stack. Calling va_arg just moves the stack pointer by the sizeof the datatype you requested. That means no compile-time checks are included.</li>
 <li><strong>No pod types</strong>: Remember POD types? Try running this code:</li>
 </ul>
-<pre lang="c++"><code lang="c++">#include <stdarg.h>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
 struct X { virtual ~X(){} };
 void va_println(int args_left, ...) {
    va_list arg_lst;
@@ -166,7 +175,7 @@ int main() {
 </code></pre>
 <h3>And how do we fix it?<a name="andhowdowefixit"></a></h3>
 <p>The fix is easy. Too easy. You just need C++0X. We will discuss why this is better next time, but just as a sneak peak:</p>
-<pre lang="c++"><code lang="c++">void println() {}
+<pre lang="c++"><code class="language-c++" lang="c++">void println() {}
 template <typename H, typename... T> void println(H p, T... t) {
    std::cout &lt;&lt; p;
    println(t...);
@@ -199,7 +208,7 @@ int main() {
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0407_HexdumpinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you need to work with low level stuff (say communications protocols, compression algorithms, stuff like that) you'll be needing an hex dump function sooner or later. Alex, from <a href="http://www.alexonlinux.com/">Alex on Linux</a>, has a great <a href="http://www.alexonlinux.com/hex-dump-functions">hex dump function</a> for Python and C.</p>
 <p>I added an =NULL for caption, I don't use it.</p>
-<pre lang="c++"><code lang="c++">void hex_dump(char *data, int size, char *caption=NULL)
+<pre lang="c++"><code class="language-c++" lang="c++">void hex_dump(char *data, int size, char *caption=NULL)
 {
     int i; // index in data...
     int j; // index in line...
@@ -248,26 +257,26 @@ int main() {
     <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0404_NewsflashCobjectcommitssepuku.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Check this out. Is it valid C++?</p>
-<pre lang="c++"><code lang="c++">class X {
+<pre lang="c++"><code class="language-c++" lang="c++">class X {
   void dispose() {
     delete this;
   }
 };
 </code></pre>
 <p>Strange pattern, isn't it?. What happens if you try to dispose a heap object?</p>
-<pre lang="c++"><code lang="c++">void f() {
+<pre lang="c++"><code class="language-c++" lang="c++">void f() {
    X x;
    x.dispose();
 }
 </code></pre>
 <p>Indeed, nasal demons FTW, you're trying to free an invalid pointer. Yet if we change that a little bit...</p>
-<pre lang="c++"><code lang="c++">void f() {
+<pre lang="c++"><code class="language-c++" lang="c++">void f() {
    (new X)-&gt;dispose();
 }
 </code></pre>
 <p>Zomg now it works. It's weird, but it works. Why would anybody on earth do something like this? Can you guess when would this be useful?</p>
 <p>Some times you launch a background job, and you don't really care when it's done. You may use a <a href="/blog/2009/0803_CMagiccallbackssolved.html">callback</a> to be notified when the job is done, but if you don't really care then having an object which deletes itself is an option. You'll have to be very careful about it, though, because this is legal C++ too:</p>
-<pre lang="c++"><code lang="c++">class X {
+<pre lang="c++"><code class="language-c++" lang="c++">class X {
   void dispose() {
     delete this;
     std::cout &lt;&lt; "Hello worldn";
@@ -283,6 +292,9 @@ For a much more interesting note than mine, go and check <a href="http://blogs.m
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,30 +19,39 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality<a name="cexceptionsunderthehoodappendixiiirttiandexceptionsorthogonality"></a></h1>
 <p>Exception handling on C++ requires a lot of reflexion. I don't mean the programmer should be reflecting on exception handling (though that's probably not a bad idea), I mean that a piece of C++ code should be able to understand things about itself. This looks a lot like run-time type information, RTTI. Are they the same? If they are, does exception handling work without RTTI?</p>
 <p>We might be able to get a clue about the difference between RTTI and exception handling by using -fno-rtti on gcc when compiling our ABI project. Let's use the <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/blob/master/abi_v12/throw.cpp">throw.cpp</a> file:</p>
-<pre lang="c++"><code lang="c++">g++ -fno-rtti -S throw.cpp -o throw.nortti.s
+<pre lang="c++"><code class="language-c++" lang="c++">g++ -fno-rtti -S throw.cpp -o throw.nortti.s
 g++ -S throw.cpp -o throw.s
 diff throw.s throw.nortti.s
 </code></pre>
 <p>If you try that yourself you should see there's no difference between the RTTI and the No-RTTI version. Can we conclude then that gcc's exception handling is done with a mechanism different to RTTI? Not yet, let's see what happens if we try to use RTTI ourselves:</p>
-<pre lang="c++"><code lang="c++">void raise() {
+<pre lang="c++"><code class="language-c++" lang="c++">void raise() {
     Exception ex;
     typeid(ex);
     throw Exception();
 }
 </code></pre>
 <p>If you try and compile that, gcc will complain: you can't use typeid with -fno-rtti specified. Which makes sense. Let's see what typeid does with a simple test:</p>
-<pre lang="c++"><code lang="c++">#include <typeinfo>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <typeinfo>
 class Bar {};
 const std::type_info&amp; foo()
 {
@@ -69,7 +78,7 @@ _ZTI3Bar:
     .section    .note.GNU-stack,"",@progbits
 </code></pre>
 <p>Does that look familiar? If it doesn't, then try changing the sample code to this one:</p>
-<pre lang="c++"><code lang="c++">class Bar {};
+<pre lang="c++"><code class="language-c++" lang="c++">class Bar {};
 void foo() { throw Bar(); }
 </code></pre>
 <p>Compile it like "g++ -O0 -fno-rtti -S test.cpp" and see the resulting file. You should see something like this now:</p>
@@ -102,13 +111,17 @@ _ZTI3Bar:
 <p>[&hellip;] [Brailovsky] Nicol&aacute;s Brailovsky, C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality [&hellip;]</p>
 <p>Original <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-25 -
+    <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

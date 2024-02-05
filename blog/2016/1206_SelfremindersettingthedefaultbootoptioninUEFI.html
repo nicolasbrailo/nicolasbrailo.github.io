@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,27 +19,40 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Self reminder: setting the default boot option in UEFI<a name="selfremindersettingthedefaultbootoptioninuefi"></a></h1>
 <p>Bought a new laptop (*) and I'm 100% sure I'll forget this if I don't put it here:</p>
 <p>From http://askubuntu.com/questions/291905/how-can-i-make-ubuntu-the-default-boot-option-on-a-newer-laptop-uefi</p>
 <p>To set Ubuntu as the default boot OS in a multi-OS setup (ie, dual boot Windows) with UEFI, goto Windows and exec (as admin) bcdedit /set {bootmgr} path \EFI\ubuntu\grubx64.efi</p>
 <p>Why am I using Windows, you may ask? I'm still in the process of discovering which features will be broken and which hardware will work out of the box. So far I'm actually quite surprised, with only the video card and the touchpad not working. Luckily bash doesn't use either of those. Who needs a mouse anyway?</p>
 <hr />
-<p><a href="/blog/2016/1206_SelfremindersettingthedefaultbootoptioninUEFI.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1206_SelfremindersettingthedefaultbootoptioninUEFI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2016-12-06 -
+    <a href="/blog/2016/1206_SelfremindersettingthedefaultbootoptioninUEFI.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1206_SelfremindersettingthedefaultbootoptioninUEFI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,21 +19,30 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Pictag: finally a simple geotagging tool for Linux<a name="pictagfinallyasimplegeotaggingtoolforlinux"></a></h1>
 <p>TL;DR: Link to a mostly working <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
 <p>Since Google decided not to support Picasa for Linux anymore (yes, a long time ago) I've been looking for a decent photo management alternative. Lately I've settled with Digikam, it does everything Picasa used to do (and much better, I may add) except for providing a way to geotag your pictures on a map.</p>
 <p>Most geotagging solutions involve having an already created waypoints map from a GPS device, which then gets processed and magically added to the images' exif data. That didn't cut it for me, I don't have, nor want, a GPS I can take on holidays, plus I really only want to drag and drop pictures on a map. That's where <a href="https://launchpad.net/pictag">pictag</a> comes in.</p>
 <p>At the moment <a href="https://launchpad.net/pictag">pictag</a> seems to be a bit abandoned, as there are no more packages for Ubuntu 13.04. Luckily with some hacking it's possible to get it running.</p>
 <p>First, since there's no package for Pictag you'll need to take care of the dependencies yourself. On a more or less vanilla 13.04 install, this should do the trick:</p>
-<pre lang="c++"><code lang="c++">sudo apt-get install python-setuptools \
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install python-setuptools \
                      python-distutils-extra \
                      geoclue-ubuntu-geoip \
                      liblaunchpad-integration-common \
@@ -49,13 +58,17 @@
 <p>Pictag seems to be using GSettings, a very annoying Gnome settings manager which won't work unless you actually install whatever program you're trying to run. Luckily we can just hack it out of Pictag simply by commenting out all references to self.settings in PictagWindow.py and Window.py. Either that or get my <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
 <p>With some luck, my hacked version of Pictag should run pretty much OK on Ubuntu 13.04 or newer. There seems to be a few issues with libchamplain (the mapping library) on earlier versions of Ubuntu that may cause the map to display only broken images. If you can't load any maps you'll have to get a newer Ubuntu. Or fork my repo and get hacking :)</p>
 <hr />
-<p><a href="/blog/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-08-01 -
+    <a href="/blog/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

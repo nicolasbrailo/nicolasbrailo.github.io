@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>A coverage report for C++ unit tests<a name="acoveragereportforcunittests"></a></h1>
 <p>A lot of tools and metrics which are pretty much given for some dynamic languages are quite esoteric in C++ land. Unit testing is one of these tools, and so code coverage metrics is even more obscure in C++. Turns out it's not impossible. I have uploaded an <a href="https://github.com/nicolasbrailo/gcov_gtest_sample">example C++ project with unit tests and code coverage report generation</a>. Shouldn't be to hard to adapt this code to your own project.</p>
 <p>Let's analyze some of the core concepts of this example.</p>
@@ -38,13 +47,17 @@
 <h3>Getting it running<a name="gettingitrunning"></a></h3>
 <p>Unfortunatelly, generating a coverage report has a lot of dependencies in C++. For the example on my github repository you'll have to install lcov, cppcheck, gtest, gmock and vera++ (a code style checker for C++ which is now discontinued... you should probably search for a replacement). Once you have it running, though, you can easily integrate this with your jenkins setup.</p>
 <hr />
-<p><a href="/blog/2013/0709_AcoveragereportforCunittests.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0709_AcoveragereportforCunittests.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-07-09 -
+    <a href="/blog/2013/0709_AcoveragereportforCunittests.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0709_AcoveragereportforCunittests.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

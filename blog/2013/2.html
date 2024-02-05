@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2013 February<a name="postsfor2013february"></a></h1>
 <h1>Powerpoint monkey<a name="powerpointmonkey"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-02-28 -
@@ -47,7 +56,7 @@
 <li><strong>__cxa_throw</strong> will prepare a bunch of stuff and forward this exception to <strong>_Unwind_</strong>, a set of functions that live in libstdc and perform the real stack unwinding (<a href="/blog/youfoundadeadlink.html">the ABI</a> defines the interface for these functions).</li>
 </ul>
 <p>Quite simple so far, but exception catching is a bit more complicated, specially because it requires certain degree of reflexion (that is, the ability of a program to analyze its own source code). Let's keep on trying our same old method, let's add some catch statements throughout our code, compile it and see what happens:</p>
-<pre lang="c++"><code lang="c++">#include "throw.h"
+<pre lang="c++"><code class="language-c++" lang="c++">#include "throw.h"
 #include <stdio.h>
 // Notice were adding a second exception type
 struct Fake_Exception {};
@@ -83,7 +92,7 @@ extern "C" {
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
 <p>Just like before, we have our seppuku function linking the C world with the C++ world, only this time we have added some more function calls to make our stack more interesting, plus we have added a bunch of try/catch blocks so we can analyze how does libstdc++ handles them.</p>
 <p>And just like before, we get some linker errors about missing ABI functions:</p>
-<pre lang="c++"><code lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+<pre lang="c++"><code class="language-c++" lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
 &gt; gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
 throw.o: In function <code>try_but_dont_catch():
 throw.cpp:12: undefined reference to</code>__cxa_begin_catch
@@ -114,7 +123,7 @@ collect2: ld returned 1 exit status
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0219_Cexceptionsunderthehood3anABItoappeasethelinker.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>On our journey to understand exceptions we discovered that the heavy-lifting is done in libstdc++ as specified by the C++ ABI. Reading some linker errors we deduced last time that for handling exceptions we need help from the C++ ABI; we created a throwing C++ program, linked it together with a plain C program and found that the compiler somehow translated our throw instruction into something that is now calling a few libstd++ functions to actually throw an exception. Lost already? You can check the sourcode for this project so far <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
 <p>Anyway, we want to understand exactly how an exception is thrown, so we will try to implement our own mini-ABI, capable of throwing an exception. To do this, a lot of <a href="/blog/youfoundadeadlink.html">RTFM</a> is needed, but a full ABI interface can be found <a href="http://libcxxabi.llvm.org/spec.html">here, for LLVM</a>. Let's start by remembering what those missing functions are:</p>
-<pre lang="c++"><code lang="c++">&gt; gcc main.o throw.o -o app
+<pre lang="c++"><code class="language-c++" lang="c++">&gt; gcc main.o throw.o -o app
 throw.o: In function <code>foo()':
 throw.cpp:4: undefined reference to</code>__cxa_allocate_exception'
 throw.cpp:4: undefined reference to <code>__cxa_throw'
@@ -128,7 +137,7 @@ collect2: ld returned 1 exit status
 <h3>vtable for __cxxabiv1::__class_type_info<a name="vtablefor__cxxabiv1__class_type_info"></a></h3>
 <p>A weird one... __class_type_info is clearly some sort of RTTI, but what exactly? It's not easy to answer this one now and it's not terribly important for our mini ABI; we'll leave it to an appendix for after we are done analyzing the process of throwing exceptions, for now let's just say this is the entry point the ABI defines to know (in runtime) whether two types are the same or not. This is the function that gets called to determine whether a catch(Parent) can handle a throw Child. For now we'll focus on the basics: we need to give it an address for the linker (ie defining it won't be enough, we need to instantiate it) and it has to have a vtable (that is, it must have a virtual method).</p>
 <p>Lot's of stuff happen on these functions, but let's try to implement the simplest exception thrower possible: one that will call exit when an exception is thrown. Our application was almost OK but missing some ABI-stuff, so let's create a mycppabi.cpp. Reading <a href="/blog/youfoundadeadlink.html">our ABI specification</a> we can figure out the signatures for <strong>__cxa_allocate_exception</strong> and <strong>__cxa_throw</strong>:</p>
-<pre lang="c++"><code lang="c++">#include <unistd.h>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 namespace __cxxabiv1 {
@@ -161,7 +170,7 @@ void __cxa_throw(
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
 <p>If we now compile mycppabi.cpp and link it with the other two .o files, we'll get a working binary which should print "alloc ex 1\nthrow" and then exit. Pretty simple, but an amazing feat nonetheless: we've managed to throw an exception without calling libc++. We've written a (very small) part of a C++ ABI!</p>
 <p>Another important bit of wisdom we gained by creating our own mini ABI: the throw keyword is compiled into two function calls to libstdc++. No voodoo there, it's actually a pretty simple transformation. We can even disassemble our throwing function to verify it. Let's run this command "g++ -S throw.cpp".</p>
-<pre lang="c++"><code lang="c++">seppuku:
+<pre lang="c++"><code class="language-c++" lang="c++">seppuku:
 .LFB3:
     [...]
     call    __cxa_allocate_exception
@@ -179,10 +188,10 @@ void __cxa_throw(
     <a href="/blog/2013/0214_MonitorfilechangesonaCLI.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0214_MonitorfilechangesonaCLI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The other day I had a problem with a config file being overwritten. Some process, I did not know which one, was overwriting a configuration file I manually changed. Annoyed by this, I started looking for the culprit. lsof was no good, because that would list the open files; this process would most likely just open the file, write to it and then close it again. My chances of ever catching this process in the act were nil. Luckily I found auditd. Install it like this:</p>
-<pre lang="bash"><code lang="bash">sudo apt-get install auditd
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install auditd
 </code></pre>
 <p>Then to monitor a file you can use the following command:</p>
-<pre lang="bash"><code lang="bash">sudo auditctl -w $FILE -p war
+<pre lang="bash"><code class="language-bash" lang="bash">sudo auditctl -w $FILE -p war
 </code></pre>
 <p>Wait until $FILE has changed, then execute this command to get the results:</p>
 <pre><code>ausearch -f $FILE
@@ -195,7 +204,7 @@ void __cxa_throw(
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0212_CexceptionsunderthehoodIIatinyABI.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If we are going to try and understand why exceptions are complex and how do they work, we can either read a lot of manuals or we can try to write something to handle the exceptions ourselves. Actually, I was surprised by the lack of good information on this topic: pretty much everything I found is either incredibly detailed or very basic, with one exception or two. Of course there are some specifications to implement (most notably the <a href="/blog/youfoundadeadlink.html">ABI for c++</a> but we also have <a href="http://www.logix.cz/michal/devel/gas-cfi/">CFI</a>, <a href="http://www.logix.cz/michal/devel/gas-cfi/dwarf-2.0.0.pdf">DWARF</a> and libstdc) but reading the specification alone is not enough to really learn what's going on under the hood.</p>
 <p>Let's start with the obvious then: wheel reinvention! We know for a fact that plain C doesn't handle exceptions, so let's try to link a throwing C++ program with a plain C linker and see what happens. I came up with something simple like this:</p>
-<pre lang="c++"><code lang="c++">#include "throw.h"
+<pre lang="c++"><code class="language-c++" lang="c++">#include "throw.h"
 extern "C" {
     void seppuku() {
         throw Exception();
@@ -203,7 +212,7 @@ extern "C" {
 }
 </code></pre>
 <p>Don't forget the extern stuff, otherwise g++ will helpfully mangle our little function's name and we won't be able to link it with our plain C program. Of course, we need a header file to "link" (no pun intended) the C++ world with the C world:</p>
-<pre lang="c++"><code lang="c++">struct Exception {};
+<pre lang="c++"><code class="language-c++" lang="c++">struct Exception {};
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -213,7 +222,7 @@ extern "C" {
 #endif
 </code></pre>
 <p>And a very simple main:</p>
-<pre lang="c++"><code lang="c++">#include "throw.h"
+<pre lang="c++"><code class="language-c++" lang="c++">#include "throw.h"
 int main()
 {
     seppuku();
@@ -221,12 +230,12 @@ int main()
 }
 </code></pre>
 <p>What happens now if we try to compile and link together this frankencode?</p>
-<pre lang="c++"><code lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
+<pre lang="c++"><code class="language-c++" lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
 &gt; gcc -c -o main.o -O0 -ggdb main.c
 </code></pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
 <p>So far so good. Both g++ and gcc are happy in their little world. Chaos will ensue once we try to link them, though:</p>
-<pre lang="c++"><code lang="c++">&gt; gcc main.o throw.o -o app
+<pre lang="c++"><code class="language-c++" lang="c++">&gt; gcc main.o throw.o -o app
 throw.o: In function <code>foo()':
 throw.cpp:4: undefined reference to</code>__cxa_allocate_exception'
 throw.cpp:4: undefined reference to <code>__cxa_throw'
@@ -271,6 +280,9 @@ collect2: ld returned 1 exit status
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

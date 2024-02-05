@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,32 +19,41 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Cool C++0X features XIV: Initializer lists<a name="coolc0xfeaturesxivinitializerlists"></a></h1>
 <p>We talked last time about ranged fors and how they can simplify our life in C++0x. Now we are going to take a trip back to old C land. Remember when you could initialize your arrays like this:</p>
-<pre lang="c++"><code lang="c++">int v[] = {1, 2, 3, 4};
+<pre lang="c++"><code class="language-c++" lang="c++">int v[] = {1, 2, 3, 4};
 </code></pre>
 <p>C++0X brought a lot of changes to the world, and suddenly instead of int[] you were supposed to use vector, and with it your initializer didn't work anymore. Though luck. Try to compile this:</p>
-<pre lang="c++"><code lang="c++">#include <vector>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <vector>
 int main() {
     std::vector<int> v = {1,2,3,4};
     return 0;
 }
 </code></pre>
 <p>If you did compile it with g++, you may have noticed an interesting error message:</p>
-<pre lang="c++"><code lang="c++">error: in C++98 'v' must be initialized by constructor, not by '{...}'
+<pre lang="c++"><code class="language-c++" lang="c++">error: in C++98 'v' must be initialized by constructor, not by '{...}'
 warning: extended initializer lists only available with -std=c++0x or -std=gnu++0x
 </code></pre>
 <p>That's interesting. Try to compile it with g++ again, but using C++0x instead of plain C++. Magic, now it works!</p>
 <p>Initializers lists bring the best of C to C++ world (?) by letting you use initialize any object with an initializer. And I mean *any* object, not just vectors. For example, say you have a map (a map and a bunch of other stuff):</p>
-<pre lang="c++"><code lang="c++">int main() {
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
     map<string, vector\<int>> v = {
             { "a", {1,2,3} },
             { "b", {4,5,6} },
@@ -56,13 +65,17 @@ warning: extended initializer lists only available with -std=c++0x or -std=gnu++
 </code></pre>
 <p>Yes, that works! Maps, vectors, pairs, and even your own custom objects, but we'll see that next time.</p>
 <hr />
-<p><a href="/blog/2011/1011_CoolC0XfeaturesXIVInitializerlists.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1011_CoolC0XfeaturesXIVInitializerlists.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-10-11 -
+    <a href="/blog/2011/1011_CoolC0XfeaturesXIVInitializerlists.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1011_CoolC0XfeaturesXIVInitializerlists.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

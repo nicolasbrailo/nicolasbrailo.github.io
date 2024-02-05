@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,46 +19,55 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2008 December<a name="postsfor2008december"></a></h1>
 <h1>apt-get install new computer II<a name="aptgetinstallnewcomputerii"></a></h1>
 <p>Post by Nico Brailovsky @ 2008-12-28 -
     <a href="/blog/2008/1228_aptgetinstallnewcomputerII.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2008/1228_aptgetinstallnewcomputerII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Ahora si, termino el post que empec&eacute; en <a href="blog_md/2008/1009_aptgetnewcomputer.md">apt-get install new computer (parte 1)</a></p>
-<pre lang="bash"><code lang="bash">sudo apt-get install lyx
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install lyx
 </code></pre>
 <p><a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/</a></p>
-<pre lang="bash"><code lang="bash">sudo apt-get install tilda
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install tilda
 </code></pre>
 <p><a href="http://debaday.debian.net/2007/03/04/yakuake-a-quake-style-terminal-emulator-based-on-kde-konsole-technology/">Link a DPOTD</a></p>
-<pre lang="bash"><code lang="bash">sudo apt-get install mmv
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install mmv
 </code></pre>
 <p><a href="http://debaday.debian.net/2007/06/13/mmv-mass-moving-and-renaming-files/">Link a DPOTD</a></p>
-<pre lang="bash"><code lang="bash">sudo apt-get install unclutter
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install unclutter
 </code></pre>
 <p><a href="http://debaday.debian.net/2007/03/27/unclutter-hide-the-mouse-cursor-after-a-period-of-inactivity/">Link a DPOTD</a></p>
-<pre lang="bash"><code lang="bash">sudo apt-get install katapult
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install katapult
 </code></pre>
 <p><a href="http://debaday.debian.net/2007/09/05/katapult-faster-and-easier-access-to-your-applications-bookmarks-and-files/">Link a DPOTD</a></p>
-<pre lang="bash"><code lang="bash">sudo apt-get install moc
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install moc
 </code></pre>
 <p><a href="http://debaday.debian.net/2007/07/11/moc-music-on-console-ncurses-based-console-audio-player/">Link a DPOTD</a></p>
 <h1>SA tools<a name="satools"></a></h1>
-<pre lang="bash"><code lang="bash">sudo apt-get install knetworkmanager xdiskusage iptraf sshfs apt-listbugs
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install knetworkmanager xdiskusage iptraf sshfs apt-listbugs
 </code></pre>
 <h1>Media stuff: flv player, shnsplit/cuebreakpoints (flac), winrar<a name="mediastuffflvplayershnsplitcuebreakpointsflacwinrar"></a></h1>
-<pre lang="bash"><code lang="bash">apt-get install ffmpeg shntool cuetools flac wavpack unrar vlc
+<pre lang="bash"><code class="language-bash" lang="bash">apt-get install ffmpeg shntool cuetools flac wavpack unrar vlc
 </code></pre>
 <h1>Conky, sensores y plugins<a name="conkysensoresyplugins"></a></h1>
-<pre lang="bash"><code lang="bash">apt-get install conky libxext-dev lm-sensors build-essential checkinstall wmctrl
+<pre lang="bash"><code class="language-bash" lang="bash">apt-get install conky libxext-dev lm-sensors build-essential checkinstall wmctrl
 </code></pre>
 <p>Casi termin&oacute; por ser un lista de links a DPOTD, jeje (y me juego a que los &uacute;ltimos tambi&eacute;n est&aacute;n pero no los busqu&eacute;).</p>
 <hr />
@@ -67,6 +76,9 @@
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

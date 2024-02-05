@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Fastgrep, a cache for grep<a name="fastgrepacacheforgrep"></a></h1>
 <p>Sooner or later, you'll find that you need to know where to find a certain piece of text that ctags does not index, and grep is just not fast enough. Say, you're trying to match that log line you see every one in a while to the specific printf("I'm here!\n") that produced it.</p>
 <p>Working on any reasonable sized project, searching for free-form text means you'll need some kind of indexing; grep will work, but you'll end up having to wait a couple of minutes between searches. Funny thing, we can probably speed up grep quite easily. Long story short, you can find a grep cache here: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh">Fastgrep</a>.</p>
@@ -44,13 +53,17 @@
 <p>[...] wrote about Fastgrep a long time ago.&nbsp;The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by [...]</p>
 <p>Original <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2012/1030_Fastgrepacacheforgrep.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1030_Fastgrepacacheforgrep.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-30 -
+    <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1030_Fastgrepacacheforgrep.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

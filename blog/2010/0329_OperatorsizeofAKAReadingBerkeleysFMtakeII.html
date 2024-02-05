@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,47 +19,60 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Operator sizeof (AKA Reading Berkeley's FM, take II)<a name="operatorsizeofakareadingberkeleysfmtakeii"></a></h1>
 <p><a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Last time</a> I told you about an evil snipet I found on Oracle Berkeley DB's manual:</p>
-<pre lang="c++"><code lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
+<pre lang="c++"><code class="language-c++" lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
 </code></pre>
 <p>And we concluded it's trying to... well, dereference a number. And yet it compiles. What the hell is going on there?</p>
 <p>The answer here is in the subtleties of the sizeof <strong>operator</strong>. That's right, <strong>operator</strong>, not function. Plus is an operator. Less is an operator. * is a (unary) operator. sizeof is a unary operator too. The relevance of this is that operators can behave in more bizzare ways than functions do. In this case there's a difference between this two lines:</p>
-<pre lang="c++"><code lang="c++">  MyClass x;
+<pre lang="c++"><code class="language-c++" lang="c++">  MyClass x;
   int a = sizeof(MyClass);
   int b = sizeof(x);
 </code></pre>
 <p>A very subtle difference. Can you spot it? a and b will have the exact same value, rest assured. The difference is in the operator itself: sizeof MUST have parenthesis when applied to a type name, yet parenthesis are optional when applied to an instance of a datatype, so this code is legal:</p>
-<pre lang="c++"><code lang="c++">  MyClass x;
+<pre lang="c++"><code class="language-c++" lang="c++">  MyClass x;
   int a = sizeof(MyClass);
   int b = sizeof x;
 </code></pre>
 <p>Oh, wait, the fun doesn't stop there: sizeof also has bizarre precedence order, meaning it won't get applied as you expect it. So, this is valid too:</p>
-<pre lang="c++"><code lang="c++">  struct MyClass { int y; } x;
+<pre lang="c++"><code class="language-c++" lang="c++">  struct MyClass { int y; } x;
   int b = sizeof x-&gt;y;
 </code></pre>
 <p>Can you see where we are going? Knowing that sizeof will be applied last lets you write something like this too:</p>
-<pre lang="c++"><code lang="c++">  void <em>ptr = ...
+<pre lang="c++"><code class="language-c++" lang="c++">  void <em>ptr = ...
   int b = sizeof((X</em>)ptr)-&gt;y;
 </code></pre>
 <p>Which means nothing else than "store in b the size of member y in struct X. It should be easy to see why BDB's example does compile, and why did I spend half an hour trying to understand the reason it compiled fine.</p>
 <p>By using some more casts and a clever arangement of parenthesis you can come up with a great job security device.</p>
 <hr />
-<p><a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-03-29 -
+    <a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>svn tip: branch stable version, then use externals<a name="svntipbranchstableversionthenuseexternals"></a></h1>
 <p>Even though the title says svn, this tip is applicable probably for any version control system. Imagine the following scenario: You have project BestAppEver. BestAppEver depends on BestLibEver. Both are using svn. How do you handle this on your version control system?</p>
 <p>One way, the wrong way, that I have seen lots of times is to just include a copy of BestLibEver inside BestAppEver, like this:</p>
@@ -34,7 +43,7 @@
 <p>This is horrible, whenever BestLibEver is updated you need to manually update BestAppEver. Thus, we come to the second (but not quite the best) solution: <a href="http://svnbook.red-bean.com/en/1.0/ch07s03.html">svn externals</a>. They work like this:</p>
 <p><img alt="" src="/blog_img/svn_externals21.png" /></p>
 <p>Again, although I said svn externals, most version control systems have their own externals version. For a detailed explanation on how externals work you should read the link above, for the moment let's just say this is enough to setup the external:</p>
-<pre lang="c++"><code lang="c++">$ svn pe svn:externals .
+<pre lang="c++"><code class="language-c++" lang="c++">$ svn pe svn:externals .
 # This will open your default editor. Now write this:
 LibName           LibURL
 </code></pre>
@@ -48,13 +57,17 @@ LibName           LibURL
 <p>An alternative is setting the revision number when defining the external using -r{revision number}</p>
 <p>Original <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1124_svntipbranchstableversionthenuseexternals.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-11-24 -
+    <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1124_svntipbranchstableversionthenuseexternals.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

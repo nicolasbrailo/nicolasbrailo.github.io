@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,19 +19,28 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Tailing Google app engine&#39;s logs on realtime<a name="tailinggoogleappengine39slogsonrealtime"></a></h1>
 <p>Knowing in real time when an error occurs on your GAE app is not as easy as it sounds. You can create a custom error handler and then mail you the exception log, but you have to develop that yourself (and if you do it wrong you may end up slowing down the whole app... yes, I know it first hand). You can also keep the GAE log page open and set your browser to refresh it every X seconds, but that's quite cumbersome.</p>
 <p>So, seeing there are a bunch of acceptable but not quite nice solutions out there, I decided to add yet another "solution" that works, but looks ugly. This script will probably break in a few months, or whenever any part of the auth protocol Google uses changes (since I think very little of it is supposed to be public) but until then you can use it to tail GAE's logs on real time.</p>
 <p>Note it will work polling a logs webservice @ Google (just like appcfg does); if you set the frequency too high you may see your daily cost increasing but if you set it too low then the script will only get the last error between intervals (so you might miss errors in between). If too many errors go undetected, though, your problem is likely a too-high error rate and not a low update frequency.</p>
-<pre lang="c++"><code lang="c++">#!/usr/bin/python
+<pre lang="c++"><code class="language-c++" lang="c++">#!/usr/bin/python
 # Configure your account here
 GOOGLE_AUTH = ('foobar@gmail.com', 'gmailpass')
 # The app version should be in your GAE control panel (Main&gt; Version)
@@ -138,13 +147,17 @@ if __name__ == '__main__':
     main()
 </code></pre>
 <hr />
-<p><a href="/blog/2012/1205_TailingGoogleappengine39slogsonrealtime.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1205_TailingGoogleappengine39slogsonrealtime.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-05 -
+    <a href="/blog/2012/1205_TailingGoogleappengine39slogsonrealtime.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1205_TailingGoogleappengine39slogsonrealtime.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2009 June<a name="postsfor2009june"></a></h1>
 <h1>LaTeX: LyX Revisited<a name="latexlyxrevisited"></a></h1>
 <p>Post by Nico Brailovsky @ 2009-06-29 -
@@ -70,7 +79,7 @@ What LyX isn’t for</p>
     <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0625_UniquevarnamewithCCmacros.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, you're working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won't let you. There's a secret spell to do it anyway:</p>
-<pre lang="c++"><code lang="c++">// Do magic! Creates a unique name using the line number
+<pre lang="c++"><code class="language-c++" lang="c++">// Do magic! Creates a unique name using the line number
 #define LINE_NAME( prefix ) JOIN( prefix, <strong>LINE</strong> )
 #define JOIN( symbol1, symbol2 ) _DO_JOIN( symbol1, symbol2 )
 #define _DO_JOIN( symbol1, symbol2 ) symbol1##symbol2
@@ -173,7 +182,7 @@ end{document}
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0611_vimrcVimstartupfile.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I usually create a partition for /home, so whenever I decide to foobar my OS (i.e. do a kernel update on Ubuntu, or start playing with compiz too much) there's no need to copy my home folder to another disk and back again. Regardless of this, there are some essential files which I'd be dead without. One of these is my .vimrc, the startup file for Vim.</p>
 <p>My .vimrc file has been organically growing since I started using this editor, a couple of years ago, so I've decided to clean it up a little bit and post it here, just to be sure I won't be loosing it. It's got some tweaks to use Vim as an IDE, feel free to download it and change it or use it anyway you want.</p>
-<pre lang="c++"><code lang="c++">colorscheme torte
+<pre lang="c++"><code class="language-c++" lang="c++">colorscheme torte
 set nocompatible
 syntax on
 set ruler
@@ -239,7 +248,7 @@ inoremap { {}O
     <a href="/blog/2009/0609_aptgetinstallnewcomputerIVroundup.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0609_aptgetinstallnewcomputerIVroundup.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Quick post this time - just a roundup of the "apt-get install new computer" series. This is a one liner I use in any new install I'm planning to work with, hope it's useful for you too.</p>
-<pre lang="bash"><code lang="bash">
+<pre lang="bash"><code class="language-bash" lang="bash">
 sudo apt-get install lyx mozilla-thunderbird tilda mmv \
    unclutter gnome-do moc ffmpeg shntool cuetools flac \
    wavpack vlc deluge bittornado-gui build-essential \
@@ -261,11 +270,11 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
     <a href="/blog/2009/0605_VimTipKnowyourblocks.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0605_VimTipKnowyourblocks.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Vim is the best editor for programmers and as such it has some neat "programmer commands", which make editing source code a lot easier. Take for example a block with code, or a function definition: how many times did you have to copy the code between parenthesis from one place to the other?</p>
-<pre lang="c++"><code lang="c++">int foo(int bar, int baz)
+<pre lang="c++"><code class="language-c++" lang="c++">int foo(int bar, int baz)
 </code></pre>
 <p>You could do '0f(df)' to delete "int bar, int baz" but that won't do if the definition is more complicated than that. 'dib' is a better choice to delete the text.</p>
 <p>(ACTION)i{b|B} applies ACTION to a block, for example, pressing diB in</p>
-<pre lang="c++"><code lang="c++">void foo() _ {
+<pre lang="c++"><code class="language-c++" lang="c++">void foo() _ {
     /<em> Lots of source code </em>/
 }
 </code></pre>
@@ -297,6 +306,9 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

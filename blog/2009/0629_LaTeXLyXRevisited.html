@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>LaTeX: LyX Revisited<a name="latexlyxrevisited"></a></h1>
 <p>Seeing I'm publishing a new LaTeX series it seems appropiate to review my old LyX article. This is just a copy &amp; paste from <a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/</a>
 Did you ever get to struggle against your text editor’s random format feature while trying to write a document? Open Office may be a great project, but when you want to focus on the content, it can be annoying to have your editor format or unformat your text, seemingly at random.</p>
@@ -52,13 +61,17 @@ What LyX isn’t for</p>
 <h3>Availability<a name="availability"></a></h3>
 <p>According to it’s homepage, LyX 1.5.3 was released the 16 th of December, 2007. It’s available in Debian since Sarge (packages.debian.org/LyX). Lyx Version 1.5.1, released 4 th of August, 2007, is available in the repository of Ubuntu 7.10. Development is still active. There’s also a Windows version for those of us stuck with primitive a OS at work.</p>
 <hr />
-<p><a href="/blog/2009/0629_LaTeXLyXRevisited.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0629_LaTeXLyXRevisited.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-29 -
+    <a href="/blog/2009/0629_LaTeXLyXRevisited.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2009/0629_LaTeXLyXRevisited.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

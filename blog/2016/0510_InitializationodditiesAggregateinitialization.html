@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,17 +19,26 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Initialization oddities: Aggregate initialization<a name="initializationodditiesaggregateinitialization"></a></h1>
 <p>Do you know the quickest way to create a constructor that initializes the elements in this struct?</p>
-<pre lang="c++"><code lang="c++">#include <string>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <string>
 struct MyStruct {
     int x;
     std::string y;
@@ -37,20 +46,20 @@ struct MyStruct {
 };
 </code></pre>
 <p>If you answered "by typing really fast", you may be interested in knowing that the fastest way to create this constructor is to not write it at all!</p>
-<pre lang="c++"><code lang="c++">MyStruct a = {42, "Hello", "World"};
+<pre lang="c++"><code class="language-c++" lang="c++">MyStruct a = {42, "Hello", "World"};
 </code></pre>
 <p>Yes, the line above works and it's perfectly legal C++. It's event C++ 98! This language feature is called aggregate initialization and it says the compiler should be smart enough to initialize MyStruct using each value successively. Of course C++11 has made this syntax somewhat simpler and a lot more uniform:</p>
-<pre lang="c++"><code lang="c++">MyStruct a{42, "Hello", "World"};
+<pre lang="c++"><code class="language-c++" lang="c++">MyStruct a{42, "Hello", "World"};
 </code></pre>
 <p>There are some caveats when using this initialization, namely that the initialized type must be an aggregate. An aggregate, in standard lingo, is a type that has some restrictions. No virtuals, no privates, etc. You can say it's a POD and in most cases you'd be right.</p>
 <p>Now, is this also legal?</p>
-<pre lang="c++"><code lang="c++">MyStruct a = {42, "Hello"};
+<pre lang="c++"><code class="language-c++" lang="c++">MyStruct a = {42, "Hello"};
 </code></pre>
 <p>You'd be tempted to say that's a syntax error. It's not, now z will just be default-initialized. What about this, then?</p>
-<pre lang="c++"><code lang="c++">MyStruct a = {42, "Hello", "World", "Extra!"};
+<pre lang="c++"><code class="language-c++" lang="c++">MyStruct a = {42, "Hello", "World", "Extra!"};
 </code></pre>
 <p>According to the standard, that's an error. Or... is it? Let's try out this example:</p>
-<pre lang="c++"><code lang="c++">struct A {
+<pre lang="c++"><code class="language-c++" lang="c++">struct A {
     int x;
 };
 struct B {
@@ -67,12 +76,12 @@ C o = {42, "Hello", "World"};
 <p>Aggregate initializations should, according to the standard, be smart enough to initialize aggregate objects and use any "spill over" to continue initializing other values/aggregate objects recursively.</p>
 <h3>Bonus I:<a name="bonusi"></a></h3>
 <p>Aggregate initialization is also what makes this idiom valid:</p>
-<pre lang="c++"><code lang="c++">char x[] = {1, 2, 3}
+<pre lang="c++"><code class="language-c++" lang="c++">char x[] = {1, 2, 3}
 </code></pre>
 <p>In this case, x will be of length 3 because that's the length of its aggregate initializer.</p>
 <h3>Bonus II:<a name="bonusii"></a></h3>
 <p>I'm sure anyone trying to get up to date with C++11 will have played around with variadic templates. One of the first exercises I'd recommend for this would be a compile-time list of different types. Knowing about aggregate initializations now, how would you write a constructor for this type?</p>
-<pre lang="c++"><code lang="c++">template &lt;typename H, typename... T&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename H, typename... T&gt;
 struct Multilist&lt;H, T...&gt; {
     H x;
     Multilist&lt;T...&gt; next;
@@ -80,13 +89,17 @@ struct Multilist&lt;H, T...&gt; {
 Multilist&lt;int, string, float&gt; foo{42, "XXX", 1.23};
 </code></pre>
 <hr />
-<p><a href="/blog/2016/0510_InitializationodditiesAggregateinitialization.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0510_InitializationodditiesAggregateinitialization.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2016-05-10 -
+    <a href="/blog/2016/0510_InitializationodditiesAggregateinitialization.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0510_InitializationodditiesAggregateinitialization.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

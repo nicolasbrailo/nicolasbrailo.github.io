@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2013 October<a name="postsfor2013october"></a></h1>
 <h1>Setting up a Linux GW VI: Configuring a console friendly router and<a name="settingupalinuxgwviconfiguringaconsolefriendlyrouterand"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-10-31 -
@@ -36,24 +45,24 @@
 <p>We have so far setup a device capable of working as a router for a medium sized LAN, providing NAT, DHCP and DNS services. This is great if you have a dedicated network admin, but you may prefer something easier for casual console users. We'll see how to "refactor" your server configuration now to make it more console friendly.</p>
 <h3>Moving DHCP config files<a name="movingdhcpconfigfiles"></a></h3>
 <p>Since I want to keep everything together for easy administration, I will move the configuration files for DHCP to /home/router/dhcp. Changing the dhcpd.conf file itself is easy, just move the subnets declarations and add this line:</p>
-<pre lang="c++"><code lang="c++">include "/home/router/dhcp/subnets.conf";
+<pre lang="c++"><code class="language-c++" lang="c++">include "/home/router/dhcp/subnets.conf";
 include "/home/router/dhcp/static_hosts.conf";
 </code></pre>
 <p>Like we did before with bind, we need to configure apparmor. vim /etc/apparmor.d/usr.sbin.dhcpd and add this two lines:</p>
-<pre lang="c++"><code lang="c++">/home/router/dhcp/ rw,
+<pre lang="c++"><code class="language-c++" lang="c++">/home/router/dhcp/ rw,
 /home/router/dhcp/** rw,
 </code></pre>
 <p>Restart apparmor service, then restart dhcpd. Everything should work just fine.</p>
 <h3>Setting up static IPs<a name="settingupstaticips"></a></h3>
 <p>Remember the static_hosts file we created before? We can use that to define a static IP. Add the following to set a static IP host:</p>
-<pre lang="c++"><code lang="c++">host HostName {
+<pre lang="c++"><code class="language-c++" lang="c++">host HostName {
     hardware ethernet 00:00:00:00:00:00
     fixed-address 192.168.10.50;
 }
 </code></pre>
 <p>After that, just restart the DHCP service and renew your client's IP. Done, it's static now!</p>
 <p>Wait a minute: how do you find the MAC for your host? I'm to lazy to copy and type it, so I did the following:</p>
-<pre lang="c++"><code lang="c++">cd /home/router/dhcp
+<pre lang="c++"><code class="language-c++" lang="c++">cd /home/router/dhcp
 ln -s /var/lib/dhcp leases
 </code></pre>
 <p>Then you can check the hardware address in the leases/dhcpd.leases file. I created a symlink to keep this directory at hand, since it gives you a status of the current leases.</p>
@@ -72,7 +81,7 @@ ln -s /var/lib/dhcp leases
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1024_SettingupaLinuxGWVDCHP.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>In our custom Linux router we now have DNS and NAT so far, but the client configuration has been absolutely manual. We can't have many clients with this sort of setup, so let's automate the client config with a DHCP server. Begin by installing isc-dhcp-server.</p>
 <p>Edit /etc/dhcp/dhcpd.conf, set the domain-name and the domain-name-servers, like this:</p>
-<pre lang="c++"><code lang="c++">option domain-name "lan";
+<pre lang="c++"><code class="language-c++" lang="c++">option domain-name "lan";
 option domain-name-servers 192.168.10.1 192.168.0.1;
 default-lease-time 86400;
 max-lease-time 172800;
@@ -80,7 +89,7 @@ authoritative;
 </code></pre>
 <p>I'm not sure if the first line is needed. The other two will set the DNS servers for your clients. Also, increasing your lease time is recommended, I used one day for default leases. I set this DHCP server as the authoritative server. If this is your router, that's probably what you want.</p>
 <p>Now we need to define the network topology:</p>
-<pre lang="c++"><code lang="c++"># This is the WAN network, and we won&#x27;t provide a service here
+<pre lang="c++"><code class="language-c++" lang="c++"># This is the WAN network, and we won&#x27;t provide a service here
 subnet 192.168.0.0 netmask 255.255.255.0 {
 }
 # Define the service we provide for the LAN
@@ -90,10 +99,10 @@ subnet 192.168.10.1 netmask 255.255.255.0 {
 }
 </code></pre>
 <p>Now we need to restart ISC:</p>
-<pre lang="c++"><code lang="c++">sudo /./etc/init.d/isc-dhcp-server restart
+<pre lang="c++"><code class="language-c++" lang="c++">sudo /./etc/init.d/isc-dhcp-server restart
 </code></pre>
 <p>And now we need to check if everything worked in the client. It's easy this time, we just ask for an IP:</p>
-<pre lang="c++"><code lang="c++">sudo dhclient
+<pre lang="c++"><code class="language-c++" lang="c++">sudo dhclient
 ifconfig
 </code></pre>
 <p>If everything went fine, we should now have an IP in the 100-200 range, as well as the DNS server in /etc/resolv.conf. We have now setup a very basic router and should be able to server several clients for basic browsing capabilities.</p>
@@ -112,11 +121,11 @@ ifconfig
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1017_SettingupaLinuxGWIVSettingupapparmor.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Apparmor is a service that runs in the background, checking what other binaries can and can't do. For example, it will allow bind9 to open a listening socket on port 53 (DNS), but it will deny an attempt to open a listening socket on port 64. This is a security measure to limit the damage a compromised bind9 binary running as root might do. And since we are going to use a non standard configuration, we need to tell apparmor that it's OK.</p>
 <p>After installing bind9 we should get a new file in /etc/apparmor.d/usr.sbin.named. Add the following lines at the bottom:</p>
-<pre lang="c++"><code lang="c++">  /home/router/named/** rw,
+<pre lang="c++"><code class="language-c++" lang="c++">  /home/router/named/** rw,
   /home/router/named/ rw,
 </code></pre>
 <p>And restart apparmor service:</p>
-<pre lang="c++"><code lang="c++">/./etc/init.d/apparmor restart
+<pre lang="c++"><code class="language-c++" lang="c++">/./etc/init.d/apparmor restart
 </code></pre>
 <p>Since we were modifying apparmor to allow a non-standard bind installation, now restart bind too. This time it will start without any errors, and you should be able to tail -f /home/router/named/dns.log to see the DNS queries on real time. If it doesn't, check that /home/router/named is writable to the bind user (I did a chgrp -R bind named).</p>
 <hr />
@@ -125,7 +134,7 @@ ifconfig
     <a href="/blog/2013/1015_ACtemplatedevicetoobtainanunderlyingtype.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1015_ACtemplatedevicetoobtainanunderlyingtype.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>What happens when you need to get the underlying data type of a pointer or reference? You can write some crazy metaprogram to do it for you. Like this:</p>
-<pre lang="c++"><code lang="c++">template <typename T> struct get_real_type      { typedef T type; };
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename T> struct get_real_type      { typedef T type; };
 template <typename T> struct get_real_type<T*>  { typedef T type; };
 template <typename T> struct get_real_type<T&amp;>  { typedef T type; };
 template <class T>
@@ -150,37 +159,37 @@ int main() {
     <a href="/blog/2013/1010_SettingupaLinuxGWIIISettingupDNSwithbind9.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1010_SettingupaLinuxGWIIISettingupDNSwithbind9.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you have been following my series on how to install a Linux based router, you should now have a setup where a client is able to see the outside world via a router. We can try something more complex now, like pinging a domain instead of an IP. Something like this:</p>
-<pre lang="c++"><code lang="c++">ping google.com
+<pre lang="c++"><code class="language-c++" lang="c++">ping google.com
 </code></pre>
 <p>You should get a message saying the host is unknown. Can you guess why? Right, there's no DNS.</p>
 <h3>Setting up DNS<a name="settingupdns"></a></h3>
 <p>DNS will be necessary to resolve domains to IPs. bind9 is the default option for Debian based servers (are there others? no idea).</p>
-<pre lang="c++"><code lang="c++">sudo apt-get install bind9
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install bind9
 </code></pre>
 <p>This will get your DNS server up and running, but you will still need to add this server manually to your client (again, because there's no DHCP running):</p>
-<pre lang="c++"><code lang="c++">sudo echo "nameserver 192.168.10.1" &gt; /etc/resolv.conf
+<pre lang="c++"><code class="language-c++" lang="c++">sudo echo "nameserver 192.168.10.1" &gt; /etc/resolv.conf
 </code></pre>
 <p>And now:</p>
-<pre lang="c++"><code lang="c++">ping google.com
+<pre lang="c++"><code class="language-c++" lang="c++">ping google.com
 </code></pre>
 <p>Magic again, it (may) work. If it doesn't, you may need to open /etc/bind/named.conf and setup your router (192.168.0.1) as a forwarder, then restart the bind server.</p>
 <p>Of course this is rather boring. If you are going to install a DNS you might as well create a custom TLD for your LAN.</p>
 <h3>Setting up a custom TLD with bind9 for your LAN<a name="settingupacustomtldwithbind9foryourlan"></a></h3>
 <p>So far on the series about how to install a Linux based router, we set up a Linux router with NAT and a basic DNS. Now we'll setup a custom TLD, so you can have custom domains for your LAN. For example, if you want your router to have a nice user friendly name, instead of just an IP.</p>
 <p>Let's start by adding a local zone to /etc/bind/named.conf.local, for a domain we'll call "lan":</p>
-<pre lang="c++"><code lang="c++">zone "lan" {
+<pre lang="c++"><code class="language-c++" lang="c++">zone "lan" {
         type master;
         file "/home/router/named/lan.db";
 };
 </code></pre>
 <p>Now we need to add a reverse zone. Note how the name is the IP reversed:</p>
-<pre lang="c++"><code lang="c++">zone "10.168.192.in-addr.arpa" {
+<pre lang="c++"><code class="language-c++" lang="c++">zone "10.168.192.in-addr.arpa" {
     type master;
         file "/home/router/named/rev.10.168.192.in-addr.arpa";
 };
 </code></pre>
 <p>We still need to create both files (lan.db and rev.10.168.192.in-addr.arpa), but will do that later. Lets setup a place to log all the DNS queries (optional):</p>
-<pre lang="c++"><code lang="c++">logging {
+<pre lang="c++"><code class="language-c++" lang="c++">logging {
     channel query.log {
         file "/home/router/named/dns.log";
         severity debug 3;
@@ -192,7 +201,7 @@ int main() {
 <p>For the log entry I have chosen /home/router/named as the log directory, just because for this project I'm keeping everything together (config and logs) so it's easy for people not used to administer a Linux box, but of course this means that apparmor must be configured to allow reads and writes for bind in this directory. We'll get to that in a second, first let's create the needed zone files for our new TLD.</p>
 <p>Remember our two zone files? I put them on /home/router/named, but usually they are on /etc/bind. Again, I did this so I can have all the config files together. These are my two files:</p>
 <p>For lan.db</p>
-<pre lang="c++"><code lang="c++">lan.      IN      SOA     ns1.lan. admin.lan. (
+<pre lang="c++"><code class="language-c++" lang="c++">lan.      IN      SOA     ns1.lan. admin.lan. (
                                                         2006081401
                                                         28800
                                                         3600
@@ -205,7 +214,7 @@ ns1              IN      A       192.168.0.1
 router           IN      A       192.168.0.1
 </code></pre>
 <p>For rev.10.168.192.in-addr.arpa</p>
-<pre lang="c++"><code lang="c++">@ IN SOA ns1.lan. admin.example.com. (
+<pre lang="c++"><code class="language-c++" lang="c++">@ IN SOA ns1.lan. admin.example.com. (
                         2006081401;
                         28800;
                         604800;
@@ -216,7 +225,7 @@ router           IN      A       192.168.0.1
 1                    IN    PTR    lan
 </code></pre>
 <p>Most of these lines are black magic, and since an explanation of both DNS and Bind is out of scope (feel free to read the RFC if you need more info) let's just say you can add new DNS entries by adding lines like this:</p>
-<pre lang="c++"><code lang="c++">NICE_NAME           IN      A       REAL_IP
+<pre lang="c++"><code class="language-c++" lang="c++">NICE_NAME           IN      A       REAL_IP
 </code></pre>
 <p>This will make bind translate NICE_NAME.lan to REAL_IP. Of course, this will depend on the TLD you defined. Now restart bind to get a crapton of errors. It will complain about not being able to load a master file in /home/router/named. Remember that apparmor thing I mentioned?</p>
 <hr />
@@ -247,13 +256,13 @@ router           IN      A       192.168.0.1
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1003_SettingupaLinuxGWIINATtingandforwarding.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For our Linux GW, services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let's set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
 <p>We'll do this by setting up NAT with iptables. We'll also have to configure the OS to forward connections from one network card to the other:</p>
-<pre lang="c++"><code lang="c++">echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+<pre lang="c++"><code class="language-c++" lang="c++">echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
 # Add a line like this for each eth* LAN
 iptables --append FORWARD --in-interface eth1 -j ACCEPT
 </code></pre>
 <p>We will also need to setup the IP for eth0, since there won't be a DHCP server (we ARE the server!). Open /etc/network/interfaces and add something like this:</p>
-<pre lang="c++"><code lang="c++"># Configure the WAN port to get IP via DHCP
+<pre lang="c++"><code class="language-c++" lang="c++"># Configure the WAN port to get IP via DHCP
 auto eth0
 iface eth0 inet dhcp
 # Configure the LAN port
@@ -263,32 +272,32 @@ iface eth1 inet static
     netmask 255.255.255.0   # Netmasks explanations not included
 </code></pre>
 <p>Once that's checked, restart networking services like this:</p>
-<pre lang="c++"><code lang="c++">sudo /./etc/init.d/networking restart
+<pre lang="c++"><code class="language-c++" lang="c++">sudo /./etc/init.d/networking restart
 </code></pre>
 <p>Everything ready, now just plug your PC to the new router and test it. Remember to manually set your IP in the same network range as your router, since there's no DHCP at the moment. This may be useful to debug a problem.</p>
 <p>In your client PC, set your IP address:</p>
-<pre lang="c++"><code lang="c++">ifconfig eth0 192.168.10.10
+<pre lang="c++"><code class="language-c++" lang="c++">ifconfig eth0 192.168.10.10
 </code></pre>
 <p>Test if you IP is set:</p>
-<pre lang="c++"><code lang="c++">ping 192.168.10.10
+<pre lang="c++"><code class="language-c++" lang="c++">ping 192.168.10.10
 </code></pre>
 <p>If you get a reply, your new IP is OK, if not there's a problem with your client. Second step, see if you can reach the router:</p>
-<pre lang="c++"><code lang="c++">ping 192.168.10.1
+<pre lang="c++"><code class="language-c++" lang="c++">ping 192.168.10.1
 </code></pre>
 <p>Note that you may need to renew everything (i.e. restart networking and manually assign your IP) after you connect the cable.</p>
 <p>Again, if you get a reply then you have connectivity with the router. So far we haven't tested the iptables rules nor the forwarding, so any issue at this point should be of IP configuration. If everything went well, it's time to test the NAT rules and the forwarding.</p>
-<pre lang="c++"><code lang="c++">ping 192.168.1.1
+<pre lang="c++"><code class="language-c++" lang="c++">ping 192.168.1.1
 </code></pre>
 <p>That should give you an error. Of course, since there's no DHCP there's no route set. Let's manually set a route in the client:</p>
-<pre lang="c++"><code lang="c++">sudo route add default gateway 192.168.10.1
+<pre lang="c++"><code class="language-c++" lang="c++">sudo route add default gateway 192.168.10.1
 </code></pre>
 <p>Then again:</p>
-<pre lang="c++"><code lang="c++">ping 192.168.0.1
+<pre lang="c++"><code class="language-c++" lang="c++">ping 192.168.0.1
 </code></pre>
 <p>Magic! It works! If it doesn't, you have a problem either in the NAT configuration or the IP Forwarding of the router. You can check this with wireshark, if the pings reach the server but they never get a reply back then it's the NAT, i.e. it can forward the IP packages on eth1 to eth0 but the router has no NAT, and it doesn't know how to route the answer back. If the pings never even reach eth0, then you have an ip forwarding problem.</p>
 <h3>Persisting the forwarding rules<a name="persistingtheforwardingrules"></a></h3>
 <p>In order to have the forwarding rules persisting after a reboot, we need first to change /etc/sysctl.conf to allow IP forwarding. It's just a mater of uncommenting this line:</p>
-<pre lang="c++"><code lang="c++">net.ipv4.ip_forward = 1
+<pre lang="c++"><code class="language-c++" lang="c++">net.ipv4.ip_forward = 1
 </code></pre>
 <p>We will also have a lot of iptables rules we need to setup during boot time. I have created a script at /home/router/set_forwarding.sh, which I also linked into /etc/init.d/rc.local so it's run whenever the system boots.</p>
 <p>Next time we'll move on to something more complex: installing a DNS server and using domains instead of IPs.</p>
@@ -309,7 +318,7 @@ iface eth1 inet static
 <li>A side effect of this multi-phase macro expansion is that the nice expansion tree we used to have no longer works.</li>
 </ol>
 <p>Let's take this example:</p>
-<pre lang="c++"><code lang="c++">#define str(...) #<strong>VA_ARGS</strong>
+<pre lang="c++"><code class="language-c++" lang="c++">#define str(...) #<strong>VA_ARGS</strong>
 #define foo(a, b) foo a bar str(b)
 #define bar foo bar 1
 foo(bar, (1, 2, 3))
@@ -352,6 +361,9 @@ foo(bar, (1, 2, 3))
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

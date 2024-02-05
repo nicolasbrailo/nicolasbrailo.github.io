@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,17 +19,26 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Getting a stacktrace on C/C++: Mapping function pointers to function names in obj files<a name="gettingastacktraceonccmappingfunctionpointerstofunctionnamesinobjfiles"></a></h1>
 <p><a href="/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html">Last time</a> we saw how to get a stacktrace in C++, yet we only had access to the list of function pointers and not to the function names. Still, pointers are not that useful. Can we get function names instead? Yes, we can but it's not easy. One option would be to read the elf specification. Boring. Let's tinker around with our test program, may be we can find something interesting:</p>
-<pre lang="c++"><code lang="c++">    Caller <em>caller = (Caller</em>)sp;
+<pre lang="c++"><code class="language-c++" lang="c++">    Caller <em>caller = (Caller</em>)sp;
     while (caller) {
         cout &lt;&lt; caller-&gt;addr &lt;&lt; endl;
         void<strong> foo = (void</strong>)caller;
@@ -38,12 +47,12 @@
     }
 </code></pre>
 <p>On my machine I got something like this:</p>
-<pre lang="c++"><code lang="c++">0xbfa25fd8|0x8048acb
+<pre lang="c++"><code class="language-c++" lang="c++">0xbfa25fd8|0x8048acb
 0xbfa25ff8|0x8048aeb
 0|0x40143113
 </code></pre>
 <p>The first address is the memory address of the stack to which we should return after executing this function. The second address looks interesting. It looks like the addresses we see when dissasemblying an object. Let's try running 'objdump -Sd ./a.out':</p>
-<pre lang="c++"><code lang="c++">08048ac0 &lt;_Z3barif&gt;:
+<pre lang="c++"><code class="language-c++" lang="c++">08048ac0 &lt;_Z3barif&gt;:
  8048ac0: 55                      push   %ebp
  8048ac1: 89 e5                   mov    %esp,%ebp
  8048ac3: 83 ec 08                sub    $0x8,%esp
@@ -65,13 +74,17 @@
 </code></pre>
 <p>And, indeed, 0x8048acb and 0x8048aeb are both there: they are the EIP after the ret call! Note that you may use c++filt if the mangled names are too confusing. Anyway, we can indeed get the function names, albeit in a rather contrived way. Is there a better way to get a backtrace and its symbols' names? Turns out there is and we'll see how to get a function's name during runtime, in the next article.</p>
 <hr />
-<p><a href="/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-18 -
+    <a href="/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

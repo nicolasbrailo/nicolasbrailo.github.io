@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Android studio and ndk-gdb to debug a native app<a name="androidstudioandndkgdbtodebuganativeapp"></a></h1>
 <p>I don't know how good Android Studio support for native apps is nowadays (it changes from week to week!). Up to a few months ago, Gradle, the build system used by AS, had poor support for native development. If you're having problems, you may find it easier to workaround it completely when it comes to build and debug C/C++ applications.</p>
 <p>To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here's a workaround I found:</p>
@@ -54,13 +63,17 @@ This option is there for quite a long time.</p>
 <p>Thanks for the info! I recall trying that option and it still didn't manage to include the gdbserver binary. Hopefully it does now.</p>
 <p>Original <a href="/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0625_Androidstudioandndkgdbtodebuganativeapp.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-06-25 -
+    <a href="/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0625_Androidstudioandndkgdbtodebuganativeapp.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

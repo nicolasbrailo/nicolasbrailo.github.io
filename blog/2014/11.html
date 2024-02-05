@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2014 November<a name="postsfor2014november"></a></h1>
 <h1>Gdb hit count: ignoring breakpoints (for a while)<a name="gdbhitcountignoringbreakpointsforawhile"></a></h1>
 <p>Post by Nico Brailovsky @ 2014-11-18 -
@@ -35,7 +44,7 @@
 <p>Some times a breakpoint is not enough; if you have a crash inside a loop, the object that makes your code crash might be in the 526th iteration. How can you debug this problem?</p>
 <p>One way would be to set up a <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">watch expression</a>. If you can't setup a watch expression, say, because you're using an iterator and it'd be hard to set one, you can also tell gdb to setup a breakpoint, and then ignore it N times.</p>
 <p>Let's see how this works with this example:</p>
-<pre lang="c++"><code lang="c++">
+<pre lang="c++"><code class="language-c++" lang="c++">
 #include <vector>
 int main() {
     std::vector<int> v = {1,2,3,4,5,0,7,8,9};
@@ -47,7 +56,7 @@ int main() {
 }
 </code></pre>
 <p>After compiling we run it to see it crash; let's start it on gdb, then set a brakepoint on the line where it crashes.</p>
-<pre lang="c++"><code lang="c++">
+<pre lang="c++"><code class="language-c++" lang="c++">
 (gdb) break foo.cpp:8
 Breakpoint 1 at 0x4007bc: file foo.cpp, line 8.
 (gdb) info breakpoints
@@ -55,7 +64,7 @@ Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0x00000000004007bc in main() at foo.cpp:8
 </code></pre>
 <p>Typing "info breakpoints" will tell you the breakpoint number; then we can tell gdb to ignore this breakpoint forever (where forever is a very large number, so the program will run until it crashes):</p>
-<pre lang="c++"><code lang="c++">(gdb) ignore 1 99999
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) ignore 1 99999
 Will ignore next 99999 crossings of breakpoint 1.
 (gdb) run
 Starting program: /home/nico/src/a.out
@@ -70,7 +79,7 @@ Num     Type           Disp Enb Address            What
 (gdb)
 </code></pre>
 <p>By doing this now we know the program crashes the sixth time it goes through that breakpoint. Now we can actually debug the problem:</p>
-<pre lang="c++"><code lang="c++">(gdb) ignore 1 5
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) ignore 1 5
 Will ignore next 5 crossings of breakpoint 1.
 (gdb) run
 Starting program: /home/nico/src/a.out
@@ -86,6 +95,9 @@ $1 = (int &amp;) @0x603024: 0
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

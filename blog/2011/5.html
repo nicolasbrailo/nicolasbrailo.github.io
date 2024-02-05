@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,21 +19,30 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2011 May<a name="postsfor2011may"></a></h1>
 <h1>Cool C++0X features VIII: Variadic wrapper and type inference with decltype<a name="coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype"></a></h1>
 <p>Post by Nico Brailovsky @ 2011-05-31 -
     <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The wrapper function we built last time looks something like this now:</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 template <class... Args>
@@ -50,7 +59,7 @@ int main() {
 <p>But, as we saw last time, this approach has the problem of requiring the return type of do_something to be known before hand. What can we do to remove this dependency? In C++, not much. You can't really declare a type based on the return type of another function. You do have the option of using lots of metaprogramming wizardy, but this is both error prone and ugly (see <a href="/blog/youfoundadeadlink.html">Stroustroup's C++0x FAQ</a>).</p>
 <p>C++0x lets you do some magic with type inference using decltype; decltype(expr) will yield the type of that expression. It works quite similarly as sizeof does; decltype is resolved at compile time and the expression with which it's being called is not evaluated (more on this later).</p>
 <p>How would this work on our example?</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
@@ -68,7 +77,7 @@ int main() {
 }
 </code></pre>
 <p>Try it (remember to add -std=c++0x) it works great! The syntax is not so terribly difficult to grasp as it was with variadic templates. The auto keywords says "hey, compiler, the return type for this method will be defined later", and then the -&gt; actually declares the return type. This means that the auto-gt idiom isn't part of typedecl but a helper, which in turns means that even if not useful, this is valid C++0x code:</p>
-<pre lang="c++"><code lang="c++">auto wrap() -&gt; void {
+<pre lang="c++"><code class="language-c++" lang="c++">auto wrap() -&gt; void {
 }
 </code></pre>
 <p>This means that we have three interesting components to analyze in this scenario:
@@ -77,7 +86,7 @@ int main() {
 * decltype</p>
 <p>We'll go over each one the next time.</p>
 <p>Closing remark: At first I choose the following example to introduce delayed return types and decltype (warning, untested code ahead):</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 struct Foo {
     void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
     void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
@@ -123,7 +132,7 @@ int main() {
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Last time</a> we were trying to build a wrapper function, in which we don't control the class being wrapped nor the user of the wrapper (meaning we can't change either of those but they could change without warning).</p>
 <p>This was the first approach:</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 void wrap() {
     std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
@@ -135,7 +144,7 @@ int main() {
 }
 </code></pre>
 <p>Yet, as we saw, it's not scalable, when either part changes the whole things break. We proposed then a variadic template solution, which, if you tried it yourself, should look something like this:</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 template <class... Args>
@@ -152,7 +161,7 @@ int main() {
 <p>That's better. Now we don't care about which parameters do_something should get, nor how many of them are there supposed to be, just how it's called. If you read the <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">previous entries on variadic templates</a> this should be a walk in the park. It still has a flaw though: we need to know the return type of do_something!</p>
 <p>Is there a way to write a wrapper without knowing the return type of a function you are wrapping? Yes, in Ruby you can. But now you can do it in C++0x too, and we'll see how to do it next time.</p>
 <p>A closing remark: You could do something like this wrapping everything in a class:</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 struct Foo {
     void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "\n"; }
     void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "\n"; }
@@ -192,7 +201,7 @@ int main() {
     <a href="/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's work on the last variadic exercise, a wrapper. Say you have something like this:</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 int main() {
     do_something();
@@ -200,7 +209,7 @@ int main() {
 }
 </code></pre>
 <p>And you want to wrap do_something with something else (Remember <a href="/blog/2010/0622_Cprettyfunctions.html">__PRETTY_FUNCTION__</a>?). This is a solution, the worst one though (or, to be accurate, the most boring one):</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
 void wrap() {
     std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
@@ -227,10 +236,10 @@ int main() {
 <p>In the heart of C++ template metaprogramming and code obfuscation, lies the (ab)use of angle brackets. This seemingly innocent token can turn the most clean looking code into the mess that template-detractors like so much to complain about.</p>
 <p>C++0x doesn't do much to clean up this mess, it's probably impossible, but it does offer a subtle feature to improve the legibility of C++ template code, a nifty little feature we have (inadvertently) used.</p>
 <p>Up to C++0x, having two angle brackets together (&gt;&gt;) was parsed as the shift operator (like the one cout uses), meaning that if you had nested templates a lot of compiler errors ensued. C++0x corrects this, meaning that code which in C++ would be like this:</p>
-<pre lang="c++"><code lang="c++">Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt; &gt;
+<pre lang="c++"><code class="language-c++" lang="c++">Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt; &gt;
 </code></pre>
 <p>Can now be written like this:</p>
-<pre lang="c++"><code lang="c++">Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt;&gt;&gt;&gt;&gt;&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt;&gt;&gt;&gt;&gt;&gt;
 </code></pre>
 <p>Aaand, back to the normal schedule...</p>
 <hr />
@@ -242,7 +251,7 @@ int main() {
 <p>Anyway, someone on the team was having weird issues. A switch would jump to unexpected places. The state of an object would change between method calls. WTF?</p>
 <p>After some debugging then it downed on me: I once (a long time before this strange behavior) saw this person using watch expressions to evaluate a method's return value. You now have enough information to troubleshoot this problem.</p>
 <p>Ready? It's easy. A watch expression of a method call has the ability to alter an object's status. So, if you have something like this:</p>
-<pre lang="c++"><code lang="c++">
+<pre lang="c++"><code class="language-c++" lang="c++">
 class Foo {
    int a;
    public:
@@ -276,7 +285,7 @@ int main() {
 sum () &lt;- 0
 </code></pre>
 <p>Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my <a href="/blog/youfoundadeadlink.html">template metaprogramming series</a>):</p>
-<pre lang="c++"><code lang="c++">#include <iostream>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 struct Nil{};
 template <typename H, typename T=Nil> struct Lst {
     typedef H Head;
@@ -324,7 +333,7 @@ int main() {
 }
 </code></pre>
 <p>Nothing too fancy, plain old recursion with a sum. Yet it's quite verbose, can we make this a little bit more terse and, hopefully, more clear? Yes, we can. Take a look at that Lst, Lst&lt;...&gt; It sucks. And it's the perfect place to use variadic templates, we just need to construct a structure getting a list of ints, like this:</p>
-<pre lang="c++"><code lang="c++">template &lt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;
     // The operation we wish to apply
     template<typename A, typename B> class Op,
     // Current element to process
@@ -337,11 +346,11 @@ struct Reduce_V
 }
 </code></pre>
 <p>That one should look familiar from last time article. Now, to implement a reduce operation we need to operate the current element with the result of reducing the tail, so we have to do something like this:</p>
-<pre lang="c++"><code lang="c++">// Remember how T... means to expand T for the next instance
+<pre lang="c++"><code class="language-c++" lang="c++">// Remember how T... means to expand T for the next instance
     typedef typename Reduce_V<Op, T...>::result Tail_Result
 </code></pre>
 <p>There's something missing. Can you see what? The ending condition, of course. Let's add it and we'll get something like this:</p>
-<pre lang="c++"><code lang="c++">template &lt;
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;
         // The operation we wish to apply
         template<typename A, typename B> class Op,
         // All the rest
@@ -374,7 +383,7 @@ struct Reduce_V<Op, H, T...>
 };
 </code></pre>
 <p>And using it is very simple too:</p>
-<pre lang="c++"><code lang="c++">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
+<pre lang="c++"><code class="language-c++" lang="c++">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
 </code></pre>
 <p>Next time we'll see another example for variadic templates and a new C++0x feature.</p>
 <hr />
@@ -383,6 +392,9 @@ struct Reduce_V<Op, H, T...>
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

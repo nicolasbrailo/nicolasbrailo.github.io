@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Howto: shutdown a TV with HDMI CEC Chromecast<a name="howtoshutdownatvwithhdmicecchromecast"></a></h1>
 <p>That's a long title just to say "how to turn off your TV". Only I want to show how to do it even if you lost your remote control.</p>
 <p>Chromecast can turn your TV on and off, as long as it supports something called HDMI CEC. Of course the Chromecast itself needs to be powered, i.e. you can't plug it to a USB port in your TV.</p>
@@ -40,7 +49,7 @@
 <li>Follow the setup instructions for the <a href="https://developers.google.com/assistant/sdk/guides/library/python/embed/setup">Google Assistant library</a>, with the changes described below.</li>
 <li>The assistant examples need a microphone present, but we're not going to use it. If you don't have one and you're doing this in a RaspberryPi, just fake one by putting this in ~/.asoundrc:</li>
 </ol>
-<pre lang="c++"><code lang="c++">pcm.!default {
+<pre lang="c++"><code class="language-c++" lang="c++">pcm.!default {
   type asym
   capture.pcm "mic"
 }
@@ -65,12 +74,12 @@ pcm.mic {
 <li>Use festival. echo "$Google assistant command" | text2wave -o cmd.wav will generate a command that (often) the assistant can understand. If you don't have such luck:</li>
 <li>Just record yourself. Hackish? Sure, but if all you need is to shut down a TV, that's enough. <strong>Important note</strong>: Record yourself in mono 16KHz. Otherwise the assistant may not understand the wav file. If you run "file command.wav" it should look like this:</li>
 </ul>
-<pre lang="c++"><code lang="c++">command.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz
+<pre lang="c++"><code class="language-c++" lang="c++">command.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz
 </code></pre>
 <p>Whatever method you choose, create a wav file with the command you want to execute (i.e. "turn off $Chromecast_name) and put it in the directory where you installed the Google Assistant SDK.</p>
 <h3>Part 3: Throw your remote to the recycling bin!<a name="part3throwyourremotetotherecyclingbin"></a></h3>
 <p>You're ready now. Goto the directory where you installed the SDK and recorded your voice command, then try this:</p>
-<pre lang="c++"><code lang="c++">$ source env/bin/activate
+<pre lang="c++"><code class="language-c++" lang="c++">$ source env/bin/activate
 $ googlesamples-assistant-pushtotalk --device-model-id $AN_ID_YOU_GOT_FROM_GOOGLE --project-id $YOUR_GOOGLE_PROJECT_ID --once --verbose -i ./command.wav
 </code></pre>
 <p>With a bit of luck that should shut down your TV.</p>
@@ -81,13 +90,17 @@ $ googlesamples-assistant-pushtotalk --device-model-id $AN_ID_YOU_GOT_FROM_GOOGL
 <li>https://developers.google.com/assistant/sdk/guides/library/python/embed/setup</li>
 </ul>
 <hr />
-<p><a href="/blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-05-28 -
+    <a href="/blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2008 October<a name="postsfor2008october"></a></h1>
 <h1>Splitting flac and ape files in Debian / Ubuntu<a name="splittingflacandapefilesindebianubuntu"></a></h1>
 <p>Post by Nico Brailovsky @ 2008-10-28 -
@@ -36,16 +45,16 @@
 <p>What to do when you get a <strong>cue</strong> file with a single huge <strong>flac</strong> file, or even worse, an <strong>ape</strong> file? With the right packages it's an easy task (getting the packages right may be hard tough).</p>
 <p>There are three parts to this problem: getting the ape file to a more user friendly format (flac), splitting it and then renaming the splitted files.</p>
 <h3>Needed packages<a name="neededpackages"></a></h3>
-<pre lang="bash"><code lang="bash">wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4_b3-1_i386.deb &amp;&amp;
+<pre lang="bash"><code class="language-bash" lang="bash">wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4_b3-1_i386.deb &amp;&amp;
     sudo dpkg -i mac-3.99-u4_b3-1_i386.deb &amp;&amp;
     rm -f mac-3.99-u4_b3-1_i386.deb
 </code></pre>
 <p>Source: <a href="/blog/youfoundadeadlink.html">BROKENLINK</a></p>
 <p>Now install cuetools:</p>
-<pre lang="bash"><code lang="bash">  sudo apt-get install cuetools
+<pre lang="bash"><code class="language-bash" lang="bash">  sudo apt-get install cuetools
 </code></pre>
 <h3>Splitting the file<a name="splittingthefile"></a></h3>
-<pre lang="bash"><code lang="bash">  cuebreakpoints <em>.cue|shnsplit </em>.ape -o flac
+<pre lang="bash"><code class="language-bash" lang="bash">  cuebreakpoints <em>.cue|shnsplit </em>.ape -o flac
 </code></pre>
 <h3>Renaming the splitted parts<a name="renamingthesplittedparts"></a></h3>
 <p>In the cue file there should be a list of the original file names. I hacked a script to parse &amp; rename the files from the previous step, you can get it here: <a href="/blog/youfoundadeadlink.html">cue-rename</a></p>
@@ -62,7 +71,7 @@
     <a href="/blog/2008/1016_RubyMethodchaining.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2008/1016_RubyMethodchaining.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Interesante :)</p>
-<pre lang="ruby"><code lang="ruby">
+<pre lang="ruby"><code class="language-ruby" lang="ruby">
 #!/usr/bin/ruby1.8
 module MethodDecorator
 # Create a chain between methods:
@@ -163,6 +172,9 @@ rm -f mac-3.99-u4_b3-1_i386.deb</p>
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

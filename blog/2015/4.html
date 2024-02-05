@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,24 +19,33 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2015 April<a name="postsfor2015april"></a></h1>
 <h1>Globing in bash<a name="globinginbash"></a></h1>
 <p>Post by Nico Brailovsky @ 2015-04-30 -
     <a href="/blog/2015/0430_Globinginbash.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0430_Globinginbash.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There is a pretty common and unnecessary pattern used by bash scripts: whenever you need to loop through a list of file names in a path, you might tempted to write something like this.</p>
-<pre lang="c++"><code lang="c++">for fname in $(ls | grep foo); do echo $fname; done
+<pre lang="c++"><code class="language-c++" lang="c++">for fname in $(ls | grep foo); do echo $fname; done
 </code></pre>
 <p>You can save some typing by using bash-globbing:</p>
-<pre lang="c++"><code lang="c++">for fname in <em>foo</em>; do echo $fname; done
+<pre lang="c++"><code class="language-c++" lang="c++">for fname in <em>foo</em>; do echo $fname; done
 </code></pre>
 <p>Not only the script should be cleaner and faster, bash will take care of properly expanding the file names and you won't have to worry about things like filenames with spaces. This should also be portable to other shells too.</p>
 <p>Want to know more about bash globbibg? Check out http://www.linuxjournal.com/content/bash-extended-globbing</p>
@@ -47,7 +56,7 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0428_gdbPrintverylongstrings.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>gdb defaults are usually quite sensible and just "let you work". Some times, though, your project is not very sensible and you have to do weird things in gdb. An example: printing huge strings or vectors to try and reproduce a heisenbug. A lot of people get surprised at first because gdb will refuse to print very long strings, printing only the first few chars. Same for vectors. And if you have many repeating elements (eg "f000000000000000000000000000000bar") you might see something like "fooo0bar".
 Just type these magic commands to see the whole string:</p>
-<pre lang="c++"><code lang="c++">&gt; set print repeats 0
+<pre lang="c++"><code class="language-c++" lang="c++">&gt; set print repeats 0
 &gt; set print elements 0
 </code></pre>
 <hr />
@@ -57,7 +66,7 @@ Just type these magic commands to see the whole string:</p>
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0421_gccOptimizationlevelsandtemplates.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Analyzing the assembly output for template devices can be a bit discouragging at times, specially when we spend hours trying to tune a mean looking template class only to find out the compiler is not able to reduce it's value like we expected. But hold on, before throwing all your templates away you might want to figure out why they are not optimized.</p>
 <p>Let's start with a simple example: a template device to return the next power of 2:</p>
-<pre lang="c++"><code lang="c++">template <int n, long curr_pow, bool stop>
+<pre lang="c++"><code class="language-c++" lang="c++">template <int n, long curr_pow, bool stop>
 struct Impl_Next_POW2 {
     static const bool is_smaller = n &lt; curr_pow;
     static const long next_pow = _Next_POW2<n, curr_pow*2, is_smaller>::pow;
@@ -76,7 +85,7 @@ struct Next_POW2 {
 };
 </code></pre>
 <p>Gcc can easily optimize that away, if you compile with "g++ foo.cpp -c -S -o /dev/stdout" you'll just see the whole thing is replaced by a compile time constant. Let's make gcc's life a bit more complicated now:</p>
-<pre lang="c++"><code lang="c++">template <int n, long curr_pow, bool stop>
+<pre lang="c++"><code class="language-c++" lang="c++">template <int n, long curr_pow, bool stop>
 struct Impl_Next_POW2 {
     static long get_pow() {
         static const bool is_smaller = n &lt; curr_pow;
@@ -99,7 +108,7 @@ struct Next_POW2 {
 };
 </code></pre>
 <p>Same code but instead of using plain static values we wrap everything in a method. Compile with "g++ foo.cpp -c -S -fverbose-asm -o /dev/stdout | c++filt" and you'll see something like this now:</p>
-<pre lang="c++"><code lang="c++">main:
+<pre lang="c++"><code class="language-c++" lang="c++">main:
     call    Next_POW2&lt;17&gt;::get_pow()
 Next_POW2&lt;17&gt;::get_pow():
     call    _Next_POW2&lt;17, 1l, false&gt;::get_pow()
@@ -124,7 +133,7 @@ _Next_POW2&lt;17, 32l, false&gt;::get_pow():
     <a href="/blog/2015/0416_BashtrapsalmostlikeRAIIforbash.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0416_BashtrapsalmostlikeRAIIforbash.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Everywhere, but specially in bash, cleaning up is annoying and error prone. Resource leaks can be common if your bash script is interrupted half-way. Do you need to execute something always, even if your script fails or gets killed? Try using traps:</p>
-<pre lang="c++"><code lang="c++">#!/bin/bash
+<pre lang="c++"><code class="language-c++" lang="c++">#!/bin/bash
 foobar() {
     echo "See ya!"
 }
@@ -137,7 +146,7 @@ trap "foobar" EXIT
     <a href="/blog/2015/0414_CInvalidatingreferencestoelementsinavector.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0414_CInvalidatingreferencestoelementsinavector.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Is this valid C++?</p>
-<pre lang="c++"><code lang="c++">void do_something(const int&amp;);
+<pre lang="c++"><code class="language-c++" lang="c++">void do_something(const int&amp;);
 #include <vector>
 void foo() {
     std::vector<int> v = {1,2,3,4,5};
@@ -147,7 +156,7 @@ void foo() {
 }
 </code></pre>
 <p>Doesn't seem quite right, does it? push_back will most likely trigger a resize for the vector, and that will invalidate references to elements in the vector. num will end up pointing anywhere and so using it to call do_something is not valid C++. Or is it? What happens if we reserve some space for v?</p>
-<pre lang="c++"><code lang="c++">void do_something(const int&amp;);
+<pre lang="c++"><code class="language-c++" lang="c++">void do_something(const int&amp;);
 #include <vector>
 void foo() {
     std::vector<int> v = {1,2,3,4,5};
@@ -204,6 +213,9 @@ menu Project.Encrypt ggg?G<CR>
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

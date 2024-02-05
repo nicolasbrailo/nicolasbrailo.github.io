@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2013 November<a name="postsfor2013november"></a></h1>
 <h1>Vim tim: quickly switch from header to impl<a name="vimtimquicklyswitchfromheadertoimpl"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-11-19 -
@@ -34,7 +43,7 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1119_Vimtimquicklyswitchfromheadertoimpl.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Switching from header to implementation in vim takes up precious milliseconds of typing and thinking, so we'd better delegate that to a computer. Instead of typing :tabnew FOO.cpp, just download A (for alternate) from this url: http://www.vim.org/scripts/script.php?script_id=31</p>
 <p>Add it to your bundles in vim and, for extra magic, just map some key to :AT in your vimrc. I have added this one:</p>
-<pre lang="c++"><code lang="c++">map <F4> :AT<CR>
+<pre lang="c++"><code class="language-c++" lang="c++">map <F4> :AT<CR>
 </code></pre>
 <p>I don't know how I lived without this for such a long time.</p>
 <hr />
@@ -48,7 +57,7 @@
 <p>If you are getting a 'denied' page on every request, you may have to configure squid to allow http access. Search for the 'http_access deny all' and comment it. You may also have to search for the local networks definitions and set it up correctly (something like 'acl localnet src 192.168.0.0/24').</p>
 <p>Once you have verified that your proxy is working, you can configure it to run on transparent mode. Search for the http_port directive, and change it to something like 'http_port 8213 transparent' (noticed I changed the default port). It is also a good practice to specify IP and port, so squid can bind only to the local interface (you are probably not interested in serving as a proxy for the outside world, unless you plan to run a reverse proxy).</p>
 <p>Changing squid to run on transparent mode is not enough, though. You will also need to tell your router to redirect every incoming packet from port 80 to squid. Assuming your LAN is on the 192.168.10.0/24 address and squid is listenning on port 1234, you can use this magic command to setup your iptables rule:</p>
-<pre lang="c++"><code lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24 -p tcp --dport 80 -j DNAT --to :1234
+<pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24 -p tcp --dport 80 -j DNAT --to :1234
 </code></pre>
 <p>If this doesn't work for you, or you want a more detailed explanation, you can check <a href="/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html">my post about this iptables rule</a>.</p>
 <p>Everything ready, you should be able to unconfigure the proxy from your browser and start using squid right away, no configuration needed. tail -f /var/log/squid/access.log for hours of (thought-policing) fun.</p>
@@ -77,7 +86,7 @@ http_access deny blocksites
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1107_SettingupaLinuxGWVIIFunwithiptablessettingupportforwardings.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>forwardings</p>
 <p>In any LAN you'll probably want to expose some services to the outer world, be it for a bittorrent connection or because you have internal servers you need to access from outside your internal LAN. To do this, you'll have to tell your router to forward some external port to an internal one, like this:</p>
-<pre lang="c++"><code lang="c++">iptables -t nat -A PREROUTING -i eth0 -p tcp
+<pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -i eth0 -p tcp
     --dport PORT -j DNAT --to INTERNAL_IP:INTERNAL_PORT
 # This rule may not be needed, depending on other chain confings
 iptables -A INPUT -i eth0 -p tcp -m state --state NEW
@@ -100,6 +109,9 @@ iptables -A INPUT -i eth0 -p tcp -m state --state NEW
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

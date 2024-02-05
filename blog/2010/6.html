@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2010 June<a name="postsfor2010june"></a></h1>
 <h1>Vim tips: make things work again<a name="vimtipsmakethingsworkagain"></a></h1>
 <p>Post by Nico Brailovsky @ 2010-06-29 -
@@ -40,7 +49,7 @@
     <a href="/blog/2010/0625_There39sstillhope.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0625_There39sstillhope.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A log time ago, in a galaxy far away, I <a href="/blog/2008/1009_aptgetnewcomputer.html">posted</a> <a href="/blog/2008/1228_aptgetinstallnewcomputerII.html">a list</a> <a href="/blog/2009/0519_aptgetinstallnewcomputerIII.html">of stuff</a> I apt-get'd as soon as my Buguntu install was ready. Well, fast forward to KK and this is the new apt-get script:</p>
-<pre lang="c++"><code lang="c++">sudo apt-get install opera mocp unclutter build-essential gimp \
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install opera mocp unclutter build-essential gimp \
         mmv gnome-do knetworkmanager xdiskusage iptraf sshfs \
         shntool cuetools flac wavpack unrar vlc vim gvim vim-doc \
         vim-full vim-gnome ddd devhelp doxygen doxygen-gui \
@@ -63,19 +72,19 @@ Vim: finalizado.
     <a href="/blog/2010/0622_Cprettyfunctions.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0622_Cprettyfunctions.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There are two well known macros from the preprocessor which every macro-sorcer must know. They are __FILE__ and __LINE__. You probably already know about them but anyway, __FILE__ will give you the current file and __LINE__ the current line. Easy, huh?</p>
-<pre lang="c++"><code lang="c++">int main() {
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
    printf("%s : %i", <strong>FILE</strong>, <strong>LINE</strong>);
    return 0;
 }
 </code></pre>
 <p>The program above would give you "main.cpp : 3" as a result. There is nothing going on at execution time, it's all preprocesor wizardy. In fact with "<strong>g{++/cc} -E</strong>" you can even check what the "real" output is (-E means to return the preprocessor output. Keep in mind a lot of stuff will be included from the headers you use).</p>
-<pre lang="c++"><code lang="c++">int main() {
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
    printf("%s : %i", "main.cpp", 3);
    return 0;
 }
 </code></pre>
 <p>Well that's nice and all, but g++ can top this easily:</p>
-<pre lang="c++"><code lang="c++">int main() {
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
    return 0;
 }
@@ -100,7 +109,7 @@ Vim: finalizado.
 Position (e, lst) &lt;- 1 + Position(e, lst.tail)
 </code></pre>
 <p>The translation to C++ is not so trivial this time. Try it, I'll wait... ready? OK, let's start</p>
-<pre lang="c++"><code lang="c++">template &lt;class Elm, class Lst&gt; struct Position {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Elm, class Lst&gt; struct Position {
     typedef typename Lst::head Head;
     typedef typename Lst::tail Tail;
     static const bool found = (Head == Elm);
@@ -109,7 +118,7 @@ Position (e, lst) &lt;- 1 + Position(e, lst.tail)
 };
 </code></pre>
 <p>Looks easy... but doesn't work. First problem, we can't compare two types, remember? We need to use Eq again. Second problem, although we said the operation is undefined if the element is not included on the list, it would be nice if we could force the compiler to fail if (or when) that happens. Let's rewrite the operation using a façade again, but adding an Assert:</p>
-<pre lang="c++"><code lang="c++">template &lt;typename Elm, typename LST&gt; struct _Position {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename Elm, typename LST&gt; struct _Position {
     typedef typename LST::head Head;
     typedef typename LST::tail Tail;
     static const bool found = Eq&lt;Elm, Head&gt;::result;
@@ -121,7 +130,7 @@ template &lt;typename Elm, typename LST&gt; struct Position {
 };
 </code></pre>
 <p>Oh, we haven't defined assert yet! There's another problem, too: even if it won't compile, the compiler will try to expand _Position&lt; ..., NIL &gt; indefinitely, causing an error after too many nested template calls. Not nice. We need to add a case to make the compiler stop:</p>
-<pre lang="c++"><code lang="c++">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
+<pre lang="c++"><code class="language-c++" lang="c++">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
 // Helper: Will fail to compile if the assert is false
 class Assertion{};
 template &lt;bool cond, class T=Assertion&gt; struct Assert {
@@ -182,7 +191,7 @@ Doing some research on the subject I wrote down a list of the thought process wh
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0611_Vimtipsmakethingswork.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, you are an uber console geek, using only vim and the command line to compile all your projects, execute the tests, blah blah blah... if only you could squeeze that microsecond lost whenever you switch from vim to compile you'd be 1e-4 seconds more productive... oh, wait, you can!</p>
 <p>Whenever you think you're project is good enough to compile just hit <strong>:make</strong> to be proven wrong. Type <strong>:make test</strong> to run your tests (because you are using TDD, aren't you?) and watch all those red flags fly by.Also, add the following mapping to your ~/.vimrc for an extra happy coding session:</p>
-<pre lang="bash"><code lang="bash">map &lt;F5&gt; :make
+<pre lang="bash"><code class="language-bash" lang="bash">map &lt;F5&gt; :make
 map &lt;F6&gt; :make test
 </code></pre>
 <hr />
@@ -195,7 +204,7 @@ map &lt;F6&gt; :make test
 <pre><code>Prepend(e, lst) &lt;- LST(e, lst)
 </code></pre>
 <p>And in C++ (trivial, this time):</p>
-<pre lang="c++"><code lang="c++">template &lt;typename Elm, typename Lst=NIL&gt; struct Prepend {
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename Elm, typename Lst=NIL&gt; struct Prepend {
     typedef LST&lt;Elm, Lst&gt; result;
 };
 </code></pre>
@@ -237,7 +246,6 @@ I promised to add one more operation to our toolbox, returning the position of a
 
 #  Just WTF
 
-
 Post by Nico Brailovsky @ 2010-06-08 -
     [Permalink](/blog_md/2010/0608_JustWTF.md) -
     [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0608_JustWTF.md&body=I%20have%20a%20comment!)
@@ -270,7 +278,6 @@ EXEC xp_cmdshell 'net stop sqlserver', no_output
 ---
 
 #  Template metaprogramming VIII: A Rough Whimper of Insanity
-
 
 Post by Nico Brailovsky @ 2010-06-03 -
     [Permalink](/blog_md/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.md) -
@@ -376,7 +383,6 @@ Very esoteric looking, the right mix of Haskel, C++ and booze to ensure job secu
 
 #  Oh shit, the stack
 
-
 Post by Nico Brailovsky @ 2010-06-01 -
     [Permalink](/blog_md/2010/0601_Ohshitthestack.md) -
     [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0601_Ohshitthestack.md&body=I%20have%20a%20comment!)
@@ -459,6 +465,9 @@ Original [published here](/blog_md/2010/0601_Ohshitthestack.md).
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

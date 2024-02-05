@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Posts for 2013 September<a name="postsfor2013september"></a></h1>
 <h1>Setting up a Linux gateway/router, a guide for non network admins<a name="settingupalinuxgatewayrouteraguidefornonnetworkadmins"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-09-26 -
@@ -72,12 +81,12 @@
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0924_CpreprocessorVIRecursivemacroexpansionrules.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>What happens if you define a recursive macro? This might seem like a silly question, but by asking it we can gain some insight on the inner working of the preprocessor.</p>
 <p>Let's start with a simple example:</p>
-<pre lang="c++"><code lang="c++">#define foo bar 1
+<pre lang="c++"><code class="language-c++" lang="c++">#define foo bar 1
 #define bar foo 2
 foo
 </code></pre>
 <p>Luckily the preprocessor is smart enough not to trip up on this simple piece of code. When expanding foo on line three it will do something like this:</p>
-<pre lang="c++"><code lang="c++">#define foo bar
+<pre lang="c++"><code class="language-c++" lang="c++">#define foo bar
 #define bar foo
 foo
 // Applies foo -&gt; bar 1
@@ -87,25 +96,25 @@ foo 2 1
 // Scans foo again... but doesn't expand it
 </code></pre>
 <p>The second time the preprocessor scans foo it won't expand it: it "knows" foo was already expanded, so it won't do it again. But how does it know that foo was already expanded? Let's try something a bit more complicated:</p>
-<pre lang="c++"><code lang="c++">#define foo bar a baz b
+<pre lang="c++"><code class="language-c++" lang="c++">#define foo bar a baz b
 #define bar foo 1
 #define baz bar 2
 foo
 </code></pre>
 <p>And then let's see how foo is expanded, step by step:</p>
-<pre lang="c++"><code lang="c++">#define foo foo a bar b baz c
+<pre lang="c++"><code class="language-c++" lang="c++">#define foo foo a bar b baz c
 #define bar foo 1
 #define baz bar 2
 foo
 </code></pre>
 <p>First the rule "foo -&gt; foo a bar b baz c" will be applied and the results rescanned: let's call this scope 1. We'll end up with:</p>
-<pre lang="c++"><code lang="c++">foo a bar b baz c
+<pre lang="c++"><code class="language-c++" lang="c++">foo a bar b baz c
 </code></pre>
 <p>Now the results of this expansion will be scanned, in a new scope. Let's call it scope 2. The first token the preporcessor will see is "foo", which was already expanded on scope 1: it will be ignored and it will continue to the next expandable token, "bar", and it will expand it like this:</p>
-<pre lang="c++"><code lang="c++">foo a foo 1 b bar 2 c
+<pre lang="c++"><code class="language-c++" lang="c++">foo a foo 1 b bar 2 c
 </code></pre>
 <p>On the scope that baz's expansion creates (scope 4), the parent's scope expansion rules are "inherited", so for scope 4 "foo" was already expanded but "bar" was not, because bar's expansion happened on scope 3 and scope 3 is not scope's 4 parent. Not following me? Try following this diagram:</p>
-<pre lang="c++"><code lang="c++">foo -&gt; foo a bar b baz c
+<pre lang="c++"><code class="language-c++" lang="c++">foo -&gt; foo a bar b baz c
     foo -&gt; already expanded, ignore
     a   -&gt; not a macro, ignore
     bar -&gt; expand to "foo 1"
@@ -129,7 +138,7 @@ foo
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0919_VimtipJumptoatagdefinition.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I admit it, hitting control enter to jump to a definition is a very useful feature of fancy GUIs. Fortunately, it's not exclusive to fancy GUIs, apparently it's been available using ctags too for a little while (if you consider the last 20 or 30 years to be little, that is).</p>
 <p>Just add this magic spell to your .vimrc; next time you open a file in a project with a tags file generated just press ctrl-enter with your cursor over the definition you wish to find:</p>
-<pre lang="c++"><code lang="c++">map &lt;C-CR&gt; :tab split&lt;CR&gt;:exec("tag ".expand("&lt;cword&gt;"))&lt;CR&gt;
+<pre lang="c++"><code class="language-c++" lang="c++">map &lt;C-CR&gt; :tab split&lt;CR&gt;:exec("tag ".expand("&lt;cword&gt;"))&lt;CR&gt;
 </code></pre>
 <hr />
 <h1>C preprocessor V: Conditionals<a name="cpreprocessorvconditionals"></a></h1>
@@ -137,7 +146,7 @@ foo
     <a href="/blog/2013/0917_CpreprocessorVConditionals.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0917_CpreprocessorVConditionals.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>While walking around the c preprocessor we came to know the stringify operator, the crazy token pasting operator and a __VA_ARGS__ macro. All very weird, but at least the #if's work in a sane way... or do they? They do, but there's some room for unexpected behavior if you don't know some implementation details. Take this code for example:</p>
-<pre lang="c++"><code lang="c++">#if 0
+<pre lang="c++"><code class="language-c++" lang="c++">#if 0
 #  if 0
 #  else
 #  elif true
@@ -152,7 +161,7 @@ foo
     <a href="/blog/2013/0912_Vimtipopenfileundercursor.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0912_Vimtipopenfileundercursor.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you have a bunch of #include's you don't need to manually type their path when you need to edit one of them; just place your cursor on top of the written path and remember these helpful commands:</p>
-<pre lang="c++"><code lang="c++">gf   open in the same window ("goto file")
+<pre lang="c++"><code class="language-c++" lang="c++">gf   open in the same window ("goto file")
 f    open in a new window (Ctrl-w f)
 gf   open in a new tab (Ctrl-w gf)
 </code></pre>
@@ -162,7 +171,7 @@ gf   open in a new tab (Ctrl-w gf)
     <a href="/blog/2013/0910_CpreprocessorIVVAArgs.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0910_CpreprocessorIVVAArgs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>And things just got even more awesome in our preprocessor series: if just passing a known number of parameters is not cool enough for you you can use a variable number of arguments on a macro definition too. This is very useful to implement printf style debug macros which get replaced by no tokens on a release build. Or to make debugging a bit more complicated, your choice.</p>
-<pre lang="c++"><code lang="c++">#define DEBUG(fmt, ...) printf(fmt, <strong>VA_ARGS</strong>);
+<pre lang="c++"><code class="language-c++" lang="c++">#define DEBUG(fmt, ...) printf(fmt, <strong>VA_ARGS</strong>);
 </code></pre>
 <p>Combining this with stringify will provide you hours of fun. Combining this with token pasting... well, that's just evil.</p>
 <hr />
@@ -172,7 +181,7 @@ gf   open in a new tab (Ctrl-w gf)
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0905_Stoppingcommitsongit.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Who hasn't commited debug code by mistake? It's only normal to forget to remove an #include we added only to test some stuff. Luckily it's easy to tell git that we don't want to commit any changes with a certain string.</p>
 <p>On any (git) repo you'll find a .git/hooks folder; add this script in .git/hooks/pre-commit (and don't forget to chmod +x it):</p>
-<pre lang="bash"><code lang="bash">#!/bin/sh
+<pre lang="bash"><code class="language-bash" lang="bash">#!/bin/sh
 if [ 0 != <code>git diff | grep "STOPCOMMIT" | wc -l</code> ]; then
     echo "Error: STOPCOMMIT found, remove it before commiting";
     git diff
@@ -186,12 +195,12 @@ fi
     <a href="/blog/2013/0902_CpreprocessorIIITokenpasting.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0902_CpreprocessorIIITokenpasting.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A stringify operator is good but the token pasting operator goes off the awesomeness chart (if you're working on an ioccc entry, that is). Actually, what token pasting does is conceptually simple: it will paste together two tokens to form a new one. So, for example, PASTE(foo, bar) would result in the "foobar" token. Looks simple enough, doesn't it? The token pasting operator is invoked via '##'. For example:</p>
-<pre lang="c++"><code lang="c++">#define PASTE(x, y) x ## y
+<pre lang="c++"><code class="language-c++" lang="c++">#define PASTE(x, y) x ## y
 #define FOOBAR 42
 int main() { return PASTE(FOO, BAR); }
 </code></pre>
 <p>The previous code would just return 42. So what's the usefulness of a paste operator? Other than obfuscating stuff, you can use it to create classes with similar interfaces but different method names (I'm not saying it's a good idea, I'm saying you can). For example:</p>
-<pre lang="c++"><code lang="c++">#define MAKE_GET_SET(x, T) \
+<pre lang="c++"><code class="language-c++" lang="c++">#define MAKE_GET_SET(x, T) \
                void set_ ## x (T o) { this-&gt;x = o; } \
                T get_ ## x () { return this-&gt;x; }
 class Foo {
@@ -205,6 +214,9 @@ class Foo {
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

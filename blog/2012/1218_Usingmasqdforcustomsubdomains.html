@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,25 +19,38 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Using masqd for custom subdomains<a name="usingmasqdforcustomsubdomains"></a></h1>
 <p>Some time ago I had to work on a project with many, and dynamic, subdomains. Things like sub1.domain, sub2.domain, subN.domain. It turns out /etc/hosts doesn't support wildcards. That sucks, but its understandable, that's not why the hosts file is there; that's the reason we have DNS, isn't it?</p>
 <p>Of course installing a DNS server just to resolve a couple of subdomains is much too work for lazy people like me, so it's time to install dnsmasq instead. dnsmasq is a DNS and DHCP proxy, and has a ton of configuration options I don't even know about. If you really want to learn how to use masqd you should read its manpage, if you just want to solve your DNS issues just add "address=/.DOMAIN/IP" to your /etc/dnsmasq.conf (notice the . before the domain. That's the wildcard).</p>
 <hr />
-<p><a href="/blog/2012/1218_Usingmasqdforcustomsubdomains.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1218_Usingmasqdforcustomsubdomains.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-18 -
+    <a href="/blog/2012/1218_Usingmasqdforcustomsubdomains.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1218_Usingmasqdforcustomsubdomains.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,24 +19,33 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>C++: Why is undefinedness important<a name="cwhyisundefinednessimportant"></a></h1>
 <p>Let's start with an example:</p>
-<pre lang="c++"><code lang="c++">int <em>x = (int</em>) NULL;
+<pre lang="c++"><code class="language-c++" lang="c++">int <em>x = (int</em>) NULL;
 x[0] = 42;
 </code></pre>
 <p>Luckily so far I've never seen anyone argue about this one: we all know we're dealing with undefined behavior and that it's bad. Things get a bit more tricky when the example is not so trivial.</p>
 <h3>C's abstract machine<a name="csabstractmachine"></a></h3>
 <p>In a way, C and C++ describe a "virtual machine". This is what the standard defines: what kind of operations are valid in this VM. This VM resembles an old single-thread mono-processor architecture. Most often, the code will run in a modern architecture that will resemble very little the design of C's VM. "New" features (like caching, vectorization, atomics, pipelining, etc) implemented by the target architecture make the process of mapping our code (in the VM that C defines) much more difficult. The compiler needs to map instructions in C's simple architecture to a much (*MUCH*) more complex design. To do that, it needs to analyze the code to guarantee certain constrains are met.</p>
 <p>Let's see how these constrains and undefined behavior relate to each other with this snippet:</p>
-<pre lang="c++"><code lang="c++">template <typename T>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename T>
     bool always_true(T x) {
     return (x &lt; x+1);
 }
@@ -63,13 +72,17 @@ x[0] = 42;
 <p>That's a very trollish way of saying "careful with typos" but thanks for reporting nonetheless, anon. Fixed.</p>
 <p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0602_CWhyisundefinednessimportant.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2016-06-02 -
+    <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0602_CWhyisundefinednessimportant.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

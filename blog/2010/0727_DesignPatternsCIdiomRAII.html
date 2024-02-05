@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,14 +19,23 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Design Patterns: C++ Idiom RAII<a name="designpatternscidiomraii"></a></h1>
 <p>Ohh design patterns. I love buzzwords. Who doesn't? To increase my buzzword count I will be writing about a topic most people programming C++ should already know: RAII, resource acquisition is initialization.</p>
 <h3>Patterns everywhere<a name="patternseverywhere"></a></h3>
@@ -35,7 +44,7 @@
 <h3>No, really. What is RAII?<a name="noreally.whatisraii"></a></h3>
 <p>If you made it past that long intro you are probably really interested in knowing what RAII is, and don't know how to search it in Wikipedia. OK, I'll explain it the best I can then: RAII means that a resource acquisition is the initialization.</p>
 <p>Seriously. That is all the secret there is to RAII. Talking in code:</p>
-<pre lang="c++"><code lang="c++">template
+<pre lang="c++"><code class="language-c++" lang="c++">template
 class RAII_Wrapper {
    T <em>resource;
    public:
@@ -52,7 +61,7 @@ class RAII_Wrapper {
 </code></pre>
 <h3>An example<a name="anexample"></a></h3>
 <p>Compare that to a visitor pattern. It's just too simple to be of any use, isn't it? Well, contrary to what Java fanboys tend to believe you can do lots of nice things without writing a bazillion lines of code.</p>
-<pre lang="c++"><code lang="c++">int foo() {
+<pre lang="c++"><code class="language-c++" lang="c++">int foo() {
     Expensive_Resource x;
     x.open();
     try {
@@ -76,7 +85,7 @@ class RAII_Wrapper {
 </code></pre>
 <p>Wow... a whole lot of code just for calling bar and baz. And as I wrote that without even compiling I'm sure there are too many hidden bugs, lots of code-paths my simple programmer's mind can't even begin to imagine which will cause my Expensive_Resource to be leaked!</p>
 <p>Let's rewrite that using RAII:</p>
-<pre lang="c++"><code lang="c++">void foo() {
+<pre lang="c++"><code class="language-c++" lang="c++">void foo() {
     Expensive_Resource x;
     RAII_Wrapper release(&amp;x);
     if (not bar()) return -1;
@@ -96,13 +105,17 @@ class RAII_Wrapper {
 <p>And then, even if we don't care about throwing destructors you have the issue of a release failure: how do you notify the user that a release failure has occurred? And what do you do, should it happen?</p>
 <p>So, RAII is a great idea indeed, and it has it's uses, but you should be careful when choosing this C++ specific pattern.</p>
 <hr />
-<p><a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0727_DesignPatternsCIdiomRAII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-07-27 -
+    <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0727_DesignPatternsCIdiomRAII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

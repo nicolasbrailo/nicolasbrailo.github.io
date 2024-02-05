@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,18 +19,27 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>Cool C++0X features II, Variadic templates: What&#39;s wrong with varargs<a name="coolc0xfeaturesiivariadictemplateswhat39swrongwithvarargs"></a></h1>
 <p><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Last time</a> we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?</p>
 <p>Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:</p>
-<pre lang="c++"><code lang="c++">#include <stdarg.h>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
 #include <iostream>
 // My god, it's full of bugs
 void va_println(int args_left, ...) {
@@ -54,7 +63,7 @@ int main() {
 <li><strong>No, really, coredump</strong>: Where are so many coredumps coming from, you may ask. Easy, varargs it's just a way of handling the stack. Calling va_arg just moves the stack pointer by the sizeof the datatype you requested. That means no compile-time checks are included.</li>
 <li><strong>No pod types</strong>: Remember POD types? Try running this code:</li>
 </ul>
-<pre lang="c++"><code lang="c++">#include <stdarg.h>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
 struct X { virtual ~X(){} };
 void va_println(int args_left, ...) {
    va_list arg_lst;
@@ -72,7 +81,7 @@ int main() {
 </code></pre>
 <h3>And how do we fix it?<a name="andhowdowefixit"></a></h3>
 <p>The fix is easy. Too easy. You just need C++0X. We will discuss why this is better next time, but just as a sneak peak:</p>
-<pre lang="c++"><code lang="c++">void println() {}
+<pre lang="c++"><code class="language-c++" lang="c++">void println() {}
 template <typename H, typename... T> void println(H p, T... t) {
    std::cout &lt;&lt; p;
    println(t...);
@@ -93,13 +102,17 @@ int main() {
 <p>More reasons not to use variadic functions...</p>
 <p>Original <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">published here</a>.</p>
 <hr />
-<p><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-04-19 -
+    <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>

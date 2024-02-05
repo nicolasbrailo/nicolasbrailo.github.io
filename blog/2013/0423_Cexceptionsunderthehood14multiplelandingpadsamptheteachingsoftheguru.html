@@ -4,14 +4,14 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>BatiCasa</title>
+<title>Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+<link rel="stylesheet" href="/style.css">
 </head>
 
-<body class="dark">
+<body>
 
 <div id="siteheader">
 <h1>Nico Brailovsky's blog</h1>
@@ -19,17 +19,26 @@
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
   <a class="is-center" href="/blog/index.html">Blog</a>
-  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
   <a class="is-center" href="/blog/history.html">Archive</a>
-  <a class="is-center" href="/blog/index.html">About</a>
+  <a class="is-center" href="/series.html">Series</a>
+  <a class="is-center" href="/projects.html">Projects</a>
+  <a class="is-center" href="/about.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Serach</button>
 </div>
 
 </div>
 
-<div style="padding: 5rem">
+<div id="content" class="language-clike">
 <h1>C++ exceptions under the hood 14: multiple landing pads &amp; the teachings of the guru<a name="cexceptionsunderthehood14multiplelandingpadstheteachingsoftheguru"></a></h1>
 <p>After a lot of hard work, last time we finally got a working personality function capable of handling exceptions without help of libstdc++. It will indiscriminately handle all exceptions, but it does work. There is a big question we haven't answered yet: if we go back to the LSDA (language specific data area) we'll see something like this:</p>
-<pre lang="c++"><code lang="c++">.local_lsda_call_site_table:
+<pre lang="c++"><code class="language-c++" lang="c++">.local_lsda_call_site_table:
     .uleb128 .LEHB0-.LFB1
     .uleb128 .LEHE0-.LEHB0
     .uleb128 .L8-.LFB1
@@ -46,7 +55,7 @@
 </code></pre>
 <p>There are 3 landing pads defined there, even though we wrote a single try/catch statement. What is going on there?</p>
 <p>If you read carefully the last entry on this topic maybe you noticed I added some comments to the definition of struct LSDA_CS:</p>
-<pre lang="c++"><code lang="c++">struct LSDA_CS {
+<pre lang="c++"><code class="language-c++" lang="c++">struct LSDA_CS {
     // Note start, len and lp would be void*'s, but they are actually relative
     // addresses: start and lp are relative to the start of the function, len
     // is relative to start
@@ -63,7 +72,7 @@
 </code></pre>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v06">in my github repo</a>.</p>
 <p>Something very interesting is going on here, but lets first analyze this struct field by field with the following example:</p>
-<pre lang="c++"><code lang="c++">void foo() {
+<pre lang="c++"><code class="language-c++" lang="c++">void foo() {
     L0:
         try {
             do_something();
@@ -89,13 +98,17 @@
 <p>That solves the mystery of how a function with multiple try/catch blocks can handle an exception but we still have another question: why are there three call sites when we only specified a single landing pad? The other three are places where an exception might be thrown so they get added as a possible place for cleanup actions or landing pads. If we learned anything from GOTW it should be that exceptions can be thrown in the places we least expect. There is an entry in the call site table for our throw because it's a block that might throw; the compiler also detected another three.</p>
 <p>Now that we know what the start and len fields do, let's change our personality function so the correct landing pad can handle the exception being thrown. Go ahead. My implementation for the next time.</p>
 <hr />
-<p><a href="/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html">Permalink</a> -
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-23 -
+    <a href="/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
 </div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
 
 </body>
 </html>
