@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>C++ exceptions under the hood 3: an ABI to appease the linker<a name="cexceptionsunderthehood3anabitoappeasethelinker"></a></h1>
 <p>On our journey to understand exceptions we discovered that the heavy-lifting is done in libstdc++ as specified by the C++ ABI. Reading some linker errors we deduced last time that for handling exceptions we need help from the C++ ABI; we created a throwing C++ program, linked it together with a plain C program and found that the compiler somehow translated our throw instruction into something that is now calling a few libstd++ functions to actually throw an exception. Lost already? You can check the sourcode for this project so far <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01">in my github repo</a>.</p>
 <p>Anyway, we want to understand exactly how an exception is thrown, so we will try to implement our own mini-ABI, capable of throwing an exception. To do this, a lot of <a href="/blog/youfoundadeadlink.html">RTFM</a> is needed, but a full ABI interface can be found <a href="http://libcxxabi.llvm.org/spec.html">here, for LLVM</a>. Let's start by remembering what those missing functions are:</p>
@@ -91,6 +92,7 @@ void __cxa_throw(
 <hr />
 <p><a href="/blog/2013/0219_Cexceptionsunderthehood3anABItoappeasethelinker.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0219_Cexceptionsunderthehood3anABItoappeasethelinker.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

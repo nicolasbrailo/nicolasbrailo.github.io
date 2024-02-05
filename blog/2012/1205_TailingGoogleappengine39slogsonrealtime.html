@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Tailing Google app engine&#39;s logs on realtime<a name="tailinggoogleappengine39slogsonrealtime"></a></h1>
 <p>Knowing in real time when an error occurs on your GAE app is not as easy as it sounds. You can create a custom error handler and then mail you the exception log, but you have to develop that yourself (and if you do it wrong you may end up slowing down the whole app... yes, I know it first hand). You can also keep the GAE log page open and set your browser to refresh it every X seconds, but that's quite cumbersome.</p>
 <p>So, seeing there are a bunch of acceptable but not quite nice solutions out there, I decided to add yet another "solution" that works, but looks ugly. This script will probably break in a few months, or whenever any part of the auth protocol Google uses changes (since I think very little of it is supposed to be public) but until then you can use it to tail GAE's logs on real time.</p>
@@ -139,6 +140,7 @@ if __name__ == '__main__':
 <hr />
 <p><a href="/blog/2012/1205_TailingGoogleappengine39slogsonrealtime.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2012/1205_TailingGoogleappengine39slogsonrealtime.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

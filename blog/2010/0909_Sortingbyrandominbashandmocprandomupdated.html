@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Sorting by random in bash and mocp random updated<a name="sortingbyrandominbashandmocprandomupdated"></a></h1>
 <p>Random is nice. And now you can sort by random your output using sort -R. Why would this be useful? Well, I updated <a href="/blog/2009/0723_mocprand.html">my mocp random</a> script with a oneliner:</p>
 <pre lang="c++"><code lang="c++">mocp -c &amp;&amp; find -type d | sort -R | head -n1 | awk '{print """$0"""}'; | xargs mocp -a
@@ -33,6 +34,7 @@
 <hr />
 <p><a href="/blog/2010/0909_Sortingbyrandominbashandmocprandomupdated.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0909_Sortingbyrandominbashandmocprandomupdated.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

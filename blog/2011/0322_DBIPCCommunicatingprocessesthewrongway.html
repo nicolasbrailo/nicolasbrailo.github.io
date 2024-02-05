@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>DB IPC: Communicating processes the wrong way<a name="dbipccommunicatingprocessesthewrongway"></a></h1>
 <p>A common pattern in enterprisy applications is DB IPC, probably one of the worst kind of coupling you can have. If you tell me you never saw it I won't believe you, but in any case: DB IPC is an architecture antipattern, in which you have several semi-independent components which must share some kind of information, and do so through a database. The producer writes into a table, the consumer polls the table for changes.</p>
 <p>For an otherwise perfectly designed application, DB IPC may seem like a bad thing but not the worst kind of architecture possible. Clearly a god object may look uglier than an IPC DB. Yet this kind of architecture leads to a tight coupling between the component's inner data structures, making any change in them very unlikely, if not impossible.</p>
@@ -35,6 +36,7 @@
 <hr />
 <p><a href="/blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0322_DBIPCCommunicatingprocessesthewrongway.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

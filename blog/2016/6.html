@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Posts for 2016 June<a name="postsfor2016june"></a></h1>
 <h1>Shared pointers: don't<a name="sharedpointersdont"></a></h1>
 <p>Post by Nico Brailovsky @ 2016-06-15 -
@@ -73,6 +74,7 @@ x[0] = 42;
 <p>The compiler, by analyzing our program, can detect what conditions might trigger undefined behavior. By knowing that undefined behavior is not allowed, it can assume those conditions will never happen. That's why, for the sample above, any optimizing-compiler will just produce code similar to "return true", at least for -O2.</p>
 <p>Undefined behavior is not (only) to make programmer's lives miserable, it actually is needed to create optimizing compilers.</p>
 <hr />
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

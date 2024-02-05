@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Posts for 2017 January<a name="postsfor2017january"></a></h1>
 <h1>Fixing templates with constexpr's<a name="fixingtemplateswithconstexprs"></a></h1>
 <p>Post by Nico Brailovsky @ 2017-01-18 -
@@ -156,6 +157,7 @@ int main() {
 </code></pre>
 <p>You'd be tempted to say it won't work either. (Un?)fortunately, 'argument dependant lookup' is a thing, and the second code sample works. How? The compiler will look for 'foo' in the global namespace, and also in the namespace of the arguments to 'foo'. Seeing 'N::Dummy' in there, the compiler is allowed to peak into the namespace N for method 'foo'. Why? Short: operator overloading. Long: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2103.pdf">check here</a> (the 'Why ADL' section is very good).</p>
 <hr />
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

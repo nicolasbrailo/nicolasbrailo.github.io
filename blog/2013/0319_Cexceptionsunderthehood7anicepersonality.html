@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>C++ exceptions under the hood 7: a nice personality<a name="cexceptionsunderthehood7anicepersonality"></a></h1>
 <p>On our journey to learn about exceptions we have learned so far how a throw is done, that something called "call frame information" helps a library called Unwind to do the stack unwinding, and that the compiler writes something called LSDA, language specific data area, to know which exceptions can a method handle. And we know by now that a lot of magic is done on the personality function; we've never seen it in action though. Let's recap in a bit more of detail about how an exception will be thrown and caught (or, more precisely, how we know so far it will be thrown caught):</p>
 <ul>
@@ -134,6 +135,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 <hr />
 <p><a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0319_Cexceptionsunderthehood7anicepersonality.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

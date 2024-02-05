@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Deobfuscate your bash<a name="deobfuscateyourbash"></a></h1>
 <p>Who hasn't written some read-only magical Bash voodoo, only to find you need to decrypt your own creation later on? Luckily, <a href="http://explainshell.com/">Explain Shell</a> can help with that. Here's an example from my .bash_history file:</p>
 <pre lang="bash"><code lang="bash">for fn in *; do echo cat $fn | sed "s|' '$URL'||g" | sed "s|curl -X POST -d '||g" ; done
@@ -36,6 +37,7 @@
 <hr />
 <p><a href="/blog/2016/0531_Deobfuscateyourbash.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0531_Deobfuscateyourbash.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

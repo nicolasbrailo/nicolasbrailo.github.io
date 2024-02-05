@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>C preprocessor: Just a simple replacer?<a name="cpreprocessorjustasimplereplacer"></a></h1>
 <p>Lately, out of curiosity, I spent some time to better understand how the C preprocessor works. I admit it, I thought it was a very dumb copy-paste based replace mechanism, only capable of doing the simpler keyword matching and replacement. Boy, was I wrong. Turns out the preprocessor is actually an organically grown pseudo language (as opposed to a properly designed language feature) inside C, which later got standardized through an incredibly complex set of rules and definitions. Rules for recursion, expansion, pattern matching and crazy operators like # and ## are some of the things that I never before knew existed in the preprocessor.</p>
 <p>During my time toying with the preprocessor I learned a few things about recursion, the different operators supported by it and some crazy things about the order of conditional evaluation. I'll summarize some of the things I learned in the next few posts: you might want to check 16.3 in the C++ standard, since the next few articles will be only explanations about different paragraphs on this section.
@@ -33,6 +34,7 @@ Disclaimer: if you find any real-world utility to these bits of preprocessor tri
 <hr />
 <p><a href="/blog/2013/0820_CpreprocessorJustasimplereplacer.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0820_CpreprocessorJustasimplereplacer.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

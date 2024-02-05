@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Vim utilities: Better Tab New<a name="vimutilitiesbettertabnew"></a></h1>
 <p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. The first one is called "Better Tab New" and you can get it from my <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/bettertabnew.vim">Github repo</a> or from the script's <a href="http://www.vim.org/scripts/script.php?script_id=5405">Vim page</a>.</p>
 <p>Why would you want a better tab new, and what's wrong with the default one? Simple: tabnew, in Vim, will just open a file. For that to happen you need to specify the exact path of a file. That's usually perfectly fine, but sometimes you need tabnew to be a bit smarter: maybe you just grep'ed something and ended up with a path that looks like "/foo/bar/baz:my_text:42". Or maybe you want to open a file and go to a specific line. Those are things for which the default tabnew implementation isn't very good. BTN fills that niche and lets you create a simpler workflow when using grep.</p>
@@ -37,6 +38,7 @@
 <hr />
 <p><a href="/blog/2016/0701_VimutilitiesBetterTabNew.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/0701_VimutilitiesBetterTabNew.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

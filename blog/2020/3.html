@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Posts for 2020 March<a name="postsfor2020march"></a></h1>
 <h1>Weak symbols to mock c-APIs with gmock/gtest<a name="weaksymbolstomockcapiswithgmockgtest"></a></h1>
 <p>Post by Nico Brailovsky @ 2020-03-15 -
@@ -70,6 +71,7 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
 </code></pre>
 <p>This method has the (big) disadvantage of creating an invisible dependency between "mocked_api_instance" and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</p>
 <hr />
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

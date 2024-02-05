@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Posts for 2019 August<a name="postsfor2019august"></a></h1>
 <h1>std::is_constant_evaluated: make debugging a little bit harder for yourself!<a name="stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself"></a></h1>
 <p>Post by Nico Brailovsky @ 2019-08-03 -
@@ -47,6 +48,7 @@ bool a() {
 </code></pre>
 <p>I'm sure with careful usage, is_constant_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (<code>cout &lt;&lt; foo()</code>, anyone?) prints different values than my <code>production</code> code.</p>
 <hr />
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

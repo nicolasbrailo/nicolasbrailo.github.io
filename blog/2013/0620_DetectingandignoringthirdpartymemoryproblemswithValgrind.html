@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>Detecting and ignoring third party memory problems with Valgrind<a name="detectingandignoringthirdpartymemoryproblemswithvalgrind"></a></h1>
 <p>Lot's of people seem to give up on Valgrind after they see the dreaded "More than ### errors detected, go and fix your program". If the bulk of these errors are caused by crappy code in third party libraries there's very little to be done to fix them, other than creating a ticket for the library maintainer (and if the bulk of these errors are caused by your own code... well, don't write a watchdog please, do fix your program!). And that's assuming the reported error is not even a false positive, since Valgrind can report problems for crazy optimizations -O3 might have or for weird operator arithmetic.</p>
 <p>If these spurious memory errors are there for too long most people will start ignoring Valgrind's output. Luckily, ignoring errors we can't fix is a possibility too, using Valgrind's ignore files.</p>
@@ -38,6 +39,7 @@
 <hr />
 <p><a href="/blog/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05

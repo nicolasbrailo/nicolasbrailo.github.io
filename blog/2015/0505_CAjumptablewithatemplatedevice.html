@@ -17,15 +17,16 @@
 <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
-  <a href="/">Home</a>
-  <a href="/blog/index.html">Blog</a>
-  <a href="/blog/index.html">Series</a>
-  <a href="/blog/history.html">Archive</a>
-  <a href="/blog/index.html">About</a>
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center" href="/blog/index.html">Series</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/index.html">About</a>
 </div>
 
 </div>
 
+<div style="padding: 5rem">
 <h1>C++: A jump table with a template device<a name="cajumptablewithatemplatedevice"></a></h1>
 <p>A <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">few articles ago</a> we saw how gcc might need some help when mixing template instanciation (pure compile time data) with function calls (deducible compile time information, but not available to the template expander). Now we'll go one step further and combine all three types: pure compile time data, deducible compile time data and pure run time data (*). Just to annoy the compiler, and to see how gcc is able to optimize the results.</p>
 <p>Let's build a simple example, similar to what we used last time: an object that will determine the range of an integer and then invoke a callback with the closest range. Something like this could be used, for example, to allocate a buffer.</p>
@@ -189,6 +190,7 @@ wrapper(int, void (<em>)(int)):
 <hr />
 <p><a href="/blog/2015/0505_CAjumptablewithatemplatedevice.html">Permalink</a> -
 <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0505_CAjumptablewithatemplatedevice.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+</div>
 
 <div id="sitefooter">
 Page generated 2024-02-05
