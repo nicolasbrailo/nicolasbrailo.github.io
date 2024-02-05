@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Posts for 2013 December<a name="postsfor2013december"></a></h1>
 <h1>Static initialization in C++<a name="staticinitializationinc"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-12-03 -
@@ -79,3 +99,10 @@ void foo() throw() {
 <p>Eventually, __cxa_guard_acquire will check if this object was already initialized or if anyone else is trying to initialize this object, and then it will signal the calling method to run x's constructor if it's safe to do so.</p>
 <p>There's another bit of information in here which is not immediately obvious: in case X's constructor fails (ie an exception is thrown within this method), x_is_initialized won't be set to true. Assuming the exception is caught somewhere else, if foo() is called again the initialization for foo()::x will be attempted to run once again.</p>
 <hr />
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

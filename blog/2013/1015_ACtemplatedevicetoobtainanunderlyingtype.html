@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>A C++ template device to obtain an underlying type<a name="actemplatedevicetoobtainanunderlyingtype"></a></h1>
 <p>What happens when you need to get the underlying data type of a pointer or reference? You can write some crazy metaprogram to do it for you. Like this:</p>
 <pre lang="c++"><code lang="c++">template <typename T> struct get_real_type      { typedef T type; };
@@ -28,6 +48,12 @@ int main() {
 </code></pre>
 <p>Incidentally, this is also the basis for the implementation of std::remove_reference. Actually you'd be better of using std::remove_reference, for your own sanity.</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2013-10-15 -
-    <a href="/blog/2013/1015_ACtemplatedevicetoobtainanunderlyingtype.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1015_ACtemplatedevicetoobtainanunderlyingtype.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2013/1015_ACtemplatedevicetoobtainanunderlyingtype.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1015_ACtemplatedevicetoobtainanunderlyingtype.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

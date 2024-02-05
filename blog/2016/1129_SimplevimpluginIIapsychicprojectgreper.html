@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Simple vim plugin II: a psychic project greper<a name="simplevimpluginiiapsychicprojectgreper"></a></h1>
 <p>We have been working on a quick grep integration for Vim, and it's looking decent enough for a quick plugin. There's one more easy thing we can improve, though: let's make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That's so old fashioned. Let's make grep guess what to look for.</p>
 <p>In vim you have a psychic function, expand(""). If you call expand(""), it will return whatever word is under the cursor. No need to visually select it. If you're still using the same vimrc definitions, you can do something like</p>
@@ -60,6 +80,12 @@ map  <leader>S :call FG_RequestInputAction("Text search: ", "FG_DoSearchText")<C
 </code></pre>
 <p>Just copy paste that in your vimrc, now you can grep your project in three different ways: press s (,s) to look for the word currently under the cursor, S to type in a search term or select something in visual mode, then S to grep it.</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2016-11-29 -
-    <a href="/blog/2016/1129_SimplevimpluginIIapsychicprojectgreper.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1129_SimplevimpluginIIapsychicprojectgreper.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2016/1129_SimplevimpluginIIapsychicprojectgreper.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2016/1129_SimplevimpluginIIapsychicprojectgreper.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

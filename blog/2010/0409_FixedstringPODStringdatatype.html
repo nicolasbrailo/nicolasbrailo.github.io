@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Fixed string: POD String datatype<a name="fixedstringpodstringdatatype"></a></h1>
 <p>We saw in <a href="/blog/2010/0407_PODtypesinC.html">POD types in C++</a> the difference between a POD and a non-POD type but the question of how to apply this knowledge to persist an std::string-like object remained open. This problem is a specific version of how to persist an object from which you know the size but has internal buffers using the heap instead of using only stack memory.</p>
 <p>The best example for this case is, perhaps, a column from a table. You know the upper limit of the string's length but using std::string is clearly much better (easier) than a char[N]. Yet you'd be loosing the ability to persist this object in a generic way (i.e. copying memory instead of knowing the object's internal structure).</p>
@@ -25,6 +45,12 @@
 </code></pre>
 <p>You can see now why I called it a trade-off: it works as we intend it to work but it does have its rough edges (most notably the const char/mutable part). It'll allow you to use a char[N] with some behaviour of an std::string; use it with caution.</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2010-04-09 -
-    <a href="/blog/2010/0409_FixedstringPODStringdatatype.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0409_FixedstringPODStringdatatype.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2010/0409_FixedstringPODStringdatatype.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0409_FixedstringPODStringdatatype.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

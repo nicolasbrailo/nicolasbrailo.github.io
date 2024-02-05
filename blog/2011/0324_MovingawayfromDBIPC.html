@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Moving away from DB IPC<a name="movingawayfromdbipc"></a></h1>
 <p><a href="/blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.html">Last time</a> I wrote about why DB IPC is bad. Now I intend to write about the way to start moving away from it, towards a better architecture.</p>
 <p>As I mentioned, this pattern is deeply rooted across all the enterprise platform, so removing it is not an easy task, and it can only be done in small steps. Small steps means a compromise solution, you won't be going from IPC DB to a restful application in a week, so having an ugly-but-not-so-much-as-ipc-db solution is the way to go.</p>
@@ -14,6 +34,12 @@
 <p>Once you have managed to separate the responsibility of processing the event and the data of the event itself, it's easy to go one step beyond and implement a messaging platform, like CORBA or something like AMQP.</p>
 <p><strong>Conclusion</strong>: the architecture may not be nice with DB notifications either, but you have taken the first step towards decoupling two different components. From this schema to a real queue there's only one step, and once there you can finally begin to have a db-schema for each application.</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2011-03-24 -
-    <a href="/blog/2011/0324_MovingawayfromDBIPC.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0324_MovingawayfromDBIPC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2011/0324_MovingawayfromDBIPC.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/0324_MovingawayfromDBIPC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

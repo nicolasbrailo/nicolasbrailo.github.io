@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Setting up a Linux GW VII: Fun with iptables, setting up port<a name="settingupalinuxgwviifunwithiptablessettingupport"></a></h1>
 <p>forwardings</p>
 <p>In any LAN you'll probably want to expose some services to the outer world, be it for a bittorrent connection or because you have internal servers you need to access from outside your internal LAN. To do this, you'll have to tell your router to forward some external port to an internal one, like this:</p>
@@ -19,6 +39,12 @@ iptables -A INPUT -i eth0 -p tcp -m state --state NEW
 <p>Of course, this commands are little less than black magic. iptables are rather complex and quite difficult to master, but as a short description we can say they are a way of applying a set of rules to incoming network packets. In iptables you have different tables of rules (in this case we use -t[able] nat) and specify that we want our rule to be applied in the PREROUTING phase. -i specifies that this rule should be applied only to packets incoming from eth0, and --dport means this rule applies only to packets incoming from a certain port. Of course, if you are going to specify a port then you need to specify the protocol (in this case, tcp).</p>
 <p>Now we have replicated in our setup almost all the functionalities a small COTS router has. Next time we'll see how to improve that by adding a proxy.</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2013-11-07 -
-    <a href="/blog/2013/1107_SettingupaLinuxGWVIIFunwithiptablessettingupportforwardings.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1107_SettingupaLinuxGWVIIFunwithiptablessettingupportforwardings.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2013/1107_SettingupaLinuxGWVIIFunwithiptablessettingupportforwardings.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1107_SettingupaLinuxGWVIIFunwithiptablessettingupportforwardings.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Setting up a Linux GW III: Setting up DNS with bind9<a name="settingupalinuxgwiiisettingupdnswithbind9"></a></h1>
 <p>If you have been following my series on how to install a Linux based router, you should now have a setup where a client is able to see the outside world via a router. We can try something more complex now, like pinging a domain instead of an IP. Something like this:</p>
 <pre lang="c++"><code lang="c++">ping google.com
@@ -78,6 +98,12 @@ router           IN      A       192.168.0.1
 </code></pre>
 <p>This will make bind translate NICE_NAME.lan to REAL_IP. Of course, this will depend on the TLD you defined. Now restart bind to get a crapton of errors. It will complain about not being able to load a master file in /home/router/named. Remember that apparmor thing I mentioned?</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2013-10-10 -
-    <a href="/blog/2013/1010_SettingupaLinuxGWIIISettingupDNSwithbind9.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1010_SettingupaLinuxGWIIISettingupDNSwithbind9.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2013/1010_SettingupaLinuxGWIIISettingupDNSwithbind9.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/1010_SettingupaLinuxGWIIISettingupDNSwithbind9.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

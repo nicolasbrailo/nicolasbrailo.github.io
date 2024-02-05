@@ -13,36 +13,17 @@ import re
 import sys
 
 
-BLOG_HEADER = """
-<link rel="stylesheet" href="https://unpkg.com/chota@latest">
-
-# Nico Brailovsky's blog
-
-# Menu
-* [Home](/)
-* [Blog](/blog/index.html)
-* [History](/blog/history.html)
-
-"""
-
-ROOT_PAGE_TMPL = BLOG_HEADER + """
-{{content}}
+ROOT_PAGE_TMPL = """ {{content}}
 
 ---
-
-Page generated {{generatedDate}}
 
 [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
 """
 
 POSTS_IN_INDEX = 10
-BLOG_INDEX_TMPL = BLOG_HEADER + """
+BLOG_INDEX_TMPL = """
 
 {{content}}
-
----
-
-Blog built @ {{generatedDate}}
 
 """
 
@@ -50,7 +31,6 @@ POSTS_IDX_TMPL = """
 # Posts for {{datePeriod}}
 
 {{postsIdx}}
-
 
 """
 
@@ -62,21 +42,19 @@ Post by {{author}} @ {{publishDate}} -
     [Permalink]({{srcFile}}) -
     [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
 
-
 {{content}}
 
 ---
 """
 
-POST_STANDALONE_TMPL = BLOG_HEADER + """
+POST_STANDALONE_TMPL = """
 
 {{content}}
 
 ---
 
-Post by {{author}} @ {{publishDate}} -
-    [Permalink]({{srcFile}}) -
-    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
+[Permalink]({{srcFile}}) -
+[Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
 
 """
 
@@ -160,7 +138,7 @@ def build_month(mdconvert, out_path, year, month, posts):
         post_titles.append(title)
         post_idx += content
 
-    month_md = apply_template(BLOG_HEADER + POSTS_IDX_TMPL, {
+    month_md = apply_template(POSTS_IDX_TMPL, {
         'datePeriod': f'{year} {month_num_str(month)}',
         'year': year,
         'month': month,
@@ -179,7 +157,7 @@ def build_year_md(link_base, year, month_idxs, include_header=True):
             anchor = build_anchor_for_title(pt)
             post_idx.append(f'    * [{pt}]({link_base}{month}.html#{anchor})\n')
 
-    tmpl = BLOG_HEADER + POSTS_IDX_TMPL if include_header else POSTS_IDX_TMPL
+    tmpl = POSTS_IDX_TMPL
     return apply_template(tmpl, {
         'datePeriod': year,
         'year': year,
@@ -215,7 +193,6 @@ def build_index_md(posts):
         txt.append(content)
 
     return apply_template(BLOG_INDEX_TMPL, {
-                'generatedDate': datetime.now().strftime('%Y-%m-%d'),
                 'content': ('\n').join(txt),
            })
 
@@ -239,7 +216,7 @@ src_path = sys.argv[1]
 dst_path = sys.argv[2]
 mode = sys.argv[3]
 
-mdconvert = MdToHtml(src_path, dst_path)
+mdconvert = MdToHtml(src_path, dst_path, 'genscripts/template.html')
 
 
 if mode == 'index':

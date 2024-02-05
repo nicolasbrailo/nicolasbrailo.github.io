@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Operator sizeof (AKA Reading Berkeley's FM, take II)<a name="operatorsizeofakareadingberkeleysfmtakeii"></a></h1>
 <p><a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Last time</a> I told you about an evil snipet I found on Oracle Berkeley DB's manual:</p>
 <pre lang="c++"><code lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
@@ -32,6 +52,12 @@
 <p>Which means nothing else than "store in b the size of member y in struct X. It should be easy to see why BDB's example does compile, and why did I spend half an hour trying to understand the reason it compiled fine.</p>
 <p>By using some more casts and a clever arangement of parenthesis you can come up with a great job security device.</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2010-03-29 -
-    <a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

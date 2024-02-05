@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>C++ exceptions under the hood 19: getting the right catch in a landing pad<a name="cexceptionsunderthehood19gettingtherightcatchinalandingpad"></a></h1>
 <p>19th entry about C++ exception handling: we have written a personality function that can so far, by reading the LSDA, choose the right landing pad on the right stack frame to handle a thrown exception, but it was having some difficulties finding the right catch inside a landing pad. To finally get a decently working personality function we'll need to check all the types an exception can handle by going through all the actions table in the .gcc_except_table.</p>
 <p>Remember the action table? Let's check it again but this time for a try with multiple catch blocks.</p>
@@ -45,6 +65,12 @@
 <p>In the link above you will also see a bonus: a change to the personality function to correctly detect and use catch(...) blocks. That's an easy change once the personality functions knows how to read the types table: a type with a null pointer (ie a position in the table that instead of a valid pointer to an std::type_info holds null) represents a catch all block. This has an interesting side effect: a catch(T) will be able to handle only native (ie coming from C++) exceptions, whereas a catch(...) would catch also exceptions not thrown from within C++.</p>
 <p>We finally know how exceptions are thrown, how the stack is unwinded, how a personality function selects the correct stack frame to handle an exception and how the right catch inside a landing pad is selected, but we still have on more problem to solve: running destructors. We'll change our personality function to support RAII objects next time.</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2013-05-23 -
-    <a href="/blog/2013/0523_Cexceptionsunderthehood19gettingtherightcatchinalandingpad.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0523_Cexceptionsunderthehood19gettingtherightcatchinalandingpad.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2013/0523_Cexceptionsunderthehood19gettingtherightcatchinalandingpad.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2013/0523_Cexceptionsunderthehood19gettingtherightcatchinalandingpad.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

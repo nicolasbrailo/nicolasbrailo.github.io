@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Starting Ubuntu in console mode<a name="startingubuntuinconsolemode"></a></h1>
 <p>Like it or not, Ubuntu is so easy to install that even for servers is very comfortable to just mount the iso and create as many virtual machines as you may need. Sometimes you already have an iso for Ubuntu, but are too lazy to download the server version. For those occasions you can either decide to waste precious RAM running a GUI for a server that will never need it, or you can remove all traces of the graphical login. Like this:</p>
 <pre lang="c++"><code lang="c++">sudo update-rc.d -f gdm remove
@@ -13,6 +33,12 @@
 <p>This will remove GDM from the startup scripts, meaning you can still fire up the graphical interface (*) if you want, but it will start Ubuntu without loading any graphics stuff. This is very useful to save on RAM, startup time and processing power, which even if not that useful for a desktop machine is incredible beneficial when you have several virtual machines running in a single physical server.</p>
 <p>(*) More precisely, if you have users that need it. Remember though, if it can't be done in console mode, it ain't worth doing.</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2011-10-13 -
-    <a href="/blog/2011/1013_StartingUbuntuinconsolemode.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1013_StartingUbuntuinconsolemode.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2011/1013_StartingUbuntuinconsolemode.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2011/1013_StartingUbuntuinconsolemode.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

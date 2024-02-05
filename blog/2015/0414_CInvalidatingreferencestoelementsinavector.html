@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>C++: Invalidating references to elements in a vector<a name="cinvalidatingreferencestoelementsinavector"></a></h1>
 <p>Is this valid C++?</p>
 <pre lang="c++"><code lang="c++">void do_something(const int&amp;);
@@ -31,6 +51,12 @@ void foo() {
 <p>It again might seem wrong, but this in fact is valid C++ code. Common sense might tell us that a call to push_back automatically invalidates references to elements in the vector, and it only works because most implementations will do the reasonable thing (ie not to invalidate references unless they must). Turns out the standard makes a special prevision for this case in section 23.3.6.5: a resize for a vector is guaranteed to be triggerd if, and only if, the capacity of the vector is not enough, and references to elements in the vector are guaranteed to be valid unless resize is triggered.</p>
 <p>A bit of language laweyering shows that what seems like an error is in fact allowed by the standard, but even if this is valid C++ code you should always keep in mind that assuming that the capacity of a vector will be enough is a VERY big assumption, it's very easy to break and you won't get any warning when it happens (maybe a core dump, if you're lucky).</p>
 <hr />
-<p>Post by Nico Brailovsky @ 2015-04-14 -
-    <a href="/blog/2015/0414_CInvalidatingreferencestoelementsinavector.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0414_CInvalidatingreferencestoelementsinavector.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2015/0414_CInvalidatingreferencestoelementsinavector.html">Permalink</a> -
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2015/0414_CInvalidatingreferencestoelementsinavector.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>

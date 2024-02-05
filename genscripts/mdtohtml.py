@@ -142,6 +142,8 @@ def extract_md_metadata(md):
                 except ValueError:
                     pass
             metadata[key] = val
+
+    metadata['generatedDate'] = datetime.now().strftime('%Y-%m-%d')
     return metadata
 
 def mdtohtml(md):
@@ -161,9 +163,11 @@ def apply_template(tmpl, repl):
     return tmpl
 
 class MdToHtml:
-    def __init__(self, src_path, dst_path):
+    def __init__(self, src_path, dst_path, html_tmpl):
         self.src_path = src_path
         self.dst_path = dst_path
+        with open(html_tmpl, 'r') as fp:
+            self.html_template = fp.read()
 
         src = self.src_path
         if src[0] == '.':
@@ -207,6 +211,7 @@ class MdToHtml:
         if len(dirn) > 0 and not os.path.exists(dirn):
             os.makedirs(dirn)
 
+        meta = extract_md_metadata(md_txt)
         try:
             html = mdtohtml(md_txt)
         except:
@@ -217,6 +222,9 @@ class MdToHtml:
         pattern = r'href="' + re.escape(self.link_abs_src) + r'(.*?).md"'
         repl = r'href="' + re.escape(self.link_abs_dst) + r'\1.html"'
         html = re.sub(pattern, repl, html)
+
+        meta['md_content'] = html
+        html = apply_template(self.html_template, meta)
 
         with open(fpath, 'w') as fp:
             fp.write(html)

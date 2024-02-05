@@ -1,11 +1,31 @@
-<p><link rel="stylesheet" href="https://unpkg.com/chota@latest"></p>
-<h1>Nico Brailovsky's blog<a name="nicobrailovskysblog"></a></h1>
-<h1>Menu<a name="menu"></a></h1>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/blog/index.html">Blog</a></li>
-<li><a href="/blog/history.html">History</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>BatiCasa</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+
+<body class="dark">
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a href="/">Home</a>
+  <a href="/blog/index.html">Blog</a>
+  <a href="/blog/index.html">Series</a>
+  <a href="/blog/history.html">Archive</a>
+  <a href="/blog/index.html">About</a>
+</div>
+
+</div>
+
 <h1>Posts for 2013 November<a name="postsfor2013november"></a></h1>
 <h1>Vim tim: quickly switch from header to impl<a name="vimtimquicklyswitchfromheadertoimpl"></a></h1>
 <p>Post by Nico Brailovsky @ 2013-11-19 -
@@ -74,3 +94,10 @@ iptables -A INPUT -i eth0 -p tcp -m state --state NEW
 <p>Luckily you can easily restore your state if you just write all the gdb commands you need into a file, then start gdb with "--command=state.gdb". Magic! All your breakpoints are there.</p>
 <p>Alternatively, an even better solution: just don't exit gdb after recompiling, simply "kill" your currently under-debug process (ie type "kill" inside gdb, do not kill gdb itself!) and gdb will be smart enough to reload your binary if it changed.</p>
 <hr />
+
+<div id="sitefooter">
+Page generated 2024-02-05
+</div>
+
+</body>
+</html>
