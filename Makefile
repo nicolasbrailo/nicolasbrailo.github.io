@@ -1,3 +1,9 @@
+.PHONY: install_deps local_server
+install_deps:
+	sudo apt-get install python3-markdown
+local_server:
+	python3 -m http.server
+
 .PHONY: refresh
 refresh: blog root
 
