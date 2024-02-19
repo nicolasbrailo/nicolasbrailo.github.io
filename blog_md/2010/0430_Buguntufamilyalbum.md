@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2010/04/buguntu-family-album.html
 
-This is a very cool family album: http://blog.nizarus.org/2010/04/ubuntu-the-family-album
+This is a very cool family album: [link](/blog_md/youfoundadeadlink.md)
 
 Can't wait to upgrade to 10.04, my current install (9.10) is working like crap.
 

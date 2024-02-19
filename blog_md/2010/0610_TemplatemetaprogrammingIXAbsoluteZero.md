@@ -33,16 +33,17 @@ Append(e, lst) <- LST(lst.head, Append(e, lst.tail))
 Looks complicated but it follows the same structure as the rest of the basic-ops:
 
 ```c++
-template &lt;class Elm, class Lst&gt; struct Append {
-	typedef typename Lst::head Head;
-	typedef typename Lst::tail Tail;
 
-<p>	typedef typename Append&lt;Elm, Tail&gt;::result Next;
-	typedef typename LST&lt;Head, Next&gt;::result result;
+template &lt;class Elm, class Lst&gt; struct Append {
+    typedef typename Lst::head Head;
+    typedef typename Lst::tail Tail;
+
+    typedef typename Append&lt;Elm, Tail&gt;::result Next;
+    typedef typename LST&lt;Head, Next&gt;::result result;
 };
 
-<p>template &lt;class Elm&gt; struct Append&lt;Elm, NIL&gt; {
-	typedef LST&lt;Elm&gt; result;
+template &lt;class Elm&gt; struct Append&lt;Elm, NIL&gt; {
+    typedef LST&lt;Elm&gt; result;
 };
 
 ```

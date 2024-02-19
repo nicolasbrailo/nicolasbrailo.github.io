@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2009/10/write-in-c.html
 
-From <http://www.youtube.com/watch?v=J5LNTTGDKYo&feature=related>
+From [youtube](/blog_md/youfoundadeadlink.md)
 **Write in C**
 
 ```

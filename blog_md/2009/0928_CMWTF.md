@@ -6,8 +6,9 @@
 
 Seen on a cablemodem's configuration page:
 
-```
-<form action="http:/loginData.htm" method="GET">
+
+```html
+&lt;form action="http://loginData.htm" method="GET"&gt;
 ```
 
 Long version: The other day, while stranded on a CLI (using ssh) I did a wget $IP, to see a modem's status web page. I'd have thought an electronic device (which, obviously, is much more difficult to upgrade than a software product, and that's difficult enough as it is) is a little bit better tested than that. I should have known better by now.

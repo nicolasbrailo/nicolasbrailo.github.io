@@ -8,7 +8,7 @@ I don't usually post links, I'd rather write something myself, but check out thi
 
 > You don’t see me calling Linux users tux turds, penguin poopers or GUI-challenged, do you?
 
-<http://www.pcmech.com/article/good-linux-users-dont-talk-about-microsoft/>
+[Src](/blog_md/youfoundadeadlink.md)
 
 Enjoy
 

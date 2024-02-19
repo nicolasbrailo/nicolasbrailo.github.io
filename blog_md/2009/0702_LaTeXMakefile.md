@@ -6,7 +6,7 @@
 
 Remember I said that being a programmer would make you a lot more comfortable around LaTeX? The reason is quite simple, tex is just source code for a document. As with any source code in Linux (Windows too, but that is besides the point) you can use a Makefile to compile it and make your life easier.
 
-I have already posted this [Makefile](https://example.net/brokenlink/2009/05/makefile.html) in [another entry](/blog_md/2009/0528_LaTeXbasics.md) but it's time to explain how it works.
+I have already posted this Makefile in [another entry](/blog_md/2009/0528_LaTeXbasics.md) but it's time to explain how it works.
 
 ```c++
 

@@ -51,43 +51,32 @@
 Append(e, lst) &lt;- LST(lst.head, Append(e, lst.tail))
 </code></pre>
 <p>Looks complicated but it follows the same structure as the rest of the basic-ops:</p>
-<p>```c++
+<pre lang="c++"><code class="language-c++" lang="c++">
 template &lt;class Elm, class Lst&gt; struct Append {
     typedef typename Lst::head Head;
-    typedef typename Lst::tail Tail;</p>
-<p> typedef typename Append&lt;Elm, Tail&gt;::result Next;
+    typedef typename Lst::tail Tail;
+    typedef typename Append&lt;Elm, Tail&gt;::result Next;
     typedef typename LST&lt;Head, Next&gt;::result result;
 };
-
-<p>template &lt;class Elm&gt; struct Append&lt;Elm, NIL&gt; {
+template &lt;class Elm&gt; struct Append&lt;Elm, NIL&gt; {
     typedef LST&lt;Elm&gt; result;
 };
-
-```
-
-Easy. Now, what happens if we want to add a default value for Lst, so we can use Append to create lists? Easy too, but we need a façade this time; just rename Append to \_Append, then
-
-```c++
-// This is here just because I wanted a default param :D
+</code></pre>
+<p>Easy. Now, what happens if we want to add a default value for Lst, so we can use Append to create lists? Easy too, but we need a façade this time; just rename Append to _Append, then</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// This is here just because I wanted a default param :D
 template &lt;typename Elm, typename Lst=NIL&gt; struct Append {
     typedef typename _Append&lt;Elm, Lst&gt;::result result;
 };
-
-```
-
-I promised to add one more operation to our toolbox, returning the position of an element, but this post is getting quite long and I'm afraid it may be too much for the average attention span of a programmer... we'll leave it for next time.
-
-
-
----
-
-Post by Nico Brailovsky @ 2010-06-10 -
-    [Permalink](/blog_md/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md) -
-    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md&body=I%20have%20a%20comment!)
+</code></pre>
+<p>I promised to add one more operation to our toolbox, returning the position of an element, but this post is getting quite long and I'm afraid it may be too much for the average attention span of a programmer... we'll leave it for next time.</p>
+<hr />
+<p>Post by Nico Brailovsky @ 2010-06-10 -
+    <a href="/blog/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
-Page generated 2024-02-18
+Page generated 2024-02-19
 </div>
 
 <script src="/search.js"></script>

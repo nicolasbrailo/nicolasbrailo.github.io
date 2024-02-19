@@ -18,12 +18,12 @@ Translating this to C++ should be a breeze to you now. Try it, I'll wait. Read? 
 
 ```c++
 template &lt;typename LST, int N&gt; struct Nth {
-	typedef typename LST::Tail Tail;
-	typedef typename Nth&lt;Tail, N-1&gt;::result result;
+    typedef typename LST::Tail Tail;
+    typedef typename Nth&lt;Tail, N-1&gt;::result result;
 };
 
-<p>template &lt;typename LST&gt; struct Nth&lt;LST, 0&gt; {
-	typedef typename LST::head result;
+template &lt;typename LST&gt; struct Nth&lt;LST, 0&gt; {
+    typedef typename LST::head result;
 };
 
 ```

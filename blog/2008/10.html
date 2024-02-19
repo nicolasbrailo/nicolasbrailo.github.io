@@ -135,31 +135,32 @@ With obliged frist post out of the way, what's all this about?</p>
     <a href="/blog/2008/1009_aptgetnewcomputer.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2008/1009_aptgetnewcomputer.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Siempre me olvido cuales son los paquetes copados para instalar en un nuevo sistema as&iacute; que voy a copiarlo ac&aacute;. Despu&eacute;s pongo links a cada aplicaci&oacute;n.</p>
-<h1>APPS<a name="apps"></a></h1>
-<p>apt-get install mozilla-thunderbird lyx</p>
-<h1>DPOTD cool apps<a name="dpotdcoolapps"></a></h1>
-<p>apt-get install tilda mmv unclutter katapult moc</p>
-<h1>DPOTD SA tools<a name="dpotdsatools"></a></h1>
-<p>sudo apt-get install knetworkmanager xdiskusage iptraf sshfs apt-listbugs</p>
-<h1>Media stuff: flv player, shnsplit/cuebreakpoints (flac), winrar<a name="mediastuffflvplayershnsplitcuebreakpointsflacwinrar"></a></h1>
-<p>apt-get install ffmpeg shntool cuetools flac wavpack unrar vlc</p>
-<h1>Reading APE files (not recommended, though)<a name="readingapefilesnotrecommendedthough"></a></h1>
-<h1>cuebreakpoints *.cue|shnsplit -o flac *.ape<a name="cuebreakpoints.cueshnsplitoflac.ape"></a></h1>
-<h1>http://aidanjm.wordpress.com/2007/02/15/split-lossless-audio-ape-flac-wv-wav-by-cue-file/<a name="httpaidanjm.wordpress.com20070215splitlosslessaudioapeflacwvwavbycuefile"></a></h1>
-<h1>http://aidanjm.wordpress.com/2007/01/26/using-monkeys-audio-ape-files-in-ubuntu/<a name="httpaidanjm.wordpress.com20070126usingmonkeysaudioapefilesinubuntu"></a></h1>
-<p>wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4_b3-1_i386.deb &amp;&amp;
-sudo dpkg -i mac-3.99-u4_b3-1_i386.deb &amp;&amp;
-rm -f mac-3.99-u4_b3-1_i386.deb</p>
-<h1>Conky, sensores y plugins<a name="conkysensoresyplugins"></a></h1>
-<p>apt-get install conky libxext-dev lm-sensors build-essential checkinstall wmctrl</p>
-<h1>Servers y script dev<a name="serversyscriptdev"></a></h1>
-<p>apt-get install apache2 php5 mysql5-server rails ruby</p>
-<h1>Headers y demas (incluye X11)<a name="headersydemasincluyex11"></a></h1>
-<p>apt-get install libc6-dev libstdc++6-4.1-dev g++-4.1 g++ dpkg-dev build-essential x11proto-core-dev linux-libc-dev libxau-dev libxdmcp-dev x11proto-input-dev x11proto-xext-dev x11proto-kb-dev xtrans-dev libx11-dev libxext-dev glibc-doc libgtk2.0-doc manpages-dev</p>
-<h1>Headers para php<a name="headersparaphp"></a></h1>
-<p>ant php5-dev ant-optional m4 autoconf autotools-dev automake1.4</p>
-<h1>Ecplise con CDT<a name="ecpliseconcdt"></a></h1>
-<p>apt-get install java-common libswt3.2-gtk-jni libswt3.2-gtk-java eclipse-rcp liblucene-java liblucene-java-doc libjsch-java libservlet2.4-java libcommons-el-java java libcommons-collections-java java libcommons-logging-java java libcommons-launcher-java liblog4j1.2-java libregexp-java libbcel-java libmx4j-java libcommons-collections3-java libcommons-beanutils-java libcommons-digester-java libcommons-modeler-java libcommons-pool-java libcommons-dbcp-java libtomcat5.5-java eclipse-platform junit eclipse-jdt eclipse-pde exuberant-ctags eclipse-cdt mlock libc-client2002edebian zlib1g-dev libssl-dev eclipse libtld3 odbcinst1debian1 unixodbc sun-java5-bin</p>
+<pre lang="bash"><code class="language-bash" lang="bash"># APPS
+apt-get install mozilla-thunderbird lyx
+# DPOTD cool apps
+apt-get install tilda mmv unclutter katapult moc
+# DPOTD SA tools
+sudo apt-get install knetworkmanager xdiskusage iptraf sshfs apt-listbugs
+# Media stuff: flv player, shnsplit/cuebreakpoints (flac), winrar
+apt-get install ffmpeg shntool cuetools flac wavpack unrar vlc
+# Reading APE files (not recommended, though)
+# cuebreakpoints \*.cue|shnsplit -o flac \*.ape
+# http://aidanjm.wordpress.com/2007/02/15/split-lossless-audio-ape-flac-wv-wav-by-cue-file/
+# http://aidanjm.wordpress.com/2007/01/26/using-monkeys-audio-ape-files-in-ubuntu/
+wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4\_b3-1\_i386.deb &amp;&amp;
+sudo dpkg -i mac-3.99-u4\_b3-1\_i386.deb &amp;&amp;
+rm -f mac-3.99-u4\_b3-1\_i386.deb
+# Conky, sensores y plugins
+apt-get install conky libxext-dev lm-sensors build-essential checkinstall wmctrl
+# Servers y script dev
+apt-get install apache2 php5 mysql5-server rails ruby
+# Headers y demas (incluye X11)
+apt-get install libc6-dev libstdc++6-4.1-dev g++-4.1 g++ dpkg-dev build-essential x11proto-core-dev linux-libc-dev libxau-dev libxdmcp-dev x11proto-input-dev x11proto-xext-dev x11proto-kb-dev xtrans-dev libx11-dev libxext-dev glibc-doc libgtk2.0-doc manpages-dev
+# Headers para php
+ant php5-dev ant-optional m4 autoconf autotools-dev automake1.4
+# Ecplise con CDT
+apt-get install java-common libswt3.2-gtk-jni libswt3.2-gtk-java eclipse-rcp liblucene-java liblucene-java-doc libjsch-java libservlet2.4-java libcommons-el-java java libcommons-collections-java java libcommons-logging-java java libcommons-launcher-java liblog4j1.2-java libregexp-java libbcel-java libmx4j-java libcommons-collections3-java libcommons-beanutils-java libcommons-digester-java libcommons-modeler-java libcommons-pool-java libcommons-dbcp-java libtomcat5.5-java eclipse-platform junit eclipse-jdt eclipse-pde exuberant-ctags eclipse-cdt mlock libc-client2002edebian zlib1g-dev libssl-dev eclipse libtld3 odbcinst1debian1 unixodbc sun-java5-bin
+</code></pre>
 <hr />
 <h1>etc/init.d/blog start<a name="etcinit.dblogstart"></a></h1>
 <p>Post by Nico Brailovsky @ 2008-10-04 -
@@ -170,7 +171,7 @@ rm -f mac-3.99-u4_b3-1_i386.deb</p>
 </div>
 
 <div id="sitefooter">
-Page generated 2024-02-18
+Page generated 2024-02-19
 </div>
 
 <script src="/search.js"></script>

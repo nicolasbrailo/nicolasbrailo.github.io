@@ -6,6 +6,8 @@
 
 Siempre me olvido cuales son los paquetes copados para instalar en un nuevo sistema así que voy a copiarlo acá. Después pongo links a cada aplicación.
 
+
+```bash
 # APPS
 apt-get install mozilla-thunderbird lyx
 
@@ -40,4 +42,5 @@ ant php5-dev ant-optional m4 autoconf autotools-dev automake1.4
 
 # Ecplise con CDT
 apt-get install java-common libswt3.2-gtk-jni libswt3.2-gtk-java eclipse-rcp liblucene-java liblucene-java-doc libjsch-java libservlet2.4-java libcommons-el-java java libcommons-collections-java java libcommons-logging-java java libcommons-launcher-java liblog4j1.2-java libregexp-java libbcel-java libmx4j-java libcommons-collections3-java libcommons-beanutils-java libcommons-digester-java libcommons-modeler-java libcommons-pool-java libcommons-dbcp-java libtomcat5.5-java eclipse-platform junit eclipse-jdt eclipse-pde exuberant-ctags eclipse-cdt mlock libc-client2002edebian zlib1g-dev libssl-dev eclipse libtld3 odbcinst1debian1 unixodbc sun-java5-bin
+```
 

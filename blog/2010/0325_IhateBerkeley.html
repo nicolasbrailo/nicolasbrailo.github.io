@@ -38,13 +38,14 @@
 <div id="content" class="language-clike">
 <h1>I hate Berkeley<a name="ihateberkeley"></a></h1>
 <p>Polymorphism taken to 11:</p>
-<p>|  |  |
+<pre><code>|  |  |
 | --- | --- |
 | <strong>SQL Term</strong> | <strong>Oracle Berkeley DB Equivalent</strong> |
 | Database | Environment |
 | Table | Database |
 | Tuple/row | Key/data pair |
-| Secondary index | Secondary database |</p>
+| Secondary index | Secondary database |
+</code></pre>
 <p>WTF ORACLE, WTF.</p>
 <hr />
 <h2>In reply to <a href="">this post</a>, <a href="http://oracle.com/">Gregory Burd</a> commented @ 2010-03-25T15:40:48.000+01:00:<a name="inreplytothispostgregoryburdhttporacle.comcommented20100325t154048.0000100"></a></h2>
@@ -62,45 +63,13 @@ Product Manager, Oracle Berkeley DB</p>
 <p>I have been working a little bit with Berkeley DB for a new project and there are some more posts on the queue about things I found odd during my first tests with it, like having a DB and a Db datatype or the usage of sizeof operator in the manual. Hope you like those posts too (I may borrow your cartoon picture again, some people say it does look a lot like me)</p>
 <p>Original <a href="/blog/2010/0325_IhateBerkeley.html">published here</a>.</p>
 <hr />
-<h2>In reply to <a href="">this post</a>, <a href="http://oracle.com/">Gregory Burd</a> commented @ 2010-03-29T18:26:21.000+02:00:<a name="inreplytothispostgregoryburdhttporacle.comcommented20100329t182621.0000200"></a></h2>
-<p>Nico,</p>
-<p>Do you really hate "Berkeley" or just the ANSI C programming language? :)</p>
-<p>"DB" is a type name for a struct and part of our ANSI C API while the "Db" is it's counterpart in C++. "Db" is a C++ Class name. You'll choose one or the other depending on the language you use. DB if you're programming in C, Db if you're programming in C++. Make sense?</p>
-<p>The use of the ANSI C sizeof operator works perfectly in our manual, as you discovered, but I'll agree that it is hard to parse at first. You have to understand that sizeof is an operator and the precedence of it verses other C operators to fully get how that single line of code works. It's a bit obtuse and we are considering making the example code less complex in the next release.</p>
-<p>I hope that helps.</p>
-<p>-greg</p>
-<p>Original <a href="/blog/2010/0325_IhateBerkeley.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-03-29T18:59:07.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100329t185907.0000200"></a></h2>
-<blockquote>
-<p>&ldquo;DB&rdquo; is a type name for a struct and part of our ANSI C</p>
-<p>API while the &ldquo;Db&rdquo; is it’s counterpart in C++. &ldquo;Db&rdquo; is a C++</p>
-<p>Class name. You’ll choose one or the other depending on</p>
-<p>the language you use. DB if you’re programming in C, Db</p>
-<p>if you’re programming in C++. Make sense?</p>
-</blockquote>
-<p>Sorry, it does not. Not using a namespace is by itself a bad thing but having two similar things which differ only by the capitalization of their name is error prone and leads to strange error messages, not to mention that it's one of the things
-that you get told not to do in any first programming class.</p>
-<p>You can live with it; it is a poor programming practice regardless.</p>
-<blockquote>
-<p>The use of the ANSI C sizeof operator works perfectly in our manual,
-as you discovered, but I’ll agree that it is hard to parse at first.</p>
-</blockquote>
-<p>Again, I disagree: it's plain wrong to justify it saying it works that way when a much clear option (using parenthesis) exists, without any downside.</p>
-<p>I can write C++ programs using only a big main. It works but it's wrong. I can use a sizeof operator to obfuscate my code, but I'd leave that for IOCCC, not for a public api manual.</p>
-<blockquote>
-<p>I hope that helps.</p>
-</blockquote>
-<p>I find Berkeley to be a good product for what it was designed, but it has to many programming bad practices which force you to work with its manual right by your side, until you can hide it under an abstraction layer, and that's what I hate about Berkely.</p>
-<p>Original <a href="/blog/2010/0325_IhateBerkeley.html">published here</a>.</p>
-<hr />
 <p>Post by Nico Brailovsky @ 2010-03-25 -
     <a href="/blog/2010/0325_IhateBerkeley.html">Permalink</a> -
     <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0325_IhateBerkeley.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 </div>
 
 <div id="sitefooter">
-Page generated 2024-02-18
+Page generated 2024-02-19
 </div>
 
 <script src="/search.js"></script>

@@ -12,7 +12,7 @@ Working [1] on a C++ project with Oracle I found that Valgrind reported lots of 
 
 The solution in this case is a [suppresions file](http://valgrind.org/docs/manual/manual-core.html#manual-core.suppress) for Valgrind. After spending a good deal of time unsuccsesfuly trying to get one I had to do it myself and upload it for the next one to run into this problem:
 
-Link to the file: [Valgrind / OCI suppressions](/brokenlink/2009/03/valgrind_suppressions).
+Link to the file: [Valgrind / OCI suppressions](/blog_md/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 * Working at [Intraway](http://www.intraway.com/) :)
 * False positives are quite likely when compiling with -O2. See [Valgrind FTW.](/blog_md/2009/0302_ValgrindFTW.md)

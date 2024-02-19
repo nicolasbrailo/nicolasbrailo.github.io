@@ -24,11 +24,11 @@ class Caller {
 
 I'll write about the different solutions I've tried and the problem each of these solutions had:
 
-* [Experiment 1: Templates](#exp1)
-* [Experiment 2: Template virtual method](#exp2)
-* [Experiment 3: Callback Object](#exp3)
-* [Experiment 4: Callback interface](#exp4)
-* [Experiment 5: Callback object bis](#exp5)
+* [Experiment 1: Templates](#experiment1templates)
+* [Experiment 2: Template virtual method](#experiment2templatevirtualmethod)
+* [Experiment 3: Callback Object](#experiment3callbackobject)
+* [Experiment 4: Callback interface](#experiment4callbackinterface)
+* [Experiment 5: Callback object bis](#experiment5callbackobjectbis)
 * [Solution](#solution)
 * [Conclusion](#conclusion)
 

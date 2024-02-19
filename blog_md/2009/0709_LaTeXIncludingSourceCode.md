@@ -64,9 +64,9 @@ Don't worry, there's a link to the full makefile.
 
 It shouldn't have been too much work and we're done anyway. To include a source code file in your document now use the include command (like include{code/foobar.cpp) and re build. I'm attaching a complete example in a zip file, with my latest implementation of a bogosort algorithm (now 50% faster).
 
-* [Makefile](https://example.net/brokenlink/2009/07/makefile)
-* [source\_code\_example.tar](https://example.net/brokenlink/2009/07/source_code_exampletar.gz)
-* [Compiled example project](https://example.net/brokenlink/2009/07/source_code_example1.pdf)
+* [Makefile](/blog_md/youfoundadeadlink.md)
+* [source\_code\_example.tar](/blog_md/youfoundadeadlink.md)
+* [Compiled example project](/blog_md/youfoundadeadlink.md)
 
 
 ---

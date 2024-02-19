@@ -27,26 +27,28 @@ I have a solution, tough I'm not too happy about it for now. I'll post it next w
 ---
 ## In reply to [this post](), [Leonardo Secotaro]() commented @ 2009-07-31T14:25:20.000+02:00:
 
-/\*This is my implementation\*/
 
-/\*----[CallBack.h]----\*/
+This is my implementation
+
+```c++
+/*----[CallBack.h]----*/
 class CallBack {
- /\* ... \*/
+ /* ... */
 public:
- virtual void operator() (void\*) = 0;
+ virtual void operator() (void*) = 0;
 };
 
-/\*----[Objeto.h]----\*/
+/*----[Objeto.h]----*/
 #include "CallBack.h"
 #include "Cain.h"
 #include "Abel.h"
 
 class Objeto: public CallBack{
- /\* ... \*/
+ /* ... */
 public:
  void Execute(){
- Abel \*pObj = new Abel( this );
- Cain \*pObj2 = new Cain( this );
+ Abel *pObj = new Abel( this );
+ Cain *pObj2 = new Cain( this );
 
  pObj->execute();
 
@@ -57,34 +59,34 @@ public:
  }
 
  /////////////////////////////////////////////////////
- void Doit\_Abel(Abel\* Who){
+ void Doit_Abel(Abel* Who){
 
- /\* ... \*/
+ /* ... */
 
  printf("I am a good Kidn");
  }
 
  //////////////////////////////////////////////////////
- void Doit\_Cain(Cain\* Who){
+ void Doit_Cain(Cain* Who){
 
- /\* ... \*/
+ /* ... */
 
  printf("I am a killern");
  }
 
  ///////////////////////////////////////////////////////
- void operator() (void\* Who) {
- Adan \*pFather = (Adan\*) Who;
+ void operator() (void* Who) {
+ Adan *pFather = (Adan*) Who;
 
  //EntryPoint
  if (pFather->WhoamI() == CAIN )
- Doit\_Cain( (Cain\*)Who);
+ Doit_Cain( (Cain*)Who);
  else if (pFather->WhoamI() == ABEL )
- Doit\_Abel( (Abel\*)Who);
+ Doit_Abel( (Abel*)Who);
  }
 };
 
-/\*\*----[Adan.h]----\*/
+/**----[Adan.h]----*/
 enum Family{CAIN,ABEL};
 
 class Adan{
@@ -92,63 +94,64 @@ public:
  virtual Family WhoamI()=0;
 };
 
-/\*----[Abel.h]----\*/
+/*----[Abel.h]----*/
 #include "CallBack.h"
 #include "Adan.h"
 
 class Abel: public Adan{
- /\* ... \*/
- CallBack \*\_c;
+ /* ... */
+ CallBack *_c;
 public:
- Abel(CallBack \*c): \_c(c){}
+ Abel(CallBack *c): _c(c){}
 
  Family WhoamI(){ return ABEL;}
 
  void execute(){
- /\*...\*/
+ /*...*/
  printf("Abel::executen");
- (\*\_c)((void\*)this);
+ (*_c)((void*)this);
  }
 };
 
-/\*----[Cain.h]----\*/
+/*----[Cain.h]----*/
 #include "CallBack.h"
 
 class Cain: public Adan{
- /\* ... \*/
- CallBack \*\_c;
+ /* ... */
+ CallBack *_c;
 public:
- Cain(CallBack \*c): \_c(c){}
+ Cain(CallBack *c): _c(c){}
 
  Family WhoamI(){ return CAIN;}
 
  void execute(){
- /\*...\*/
+ /*...*/
  printf("Cain::executen");
- (\*\_c)((void\*)this);
+ (*_c)((void*)this);
  }
 };
 
-/\*----[Main.h]----\*/
+/*----[Main.h]----*/
 
 int main(void) {
 
- Objeto \*pObjeto = new Objeto();
+ Objeto *pObjeto = new Objeto();
 
  pObjeto->Execute();
 
  delete pObjeto;
 
- return EXIT\_SUCCESS;
+ return EXIT_SUCCESS;
 }
 
-/\*prints\*/
+/*prints*/
 Abel::execute
 I am a good Kid
 Cain::execute
 I am a killer
 
-/\*--------------------------------\*/
+/*--------------------------------*/
+```
 
 Original [published here](/blog_md/2009/0721_CMagicmembercallbacks.md).
 

@@ -66,58 +66,6 @@
 <p>Which means nothing else than "store in b the size of member y in struct X. It should be easy to see why BDB's example does compile, and why did I spend half an hour trying to understand the reason it compiled fine.</p>
 <p>By using some more casts and a clever arangement of parenthesis you can come up with a great job security device.</p>
 <hr />
-<h1>Reading Berkeley&#39;s FM<a name="readingberkeley39sfm"></a></h1>
-<p>Post by Nico Brailovsky @ 2010-03-26 -
-    <a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0326_ReadingBerkeley39sFM.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I got this from <a href="http://www.oracle.com/technology/documentation/berkeley-db/db/programmer_reference/BDB_Prog_Reference.pdf">Oracle Berkely DB's</a> <a href="/blog/youfoundadeadlink.html">FM</a>:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
-</code></pre>
-<p>Take a good look at that pice of code:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">  a_number = sizeof((T*)pdata-&gt;data)-&gt;last_name;
-</code></pre>
-<p>Again:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">  a_number = sizeof(Whatever)-&gt;field;
-</code></pre>
-<p>Wait a minute. typeof(sizeof(x)) == const unsigned int. Right? So, again:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">  a_number = 42-&gt;field;
-</code></pre>
-<p>There's no way that first line can compile. Go and check it (in the example, not the last line please). I'll wait. Done? Yeap, I was surprised to, it does indeed compile. Mi first reaction towards this discovery went something like this:</p>
-<p>What is going on there? It took me a while to figure out how evil Berkely 's manual can be. The answer next time.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Nicol&aacute;s Brailovsky » Blog Archive » Operator sizeof (AKA Reading Berkeley’s FM, take II)</a> commented @ 2010-03-29T11:57:18.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchiveoperatorsizeofakareadingberkeleysfmtakeiiblog_md20100329_operatorsizeofakareadingberkeleysfmtakeii.mdcommented20100329t115718.0000200"></a></h2>
-<p>[...] Last time I told you about an evil snipet I found on Oracle Berkeley DB’s manual: [...]</p>
-<p>Original <a href="/blog/2010/0326_ReadingBerkeley39sFM.html">published here</a>.</p>
-<hr />
-<h1>I hate Berkeley<a name="ihateberkeley"></a></h1>
-<p>Post by Nico Brailovsky @ 2010-03-25 -
-    <a href="/blog/2010/0325_IhateBerkeley.html">Permalink</a> -
-    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0325_IhateBerkeley.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>Polymorphism taken to 11:</p>
-<p>|  |  |
-| --- | --- |
-| <strong>SQL Term</strong> | <strong>Oracle Berkeley DB Equivalent</strong> |
-| Database | Environment |
-| Table | Database |
-| Tuple/row | Key/data pair |
-| Secondary index | Secondary database |</p>
-<p>WTF ORACLE, WTF.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="http://oracle.com/">Gregory Burd</a> commented @ 2010-03-25T15:40:48.000+01:00:<a name="inreplytothispostgregoryburdhttporacle.comcommented20100325t154048.0000100"></a></h2>
-<p>Hey Nicol&aacute;s,</p>
-<p>Sometimes we say the same thing about those names internally. :) WTF?! Well, first off the names were set in stone back in the early 1990s when Sleepycat was just formed, long long before we were acquired by Oracle. You have to look at how the product grew in complexity and scope over the years to fully understand the naming. We've talked a few times about fixing this, changing the API in drastic ways to make it more terminology-friendly. We didn't because we were trying not to break existing applications. So, here we are with somewhat odd naming and we admit that. :)</p>
-<p>How'd you get my cartoon picture?!</p>
-<p>cheers,</p>
-<p>-greg
-Product Manager, Oracle Berkeley DB</p>
-<p>Original <a href="/blog/2010/0325_IhateBerkeley.html">published here</a>.</p>
-<hr />
-<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-03-25T16:21:00.000+01:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100325t162100.0000100"></a></h2>
-<p>Hi Greg!</p>
-<p>As a maintainer of legacy applications I agree, changing the API now would be a nightmare, and it's understandable that those names may have made sense when they were chosen. It's a little bit weird but I guess we can live with that.</p>
-<p>I have been working a little bit with Berkeley DB for a new project and there are some more posts on the queue about things I found odd during my first tests with it, like having a DB and a Db datatype or the usage of sizeof operator in the manual. Hope you like those posts too (I may borrow your cartoon picture again, some people say it does look a lot like me)</p>
-<p>Original <a href="/blog/2010/0325_IhateBerkeley.html">published here</a>.</p>
-<hr />
 <h2>In reply to <a href="">this post</a>, <a href="http://oracle.com/">Gregory Burd</a> commented @ 2010-03-29T18:26:21.000+02:00:<a name="inreplytothispostgregoryburdhttporacle.comcommented20100329t182621.0000200"></a></h2>
 <p>Nico,</p>
 <p>Do you really hate "Berkeley" or just the ANSI C programming language? :)</p>
@@ -148,6 +96,59 @@ as you discovered, but I’ll agree that it is hard to parse at first.</p>
 <p>I hope that helps.</p>
 </blockquote>
 <p>I find Berkeley to be a good product for what it was designed, but it has to many programming bad practices which force you to work with its manual right by your side, until you can hide it under an abstraction layer, and that's what I hate about Berkely.</p>
+<p>Original <a href="/blog/2010/0325_IhateBerkeley.html">published here</a>.</p>
+<hr />
+<h1>Reading Berkeley&#39;s FM<a name="readingberkeley39sfm"></a></h1>
+<p>Post by Nico Brailovsky @ 2010-03-26 -
+    <a href="/blog/2010/0326_ReadingBerkeley39sFM.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0326_ReadingBerkeley39sFM.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I got this from <a href="http://www.oracle.com/technology/documentation/berkeley-db/db/programmer_reference/BDB_Prog_Reference.pdf">Oracle Berkely DB's</a> <a href="/blog/youfoundadeadlink.html">FM</a>:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">  skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
+</code></pre>
+<p>Take a good look at that pice of code:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">  a_number = sizeof((T*)pdata-&gt;data)-&gt;last_name;
+</code></pre>
+<p>Again:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">  a_number = sizeof(Whatever)-&gt;field;
+</code></pre>
+<p>Wait a minute. typeof(sizeof(x)) == const unsigned int. Right? So, again:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">  a_number = 42-&gt;field;
+</code></pre>
+<p>There's no way that first line can compile. Go and check it (in the example, not the last line please). I'll wait. Done? Yeap, I was surprised to, it does indeed compile. Mi first reaction towards this discovery went something like this:</p>
+<p>What is going on there? It took me a while to figure out how evil Berkely 's manual can be. The answer next time.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.html">Nicol&aacute;s Brailovsky » Blog Archive » Operator sizeof (AKA Reading Berkeley’s FM, take II)</a> commented @ 2010-03-29T11:57:18.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchiveoperatorsizeofakareadingberkeleysfmtakeiiblog_md20100329_operatorsizeofakareadingberkeleysfmtakeii.mdcommented20100329t115718.0000200"></a></h2>
+<p>[...] Last time I told you about an evil snipet I found on Oracle Berkeley DB’s manual: [...]</p>
+<p>Original <a href="/blog/2010/0326_ReadingBerkeley39sFM.html">published here</a>.</p>
+<hr />
+<h1>I hate Berkeley<a name="ihateberkeley"></a></h1>
+<p>Post by Nico Brailovsky @ 2010-03-25 -
+    <a href="/blog/2010/0325_IhateBerkeley.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0325_IhateBerkeley.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Polymorphism taken to 11:</p>
+<pre><code>|  |  |
+| --- | --- |
+| <strong>SQL Term</strong> | <strong>Oracle Berkeley DB Equivalent</strong> |
+| Database | Environment |
+| Table | Database |
+| Tuple/row | Key/data pair |
+| Secondary index | Secondary database |
+</code></pre>
+<p>WTF ORACLE, WTF.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="http://oracle.com/">Gregory Burd</a> commented @ 2010-03-25T15:40:48.000+01:00:<a name="inreplytothispostgregoryburdhttporacle.comcommented20100325t154048.0000100"></a></h2>
+<p>Hey Nicol&aacute;s,</p>
+<p>Sometimes we say the same thing about those names internally. :) WTF?! Well, first off the names were set in stone back in the early 1990s when Sleepycat was just formed, long long before we were acquired by Oracle. You have to look at how the product grew in complexity and scope over the years to fully understand the naming. We've talked a few times about fixing this, changing the API in drastic ways to make it more terminology-friendly. We didn't because we were trying not to break existing applications. So, here we are with somewhat odd naming and we admit that. :)</p>
+<p>How'd you get my cartoon picture?!</p>
+<p>cheers,</p>
+<p>-greg
+Product Manager, Oracle Berkeley DB</p>
+<p>Original <a href="/blog/2010/0325_IhateBerkeley.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-03-25T16:21:00.000+01:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100325t162100.0000100"></a></h2>
+<p>Hi Greg!</p>
+<p>As a maintainer of legacy applications I agree, changing the API now would be a nightmare, and it's understandable that those names may have made sense when they were chosen. It's a little bit weird but I guess we can live with that.</p>
+<p>I have been working a little bit with Berkeley DB for a new project and there are some more posts on the queue about things I found odd during my first tests with it, like having a DB and a Db datatype or the usage of sizeof operator in the manual. Hope you like those posts too (I may borrow your cartoon picture again, some people say it does look a lot like me)</p>
 <p>Original <a href="/blog/2010/0325_IhateBerkeley.html">published here</a>.</p>
 <hr />
 <h1>You know you&#39;re a geek...<a name="youknowyou39reageek..."></a></h1>
@@ -183,7 +184,7 @@ int main() {
 </div>
 
 <div id="sitefooter">
-Page generated 2024-02-18
+Page generated 2024-02-19
 </div>
 
 <script src="/search.js"></script>

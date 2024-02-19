@@ -213,50 +213,31 @@ map &lt;F6&gt; :make test
 Append(e, lst) &lt;- LST(lst.head, Append(e, lst.tail))
 </code></pre>
 <p>Looks complicated but it follows the same structure as the rest of the basic-ops:</p>
-<p>```c++
+<pre lang="c++"><code class="language-c++" lang="c++">
 template &lt;class Elm, class Lst&gt; struct Append {
     typedef typename Lst::head Head;
-    typedef typename Lst::tail Tail;</p>
-<p> typedef typename Append&lt;Elm, Tail&gt;::result Next;
+    typedef typename Lst::tail Tail;
+    typedef typename Append&lt;Elm, Tail&gt;::result Next;
     typedef typename LST&lt;Head, Next&gt;::result result;
 };
-
-<p>template &lt;class Elm&gt; struct Append&lt;Elm, NIL&gt; {
+template &lt;class Elm&gt; struct Append&lt;Elm, NIL&gt; {
     typedef LST&lt;Elm&gt; result;
 };
-
-```
-
-Easy. Now, what happens if we want to add a default value for Lst, so we can use Append to create lists? Easy too, but we need a façade this time; just rename Append to \_Append, then
-
-```c++
-// This is here just because I wanted a default param :D
+</code></pre>
+<p>Easy. Now, what happens if we want to add a default value for Lst, so we can use Append to create lists? Easy too, but we need a façade this time; just rename Append to _Append, then</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// This is here just because I wanted a default param :D
 template &lt;typename Elm, typename Lst=NIL&gt; struct Append {
     typedef typename _Append&lt;Elm, Lst&gt;::result result;
 };
-
-```
-
-I promised to add one more operation to our toolbox, returning the position of an element, but this post is getting quite long and I'm afraid it may be too much for the average attention span of a programmer... we'll leave it for next time.
-
-
-
-
----
-
-#  Just WTF
-
-Post by Nico Brailovsky @ 2010-06-08 -
-    [Permalink](/blog_md/2010/0608_JustWTF.md) -
-    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0608_JustWTF.md&body=I%20have%20a%20comment!)
-
-
-
-
-Who the hell can create a monster like this one?
-
-```sql
-CREATE PROC shutdown10
+</code></pre>
+<p>I promised to add one more operation to our toolbox, returning the position of an element, but this post is getting quite long and I'm afraid it may be too much for the average attention span of a programmer... we'll leave it for next time.</p>
+<hr />
+<h1>Just WTF<a name="justwtf"></a></h1>
+<p>Post by Nico Brailovsky @ 2010-06-08 -
+    <a href="/blog/2010/0608_JustWTF.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0608_JustWTF.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Who the hell can create a monster like this one?</p>
+<pre lang="sql"><code class="language-sql" lang="sql">CREATE PROC shutdown10
 AS
 EXEC xp_cmdshell 'net send /domain:SQL_USERS ''SQL Server
 shutting down in 10 minutes. No more connections
@@ -270,159 +251,92 @@ EXEC xp_cmdshell 'net send /domain:SQL_USERS ''SQL Server
 shutting down in 1 minute. Log off now.', no_output
 WAITFOR DELAY '00:01:00'
 EXEC xp_cmdshell 'net stop sqlserver', no_output
-```
-
-
-
-
----
-
-#  Template metaprogramming VIII: A Rough Whimper of Insanity
-
-Post by Nico Brailovsky @ 2010-06-03 -
-    [Permalink](/blog_md/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.md) -
-    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.md&body=I%20have%20a%20comment!)
-
-
-
-
-Remember last time? We learned how to get the lenght of a list. This time I'll introduce some more of these basic ops. Let's begin with "Nth": getting the Nth element of a list; which, remember, in this case is a type, not a concrete element. This means the Nth element will be something like int, char, const char\*, not 1, 2 or 3. We introduced a trick to get around this limitation before using a template , go there to refresh your memory if needed.
-
-So, what would the coloquial definition of "Nth" be? I'd put it like "The operation Nth for a list equals the head of the list for N = 0 and Nth (minus one) of the tail otherwise". A little bit more formally:
-
-```
-Nth(0, lst) <- lst.head
-Nth(n, lst) <- Nth(n-1, lst.tail)
-
-```
-
-Translating this to C++ should be a breeze to you now. Try it, I'll wait. Read? OK, this is MY answer:
-
-```c++
-template &lt;typename LST, int N&gt; struct Nth {
+</code></pre>
+<hr />
+<h1>Template metaprogramming VIII: A Rough Whimper of Insanity<a name="templatemetaprogrammingviiiaroughwhimperofinsanity"></a></h1>
+<p>Post by Nico Brailovsky @ 2010-06-03 -
+    <a href="/blog/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Remember last time? We learned how to get the lenght of a list. This time I'll introduce some more of these basic ops. Let's begin with "Nth": getting the Nth element of a list; which, remember, in this case is a type, not a concrete element. This means the Nth element will be something like int, char, const char*, not 1, 2 or 3. We introduced a trick to get around this limitation before using a template , go there to refresh your memory if needed.</p>
+<p>So, what would the coloquial definition of "Nth" be? I'd put it like "The operation Nth for a list equals the head of the list for N = 0 and Nth (minus one) of the tail otherwise". A little bit more formally:</p>
+<pre><code>Nth(0, lst) &lt;- lst.head
+Nth(n, lst) &lt;- Nth(n-1, lst.tail)
+</code></pre>
+<p>Translating this to C++ should be a breeze to you now. Try it, I'll wait. Read? OK, this is MY answer:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename LST, int N&gt; struct Nth {
     typedef typename LST::Tail Tail;
     typedef typename Nth&lt;Tail, N-1&gt;::result result;
 };
-
-<p>template &lt;typename LST&gt; struct Nth&lt;LST, 0&gt; {
+template &lt;typename LST&gt; struct Nth&lt;LST, 0&gt; {
     typedef typename LST::head result;
 };
-
-```
-
-Though the structure is very similar to the previous "basic operation", getting the length of a list, the concept is quite different. This time we're defining a return type recursively. Anyway, it was too easy indeed, let's try a more complex operation now.
-
-How can we check if an element exists on a list? Seems easy enough, an element is included in a list if the head equals the element itself or if the element is included in the tail. In the pseudo language I just invented:
-
-```
-Includes(lst.head, lst) <- true
-Includes(e, lst) <- Includes(e, lst.tail)
-
-```
-
-Looks easy, right? Well, there's a bug there, can you spot it? Yeah, we're missing the false condition. We should add a third specialization:
-
-```
-Includes(lst.head, lst) <- true
-Includes(e, NIL) <- false
-Includes(e, lst) <- Includes(e, lst.tail)
-
-```
-
-Again, let's translate the pseudocode to C++. Try it, I'll wait. Read? OK, this is MY answer:
-
-```c++
-template &lt;class Elm, class Lst&gt;
+</code></pre>
+<p>Though the structure is very similar to the previous "basic operation", getting the length of a list, the concept is quite different. This time we're defining a return type recursively. Anyway, it was too easy indeed, let's try a more complex operation now.</p>
+<p>How can we check if an element exists on a list? Seems easy enough, an element is included in a list if the head equals the element itself or if the element is included in the tail. In the pseudo language I just invented:</p>
+<pre><code>Includes(lst.head, lst) &lt;- true
+Includes(e, lst) &lt;- Includes(e, lst.tail)
+</code></pre>
+<p>Looks easy, right? Well, there's a bug there, can you spot it? Yeah, we're missing the false condition. We should add a third specialization:</p>
+<pre><code>Includes(lst.head, lst) &lt;- true
+Includes(e, NIL) &lt;- false
+Includes(e, lst) &lt;- Includes(e, lst.tail)
+</code></pre>
+<p>Again, let's translate the pseudocode to C++. Try it, I'll wait. Read? OK, this is MY answer:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Elm, class Lst&gt;
 struct Includes {
     typedef typename LST::head Head;
     typedef typename LST::tail Tail;
-
     static const bool found = (Elm == Head);
     static const bool found_tail = Includes&lt;Elm, Tail&gt;::result;
     static const bool result = found || found_tail;
 };
-
 template &lt;class Elm&gt; struct Includes &lt;Elm, NIL&gt; {
     static const bool result = false;
 };
-
-```
-
-Looks nice, doesn't it? Too bad it won't work, you can't compare two types. What would (int == char) mean in C++? We need a helper there, some kind of trick to compare two types. We can use partial template specialization again:
-
-```c++
-template &lt;class X, class Y&gt;
+</code></pre>
+<p>Looks nice, doesn't it? Too bad it won't work, you can't compare two types. What would (int == char) mean in C++? We need a helper there, some kind of trick to compare two types. We can use partial template specialization again:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class X, class Y&gt;
 struct Eq { static const bool result = false; }
-
 template &lt;class X&gt;
 struct Eq&lt;X, X&gt; { static const bool result = true; }
-
-```
-
-With this little struct now we can write our include operation this way:
-
-```c++
-template &lt;class Elm, class Lst&gt;
+</code></pre>
+<p>With this little struct now we can write our include operation this way:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Elm, class Lst&gt;
 struct Includes {
     static const bool result = Eq&lt;Elm, typename LST::head&gt;::result
                    || Includes&lt;Elm, typename LST::tail&gt;::result;
 };
-
 template &lt;class Elm&gt; struct Includes&lt;Elm, NIL&gt; {
     static const bool result = false;
 };
-
-```
-
-Very esoteric looking, the right mix of Haskel, C++ and booze to ensure job security for life. Next time we'll find a way to search for the position of an element, a somewhat more complicated task.
-
-
-
-
----
-
-#  Oh shit, the stack
-
-Post by Nico Brailovsky @ 2010-06-01 -
-    [Permalink](/blog_md/2010/0601_Ohshitthestack.md) -
-    [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0601_Ohshitthestack.md&body=I%20have%20a%20comment!)
-
-
-
-
-Post from the wayback machine. I wrote this a long time ago but it got way down the posts queue, don't know why
-
-I liked my vacations very much, thank you. Some people enjoyed vacations from me too. At work they even decided to keep this gem for my return. Upon my arrival a nice coredump was waiting at my desk, so to speak. Check it out, isn't it beautiful?
-
-```c++
-0 0xff05d070 in inflate_fast () from /usr/lib/libz.so
+</code></pre>
+<p>Very esoteric looking, the right mix of Haskel, C++ and booze to ensure job security for life. Next time we'll find a way to search for the position of an element, a somewhat more complicated task.</p>
+<hr />
+<h1>Oh shit, the stack<a name="ohshitthestack"></a></h1>
+<p>Post by Nico Brailovsky @ 2010-06-01 -
+    <a href="/blog/2010/0601_Ohshitthestack.html">Permalink</a> -
+    <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog_md/2010/0601_Ohshitthestack.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post from the wayback machine. I wrote this a long time ago but it got way down the posts queue, don't know why</p>
+<p>I liked my vacations very much, thank you. Some people enjoyed vacations from me too. At work they even decided to keep this gem for my return. Upon my arrival a nice coredump was waiting at my desk, so to speak. Check it out, isn't it beautiful?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">0 0xff05d070 in inflate_fast () from /usr/lib/libz.so
 1 0xff05a13c in inflate () from /usr/lib/libz.so
 2 0x00146224 in ZDecompress::decompress (this=0xfbc7b300, sauce=@0xfbe7b740, dest=@0x27c910) at Compressor.h:134
 3 0x00145e80 in HandleClient::get_client_data (this=0x27c810, output_stream=0x27c910) at IPC/DataReceiver.cpp:54
-```
-
-Yeah, that's getting killed inside zlib. Nice way to start the year, a bug in zlib. What led me to that conclusion? Easy, the same compressed file worked in Ubuntu. Must be a bug in zlib then!
-
-The next step was getting zlib's code and adding enough printf's to know the problem was in the middle of the file, not at the beginning nor the end; indeed, most of the file could be correctly decoded, but then it just died. This looked more and more like a bug in zlib.
-
-I began to scramble things around, trying to isolate the problem. Things just got weirder, the same code worked fine if instead of being inside a thread I was on the main thread. If you have psychic powers you now have enough information to know what the problem was. Although I should have known too (this wasn't even the first time I saw a problem like this one!) I was mindset on finding a bug in zlib, which now, it seems, only appears while interacting with ACE (in my defence, I did see these kind of bugs too).
-
-Fiddling around with the code some more, even stranger backtraces began to appear. First this one:
-
-```c++
-Program received signal SIGSEGV, Segmentation fault.
+</code></pre>
+<p>Yeah, that's getting killed inside zlib. Nice way to start the year, a bug in zlib. What led me to that conclusion? Easy, the same compressed file worked in Ubuntu. Must be a bug in zlib then!</p>
+<p>The next step was getting zlib's code and adding enough printf's to know the problem was in the middle of the file, not at the beginning nor the end; indeed, most of the file could be correctly decoded, but then it just died. This looked more and more like a bug in zlib.</p>
+<p>I began to scramble things around, trying to isolate the problem. Things just got weirder, the same code worked fine if instead of being inside a thread I was on the main thread. If you have psychic powers you now have enough information to know what the problem was. Although I should have known too (this wasn't even the first time I saw a problem like this one!) I was mindset on finding a bug in zlib, which now, it seems, only appears while interacting with ACE (in my defence, I did see these kind of bugs too).</p>
+<p>Fiddling around with the code some more, even stranger backtraces began to appear. First this one:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">Program received signal SIGSEGV, Segmentation fault.
 [Switching to LWP 10]
 0xfd6b88fc in _pollsys () from /usr/lib/libc.so.1
 (gdb) bt
 #0  0xfd6b88fc in _pollsys () from /usr/lib/libc.so.1
 #1  0x696e7661 in ?? ()
 #2  0x696e7661 in ?? ()
-```
-
-And then this other one, which led me into the right direction:
-
-```c++
-Program received signal SIGSEGV, Segmentation fault.
+</code></pre>
+<p>And then this other one, which led me into the right direction:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">Program received signal SIGSEGV, Segmentation fault.
 [Switching to LWP 9]
 0x000b6784 in std::operator| (__a=Cannot access memory at address 0xfbb7b094
 )
@@ -434,36 +348,23 @@ Program received signal SIGSEGV, Segmentation fault.
     at /usr/local/lib/gcc/sparc-sun-solaris2.10/3.4.6/../../../../include/c++/3.4.6/bits/ios_base.h:124
 #1  0x00152d5c in HandleClient::get_client_data (this=Cannot access memory at address 0xfbb7b088
 ) at IPC/DataReceiver.cpp:46
-```
-
-That last stack trace got me to think how could it be possible for an otherwise working program to coredump while creating an stdlib object. I mean, stdlib is quite well tested, isn't it? Then it struck me: the keyword isn't stdlib but **creating**. It was allocating memory from the stack, upon entering the function.
-
-Some more research later I found out that Solaris default thread size is about 1 mb, while in Ubuntu this thread is of about 8 mb. And I also noticed the buffer I was allocating for zlib was taking up space in... the stack.
-
-If there's something to learn from this story is that you should always know what goes in the stack: only small objects should live there, and you should always know the max stack depth a function could reach. Otherwise it may come back and bite you in the ass when you're back from your vacations.
-
-
----
-## In reply to [this post](), [Jason]() commented @ 2010-06-22T17:45:48.000+02:00:
-
-Thanks for this post. As soon as I saw the title in Google I clued in to what I'd done :)
-
-Original [published here](/blog_md/2010/0601_Ohshitthestack.md).
-
----
-## In reply to [this post](), [nico](/blog_md/youfoundadeadlink.md) commented @ 2010-06-22T17:50:22.000+02:00:
-
-I'm glad to know I'm not the only one who finds (and makes) these kind of bugs lol
-
-Original [published here](/blog_md/2010/0601_Ohshitthestack.md).
-
-
-
----
+</code></pre>
+<p>That last stack trace got me to think how could it be possible for an otherwise working program to coredump while creating an stdlib object. I mean, stdlib is quite well tested, isn't it? Then it struck me: the keyword isn't stdlib but <strong>creating</strong>. It was allocating memory from the stack, upon entering the function.</p>
+<p>Some more research later I found out that Solaris default thread size is about 1 mb, while in Ubuntu this thread is of about 8 mb. And I also noticed the buffer I was allocating for zlib was taking up space in... the stack.</p>
+<p>If there's something to learn from this story is that you should always know what goes in the stack: only small objects should live there, and you should always know the max stack depth a function could reach. Otherwise it may come back and bite you in the ass when you're back from your vacations.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="">Jason</a> commented @ 2010-06-22T17:45:48.000+02:00:<a name="inreplytothispostjasoncommented20100622t174548.0000200"></a></h2>
+<p>Thanks for this post. As soon as I saw the title in Google I clued in to what I'd done :)</p>
+<p>Original <a href="/blog/2010/0601_Ohshitthestack.html">published here</a>.</p>
+<hr />
+<h2>In reply to <a href="">this post</a>, <a href="/blog/youfoundadeadlink.html">nico</a> commented @ 2010-06-22T17:50:22.000+02:00:<a name="inreplytothispostnicoblog_mdyoufoundadeadlink.mdcommented20100622t175022.0000200"></a></h2>
+<p>I'm glad to know I'm not the only one who finds (and makes) these kind of bugs lol</p>
+<p>Original <a href="/blog/2010/0601_Ohshitthestack.html">published here</a>.</p>
+<hr />
 </div>
 
 <div id="sitefooter">
-Page generated 2024-02-18
+Page generated 2024-02-19
 </div>
 
 <script src="/search.js"></script>
