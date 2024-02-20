@@ -10,7 +10,7 @@ clean:
 	rm -f codehighlight.js style.css
 
 gen:
-	#python3 ./genscripts/index_gen.py md_blog md_gen
+	python3 ./genscripts/index_gen.py md_blog md_gen
 	python3 ./genscripts/html_gen.py blog md_blog md_gen
 
 style.css: genscripts/custom.css

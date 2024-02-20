@@ -234,7 +234,8 @@ def build_main_index(tmp_gen_md, pages):
         if this_page_num > 0:
             idx_navigation.append(f"[Prev]({path_for_page(this_page_num-1)})")
         if this_page_num == len(pages) - 1:
-            idx_navigation.append("[History](history.md)")
+            hist_path = os.path.join(tmp_gen_md, 'history.md')
+            idx_navigation.append(f"[History]({hist_path})")
         mds.append(' | '.join(idx_navigation))
 
         with open(idx_path, 'w') as fp:

@@ -4,5 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2010/05/i-pirate.html
 
-[![Original: ./blog_img/img_lost.png](/blog_img/img_lost.png)](md_blog/youfoundadeadlink.md)
+![Original: ./blog_img/img_lost.png](/blog_img/img_lost.png)
+
+-- [src](md_blog/youfoundadeadlink.md)
 

@@ -8,7 +8,9 @@ Subo una presentación que usamos para dar una charla de introducción a GNU/Lin
 
 [Link a la presentación (PDF)](md_blog/youfoundadeadlink.md)
 
-[![Original: ./blog_img/img_lost.png](/blog_img/img_lost.png)](md_blog/youfoundadeadlink.md)
+![Original: ./blog_img/img_lost.png](/blog_img/img_lost.png)
+
+-- [src](md_blog/youfoundadeadlink.md)
 
 También dejo link en [la sección de artículos](md_blog/youfoundadeadlink.md).
 

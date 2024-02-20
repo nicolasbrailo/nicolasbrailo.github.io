@@ -22,9 +22,10 @@ def get_md_convert_rules(html_gen_dest, md_srcs):
             md_files[md_path] = html_path
     return md_files
 
-
 def normalize_rel_links(md_src, md):
-    md_links = re.findall(']\\(.*\.md\\)', md)
+    # Limitations: nested links won't work. Eg md image with link: [![Label](img)](link)
+    # .*? means match non-greedy, otherwise this will be considered one link: [l1](url1) [l2](url2)
+    md_links = re.findall(']\\(.*?\.md\\)', md)
     md_links = [x[2:-1] for x in set(md_links)]
     for md_link in md_links:
         if md_link.startswith('http://') or md_link.startswith('https://'):
