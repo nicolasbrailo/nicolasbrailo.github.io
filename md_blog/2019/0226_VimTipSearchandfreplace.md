@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2019/02/vimtip-search-and-freplace_26.html
 
-Pre-tip: When using search and replace in Vim, [you don't need to use slashes](/md_blog/2015/0507_VimtipStopescapingslashes.md)
+Pre-tip: When using search and replace in Vim, [you don't need to use slashes](md_blog/2015/0507_VimtipStopescapingslashes.md)
 This works just fine:
 
 ```c++

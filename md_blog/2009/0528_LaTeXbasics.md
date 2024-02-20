@@ -7,7 +7,7 @@
 LaTeX basics
 ------------
 
-Remember [last post](/md_blog/2009/0521_AcaseforLaTeX.md)? I mentioned it's possible to create several type of documents. Even if the structure will, most likely, be different for different applications, there's a common ground which can be used for most LaTeX documents. I'd go as far as saying ALL of them, but in LaTeX it's possible to override everything and anything. Any reasonable package won't do it, so let's see some LaTeX basics you can use for any project.
+Remember [last post](md_blog/2009/0521_AcaseforLaTeX.md)? I mentioned it's possible to create several type of documents. Even if the structure will, most likely, be different for different applications, there's a common ground which can be used for most LaTeX documents. I'd go as far as saying ALL of them, but in LaTeX it's possible to override everything and anything. Any reasonable package won't do it, so let's see some LaTeX basics you can use for any project.
 
 ### LaTeX documents
 

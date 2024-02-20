@@ -14,8 +14,8 @@ Fuck. I always liked you Opera, but it seems it may be time to give chrome a cha
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Easier inbox count with Gmail Favicon script](/md_blog/2010/1012_EasierinboxcountwithGmailFaviconscript.md) commented @ 2010-10-12T09:34:09.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Easier inbox count with Gmail Favicon script](md_blog/2010/1012_EasierinboxcountwithGmailFaviconscript.md) commented @ 2010-10-12T09:34:09.000+02:00:
 
 [...] current email count. It works on Opera but it makes it crash. Most likely the script is not the one to blame [...]
 
-Original [published here](/md_blog/2010/0723_FuuuuuuuuuuuuuuOpera.md).
+Original [published here](md_blog/2010/0723_FuuuuuuuuuuuuuuOpera.md).

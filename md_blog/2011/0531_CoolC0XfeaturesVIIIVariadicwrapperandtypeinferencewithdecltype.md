@@ -25,7 +25,7 @@ int main() {
 }
 ```
 
-But, as we saw last time, this approach has the problem of requiring the return type of do\_something to be known before hand. What can we do to remove this dependency? In C++, not much. You can't really declare a type based on the return type of another function. You do have the option of using lots of metaprogramming wizardy, but this is both error prone and ugly (see [Stroustroup's C++0x FAQ](/md_blog/youfoundadeadlink.md)).
+But, as we saw last time, this approach has the problem of requiring the return type of do\_something to be known before hand. What can we do to remove this dependency? In C++, not much. You can't really declare a type based on the return type of another function. You do have the option of using lots of metaprogramming wizardy, but this is both error prone and ugly (see [Stroustroup's C++0x FAQ](md_blog/youfoundadeadlink.md)).
 
 C++0x lets you do some magic with type inference using decltype; decltype(expr) will yield the type of that expression. It works quite similarly as sizeof does; decltype is resolved at compile time and the expression with which it's being called is not evaluated (more on this later).
 

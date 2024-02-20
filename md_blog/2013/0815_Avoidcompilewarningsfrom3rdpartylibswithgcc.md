@@ -16,4 +16,4 @@ There's a third option: When compiling don't include those libs as "-I /path/to/
 
 "So, your code is ferpect" - lol
 
-Original [published here](/md_blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.md).
+Original [published here](md_blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.md).

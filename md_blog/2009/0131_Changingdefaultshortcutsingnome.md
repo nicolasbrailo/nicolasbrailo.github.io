@@ -6,7 +6,7 @@
 
 Another of those thing I usually forget: changing default shortcut actions in gnome. In this case, I'm using
 [MOC](http://moc.daper.net/) as my music player (see
-[apt-get install new computer II](/md_blog/2008/1228_aptgetinstallnewcomputerII.md) and while it's great it won't integrate nicely with gnome. Fortunately (as most GNU/Linux applications do) it can be commanded via CLI so it isn't hard to change this.
+[apt-get install new computer II](md_blog/2008/1228_aptgetinstallnewcomputerII.md) and while it's great it won't integrate nicely with gnome. Fortunately (as most GNU/Linux applications do) it can be commanded via CLI so it isn't hard to change this.
 
 Now, gnome keyboard shortcuts already have defined actions, so how can we change them to invoke "a custom command? Easy enough:
 

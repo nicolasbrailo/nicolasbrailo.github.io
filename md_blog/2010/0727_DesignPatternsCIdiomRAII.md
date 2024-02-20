@@ -86,7 +86,7 @@ A lot nicer, isn't it? But, what happened to all the try/catch if's and closes t
 
 ### Where's the magic?
 
-The magic of RAII lies in how C++ handles exceptions. When we have a built object ([can an object be in an unbuilt state?](/md_blog/2010/0225_CCompositeobjectsandthrowingconstructors.md)) it means it's constructor has correctly ran. It also means it's destructor will run when it goes out of scope, doesn't mater HOW it goes out of scope.
+The magic of RAII lies in how C++ handles exceptions. When we have a built object ([can an object be in an unbuilt state?](md_blog/2010/0225_CCompositeobjectsandthrowingconstructors.md)) it means it's constructor has correctly ran. It also means it's destructor will run when it goes out of scope, doesn't mater HOW it goes out of scope.
 
 See how brilant that is? Doesn't matter if a function we're calling throws, or if we need to return before reaching the end of the function: the destructor will be called and thus our Expensive\_Resource will be free!
 
@@ -98,7 +98,7 @@ This is an easy one: think how would you implement this in Java: right, you can'
 
 You are probably thinking this is the best discovery since ice cream was invented. Well, not so fast, RAII has it's detractors too.
 
-The first problem in RAII, it doesn't have a graceful way of handling resource acquisition failure. If Expensive\_Resource is a database, and it's connection fails, we have [a throwing constructor](/md_blog/2010/0225_CCompositeobjectsandthrowingconstructors.md).
+The first problem in RAII, it doesn't have a graceful way of handling resource acquisition failure. If Expensive\_Resource is a database, and it's connection fails, we have [a throwing constructor](md_blog/2010/0225_CCompositeobjectsandthrowingconstructors.md).
 
 Even if throwing constructors are acceptable, throwing destructors may even be a worst idea: throwing while an exception is already active is a cause for concern (tip: it'll crash your application, doesn't matter how many try/catch blocks you use, due to stack unwinding issues).
 

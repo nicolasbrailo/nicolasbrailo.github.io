@@ -96,5 +96,5 @@ end{document}
 
 ```
 
-You can download the compiled document from [this link.](/md_blog/youfoundadeadlink.md) May be it doesn't look too useful (I'd use [LyX](http://www.lyx.org) instead) but soon we'll start doing some cool stuff LyX can't handle. Keep tuned for the next LaTeX article.
+You can download the compiled document from [this link.](md_blog/youfoundadeadlink.md) May be it doesn't look too useful (I'd use [LyX](http://www.lyx.org) instead) but soon we'll start doing some cool stuff LyX can't handle. Keep tuned for the next LaTeX article.
 

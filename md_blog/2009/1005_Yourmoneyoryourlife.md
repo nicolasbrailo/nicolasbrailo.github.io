@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2009/10/your-money-or-your-life.html
 
-[![assalto_en](/blog_img/img_lost.png)](/md_blog/youfoundadeadlink.md)
+[![assalto_en](/blog_img/img_lost.png)](md_blog/youfoundadeadlink.md)
 
 The sad truth
 
@@ -14,4 +14,4 @@ The sad truth
 
 no en este país
 
-Original [published here](/md_blog/2009/1005_Yourmoneyoryourlife.md).
+Original [published here](md_blog/2009/1005_Yourmoneyoryourlife.md).

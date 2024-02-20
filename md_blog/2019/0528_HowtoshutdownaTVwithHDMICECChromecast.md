@@ -8,7 +8,7 @@ That's a long title just to say "how to turn off your TV". Only I want to show h
 
 Chromecast can turn your TV on and off, as long as it supports something called HDMI CEC. Of course the Chromecast itself needs to be powered, i.e. you can't plug it to a USB port in your TV.
 
-The "on" part is easy: you just start casting something ([your pictures, for example](/md_blog/2019/0405_ChromecasticSlideshow.md)) and Chromecast automagically turns your TV on. The off part is a bit harder.
+The "on" part is easy: you just start casting something ([your pictures, for example](md_blog/2019/0405_ChromecasticSlideshow.md)) and Chromecast automagically turns your TV on. The off part is a bit harder.
 
 Turning off is, obviously, an implemented feature, as the Google assistant can do it. After some Wireshark sniffing, I couldn't find any URL you can call in a Chromecast to turn off the TV. Some [people invested more time on this than me](https://github.com/balloob/pychromecast/issues/196), so I assume there's just no simple way to directly use a Chromecast for this. Luckily you can use the Google assistant.
 

@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/09/cool-c0x-features-xi-decltype-and.html
 
-After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the [last posts](/md_blog/youfoundadeadlink.md) of this series.
+After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the [last posts](md_blog/youfoundadeadlink.md) of this series.
 
 In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it's present for template type deduction too, but decltype adds a new level of complexity to it.
 

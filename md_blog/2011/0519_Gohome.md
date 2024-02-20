@@ -15,11 +15,11 @@ Another useful cd tip, use "cd -" as an alias for "cd $OLDPWD" (oldpwd is the pr
 
 [...] Go home [...]
 
-Original [published here](/md_blog/2011/0519_Gohome.md).
+Original [published here](md_blog/2011/0519_Gohome.md).
 
 ---
 ## In reply to [this post](), [fredso]() commented @ 2011-05-22T16:32:29.000+02:00:
 
 rrrgh, I probably spent up to an extra hour the last 10 years by typing cd ~ !! :-D
 
-Original [published here](/md_blog/2011/0519_Gohome.md).
+Original [published here](md_blog/2011/0519_Gohome.md).

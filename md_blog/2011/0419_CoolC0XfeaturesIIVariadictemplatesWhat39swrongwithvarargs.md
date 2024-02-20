@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/04/cool-c0x-features-ii-variadic-templates.html
 
-[Last time](/md_blog/2011/0418_CoolC0XfeaturesIIntro.md) we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?
+[Last time](md_blog/2011/0418_CoolC0XfeaturesIIntro.md) we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?
 
 Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:
 
@@ -98,4 +98,4 @@ If however you pass a short and then do va\_arg(vl, short), you could be trigger
 
 More reasons not to use variadic functions...
 
-Original [published here](/md_blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md).
+Original [published here](md_blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md).

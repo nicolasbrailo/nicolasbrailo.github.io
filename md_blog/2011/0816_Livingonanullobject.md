@@ -42,5 +42,5 @@ int main() {
 }
 ```
 
-Now, in this new "translated" code, what do you think? Will it crash? It won't, since no one is going to dereference "this". Crazy, huh? This crazy idiom also allows even crazier things, like [C++ objects committing sepuku](/md_blog/2011/0404_NewsflashCobjectcommitssepuku.md)
+Now, in this new "translated" code, what do you think? Will it crash? It won't, since no one is going to dereference "this". Crazy, huh? This crazy idiom also allows even crazier things, like [C++ objects committing sepuku](md_blog/2011/0404_NewsflashCobjectcommitssepuku.md)
 

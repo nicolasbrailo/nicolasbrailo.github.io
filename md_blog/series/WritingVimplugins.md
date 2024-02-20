@@ -9,7 +9,7 @@ Vim utilities: Findgrep & Fastgrep
 
 I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "Impl switcher", and "Better Tab New" before that. Today it's Findgrep & Fastgrep's turn.
 
-I [wrote about Fastgrep a long time ago](/md_blog/2012/1030_Fastgrepacacheforgrep.md). The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by creating a huge blob file with all the files in a project concatenated.
+I [wrote about Fastgrep a long time ago](md_blog/2012/1030_Fastgrepacacheforgrep.md). The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by creating a huge blob file with all the files in a project concatenated.
 
 Fastgrep works great. But it requires a context switch, going from your IDE to your console just to grep. Findgrep fills the gap between the IDE and the command line: this utility provides a few key bindings to let you quickly run some common commands, like searching for a selected string or finding a file in the project directory.
 
@@ -20,7 +20,7 @@ You can get [Fastgrep here](https://github.com/nicolasbrailo/Nico.rc/blob/master
 Vim utilities: Impl switcher
 ----------------------------
 
-I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "[BTN: Better Tab New](/blog_md/2016/0701_VimutilitiesBetterTabNew.md)". Today it's the turn for "Impl switcher".
+I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "[BTN: Better Tab New](md_blog/2016/0701_VimutilitiesBetterTabNew.md)". Today it's the turn for "Impl switcher".
 
 With its very imaginative name, "Impl switcher" has a very obvious purpose: it will just switch from a header file to an implementation file. So, between .h and .cpp. Surely there are lots of Vim plugins to do just that, why write another one?
 
@@ -134,7 +134,7 @@ map  &lt;leader&gt;F :call FG_RequestInputAction("Find file: ", "FG_DoFindFile")
 
 This is an actual plugin I use in my Vim setup. You can grab the [latest version from my Github repo.](https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim)
 
-Extra tip: add these too if you want to have a [GUI menu](/blog_md/2015/0402_VimTipIwantmoremenus.md) for your new commands as well.
+Extra tip: add these too if you want to have a [GUI menu](md_blog/2015/0402_VimTipIwantmoremenus.md) for your new commands as well.
 
 ```ruby
 menu Project.Find\ File :call FG_RequestInputAction("FG_DoFindFile")
@@ -218,7 +218,7 @@ Just copy paste that in your vimrc, now you can grep your project in three diffe
 Simple vim plugin III: a polymorphic project greper
 ---------------------------------------------------
 
-We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have [different key binding for different modes](/blog_md/2015/0602_Vimtippolymorphickeybindings.md) we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:
+We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have [different key binding for different modes](md_blog/2015/0602_Vimtippolymorphickeybindings.md) we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:
 
 ```ruby
 function! FG_DoSearch(needle)

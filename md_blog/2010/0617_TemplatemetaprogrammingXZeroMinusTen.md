@@ -90,8 +90,8 @@ We've been through quite a lot, and our toolboox should be quite big already. Ne
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Quote of the week](/md_blog/2010/0916_Quoteoftheweek.md) commented @ 2010-09-16T09:02:28.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Quote of the week](md_blog/2010/0916_Quoteoftheweek.md) commented @ 2010-09-16T09:02:28.000+02:00:
 
 [...] “Template metaprogramming“, chapter 10 by [...]
 
-Original [published here](/md_blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.md).
+Original [published here](md_blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.md).

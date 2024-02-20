@@ -14,5 +14,5 @@ foobar() {
 trap "foobar" EXIT
 ```
 
-It doesn't mater how you end this script, "foobar" will always be executed. Want to read more about bash traps? Check [here.](/md_blog/youfoundadeadlink.md)
+It doesn't mater how you end this script, "foobar" will always be executed. Want to read more about bash traps? Check [here.](md_blog/youfoundadeadlink.md)
 

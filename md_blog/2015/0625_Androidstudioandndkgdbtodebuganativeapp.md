@@ -19,7 +19,7 @@ To debug a native Android application, a binary called gdbserver and its associa
 9. Using adb shell, move the files you copied to /data/app-lib/com.yourapp/ - you may need to root your device for this.
 10. Profit! ndk-gdb now works.
 
-Edit: remember you may need to [chmod +777 your gdbserver](/md_blog/2015/0616_ndkgdblifetipuseverbose.md).
+Edit: remember you may need to [chmod +777 your gdbserver](md_blog/2015/0616_ndkgdblifetipuseverbose.md).
 
 
 # Comments
@@ -30,11 +30,11 @@ Edit: remember you may need to [chmod +777 your gdbserver](/md_blog/2015/0616_nd
 you just need to add "jniDebuggable true" to your debug buildType.
 This option is there for quite a long time.
 
-Original [published here](/md_blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.md).
+Original [published here](md_blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.md).
 
 ---
 ## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2015-10-09T12:33:09.000+02:00:
 
 Thanks for the info! I recall trying that option and it still didn't manage to include the gdbserver binary. Hopefully it does now.
 
-Original [published here](/md_blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.md).
+Original [published here](md_blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.md).

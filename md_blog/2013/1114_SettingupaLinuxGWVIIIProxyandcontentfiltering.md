@@ -20,7 +20,7 @@ Changing squid to run on transparent mode is not enough, though. You will also n
 iptables -t nat -A PREROUTING -s 192.168.10.0/24 -p tcp --dport 80 -j DNAT --to :1234
 ```
 
-If this doesn't work for you, or you want a more detailed explanation, you can check [my post about this iptables rule](/md_blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.md).
+If this doesn't work for you, or you want a more detailed explanation, you can check [my post about this iptables rule](md_blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.md).
 
 Everything ready, you should be able to unconfigure the proxy from your browser and start using squid right away, no configuration needed. tail -f /var/log/squid/access.log for hours of (thought-policing) fun.
 
@@ -33,7 +33,7 @@ acl blocksites url_regex "/home/router/blocked_sites.acl"
 http_access deny blocksites
 ```
 
-This will include the blocked\_sites.acl file and deny access to every URL on it. There are many [blacklist](/md_blog/youfoundadeadlink.md) services out there, from which you can download a nice filter to suit your needs.
+This will include the blocked\_sites.acl file and deny access to every URL on it. There are many [blacklist](md_blog/youfoundadeadlink.md) services out there, from which you can download a nice filter to suit your needs.
 
 Of course, you probably don't want to restart squid each time a new site is added to your blocklist. For this you can use "squid -k reconfigure" to make squid reload its configuration.
 

@@ -8,7 +8,7 @@ I've been using [Ubuntu 8.10](http://ubuntu.com) for couple of months and soon b
 
 Some highlights after the first couple of days:
 
-* The install was flawless and quick. In fact I didn't even see it install, just left it running and went to another PC to install 8.04 (I was at [FLISOL](/md_blog/2009/0416_FLISOL.md)) and came back to a fully functioning system.
+* The install was flawless and quick. In fact I didn't even see it install, just left it running and went to another PC to install 8.04 (I was at [FLISOL](md_blog/2009/0416_FLISOL.md)) and came back to a fully functioning system.
 
 * Configuring my dual monitor setup at the office required some work but not more than 8.04 and 8.10.
 

@@ -17,7 +17,7 @@ int main() {
 }
 ```
 
-And you want to wrap do\_something with something else (Remember [\_\_PRETTY\_FUNCTION\_\_](/md_blog/2010/0622_Cprettyfunctions.md)?). This is a solution, the worst one though (or, to be accurate, the most boring one):
+And you want to wrap do\_something with something else (Remember [\_\_PRETTY\_FUNCTION\_\_](md_blog/2010/0622_Cprettyfunctions.md)?). This is a solution, the worst one though (or, to be accurate, the most boring one):
 
 ```c++
 #include <iostream>

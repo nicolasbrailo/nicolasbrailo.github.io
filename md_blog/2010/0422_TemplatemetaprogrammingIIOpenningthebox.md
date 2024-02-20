@@ -67,25 +67,25 @@ template struct Factorial {
 Otherwise the template instantiation leads to an endless recursion.
 Anyway, thanks for your awesome blog posts!
 
-Original [published here](/md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
+Original [published here](md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
 
 ---
 ## In reply to [this post](), [Felix Berlakovich]() commented @ 2020-10-29T10:19:22.000+01:00:
 
 Sry, I meant N \* Factorial::result;
 
-Original [published here](/md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
+Original [published here](md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
 
 ---
 ## In reply to [this post](), [Felix]() commented @ 2020-10-29T10:22:14.000+01:00:
 
 Apparently the N-1 template argument gets stripped off in the comments and probably also in your source code listing. That is why I thought there was a mistake in the listing and also in my comment.
 
-Original [published here](/md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
+Original [published here](md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
 
 ---
 ## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2020-10-29T17:55:51.000+01:00:
 
 Lol! Yeah I gave up fixing those. It breaks every year or so. If you are reading this article in 2020, it's probably good if you can't compile the examples. You should be using constexprs nowadays anyway :)
 
-Original [published here](/md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
+Original [published here](md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).

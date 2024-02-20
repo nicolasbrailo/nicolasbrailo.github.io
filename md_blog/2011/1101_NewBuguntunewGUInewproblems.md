@@ -28,4 +28,4 @@ Pero bueno... obvio que al Unity lo mandé al demonio y puse XFCE, aunque bien p
 
 Ahora anda todo (algo) más rápido.
 
-Original [published here](/md_blog/2011/1101_NewBuguntunewGUInewproblems.md).
+Original [published here](md_blog/2011/1101_NewBuguntunewGUInewproblems.md).

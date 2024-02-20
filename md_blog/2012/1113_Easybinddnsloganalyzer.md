@@ -103,7 +103,7 @@ end
 It seems they are some issues with HTML codes in this code, can you please repost a cleaned version ?
 I would be interested to test it...
 
-Original [published here](/md_blog/2012/1113_Easybinddnsloganalyzer.md).
+Original [published here](md_blog/2012/1113_Easybinddnsloganalyzer.md).
 
 ---
 ## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-02-12T11:12:29.000+01:00:
@@ -111,7 +111,7 @@ Original [published here](/md_blog/2012/1113_Easybinddnsloganalyzer.md).
 Every single time I migrate blogs... anyway, it should work now. Haven't tested it, though. Let me know if you found it useful.
 Cheers
 
-Original [published here](/md_blog/2012/1113_Easybinddnsloganalyzer.md).
+Original [published here](md_blog/2012/1113_Easybinddnsloganalyzer.md).
 
 ---
 ## In reply to [this post](), [GLR]() commented @ 2013-02-12T19:13:13.000+01:00:
@@ -123,32 +123,32 @@ Thx. But I'm still encountering a problem :
  ^
 ./bind-dns-log-analyzer:15: syntax error, unexpected kEND, expecting $end
 
-Original [published here](/md_blog/2012/1113_Easybinddnsloganalyzer.md).
+Original [published here](md_blog/2012/1113_Easybinddnsloganalyzer.md).
 
 ---
 ## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-02-13T10:43:08.000+01:00:
 
 You're right, looks like the method name on line 14 is gone. I assume it's something like "def <(o) @n instead. Unfortunately I don't have a dns bind log to test it... let me know if you find out which one it is.
 
-Original [published here](/md_blog/2012/1113_Easybinddnsloganalyzer.md).
+Original [published here](md_blog/2012/1113_Easybinddnsloganalyzer.md).
 
 ---
 ## In reply to [this post](), [mcdir](http://statdns.nedze.com) commented @ 2013-11-16T10:24:08.000+01:00:
 
 See also http://statdns.nedze.com, https://github.com/mcdir/statdnslog. But they use myskk for data storage (
 
-Original [published here](/md_blog/2012/1113_Easybinddnsloganalyzer.md).
+Original [published here](md_blog/2012/1113_Easybinddnsloganalyzer.md).
 
 ---
 ## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-11-18T10:53:15.000+01:00:
 
 Thanks mcdir. That project looks like much less of a hack than mine. In my defense, it didn't exist back then :)
 
-Original [published here](/md_blog/2012/1113_Easybinddnsloganalyzer.md).
+Original [published here](md_blog/2012/1113_Easybinddnsloganalyzer.md).
 
 ---
 ## In reply to [this post](), [mcdir](http://statdns.nedze.com/) commented @ 2013-11-18T11:54:14.000+01:00:
 
 I'll just be happy if my program will enjoy anyone. Another demo was made available http://demo.statdns.nedze.com/
 
-Original [published here](/md_blog/2012/1113_Easybinddnsloganalyzer.md).
+Original [published here](md_blog/2012/1113_Easybinddnsloganalyzer.md).

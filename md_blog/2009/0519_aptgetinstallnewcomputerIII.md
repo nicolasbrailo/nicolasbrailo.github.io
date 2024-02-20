@@ -6,10 +6,10 @@
 
 Check the other two parts of this series:
 
-* [apt-get install new-computer II](/md_blog/2008/1228_aptgetinstallnewcomputerII.md)
-* [apt-get new system](/md_blog/2008/1009_aptgetnewcomputer.md)
+* [apt-get install new-computer II](md_blog/2008/1228_aptgetinstallnewcomputerII.md)
+* [apt-get new system](md_blog/2008/1009_aptgetnewcomputer.md)
 
-I recently [updated to Ubuntu 9.04](/md_blog/2009/0427_UbuntuJ.J..md) and had to reinstall my work computer. Since the stuff I use for work (mostly c++ programming) was left out in the previous two posts I'll post it here:
+I recently [updated to Ubuntu 9.04](md_blog/2009/0427_UbuntuJ.J..md) and had to reinstall my work computer. Since the stuff I use for work (mostly c++ programming) was left out in the previous two posts I'll post it here:
 
 * Install build tools:
 

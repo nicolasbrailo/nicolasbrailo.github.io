@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2012/10/getting-stacktrace-on-cc-mapping.html
 
-[Last time](/md_blog/2012/1016_GettingastacktraceonCCSomecallinginternals.md) we saw how to get a stacktrace in C++, yet we only had access to the list of function pointers and not to the function names. Still, pointers are not that useful. Can we get function names instead? Yes, we can but it's not easy. One option would be to read the elf specification. Boring. Let's tinker around with our test program, may be we can find something interesting:
+[Last time](md_blog/2012/1016_GettingastacktraceonCCSomecallinginternals.md) we saw how to get a stacktrace in C++, yet we only had access to the list of function pointers and not to the function names. Still, pointers are not that useful. Can we get function names instead? Yes, we can but it's not easy. One option would be to read the elf specification. Boring. Let's tinker around with our test program, may be we can find something interesting:
 
 ```c++
     Caller *caller = (Caller*)sp;

@@ -6,5 +6,5 @@
 
 Una presentación que armé para el trabajo con una introducción a Valgrind, herramienta para profiling y debugging, principalmente para C/C++ en Linux (es posible usarlo con otros lenguajes pero nunca probé): [Link al artículo (PDF)](https://github.com/nicolasbrailo/powerpoint_monkey/raw/master/valgrind/valgrind.pdf "Valgrind introduction")
 
-También dejo el link en [la sección de artículos](/md_blog/youfoundadeadlink.md).
+También dejo el link en [la sección de artículos](md_blog/youfoundadeadlink.md).
 

@@ -37,7 +37,7 @@ If you feel you don't fit the profile perhaps LyX is a better alternative than p
 ### What kind of work can you do with LaTeX?
 
 That's an easy one, check
- [My Articles](/md_blog/youfoundadeadlink.md) section for some examples. You can create any kind of document but it's better suited for those in which you care most about the content and don't want to get bogged down with pesky design details.
+ [My Articles](md_blog/youfoundadeadlink.md) section for some examples. You can create any kind of document but it's better suited for those in which you care most about the content and don't want to get bogged down with pesky design details.
 
 ### Editors
 

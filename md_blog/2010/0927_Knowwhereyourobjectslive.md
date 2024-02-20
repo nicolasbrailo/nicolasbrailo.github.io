@@ -21,5 +21,5 @@ class BadList {
 
 Seen like that it's more than obvious, but I have seen even experieced programmers fall in this caveat.
 
-**Related reading:** [Oh shit the stack](/md_blog/2010/0601_Ohshitthestack.md).
+**Related reading:** [Oh shit the stack](md_blog/2010/0601_Ohshitthestack.md).
 

@@ -6,7 +6,7 @@
 
 Editing source code means you'll be doing a lot of indenting and reindenting. There's an easy way to indent or de-indent a block, using just "<" and ">".
 
-Using ">" without anyother command will indent that line by itself; use [visual mode](/md_blog/2009/0507_VimTipVisualMode.md) (Shift + V) to select several lines and indent them in one keystroke. You could also press "v%>" while sitting at the beggining of a block to indent it. The same applies to "<".
+Using ">" without anyother command will indent that line by itself; use [visual mode](md_blog/2009/0507_VimTipVisualMode.md) (Shift + V) to select several lines and indent them in one keystroke. You could also press "v%>" while sitting at the beggining of a block to indent it. The same applies to "<".
 
 "
 

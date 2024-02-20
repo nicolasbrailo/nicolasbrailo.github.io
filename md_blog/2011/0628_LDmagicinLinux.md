@@ -27,4 +27,4 @@ Read the help you just found. There is a lot of useful information there. Knowin
 
 [...] LD magic in Linux The linker is a magical beast which does all sort of crazy stuff with your binaries, without you even knowing it. Every Linux install has a linker living in the shadows, though seeing it in action is a rare supernatural event. There is an ancient tradition to communicate with the spirit of your linker. Not many know about this secret dark path and it’s powers to annoy even the most experienced (L)user. [...]
 
-Original [published here](/md_blog/2011/0628_LDmagicinLinux.md).
+Original [published here](md_blog/2011/0628_LDmagicinLinux.md).

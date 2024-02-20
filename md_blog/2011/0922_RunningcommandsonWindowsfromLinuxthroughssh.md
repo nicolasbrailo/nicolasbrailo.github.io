@@ -20,4 +20,4 @@ Running that in a bash shell will show the directory listing of C: in machine "h
 
 [...] Running commands on Windows from Linux, through ssh [...]
 
-Original [published here](/md_blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.md).
+Original [published here](md_blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.md).

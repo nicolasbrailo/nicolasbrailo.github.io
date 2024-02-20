@@ -24,7 +24,7 @@ sum () <- 0
 
 ```
 
-Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my [template metaprogramming series](/md_blog/youfoundadeadlink.md)):
+Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my [template metaprogramming series](md_blog/youfoundadeadlink.md)):
 
 ```c++
 #include <iostream>
@@ -160,11 +160,11 @@ Next time we'll see another example for variadic templates and a new C++0x featu
 
 Thanks for all the C++ posts. They are quite informative, really appreciate the C++ blog series :)
 
-Original [published here](/md_blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md).
+Original [published here](md_blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md).
 
 ---
 ## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-09-06T22:42:15.000+02:00:
 
 Glad you find them useful Chaitanya, thanks for the feedback
 
-Original [published here](/md_blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md).
+Original [published here](md_blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md).

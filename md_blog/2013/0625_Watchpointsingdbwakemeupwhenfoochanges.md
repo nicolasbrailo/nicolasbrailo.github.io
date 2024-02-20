@@ -51,7 +51,7 @@ Hardware and software watchpoints
 
 Gdb will use hardware watchpoints if the underlying platform provides them; that means your architecture should provide some kind of hook for gdb to be alerted when a memory write at a certain address occurs. Hardware watchpoints are quite easy to use, relatively speaking, but not all platforms support them. In that case gdb will use software watchpoints, which are quite expensive and slow. Did you ever try to run a program by pressing "step" continuously? Well, a software watchpoint is similar, gdb will have to execute a program step by step and check if the value has changed in between steps.
 
-As usual, [gdb's manual](/md_blog/youfoundadeadlink.md) has a lot more info.
+As usual, [gdb's manual](md_blog/youfoundadeadlink.md) has a lot more info.
 
 PS: Once you find your bug with the aid of a watchpoint, please go and read some books about encapsulation!
 
@@ -59,15 +59,15 @@ PS: Once you find your bug with the aid of a watchpoint, please go and read some
 # Comments
 
 ---
-## In reply to [this post](), [Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog](/md_blog/2013/1105_Automagicallysetupbreakpointswithgdb.md) commented @ 2013-11-05T08:00:59.000+01:00:
+## In reply to [this post](), [Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2013/1105_Automagicallysetupbreakpointswithgdb.md) commented @ 2013-11-05T08:00:59.000+01:00:
 
 […] debugging session. This can be quite frustrating, when you have gdb workset full of breakpoints, watch expressions and all that […]
 
-Original [published here](/md_blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md).
+Original [published here](md_blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md).
 
 ---
-## In reply to [this post](), [Gdb hit count: ignoring breakpoints (for a while) | An infinite monkey - Nicolas Brailovsky&#39;s blog](/md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md) commented @ 2014-11-18T13:24:38.000+01:00:
+## In reply to [this post](), [Gdb hit count: ignoring breakpoints (for a while) | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md) commented @ 2014-11-18T13:24:38.000+01:00:
 
 […] way would be to set up a watch expression. If you can’t setup a watch expression, say, because you’re using an iterator and […]
 
-Original [published here](/md_blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md).
+Original [published here](md_blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md).

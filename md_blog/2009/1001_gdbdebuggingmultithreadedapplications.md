@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2009/10/gdb-debugging-multithreaded-applications.html
 
-Few things look cooler than debugging a multithreaded application using [TUI](/md_blog/2009/0922_gdbgraphictuimode.md) through ssh on a client, halfway across the world. There you are, felling the geek of the century when all of the sudden gdb starts jumping from one thread to the other. OMFGBBQ! What are you going to do now?
+Few things look cooler than debugging a multithreaded application using [TUI](md_blog/2009/0922_gdbgraphictuimode.md) through ssh on a client, halfway across the world. There you are, felling the geek of the century when all of the sudden gdb starts jumping from one thread to the other. OMFGBBQ! What are you going to do now?
 
 The scheduler locking policy defines when will thread context swtiches occur. If you are debuging a thead and don't want to be bothered by another then just lock the scheduler.
 

@@ -21,7 +21,7 @@ Found in some random project.
 
 You also probably want to do: #define class struct
 
-Original [published here](/md_blog/2016/1122_Thebesthackyoushouldneveruse.md).
+Original [published here](md_blog/2016/1122_Thebesthackyoushouldneveruse.md).
 
 ---
 ## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2016-11-28T13:57:34.000+01:00:
@@ -29,4 +29,4 @@ Original [published here](/md_blog/2016/1122_Thebesthackyoushouldneveruse.md).
 Please don't. That's horrible :)
 But, yes, you're correct: that'd be necessary to make this awful thing work. Thanks for the addition!
 
-Original [published here](/md_blog/2016/1122_Thebesthackyoushouldneveruse.md).
+Original [published here](md_blog/2016/1122_Thebesthackyoushouldneveruse.md).

@@ -14,4 +14,4 @@ A funny thought just came to me: if you write nice clean code, it's easy to repl
 
 You can look at it from the other side: nice code is more likely to be replicated and used in more projects.
 
-Original [published here](/md_blog/2015/0409_Codenaturalselection.md).
+Original [published here](md_blog/2015/0409_Codenaturalselection.md).

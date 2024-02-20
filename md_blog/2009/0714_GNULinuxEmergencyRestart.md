@@ -33,33 +33,33 @@ What's the catch? You won't be saving that precious code you we're hacking away 
 
 Ctrl is not needed!
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to [this post](), [nico](/md_blog/youfoundadeadlink.md) commented @ 2010-02-14T22:45:17.000+01:00:
+## In reply to [this post](), [nico](md_blog/youfoundadeadlink.md) commented @ 2010-02-14T22:45:17.000+01:00:
 
 Really? All those years practicing yoga so I could reach that weird key combo, for nothing? Man, wish I knew that one sooner :)
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to [this post](), [Yuvi](/md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:28:45.000+02:00:
+## In reply to [this post](), [Yuvi](md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:28:45.000+02:00:
 
 I knew only about the B, thanks for the others.
 
 And no, you don't have to press Ctrl :)
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to [this post](), [dsfadsfgafgf](/md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:39:29.000+02:00:
+## In reply to [this post](), [dsfadsfgafgf](md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:39:29.000+02:00:
 
 I have to keep a finger on my laptops Fn key to do this. It's most annoying. Almost snaps my fingers.
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to [this post](), [thisisabore](/md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:43:02.000+02:00:
+## In reply to [this post](), [thisisabore](md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:43:02.000+02:00:
 
 RESIUB, also remembered with the nice-to-know “Raising Skinny Elephants Is Utterly Boring”.
 
@@ -67,17 +67,17 @@ RESIUO will Power-Off instead of rebooting, which might sometimes also be useful
 
 You'd be surprised how many kiosks running Linux don't have this sequence disabled…
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
 ## In reply to [this post](), [Anonymous]() commented @ 2010-05-18T15:50:55.000+02:00:
 
 that will not work with kernels where the magic sysrq feature is not enabled
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to [this post](), [nico](/md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:54:45.000+02:00:
+## In reply to [this post](), [nico](md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:54:45.000+02:00:
 
 > dsfadsfgafgf
 
@@ -87,7 +87,7 @@ Indeed. Luckly most laptops tend to have a smaller keyboard :)
 
 I'll have to try it next time I see one. There are not much of those over here, though. Most of the kiosks are Windows (it's fun to see the BSODs too)
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
 ## In reply to [this post](), [David]() commented @ 2010-05-18T17:40:57.000+02:00:
@@ -95,23 +95,23 @@ Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 Seems to me you don't need the first 3. "R" seems nice, though.
 "SUB" should be enough. I didn't know about "U". I've been doing "SSSSSSB" for years...
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to [this post](), [nico](/md_blog/youfoundadeadlink.md) commented @ 2010-05-18T17:51:10.000+02:00:
+## In reply to [this post](), [nico](md_blog/youfoundadeadlink.md) commented @ 2010-05-18T17:51:10.000+02:00:
 
 > David
 
 May be so may be not, but the look of awe when people look at you pressing a magical 18 key combo to reboot is priceless.
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
 ## In reply to [this post](), [Dan]() commented @ 2010-05-18T18:21:33.000+02:00:
 
 Why do people keep spelling fist f--king: "fscking"?
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
 ## In reply to [this post](), [yono]() commented @ 2010-05-24T18:53:29.000+02:00:
@@ -122,7 +122,7 @@ http://linux.die.net/man/8/fsck
 
 the point of this article is to cleanly shutdown your computer when you cannot use conventional commands or menus to do so. this prevents data corruption or an inconsistent disk state, which can sometimes be fixed by running the fsck command on the disk.
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
 ## In reply to [this post](), [Dan]() commented @ 2011-06-27T04:09:35.000+02:00:
@@ -131,4 +131,4 @@ Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 Yeah, like ever f'ing day.
 
-Original [published here](/md_blog/2009/0714_GNULinuxEmergencyRestart.md).
+Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).

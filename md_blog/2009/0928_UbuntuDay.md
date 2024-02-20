@@ -4,6 +4,6 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2009/09/ubuntu-day.html
 
-Spanish only: [GNU/Linux, Guía de Supervivencia](https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/no_source/linux_survival_guide.pdf) - Versión [Ubuntu Day](/md_blog/youfoundadeadlink.md)
+Spanish only: [GNU/Linux, Guía de Supervivencia](https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/no_source/linux_survival_guide.pdf) - Versión [Ubuntu Day](md_blog/youfoundadeadlink.md)
 Released under [WTFPL](http://en.wikipedia.org/wiki/WTFPL) if you care to know. Source code to be available soon too.
 

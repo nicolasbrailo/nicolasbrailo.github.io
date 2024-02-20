@@ -6,7 +6,7 @@
 
 Sometimes I decide to contribute something back to humanity. Others would say I unleash my crappy code to the world. In any case, here's something you can laugh at, be horrified about or maybe, maybe, find useful:
 
-[VlcFreemote](https://github.com/nicolasbrailo/VlcFreemote) - [Link to article](/md_blog/2016/0204_VLCFreemotenoneedtoleavethecouch.md)
+[VlcFreemote](https://github.com/nicolasbrailo/VlcFreemote) - [Link to article](md_blog/2016/0204_VLCFreemotenoneedtoleavethecouch.md)
 ---------------------------------------------------------------------------------------------------------------------------------
 
 >
@@ -32,7 +32,7 @@ Sometimes I decide to contribute something back to humanity. Others would say I 
 >
 >
 
-[IMGeotagger](https://github.com/nicolasbrailo/IMGeotagger) - [Link to article](/md_blog/2016/0128_OnthepoorstateofgeotaggingapplicationsforLinux.md)
+[IMGeotagger](https://github.com/nicolasbrailo/IMGeotagger) - [Link to article](md_blog/2016/0128_OnthepoorstateofgeotaggingapplicationsforLinux.md)
 --------------------------------------------------------------------------------------------------------------------------
 
 >
@@ -41,7 +41,7 @@ Sometimes I decide to contribute something back to humanity. Others would say I 
 >
 >
 
-[TrippingSdCardPhotoManager](https://github.com/nicolasbrailo/TrippingSdCardPhotoManager) - [Link to article](/md_blog/2015/0611_InowwriteAndroidappspresentingTrippingPhotoManager.md)
+[TrippingSdCardPhotoManager](https://github.com/nicolasbrailo/TrippingSdCardPhotoManager) - [Link to article](md_blog/2015/0611_InowwriteAndroidappspresentingTrippingPhotoManager.md)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 >
@@ -68,7 +68,7 @@ Sometimes I decide to contribute something back to humanity. Others would say I 
 >
 >
 
-[Hacked pictag](https://github.com/nicolasbrailo/pictag) - [Pictag: finally a simple geotagging tool for Linux](/md_blog/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.md)
+[Hacked pictag](https://github.com/nicolasbrailo/pictag) - [Pictag: finally a simple geotagging tool for Linux](md_blog/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.md)
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 >
@@ -95,7 +95,7 @@ Sometimes I decide to contribute something back to humanity. Others would say I 
 >
 >
 
-[Fastgrep](https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh) - [A cache for grep](/md_blog/2012/1030_Fastgrepacacheforgrep.md)
+[Fastgrep](https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh) - [A cache for grep](md_blog/2012/1030_Fastgrepacacheforgrep.md)
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 >

@@ -48,8 +48,8 @@ Knowing what a POD object is, what would you do now if you had to persist (seria
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Cool C++0X features III: Variadic templates, a fix for varargs](/md_blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.md) commented @ 2011-04-26T09:05:06.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Cool C++0X features III: Variadic templates, a fix for varargs](md_blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.md) commented @ 2011-04-26T09:05:06.000+02:00:
 
 [...] POD types support [...]
 
-Original [published here](/md_blog/2010/0407_PODtypesinC.md).
+Original [published here](md_blog/2010/0407_PODtypesinC.md).

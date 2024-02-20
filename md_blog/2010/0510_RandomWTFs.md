@@ -8,7 +8,7 @@
 
 > Note: Use dapper instead of edgy to use Ubuntu Dapper
 
-[Thank you captian obvious.](/md_blog/youfoundadeadlink.md)
+[Thank you captian obvious.](md_blog/youfoundadeadlink.md)
 ### Random WTF 2
 
 I've been working with a big-co supplied ACS server, but it's IE only. WTF!? Aren't ACS all XMLy so they can work everywhere? I hate you all.

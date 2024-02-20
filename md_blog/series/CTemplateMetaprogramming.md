@@ -418,9 +418,9 @@ template &lt;&gt; struct Length &lt;NIL&gt; {
 
 I know. You are thinking "wait, what?". Well, even for this basic case we need to use some esoteric language features:
 
-* typename is needed to tell the compiler LST::Tail is a type and not a static variable (like Length::result is). Did you remember that from [chapter IV](/md_blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.md)?
-* We have to use recursive templates, but you probably already figured that out. You should remember this from [chapter II](/md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
-* We can provide a spetialization of a template. You should also remember this from [chapter II](/md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
+* typename is needed to tell the compiler LST::Tail is a type and not a static variable (like Length::result is). Did you remember that from [chapter IV](md_blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.md)?
+* We have to use recursive templates, but you probably already figured that out. You should remember this from [chapter II](md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
+* We can provide a spetialization of a template. You should also remember this from [chapter II](md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
 
 Obviously, you can write it this way too:
 
@@ -690,7 +690,7 @@ Wow, number eleven already. We're getting more chapters here than Final Fantasy 
 Enough meta-meta talk: what can we do with all the things we have learned? We can calculate pi and e, we already showed that as an example on one of the first chapters. This chapter I'm going to write about what motivated me to explore the bizarre underworld of template metaprogramming. Some time ago I had to [work with a Berkeley DB](/search?q=Berkeley) researching the feasibility of developing a magic cache for (real) DB table. Leaving aside the discussion of whether this is a good idea (the project did have a good reason to be researched) I hit a major roadblock when trying to provide a façade for every table; something like this:
 
 ![](/blog_img/virtualtemplate.png)
-See the problem? To do something like that we'd need a [virtual template method](/md_blog/2009/0803_CMagiccallbackssolved.md), and you can't have that. After seeing that I thought to myself "Hey, I'll use templates!". Then I had two problems, but the damage was done, I couldn't go back. What kind of contorted device could we implement to make such a devious requirement work? I'll leave you to think it, the answers I came up with next week.
+See the problem? To do something like that we'd need a [virtual template method](md_blog/2009/0803_CMagiccallbackssolved.md), and you can't have that. After seeing that I thought to myself "Hey, I'll use templates!". Then I had two problems, but the damage was done, I couldn't go back. What kind of contorted device could we implement to make such a devious requirement work? I'll leave you to think it, the answers I came up with next week.
 
 ---
 

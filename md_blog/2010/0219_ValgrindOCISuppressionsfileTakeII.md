@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2010/02/valgrind-oci-suppressions-file-take-ii.html
 
-Remember my [OCI suppressions file](/md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md)? Well, since then I have updated it. Now it includes some more suppressions, for [libnetsnmp](http://www.net-snmp.org/), Oracle, [Berkeley DB](http://www.oracle.com/technology/products/berkeley-db/index.html), and may be something else I can't remember.
+Remember my [OCI suppressions file](md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md)? Well, since then I have updated it. Now it includes some more suppressions, for [libnetsnmp](http://www.net-snmp.org/), Oracle, [Berkeley DB](http://www.oracle.com/technology/products/berkeley-db/index.html), and may be something else I can't remember.
 
 If you add anything else let me know in the comments.
 

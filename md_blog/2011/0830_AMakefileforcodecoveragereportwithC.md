@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md
 
-So far you should know how to [use makefiles](/md_blog/2011/0822_AMakefileforTDDwithC.md) and you should have a nice [testable project](/md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md). Then you have everything ready to get a coverage report. Yeah, using makefiles, you guessed!
+So far you should know how to [use makefiles](md_blog/2011/0822_AMakefileforTDDwithC.md) and you should have a nice [testable project](md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md). Then you have everything ready to get a coverage report. Yeah, using makefiles, you guessed!
 
 This time we'll depend on two tools, gcov and gtest. These are in Ubuntu's repositories, so you should have no problem getting them. I won't even bother to explain this makefile (not because it's obvious but because I don't really remember how it works. I wrote this over a year ago).
 
@@ -32,5 +32,5 @@ pretty:
 
 Remember to change your astyle options as needed.
 
-Bonus II: Example project using gcov and gtest: [gcov\_gtest\_sample.tar](/md_blog/youfoundadeadlink.md). The irony? It doesn't use my common makefile, it predates it.
+Bonus II: Example project using gcov and gtest: [gcov\_gtest\_sample.tar](md_blog/youfoundadeadlink.md). The irony? It doesn't use my common makefile, it predates it.
 

@@ -6,7 +6,7 @@
 
 Some times a breakpoint is not enough; if you have a crash inside a loop, the object that makes your code crash might be in the 526th iteration. How can you debug this problem?
 
-One way would be to set up a [watch expression](/md_blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md). If you can't setup a watch expression, say, because you're using an iterator and it'd be hard to set one, you can also tell gdb to setup a breakpoint, and then ignore it N times.
+One way would be to set up a [watch expression](md_blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md). If you can't setup a watch expression, say, because you're using an iterator and it'd be hard to set one, you can also tell gdb to setup a breakpoint, and then ignore it N times.
 
 Let's see how this works with this example:
 
@@ -79,11 +79,11 @@ This time gdb will break exactly on the spot we want.
 # Comments
 
 ---
-## In reply to [this post](), [Antiskeptic (@notthatsid)](/md_blog/youfoundadeadlink.md) commented @ 2015-03-26T11:23:21.000+01:00:
+## In reply to [this post](), [Antiskeptic (@notthatsid)](md_blog/youfoundadeadlink.md) commented @ 2015-03-26T11:23:21.000+01:00:
 
 Why not use a print i command when you get the exception? Will it not tell you the iteration? I like your hack, but I want to know if this solution is the only way for your example.
 
-Original [published here](/md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md).
+Original [published here](md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md).
 
 ---
 ## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2015-03-26T11:37:20.000+01:00:
@@ -92,4 +92,4 @@ Hi Antiskeptic, for the first part of the article, you can indeed simply `print 
 
 For the second part of the article, you still need to use the ignore command. If you want to debug the problem by setting a breakpoint, and only have it trigger in the Nth iteration of the loop, I can't really think of any other ways than setting a (possible complicated) watch expression or using the ignore command. There may be and I'm just not being imaginative enough. C++ is an amazing stack that way, people can come up with very creative solutions to all kinds of problems.
 
-Original [published here](/md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md).
+Original [published here](md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md).

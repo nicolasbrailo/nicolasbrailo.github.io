@@ -14,8 +14,8 @@ Extra tip: this also works in sed
 # Comments
 
 ---
-## In reply to [this post](), [VimTip: Search and f(replace) | An infinite monkey - Nico Brailovsky&#39;s blog](/md_blog/2019/0226_VimTipSearchandfreplace.md) commented @ 2019-02-26T07:05:03.000+01:00:
+## In reply to [this post](), [VimTip: Search and f(replace) | An infinite monkey - Nico Brailovsky&#39;s blog](md_blog/2019/0226_VimTipSearchandfreplace.md) commented @ 2019-02-26T07:05:03.000+01:00:
 
 […] Pre-tip: When using search and replace in Vim, you don't need to use slashes […]
 
-Original [published here](/md_blog/2015/0507_VimtipStopescapingslashes.md).
+Original [published here](md_blog/2015/0507_VimtipStopescapingslashes.md).

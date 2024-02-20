@@ -209,7 +209,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 }
 ```
 
-Note: For a more detailed description of the LSDA tables check [here](/md_blog/youfoundadeadlink.md) and for the full source code [check my github repo](https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v06).
+Note: For a more detailed description of the LSDA tables check [here](md_blog/youfoundadeadlink.md) and for the full source code [check my github repo](https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v06).
 
 Finally, it worked. You should see something like this if you run it:
 

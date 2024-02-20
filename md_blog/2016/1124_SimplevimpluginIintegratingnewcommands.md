@@ -86,7 +86,7 @@ map  <leader>F :call FG_RequestInputAction("Find file: ", "FG_DoFindFile")<CR>
 
 This is an actual plugin I use in my Vim setup. You can grab the [latest version from my Github repo.](https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim)
 
-Extra tip: add these too if you want to have a [GUI menu](/md_blog/2015/0402_VimTipIwantmoremenus.md) for your new commands as well.
+Extra tip: add these too if you want to have a [GUI menu](md_blog/2015/0402_VimTipIwantmoremenus.md) for your new commands as well.
 
 ```ruby
 menu Project.Find\ File :call FG_RequestInputAction("FG_DoFindFile")
