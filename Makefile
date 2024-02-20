@@ -1,29 +1,17 @@
-.PHONY: install_deps local_server
+.PHONY: install_deps local_server clean
 install_deps:
 	sudo apt-get install python3-markdown
+
 local_server:
 	python3 -m http.server
 
-.PHONY: refresh
-refresh: blog root
-
-.PHONY: blog/index.html
-blog/index.html: genscripts/mdtohtml.py genscripts/buildsite.py
-	python3 ./genscripts/buildsite.py ./blog_md ./blog index
-
-.PHONY: blog codehighlight.js style.css
-blog: genscripts/mdtohtml.py genscripts/buildsite.py
-	python3 ./genscripts/buildsite.py ./blog_md ./blog full
-
-.PHONY: root
-root: genscripts/buildroot.py
-	python3 ./genscripts/buildroot.py ./root_content
-
-.PHONY: clean
 clean:
 	rm -rf blog
 	rm -f codehighlight.js style.css
 
+gen:
+	#python3 ./genscripts/index_gen.py md_blog md_gen
+	python3 ./genscripts/html_gen.py blog md_blog md_gen
 
 style.css: genscripts/custom.css
 	echo -n "\n\n/* https://unpkg.com/chota@latest */\n" > style.css
