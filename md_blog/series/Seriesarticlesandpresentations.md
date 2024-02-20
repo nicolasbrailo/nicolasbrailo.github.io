@@ -126,10 +126,21 @@ Long-format articles and presentations I've written over the years.
 14. [Template Metaprogramming 14: Marathon](md_blog/2010/0914_TemplateMetaprogrammingXIVMarathon.md)
 15. [Template Metaprogramming 15: Gemini](md_blog/2010/0923_TemplateMetaprogrammingXVGemini.md)
 
-[LaTeX](/search/label/LaTeX)
-1. [LaTeX!](md_blog/2009/0512_LaTeX.md)- [A case for LaTeX](md_blog/2009/0521_AcaseforLaTeX.md)- [LaTeX basics](md_blog/2009/0528_LaTeXbasics.md)- [LaTeX: format basics](md_blog/2009/0622_LaTeXformatbasics.md)- [LaTeX: LyX Revisited](md_blog/2009/0629_LaTeXLyXRevisited.md)- [LaTeX: Makefile](md_blog/2009/0702_LaTeXMakefile.md)- [LaTeX: including documents](md_blog/2009/0707_LaTeXincludingdocuments.md)- [LaTeX: Including Source Code](md_blog/2009/0709_LaTeXIncludingSourceCode.md)
+LaTeX
+1. [LaTeX!](md_blog/2009/0512_LaTeX.md)
+2. [A case for LaTeX](md_blog/2009/0521_AcaseforLaTeX.md)
+3. [LaTeX basics](md_blog/2009/0528_LaTeXbasics.md)
+4. [LaTeX: format basics](md_blog/2009/0622_LaTeXformatbasics.md)
+5. [LaTeX: LyX Revisited](md_blog/2009/0629_LaTeXLyXRevisited.md)
+6. [LaTeX: Makefile](md_blog/2009/0702_LaTeXMakefile.md)
+7. [LaTeX: including documents](md_blog/2009/0707_LaTeXincludingdocuments.md)
+8. [LaTeX: Including Source Code](md_blog/2009/0709_LaTeXIncludingSourceCode.md)
 
 [Makefiles](/search/label/Makefiles)
-1. [Makefiles](md_blog/2011/0818_Makefiles.md)- [A Makefile for TDD with C++](md_blog/2011/0822_AMakefileforTDDwithC.md)- [A Makefile for code coverage report with C++](md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md)- [A talking makefile](md_blog/2011/0906_Atalkingmakefile.md)- [Useful predefined variables in make](md_blog/2015/0623_Usefulpredefinedvariablesinmake.md)
+1. [Makefiles](md_blog/2011/0818_Makefiles.md)
+2. [A Makefile for TDD with C++](md_blog/2011/0822_AMakefileforTDDwithC.md)
+3. [A Makefile for code coverage report with C++](md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md)
+4. [A talking makefile](md_blog/2011/0906_Atalkingmakefile.md)
+5. [Useful predefined variables in make](md_blog/2015/0623_Usefulpredefinedvariablesinmake.md)
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

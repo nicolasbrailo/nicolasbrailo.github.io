@@ -27,14 +27,12 @@ def normalize_rel_links(md_src, md):
     md_links = re.findall(']\\(.*\.md\\)', md)
     md_links = [x[2:-1] for x in set(md_links)]
     for md_link in md_links:
+        if md_link.startswith('http://') or md_link.startswith('https://'):
+            continue
         if not os.path.exists(md_link):
             print(f'Failed relative link normalization: md file {md_src} links to non-existent file {md_link}')
             exit(1)
         if md_link.startswith('/'):
-            pass
-        elif md_link.startswith('http://'):
-            pass
-        elif md_link.startswith('https://'):
             pass
         else:
             md = md.replace(md_link, f'/{md_link}')
