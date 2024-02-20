@@ -42,7 +42,7 @@ Undefined behavior is not (only) to make programmer's lives miserable, it actual
 # Comments
 
 ---
-## In reply to [this post](), [anon12]() commented @ 2016-06-02T12:54:44.000+02:00:
+## In reply to this post, [anon12]() commented @ 2016-06-02T12:54:44.000+02:00:
 
 "From a math perspective, and assuming that T is a numeric type, always\_true should always return true"
 
@@ -53,14 +53,14 @@ Are you kidding me ?
 Original [published here](md_blog/2016/0602_CWhyisundefinednessimportant.md).
 
 ---
-## In reply to [this post](), [Undefined, implementation defined and unspecified behaviors in C++ - Native Coding](md_blog/youfoundadeadlink.md) commented @ 2016-06-02T23:47:33.000+02:00:
+## In reply to this post, [Undefined, implementation defined and unspecified behaviors in C++ - Native Coding](md_blog/youfoundadeadlink.md) commented @ 2016-06-02T23:47:33.000+02:00:
 
 […] And another explanation here : /md_blog/2016/06/02/c-why-is-undefinedness-important/ […]
 
 Original [published here](md_blog/2016/0602_CWhyisundefinednessimportant.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2016-06-03T17:30:39.000+02:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2016-06-03T17:30:39.000+02:00:
 
 That's a very trollish way of saying "careful with typos" but thanks for reporting nonetheless, anon. Fixed.
 

@@ -32,7 +32,7 @@ I'm sure with careful usage, is\_constant\_evaluated will allow library writers 
 # Comments
 
 ---
-## In reply to [this post](), [aiusepsi]() commented @ 2019-08-03T18:58:11.000+02:00:
+## In reply to this post, [aiusepsi]() commented @ 2019-08-03T18:58:11.000+02:00:
 
 From what I can glean from the standard, there's no debug/release mode difference here. In either case, the compiler is required to constant-evaluate foo() when initialising x. From reading P0595R2 it seems like they tightened up the semantics somewhat to make sure that this was the case.
 
@@ -41,7 +41,7 @@ To test the theory, a program compiled with Clang produces the same result in bo
 Original [published here](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2019-08-03T20:10:45.000+02:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2019-08-03T20:10:45.000+02:00:
 
 Thanks aiusepsi! I think that somewhat misses the point of the article though: I'm not saying -O levels will provide different behavior, I'm worried that code I use to debug, such as "cout << foo()" will have different behavior to "const int x = foo()". If there ever is a bug that causes foo to behave differently due to is\_const\_eval, I'll take hours to find it out.
 

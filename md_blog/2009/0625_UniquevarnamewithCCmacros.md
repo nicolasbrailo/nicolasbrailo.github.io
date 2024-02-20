@@ -17,14 +17,14 @@ Great, now you can keep obscuring your programs even more - have fun!
 
 
 ---
-## In reply to [this post](), [Why is a level of indirection needed for this concatenation macro? | CopyQuery](md_blog/youfoundadeadlink.md) commented @ 2013-10-29T19:25:53.000+01:00:
+## In reply to this post, [Why is a level of indirection needed for this concatenation macro? | CopyQuery](md_blog/youfoundadeadlink.md) commented @ 2013-10-29T19:25:53.000+01:00:
 
 […] found an interesting little blog post that explains how to generate (semi) unique names in a macro by using the line […]
 
 Original [published here](md_blog/2009/0625_UniquevarnamewithCCmacros.md).
 
 ---
-## In reply to [this post](), [How do I concatenate str and integer variables using macros? – program faq](md_blog/youfoundadeadlink.md) commented @ 2017-12-27T16:30:10.000+01:00:
+## In reply to this post, [How do I concatenate str and integer variables using macros? – program faq](md_blog/youfoundadeadlink.md) commented @ 2017-12-27T16:30:10.000+01:00:
 
 […] reading this answer to a similar problem, and also attempting this similar concept to create level of indirection, I have found no solution, as neither of them work […]
 

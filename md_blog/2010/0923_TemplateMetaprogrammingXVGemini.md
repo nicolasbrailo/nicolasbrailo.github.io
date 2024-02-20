@@ -18,7 +18,7 @@ This is the last post on this topic because I feel I have written most, if not e
 
 
 ---
-## In reply to [this post](), [Manuel]() commented @ 2010-09-29T17:17:35.000+02:00:
+## In reply to this post, [Manuel]() commented @ 2010-09-29T17:17:35.000+02:00:
 
 Interfaces FTW !
 

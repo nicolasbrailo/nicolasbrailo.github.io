@@ -24,7 +24,7 @@ Now $? will hold the value of real\_command, and you can actually use it to diag
 
 # Comments
 
-## In reply to [this post](), [denisss025]() commented @ 2016-03-15T06:00:04.000+01:00:
+## In reply to this post, [denisss025]() commented @ 2016-03-15T06:00:04.000+01:00:
 
 Have you tried set -o pipefail? Here is the description.
 

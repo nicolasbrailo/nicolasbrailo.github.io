@@ -29,21 +29,21 @@ iota(v.begin(), v.end(), 0);
 
 # Comments
 
-## In reply to [this post](), [pauljurczak](md_blog/youfoundadeadlink.md) commented @ 2016-02-18T05:27:58.000+01:00:
+## In reply to this post, [pauljurczak](md_blog/youfoundadeadlink.md) commented @ 2016-02-18T05:27:58.000+01:00:
 
 Inequality symbols are rendered as < and > in your post. I checked with Chrome and Explorer.
 
 Original [published here](md_blog/2016/0216_SomenewsetoperationsinC11stl.md).
 
 ---
-## In reply to [this post](), [pauljurczak](md_blog/youfoundadeadlink.md) commented @ 2016-02-18T05:28:56.000+01:00:
+## In reply to this post, [pauljurczak](md_blog/youfoundadeadlink.md) commented @ 2016-02-18T05:28:56.000+01:00:
 
 I meant as & l t ; (without spaces) etc.
 
 Original [published here](md_blog/2016/0216_SomenewsetoperationsinC11stl.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2016-02-18T05:48:49.000+01:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2016-02-18T05:48:49.000+01:00:
 
 Well, it's quite ironic that your coment was more successful than my post. Thanks for the heads up, I'll try to fix it as soon as I get a chance!
 

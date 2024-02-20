@@ -34,7 +34,7 @@ This is probably not even enough to get started. Luckily there's plenty of docs 
 # Comments
 
 ---
-## In reply to [this post](), [Vasiliy](http://www.zavyalov.nl) commented @ 2020-03-01T11:17:18.000+01:00:
+## In reply to this post, [Vasiliy](http://www.zavyalov.nl) commented @ 2020-03-01T11:17:18.000+01:00:
 
 Coincidence. Using recently this tool as well. Might be good to mentioned to your message:
 
@@ -46,14 +46,14 @@ Coincidence. Using recently this tool as well. Might be good to mentioned to you
 Original [published here](md_blog/2020/0227_jqgrepandprettifyjson.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2020-03-01T11:23:24.000+01:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2020-03-01T11:23:24.000+01:00:
 
 That's awesome, thanks!
 
 Original [published here](md_blog/2020/0227_jqgrepandprettifyjson.md).
 
 ---
-## In reply to [this post](), [Gustavo]() commented @ 2020-03-11T15:05:44.000+01:00:
+## In reply to this post, [Gustavo]() commented @ 2020-03-11T15:05:44.000+01:00:
 
 Thanks. Very useful tool.
 

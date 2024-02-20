@@ -12,14 +12,14 @@ Why TF is [regedit](https://help.ubuntu.com/community/RestoreNautilusLocationBar
 # Comments
 
 ---
-## In reply to [this post](), [NotReally]() commented @ 2011-02-22T15:47:00.000+01:00:
+## In reply to this post, [NotReally]() commented @ 2011-02-22T15:47:00.000+01:00:
 
 NotReally, it's just a helper tool to avoid editing xml files.
 
 Original [published here](md_blog/2011/0222_Ithoughtwehaddeprecatedregedit.md).
 
 ---
-## In reply to [this post](), [Petros Koutoupis](md_blog/youfoundadeadlink.md) commented @ 2011-02-23T14:45:08.000+01:00:
+## In reply to this post, [Petros Koutoupis](md_blog/youfoundadeadlink.md) commented @ 2011-02-23T14:45:08.000+01:00:
 
 Agreeing with NotReally, all gconf-editor is, is a user friendly wrapper for GNOME and surrounding graphical environment. Redegit is not even close to the same thing as it retains core system and subsystem values and variables. Everything in the Windows environment relies on the registry. With a GTK enabled environment, this is never the case.
 

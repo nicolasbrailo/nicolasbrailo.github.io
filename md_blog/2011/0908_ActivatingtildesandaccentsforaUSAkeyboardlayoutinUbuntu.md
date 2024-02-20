@@ -12,14 +12,14 @@ If you are on Windows I think you have to install a new map, and then guess wher
 # Comments
 
 ---
-## In reply to [this post](), [Links 9/9/2011: Bodhi Linux 1.2.0, VortexBox 1.10 | Techrights](http://techrights.org/2011/09/09/bodhi-linux-1-2-0/) commented @ 2011-09-09T12:04:40.000+02:00:
+## In reply to this post, [Links 9/9/2011: Bodhi Linux 1.2.0, VortexBox 1.10 | Techrights](http://techrights.org/2011/09/09/bodhi-linux-1-2-0/) commented @ 2011-09-09T12:04:40.000+02:00:
 
 [...] Activating tildes and accents for a USA keyboard layout in Ubuntu [...]
 
 Original [published here](md_blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.md).
 
 ---
-## In reply to [this post](), [Fixing keyboard layouts in Ubuntu. Scarier than it seems. An infinite monkey - Nicolas Brailovsky's blog](md_blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..md) commented @ 2012-10-25T09:02:50.000+02:00:
+## In reply to this post, [Fixing keyboard layouts in Ubuntu. Scarier than it seems. An infinite monkey - Nicolas Brailovsky's blog](md_blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..md) commented @ 2012-10-25T09:02:50.000+02:00:
 
 [...] Having keyboard problems? You may also be interested in learning how to activate tildes and accents for a USA keyboard layout in Ubuntu. [...]
 

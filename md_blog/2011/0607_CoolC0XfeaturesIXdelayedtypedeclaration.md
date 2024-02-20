@@ -52,7 +52,7 @@ auto foo() -> void {}
 # Comments
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Cool C++0X features XII: type inference with auto](md_blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.md) commented @ 2011-10-04T09:23:29.000+02:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » Cool C++0X features XII: type inference with auto](md_blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.md) commented @ 2011-10-04T09:23:29.000+02:00:
 
 [...] like the one I’m pasting below, of type inference with decltype, which led us to learn about delayed type declaration and decltypes with auto. This time I want to focus just on the auto keyword [...]
 

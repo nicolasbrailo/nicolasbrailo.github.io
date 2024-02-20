@@ -364,7 +364,7 @@ Now anyone who changes a config file can run this script to have their new rule 
 # Comments
 
 ---
-## In reply to [this post](), [Abby Rhozabel]() commented @ 2016-04-17T19:39:23.000+02:00:
+## In reply to this post, [Abby Rhozabel]() commented @ 2016-04-17T19:39:23.000+02:00:
 
 Ten computers has a public ip address How will you get internet connection on ten public computers using private ip address and linux box as its router.
 

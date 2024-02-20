@@ -40,7 +40,7 @@ I am not aware of many other uses for an anonymous type. Even more considering t
 # Comments
 
 ---
-## In reply to [this post](), [Daniel]() commented @ 2019-02-20T23:47:19.000+01:00:
+## In reply to this post, [Daniel]() commented @ 2019-02-20T23:47:19.000+01:00:
 
 An anonymous object
 An anonymous object is essentially a value that has no name.

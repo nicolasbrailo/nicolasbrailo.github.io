@@ -13,7 +13,7 @@ Check [the previous post](md_blog/2009/0602_TestingampmockingC.md) about this pr
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Testing &amp; mocking: C++](md_blog/2009/0602_TestingampmockingC.md) commented @ 2009-06-02T12:23:13.000+02:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » Testing &amp; mocking: C++](md_blog/2009/0602_TestingampmockingC.md) commented @ 2009-06-02T12:23:13.000+02:00:
 
 [...] the previous post about this [...]
 

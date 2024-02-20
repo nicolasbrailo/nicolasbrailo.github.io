@@ -115,7 +115,7 @@ The whole series on getting a stacktrace on C++ is merely "educational", as in "
 # Comments
 
 ---
-## In reply to [this post](), [Anonymous]() commented @ 2016-10-16T21:01:01.000+02:00:
+## In reply to this post, [Anonymous]() commented @ 2016-10-16T21:01:01.000+02:00:
 
 WTF? - asm("movl %%ebp,%0" : "=r"(sp));
 

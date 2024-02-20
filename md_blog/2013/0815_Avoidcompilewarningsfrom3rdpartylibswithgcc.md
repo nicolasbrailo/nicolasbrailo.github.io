@@ -12,7 +12,7 @@ There's a third option: When compiling don't include those libs as "-I /path/to/
 
 
 ---
-## In reply to [this post](), [Seth]() commented @ 2013-09-19T13:18:08.000+02:00:
+## In reply to this post, [Seth]() commented @ 2013-09-19T13:18:08.000+02:00:
 
 "So, your code is ferpect" - lol
 

@@ -14,7 +14,7 @@ Hope someone else finds this useful!
 # Comments
 
 ---
-## In reply to [this post](), [Howto: shutdown a TV with HDMI CEC Chromecast - An infinite monkey - Nico Brailovsky's blog](md_blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md) commented @ 2019-06-11T11:03:12.000+02:00:
+## In reply to this post, [Howto: shutdown a TV with HDMI CEC Chromecast - An infinite monkey - Nico Brailovsky's blog](md_blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md) commented @ 2019-06-11T11:03:12.000+02:00:
 
 […] “on” part is easy: you just start casting something (your pictures, for example) and Chromecast automagically turns your TV on. The off part is a bit […]
 

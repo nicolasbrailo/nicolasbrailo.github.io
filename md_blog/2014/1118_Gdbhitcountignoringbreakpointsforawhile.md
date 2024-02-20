@@ -79,14 +79,14 @@ This time gdb will break exactly on the spot we want.
 # Comments
 
 ---
-## In reply to [this post](), [Antiskeptic (@notthatsid)](md_blog/youfoundadeadlink.md) commented @ 2015-03-26T11:23:21.000+01:00:
+## In reply to this post, [Antiskeptic (@notthatsid)](md_blog/youfoundadeadlink.md) commented @ 2015-03-26T11:23:21.000+01:00:
 
 Why not use a print i command when you get the exception? Will it not tell you the iteration? I like your hack, but I want to know if this solution is the only way for your example.
 
 Original [published here](md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2015-03-26T11:37:20.000+01:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2015-03-26T11:37:20.000+01:00:
 
 Hi Antiskeptic, for the first part of the article, you can indeed simply `print i` to know which iteration is triggering the bug. That should work just as fine as ignoring it forever and then checking the count in gdb, or writing `cout << i` in the loop.
 

@@ -23,7 +23,7 @@ Even though I love bashing Ubuntu (and bash) I'm quite confident most, if not al
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Dell and Ubuntu CPU Scaling](md_blog/2011/1020_DellandUbuntuCPUScaling.md) commented @ 2011-10-20T09:06:40.000+02:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » Dell and Ubuntu CPU Scaling](md_blog/2011/1020_DellandUbuntuCPUScaling.md) commented @ 2011-10-20T09:06:40.000+02:00:
 
 [...] me from movies like fixing keyboard problems in Ubuntu JJ, removing the annoying terminal warning, random complaints about dual screen in Buguntu and Ubuntu: sound still fubard. This time, I would like to add a new Ubuntu problem to the list of [...]
 

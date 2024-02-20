@@ -22,7 +22,7 @@ for i in `seq 1 10`; do printf "%02dn" $i; done
 # Comments
 
 ---
-## In reply to [this post](), [Links 16/9/2011: Boeing Goes With Android, Oracle Splits MySQL | Techrights](http://techrights.org/2011/09/16/boeing-goes-with-android/) commented @ 2011-09-16T20:30:41.000+02:00:
+## In reply to this post, [Links 16/9/2011: Boeing Goes With Android, Oracle Splits MySQL | Techrights](http://techrights.org/2011/09/16/boeing-goes-with-android/) commented @ 2011-09-16T20:30:41.000+02:00:
 
 [...] Zero padding for Bash scripts [...]
 

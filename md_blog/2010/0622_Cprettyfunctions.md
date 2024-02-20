@@ -39,7 +39,7 @@ You can easily use this for better logging functions now (with some macro wizard
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Cool C++0X features VI: A variadic wrapper](md_blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.md) commented @ 2011-05-17T09:06:06.000+02:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » Cool C++0X features VI: A variadic wrapper](md_blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.md) commented @ 2011-05-17T09:06:06.000+02:00:
 
 [...] you want to wrap do\_something with something else (Remember \_\_PRETTY\_FUNCTION\_\_?). This is a solution, the worst one [...]
 

@@ -19,14 +19,14 @@ Link to the file: [Valgrind / OCI suppressions](md_blog/2009/0323_ValgrindOCISup
 
 
 ---
-## In reply to [this post](), [Mattias]() commented @ 2009-04-02T08:17:41.000+02:00:
+## In reply to this post, [Mattias]() commented @ 2009-04-02T08:17:41.000+02:00:
 
 Great work, just what I'm looking for - but where is the file? (the link seems broken)
 
 Original [published here](md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 ---
-## In reply to [this post](), [nico](md_blog/youfoundadeadlink.md) commented @ 2009-04-03T12:06:30.000+02:00:
+## In reply to this post, [nico](md_blog/youfoundadeadlink.md) commented @ 2009-04-03T12:06:30.000+02:00:
 
 Should have been a temporary glitch, anyway this is the file:
 
@@ -183,7 +183,7 @@ Should have been a temporary glitch, anyway this is the file:
 Original [published here](md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 ---
-## In reply to [this post](), [Mattias]() commented @ 2009-04-03T20:57:40.000+02:00:
+## In reply to this post, [Mattias]() commented @ 2009-04-03T20:57:40.000+02:00:
 
 Thanks! Since I use x86\_64 I had to switch all the 'Value4' to 'Value8', and I also had to add a few extra suppressions (below), but after that it worked just perfectly. Nice to be able to get 0 errors for all our oracle tests ...
 
@@ -274,7 +274,7 @@ Thanks! Since I use x86\_64 I had to switch all the 'Value4' to 'Value8', and I 
 Original [published here](md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Valgrind – OCI: Suppressions file, Take II](md_blog/2010/0219_ValgrindOCISuppressionsfileTakeII.md) commented @ 2010-02-19T11:14:33.000+01:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » Valgrind – OCI: Suppressions file, Take II](md_blog/2010/0219_ValgrindOCISuppressionsfileTakeII.md) commented @ 2010-02-19T11:14:33.000+01:00:
 
 [...] my OCI suppressions file? Well, since then I have updated it. Now it includes some more suppressions, for libnetsnmp, [...]
 

@@ -61,7 +61,7 @@ So, some linker strangeness. Beware, it's easy to get trapped by this one.
 
 
 ---
-## In reply to [this post](), [Matthew Fioravante]() commented @ 2015-09-03T22:47:03.000+02:00:
+## In reply to this post, [Matthew Fioravante]() commented @ 2015-09-03T22:47:03.000+02:00:
 
 "The second and third cases… well I’m not sure why does this compiles but it’s probably because the linker can asume in which translation unit x and y should be allocated. I’m to lazy to check."
 

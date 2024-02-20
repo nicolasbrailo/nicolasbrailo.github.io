@@ -142,7 +142,7 @@ So there we have it, a working (well, linkeable) personality function. Doesn't d
 # Comments
 
 ---
-## In reply to [this post](), [Anonymous]() commented @ 2018-01-04T10:47:04.000+01:00:
+## In reply to this post, [Anonymous]() commented @ 2018-01-04T10:47:04.000+01:00:
 
 But .gcc\_except\_table is same with .eh\_frame. (ubuntu Ubuntu 14.04.5 LTS, gcc gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4)
 

@@ -23,7 +23,7 @@ Read the help you just found. There is a lot of useful information there. Knowin
 # Comments
 
 ---
-## In reply to [this post](), [Links 30/6/2011: Knoppix 2011 6.4, Netrunner 3.2 Released | Techrights](http://techrights.org/2011/06/30/netrunner-3-2-released/) commented @ 2011-06-30T09:54:08.000+02:00:
+## In reply to this post, [Links 30/6/2011: Knoppix 2011 6.4, Netrunner 3.2 Released | Techrights](http://techrights.org/2011/06/30/netrunner-3-2-released/) commented @ 2011-06-30T09:54:08.000+02:00:
 
 [...] LD magic in Linux The linker is a magical beast which does all sort of crazy stuff with your binaries, without you even knowing it. Every Linux install has a linker living in the shadows, though seeing it in action is a rare supernatural event. There is an ancient tradition to communicate with the spirit of your linker. Not many know about this secret dark path and it’s powers to annoy even the most experienced (L)user. [...]
 

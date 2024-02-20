@@ -109,7 +109,7 @@ We can now conclude what's going on: **the implementation for exception throwing
 # Comments
 
 ---
-## In reply to [this post](), [C++ Performance: Common Wisdoms and Common “Wisdoms” - IT Hare](md_blog/youfoundadeadlink.md) commented @ 2018-01-02T11:58:47.000+01:00:
+## In reply to this post, [C++ Performance: Common Wisdoms and Common “Wisdoms” - IT Hare](md_blog/youfoundadeadlink.md) commented @ 2018-01-02T11:58:47.000+01:00:
 
 […] [Brailovsky] Nicolás Brailovsky, C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality […]
 

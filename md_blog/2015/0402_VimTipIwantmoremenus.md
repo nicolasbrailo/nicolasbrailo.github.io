@@ -41,7 +41,7 @@ As usual, for more info check :help menu
 # Comments
 
 ---
-## In reply to [this post](), [Simple vim plugin I: integrating new commands | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2016/1124_SimplevimpluginIintegratingnewcommands.md) commented @ 2016-11-24T08:00:30.000+01:00:
+## In reply to this post, [Simple vim plugin I: integrating new commands | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2016/1124_SimplevimpluginIintegratingnewcommands.md) commented @ 2016-11-24T08:00:30.000+01:00:
 
 [...] tip: add these too if you want to have a GUI menu for your new commands as [...]
 

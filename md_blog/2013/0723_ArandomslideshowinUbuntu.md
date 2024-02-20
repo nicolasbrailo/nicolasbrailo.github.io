@@ -26,7 +26,7 @@ You can probably figure out by yourself what each option means. If not, just man
 # Comments
 
 ---
-## In reply to [this post](), [John Evans](md_blog/youfoundadeadlink.md) commented @ 2013-09-07T10:13:06.000+02:00:
+## In reply to this post, [John Evans](md_blog/youfoundadeadlink.md) commented @ 2013-09-07T10:13:06.000+02:00:
 
 Hi Nicolas,
 Thanks for this, I was amazed that none of the several programs I have, (gwenview, shotwell, default image viewer etc) allow you to simply start a slideshow and have it show in a random order. I can't get feh to work on my second monitor(even with --geometry 1920x1080+1800+0). I think that's a twin view issue though as from what I have read it only supports parts of xinerama.
@@ -38,7 +38,7 @@ John
 Original [published here](md_blog/2013/0723_ArandomslideshowinUbuntu.md).
 
 ---
-## In reply to [this post](), [Feh (Русский) | Wanderer](md_blog/youfoundadeadlink.md) commented @ 2013-12-29T00:36:46.000+01:00:
+## In reply to this post, [Feh (Русский) | Wanderer](md_blog/youfoundadeadlink.md) commented @ 2013-12-29T00:36:46.000+01:00:
 
 […] A random slideshow in Ubuntu […]
 

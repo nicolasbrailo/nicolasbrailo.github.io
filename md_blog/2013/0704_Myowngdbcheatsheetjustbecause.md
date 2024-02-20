@@ -54,7 +54,7 @@ This cheatsheet is far from being "advanced stuff" but it should be enough to ge
 # Comments
 
 ---
-## In reply to [this post](), [Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2013/1105_Automagicallysetupbreakpointswithgdb.md) commented @ 2013-11-05T08:00:56.000+01:00:
+## In reply to this post, [Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2013/1105_Automagicallysetupbreakpointswithgdb.md) commented @ 2013-11-05T08:00:56.000+01:00:
 
 […] then restarting your debugging session. This can be quite frustrating, when you have gdb workset full of breakpoints, watch expressions and all that […]
 

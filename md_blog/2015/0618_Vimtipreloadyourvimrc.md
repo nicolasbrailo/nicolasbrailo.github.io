@@ -10,7 +10,7 @@ If you're changing your vimrc, it can get boring to close and restart it only to
 # Comments
 
 ---
-## In reply to [this post](), [Anonymous]() commented @ 2015-06-21T14:30:22.000+02:00:
+## In reply to this post, [Anonymous]() commented @ 2015-06-21T14:30:22.000+02:00:
 
 ```
 augroup MyAutoCmd
@@ -26,7 +26,7 @@ augroup end
 Original [published here](md_blog/2015/0618_Vimtipreloadyourvimrc.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2015-06-22T09:49:37.000+02:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2015-06-22T09:49:37.000+02:00:
 
 Great tip, thanks Anon!
 

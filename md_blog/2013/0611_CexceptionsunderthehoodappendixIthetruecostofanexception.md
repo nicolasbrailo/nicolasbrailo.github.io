@@ -21,7 +21,7 @@ If you're interested on reading more about sjlj and zero cost exception handling
 # Comments
 
 ---
-## In reply to [this post](), [N]() commented @ 2013-06-11T23:31:26.000+02:00:
+## In reply to this post, [N]() commented @ 2013-06-11T23:31:26.000+02:00:
 
 Nice information, although I have a small, nitpicky note on the language: "payed" is an obsolete form, unless you mean to use it in, e.g., nautical context, as in "to let (a ship) fall off to leeward."
 I'm guessing you probably mean "paid" :-)
@@ -31,7 +31,7 @@ I'm guessing you probably mean "paid" :-)
 Original [published here](md_blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-06-12T09:37:49.000+02:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2013-06-12T09:37:49.000+02:00:
 
 Corrected, thanks!
 

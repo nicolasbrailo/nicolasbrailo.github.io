@@ -28,42 +28,42 @@ To conclude, I don't think there's a perfect solution to the virtual problem. Ju
 # Comments
 
 ---
-## In reply to [this post](), [Bas]() commented @ 2013-07-18T22:35:08.000+02:00:
+## In reply to this post, [Bas]() commented @ 2013-07-18T22:35:08.000+02:00:
 
 std::function to the rescue?
 
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-07-20T13:28:20.000+02:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2013-07-20T13:28:20.000+02:00:
 
 I don't think I understand how would you use it... how exactly would you use std::func to have an implementation you want to test accept (ie be injected with) a mock of an object with no virtual methods?
 
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to [this post](), [Patrick]() commented @ 2013-07-22T21:53:01.000+02:00:
+## In reply to this post, [Patrick]() commented @ 2013-07-22T21:53:01.000+02:00:
 
 I use the CRTP solution rather extensively in my work. I find that I use it most often when the class performs IO of some form - to the console, via a file or database or network, etc. That pattern not only allows me to test classes that were previously difficult to test, but it also forces me to decompose the classes into two parts - one that performs the computation and one that does the IO. Since the IO code is usually the more complex and error-prone, it helps to keep it all together in one place.
 
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to [this post](), [Peter Bindels]() commented @ 2013-07-23T09:57:38.000+02:00:
+## In reply to this post, [Peter Bindels]() commented @ 2013-07-23T09:57:38.000+02:00:
 
 That's like using virtual everywhere, except worse.
 
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-07-23T10:09:30.000+02:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2013-07-23T10:09:30.000+02:00:
 
 Thanks for the input Patrick, I've never actually seen this technique used "in the wild". Would you say it adds too much overhead to a simple class declaration? How about bringing up to speed new team members, does it take them a while to get used to it?
 
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to [this post](), [Patrick Moran]() commented @ 2013-07-23T16:26:44.000+02:00:
+## In reply to this post, [Patrick Moran]() commented @ 2013-07-23T16:26:44.000+02:00:
 
 That depends pretty heavily on how much overhead you consider to be "too much". I find that by naming the CRTP something like "TCRTP", I can make it really clear what is going on in the code. Also, if the class without is named Foo, then I put most of Foo's functionality in Foo\_Base, and make Foo inherit from Foo\_Base.
 
@@ -74,7 +74,7 @@ As for bringing new team members up to speed - where I work we worry a lot about
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to [this post](), [Todd Greer]() commented @ 2013-08-01T22:58:28.000+02:00:
+## In reply to this post, [Todd Greer]() commented @ 2013-08-01T22:58:28.000+02:00:
 
 If you take the TEST\_VIRTUAL approach, you need to also disable copy and move operations. Otherwise you're at risk of getting a mock object copied or moved to a real object. Of course, for the types of classes we're talking about, that's probably already been done.
 
@@ -83,7 +83,7 @@ Separating out the part that depends on external state (as Patrick seems to be s
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to [this post](), [Todd Greer]() commented @ 2013-08-01T23:01:37.000+02:00:
+## In reply to this post, [Todd Greer]() commented @ 2013-08-01T23:01:37.000+02:00:
 
 Also remember that this won't work with any methods that are called from ctors and dtors, since they won't be virtually dispatched. With luck, your compiler will warn you if you get that wrong.
 

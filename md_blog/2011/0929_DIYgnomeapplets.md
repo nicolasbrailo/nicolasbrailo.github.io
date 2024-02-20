@@ -16,7 +16,7 @@ Once more this proves that anything can be done in console mode - and whatever y
 # Comments
 
 ---
-## In reply to [this post](), [Gnome 3.2 Released - Features and Updates: Ranjith Siji - Programming the Web](md_blog/youfoundadeadlink.md) commented @ 2011-09-30T09:01:57.000+02:00:
+## In reply to this post, [Gnome 3.2 Released - Features and Updates: Ranjith Siji - Programming the Web](md_blog/youfoundadeadlink.md) commented @ 2011-09-30T09:01:57.000+02:00:
 
 [...] [...]
 

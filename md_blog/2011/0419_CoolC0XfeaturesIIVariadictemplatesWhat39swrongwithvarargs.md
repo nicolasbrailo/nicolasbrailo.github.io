@@ -88,7 +88,7 @@ Remember to compile using -std=c++0x in gcc.
 # Comments
 
 ---
-## In reply to [this post](), [Matthew Fioravante]() commented @ 2015-09-03T22:38:03.000+02:00:
+## In reply to this post, [Matthew Fioravante]() commented @ 2015-09-03T22:38:03.000+02:00:
 
 "Type-unsafe: You just tell varargs “Hey, get me an int”. And it will give you an int, no warranties included. If it was supposed to be a short instead, though luck, you end up with a coredump."
 

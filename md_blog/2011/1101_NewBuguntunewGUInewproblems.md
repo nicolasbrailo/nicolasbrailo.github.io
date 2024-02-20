@@ -20,7 +20,7 @@ I don't understand the tablet-interface-ftw fad, I was happy with my console mul
 # Comments
 
 ---
-## In reply to [this post](), [Leonardo Comerci]() commented @ 2011-12-21T11:39:30.000+01:00:
+## In reply to this post, [Leonardo Comerci]() commented @ 2011-12-21T11:39:30.000+01:00:
 
 Seh, yo uso Kubuntu 11.10 en el laburo y de un día para el otro, entre tanto update automático, me dejó de andar el AUDIO. Por defecto ésta distro viene con Pulseaudio e intenté rajarlo a la mierda y poner ALSA pero no funcaba, así que tuve que volver a poner Pulseaudio y hacer indecibles malabares para que termine solamente funcando el Banshee y el sonido del Pidgin. Chau otras app (ni VLC ni nada) ni tampoco el sonido en el browser (chau Youtubem chau etc) que es lo que más me da por las bolas...
 

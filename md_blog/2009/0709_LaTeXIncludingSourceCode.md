@@ -70,7 +70,7 @@ It shouldn't have been too much work and we're done anyway. To include a source 
 
 
 ---
-## In reply to [this post](), [Anonymous]() commented @ 2010-02-14T21:25:57.000+01:00:
+## In reply to this post, [Anonymous]() commented @ 2010-02-14T21:25:57.000+01:00:
 
 You can use the package listings too.
 

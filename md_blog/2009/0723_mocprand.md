@@ -40,7 +40,7 @@ Beware though, using this + cron may have the undesired effect of awakening to t
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Sorting by random in bash and mocp random updated](md_blog/2010/0909_Sortingbyrandominbashandmocprandomupdated.md) commented @ 2010-09-09T09:04:03.000+02:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » Sorting by random in bash and mocp random updated](md_blog/2010/0909_Sortingbyrandominbashandmocprandomupdated.md) commented @ 2010-09-09T09:04:03.000+02:00:
 
 [...] And now you can sort by random your output using sort -R. Why would this be useful? Well, I updated my mocp random script with a [...]
 

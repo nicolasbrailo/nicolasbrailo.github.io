@@ -59,14 +59,14 @@ PS: Once you find your bug with the aid of a watchpoint, please go and read some
 # Comments
 
 ---
-## In reply to [this post](), [Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2013/1105_Automagicallysetupbreakpointswithgdb.md) commented @ 2013-11-05T08:00:59.000+01:00:
+## In reply to this post, [Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2013/1105_Automagicallysetupbreakpointswithgdb.md) commented @ 2013-11-05T08:00:59.000+01:00:
 
 […] debugging session. This can be quite frustrating, when you have gdb workset full of breakpoints, watch expressions and all that […]
 
 Original [published here](md_blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md).
 
 ---
-## In reply to [this post](), [Gdb hit count: ignoring breakpoints (for a while) | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md) commented @ 2014-11-18T13:24:38.000+01:00:
+## In reply to this post, [Gdb hit count: ignoring breakpoints (for a while) | An infinite monkey - Nicolas Brailovsky&#39;s blog](md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md) commented @ 2014-11-18T13:24:38.000+01:00:
 
 […] way would be to set up a watch expression. If you can’t setup a watch expression, say, because you’re using an iterator and […]
 

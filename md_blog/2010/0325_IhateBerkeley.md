@@ -20,7 +20,7 @@ WTF ORACLE, WTF.
 
 
 ---
-## In reply to [this post](), [Gregory Burd](http://oracle.com/) commented @ 2010-03-25T15:40:48.000+01:00:
+## In reply to this post, [Gregory Burd](http://oracle.com/) commented @ 2010-03-25T15:40:48.000+01:00:
 
 Hey Nicolás,
 
@@ -36,7 +36,7 @@ Product Manager, Oracle Berkeley DB
 Original [published here](md_blog/2010/0325_IhateBerkeley.md).
 
 ---
-## In reply to [this post](), [nico](md_blog/youfoundadeadlink.md) commented @ 2010-03-25T16:21:00.000+01:00:
+## In reply to this post, [nico](md_blog/youfoundadeadlink.md) commented @ 2010-03-25T16:21:00.000+01:00:
 
 Hi Greg!
 

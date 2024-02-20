@@ -49,7 +49,7 @@ struct Bar : FwdFoo {
 # Comments
 
 ---
-## In reply to [this post](), [Balazs Benics]() commented @ 2020-02-18T18:57:18.000+01:00:
+## In reply to this post, [Balazs Benics]() commented @ 2020-02-18T18:57:18.000+01:00:
 
 Keep in mind that parameter packs can be empty, in which case the array would try to have zero elements.
 Also, some apply function might return an object which overloaded the comma operator, in which case the result of the whole expression would otherwise.
@@ -62,7 +62,7 @@ Note that nobody can override the comma operator there.
 Original [published here](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2020-02-19T13:06:50.000+01:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2020-02-19T13:06:50.000+01:00:
 
 Good catch, thanks!
 

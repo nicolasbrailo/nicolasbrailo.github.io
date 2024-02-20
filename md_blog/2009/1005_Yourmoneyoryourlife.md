@@ -10,7 +10,7 @@ The sad truth
 
 
 ---
-## In reply to [this post](), [FoxRose]() commented @ 2009-10-17T02:12:24.000+02:00:
+## In reply to this post, [FoxRose]() commented @ 2009-10-17T02:12:24.000+02:00:
 
 no en este país
 

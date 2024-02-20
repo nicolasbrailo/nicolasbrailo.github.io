@@ -156,14 +156,14 @@ Next time we'll see another example for variadic templates and a new C++0x featu
 # Comments
 
 ---
-## In reply to [this post](), [Chaitanya]() commented @ 2013-09-06T22:10:04.000+02:00:
+## In reply to this post, [Chaitanya]() commented @ 2013-09-06T22:10:04.000+02:00:
 
 Thanks for all the C++ posts. They are quite informative, really appreciate the C++ blog series :)
 
 Original [published here](md_blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-09-06T22:42:15.000+02:00:
+## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2013-09-06T22:42:15.000+02:00:
 
 Glad you find them useful Chaitanya, thanks for the feedback
 

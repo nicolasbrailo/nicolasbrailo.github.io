@@ -67,7 +67,7 @@ Now you just need to run make test. Remember to add the proper [Vim's mapping](m
 # Comments
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » A Makefile for code coverage report with C++](md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md) commented @ 2011-08-30T11:14:37.000+02:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » A Makefile for code coverage report with C++](md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md) commented @ 2011-08-30T11:14:37.000+02:00:
 
 [...] far you should know how to use makefiles and you should have a nice testable project. Then you have everything ready to get a coverage [...]
 

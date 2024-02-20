@@ -10,7 +10,7 @@ A funny thought just came to me: if you write nice clean code, it's easy to repl
 # Comments
 
 ---
-## In reply to [this post](), [Adar]() commented @ 2015-04-21T11:17:03.000+02:00:
+## In reply to this post, [Adar]() commented @ 2015-04-21T11:17:03.000+02:00:
 
 You can look at it from the other side: nice code is more likely to be replicated and used in more projects.
 

@@ -12,7 +12,7 @@ Whenever I just want to add a quick print statement because I'm too lazy to debu
 # Comments
 
 ---
-## In reply to [this post](), [Monah Tuk](https://plus.google.com/+MonahTuk) commented @ 2016-03-15T04:26:19.000+01:00:
+## In reply to this post, [Monah Tuk](https://plus.google.com/+MonahTuk) commented @ 2016-03-15T04:26:19.000+01:00:
 
 Hi Nicolas!
 

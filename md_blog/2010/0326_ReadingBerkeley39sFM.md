@@ -34,7 +34,7 @@ What is going on there? It took me a while to figure out how evil Berkely 's man
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Operator sizeof (AKA Reading Berkeley’s FM, take II)](md_blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md) commented @ 2010-03-29T11:57:18.000+02:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » Operator sizeof (AKA Reading Berkeley’s FM, take II)](md_blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md) commented @ 2010-03-29T11:57:18.000+02:00:
 
 [...] Last time I told you about an evil snipet I found on Oracle Berkeley DB’s manual: [...]
 

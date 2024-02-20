@@ -10,7 +10,7 @@ Have you ever been working on your plans for world domination but got scared som
 # Comments
 
 ---
-## In reply to [this post](), [Anonymous]() commented @ 2017-04-10T23:45:03.000+02:00:
+## In reply to this post, [Anonymous]() commented @ 2017-04-10T23:45:03.000+02:00:
 
 You should use ":set cm=blowfish2" to use the not broken Blowfish implementation, the old one is still the default for backwards compatibility.
 

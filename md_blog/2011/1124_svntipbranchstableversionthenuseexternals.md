@@ -33,7 +33,7 @@ Now the team developing BestLibEver can work without complaints from their users
 # Comments
 
 ---
-## In reply to [this post](), [Ezequiel]() commented @ 2011-11-29T16:32:06.000+01:00:
+## In reply to this post, [Ezequiel]() commented @ 2011-11-29T16:32:06.000+01:00:
 
 An alternative is setting the revision number when defining the external using -r{revision number}
 

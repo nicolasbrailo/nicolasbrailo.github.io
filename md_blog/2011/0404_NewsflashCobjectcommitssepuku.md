@@ -53,7 +53,7 @@ For a much more interesting note than mine, go and check [When does an object be
 # Comments
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Living on a null object](md_blog/2011/0816_Livingonanullobject.md) commented @ 2011-08-16T09:05:04.000+02:00:
+## In reply to this post, [Nicolás Brailovsky » Blog Archive » Living on a null object](md_blog/2011/0816_Livingonanullobject.md) commented @ 2011-08-16T09:05:04.000+02:00:
 
 [...] Now, in this new “translated” code, what do you think? Will it crash? It won’t, since no one is going to dereference “this”. Crazy, huh? This crazy idiom also allows even crazier things, like C++ objects committing sepuku [...]
 
