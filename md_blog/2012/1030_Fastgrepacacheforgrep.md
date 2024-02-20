@@ -24,8 +24,8 @@ Since the grepcache is actually a merged copy of all the files in the project, i
 # Comments
 
 ---
-## In reply to [this post](), [Vim utilities: Findgrep & Fastgrep | An infinite monkey - Nicolas Brailovsky&#39;s blog](/blog_md/2016/0706_VimutilitiesFindgrepFastgrep.md) commented @ 2016-07-06T09:05:59.000+02:00:
+## In reply to [this post](), [Vim utilities: Findgrep & Fastgrep | An infinite monkey - Nicolas Brailovsky&#39;s blog](/md_blog/2016/0706_VimutilitiesFindgrepFastgrep.md) commented @ 2016-07-06T09:05:59.000+02:00:
 
 [...] wrote about Fastgrep a long time ago. The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by [...]
 
-Original [published here](/blog_md/2012/1030_Fastgrepacacheforgrep.md).
+Original [published here](/md_blog/2012/1030_Fastgrepacacheforgrep.md).

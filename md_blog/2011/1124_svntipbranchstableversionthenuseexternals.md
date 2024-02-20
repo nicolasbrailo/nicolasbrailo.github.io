@@ -37,4 +37,4 @@ Now the team developing BestLibEver can work without complaints from their users
 
 An alternative is setting the revision number when defining the external using -r{revision number}
 
-Original [published here](/blog_md/2011/1124_svntipbranchstableversionthenuseexternals.md).
+Original [published here](/md_blog/2011/1124_svntipbranchstableversionthenuseexternals.md).

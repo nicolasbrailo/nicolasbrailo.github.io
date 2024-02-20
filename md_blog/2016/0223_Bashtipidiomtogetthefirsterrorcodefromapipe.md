@@ -30,4 +30,4 @@ Have you tried set -o pipefail? Here is the description.
 
  If set, the return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully. This option is disabled by default.
 
-Original [published here](/blog_md/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.md).
+Original [published here](/md_blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.md).

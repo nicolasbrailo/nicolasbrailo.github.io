@@ -64,9 +64,9 @@ Don't worry, there's a link to the full makefile.
 
 It shouldn't have been too much work and we're done anyway. To include a source code file in your document now use the include command (like include{code/foobar.cpp) and re build. I'm attaching a complete example in a zip file, with my latest implementation of a bogosort algorithm (now 50% faster).
 
-* [Makefile](/blog_md/youfoundadeadlink.md)
-* [source\_code\_example.tar](/blog_md/youfoundadeadlink.md)
-* [Compiled example project](/blog_md/youfoundadeadlink.md)
+* [Makefile](/md_blog/youfoundadeadlink.md)
+* [source\_code\_example.tar](/md_blog/youfoundadeadlink.md)
+* [Compiled example project](/md_blog/youfoundadeadlink.md)
 
 
 ---
@@ -74,4 +74,4 @@ It shouldn't have been too much work and we're done anyway. To include a source 
 
 You can use the package listings too.
 
-Original [published here](/blog_md/2009/0709_LaTeXIncludingSourceCode.md).
+Original [published here](/md_blog/2009/0709_LaTeXIncludingSourceCode.md).

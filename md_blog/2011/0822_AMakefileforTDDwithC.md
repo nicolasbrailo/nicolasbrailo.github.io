@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/08/a-makefile-for-tdd-with-c.html
 
-So, after reading [my post about makefiles](/blog_md/2011/0818_Makefiles.md) you decided that you like them but would like to add some TDD to be buzzword compliant? No problem, that's easy to do.
+So, after reading [my post about makefiles](/md_blog/2011/0818_Makefiles.md) you decided that you like them but would like to add some TDD to be buzzword compliant? No problem, that's easy to do.
 
 Assuming you use a naming convention such as this one:
 
@@ -61,14 +61,14 @@ test: $(TEST_SRCS)
 	done
 ```
 
-Now you just need to run make test. Remember to add the proper [Vim's mapping](/blog_md/2010/0629_Vimtipsmakethingsworkagain.md).
+Now you just need to run make test. Remember to add the proper [Vim's mapping](/md_blog/2010/0629_Vimtipsmakethingsworkagain.md).
 
 
 # Comments
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » A Makefile for code coverage report with C++](/blog_md/2011/0830_AMakefileforcodecoveragereportwithC.md) commented @ 2011-08-30T11:14:37.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » A Makefile for code coverage report with C++](/md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md) commented @ 2011-08-30T11:14:37.000+02:00:
 
 [...] far you should know how to use makefiles and you should have a nice testable project. Then you have everything ready to get a coverage [...]
 
-Original [published here](/blog_md/2011/0822_AMakefileforTDDwithC.md).
+Original [published here](/md_blog/2011/0822_AMakefileforTDDwithC.md).

@@ -23,4 +23,4 @@ cout - produce regular program output that can be used in the pipe with other pr
 
 In such way, piped application will work correct and diagnostic messages will not mixed to the regular output and will not confuse other programs in pipe. Also, you can redirect regular output to the file but observe diagnostic and error messages in terminal.
 
-Original [published here](/blog_md/2015/0604_cerrvscout.md).
+Original [published here](/md_blog/2015/0604_cerrvscout.md).

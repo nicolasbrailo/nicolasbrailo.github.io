@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2008/12/apt-get-install-new-computer-ii.html
 
-Ahora si, termino el post que empecé en [apt-get install new computer (parte 1)](/blog_md/2008/1009_aptgetnewcomputer.md)
+Ahora si, termino el post que empecé en [apt-get install new computer (parte 1)](/md_blog/2008/1009_aptgetnewcomputer.md)
 
 
 

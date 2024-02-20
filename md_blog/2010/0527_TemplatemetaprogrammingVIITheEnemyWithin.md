@@ -39,9 +39,9 @@ template &lt;&gt; struct Length &lt;NIL&gt; {
 
 I know. You are thinking "wait, what?". Well, even for this basic case we need to use some esoteric language features:
 
-* typename is needed to tell the compiler LST::Tail is a type and not a static variable (like Length::result is). Did you remember that from [chapter IV](/blog_md/2010/0506_TemplatemetaprogrammingIVNightmarestocome.md)?
-* We have to use recursive templates, but you probably already figured that out. You should remember this from [chapter II](/blog_md/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
-* We can provide a spetialization of a template. You should also remember this from [chapter II](/blog_md/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
+* typename is needed to tell the compiler LST::Tail is a type and not a static variable (like Length::result is). Did you remember that from [chapter IV](/md_blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.md)?
+* We have to use recursive templates, but you probably already figured that out. You should remember this from [chapter II](/md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
+* We can provide a spetialization of a template. You should also remember this from [chapter II](/md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
 
 Obviously, you can write it this way too:
 

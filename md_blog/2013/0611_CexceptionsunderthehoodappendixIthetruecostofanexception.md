@@ -28,11 +28,11 @@ I'm guessing you probably mean "paid" :-)
 // http://dictionary.reference.com/browse/payed
 // http://en.wiktionary.org/wiki/payed
 
-Original [published here](/blog_md/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md).
+Original [published here](/md_blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/blog_md) commented @ 2013-06-12T09:37:49.000+02:00:
+## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2013-06-12T09:37:49.000+02:00:
 
 Corrected, thanks!
 
-Original [published here](/blog_md/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md).
+Original [published here](/md_blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md).

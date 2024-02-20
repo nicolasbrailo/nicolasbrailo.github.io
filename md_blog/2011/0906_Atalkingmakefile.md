@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/09/a-talking-makefile.html
 
-So, after learning [how to use makefiles](/blog_md/2011/0818_Makefiles.md), then [how to use makefiles for TDD](/blog_md/2011/0822_AMakefileforTDDwithC.md) and for [code coverage report](/blog_md/2011/0830_AMakefileforcodecoveragereportwithC.md), now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?
+So, after learning [how to use makefiles](/md_blog/2011/0818_Makefiles.md), then [how to use makefiles for TDD](/md_blog/2011/0822_AMakefileforTDDwithC.md) and for [code coverage report](/md_blog/2011/0830_AMakefileforcodecoveragereportwithC.md), now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?
 
 ```c++
 test: $(TEST_SRCS)
@@ -28,4 +28,4 @@ Bonus chatter: when Valgrind detects over $MUCHOS errors it'll print "Too many e
 
 [...] talking makefile [...]
 
-Original [published here](/blog_md/2011/0906_Atalkingmakefile.md).
+Original [published here](/md_blog/2011/0906_Atalkingmakefile.md).

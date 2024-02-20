@@ -6,7 +6,7 @@
 
 On our journey to understand exceptions we discovered that the heavy-lifting is done in libstdc++ as specified by the C++ ABI. Reading some linker errors we deduced last time that for handling exceptions we need help from the C++ ABI; we created a throwing C++ program, linked it together with a plain C program and found that the compiler somehow translated our throw instruction into something that is now calling a few libstd++ functions to actually throw an exception. Lost already? You can check the sourcode for this project so far [in my github repo](https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v01).
 
-Anyway, we want to understand exactly how an exception is thrown, so we will try to implement our own mini-ABI, capable of throwing an exception. To do this, a lot of [RTFM](/blog_md/youfoundadeadlink.md) is needed, but a full ABI interface can be found [here, for LLVM](http://libcxxabi.llvm.org/spec.html). Let's start by remembering what those missing functions are:
+Anyway, we want to understand exactly how an exception is thrown, so we will try to implement our own mini-ABI, capable of throwing an exception. To do this, a lot of [RTFM](/md_blog/youfoundadeadlink.md) is needed, but a full ABI interface can be found [here, for LLVM](http://libcxxabi.llvm.org/spec.html). Let's start by remembering what those missing functions are:
 
 ```c++
 > gcc main.o throw.o -o app
@@ -29,7 +29,7 @@ The function doing all the throw-magic! According to the ABI reference, once the
 
 A weird one... \_\_class\_type\_info is clearly some sort of RTTI, but what exactly? It's not easy to answer this one now and it's not terribly important for our mini ABI; we'll leave it to an appendix for after we are done analyzing the process of throwing exceptions, for now let's just say this is the entry point the ABI defines to know (in runtime) whether two types are the same or not. This is the function that gets called to determine whether a catch(Parent) can handle a throw Child. For now we'll focus on the basics: we need to give it an address for the linker (ie defining it won't be enough, we need to instantiate it) and it has to have a vtable (that is, it must have a virtual method).
 
-Lot's of stuff happen on these functions, but let's try to implement the simplest exception thrower possible: one that will call exit when an exception is thrown. Our application was almost OK but missing some ABI-stuff, so let's create a mycppabi.cpp. Reading [our ABI specification](/blog_md/youfoundadeadlink.md) we can figure out the signatures for **\_\_cxa\_allocate\_exception** and **\_\_cxa\_throw**:
+Lot's of stuff happen on these functions, but let's try to implement the simplest exception thrower possible: one that will call exit when an exception is thrown. Our application was almost OK but missing some ABI-stuff, so let's create a mycppabi.cpp. Reading [our ABI specification](/md_blog/youfoundadeadlink.md) we can figure out the signatures for **\_\_cxa\_allocate\_exception** and **\_\_cxa\_throw**:
 
 ```c++
 #include <unistd.h>

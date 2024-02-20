@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2009/08/c-magic-callbacks-solved.html
 
-Long post this time - and lots of code too. How fun iz that? Anyway, [remember where we left last time](/blog_md/2009/0721_CMagicmembercallbacks.md)? We're supposed to make this work:
+Long post this time - and lots of code too. How fun iz that? Anyway, [remember where we left last time](/md_blog/2009/0721_CMagicmembercallbacks.md)? We're supposed to make this work:
 
 ```c++
 class Callee {
@@ -277,15 +277,15 @@ Now we have a nice callback object which can link two objects without them knowi
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Template metaprogramming XI: Hidden Agenda](/blog_md/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.md) commented @ 2010-07-20T14:10:19.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Template metaprogramming XI: Hidden Agenda](/md_blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.md) commented @ 2010-07-20T14:10:19.000+02:00:
 
 [...] for every table; something like this: See the problem? To do something like that we’d need a virtual template method, and you can’t have that. After seeing that I thought to myself “Hey, I’ll use [...]
 
-Original [published here](/blog_md/2009/0803_CMagiccallbackssolved.md).
+Original [published here](/md_blog/2009/0803_CMagiccallbackssolved.md).
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Newsflash: C++ object commits sepuku](/blog_md/2011/0404_NewsflashCobjectcommitssepuku.md) commented @ 2011-04-04T09:30:53.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Newsflash: C++ object commits sepuku](/md_blog/2011/0404_NewsflashCobjectcommitssepuku.md) commented @ 2011-04-04T09:30:53.000+02:00:
 
 [...] you launch a background job, and you don’t really care when it’s done. You may use a callback to be notified when the job is done, but if you don’t really care then having an object which [...]
 
-Original [published here](/blog_md/2009/0803_CMagiccallbackssolved.md).
+Original [published here](/md_blog/2009/0803_CMagiccallbackssolved.md).

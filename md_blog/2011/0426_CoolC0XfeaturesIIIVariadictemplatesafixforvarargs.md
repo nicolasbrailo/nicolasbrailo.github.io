@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/04/cool-c0x-features-iii-variadic.html
 
-[Last time](/blog_md/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md) we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn't have the problems the varargs solution had, nor how does it work. Let's start by copying the solution here:
+[Last time](/md_blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md) we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn't have the problems the varargs solution had, nor how does it work. Let's start by copying the solution here:
 
 ```c++
 // Stop condition
@@ -25,7 +25,7 @@ int main() {
 
 ```
 
-It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some [template-foo](/blog_md/youfoundadeadlink.md) is required, not only because of the syntax but because we'll be talking about functional programming too.
+It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some [template-foo](/md_blog/youfoundadeadlink.md) is required, not only because of the syntax but because we'll be talking about functional programming too.
 
 With all that intro (the last 2 articles were just an intro!) now we are in a good shape to ask what a variadic template really is. In its easiest form, it's just a list of template arguments, like this:
 
@@ -38,7 +38,7 @@ That simple template can accept as many parameters as you need, of any type. Thi
 * Doesn't require the user to specify the number of args passed to foo, so it just can't get out of sync
 * It's typesafe; since C++ templates are type-safe, variadic templates are type safe too. You won't be able to request an int where a char is required, you'll just get a compiler error.
 * Compile time check: you get type safety just because this is all compiled code. If it doesn't compile, you get an error (albeit a little cryptic).
-* [POD types](/blog_md/2010/0407_PODtypesinC.md) support
+* [POD types](/md_blog/2010/0407_PODtypesinC.md) support
 * Better performance; small gain, but a gain indeed. Since this is all done in compile time there's no need to handle the stack dynamically, nor of having a loop getting the args. It's all known when you compile, thus the compiler can just optimize the hell out of everything
 
 Pretty neat, huh? But how does it work? Variadic templates are actually very similar to how Haskell handles lists, you get all the arguments as a list of types in which you can either get the head or the tail. To do something useful, get the head and continue processing the tail recursively.

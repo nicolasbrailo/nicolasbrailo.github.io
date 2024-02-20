@@ -16,11 +16,11 @@ If you are on Windows I think you have to install a new map, and then guess wher
 
 [...] Activating tildes and accents for a USA keyboard layout in Ubuntu [...]
 
-Original [published here](/blog_md/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.md).
+Original [published here](/md_blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.md).
 
 ---
-## In reply to [this post](), [Fixing keyboard layouts in Ubuntu. Scarier than it seems. An infinite monkey - Nicolas Brailovsky's blog](/blog_md/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..md) commented @ 2012-10-25T09:02:50.000+02:00:
+## In reply to [this post](), [Fixing keyboard layouts in Ubuntu. Scarier than it seems. An infinite monkey - Nicolas Brailovsky's blog](/md_blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..md) commented @ 2012-10-25T09:02:50.000+02:00:
 
 [...] Having keyboard problems? You may also be interested in learning how to activate tildes and accents for a USA keyboard layout in Ubuntu. [...]
 
-Original [published here](/blog_md/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.md).
+Original [published here](/md_blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.md).

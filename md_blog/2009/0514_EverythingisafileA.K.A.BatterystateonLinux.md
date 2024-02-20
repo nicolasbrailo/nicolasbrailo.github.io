@@ -29,8 +29,8 @@ This concept could be associated with the way polymorfism works in a programming
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » DIY gnome applets](/blog_md/2011/0929_DIYgnomeapplets.md) commented @ 2011-09-29T09:13:55.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » DIY gnome applets](/md_blog/2011/0929_DIYgnomeapplets.md) commented @ 2011-09-29T09:13:55.000+02:00:
 
 [...] widgets. Need to check your laptop’s battery? No need to search for a widget anymore, just cat /proc/acpi/battery/BAT0/state. Need to check the weather? Just wget your favorite forecast page and parse it with grep, sed an [...]
 
-Original [published here](/blog_md/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.md).
+Original [published here](/md_blog/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.md).

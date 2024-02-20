@@ -22,4 +22,4 @@ This is the last post on this topic because I feel I have written most, if not e
 
 Interfaces FTW !
 
-Original [published here](/blog_md/2010/0923_TemplateMetaprogrammingXVGemini.md).
+Original [published here](/md_blog/2010/0923_TemplateMetaprogrammingXVGemini.md).

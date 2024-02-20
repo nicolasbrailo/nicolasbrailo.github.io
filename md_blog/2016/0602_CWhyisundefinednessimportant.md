@@ -50,18 +50,18 @@ return (x > x + 1 ) always returns true !!!
 
 Are you kidding me ?
 
-Original [published here](/blog_md/2016/0602_CWhyisundefinednessimportant.md).
+Original [published here](/md_blog/2016/0602_CWhyisundefinednessimportant.md).
 
 ---
-## In reply to [this post](), [Undefined, implementation defined and unspecified behaviors in C++ - Native Coding](/blog_md/youfoundadeadlink.md) commented @ 2016-06-02T23:47:33.000+02:00:
+## In reply to [this post](), [Undefined, implementation defined and unspecified behaviors in C++ - Native Coding](/md_blog/youfoundadeadlink.md) commented @ 2016-06-02T23:47:33.000+02:00:
 
-[…] And another explanation here : /blog_md/2016/06/02/c-why-is-undefinedness-important/ […]
+[…] And another explanation here : /md_blog/2016/06/02/c-why-is-undefinedness-important/ […]
 
-Original [published here](/blog_md/2016/0602_CWhyisundefinednessimportant.md).
+Original [published here](/md_blog/2016/0602_CWhyisundefinednessimportant.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/blog_md) commented @ 2016-06-03T17:30:39.000+02:00:
+## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2016-06-03T17:30:39.000+02:00:
 
 That's a very trollish way of saying "careful with typos" but thanks for reporting nonetheless, anon. Fixed.
 
-Original [published here](/blog_md/2016/0602_CWhyisundefinednessimportant.md).
+Original [published here](/md_blog/2016/0602_CWhyisundefinednessimportant.md).

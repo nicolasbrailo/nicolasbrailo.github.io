@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2010/03/operator-sizeof-aka-reading-berkeley-fm.html
 
-[Last time](/blog_md/2010/0326_ReadingBerkeley39sFM.md) I told you about an evil snipet I found on Oracle Berkeley DB's manual:
+[Last time](/md_blog/2010/0326_ReadingBerkeley39sFM.md) I told you about an evil snipet I found on Oracle Berkeley DB's manual:
 
 ```c++
   skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
@@ -62,10 +62,10 @@ I hope that helps.
 
 -greg
 
-Original [published here](/blog_md/2010/0325_IhateBerkeley.md).
+Original [published here](/md_blog/2010/0325_IhateBerkeley.md).
 
 ---
-## In reply to [this post](), [nico](/blog_md/youfoundadeadlink.md) commented @ 2010-03-29T18:59:07.000+02:00:
+## In reply to [this post](), [nico](/md_blog/youfoundadeadlink.md) commented @ 2010-03-29T18:59:07.000+02:00:
 
 > “DB” is a type name for a struct and part of our ANSI C
 
@@ -93,4 +93,4 @@ I can write C++ programs using only a big main. It works but it's wrong. I can u
 
 I find Berkeley to be a good product for what it was designed, but it has to many programming bad practices which force you to work with its manual right by your side, until you can hide it under an abstraction layer, and that's what I hate about Berkely.
 
-Original [published here](/blog_md/2010/0325_IhateBerkeley.md).
+Original [published here](/md_blog/2010/0325_IhateBerkeley.md).

@@ -62,11 +62,11 @@ If there's something to learn from this story is that you should always know wha
 
 Thanks for this post. As soon as I saw the title in Google I clued in to what I'd done :)
 
-Original [published here](/blog_md/2010/0601_Ohshitthestack.md).
+Original [published here](/md_blog/2010/0601_Ohshitthestack.md).
 
 ---
-## In reply to [this post](), [nico](/blog_md/youfoundadeadlink.md) commented @ 2010-06-22T17:50:22.000+02:00:
+## In reply to [this post](), [nico](/md_blog/youfoundadeadlink.md) commented @ 2010-06-22T17:50:22.000+02:00:
 
 I'm glad to know I'm not the only one who finds (and makes) these kind of bugs lol
 
-Original [published here](/blog_md/2010/0601_Ohshitthestack.md).
+Original [published here](/md_blog/2010/0601_Ohshitthestack.md).

@@ -104,10 +104,10 @@ There's another bit of information in here which is not immediately obvious: in 
 
 It seems that thread safe atomics would be used for this type of synchronization, but even in very recent g++ I see calls to \_\_cxa\_guard\_acquire in the assembly. I don't claim to fully understand what goes on behind that curtain, but when single stepping the assembly the run time support code appears to be doing some heavy lifting in \_\_cxa\_guard\_acquire which does not point to an thread safe atomics based implementation. This is with a very recent mingw build of gcc which admittedly might not be optimally configured.
 
-Original [published here](/blog_md/2013/1203_StaticinitializationinC.md).
+Original [published here](/md_blog/2013/1203_StaticinitializationinC.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/blog_md) commented @ 2014-02-12T09:56:09.000+01:00:
+## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2014-02-12T09:56:09.000+01:00:
 
 > It seems that thread safe atomics would be used for this type of synchronization, but even in very recent g++ I see calls to \_\_cxa\_guard\_acquire in the assembly.
 
@@ -117,18 +117,18 @@ Original [published here](/blog_md/2013/1203_StaticinitializationinC.md).
 
 You might want to look at libc++ instead. Here's a good implementation of this function: https://llvm.org/svn/llvm-project/libcxxabi/trunk/src/cxa\_guard.cpp
 
-Original [published here](/blog_md/2013/1203_StaticinitializationinC.md).
+Original [published here](/md_blog/2013/1203_StaticinitializationinC.md).
 
 ---
-## In reply to [this post](), [Static initialization in C++ | SKZ 81 // it&#39;s about boards and codes](/blog_md/2016/0602_CWhyisundefinednessimportant.md) commented @ 2016-06-02T11:55:45.000+02:00:
+## In reply to [this post](), [Static initialization in C++ | SKZ 81 // it&#39;s about boards and codes](/md_blog/2016/0602_CWhyisundefinednessimportant.md) commented @ 2016-06-02T11:55:45.000+02:00:
 
 […] Here is a great article on advanced C++ mecanisms. I also liked the investigation method : Static initialization in C++ […]
 
-Original [published here](/blog_md/2013/1203_StaticinitializationinC.md).
+Original [published here](/md_blog/2013/1203_StaticinitializationinC.md).
 
 ---
-## In reply to [this post](), [[Из песочницы] Реализация горячей перезагрузки С++ кода в Linux – CHEPA website](/blog_md/youfoundadeadlink.md) commented @ 2019-01-06T16:04:05.000+01:00:
+## In reply to [this post](), [[Из песочницы] Реализация горячей перезагрузки С++ кода в Linux – CHEPA website](/md_blog/youfoundadeadlink.md) commented @ 2019-01-06T16:04:05.000+01:00:
 
 […] При перезагрузке в динамическую библиотеку с новым кодом, кроме veryUsefulFunction, попадет и статическая переменная static Singleton ins;, и метод Singletor::instance. Как следствие, программа начнет вызывать новые версии обеих функций. Но статическая ins в этой библиотеке еще не инициализирована, и поэтому при первом обращении к ней будет вызван конструктор класса Singleton. Мы этого, конечно, не хотим. Поэтому реализация переносит значения всех таких переменных, которые обнаружит в собранной динамической библиотеке, из старого кода в эту самую динамическую библиотеку с новым кодом вместе с их guard variables. […]
 
-Original [published here](/blog_md/2013/1203_StaticinitializationinC.md).
+Original [published here](/md_blog/2013/1203_StaticinitializationinC.md).

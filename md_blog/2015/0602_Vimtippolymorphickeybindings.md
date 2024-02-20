@@ -26,8 +26,8 @@ Remember to check ":help map" for a list of all mode mappings.
 # Comments
 
 ---
-## In reply to [this post](), [Simple vim plugin III: a polymorphic project greper | An infinite monkey - Nicolas Brailovsky's blog](/blog_md/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.md) commented @ 2016-11-30T08:02:07.000+01:00:
+## In reply to [this post](), [Simple vim plugin III: a polymorphic project greper | An infinite monkey - Nicolas Brailovsky's blog](/md_blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.md) commented @ 2016-11-30T08:02:07.000+01:00:
 
 […] grep to vim. We can improve it a little bit with very simple changes. Using this tip to have different key binding for different modes we can do something a bit smarter. Let's create two functions, one for normal mode that […]
 
-Original [published here](/blog_md/2015/0602_Vimtippolymorphickeybindings.md).
+Original [published here](/md_blog/2015/0602_Vimtippolymorphickeybindings.md).

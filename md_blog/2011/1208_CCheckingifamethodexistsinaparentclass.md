@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/12/c-checking-if-method-exists-in-parent.html
 
-I like [Google test and Google mock (C++ only)](/blog_md/2009/0602_TestingampmockingC.md) a lot. These are really great tools to ensure the quality of your code. They do have one problem however, especially [when working with a legacy codebase](/blog_md/2009/1023_Retrofittingunittestsforlegacycode.md): many times you need to change a signature for a function and your tests begin to fail. Those tests shouldn't really fail, they shouldn't compile at all because you're now trying to mock a function which doesn't exists anymore.
+I like [Google test and Google mock (C++ only)](/md_blog/2009/0602_TestingampmockingC.md) a lot. These are really great tools to ensure the quality of your code. They do have one problem however, especially [when working with a legacy codebase](/md_blog/2009/1023_Retrofittingunittestsforlegacycode.md): many times you need to change a signature for a function and your tests begin to fail. Those tests shouldn't really fail, they shouldn't compile at all because you're now trying to mock a function which doesn't exists anymore.
 
 I worked on a patch to check if a class and its parent share the same methods, but I hit some major roadblocks which I believe cannot be saved:
 

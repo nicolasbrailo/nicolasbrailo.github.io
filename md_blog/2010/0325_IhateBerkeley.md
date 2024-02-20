@@ -33,10 +33,10 @@ cheers,
 -greg
 Product Manager, Oracle Berkeley DB
 
-Original [published here](/blog_md/2010/0325_IhateBerkeley.md).
+Original [published here](/md_blog/2010/0325_IhateBerkeley.md).
 
 ---
-## In reply to [this post](), [nico](/blog_md/youfoundadeadlink.md) commented @ 2010-03-25T16:21:00.000+01:00:
+## In reply to [this post](), [nico](/md_blog/youfoundadeadlink.md) commented @ 2010-03-25T16:21:00.000+01:00:
 
 Hi Greg!
 
@@ -44,6 +44,6 @@ As a maintainer of legacy applications I agree, changing the API now would be a 
 
 I have been working a little bit with Berkeley DB for a new project and there are some more posts on the queue about things I found odd during my first tests with it, like having a DB and a Db datatype or the usage of sizeof operator in the manual. Hope you like those posts too (I may borrow your cartoon picture again, some people say it does look a lot like me)
 
-Original [published here](/blog_md/2010/0325_IhateBerkeley.md).
+Original [published here](/md_blog/2010/0325_IhateBerkeley.md).
 
 

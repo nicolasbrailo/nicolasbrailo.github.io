@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2009/03/valgrind-oci-suppressions-file-ftw.html
 
-**Update:** [There's a new Valgrind suppressions file @ this link.](/blog_md/2010/0219_ValgrindOCISuppressionsfileTakeII.md)
+**Update:** [There's a new Valgrind suppressions file @ this link.](/md_blog/2010/0219_ValgrindOCISuppressionsfileTakeII.md)
 
 Working [1] on a C++ project with Oracle I found that Valgrind reported lots of warnings related to OCI, for which, regardless of being false positives [2] or not, there's little I can do about (other than migrating to MySQL, that is). As the error report kept growing I found that Valgrind will refuse to keep track of new errors after a million or so:
 
@@ -12,10 +12,10 @@ Working [1] on a C++ project with Oracle I found that Valgrind reported lots of 
 
 The solution in this case is a [suppresions file](http://valgrind.org/docs/manual/manual-core.html#manual-core.suppress) for Valgrind. After spending a good deal of time unsuccsesfuly trying to get one I had to do it myself and upload it for the next one to run into this problem:
 
-Link to the file: [Valgrind / OCI suppressions](/blog_md/2009/0323_ValgrindOCISuppressionsfileFTW.md).
+Link to the file: [Valgrind / OCI suppressions](/md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 * Working at [Intraway](http://www.intraway.com/) :)
-* False positives are quite likely when compiling with -O2. See [Valgrind FTW.](/blog_md/2009/0302_ValgrindFTW.md)
+* False positives are quite likely when compiling with -O2. See [Valgrind FTW.](/md_blog/2009/0302_ValgrindFTW.md)
 
 
 ---
@@ -23,10 +23,10 @@ Link to the file: [Valgrind / OCI suppressions](/blog_md/2009/0323_ValgrindOCISu
 
 Great work, just what I'm looking for - but where is the file? (the link seems broken)
 
-Original [published here](/blog_md/2009/0323_ValgrindOCISuppressionsfileFTW.md).
+Original [published here](/md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 ---
-## In reply to [this post](), [nico](/blog_md/youfoundadeadlink.md) commented @ 2009-04-03T12:06:30.000+02:00:
+## In reply to [this post](), [nico](/md_blog/youfoundadeadlink.md) commented @ 2009-04-03T12:06:30.000+02:00:
 
 Should have been a temporary glitch, anyway this is the file:
 
@@ -180,7 +180,7 @@ Should have been a temporary glitch, anyway this is the file:
  fun:kpufch
 }
 
-Original [published here](/blog_md/2009/0323_ValgrindOCISuppressionsfileFTW.md).
+Original [published here](/md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 ---
 ## In reply to [this post](), [Mattias]() commented @ 2009-04-03T20:57:40.000+02:00:
@@ -271,11 +271,11 @@ Thanks! Since I use x86\_64 I had to switch all the 'Value4' to 'Value8', and I 
  fun:OCIStmtFetch2
 }
 
-Original [published here](/blog_md/2009/0323_ValgrindOCISuppressionsfileFTW.md).
+Original [published here](/md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Valgrind – OCI: Suppressions file, Take II](blog_md/2010/0219_ValgrindOCISuppressionsfileTakeII.md) commented @ 2010-02-19T11:14:33.000+01:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Valgrind – OCI: Suppressions file, Take II](md_blog/2010/0219_ValgrindOCISuppressionsfileTakeII.md) commented @ 2010-02-19T11:14:33.000+01:00:
 
 [...] my OCI suppressions file? Well, since then I have updated it. Now it includes some more suppressions, for libnetsnmp, [...]
 
-Original [published here](/blog_md/2009/0323_ValgrindOCISuppressionsfileFTW.md).
+Original [published here](/md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).

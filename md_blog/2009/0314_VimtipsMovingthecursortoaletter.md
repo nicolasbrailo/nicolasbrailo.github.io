@@ -18,5 +18,5 @@ For the first one a basic tip:
 >
 >
 
-As a sidenote, I guess there must be a Word Press plugin to display the latest post in a category but I coudn't find it, so I hacked my own: [tip-of-the-week](/blog_md/2009/0314_TipoftheWeek.md)
+As a sidenote, I guess there must be a Word Press plugin to display the latest post in a category but I coudn't find it, so I hacked my own: [tip-of-the-week](/md_blog/2009/0314_TipoftheWeek.md)
 

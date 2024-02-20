@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2009/10/write-in-c.html
 
-From [youtube](/blog_md/youfoundadeadlink.md)
+From [youtube](/md_blog/youfoundadeadlink.md)
 **Write in C**
 
 ```
@@ -82,11 +82,11 @@ Write in C.
 
 Just only a question: ¿I must write in C?
 
-Original [published here](/blog_md/2009/1015_WriteinC.md).
+Original [published here](/md_blog/2009/1015_WriteinC.md).
 
 ---
-## In reply to [this post](), [nico](/blog_md/youfoundadeadlink.md) commented @ 2010-03-02T15:47:02.000+01:00:
+## In reply to [this post](), [nico](/md_blog/youfoundadeadlink.md) commented @ 2010-03-02T15:47:02.000+01:00:
 
 Claro, con el squid que te bloquea youtube en el laburo seguro que no entendes el post :P
 
-Original [published here](/blog_md/2009/1015_WriteinC.md).
+Original [published here](/md_blog/2009/1015_WriteinC.md).

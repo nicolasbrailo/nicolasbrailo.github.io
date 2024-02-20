@@ -34,7 +34,7 @@ After the example, we were left with three new syntax changes to analyze:
 * auto
 
 Let's study the -> operator this time: **-> (delayed declaration)**
-This is the easiest one. When a method is declared auto (I've left this one for the end because auto is used for other things too) it means its return type will be defined somewhere else. Note that in this regard the final implementation differs from [Stroustroup's FAQ](/blog_md/youfoundadeadlink.md).
+This is the easiest one. When a method is declared auto (I've left this one for the end because auto is used for other things too) it means its return type will be defined somewhere else. Note that in this regard the final implementation differs from [Stroustroup's FAQ](/md_blog/youfoundadeadlink.md).
 
 The -> operator in a method's definition says "Here's the return type". I'll paste the same simple example we had last time, the following two snippets of code are equivalent:
 
@@ -52,8 +52,8 @@ auto foo() -> void {}
 # Comments
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Cool C++0X features XII: type inference with auto](/blog_md/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.md) commented @ 2011-10-04T09:23:29.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Cool C++0X features XII: type inference with auto](/md_blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.md) commented @ 2011-10-04T09:23:29.000+02:00:
 
 [...] like the one I’m pasting below, of type inference with decltype, which led us to learn about delayed type declaration and decltypes with auto. This time I want to focus just on the auto keyword [...]
 
-Original [published here](/blog_md/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.md).
+Original [published here](/md_blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.md).

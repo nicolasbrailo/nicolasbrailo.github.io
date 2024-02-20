@@ -53,15 +53,15 @@ PS: You may get a better explanation at [GotW #66: Constructor Failures](http://
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Design Patterns: C++ Idiom RAII](/blog_md/2010/0727_DesignPatternsCIdiomRAII.md) commented @ 2010-07-27T12:05:41.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Design Patterns: C++ Idiom RAII](/md_blog/2010/0727_DesignPatternsCIdiomRAII.md) commented @ 2010-07-27T12:05:41.000+02:00:
 
 [...] magic of RAII lies in how C++ handles exceptions. When we have a built object (can an object be in an unbuilt state?) it means it’s constructor has correctly ran. It also means it’s destructor will run [...]
 
-Original [published here](/blog_md/2010/0225_CCompositeobjectsandthrowingconstructors.md).
+Original [published here](/md_blog/2010/0225_CCompositeobjectsandthrowingconstructors.md).
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Throwing destructors](/blog_md/2011/0920_Throwingdestructors.md) commented @ 2011-09-20T10:45:36.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Throwing destructors](/md_blog/2011/0920_Throwingdestructors.md) commented @ 2011-09-20T10:45:36.000+02:00:
 
 [...] already know what happens when you throw from a constructor. Ending up with a half built object is not good, but suppose we do manage to build one correctly. [...]
 
-Original [published here](/blog_md/2010/0225_CCompositeobjectsandthrowingconstructors.md).
+Original [published here](/md_blog/2010/0225_CCompositeobjectsandthrowingconstructors.md).

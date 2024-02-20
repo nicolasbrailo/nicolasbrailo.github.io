@@ -9,7 +9,7 @@ In this series about exception handling, we have discovered quite a bit about ex
 * A throw statement will be translated by the compiler into two calls, **\_\_cxa\_allocate\_exception** and **\_\_cxa\_throw**.
 * **\_\_cxa\_allocate\_exception** and **\_\_cxa\_throw** "live" on libstdc++
 * **\_\_cxa\_allocate\_exception** will allocate memory for the new exception.
-* **\_\_cxa\_throw** will prepare a bunch of stuff and forward this exception to **\_Unwind\_**, a set of functions that live in libstdc and perform the real stack unwinding ([the ABI](/blog_md/youfoundadeadlink.md) defines the interface for these functions).
+* **\_\_cxa\_throw** will prepare a bunch of stuff and forward this exception to **\_Unwind\_**, a set of functions that live in libstdc and perform the real stack unwinding ([the ABI](/md_blog/youfoundadeadlink.md) defines the interface for these functions).
 
 Quite simple so far, but exception catching is a bit more complicated, specially because it requires certain degree of reflexion (that is, the ability of a program to analyze its own source code). Let's keep on trying our same old method, let's add some catch statements throughout our code, compile it and see what happens:
 

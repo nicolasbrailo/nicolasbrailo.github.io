@@ -59,11 +59,11 @@ int dummy[1 + sizeof...(Config)] = { 0, (static\_cast(Config::apply(p)), 0)... }
 
 Note that nobody can override the comma operator there.
 
-Original [published here](/blog_md/2020/0218_MixinishclasseswithparameterpacksinC.md).
+Original [published here](/md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/blog_md) commented @ 2020-02-19T13:06:50.000+01:00:
+## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2020-02-19T13:06:50.000+01:00:
 
 Good catch, thanks!
 
-Original [published here](/blog_md/2020/0218_MixinishclasseswithparameterpacksinC.md).
+Original [published here](/md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md).

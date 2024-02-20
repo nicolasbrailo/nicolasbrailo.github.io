@@ -28,5 +28,5 @@ This site now came full circle: it started as a self-hosted php bundle, and it's
 * Finally deleted all content from Wordpress - just today!
 * I moved away from Wordpress in 2021. Somehow, the site still claims to have 20 visitors a day, even though there are no posts (other than a text saying "moved to...")
 * I still haven't deleted all the content from Blogger - but it's in my ToDo list
-* `wc $(find blog_md -type f)` says this blog has 116068 words in 16497 lines. This is comparable to 400 pages book, though not necessarily a good one. Google says 'The Return of the King' is about 135K words, and 'The Hobbit' is about 100K. 'Sense and Sensibility' comes closest at 119K words.
+* `wc $(find md_blog -type f)` says this blog has 116068 words in 16497 lines. This is comparable to 400 pages book, though not necessarily a good one. Google says 'The Return of the King' is about 135K words, and 'The Hobbit' is about 100K. 'Sense and Sensibility' comes closest at 119K words.
 

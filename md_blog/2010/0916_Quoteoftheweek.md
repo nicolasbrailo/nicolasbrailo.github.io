@@ -6,5 +6,5 @@
 
 > It seems making a compile fail is actually quite easy. That’s what I have most experience with.
 
-From "[Template metaprogramming](/blog_md/youfoundadeadlink.md)", [chapter 10](/blog_md/2010/0617_TemplatemetaprogrammingXZeroMinusTen.md) by [me](/blog_md/youfoundadeadlink.md)
+From "[Template metaprogramming](/md_blog/youfoundadeadlink.md)", [chapter 10](/md_blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.md) by [me](/md_blog/youfoundadeadlink.md)
 

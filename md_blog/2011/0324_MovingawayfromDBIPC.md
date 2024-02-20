@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/03/moving-away-from-db-ipc.html
 
-[Last time](/blog_md/2011/0322_DBIPCCommunicatingprocessesthewrongway.md) I wrote about why DB IPC is bad. Now I intend to write about the way to start moving away from it, towards a better architecture.
+[Last time](/md_blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.md) I wrote about why DB IPC is bad. Now I intend to write about the way to start moving away from it, towards a better architecture.
 
 As I mentioned, this pattern is deeply rooted across all the enterprise platform, so removing it is not an easy task, and it can only be done in small steps. Small steps means a compromise solution, you won't be going from IPC DB to a restful application in a week, so having an ugly-but-not-so-much-as-ipc-db solution is the way to go.
 

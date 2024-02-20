@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2013/11/automagically-setup-breakpoints-with-gdb.html
 
-When you are trying to debug a project you don't know you'll probably end up recompiling a few times, then restarting your debugging session. This can be quite frustrating, when you have gdb workset [full of breakpoints](/blog_md/2013/0704_Myowngdbcheatsheetjustbecause.md), [watch expressions](/blog_md/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md) and all that stuff.
+When you are trying to debug a project you don't know you'll probably end up recompiling a few times, then restarting your debugging session. This can be quite frustrating, when you have gdb workset [full of breakpoints](/md_blog/2013/0704_Myowngdbcheatsheetjustbecause.md), [watch expressions](/md_blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.md) and all that stuff.
 
 Luckily you can easily restore your state if you just write all the gdb commands you need into a file, then start gdb with "--command=state.gdb". Magic! All your breakpoints are there.
 

@@ -64,4 +64,4 @@ return 0;
 }
 ```
 
-Original [published here](/blog_md/2011/1220_AnonymousobjectsinC.md).
+Original [published here](/md_blog/2011/1220_AnonymousobjectsinC.md).

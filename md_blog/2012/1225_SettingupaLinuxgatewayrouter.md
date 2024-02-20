@@ -368,4 +368,4 @@ Now anyone who changes a config file can run this script to have their new rule 
 
 Ten computers has a public ip address How will you get internet connection on ten public computers using private ip address and linux box as its router.
 
-Original [published here](/blog_md/2012/1225_SettingupaLinuxgatewayrouter.md).
+Original [published here](/md_blog/2012/1225_SettingupaLinuxgatewayrouter.md).

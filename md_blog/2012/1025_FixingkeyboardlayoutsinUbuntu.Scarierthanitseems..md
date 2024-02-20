@@ -12,5 +12,5 @@ sudo dpkg-reconfigure keyboard-configuration
 
 This will ask you a lot of questions about your keyboard, good luck guessing. It kind of reminds me the Windows 95 install process, in which erring the keyboard layout meant it was probably easier to just format and reinstall everything all over again. With some luck, next time you reboot your Ubuntu will actually remember your keyboard preference. If not, just take this as an opportunity to learn a foreign language.
 
-Having keyboard problems? You may also be interested in learning [how to activate tildes and accents for a USA keyboard layout in Ubuntu](/blog_md/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.md).
+Having keyboard problems? You may also be interested in learning [how to activate tildes and accents for a USA keyboard layout in Ubuntu](/md_blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.md).
 

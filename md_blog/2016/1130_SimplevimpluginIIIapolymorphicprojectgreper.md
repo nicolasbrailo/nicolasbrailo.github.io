@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2016/11/simple-vim-plugin-iii-polymorphic.html
 
-We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have [different key binding for different modes](/blog_md/2015/0602_Vimtippolymorphickeybindings.md) we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:
+We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have [different key binding for different modes](/md_blog/2015/0602_Vimtippolymorphickeybindings.md) we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:
 
 ```ruby
 function! FG_DoSearch(needle)

@@ -68,11 +68,11 @@ And finally, a rule for to create the real binary. Next time I'll add some cool 
 
 [...] Makefiles [...]
 
-Original [published here](/blog_md/2011/0818_Makefiles.md).
+Original [published here](/md_blog/2011/0818_Makefiles.md).
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » A Makefile for TDD with C++](/blog_md/2011/0822_AMakefileforTDDwithC.md) commented @ 2011-08-22T09:09:05.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » A Makefile for TDD with C++](/md_blog/2011/0822_AMakefileforTDDwithC.md) commented @ 2011-08-22T09:09:05.000+02:00:
 
 [...] after reading my post about makefiles you decided that you like them but would like to add some TDD to be buzzword compliant? No problem, [...]
 
-Original [published here](/blog_md/2011/0818_Makefiles.md).
+Original [published here](/md_blog/2011/0818_Makefiles.md).

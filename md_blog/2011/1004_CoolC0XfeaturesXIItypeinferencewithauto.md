@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/10/cool-c0x-features-xii-type-inference.html
 
-In the last four entries we worked on a simple example, like the one I'm pasting below, of type inference with decltype, which led us to learn about [delayed type declaration](/blog_md/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.md) and [decltypes with auto](/blog_md/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.md). This time I want to focus just on the auto keyword instead.
+In the last four entries we worked on a simple example, like the one I'm pasting below, of type inference with decltype, which led us to learn about [delayed type declaration](/md_blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.md) and [decltypes with auto](/md_blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.md). This time I want to focus just on the auto keyword instead.
 
 ```c++
 template <class... Args>
@@ -14,7 +14,7 @@ auto wrap(Args... a) -> decltype( do_something(a...) ) {
 }
 ```
 
-We saw [last time](/blog_md/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.md) how decltype can be used in a contrived way to create a local variable without specifying its type, only how to deduce the type for this variable. Luckily, that verbose method of type declaration can be summed up in the following way:
+We saw [last time](/md_blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.md) how decltype can be used in a contrived way to create a local variable without specifying its type, only how to deduce the type for this variable. Luckily, that verbose method of type declaration can be summed up in the following way:
 
 ```c++
 	int x = 2;

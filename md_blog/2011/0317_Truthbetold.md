@@ -6,7 +6,7 @@
 
 I bet 90% of enterprisey architecture diagrams are more or less like this one.
 
-![](/blog_md/youfoundadeadlink.md)
+![](/md_blog/youfoundadeadlink.md)
 
-From [Geek and Poke](/blog_md/youfoundadeadlink.md)
+From [Geek and Poke](/md_blog/youfoundadeadlink.md)
 

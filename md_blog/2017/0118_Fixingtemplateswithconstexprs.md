@@ -6,7 +6,7 @@
 
 For my hundredth (and a bit) c++ post I decided to do something I never did before: fix my old code!
 
-A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my [template device to calculate e](/blog_md/youfoundadeadlink.md). Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):
+A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my [template device to calculate e](/md_blog/youfoundadeadlink.md). Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):
 
 ```c++
 template <int N, int D> struct Frak {
@@ -127,7 +127,7 @@ float get_e() {
 }
 ```
 
-Disclaimer: while I explicitly stated this multiple times in my "[C++ template metaprogramming introduction](/blog_md/youfoundadeadlink.md)" article, it's worth re-stating it: this code is meant as an example to showcase a c++ feature, not as a proper way of deriving a mathematical constant in production code.
+Disclaimer: while I explicitly stated this multiple times in my "[C++ template metaprogramming introduction](/md_blog/youfoundadeadlink.md)" article, it's worth re-stating it: this code is meant as an example to showcase a c++ feature, not as a proper way of deriving a mathematical constant in production code.
 
 First thoughts after comparing the two versions: much, much [, much]\*100 cleaner.
 
@@ -141,8 +141,8 @@ I called constexpr's one of c++11's killer features, and hopefully you can see w
 # Comments
 
 ---
-## In reply to this post, [Fixing templates with constexpr's | patwanjau](/blog_md/youfoundadeadlink.md) commented @ 2017-01-19T13:01:02.000+01:00:
+## In reply to this post, [Fixing templates with constexpr's | patwanjau](/md_blog/youfoundadeadlink.md) commented @ 2017-01-19T13:01:02.000+01:00:
 
 […] Source: Fixing templates with constexpr's […]
 
-Original [published here](/blog_md/2017/0118_Fixingtemplateswithconstexprs.md).
+Original [published here](/md_blog/2017/0118_Fixingtemplateswithconstexprs.md).

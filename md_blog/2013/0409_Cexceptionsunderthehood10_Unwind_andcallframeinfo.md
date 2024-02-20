@@ -6,7 +6,7 @@
 
 We left our mini-ABI project ([link](https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v03)) capable of throwing exceptions, and we are now working on catching them; we implemented a personality function last time which was capable of detecting and handling exceptions but it was still a bit incomplete: even though it can properly notify the stack unwinder when it should stop but our version of \_\_gxx\_personality\_v0 can't run the code inside a catch block. It's better than a coredump one might argue, but still a long way from a useful exception handling ABI. Can we improve it?
 
-How can we tell \_Unwind\_ where is our landing pad, so we can execute the code inside the catch statement? If we go back to the [ABI specification](/blog_md/youfoundadeadlink.md), there are a few context management functions which might help us:
+How can we tell \_Unwind\_ where is our landing pad, so we can execute the code inside the catch statement? If we go back to the [ABI specification](/md_blog/youfoundadeadlink.md), there are a few context management functions which might help us:
 
 * \_Unwind\_GetLanguageSpecificData, to get the LSDA for this stack frame. We should be able to find the landing pads and the destructors to run using it.
 * \_Unwind\_GetRegionStart, to get the instruction pointer for the beginning of the function for stack frame currently under analysis by the personality function (that is, the function pointer for the current stack frame).

@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2013/06/useless-code-template-device-to.html
 
-Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review [and old article](/blog_md/youfoundadeadlink.md) I wrote about it (C++11 made some parts of those articles obsolete, but I'm surprised of how well it's aged). To practice a bit I decided to tackle a problem I'm sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn't be to hard.
+Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review [and old article](/md_blog/youfoundadeadlink.md) I wrote about it (C++11 made some parts of those articles obsolete, but I'm surprised of how well it's aged). To practice a bit I decided to tackle a problem I'm sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn't be to hard.
 
 ```c++
 template <int N, int D> struct Frak {

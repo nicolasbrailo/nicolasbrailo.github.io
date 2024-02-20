@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2010/05/ubuntu-sound-still-fubar.html
 
-Remember my problems with [dual screen support](/blog_md/2010/0427_UbuntuDualscreenstillFUBARd.md) in Ubuntu? Well, I still love bashing Ubuntu, and the sound system in Linux is certainly a topic to rant a lot. Making the sound work fine in Ubuntu is an odyssey in pain and frustration, unless it works fine out of the box. And even if it does, it may still have it's kirks. Lots of them.
+Remember my problems with [dual screen support](/md_blog/2010/0427_UbuntuDualscreenstillFUBARd.md) in Ubuntu? Well, I still love bashing Ubuntu, and the sound system in Linux is certainly a topic to rant a lot. Making the sound work fine in Ubuntu is an odyssey in pain and frustration, unless it works fine out of the box. And even if it does, it may still have it's kirks. Lots of them.
 
 In my case the sound starts in mute. I know it's a problem with pulse (which is a WTF in itself) and alsa, I don't really care what's the problem though, I just want to play my mp3s collection without having to carefully turn the knobs up to eleven in alsamixer.
 

@@ -14,8 +14,8 @@ Also, because otherwise this post would be empty:
 
 
 ---
-## In reply to [this post](), [Stacktrace or GTFO | 0pointer](/blog_md/youfoundadeadlink.md) commented @ 2011-02-21T12:23:56.000+01:00:
+## In reply to [this post](), [Stacktrace or GTFO | 0pointer](/md_blog/youfoundadeadlink.md) commented @ 2011-02-21T12:23:56.000+01:00:
 
 [...] NicolasB [...]
 
-Original [published here](/blog_md/2010/0924_StacktraceorGTFO.md).
+Original [published here](/md_blog/2010/0924_StacktraceorGTFO.md).

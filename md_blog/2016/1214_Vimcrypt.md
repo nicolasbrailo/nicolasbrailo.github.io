@@ -14,4 +14,4 @@ Have you ever been working on your plans for world domination but got scared som
 
 You should use ":set cm=blowfish2" to use the not broken Blowfish implementation, the old one is still the default for backwards compatibility.
 
-Original [published here](/blog_md/2016/1214_Vimcrypt.md).
+Original [published here](/md_blog/2016/1214_Vimcrypt.md).

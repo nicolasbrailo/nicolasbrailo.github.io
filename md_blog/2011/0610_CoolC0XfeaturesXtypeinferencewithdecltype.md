@@ -4,9 +4,9 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2011/06/cool-c0x-features-x-type-inference-with.html
 
-After creating a [wrapper object](/blog_md/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.md) on the last entries, we were left with three syntax changes two analyze:
+After creating a [wrapper object](/md_blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.md) on the last entries, we were left with three syntax changes two analyze:
 
-* [-> (delayed declaration)](/blog_md/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.md)
+* [-> (delayed declaration)](/md_blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.md)
 * decltype
 * auto
 

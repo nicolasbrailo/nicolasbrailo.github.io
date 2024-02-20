@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2010/03/reading-berkeley-fm.html
 
-I got this from [Oracle Berkely DB's](http://www.oracle.com/technology/documentation/berkeley-db/db/programmer_reference/BDB_Prog_Reference.pdf) [FM](/blog_md/youfoundadeadlink.md):
+I got this from [Oracle Berkely DB's](http://www.oracle.com/technology/documentation/berkeley-db/db/programmer_reference/BDB_Prog_Reference.pdf) [FM](/md_blog/youfoundadeadlink.md):
 
 ```c++
   skey-&gt;size = sizeof((struct student_record *)pdata-&gt;data)-&gt;last_name;
@@ -34,8 +34,8 @@ What is going on there? It took me a while to figure out how evil Berkely 's man
 
 
 ---
-## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Operator sizeof (AKA Reading Berkeley’s FM, take II)](/blog_md/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md) commented @ 2010-03-29T11:57:18.000+02:00:
+## In reply to [this post](), [Nicolás Brailovsky » Blog Archive » Operator sizeof (AKA Reading Berkeley’s FM, take II)](/md_blog/2010/0329_OperatorsizeofAKAReadingBerkeleysFMtakeII.md) commented @ 2010-03-29T11:57:18.000+02:00:
 
 [...] Last time I told you about an evil snipet I found on Oracle Berkeley DB’s manual: [...]
 
-Original [published here](/blog_md/2010/0326_ReadingBerkeley39sFM.md).
+Original [published here](/md_blog/2010/0326_ReadingBerkeley39sFM.md).

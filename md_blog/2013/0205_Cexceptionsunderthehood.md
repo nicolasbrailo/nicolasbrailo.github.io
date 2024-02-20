@@ -22,7 +22,7 @@ This already looks quite complicated and we haven't even started; that was but a
 
 To learn about all the details that happen under the hood on the next article we will start to implement our own mini libstdlibc++. Not all of it though, only the part that handles exceptions. Actually not even all of that, only the bare minimum we need to make a simple throw/catch statement work. Some assembly will be needed, but nothing too fancy. A lot of patience will be required, I'm afraid.
 
-If you are too curious and want to start reading about exception handling implementation then you can start [here](/blog_md/youfoundadeadlink.md), for a full specification of what we are going to implement on the next few articles. I'll try to make these articles a bit more didactic and easier to follow though, so see you next time to start our ABI!
+If you are too curious and want to start reading about exception handling implementation then you can start [here](/md_blog/youfoundadeadlink.md), for a full specification of what we are going to implement on the next few articles. I'll try to make these articles a bit more didactic and easier to follow though, so see you next time to start our ABI!
 
 ###### \*\* Disclaimer note: I'm in no way versed on the magic going on when an exception is thrown. These series will be about trying to demystify the stuff going on under the hood and learning something in the process, and while I hope some of it will be correct I have no doubts there will be a lot of subtleties not quite right. Let me know if you think I should correct something \*\*
 

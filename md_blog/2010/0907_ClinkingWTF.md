@@ -69,4 +69,4 @@ The difference probably has to do with the optimizer. If the optimizer reduces a
 
 You can see these kinds of linker bugs happen often in debug builds but not in release builds because of different optimization levels.
 
-Original [published here](/blog_md/2010/0907_ClinkingWTF.md).
+Original [published here](/md_blog/2010/0907_ClinkingWTF.md).

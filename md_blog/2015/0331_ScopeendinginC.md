@@ -26,11 +26,11 @@ Fun stuff, right?
 
 It's issues like this that make me recommend enabling warnings of shadow variables, if your compiler supports it (https://github.com/lefticus/cppbestpractices/blob/master/02-Use\_the\_Tools\_Available.md#compilers)
 
-Original [published here](/blog_md/2015/0331_ScopeendinginC.md).
+Original [published here](/md_blog/2015/0331_ScopeendinginC.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/blog_md) commented @ 2015-04-08T14:42:53.000+02:00:
+## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2015-04-08T14:42:53.000+02:00:
 
 This weird construct actually has a good reason to be, as someone pointed out to me in twitter, namely to be used when writing constructors. So, while it has some reasonable use cases it can also be abused in amusing and unexpected ways. And indeed we should rely in our tools to let us know when we do this kind of things.
 
-Original [published here](/blog_md/2015/0331_ScopeendinginC.md).
+Original [published here](/md_blog/2015/0331_ScopeendinginC.md).

@@ -10,5 +10,5 @@ Choosing the least of all evils, I decided to use Open Office and master documen
 
 > Yes, master documents do work in OOoWriter. However, their use is full of traps for inexperienced users[...]
 
-Oh, thanks a lot OO.org (?). BTW, exporting an odm to pdf with a headless set == FAIL (i.e. don't even try to use this if you intend to [autogenerate some documentation with your makefile](/blog_md/2011/0913_Automagicdocumentconversionforyourmakefiles.md)).
+Oh, thanks a lot OO.org (?). BTW, exporting an odm to pdf with a headless set == FAIL (i.e. don't even try to use this if you intend to [autogenerate some documentation with your makefile](/md_blog/2011/0913_Automagicdocumentconversionforyourmakefiles.md)).
 

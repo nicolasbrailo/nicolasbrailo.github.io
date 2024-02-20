@@ -38,13 +38,13 @@ From what I can glean from the standard, there's no debug/release mode differenc
 
 To test the theory, a program compiled with Clang produces the same result in both -O0 and -O3 modes: https://godbolt.org/z/BpG2Ob
 
-Original [published here](/blog_md/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md).
+Original [published here](/md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md).
 
 ---
-## In reply to [this post](), [nicolasbrailo](/blog_md) commented @ 2019-08-03T20:10:45.000+02:00:
+## In reply to [this post](), [nicolasbrailo](/md_blog) commented @ 2019-08-03T20:10:45.000+02:00:
 
 Thanks aiusepsi! I think that somewhat misses the point of the article though: I'm not saying -O levels will provide different behavior, I'm worried that code I use to debug, such as "cout << foo()" will have different behavior to "const int x = foo()". If there ever is a bug that causes foo to behave differently due to is\_const\_eval, I'll take hours to find it out.
 
 The wording in the article might be a bit poor, I think... Probably a good idea if I clarify the last sentence of the article to reflect this!
 
-Original [published here](/blog_md/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md).
+Original [published here](/md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md).

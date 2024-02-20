@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2016/07/vim-utilities-impl-switcher.html
 
-I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "[BTN: Better Tab New](/blog_md/2016/0701_VimutilitiesBetterTabNew.md)". Today it's the turn for "Impl switcher".
+I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "[BTN: Better Tab New](/md_blog/2016/0701_VimutilitiesBetterTabNew.md)". Today it's the turn for "Impl switcher".
 
 With its very imaginative name, "Impl switcher" has a very obvious purpose: it will just switch from a header file to an implementation file. So, between .h and .cpp. Surely there are lots of Vim plugins to do just that, why write another one?
 

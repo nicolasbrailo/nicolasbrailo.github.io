@@ -26,4 +26,4 @@ for i in `seq 1 10`; do printf "%02dn" $i; done
 
 [...] Zero padding for Bash scripts [...]
 
-Original [published here](/blog_md/2011/0915_ZeropaddingforBashscripts.md).
+Original [published here](/md_blog/2011/0915_ZeropaddingforBashscripts.md).

@@ -6,7 +6,7 @@
 
 I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "Impl switcher", and "Better Tab New" before that. Today it's Findgrep & Fastgrep's turn.
 
-I [wrote about Fastgrep a long time ago](/blog_md/2012/1030_Fastgrepacacheforgrep.md). The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by creating a huge blob file with all the files in a project concatenated.
+I [wrote about Fastgrep a long time ago](/md_blog/2012/1030_Fastgrepacacheforgrep.md). The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by creating a huge blob file with all the files in a project concatenated.
 
 Fastgrep works great. But it requires a context switch, going from your IDE to your console just to grep. Findgrep fills the gap between the IDE and the command line: this utility provides a few key bindings to let you quickly run some common commands, like searching for a selected string or finding a file in the project directory.
 

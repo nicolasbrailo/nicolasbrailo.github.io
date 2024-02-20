@@ -4,7 +4,7 @@
 @meta author Nico Brailovsky
 @meta originalUrl https://monkeywritescode.blogspot.com/2012/10/getting-stacktrace-on-cc-mapping_23.html
 
-[Last time](/blog_md/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.md) we talked about mapping function addresses to names (albeit mangled) in object files; we can also get this information during runtime:
+[Last time](/md_blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.md) we talked about mapping function addresses to names (albeit mangled) in object files; we can also get this information during runtime:
 
 ### Glibc to the aid
 
@@ -119,4 +119,4 @@ The whole series on getting a stacktrace on C++ is merely "educational", as in "
 
 WTF? - asm("movl %%ebp,%0" : "=r"(sp));
 
-Original [published here](/blog_md/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.md).
+Original [published here](/md_blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.md).
