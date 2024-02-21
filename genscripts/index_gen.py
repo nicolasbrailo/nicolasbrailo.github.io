@@ -11,13 +11,13 @@ MAIN_IDX_HEADER = """
 @meta docType index
 """
 MONTH_IDX_HEADER = """
-# Posts for {year} {month_num_str(month)}
+# Posts for {} {}
 
 @meta docType index
 
 """
 YEAR_IDX_HEADER = """
-# Posts for {year}
+# Posts for {}
 
 @meta docType index
 
@@ -92,7 +92,7 @@ def build_months_idx_md(tmp_gen_md, yearmonth_idx):
                 doc = read_md_doc(p)
                 idx_md.append(apply_template(POST_IN_IDX_TMPL, doc))
 
-            md = MONTH_IDX_HEADER + '\n\n---\n\n'.join(idx_md)
+            md = MONTH_IDX_HEADER.format(year, month_num_str(month)) + '\n\n---\n\n'.join(idx_md)
             with open(idx_path, 'w') as fp:
                 fp.write(md)
 
@@ -102,7 +102,7 @@ def build_year_idx_md(tmp_gen_md, yearmonth_idx):
         if not os.path.exists(dirn):
             os.makedirs(dirn)
 
-        idx_md = [YEAR_IDX_HEADER]
+        idx_md = [YEAR_IDX_HEADER.format(year)]
         for month, posts in month_idx.items():
             month_idx_path = os.path.join(dirn, f'{month}.md')
             idx_md.append(f' * [{month_num_str(month)}]({month_idx_path})')
