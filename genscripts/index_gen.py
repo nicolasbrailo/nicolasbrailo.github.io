@@ -10,20 +10,17 @@ POST_IN_IDX_TMPL = 'genscripts/templates/post_in_index.md.tmpl'
 MAIN_IDX_HEADER = """
 @meta docType index
 """
-MONTH_IDX_HEADER = """
-# Posts for {} {}
+MONTH_IDX_HEADER = """# Posts for {} {}
 
 @meta docType index
 
 """
-YEAR_IDX_HEADER = """
-# Posts for {}
+YEAR_IDX_HEADER = """# Posts for {}
 
 @meta docType index
 
 """
-HISTORY_IDX_HEADER = """
-# Posts for the entire history of this site
+HISTORY_IDX_HEADER = """# Posts for the entire history of this site
 
 @meta docType index
 
@@ -102,7 +99,7 @@ def build_year_idx_md(tmp_gen_md, yearmonth_idx):
         if not os.path.exists(dirn):
             os.makedirs(dirn)
 
-        idx_md = [YEAR_IDX_HEADER.format(year)]
+        idx_md = []
         for month, posts in month_idx.items():
             month_idx_path = os.path.join(dirn, f'{month}.md')
             idx_md.append(f' * [{month_num_str(month)}]({month_idx_path})')
@@ -112,7 +109,7 @@ def build_year_idx_md(tmp_gen_md, yearmonth_idx):
 
         idx_path = os.path.join(dirn, 'index.md')
         with open(idx_path, 'w') as fp:
-            fp.write('\n'.join(idx_md))
+            fp.write(YEAR_IDX_HEADER.format(year) + '\n'.join(idx_md))
 
 def build_history(tmp_gen_md):
     idxs = []
@@ -134,8 +131,8 @@ def build_history(tmp_gen_md):
         year_end = year_start + 4
         year = int(idx_path[year_start:year_end])
 
-        with open(idx_path, 'r') as fp:
-            all_idx_md += fp.read() + "\n\n---\n\n"
+        doc = read_md_doc(idx_path)
+        all_idx_md += f"## [{doc['title']}]({doc['srcFile']})\n\n{doc['txt']}\n\n---\n\n"
 
     with open(os.path.join(tmp_gen_md, 'history.md'), 'w') as fp:
         fp.write(all_idx_md)
@@ -177,10 +174,10 @@ def build_main_index(tmp_gen_md, pages):
             mds.append(apply_template(POST_IN_IDX_TMPL, doc))
 
         idx_navigation = []
-        if this_page_num < len(pages) - 1:
-            idx_navigation.append(f"[Next]({path_for_page(this_page_num+1)})")
         if this_page_num > 0:
             idx_navigation.append(f"[Prev]({path_for_page(this_page_num-1)})")
+        if this_page_num < len(pages) - 1:
+            idx_navigation.append(f"[Next]({path_for_page(this_page_num+1)})")
         if this_page_num == len(pages) - 1:
             hist_path = os.path.join(tmp_gen_md, 'history.md')
             idx_navigation.append(f"[History]({hist_path})")

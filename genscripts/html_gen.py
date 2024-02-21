@@ -4,6 +4,7 @@ from markdown.inlinepatterns import InlineProcessor
 from markdown.treeprocessors import Treeprocessor
 from markdown.preprocessors import Preprocessor
 
+from helpers import build_anchor_for_title
 from datetime import datetime
 import html
 import markdown
@@ -86,9 +87,6 @@ class CodeProcessor(BlockProcessor):
         blocks[0] = original_block
         return False  # equivalent to our test() routine returning False
 
-def build_anchor_for_title(title):
-    return re.sub(r'[^_.a-zA-Z0-9]', '', title).lower()
-
 class Anchorize(Treeprocessor):
     def run(self, root):
         for elem in root.iter():
@@ -127,121 +125,8 @@ markdowner.parser.blockprocessors.register(CodeProcessor(markdowner.parser), 'co
 markdowner.treeprocessors.register(Anchorize(markdowner), 'anchorize', 185)
 markdowner.preprocessors.register(EscapeMoreChars(markdowner), 'escapemorechars', 195)
 
-def extract_md_metadata(md):
-    metadata = {}
-    for ln in md.split('\n'):
-        if ln.startswith('@meta '):
-            k_i = len('@meta ')
-            k_f = ln.find(' ', k_i + 1)
-            key = ln[k_i:k_f]
-            val = ln[k_f+1:]
-            if key == 'publishDatetime':
-                try:
-                    parsed_datetime = datetime.strptime(val, '%Y-%m-%dT%H:%M:%S.%f%z')
-                    metadata['publishDate'] = parsed_datetime.strftime('%Y-%m-%d')
-                    metadata['publishTime'] = parsed_datetime.strftime('%H:%M')
-                except ValueError:
-                    pass
-            metadata[key] = val
-
-    metadata['generatedDate'] = datetime.now().strftime('%Y-%m-%d')
-    return metadata
-
-def mdtohtml(md):
-    content = []
-    for ln in md.split('\n'):
-        if not ln.startswith('@meta '):
-            content.append(ln)
-    return markdowner.reset().convert('\n'.join(content))
-
-def apply_template(tmpl, repl):
-    for key, value in extract_md_metadata(tmpl).items():
-        token = "{{" + key + "}}"
-        tmpl = tmpl.replace(token, str(value))
-    for key, value in repl.items():
-        token = "{{" + key + "}}"
-        tmpl = tmpl.replace(token, str(value))
-    return tmpl
-
-class MdToHtml:
-    def __init__(self, src_path, dst_path, html_tmpl):
-        self.src_path = src_path
-        self.dst_path = dst_path
-        with open(html_tmpl, 'r') as fp:
-            self.html_template = fp.read()
-
-        src = self.src_path
-        if src[0] == '.':
-            src = src[1:]
-        if src[0] != '/':
-            src = '/' + src
-        if src[len(src)-1] != '/':
-            src = src + '/'
-        self.link_abs_src = src
-
-        dst = self.dst_path
-        if dst[0] == '.':
-            dst = dst[1:]
-        if dst[0] != '/':
-            dst = '/' + dst
-        if dst[len(dst)-1] != '/':
-            dst = dst + '/'
-        self.link_abs_dst = dst
-
-    def read_md_write_html(self, tmpl, mdpath):
-        with open(mdpath, 'r') as fp:
-            md = fp.read()
-        pre_procd = tmpl.replace('{{content}}', md)
-        srcFile = mdpath
-        if srcFile[0] == '.':
-            srcFile = srcFile[1:]
-        repld = apply_template(pre_procd, {
-                'generatedDate': datetime.now().strftime('%Y-%m-%d'),
-                'srcFile': srcFile,
-        })
-        return self.write_file(mdpath, repld)
-
-    def write_file(self, relpath, md_txt):
-        if self.src_path in relpath:
-            fpath = relpath.replace(self.src_path, self.dst_path).replace('.md', '.html')
-        elif self.dst_path in relpath:
-            fpath = relpath
-        else:
-            fpath = os.path.join(self.dst_path, relpath).replace('.md', '.html')
-        dirn = os.path.dirname(fpath)
-        if len(dirn) > 0 and not os.path.exists(dirn):
-            os.makedirs(dirn)
-
-        meta = extract_md_metadata(md_txt)
-        try:
-            html = mdtohtml(md_txt)
-        except:
-            print(f"Failed to convert md to html for {fpath}")
-            raise
-
-        # Convert links to local md files into html
-        pattern = r'href="' + re.escape(self.link_abs_src) + r'(.*?).md"'
-        repl = r'href="' + re.escape(self.link_abs_dst) + r'\1.html"'
-        html = re.sub(pattern, repl, html)
-
-        meta['md_content'] = html
-        html = apply_template(self.html_template, meta)
-
-        with open(fpath, 'w') as fp:
-            fp.write(html)
-
-
-
-
-
-
-
-
-
-
 
 ############################3
-
 
 
 import sys
