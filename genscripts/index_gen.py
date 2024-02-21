@@ -121,6 +121,7 @@ def build_history(tmp_gen_md):
         if len(files) > 0 and root != tmp_gen_md:
             files_here = [f"{root}/{x}" for x in files if x.endswith("index.md")]
             idxs.extend(files_here);
+    idxs.sort(reverse=True)
     if len(idxs) == 0:
         print("Error: build_history needs to be called after all other year-indexes have been built")
         exit(1)
