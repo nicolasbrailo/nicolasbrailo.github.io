@@ -317,6 +317,10 @@ for md_src_dir, md_path, html_path in md_rules:
     else:
         tmpl = 'genscripts/templates/TODO.html'
     html = apply_template(tmpl, doc)
+    html = apply_template('genscripts/templates/general.html', {
+                'content': html,
+                'title': doc['title'],
+            })
 
     tgt_dir = os.path.dirname(html_path)
     if not os.path.exists(tgt_dir):
