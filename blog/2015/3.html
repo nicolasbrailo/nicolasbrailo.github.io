@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2015 March Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2015 March</h2>
+
+<h2>Scope ending in C++<a name="scopeendinginc"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-03-31 - <a href="/blog/2015/0331_ScopeendinginC.html">Permalink</a>  - <a href="/blog/2015/0331_ScopeendinginC.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0331_ScopeendinginC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Is the following code valid C++?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">const int x = 42;
+void f() {
+    int x[x];
+    x[24] = 0;
+}
+</code></pre>
+<p>Unfortunately, it is. According to 3.3.2 in the standard, a definition is available in a child scope up to the point where it's shadowed, and that means "x" will first be interpreted as the global const int, being an index for a vector named "x". Any new references to "x" will point to the new declaration.</p>
+<p>Fun stuff, right?</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

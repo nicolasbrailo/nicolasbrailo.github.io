@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Bebugging / Fault injection Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Bebugging / Fault injection</h2>
+
+Post by Nico Brailovsky @ 2013-02-21 - <a href="/blog/2013/0221_BebuggingFaultinjection.html">Permalink</a> 
+
+<p>Releasing any software with a degree of confidence on its quality can be a difficult task. A way to improve this confidence is adding test. Easy enough, but then how do you know if you are actually testing what needs to be tested? Metrics like code coverage are very helpful but they also provide a false sense of security that can be even worse than having no unit testing at all.</p>
+<p>One way of determining how reliable your testing suit is, is to test your testing suit. No, not by writing more tests but by writing more bugs!</p>
+<p>The idea is simple: give your code to someone who is not a programmer on the project, someone who can know nothing about the implicit assumptions and preconditions you and your team mates already have about the code, the same assumptions and preconditions necessary to make stuff don't crash. Ask him to break things. Nothing too fancy, only subtle stuff; a memory leak over there, a sign vs unsigned comparison over here, an equal changed by a non-equal in an if (and please do it in a branch!).</p>
+<p>Once you get a faulty branch of your project, try to see how many of the bugs you can detect using your testing suite (yes, valgrind should probably be part of your testing suit, albeit not a unit-test). No diffs, please.</p>
+<p>Seeing how many bugs go unnoticed on a fault injection session can give you an idea of how comprehensive your unit tests are. It can be a very humbling experience, too.</p>
+<p>You can find more information about bebugging in <a href="http://en.wikipedia.org/wiki/Fault_injection">Wikipedia</a>.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0221_BebuggingFaultinjection.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

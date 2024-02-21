@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2010 August Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2010 August</h2>
+
+<h2>Template Metaprogramming XIII: Heart of Darkness<a name="templatemetaprogrammingxiiiheartofdarkness"></a></h2>
+<p>Post by Nico Brailovsky @ 2010-08-31 - <a href="/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Last time we had a virtual template dispatch problem... we got to the point of knowing which was the index of the cache we were searching for, now we need to actually retrieve an instance of that cache. That's a problem. Why? To begin with, there are no instances, only types!</p>
+<p>The next logical step would be to create a Map device, to map a list of types to a list of instances... let's see how can we do that, in pseudocode</p>
+<pre><code>instances( H|T ) &lt;- [ create_instance(H), instances(T) ]
+instances( NIL ) &lt;- NIL
+</code></pre>
+<p>Looks easy. How can we map that to c++?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Lst&gt; struct Instance {
+    typedef typename Lst::head Elm;
+    Elm instance;
+    Instance&lt; typename Lst::tail &gt; next;
+};
+template &lt;&gt; struct Instance&lt;NIL&gt; {};
+#include &lt;iostream&gt;
+using std::cout;
+int main() {
+    typedef LST&lt;int, LST&lt;char, LST&lt;float&gt; &gt; &gt; Lst;
+    Instance&lt;Lst&gt; lst;
+    lst.instance = 1;
+    lst.next.instance = &#x27;a&#x27;;
+    lst.next.next.instance = 3.1;
+    std::cout &lt;&lt; lst.next.instance &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>All those next.next.next.instance look ugly. Let's use some more meta-magic to get the Nth instance (why not a [] operator? several reasons, you can't mix non-const ints with templates nicely, there would be problems to define the return type... all those options are workable but it's easier if we do this in another device.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename LST> struct Nth {
+    typedef typename LST::tail Tail;
+    typedef typename Nth::result result;
+};
+template <typename LST> struct Nth {
+    typedef typename LST::head result;
+};
+</code></pre>
+<p>Remember that one from the toolbox? Now we know how to get a specific index position, yet getting the instance is a different problem (the Nth device returns a type, not an instance). We should do something different, the problem is knowing the return type. What's the return type for the Nth instance of the Instances list?</p>
+<pre><code>   type &lt;- Nth(TypesLst, Type)
+   type var &lt;- NthInstance(InstancesLst, N)
+</code></pre>
+<p>Not so easy, right? This is the translated C++:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+template &lt;int N, typename TypeLst&gt; struct NthInstance {
+    // This one isnt easy...
+    // This is the next type in the list
+    typedef typename TypeLst::tail TypeNext;
+    //  * Nth::result is the Nth type in Lst (i.e. char, int, ...)
+    typedef typename NthInstance&lt;N-1, TypeLst&gt;::NthInstanceType NthInstanceType;
+    //  * typename Nth::result &amp; is a reference to said type and the ret type
+    template &lt;InstancesLst&gt;
+    static NthInstanceType&amp; get(InstancesLst &amp;instances_lst) {
+        return NthInstance::get(instances_lst.next);
+    }
+};
+// Remember, just for fun we choose a 1-based system (wtf..)
+template &lt;typename TypeLst&gt; struct NthInstance&lt;1, TypeLst&gt; {
+    typedef typename TypeLst::head NthInstanceType;
+    template &lt;InstancesLst&gt;
+    static NthInstanceType&amp; get(InstancesLst &amp;instances_lst) {
+        return instances_lst.instance;
+    }
+};
+</code></pre>
+<p>And the code from fetching the instance itself is even more difficult, so I'll leave that for next time.</p>
+<hr />
+<h2>Date time WTF<a name="datetimewtf"></a></h2>
+<p>Post by Nico Brailovsky @ 2010-08-26 - <a href="/blog/2010/0826_DatetimeWTF.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0826_DatetimeWTF.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Another one to add to my growing list of bad things about Ubuntu. For some reason my clock froze. I only noticed it when it started to be dark outside, for me the time had frozen at about 17pm.</p>
+<hr />
+<h2>Template Metaprogramming XII: You Really Got a Hold on Me<a name="templatemetaprogrammingxiiyoureallygotaholdonme"></a></h2>
+<p>Post by Nico Brailovsky @ 2010-08-24 - <a href="/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Remember our virtual template method problem, from the other time? (I know, I said the answer was scheduled for a week after that post, but then I just forgot about it). May be we could avoid the virtual part by keeping a list of all our caches... how would we know which one should we dispatch the message to? Easy, using templates.</p>
+<p>Instead of a list let's keep two, for twice the fun. One for the rows cache, another for the PKs. We can use PK to know which ROW Cache should we choose. Let's try to write a pseudo code for it:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ROW get_row(PK id) {
+    pos &lt;- Position of PK in pks_lst
+    return cache[ pos ].get_row( id )
+}
+</code></pre>
+<p>Doesn't look too hard. Building on our previous toolbox, let's use Eq, Position and the definition of a list:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct NIL {
+    typedef NIL head;
+    typedef NIL tail;
+};
+template &lt; class H, class T=NIL&gt; struct LST {
+    typedef H head;
+    typedef T tail;
+};
+template &lt;class X, class Y&gt; struct Eq { static const bool result = false; };
+template &lt;class X&gt; struct Eq&lt;X, X&gt; { static const bool result = true; };
+template &lt;class Elm, class LST&gt; struct Position {
+    private:
+    typedef typename LST::head H;
+    typedef typename LST::tail T;
+    static const bool found = Eq&lt;H, Elm&gt;::result;
+    public:
+    static const int result = found? 1 : 1 + Position&lt;Elm, T&gt;::result;
+};
+template &lt;class Elm&gt; struct Position&lt;Elm, NIL&gt; {
+    static const int result = 0;
+};
+class Facade {
+    typedef LST&lt;int, LST&lt;char, LST&lt;float&gt; &gt; &gt; Lst;
+    public:
+    template &lt;class PK&gt; int find(PK) {
+        return Position&lt; PK, Lst &gt;::result;
+    }
+};
+#include &lt;iostream&gt;
+using std::cout;
+int main() {
+    Facade f;
+    std::cout &lt;&lt; f.find(1.0) &lt;&lt; "\n";
+    return 0;
+}
+</code></pre>
+<p>Great, now we can find an element on a list of types. The real virtual dispatch for the next entry :D</p>
+<hr />
+<h2>MySQL upsert, Oracle merge<a name="mysqlupsertoraclemerge"></a></h2>
+<p>Post by Nico Brailovsky @ 2010-08-19 - <a href="/blog/2010/0819_MySQLupsertOraclemerge.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0819_MySQLupsertOraclemerge.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>How many times have you seen this "pattern"?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">unsigned int row_count = foo-&gt;update();
+if (row_count == 0) {
+   foo-&gt;insert();
+}
+</code></pre>
+<p>Wouldn't it be nice if you could write all that in a single line? Say, something like</p>
+<pre lang="c++"><code class="language-c++" lang="c++">foo-&gt;update_or_insert_if_it_doesnt_exists();
+</code></pre>
+<p>Well, good news, you can! Obviously it's not standard SQL, nothing useful ever is, but even so I think using an upsert (who comes up with those names?) can be quite good for your health.</p>
+<p>So, how do you use it? It's easy;</p>
+<pre lang="sql"><code class="language-sql" lang="sql">INSERT INTO Table ( col1, col2 )
+SELECT 'a', 'b'
+ON DUPLICATE KEY UPDATE col1 = 'a', col2 = 'b';
+</code></pre>
+<p>Go on, try it, I'll wait. What? It didn't work? Oh, I forgot, you need to create a unique key so the engine can recognize when there is a duplicate key (say, 'create index unique on col1'). Try it now.</p>
+<p>Nice, isn't it? Oracle has its own version of upsert, called merge (at least the name is better) but it itches a little bit when I write about Oracle, so go and check <a href="http://psoug.org/reference/merge.html">this page</a> instead.</p>
+<hr />
+<h2>C++ Namespaces and g++<a name="cnamespacesandg"></a></h2>
+<p>Post by Nico Brailovsky @ 2010-08-03 - <a href="/blog/2010/0803_CNamespacesandg.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0803_CNamespacesandg.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Have you ever tried to leave open a C++ namespace after EOF (that is, openning a namespace in a headerfile but forgetting to close it). It's a little bit like getting your balls caught by the door. The compiler will throw at you an incredible number of seemingly unrelated errors, all of which occur in a different file than the offending header.</p>
+<p>Reaching EOF on a C++ file without closing all its namespaces should be ilegal; or at least you should have better error reporting, because right now it's almost impossible to know what's the source of the error (for g++, that is).</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

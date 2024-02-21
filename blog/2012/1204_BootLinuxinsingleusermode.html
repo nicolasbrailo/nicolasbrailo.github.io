@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Boot Linux in single user mode Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Boot Linux in single user mode</h2>
+
+Post by Nico Brailovsky @ 2012-12-04 - <a href="/blog/2012/1204_BootLinuxinsingleusermode.html">Permalink</a> 
+
+<p>Sooner or later, you'll need a safe boot mode for Linux. Maybe you forgot your password, maybe you need to recover some files of a really really broken system (shame on you for not using a different partition for /home). Luckily in any Linux server you can probably interrupt Lilo or Grub and add to the kernel line the following parameter init="/bin/sh". This will give you a root command shell from which you can do other fun recovery tasks.</p>
+<p>Admin tip: Just don't forget to fill up on coffee before starting.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1204_BootLinuxinsingleusermode.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

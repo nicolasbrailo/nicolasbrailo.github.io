@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Useless code: a template device to calculate e Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Useless code: a template device to calculate e</h2>
+
+Post by Nico Brailovsky @ 2013-06-27 - <a href="/blog/2013/0627_Uselesscodeatemplatedevicetocalculatee.html">Permalink</a> 
+
+<p>Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review <a href="/blog/youfoundadeadlink.html">and old article</a> I wrote about it (C++11 made some parts of those articles obsolete, but I'm surprised of how well it's aged). To practice a bit I decided to tackle a problem I'm sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn't be to hard.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N, int D&gt; struct Frak {
+    static const long Num = N;
+    static const long Den = D;
+};
+template &lt;class X, int N&gt; struct MultEscalar {
+    typedef Frak&lt; N*X::Num, N*X::Den &gt; result;
+};
+template &lt;class X1, class Y1&gt; struct IgualBase {
+    typedef typename MultEscalar&lt; X1, Y1::Den &gt;::result X;
+    typedef typename MultEscalar&lt; Y1, X1::Den &gt;::result Y;
+};
+template &lt;int X, int Y&gt; struct MCD {
+    static const long result = MCD&lt;Y, X % Y&gt;::result;
+};
+template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
+    static const long result = X;
+};
+template &lt;class F&gt; struct Simpl {
+    static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+    typedef Frak&lt; F::Num / mcd, F::Den / mcd &gt; result;
+};
+template &lt;class X, class Y&gt; struct Suma {
+    typedef IgualBase&lt;X, Y&gt; B;
+    static const long Num = B::X::Num + B::Y::Num;
+    static const long Den = B::Y::Den; // == B::X::Den
+    typedef typename Simpl&lt; Frak&lt;Num, Den&gt; &gt;::result result;
+};
+template &lt;int N&gt; struct Fact {
+    static const long result = N * Fact&lt;N-1&gt;::result;
+};
+template &lt;&gt; struct Fact&lt;0&gt; {
+    static const long result = 1;
+};
+template &lt;int N&gt; struct E {
+    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
+    static const long Den = Fact&lt;N&gt;::result;
+    typedef Frak&lt; 1, Den &gt; term;
+    typedef typename E&lt;N-1&gt;::result next_term;
+    typedef typename Suma&lt; term, next_term &gt;::result result;
+};
+template &lt;&gt; struct E&lt;0&gt; {
+    typedef Frak&lt;1, 1&gt; result;
+};
+#include &lt;iostream&gt;
+int main() {
+    typedef E&lt;8&gt;::result X;
+    std::cout &lt;&lt; "e = " &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; "\n";
+    std::cout &lt;&lt; "e = " &lt;&lt; X::Num &lt;&lt;"/"&lt;&lt; X::Den &lt;&lt; "\n";
+    return 0;
+}
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0627_Uselesscodeatemplatedevicetocalculatee.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

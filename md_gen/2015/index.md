@@ -1,0 +1,28 @@
+# Posts for 2015
+
+@meta docType index
+
+ * [June](md_gen/2015/6.md)
+    * [Android studio and ndk-gdb to debug a native app](md_gen/2015/6.md#androidstudioandndkgdbtodebuganativeapp)
+    * [Useful predefined variables in make](md_gen/2015/6.md#usefulpredefinedvariablesinmake)
+    * [Vim tip: reload your vimrc](md_gen/2015/6.md#vimtipreloadyourvimrc)
+    * [ndk-gdb life tip: use --verbose](md_gen/2015/6.md#ndkgdblifetipuseverbose)
+    * [I now write Android apps: presenting Tripping Photo Manager](md_gen/2015/6.md#inowwriteandroidappspresentingtrippingphotomanager)
+    * [Debugging multiple processes with gdb](md_gen/2015/6.md#debuggingmultipleprocesseswithgdb)
+    * [cerr vs cout](md_gen/2015/6.md#cerrvscout)
+    * [Vim tip: "polymorphic" key bindings](md_gen/2015/6.md#vimtippolymorphickeybindings)
+ * [May](md_gen/2015/5.md)
+    * [PSA: Use nautilus (GTK) in Kubuntu if Dolphin crashes](md_gen/2015/5.md#psausenautilusgtkinkubuntuifdolphincrashes)
+    * [Vim tip: Stop escaping slashes](md_gen/2015/5.md#vimtipstopescapingslashes)
+    * [C++: A jump table with a template device](md_gen/2015/5.md#cajumptablewithatemplatedevice)
+ * [April](md_gen/2015/4.md)
+    * [Globing in bash](md_gen/2015/4.md#globinginbash)
+    * [gdb: Print very long strings](md_gen/2015/4.md#gdbprintverylongstrings)
+    * [gcc: Optimization levels and templates](md_gen/2015/4.md#gccoptimizationlevelsandtemplates)
+    * [Bash traps: almost like RAII for bash](md_gen/2015/4.md#bashtrapsalmostlikeraiiforbash)
+    * [C++: Invalidating references to elements in a vector](md_gen/2015/4.md#cinvalidatingreferencestoelementsinavector)
+    * [Code natural selection](md_gen/2015/4.md#codenaturalselection)
+    * [Ruby-style digit separator for C-98?](md_gen/2015/4.md#rubystyledigitseparatorforc98)
+    * [Vim Tip: I want more menus!](md_gen/2015/4.md#vimtipiwantmoremenus)
+ * [March](md_gen/2015/3.md)
+    * [Scope ending in C++](md_gen/2015/3.md#scopeendinginc)

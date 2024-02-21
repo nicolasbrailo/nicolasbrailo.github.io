@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Vim tip: relative numbers Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Vim tip: relative numbers</h2>
+
+Post by Nico Brailovsky @ 2013-05-09 - <a href="/blog/2013/0509_Vimtiprelativenumbers.html">Permalink</a> 
+
+<p>Knowing the line number in Vim is crucial: you might need to jump to a specific line to fix a compiler error, you might want to check your current line to tell someone else where they broke something, or you might need to know a line number, and the diff to your current line, so you can delete N lines.</p>
+<p>You can "<strong>set number</strong>" to get the line number in a bar at the left, and that's fine for most things but also quite unnecessary:</p>
+<ul>
+<li>You can jump to a line by typing ":"</li>
+<li>You can see your current line by checking it on the lower right status box</li>
+<li>... but what if you need a delta from your current position?</li>
+</ul>
+<p>That's even easier: just "<strong>set relativenumber</strong>" and the numbers on the left will turn into a relative position from the position of your cursor.</p>
+<p>Now you won't have to count the lines you want to delete: you can instantly know the N on dNd!</p>
+<p>Bonus: watch vim newies struggle with the changing line numbers</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0509_Vimtiprelativenumbers.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

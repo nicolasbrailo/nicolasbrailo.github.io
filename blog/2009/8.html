@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2009 August Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2009 August</h2>
+
+<h2>"Good Linux users don&#39;t talk about Microsoft"<a name="goodlinuxusersdon39ttalkaboutmicrosoft"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-08-27 - <a href="/blog/2009/0827_GoodLinuxusersdon39ttalkaboutMicrosoft.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0827_GoodLinuxusersdon39ttalkaboutMicrosoft.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I don't usually post links, I'd rather write something myself, but check out this quote:</p>
+<blockquote>
+<p>You don’t see me calling Linux users tux turds, penguin poopers or GUI-challenged, do you?</p>
+</blockquote>
+<p><a href="/blog/youfoundadeadlink.html">Src</a></p>
+<p>Enjoy</p>
+<hr />
+<h2>More preprocessor wizardy: strings<a name="morepreprocessorwizardystrings"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-08-25 - <a href="/blog/2009/0825_Morepreprocessorwizardystrings.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0825_Morepreprocessorwizardystrings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>No preprocesor wizard should go out of his house without the always useful string maker. Let's say you're trying to create a class with some sort of pseudo type-system (*):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class FooBar {
+   public:
+   const char* get_name(){ return "FooBar"; }
+};
+</code></pre>
+<p>Why would you type ALL that when you can make a simple macro, MK_CLASS, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">MK_CLASS( FooBar )
+   /<em> Other methods </em>/
+};
+</code></pre>
+<p>Problem is, this will only print "Name":</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_CLASS( Name )
+      class Name { public:
+            const char *get_name(){ return "Name"; }
+</code></pre>
+<p>Well, it's an easy fix, just prepend # to your string, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_CLASS( Name )
+      class Name { public:
+            const char *get_name(){ return #Name; }
+</code></pre>
+<p>Or use this nice string maker:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_STR(str) #str
+</code></pre>
+<p>As usual, use the preprocesor at your own risk.</p>
+<p>(*) Yeah, I know, OO purists will try to beat me to death for this, but it actually has some uses. I've found it to be a specially good solution when working with low level protocols.</p>
+<hr />
+<h2>Tech Support<a name="techsupport"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-08-24 - <a href="/blog/2009/0824_TechSupport.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0824_TechSupport.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Two comics this month, but I'm sure it's worth it:</p>
+<p><a href="http://xkcd.com/627/"><img alt="Original: http://imgs.xkcd.com/comics/tech_support_cheat_sheet.png" src="/blog_img/tech_support_cheat_sheet.png" /></a></p>
+<p>This advice would have saved me a couple years of life. Normal post tomorrow.</p>
+<hr />
+<h2>C++ oddities: Self initialization<a name="codditiesselfinitialization"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-08-18 - <a href="/blog/2009/0818_CodditiesSelfinitialization.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0818_CodditiesSelfinitialization.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I get it, C++ is a complex language, but man, I'd like a little warning (lol) when this happens:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class Foo {
+  int bar;
+  Foo() : bar(bar) {}
+};
+</code></pre>
+<p>Yeah, it bit me in the ass the other day. Why? A method's signature was awfully long, I wanted to delete a parameter and ended up deleting two. Luckly my <a href="http://code.google.com/p/googletest/">unit tests</a> where there to save the day, but regardless, WTF?</p>
+<hr />
+<h2>Ubuntu: Dual monitors<a name="ubuntudualmonitors"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-08-11 - <a href="/blog/2009/0811_UbuntuDualmonitors.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0811_UbuntuDualmonitors.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>There's nothing better than feeling like a super villain by having a dual monitor setup. OK, three may be better, you probably couldn't hold back the evil laughter, but my laptop won't support three screens.</p>
+<p>Fortunately, in Ubuntu JJ having a dual screen setup is a breeze. Just <strong>plug the two monitors</strong> and hope it works. Of course, it may not. If that's the case you can go to <strong>System &gt; Preferences &gt; Screen</strong> for a nice GUI, which will let you select each screen's resolution and position. Nothing better for productivity than having your monitors swapped, or even better, flipped upside down.</p>
+<p>Well, sometimes "Screen Preferences" won't work either, too bad. In that' case you'll have to get dirty with <strong><a href="https://www.x.org/wiki/Projects/XRandR">xrandr</a></strong>. It's not too difficult but it's console based (you're not scared of the console, are you?).</p>
+<p>Though the man page for xrandr is a little bit intimidating at first you'll just have to do it once, so I won't write about using it, I will just copy &amp; paste a script I keep in my desktop to fix the screen whenever it brakes (my lapop tends to foobar my screen when being docked or undocked, not sure why)</p>
+<pre lang="c++"><code class="language-c++" lang="c++">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
+</code></pre>
+<p>I am sure you can figure out the rest on your own - enjoy the dual screen setup!</p>
+<hr />
+<h2>Ubuntu: Annoying terminal warning<a name="ubuntuannoyingterminalwarning"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-08-06 - <a href="/blog/2009/0806_UbuntuAnnoyingterminalwarning.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0806_UbuntuAnnoyingterminalwarning.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Although I'm quite happy with Ubuntu 9.04, I find a couple of new features quite annoying. The warning message it pops up whenever you try to close a console with a running program in it falls in this category. Fortunately it's not difficult to disable:</p>
+<ol>
+<li>Open up gconf-editor</li>
+<li>goto /apps/gnome-terminal/global/</li>
+<li>Untick confirm_window_close</li>
+</ol>
+<p>All set. As a bonus side effect now closing a terminal with multiple tabs won't pop up a message either.</p>
+<hr />
+<h2>C++: Magic callbacks solved<a name="cmagiccallbackssolved"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-08-03 - <a href="/blog/2009/0803_CMagiccallbackssolved.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0803_CMagiccallbackssolved.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Long post this time - and lots of code too. How fun iz that? Anyway, <a href="/blog/2009/0721_CMagicmembercallbacks.html">remember where we left last time</a>? We're supposed to make this work:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
+ Callback notify;
+ public:
+  Callee(Callback notify) : notify(notify) {}
+  void finish(){ notify(this); }
+};
+class Caller {
+  Callee c;
+  public:
+  Caller() : c(Callback(this, &amp;Caller::im_done)) {}
+  void im_done(Callee*) { }
+};
+</code></pre>
+<p>I'll write about the different solutions I've tried and the problem each of these solutions had:</p>
+<ul>
+<li><a href="#experiment1templates">Experiment 1: Templates</a></li>
+<li><a href="#experiment2templatevirtualmethod">Experiment 2: Template virtual method</a></li>
+<li><a href="#experiment3callbackobject">Experiment 3: Callback Object</a></li>
+<li><a href="#experiment4callbackinterface">Experiment 4: Callback interface</a></li>
+<li><a href="#experiment5callbackobjectbis">Experiment 5: Callback object bis</a></li>
+<li><a href="#solution">Solution</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h3>Experiment 1: Templates<a name="experiment1templates"></a></h3>
+<p>We could to this the easy way, with a template:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Callback&gt;
+class Callee {
+  ...
+};
+class Caller {
+ template &lt;class T&gt;
+ void operator() (T p){ this-&gt;im_done(p); }
+  ...
+};
+</code></pre>
+<p>This has some drawbacks:
+1. We need to change the definition of the Callee
+2. The Caller can only have one callback (or overloaded one callback)
+3. It's boring</p>
+<h3>Experiment 2: Template virtual method<a name="experiment2templatevirtualmethod"></a></h3>
+<p>So, lets try another approach: the naive one is an interface:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class iCallback {
+  public:
+  template &lt;class T&gt; void operator () (T o) = 0;
+};
+</code></pre>
+<p>Looks great, doesn't it? Too bad <strong>it's not valid C++</strong>, you can't have a virtual template method (what would the vtable size be?).
+If we can't have a template method let's make a template class:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class T&gt;
+class iCallback {
+  public:
+  virtual void operator () (T o) = 0;
+};
+class Callee {
+ iCallback&lt;Callee<em>&gt; </em>notify;
+  public:
+  Callee(iCallback&lt;Callee<em>&gt; </em>notify) : notify(notify) {}
+ void finish(){ (<em>notify)(this); }
+};
+class Caller : public iCallback&lt;Callee</em>&gt; {
+ Callee c;
+  public:
+  Caller() : c(this) {}
+  void im_done(Callee<em>) {}
+ void operator ()(Callee </em>o){ im_done(o); }
+};
+</code></pre>
+<p>It may not be pretty but it works. Also, adding a callback means adding a new operator (). Lets try to improve it a little by removing the nasty inheritance (remember, <em>always prefer composition over inheritance</em>):</p>
+<h3>Experiment 3: Callback Object<a name="experiment3callbackobject"></a></h3>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class P&gt;
+class iCallback {
+ public:
+  void operator () (P o) = 0;
+};
+template &lt;class T, class P&gt;
+class Callback : public iCallback&lt;P&gt; {
+ // Notice this typedef: we have an object of type T and a
+  // function accepting a parameter P
+  typedef void (T::<em>member_func) (P);
+  T </em>cb_obj; member_func f;
+ public:
+  Callback(T<em> cb_obj, member_func f)
+     : cb_obj(cb_obj), f(f) {}
+ inline void operator() (P o){
+    (cb_obj-&gt;</em>f)(o); // -&gt;* is the best voodoo operator
+  }
+};
+</code></pre>
+<p>This new object should help us to:
+1. Implement different callback functions (not tied to an operator() nor a type overload) while staying type-safe
+2. Delete the inheritance
+3. Use the arrow-asterisk operator (!) which is way cool</p>
+<p>How would this change leave our code?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class Caller;
+class Callee {
+ Callback&lt;Caller, Callee<em>&gt; </em>notify;
+ public:
+  Callee(Callback&lt;Caller, Callee<em>&gt; </em>notify) : notify(notify) {}
+  void finish(){ (<em>notify)(this); }
+};
+class Caller {
+ Callback&lt;Caller, Callee</em>&gt; cb;
+  Callee c;
+  public:
+  Caller() : cb(this, &amp;Caller::im_done), c(&amp;cb){}
+  void im_done(Callee*) {}
+};
+</code></pre>
+<p>Oops, looks like we took one step back: now Callee MUST know the type of Caller. Not nice. Luckily it is an easy fix:</p>
+<h3>Experiment 4: Callback interface<a name="experiment4callbackinterface"></a></h3>
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
+  iCallback&lt;Callee<em>&gt; </em>notify;
+  public:
+  Callee(iCallback&lt;Callee<em>&gt; </em>notify) : notify(notify) {}
+ void finish(){ (*notify)(this); }
+};
+</code></pre>
+<p>OK, we're back on track. We will solve that weird looking (*notify)(this) later, don't worry.</p>
+<p>We're almost there, but specifying the callback as  is ugly, Caller should be automagically inferred from the context by some template voodoo. Let's do it by implementing a wrapper:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class R&gt;
+class WraperCallback {
+  iCallback&lt;R&gt; <em>cb;
+  public:
+    template &lt;class T, class F&gt;
+    WraperCallback(T</em> cb_obj, F f)
+       : cb( new Callback&lt;T, R&gt;(cb_obj, f) ) {}
+    ~WraperCallback() {
+      delete cb;
+   }
+   inline void operator()(R o){
+     (*cb)(o);
+    }
+};
+</code></pre>
+<p>Now we no longer need to specify the Caller type. There's still a nasty issue about pointer-vs-object passing. Using (*notify)(this) is very ugly so let's do it like this:</p>
+<h3>Experiment 5: Callback object bis<a name="experiment5callbackobjectbis"></a></h3>
+<pre lang="c++"><code class="language-c++" lang="c++">class Callee {
+  WraperCallback&lt;Callee<em>&gt; notify;
+  public:
+  Callee(WraperCallback&lt;Callee</em>&gt; notify) : notify(notify) {}
+ void finish(){ notify(this); }
+};
+class Caller {
+  Callee c;
+  public:
+  Caller() : c(WraperCallback&lt;Callee<em>&gt;(this, &amp;Caller::im_done)) {}
+ void do_it(){ c.finish(); }
+  void im_done(Callee</em>) { }
+};
+</code></pre>
+<p>Nice, this time it should work as expected. Only it does not, <strong>there is something horribly wrong about it</strong>. Can you see what it is? Take a second, I'll wait... OK, back? Right, it <strong>segfaults</strong>! Why? Easy, take a look at this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">  Callee(Callback&lt;Callee*&gt; notify) : notify(notify) {}
+</code></pre>
+<p>We are using a copy constructor here, and what does our wrapper store?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    WraperCallback(T* cb_obj, F f)
+       : cb( new Callback&lt;T, R&gt;(cb_obj, f) ) {}
+</code></pre>
+<p>Indeed, the copied WrapperCallback ends up pointing to a deleted Callback when the cb field of the original object gets copied and then destructed. We should have all the pieces to fix it now: we just need to implement the copy operator to make it work. How does the final version looks like?</p>
+<h3>Solution<a name="solution"></a></h3>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class P&gt; class iCallback {
+  public:
+    virtual void operator()(P) = 0;
+    virtual iCallback&lt;P&gt;<em> clone() const = 0;
+};
+template &lt;class T, class P&gt;
+class RealCallback : public iCallback&lt;P&gt; {
+  typedef void (T::</em>member_func) (P);
+  T <em>cb_obj; member_func f;
+ public:
+  RealCallback(T</em> cb_obj, member_func f)
+     : cb_obj(cb_obj), f(f) {}
+ /<em><em>
+   * The clone operator is needed for the copy ctr of
+   * the Callback object
+  </em>/
+  inline iCallback&lt;P&gt;</em> clone() const {
+   return new RealCallback&lt;T, P&gt;(cb_obj, f);
+  }
+ inline void operator() (P o){
+    (cb_obj-&gt;<em>f)(o); // -&gt;</em> is the best vodoo operator
+ }
+};
+template &lt;class R&gt;
+class Callback {
+  iCallback&lt;R&gt; <em>cb;
+  public:
+    template &lt;class T, class F&gt;
+    Callback(T</em> cb_obj, F f)
+       : cb( new RealCallback&lt;T, R&gt;(cb_obj, f) ) {}
+    Callback(const Callback&amp; cpy)
+        : cb( cpy.cb-&gt;clone()) {}
+    ~Callback() {
+      delete cb;
+   }
+   inline void operator()(R o){
+     (*cb)(o);
+    }
+};
+</code></pre>
+<h3>Conclusion<a name="conclusion"></a></h3>
+<p>Now we have a nice callback object which can link two objects without them knowing each other. There is room for future improvement, of course:
+1. Got any ideas to implement a generic callback to a function with an unknown number of params? I don't (variadic templates == cheating!)
+2. I'm quite sure the param type for the callback could be inferred in some magical template way, but I don't know how.
+3. Think of anything else to add? Let me know in the comments!</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Nicol&aacute;s Brailovsky » Blog Archive » Template metaprogramming XI: Hidden Agenda</a> commented @ 2010-07-20T14:10:19.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivetemplatemetaprogrammingxihiddenagendablog20100720_templatemetaprogrammingxihiddenagenda.htmlcommented20100720t141019.0000200"></a></h2>
+<p>[...] for every table; something like this: See the problem? To do something like that we’d need a virtual template method, and you can’t have that. After seeing that I thought to myself &ldquo;Hey, I’ll use [...]</p>
+<p>Original <a href="/blog/2009/0803_CMagiccallbackssolved.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Nicol&aacute;s Brailovsky » Blog Archive » Newsflash: C++ object commits sepuku</a> commented @ 2011-04-04T09:30:53.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivenewsflashcobjectcommitssepukublog20110404_newsflashcobjectcommitssepuku.htmlcommented20110404t093053.0000200"></a></h2>
+<p>[...] you launch a background job, and you don’t really care when it’s done. You may use a callback to be notified when the job is done, but if you don’t really care then having an object which [...]</p>
+<p>Original <a href="/blog/2009/0803_CMagiccallbackssolved.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

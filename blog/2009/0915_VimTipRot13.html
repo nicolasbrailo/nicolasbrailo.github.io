@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Vim Tip: Rot 13 Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Vim Tip: Rot 13</h2>
+
+Post by Nico Brailovsky @ 2009-09-15 - <a href="/blog/2009/0915_VimTipRot13.html">Permalink</a> 
+
+<p>Are you still puzzled by <a href="/blog/2009/0910_Cincrediblyuselessstuff.html">last week's C++ question</a>, yet you are too lazy to actually search for a Rot13 decoder OR use gcc to check if it works? Well, Vim can do the trick, just use g? to convert text to Rot13</p>
+<p>You may combine it with block selection or you can just convert the whole damn thing using "ggg?G". gg goes to the beggining, g? converts to rot13, G goes to the end.</p>
+<p>This is all very nice but I'm still trying to figure out a way to convert back from rot13 to normal text, can anyone provide a clue?</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0915_VimTipRot13.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

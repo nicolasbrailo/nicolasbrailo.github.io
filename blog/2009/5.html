@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2009 May Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2009 May</h2>
+
+<h2>Quote of the day<a name="quoteoftheday"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-30 - <a href="/blog/2009/0530_Quoteoftheday.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0530_Quoteoftheday.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you can't see any error messages it must be because you didn't start it. Or it has already core-dumped.</p>
+<hr />
+<h2>LaTeX basics<a name="latexbasics"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-28 - <a href="/blog/2009/0528_LaTeXbasics.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0528_LaTeXbasics.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<h2>LaTeX basics<a name="latexbasics"></a></h2>
+<p>Remember <a href="/blog/2009/0521_AcaseforLaTeX.html">last post</a>? I mentioned it's possible to create several type of documents. Even if the structure will, most likely, be different for different applications, there's a common ground which can be used for most LaTeX documents. I'd go as far as saying ALL of them, but in LaTeX it's possible to override everything and anything. Any reasonable package won't do it, so let's see some LaTeX basics you can use for any project.</p>
+<h3>LaTeX documents<a name="latexdocuments"></a></h3>
+<p>The first thing to understand about LaTeX, it's not <a href="http://en.wikipedia.org/wiki/WYSIWYG">WYSIWYG</a>. If you use a plain text editor you won't see any kind of format at all (LyX provides some sort of preview though). This confuses some people who, used to Word-like applications, tend to think in the structure and desing before the contents; LaTeX is different in the way to structure documents, a way which is called What You See Is What You Mean, <a href="http://en.wikipedia.org/wiki/WYSIWYM">WYSIWYM</a>, for short.</p>
+<p>What does being WYSIWYM means? You just think about the content and structure and it gets formatted for you. Instead of saying you want "Centered, Arial 12px orange font with pink background" just say "this is a title". The format will be there, but not attached to the content - it'll be in a "stylesheet", the document's class (*). Of course, these styles can be changed too.</p>
+<p>WYSIWYM has a downside too: you'll have to "compile" the mark-up text into a pdf (or any other format) using <strong>pdflatex</strong>, for example. It may be a shock to some but it's not difficult, just write "<em>pdf2latex file.tex</em>" and let it work its magic. You can use the <a href="https://example.net/brokenlink/2009/05/makefile.html">makefile I'm attaching</a> to this post too, if you feel comfortable with makefiles (<a href="https://example.net/brokenlink/2009/05/makefile.html">The makefile</a> has a few cool tricks you can use too. I'll explain all of it in another entry).</p>
+<h3>Seeing some examples<a name="seeingsomeexamples"></a></h3>
+<p>In GNU/Linux you can find lots of examples and templates in /usr/share/doc/texlive-doc/latex/ (no idea where may they be in Windows). Writing this article I found out lots of templates I didn't know about so go and take a look. Go on, I'll wait here. Done? Ok, let's move on.</p>
+<h3>Preamble<a name="preamble"></a></h3>
+<p>In LaTeX there's a basic structure every document follows:</p>
+<pre><code>% Preamble
+begin{document}
+end{document}
+</code></pre>
+<p>What comes before the <em>begin</em>'ning is the preamble. There you can tell LaTeX:
+* Which packages are you going to use - there are lots of packages, some examples include source code highlighting, including images, absolute positioning of figures and much more. Include them with the usepackage command</p>
+<ul>
+<li>The style - there are stylesheets you can use, just as you do with HTML, and the preamble is the place to define them. How to do it is package-dependent, Beamer, for example, uses a usetheme tag.</li>
+<li>Global declarations - You may declare an image which you'll use throughout the entire document, you're company's logo for example</li>
+<li>The author(s) - OK, this is a global declaration too, but there is certain meta-data which is declared in the preamble that's quite handy and author is one of them.</li>
+<li>The title - same as before, the title is very important in your document!</li>
+<li>Lots more - there are package dependent declarations so there's no way to create a comprehensive list, just remember it's a place to put global settings</li>
+</ul>
+<p>This post is getting a little bit too large so I'll leave some basic commands for the next one; you should be able to start writing some basic documents anyway.</p>
+<p>(*)  Yeah, something like content and style separation but only a couple of decades before it was "invented" for the WWW.</p>
+<hr />
+<h2>Vim Tip: Partial Search &amp; Replace<a name="vimtippartialsearchreplace"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-26 - <a href="/blog/2009/0526_VimTipPartialSearchReplace.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0526_VimTipPartialSearchReplace.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>So, you have a paragraph, or any kind of text, and need to replace a substring without altering other paragraphs. You could write :set number and then :A,Bs/what to search/what to replace/g, being A and B the start and end of the paragraph, or you could just use <a href="/blog/2009/0507_VimTipVisualMode.html">visual mode</a>.</p>
+<p>Enter line selection mode (Shift + V) and then select a block of text. Without moving the cursor any further type :s/SEARCH/REPLACE and the search string in the selected block will be replaced without altering any other part of the document.</p>
+<hr />
+<h2>self.uptime = 725328000<a name="self.uptime725328000"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-23 - <a href="/blog/2009/0523_self.uptime725328000.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0523_self.uptime725328000.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>|
+ Today it's been&nbsp;725328000 seconds of uptime since I was promoted from Release Candidate to V1.0. Still waiting for security updates though. |
+  |</p>
+<hr />
+<h2>Vim: Success<a name="vimsuccess"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-22 - <a href="/blog/2009/0522_VimSuccess.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0522_VimSuccess.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>The other day I convinced someone Vim is THE true editor.</p>
+<p><img alt="" src="/blog_img/success_vim1.jpg" /></p>
+<p><strong>Success</strong>
+Disclaimer: I love that image and would have found other excuse to use it</p>
+<hr />
+<h2>A case for LaTeX<a name="acaseforlatex"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-21 - <a href="/blog/2009/0521_AcaseforLaTeX.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0521_AcaseforLaTeX.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>So, after struggling with you word processor to get an acceptable format you decide to hunt the repos (you're using Linux, right?) for a better alternative. We already know why would you choose LyX but why would you choose LaTeX?</p>
+<h3>Let's begin by listing some of its advantages<a name="letsbeginbylistingsomeofitsadvantages"></a></h3>
+<ul>
+<li><strong>Wide range of applications</strong> - LaTeX is a widely used format, with lots of years, users and fields of application. It's not used only to create papers or just presentations, it can be used in a wide range of applications.</li>
+<li><strong>There are "packages" prepared for each type of document</strong> - related to the previous point, you can find packages to create a CV, a presentation, posters, etc.</li>
+<li><strong>No need to format every single element</strong> - everything comes with a reasonable default format. You may fight a little bit whenever you need to change the default format (though you'll find it less necessary each day) but 90 percent of the time "it just works". With regular word processors it's usually the other way around (it is for me!)</li>
+<li><strong>Works from a console</strong> - OK, this may be an advantage or a disadvantage, according to whom you ask. It sure is an advantage for us, the crazy console people, who don't like to drop the CLI just for a couple of slides.</li>
+<li><strong>Great templates</strong> - no need to work in the design of the documents, that's already taken care of.</li>
+<li><strong>Plain text format</strong> - easy to integrate with any source code management system.</li>
+<li><strong>Easy to integrate with external media (images, for example)</strong> - did you just change that image? No problem, just "recompile" to get it on your document.</li>
+<li>The best
+ <strong>math system</strong></li>
+</ul>
+<h3>It has some downsides too<a name="ithassomedownsidestoo"></a></h3>
+<ul>
+<li><strong>Steep learning curve</strong></li>
+<li><strong>Requires some familiarity with the console</strong></li>
+<li><strong>There's a lot of markup to learn</strong> - this can lead to a low signal to noise ratio for some packages like Beamer and the need to RTFM more often than usual.</li>
+<li><strong>Creating a LaTeX document requires certain syntax</strong> - it's not quite like programming, but programmers will be much more comfortable around it</li>
+<li><strong>Weird error messages</strong> - the LaTeX compiler will create an enormous amount of output and error messages may not allways be easy to comprehend.</li>
+<li><strong>It's a one way ticket</strong> - you may be Word - impaired for the rest of your life</li>
+</ul>
+<h3>Who should use LaTeX?<a name="whoshoulduselatex"></a></h3>
+<p>As previously stated,
+ <em>programmers</em> will be more comfortable around plain LaTeX but that's not the only pre requisite - you should be somewhat familiar with the console in Linux (no idea about LaTeX on Windows) and have some patience to read a couple of manuals. Once you have mastered the basics it's much easier, so don't get discouraged.</p>
+<p>If you feel you don't fit the profile perhaps LyX is a better alternative than plain LaTeX; it's very easy to use and quite user friendly. It won't be that great for presentations and other, more "advanced", documents though.</p>
+<h3>What kind of work can you do with LaTeX?<a name="whatkindofworkcanyoudowithlatex"></a></h3>
+<p>That's an easy one, check
+ <a href="/blog/youfoundadeadlink.html">My Articles</a> section for some examples. You can create any kind of document but it's better suited for those in which you care most about the content and don't want to get bogged down with pesky design details.</p>
+<h3>Editors<a name="editors"></a></h3>
+<p>Last (for this entry) but not least, what editor can you use to create LaTeX documents? Well, LaTeX is basically plain text so any editor will do. There are some LaTeX-specific editors, I like ViM myself. There'll be a complete post dedicated to LaTeX + Vim, coming soon.</p>
+<p>This article will be the first in a series of LaTeX survival guide so stay tuned.</p>
+<hr />
+<h2>apt-get install new computer III<a name="aptgetinstallnewcomputeriii"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-19 - <a href="/blog/2009/0519_aptgetinstallnewcomputerIII.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0519_aptgetinstallnewcomputerIII.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Check the other two parts of this series:</p>
+<ul>
+<li><a href="/blog/2008/1228_aptgetinstallnewcomputerII.html">apt-get install new-computer II</a></li>
+<li><a href="/blog/2008/1009_aptgetnewcomputer.html">apt-get new system</a></li>
+</ul>
+<p>I recently <a href="/blog/2009/0427_UbuntuJ.J..html">updated to Ubuntu 9.04</a> and had to reinstall my work computer. Since the stuff I use for work (mostly c++ programming) was left out in the previous two posts I'll post it here:</p>
+<ul>
+<li>Install build tools:</li>
+</ul>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install g++ gdb build-essential g++-4.2 omniorb4 omniidl4-python omniidl4 libxerces-c2-dev
+</code></pre>
+<ul>
+<li>Can't live without VIM:</li>
+</ul>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install vim gvim vim-common vim-doc vim-full vim-gnome vim-gtk
+</code></pre>
+<ul>
+<li>Some additional tools:</li>
+</ul>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install ddd devhelp doxygen doxygen-gui exuberant-ctags ctags  subversion
+</code></pre>
+<ul>
+<li>Install bandwith monitor:</li>
+</ul>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install ifstat
+</code></pre>
+<ul>
+<li>Don't you hate when you need to read an Office document while working on the console? Me too, try antiword:</li>
+</ul>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install antiword
+</code></pre>
+<p>Done, a couple of apt-get's and you are ready to build your c++ projects! (Ok, actually only the first one is needed, the others are nice-to-have programs).</p>
+<hr />
+<h2>Everything is a file A.K.A. Battery state on Linux<a name="everythingisafilea.k.a.batterystateonlinux"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-14 - <a href="/blog/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I present to you the latest release from Wheel Reinventions Inc. - Already Invented dept. - a script to check the remaining battery time from Linux console.</p>
+<p>|</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+<pre class="c++">echo -n "Hours remaining: "
+&amp;&amp; echo "$(cat /proc/acpi/battery/BAT0/state
+&nbsp;&nbsp;&nbsp;&nbsp;  | grep &#x27;remaining capacity&#x27;
+&nbsp;&nbsp;&nbsp;&nbsp;  | awk &#x27;{print $3}&#x27;) /
+&nbsp;&nbsp; $(cat /proc/acpi/battery/BAT0/state
+&nbsp;&nbsp;&nbsp;&nbsp;  | grep &#x27;present rate&#x27;
+&nbsp;&nbsp;&nbsp;&nbsp;  | awk &#x27;{print $3}&#x27;)"
+&nbsp;&nbsp; | bc -l</pre>
+</code></pre>
+<p>Yes, I was bored, so? I'm planning to release a new bogosort implementation after this one, what do you think?</p>
+<p>Jokes aside, this nifty script shows how flexible can be the model "everything is a file" which Unix-y systems implement. With a couple of pipes (and an almost magical incantation for those uninitiated in the console cult) you can do lots of stuff with very little work</p>
+<p>This concept could be associated with the way polymorfism works in a programming language, but that's an entry for another day.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/2011/0929_DIYgnomeapplets.html">Nicol&aacute;s Brailovsky » Blog Archive » DIY gnome applets</a> commented @ 2011-09-29T09:13:55.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivediygnomeappletsblog20110929_diygnomeapplets.htmlcommented20110929t091355.0000200"></a></h2>
+<p>[...] widgets. Need to check your laptop’s battery? No need to search for a widget anymore, just cat /proc/acpi/battery/BAT0/state. Need to check the weather? Just wget your favorite forecast page and parse it with grep, sed an [...]</p>
+<p>Original <a href="/blog/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.html">published here</a>.</p>
+<hr />
+<h2>LaTeX!<a name="latex"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-12 - <a href="/blog/2009/0512_LaTeX.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0512_LaTeX.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Some time ago I wrote a review about <a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">LyX</a> for <a href="http://debaday.debian.net">DPOTD (recommended link)</a> and now I think it's time for an update: what can you do when LyX is not enough?</p>
+<p>I'll quote myself; the original article ends (almost) like this:</p>
+<blockquote>
+<p><strong>What LyX isn’t for</strong></p>
+<p>Although LyX may be a valuable piece in anyone toolkit it’s worth noticing it isn’t exactly the Swiss army knife of the text editors. If you need to define a very customized layout or format, like slides for a presentation, this is the wrong tool for the job.</p>
+</blockquote>
+<p>After having prepared several presentations with LyX (even my CV!) I'd like to write some more on this last part. Even if I thought that my original comment was mistaken I write once again the same: when you have to create a presentation LyX is not the tool for the job, LaTeX is.</p>
+<p>As I explained in that article, LyX is a front-end for LaTeX but at the same time it's only a small part of LaTeX. Doing several presentations in LyX (using Beamer, a package I'll talk about in another post) I noticed that most of my documents where "ERT", evil red text, which is nothing else than plain TeX code: that means, each time more, I was using LaTeX functionality not available from LyX. This is the reason I've decided to write a how-to LaTeX, a small survival guide for those want to start using with the tips and tricks I've learned in this time.</p>
+<p>The target for these posts series will be, mainly, programmers or other advanced users, without fear of working a little bit in the console, markup languages and maybe a makefile.</p>
+<p>Soon the first part :)</p>
+<hr />
+<h2>Vim Tip: Visual Mode<a name="vimtipvisualmode"></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-07 - <a href="/blog/2009/0507_VimTipVisualMode.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0507_VimTipVisualMode.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>There's normal mode, command mode and a third, less known to the beginners, visual mode. What's this mode about?</p>
+<p>Using Vim on visual mode can make some rather complex tasks and regex operations go away with a couple of keystrokes and it's as easy as selecting the text you want with the cursor.</p>
+<p>Move your cursor over the first part of the text you're trying to select and press Ctrl + V to set Vim to visual mode, then move the cursor to the last part of the text you're trying to select (it works in blocks, not character by character nor line by line... try it, it's easier than it may seem).</p>
+<p>What can you do after selecting text this way? Pretty much anything else you'd do with normal text, like cut (x) and paste (p). This is specially useful when working with formatted text (i.e. programming).</p>
+<p>Visual mode can also work with lines (use Shift + V instead. Notice the uppercase V) and with other modes; check the manual for more information.</p>
+<hr />
+<h2>Fixing keyboard problems in Ubuntu J.J.<a name="fixingkeyboardproblemsinubuntuj.j."></a></h2>
+<p>Post by Nico Brailovsky @ 2009-05-05 - <a href="/blog/2009/0505_FixingkeyboardproblemsinUbuntuJ.J..html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0505_FixingkeyboardproblemsinUbuntuJ.J..html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I recently metioned in my <a href="/blog/2009/0427_UbuntuJ.J..html">Ubuntu J.J. review</a> I was experiencing some issues with the keyboard in Opera. Well, the solution is simple, though not easy to find: the culprit was a missing language pack.</p>
+<p>While installing the OS I didn't have Internet connection (the Squid server died and left me with no repos to work with after installing) so it didn't download some required language files, thus screwing up non Gnome programs (Opera, in my case).</p>
+<p>To fix this problem go to System &gt; Administration &gt; Language Support (1) and a notification should pop up if there are packages missing; install them and then uncheck "Use Input Method Engine ..." (2), then restart the session.</p>
+<p>Everything should work fine now (&aacute;&eacute;&iacute;&oacute;&uacute; :)).</p>
+<p>(1) Sistema &gt; Administraci&oacute;n &gt; Soporte de Idiomas
+(2) Usar motores de m&eacute;todo de entrada (IME) para ...</p>
+<p>|
+  |</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

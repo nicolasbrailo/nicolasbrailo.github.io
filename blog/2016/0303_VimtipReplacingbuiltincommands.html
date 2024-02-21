@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Vim tip: Replacing builtin commands Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Vim tip: Replacing builtin commands</h2>
+
+Post by Nico Brailovsky @ 2016-03-03 - <a href="/blog/2016/0303_VimtipReplacingbuiltincommands.html">Permalink</a> 
+
+<p>If you spent a day <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/bettertabnew.vim">writting a cool new version of the "tabnew" Vim command</a>, you'll probably want it to be the default command used to open new tabs. Right?</p>
+<p>Luckily, there's an easy way to replace built in commands with custom ones: cabbrev. cabbrev will do a textual replacement, so if you add "cabbrev tabnew TabNew" to your vimrc, eachtime you type "tabnew" it will be translated to TabNew.</p>
+<p>Bonus tip: The command is actually, "abbrev", not "cabbrev". The "c" stands for command: it's telling Vim that you want the abbrev command applied in command mode. You can also use it as "nabbrev" to have it applied in normal mode. "abbrev" it's a nice way to correct common typos!</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0303_VimtipReplacingbuiltincommands.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

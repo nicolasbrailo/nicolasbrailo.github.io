@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>POD types in C++ Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>POD types in C++</h2>
+
+Post by Nico Brailovsky @ 2010-04-07 - <a href="/blog/2010/0407_PODtypesinC.html">Permalink</a> 
+
+<p>Let's say you have something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">typedef int A;
+void x(A);
+struct B {
+   int b;
+   B(int b) : b(b) {}
+   virtual void x() = 0;
+};
+</code></pre>
+<p>Regardless of what does function x do, what's the difference between A and B? Without getting too picky and leaving semantics aside, we may say there is no difference in behaviour. There's however a small gotcha there, which is completely irrelevant for C++ code but can bite you in the ass when interfacing C and C++. Would this work?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">{
+   A a; B b;
+   // Case 1
+   A <em>p = malloc(sizeof(A));
+   memcpy(p, &amp;a, sizeof(A));
+   // Case 2
+   B </em>p = malloc(sizeof(B));
+   memcpy(p, &amp;b, sizeof(B));
+}
+</code></pre>
+<p>The answer is perhaps. In most cases it would work, in some cases it won't. C++ uses a vtable to dispatch virtual methods, so if I were to perform a memcpy of an object, then store it on disk and retrieve it afterwards I don't have any guarantees the vtable will still be valid. And that's leaving aside the case of objects having dynamically allocated memory themselves.</p>
+<p>Wrapping up, the difference between A and B is simple: A is a POD (Plain Old Datatype, POJO for you Java guys) type, B is not. There are some other things non-POD objects can't do, for example this is invalid:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">   B b;
+   printf("%i", b);
+</code></pre>
+<p>Not only it's invalid: g++ emits a warning and then crashes on runtime (this is related to the use of vargs in functions with "..." params, but it's not important now).</p>
+<p>Knowing what a POD object is, what would you do now if you had to persist (serialize) an std::string-like object? That's a topic for the next post.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">Nicol&aacute;s Brailovsky » Blog Archive » Cool C++0X features III: Variadic templates, a fix for varargs</a> commented @ 2011-04-26T09:05:06.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivecoolc0xfeaturesiiivariadictemplatesafixforvarargsblog20110426_coolc0xfeaturesiiivariadictemplatesafixforvarargs.htmlcommented20110426t090506.0000200"></a></h2>
+<p>[...] POD types support [...]</p>
+<p>Original <a href="/blog/2010/0407_PODtypesinC.html">published here</a>.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0407_PODtypesinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

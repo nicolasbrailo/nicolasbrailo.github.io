@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Throwing destructors Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Throwing destructors</h2>
+
+Post by Nico Brailovsky @ 2011-09-20 - <a href="/blog/2011/0920_Throwingdestructors.html">Permalink</a> 
+
+<p>We already know what happens when you <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">throw from a constructor</a>. Ending up with a half built object is not good, but suppose we do manage to build one correctly. What happens if we <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">throw in a destructor</a> instead? The results are usually much worse, with a very real possibility of having your program terminated. Read on for a brief explanation on the perils of throwing constructors.</p>
+<p>So, according to RAII pattern, resource deallocation should occur during the destructor, yet resource freeing is not exempt of possible errors. How would you notify of an error condition?</p>
+<ul>
+<li>First error handling choice, you notify /dev/null of the error condition. Best case, you may log the error somewhere, but you can't do anything about it, you end up ignoring it. Not good, usually you'll want to do something about the error condition, even more if it's transient.</li>
+<li>Second choice, throw. The user (of the class) will know something has gone horribly wrong. This option seems better, yet it has some disadvantages too (just as it happened with <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">throwing destructors</a>; when is an object completely deleted? is it ever deleted if an exception is thrown whilst running?)</li>
+</ul>
+<p>Yet the worst part is not resource leaking through half destroyed objects, the worst part is having your program call std::abort.</p>
+<p>Think of it this way: when an exception is active, the stack is unwind, i.e. the call stack is traversed backwards until a function which can handle the exception is found. And you just can't unwind the stack while unwinding the stack (you'd need a stack of stacks) so the reasonable thing to do is call std::abort.</p>
+<p>So, what can you do about it? Go to your favorite jobs posting site and start searching for a PHP position, you'll sleep better at nights.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0920_Throwingdestructors.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

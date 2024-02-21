@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2011 April Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2011 April</h2>
+
+<h2>Know your history (at least in bash)<a name="knowyourhistoryatleastinbash"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-04-28 - <a href="/blog/2011/0428_Knowyourhistoryatleastinbash.html">Permalink</a>  - <a href="/blog/2011/0428_Knowyourhistoryatleastinbash.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0428_Knowyourhistoryatleastinbash.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I always wonder why do you see so many people pressing up a bazillion times when trying to bring a command they recently typed. Just use ctrl+r and type part of the previous command, it'll save you many hours of pressing up.</p>
+<hr />
+<h2>Cool C++0X features III: Variadic templates, a fix for varargs<a name="coolc0xfeaturesiiivariadictemplatesafixforvarargs"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-04-26 - <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Last time</a> we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn't have the problems the varargs solution had, nor how does it work. Let's start by copying the solution here:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// Stop condition
+void println() {}
+// General case
+template <typename H, typename... T>
+void println(H p, T... t)
+{
+   std::cout &lt;&lt; p;
+   println(t...);
+}
+int main() {
+   println("Hola", " mundo ", 42, 'n';);
+   return 0;
+}
+</code></pre>
+<p>It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some <a href="/blog/youfoundadeadlink.html">template-foo</a> is required, not only because of the syntax but because we'll be talking about functional programming too.</p>
+<p>With all that intro (the last 2 articles were just an intro!) now we are in a good shape to ask what a variadic template really is. In its easiest form, it's just a list of template arguments, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename... T> void foo(T... t) {}
+</code></pre>
+<p>That simple template can accept as many parameters as you need, of any type. This is much safer than a vararg because:</p>
+<ul>
+<li>Doesn't require the user to specify the number of args passed to foo, so it just can't get out of sync</li>
+<li>It's typesafe; since C++ templates are type-safe, variadic templates are type safe too. You won't be able to request an int where a char is required, you'll just get a compiler error.</li>
+<li>Compile time check: you get type safety just because this is all compiled code. If it doesn't compile, you get an error (albeit a little cryptic).</li>
+<li><a href="/blog/2010/0407_PODtypesinC.html">POD types</a> support</li>
+<li>Better performance; small gain, but a gain indeed. Since this is all done in compile time there's no need to handle the stack dynamically, nor of having a loop getting the args. It's all known when you compile, thus the compiler can just optimize the hell out of everything</li>
+</ul>
+<p>Pretty neat, huh? But how does it work? Variadic templates are actually very similar to how Haskell handles lists, you get all the arguments as a list of types in which you can either get the head or the tail. To do something useful, get the head and continue processing the tail recursively.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename H, typename... T>
+void do_something(H h, T... t)
+{
+    // Do something useful with h
+    really_do_something(h);
+    // Continue processing the tail
+    do_something(t...);
+}
+</code></pre>
+<p>Of course, you'll eventually need a condition to stop processing: (we'll explain the new syntax later)</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void do_something()
+{
+    // Do nothing :)
+}
+</code></pre>
+<p>When the list is completely processed the empty do_something function will be called. Easy, right? But it does have a lot of weird syntax. Let's see what each of those ellipses mean:</p>
+<ul>
+<li>When declaring typename... T you are saying "here goes a list of types". That is, when you use ellipses after the typename (or class) declaration but before the name of the type, then you are expecting a list of types there.</li>
+<li>When declaring T... t you are saying t is a list of objects with different type. That is, you declared T... as a type which holds a list of types, therefore t, of type T, is an instance of a list of objects, each of different type</li>
+<li>When you write t..., you are saying "expand the list of arguments". You declared t as a list of objects, but you have no way of accessing each of those objects, just to the list as a whole. When you write the name of the object followed by ellipses, you are saying expand these types and their instance for the called function</li>
+</ul>
+<p>With all that in mind, let's put together our typesafe printf:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// Condition to stop processing
+void println() {}
+// Println receives a list of arguments. We don't know it's type nor
+// how many there are, so we just get the head and expand the rest
+template <typename H, typename... T>
+void println(H p, T... t)
+{
+    // Do something useful with the head
+    std::cout &lt;&lt; p;
+    // Expand the rest (pass it recursively to println)
+    println(t...);
+}
+int main() {
+    // See how it works even better than varargs?
+   println("Hola", " mundo ", 42, 'n');
+   return 0;
+}
+</code></pre>
+<p>Next time, we'll see a more complex (and fun) example of variadic templates.</p>
+<hr />
+<h2>echo "Hola mundo" &gt; /dev/full<a name="echoholamundodevfull"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-04-21 - <a href="/blog/2011/0421_echoHolamundodevfull.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0421_echoHolamundodevfull.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I'd write something witty but there's not a lot to talk about /dev/full. Anyway, it is a cool tip, so I'll share it:</p>
+<blockquote>
+<p>Everyone knows /dev/null, and most will know /dev/zero. But /dev/full was unknown to me until some time ago. This device will respond to any write request with ENOSPC, No space left on device. Handy if you want to test if your program catches "disk full" - just let it write there</p>
+</blockquote>
+<p>From <a href="http://www.df7cb.de/blog/2010/dev_full.html">Myon's Blog</a></p>
+<hr />
+<h2>Cool C++0X features II, Variadic templates: What&#39;s wrong with varargs<a name="coolc0xfeaturesiivariadictemplateswhat39swrongwithvarargs"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-04-19 - <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Permalink</a>  - <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Last time</a> we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?</p>
+<p>Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
+#include <iostream>
+// My god, it's full of bugs
+void va_println(int args_left, ...) {
+   va_list arg_lst;
+   va_start(arg_lst, args_left);
+   while(args_left--) {
+      const char <em>p = va_arg(arg_lst, const char</em>);
+      std::cout &lt;&lt; p;
+   }
+   va_end(arg_lst);
+}
+int main() {
+   va_println(3, "Hola ", "mundo", "n");
+   return 0;
+}
+</code></pre>
+<p>This implementation of a function with variable arguments is, more or less, the best C can give us, yet it riddled with bugs and hidden problems. Let's go one by one:</p>
+<ul>
+<li><strong>Arg num will get out of sync</strong>: You need to specify the list of args as well as how many you have. That WILL get out of sync. Trust me, it's just a mater of time. And when it does, you'll have a coredump.</li>
+<li><strong>Type-unsafe</strong>: You just tell varargs "Hey, get me an int". And it will give you an int, no warranties included. If it was supposed to be a short instead, though luck, you end up with a coredump.</li>
+<li><strong>No, really, coredump</strong>: Where are so many coredumps coming from, you may ask. Easy, varargs it's just a way of handling the stack. Calling va_arg just moves the stack pointer by the sizeof the datatype you requested. That means no compile-time checks are included.</li>
+<li><strong>No pod types</strong>: Remember POD types? Try running this code:</li>
+</ul>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
+struct X { virtual ~X(){} };
+void va_println(int args_left, ...) {
+   va_list arg_lst;
+   va_start(arg_lst, args_left);
+   while(args_left--) {
+      X <em>p = va_arg(arg_lst, X</em>);
+   }
+   va_end(arg_lst);
+}
+int main() {
+   X x, y, z;
+   va_println(3, x, y, z);
+   return 0;
+}
+</code></pre>
+<h3>And how do we fix it?<a name="andhowdowefixit"></a></h3>
+<p>The fix is easy. Too easy. You just need C++0X. We will discuss why this is better next time, but just as a sneak peak:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void println() {}
+template <typename H, typename... T> void println(H p, T... t) {
+   std::cout &lt;&lt; p;
+   println(t...);
+}
+int main() {
+   println("Hola", " mundo ", 42, 'n');
+   return 0;
+}
+</code></pre>
+<p>Remember to compile using -std=c++0x in gcc.</p>
+<p><strong>(Thanks Hugo Arregui for correcting the POD example)</strong></p>
+<hr />
+<h2>Cool C++0X features I: Intro<a name="coolc0xfeaturesiintro"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-04-18 - <a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0418_CoolC0XfeaturesIIntro.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>C++0X brings some very cool changes, and I wanted to start a series of posts regarding some of these changes, with a small explanation of each new feature (that I currently understand, at least), an example of its usage and why I think it's a cool thing. Notice these two may be mutually exclusive, some of these may just be cool but I wouldn't recommend using them on a day to day basis. An example of a very cool feature which I wouldn't normally use in a project is the one I want to write about today: variadic templates.</p>
+<p>What's not to love about variadic templates? Its name implies (correctly) that it uses templates, and it also has a "variadic" thingy, which you can use to look smart since no one really knows what it means.</p>
+<p>Templates themselves can quickly get complicated if used by unexperienced padawans in the art of martial C++, yet their hypnotic beauty draws every programmer to use them just like flies are drawn to fire. When used correctly they can produce very elegant code; if not for the template programmer, at least for the end user. Yet in all their power, templates in C++ have been lacking a fundamental aspect: a variable number of arguments.</p>
+<p>There are ways to work around this limitation, like using a list of types paired with a template-paramlist-object. Sounds familiar? (I know it doesn't, don't worry). You could also generate N constructors, one overload for each parameter count. The drawback, exponential compile time (say, TR1). These are all hacks, which are in place only because there wasn't a safe way of passing a list of types associated with a list of arguments. This is over now with variadic templates in C++0X.</p>
+<p>So, what kind of problem would variadic templates solve? Let's name a few:
+* A typesafe varargs function (a function with a variable number of arguments)
+* Easily create a template object which acts as a tuple
+* An easier implementation of a reduce (inject) function</p>
+<p>This entry is getting quite long so we'll start seeing these examples on the next post.</p>
+<hr />
+<h2>Hex dump in C++<a name="hexdumpinc"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-04-07 - <a href="/blog/2011/0407_HexdumpinC.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0407_HexdumpinC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you need to work with low level stuff (say communications protocols, compression algorithms, stuff like that) you'll be needing an hex dump function sooner or later. Alex, from <a href="http://www.alexonlinux.com/">Alex on Linux</a>, has a great <a href="http://www.alexonlinux.com/hex-dump-functions">hex dump function</a> for Python and C.</p>
+<p>I added an =NULL for caption, I don't use it.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void hex_dump(char *data, int size, char *caption=NULL)
+{
+    int i; // index in data...
+    int j; // index in line...
+    char temp[8];
+    char buffer[128];
+    char *ascii;
+    memset(buffer, 0, 128);
+    printf("---------&gt; %s &lt;--------- (%d bytes from %p)n", caption, size, data);
+    // Printing the ruler...
+    printf("        +0          +4          +8          +c            0   4   8   c   n");
+    // Hex portion of the line is 8 (the padding) + 3 * 16 = 52 chars long
+    // We add another four bytes padding and place the ASCII version...
+    ascii = buffer + 58;
+    memset(buffer, ' ', 58 + 16);
+    buffer[58 + 16] = 'n';
+    buffer[58 + 17] = '';
+    buffer[0] = '+';
+    buffer[1] = '0';
+    buffer[2] = '0';
+    buffer[3] = '0';
+    buffer[4] = '0';
+    for (i = 0, j = 0; i &lt; size; i++, j++)
+    {
+        if (j == 16)
+        {
+            printf("%s", buffer);
+            memset(buffer, ' ', 58 + 16);
+            sprintf(temp, "+%04x", i);
+            memcpy(buffer, temp, 5);
+            j = 0;
+        }
+        sprintf(temp, "%02x", 0xff &amp; data[i]);
+        memcpy(buffer + 8 + (j * 3), temp, 2);
+        if ((data[i] &gt; 31) &amp;&amp; (data[i] &lt; 127))
+            ascii[j] = data[i];
+        else
+            ascii[j] = '.';
+    }
+    if (j != 0)
+        printf("%s", buffer);
+}
+</code></pre>
+<hr />
+<h2>Newsflash: C++ object commits sepuku<a name="newsflashcobjectcommitssepuku"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-04-04 - <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Permalink</a>  - <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0404_NewsflashCobjectcommitssepuku.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Check this out. Is it valid C++?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class X {
+  void dispose() {
+    delete this;
+  }
+};
+</code></pre>
+<p>Strange pattern, isn't it?. What happens if you try to dispose a heap object?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f() {
+   X x;
+   x.dispose();
+}
+</code></pre>
+<p>Indeed, nasal demons FTW, you're trying to free an invalid pointer. Yet if we change that a little bit...</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f() {
+   (new X)-&gt;dispose();
+}
+</code></pre>
+<p>Zomg now it works. It's weird, but it works. Why would anybody on earth do something like this? Can you guess when would this be useful?</p>
+<p>Some times you launch a background job, and you don't really care when it's done. You may use a <a href="/blog/2009/0803_CMagiccallbackssolved.html">callback</a> to be notified when the job is done, but if you don't really care then having an object which deletes itself is an option. You'll have to be very careful about it, though, because this is legal C++ too:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class X {
+  void dispose() {
+    delete this;
+    std::cout &lt;&lt; "Hello worldn";
+  }
+};
+</code></pre>
+<p>Though "Hello world" will be printed, it will be running in a dead object. Which is fine, as far as the compiler cares, but if you do try to reference the this pointer, you'll be in a lot of trouble.</p>
+<p><strong>Bonus reading</strong>
+For a much more interesting note than mine, go and check <a href="http://blogs.msdn.com/b/oldnewthing/archive/2010/08/10/10048149.aspx">When does an object become available for garbage collection?</a> in The Old New Thing.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Repeat (and fix) last command Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Repeat (and fix) last command</h2>
+
+Post by Nico Brailovsky @ 2011-05-26 - <a href="/blog/2011/0526_Repeatandfixlastcommand.html">Permalink</a> 
+
+<p>How many times have you run a command but forgot to add sudo at the beginning? How many times did you open vim instead of gvim? All that has an easy fix, instead of pressing up-left-left-left-left-left... (almost like a Konami code, isn't it?) just use <code>!!</code>.</p>
+<p><code>!!</code> expands to the previous command, so for example:</p>
+<pre><code>vim foo
+</code></pre>
+<p>, then</p>
+<pre><code>g!!
+</code></pre>
+<p>will execute "gvim foo".</p>
+<p>Another common problem, you mistype vim for vmi (hey, it may be a common problem if you're dyslexic). Just type fc, short for fix command, to open the last command in your configured editor. Fix it (lxp, bonus points if anyone understand this :D) then write and save. The fixed command will be executed.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0526_Repeatandfixlastcommand.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>C++ exceptions under the hood 20: running destructors while unwinding Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>C++ exceptions under the hood 20: running destructors while unwinding</h2>
+
+Post by Nico Brailovsky @ 2013-05-28 - <a href="/blog/2013/0528_Cexceptionsunderthehood20runningdestructorswhileunwinding.html">Permalink</a> 
+
+<p>The <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v11">mini ABI version 11</a> we have written last time was able to handle pretty much all the basics to handle an exception: we have an (almost working) ABI capable of throwing and catching exceptions, but it is still unable to properly run destructors. That's quite important if we want to write exception safe code. With what we know about .gcc_except_table running destructors is a piece of cake, we only need to see a bit of assembly:</p>
+<pre><code># Call site table
+.LLSDACSB2:
+    # Call site 1
+    .uleb128 ip_range_start
+    .uleb128 ip_range_len
+    .uleb128 landing_pad_ip
+    .uleb128 (action_offset+1) =&gt; 0x3
+    # Rest of call site table
+# Action table start
+.LLSDACSE2:
+    # Action 1
+    .byte   0
+    .byte   0
+    # Action 2
+    .byte   0x1
+    .byte   0x7d
+    .align 4
+    .long   _ZTI14Fake_Exception
+.LLSDATT2:
+# Types table start
+</code></pre>
+<p>On a regular landing pad, when an action has a type index greater than 0 it means we're seeing an index to a type tables, and we can use that to know which types the catch can handle; for a type index with a value of 0 it means we are instead seeing a cleanup block and we should run it anyway. Although the landing pad can't handle the exception it will still be able to perform the cleanup that's supposed to happen while unwinding. Of course the landing pad will call _Unwind_Resume when the cleanup is done and that will continue the regular stack unwinding process.</p>
+<p>I've uploaded this <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v12">latest and last version to my github repo</a>, but there are some bad news: remember how we cheated by saying that a uleb128 == char? As soon as we start adding blocks to run destructors the .gcc_except_table starts to get quite big (where "big" means we have offsets over 127 bytes long) and that assumption no longer holds.</p>
+<p>For the next version of this ABI we would have to rewrite our LSDA reading functions to read proper uleb128 code. Not a major change, but at this point we wouldn't gain much, we have already achieved our goal: a working minimal ABI capable of handling exceptions without the help of libcxxabi.</p>
+<p>There are parts we haven't covered, like handling non-native exceptions, catching derived types or interoperability between compilers and linkers. Maybe some other time, in this rather long series of articles we already learned quite a bit about low level exception handling in C++.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0528_Cexceptionsunderthehood20runningdestructorswhileunwinding.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

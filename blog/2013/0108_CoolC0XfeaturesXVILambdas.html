@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Cool C++0X features XVI: Lambdas Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Cool C++0X features XVI: Lambdas</h2>
+
+Post by Nico Brailovsky @ 2013-01-08 - <a href="/blog/2013/0108_CoolC0XfeaturesXVILambdas.html">Permalink</a> 
+
+<p>Last time we created a device to sum an initializer list of ints, something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void Add(initializer_list<int> lst) {
+    int sum = 0;
+    for (auto i = lst.begin(); i != lst.end(); ++i)
+        sum += *i;
+    cout &lt;&lt; sum &lt;&lt; "n";
+}
+</code></pre>
+<p>And then we said this can be improved using some new C++0x wizardry to support actions other than adding. How would we do that? Easy, we need to decouple the iteration of the list from the operation logic. We can do something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+// Note how we don't care about the type of OP, just that
+// it can be called (i.e. has an operator ())
+template <class OP>
+void do_something(OP op, int init, initializer_list<int> lst) {
+    int sum = init;
+    for (auto i = lst.begin(); i != lst.end(); ++i)
+    {
+        int x = *i;
+        sum = op(sum, x);
+    }
+    cout &lt;&lt; sum &lt;&lt; "n";
+}
+struct Sum {
+    int operator() (int a, int b)
+    {
+        return a + b;
+    }
+};
+int main() {
+    do_something(Sum(), 0, {1, 2, 3, 4});
+    return 0;
+}
+</code></pre>
+<p>We had to do some changes other than passing the operation-object into the do_something method; since the start value (zero) was hardcoded we had to remove it to really decouple the action from the iteration.</p>
+<p>Other than creating a function object (which is the correct name for the object wrapping our operation) we don't see any strange changes, there's no C++0x there, but C++0x gives us a little tool which gives you the power of creating much simpler and nicer code, or to make the next maintainers' life a living hell. That's a discussion for other time though, now let's take a sneak preview a lambdas, the evolution of function objects:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+    auto f = [] (int a, int b){ return a+b; } ;
+    do_something(f, 0, {1, 2, 3, 4});
+    return 0;
+}
+</code></pre>
+<p>Note that we didn't change anything on the method iterating the list, we just changed main! There's a lot to talk about lambdas, so this is only an intro to the subject. Next time we'll discuss the subtleties of the new syntax.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0108_CoolC0XfeaturesXVILambdas.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Just WTF Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Just WTF</h2>
+
+Post by Nico Brailovsky @ 2010-06-08 - <a href="/blog/2010/0608_JustWTF.html">Permalink</a> 
+
+<p>Who the hell can create a monster like this one?</p>
+<pre lang="sql"><code class="language-sql" lang="sql">CREATE PROC shutdown10
+AS
+EXEC xp_cmdshell 'net send /domain:SQL_USERS ''SQL Server
+shutting down in 10 minutes. No more connections
+allowed.', no_output
+EXEC xp_cmdshell 'net pause sqlserver'
+WAITFOR DELAY '00:05:00'
+EXEC xp_cmdshell 'net send /domain: SQL_USERS ''SQL Server
+shutting down in 5 minutes.', no_output
+WAITFOR DELAY '00:04:00'
+EXEC xp_cmdshell 'net send /domain:SQL_USERS ''SQL Server
+shutting down in 1 minute. Log off now.', no_output
+WAITFOR DELAY '00:01:00'
+EXEC xp_cmdshell 'net stop sqlserver', no_output
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0608_JustWTF.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

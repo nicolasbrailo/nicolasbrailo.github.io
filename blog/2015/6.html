@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2015 June Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2015 June</h2>
+
+<h2>Android studio and ndk-gdb to debug a native app<a name="androidstudioandndkgdbtodebuganativeapp"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-06-25 - <a href="/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html">Permalink</a>  - <a href="/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I don't know how good Android Studio support for native apps is nowadays (it changes from week to week!). Up to a few months ago, Gradle, the build system used by AS, had poor support for native development. If you're having problems, you may find it easier to workaround it completely when it comes to build and debug C/C++ applications.</p>
+<p>To debug a native Android application, a binary called gdbserver and its associated gdb.setup must be included in the generated APK file. Including this into the APK can be very painful in Gradle, so here's a workaround I found:</p>
+<ol>
+<li>Build your stuff the way you normally would (I'm assuming you know already how to build a native app, and if you don't there are guides online that explain it much better than I could).</li>
+<li>Deploy your application the way you normally would.</li>
+<li>Discover ndk-gdb won't run. Bang forehead against keyboard a few times.</li>
+<li>After losing some hours looking at logs, figure out there's no gdbserver included in your apk.</li>
+<li>Lose some more hours trying to figure out how to include it in your apk using Gradle.</li>
+<li>Give up. Bang forehead against keyboard some more.</li>
+<li>find the gdbserver and gdb.setup in your build directory.</li>
+<li>adb push each of these files to the device.</li>
+<li>Using adb shell, move the files you copied to /data/app-lib/com.yourapp/ - you may need to root your device for this.</li>
+<li>Profit! ndk-gdb now works.</li>
+</ol>
+<p>Edit: remember you may need to <a href="/blog/2015/0616_ndkgdblifetipuseverbose.html">chmod +777 your gdbserver</a>.</p>
+<hr />
+<h2>Useful predefined variables in make<a name="usefulpredefinedvariablesinmake"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-06-23 - <a href="/blog/2015/0623_Usefulpredefinedvariablesinmake.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0623_Usefulpredefinedvariablesinmake.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I always forget about two very useful make variables, so I'll leave this here: $(COMPILE.cpp), $(LINK.cpp).
+It's easy, instead of writing a rule as</p>
+<pre><code>foo.o: foo.cpp
+  g++ -c foo.coo
+</code></pre>
+<p>you should instead write this:</p>
+<pre><code>foo.o: foo.cpp
+  $(COMPILE.cpp) foo.coo
+</code></pre>
+<p>COMPILE.cpp will have the default compiler you are supposed to use, and probably some helpful parameters as well. Likewise, LINK.cpp will have the linker you are supposed to use.</p>
+<p>There are many useful predefined variables in make. Be sure to check them all by running "make -p" in a console.</p>
+<hr />
+<h2>Vim tip: reload your vimrc<a name="vimtipreloadyourvimrc"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-06-18 - <a href="/blog/2015/0618_Vimtipreloadyourvimrc.html">Permalink</a>  - <a href="/blog/2015/0618_Vimtipreloadyourvimrc.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0618_Vimtipreloadyourvimrc.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you're changing your vimrc, it can get boring to close and restart it only to see the changes applied. Want something quicker? You can ":so %". So stands for source, so you'll just be telling vim "include this file". % happens to be the path to the current file. If you're not editing your .vimrc but for some reason you still want to reload it, just use "so ~/.vimrc" instead.</p>
+<hr />
+<h2>ndk-gdb life tip: use --verbose<a name="ndkgdblifetipuseverbose"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-06-16 - <a href="/blog/2015/0616_ndkgdblifetipuseverbose.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0616_ndkgdblifetipuseverbose.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Crosscompiling is always fun. No matter how ready-to-use it's packaged, and Android does a pretty decent job at that, you're still bound to find problems that leak through the abstraction layers. If something says it's dummy-proof, I always find the way to perfect myself and be even dumber. For people like me; do yourselves a favour and start launching ndk-gdb this way:</p>
+<pre><code>ndk-gdb --start --verbose
+</code></pre>
+<p>Using the --verbose parameter will probably reveal some hidden errors. For example, when I forgot to chmod 777 my gdbserver binary:</p>
+<pre><code>## COMMAND: adb_cmd pull /system/bin/app_process ./obj/local/armeabi-v7a/app_process
+run-as: exec failed for /data/data/com.nico.trippingsdcardphotomanager/lib/gdbserver Error:Permission denied
+117 KB/s (9560 bytes in 0.079s)
+Pulled app_process from device/emulator.
+</code></pre>
+<hr />
+<h2>I now write Android apps: presenting Tripping Photo Manager<a name="inowwriteandroidappspresentingtrippingphotomanager"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-06-11 - <a href="/blog/2015/0611_InowwriteAndroidappspresentingTrippingPhotoManager.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0611_InowwriteAndroidappspresentingTrippingPhotoManager.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I have been working in an awesome Android app recently, so I'd like to throw in a shameless self-plug here. Oh, wait, it's my blog. It's all basically a big shameless self-plug, isn't it? Anyway, I've been working on <a href="https://github.com/nicolasbrailo/TrippingSdCardPhotoManager">https://github.com/nicolasbrailo/TrippingSdCardPhotoManager</a> , an open source SD card photo manager for Android.</p>
+<p>Why an SD card photo manager? Whenever I go on holidays I never have enough SD cards to store all the snaps I take. Luckily I'm a crappy photographer, so I end up deleting half of the pictures I took during a day. This makes it easy to somewhat re-use the same SD card. In my experience, Android is not always great when it comes to managing files from an external SD card mounted through an USB adapter, hence this little app was born: it'll let you select the directory you want to use to manage pictures, from anywhere in the filesystem. It's also somewhat faster than the native gallery app, which is a plus when working with a slow-ish SD card.</p>
+<p>This app also supports some stuff I find useful in my workflow, like renaming the current directory to something more meaningful than "YourCamera4242", backing stuff up in the device and batch deleting files. It also packs a version of <a href="http://www.imagemagick.org/script/index.php">ImageMagick</a> I ported for Android, so in theory you can use your Android device to do anything you can do with a regular "mogrify" command in Linux.</p>
+<p>The app is not available in Playstore, mostly because I'm a cheap bastard and don't want to pay the 10 bucks Google charges you to create an account, only to publish an open source application.</p>
+<p>You can still install the APK from this link: <a href="https://github.com/nicolasbrailo/TrippingSdCardPhotoManager/releases">https://github.com/nicolasbrailo/TrippingSdCardPhotoManager/releases</a> - or you can contribute to the open source world (?) and buy me a Play Store account.</p>
+<hr />
+<h2>Debugging multiple processes with gdb<a name="debuggingmultipleprocesseswithgdb"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-06-09 - <a href="/blog/2015/0609_Debuggingmultipleprocesseswithgdb.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0609_Debuggingmultipleprocesseswithgdb.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If your buggy program generates lots of child processes, gdb will keep attached to the parent program and let all the children run loose. If you're having problems to find what causes&nbsp; your crash this is probably not what you want: for those occasions gdb has a very helpful flag called detach on fork.</p>
+<p>With <a href="https://sourceware.org/gdb/onlinedocs/gdb/Forks.html">detach on fork</a> you can tell gdb to keep debugging the parent, follow the children, or keep track of all processes. Must be nice to troubleshoot forkbombs with this option.</p>
+<hr />
+<h2>cerr vs cout<a name="cerrvscout"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-06-04 - <a href="/blog/2015/0604_cerrvscout.html">Permalink</a>  - <a href="/blog/2015/0604_cerrvscout.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0604_cerrvscout.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>In C++, is there a difference between cerr and cout, other than using a different file descriptor? Turns out you can learn something new every day.</p>
+<p>Whenever I just want to add a quick print statement because I'm too lazy to debug something, I used to use cout. All along I thought cout and cerr would be exactly the same for my use case, but turns out there's a slight difference: cout is buffered, cerr is not. This very small difference can have a huge impact, because you shouldn't need to flush cerr after a write to make sure the changes are visible, it should happen automagicaly. In turn cerr might be slightly slower, but you probably don't care about that when writing cerr &lt;&lt; "I'm here!".</p>
+<hr />
+<h2>Vim tip: "polymorphic" key bindings<a name="vimtippolymorphickeybindings"></a></h2>
+<p>Post by Nico Brailovsky @ 2015-06-02 - <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">Permalink</a>  - <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0602_Vimtippolymorphickeybindings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you use vim daily, you probably have a bunch of maps for your most common tasks. You should also remember you can assign the same key to do different things according to which mode you are
+in. For example, let's say you have a mapping to open a new tab:</p>
+<pre><code>map <leader>t :tabnew<cr>
+</code></pre>
+<p>You can also map t to open a new tab using the selected text as a filename. You just need to define two mappings:</p>
+<pre><code>nmap <leader>t :tabnew<cr>
+vmap <leader>t :call Foo()<cr>
+</code></pre>
+<p>nmap stands for normal (mode) map, vmap for visual. How to get the text under the cursor is a bit more complex and out of scope for this vim tip, but <a href="http://vim.wikia.com/wiki/Mapping_keys_in_Vim_-_Tutorial_%28Part_1%29">you might want to check this link</a>.</p>
+<p>Remember to check ":help map" for a list of all mode mappings.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2013 July Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2013 July</h2>
+
+<h2>Force a program to output to stdout<a name="forceaprogramtooutputtostdout"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-30 - <a href="/blog/2013/0730_Forceaprogramtooutputtostdout.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0730_Forceaprogramtooutputtostdout.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Silly but handy CLI trick on Linux: Some programs don't have an option to output to stdout. Gcc comes to mind. In that case the symlink '/dev/stdout' will come in handy: /dev/stdout will be symlinked to stdout for each process.</p>
+<p>With this trick you could, for example, run "gcc -S foo.cpp -o /dev/stdout", to get the assembly listing for foo.cpp.</p>
+<p>You probably shouldn't use this trick on anything other than CLI scripting stuff (keep in mind /dev/stdout might be closed or not accessible for some processes).</p>
+<hr />
+<h2>C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality<a name="cexceptionsunderthehoodappendixiiirttiandexceptionsorthogonality"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-25 - <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">Permalink</a>  - <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Exception handling on C++ requires a lot of reflexion. I don't mean the programmer should be reflecting on exception handling (though that's probably not a bad idea), I mean that a piece of C++ code should be able to understand things about itself. This looks a lot like run-time type information, RTTI. Are they the same? If they are, does exception handling work without RTTI?</p>
+<p>We might be able to get a clue about the difference between RTTI and exception handling by using -fno-rtti on gcc when compiling our ABI project. Let's use the <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/blob/master/abi_v12/throw.cpp">throw.cpp</a> file:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">g++ -fno-rtti -S throw.cpp -o throw.nortti.s
+g++ -S throw.cpp -o throw.s
+diff throw.s throw.nortti.s
+</code></pre>
+<p>If you try that yourself you should see there's no difference between the RTTI and the No-RTTI version. Can we conclude then that gcc's exception handling is done with a mechanism different to RTTI? Not yet, let's see what happens if we try to use RTTI ourselves:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void raise() {
+    Exception ex;
+    typeid(ex);
+    throw Exception();
+}
+</code></pre>
+<p>If you try and compile that, gcc will complain: you can't use typeid with -fno-rtti specified. Which makes sense. Let's see what typeid does with a simple test:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <typeinfo>
+class Bar {};
+const std::type_info&amp; foo()
+{
+        Bar bar;
+            return typeid(bar);
+}
+</code></pre>
+<p>If we compile this with "g++ -O0 -S", you will see foo compiled into something like this:</p>
+<pre><code>_Z3foov:
+.LFB19:
+    # Prologue stuff...
+    subl    $16, %esp
+    # Bar bar
+    movl    $_ZTI3Bar, %eax
+    # typeid(bar)
+    leave
+    # Epilogue stuff...
+_ZTS3Bar:
+    # Definition for _ZTS3Bar...
+_ZTI3Bar:
+    .long   _ZTVN10__cxxabiv117__class_type_infoE+8
+    .long   _ZTS3Bar
+    .ident  "GCC: (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3"
+    .section    .note.GNU-stack,"",@progbits
+</code></pre>
+<p>Does that look familiar? If it doesn't, then try changing the sample code to this one:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class Bar {};
+void foo() { throw Bar(); }
+</code></pre>
+<p>Compile it like "g++ -O0 -fno-rtti -S test.cpp" and see the resulting file. You should see something like this now:</p>
+<pre><code>_Z3foov:
+    # Prologue stuff...
+    # Initialize exception
+    subl    $24, %esp
+    movl    $1, (%esp)
+    call    __cxa_allocate_exception
+    movl    $0, 8(%esp)
+    # Specify Bar as exception thrown
+    movl    $_ZTI3Bar, 4(%esp)
+    movl    %eax, (%esp)
+    # Handle exception
+    call    __cxa_throw
+    # Epilogue stuff...
+_ZTS3Bar:
+    # Definition for _ZTS3Bar...
+_ZTI3Bar:
+    .long   _ZTVN10__cxxabiv117__class_type_infoE+8
+    .long   _ZTS3Bar
+    .ident  "GCC: (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3"
+    .section    .note.GNU-stack,"",@progbits
+</code></pre>
+<p>That should indeed look familiar: the class being thrown is exactly the same as the class that was used for typeid!</p>
+<p>We can now conclude what's going on: <strong>the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends</strong>. Specifying -fno-rtti on g++ only disables the "frontend" functions for RTTI: that means you won't be able to use typeid, and no RTTI classes will be generated... unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won't be able to access the RTTI information of this class via typeid, though).</p>
+<hr />
+<h2>A random slideshow in Ubuntu<a name="arandomslideshowinubuntu"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-23 - <a href="/blog/2013/0723_ArandomslideshowinUbuntu.html">Permalink</a>  - <a href="/blog/2013/0723_ArandomslideshowinUbuntu.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0723_ArandomslideshowinUbuntu.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>The other day I wanted to use my tv for a slideshow of my travel pictures. Something simple, just select a folder and have a program like Shotwell create a slideshow with a random order on my tv. Of course, Ubuntu and double screen equals fail. For some reaason all the programs I tried either were incapable of using the tv as the slideshow screen (even after cloning screens... now that's a wtf) or where not able to recursively use all the pictures in a folder.</p>
+<p>feh to the rescue. It's not pretty, but feh seems to be exactly what I was looking for. It's a CLI application for Linux and after some RTFM I came up with this script:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">feh ~/Pictures \
+     --scale-down \
+     --geometry 1920x760 \
+     --slideshow-delay 9 \
+     --recursive \
+     --randomize \
+     --auto-zoom \
+     --draw-filename \
+     --image-bg black
+</code></pre>
+<p>You can probably figure out by yourself what each option means. If not, just man feh.</p>
+<hr />
+<h2>Mocking in C++: the virtual problem<a name="mockingincthevirtualproblem"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-18 - <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">Permalink</a>  - <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">8 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0718_MockinginCthevirtualproblem.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Mocking objects is crucial for a good test suite. If you don't have a way to mock heavy objects you'll end up with slow and unreliable tests that depend on database status to work. On the other hand, C++ mocking tends to be a bit harder than it is on dynamic languages. A frequent problem people find when mocking are virtual methods.</p>
+<p>What's the problem with virtual methods? C++ has the policy of "not paying for what you don't use". That means, not using virtual methods is "cheaper" than using them. Classes with no virtual methods don't require a virtual dispatch nor a vtable, which speeds things up. So, for a lot of critical objects people will try to avoid virtual methods.</p>
+<p>How is this a problem for mocking? A mock is usually a class which inherits from the real class, as a way to get the proper interface and to be compatible with code that uses the real implementation. If a mock inherits from the real thing you'll need to define all of its methods as virtual, even if you don't need to, just so you can actually implement a mock.</p>
+<h3>A possible solution<a name="apossiblesolution"></a></h3>
+<p>The problem is clear: we need some methods to behave as virtual, without defining them as virtual.</p>
+<p>A solution to this problem, the one I personally choose, is using a TEST_VIRTUAL macro in the definition of each mockeable method for a class; in release builds I just compile with -DTEST_VIRTUAL="", and for testing builds I compile with -DTEST_VIRTUAL="virtual". This method is very simple and works fine but has the (very severe) downside of creating a different release code than the code you test; this might be acceptable, but it's a risk nonetheless.</p>
+<p>Other possible solutions I've seen in the past are:</p>
+<ul>
+<li>Making everything virtual, even if not strictly necessary. Quite an ugly solution, in my opinion, it can affect performance and the code is stating that a method can be overridden, even if this don't make sense.</li>
+<li>Using some kind of <a href="http://en.wikipedia.org/wiki/Curiously_recurring_template_pattern">CRTP</a> for static dispatching: probably one of the cleanest solutions, but I think it adds too much overhead to the definition of each class.</li>
+<li>Don't make the mock inherit from the real implementation, make the user code deduce the correct type (eg by using templates). It's also a clean solution, but you loose a lot of type information (which might or might not be important) and it might also severely impact the build time</li>
+</ul>
+<p>To conclude, I don't think there's a perfect solution to the virtual problem. Just choose what looks better and accept we live in an imperfect world.</p>
+<hr />
+<h2>Counting lines per second with bash<a name="countinglinespersecondwithbash"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-16 - <a href="/blog/2013/0716_Countinglinespersecondwithbash.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0716_Countinglinespersecondwithbash.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>The other day I wanted to quickly monitor the status of a production nginx after applying some iptables rules and changing some VPN stuff. It's easy to know if you completely screwed up the server: the number of requests per second will drop to zero, all requests will have an httpstatus different from 200, or some other dramatic and easy to measure side effect.</p>
+<p>What happens if you broke something in a slightly more subtle way? Say, you screwed up something in ipsec (now, I wonder how that can happen...) and now networking is slow. Or iptables now enforces some kind of throttling in a way you didn't expect. To detect this type of errors I wrote a quick bash script to output how many lines per second are added to a file. This way I was able to monitor if the throughput of my nginx install didn't decrease after my config changes, without installing a full fledged solution like zabbix.</p>
+<p>I didn't find anything like this readily available, so I'm posting it here in case someone else finds it useful.</p>
+<pre lang="bash"><code class="language-bash" lang="bash">#!/bin/bash
+# Time between checks
+T=5
+# argv[1] will be the file to check
+LOG_FILE=$1
+while true; do
+    tmp=`mktemp`
+    # tail a file into a temp. -n0 means don't output anything at the start so
+    # we can sleep $T seconds and we don't need to worry about previous entries
+    tail -n0 -f $LOG_FILE &gt; $tmp 2&gt;/dev/null &amp; sleep $T;
+    kill $! &gt; /dev/null 2&gt;&amp;1
+    echo "Requests in $LOG_FILE in the last $T seconds: `cat $tmp | wc -l`";
+    rm $tmp;
+done
+</code></pre>
+<hr />
+<h2>Starting an EMR job with Boto<a name="startinganemrjobwithboto"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-11 - <a href="/blog/2013/0711_StartinganEMRjobwithBoto.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0711_StartinganEMRjobwithBoto.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I've noticed there are not many articles about boto and Amazon web services. Although boto's documentation is quite good, it lacks some practical examples. Most specifically, I found quite a fair amount of RTFM was needed to get an elastic map reduce job started on Amazon using Boto (and I did it from Google app engine, just to go full cloud!). So here it goes, a very basic EMR job launcher using boto:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">zone_name = 'eu-west-1'
+access_id = ...
+private_key = ...
+# Connect to EMR
+conn = EmrConnection(access_id, private_key,
+                    region=RegionInfo(name=zone_name,
+                    endpoint= zone_name + '.elasticmapreduce.amazonaws.com'))
+# Create a step for the EC2 instance to install Hive
+args = [u's3://'+zone_name+'.elasticmapreduce/libs/hive/hive-script',
+            u'--base-path', u's3://'+zone_name+'.elasticmapreduce/libs/hive/',
+            u'--install-hive', u'--hive-versions', u'0.7.1']
+start_jar = 's3://'+zone_name+ \
+            '.elasticmapreduce/libs/script-runner/script-runner.jar'
+setup_step = JarStep('Hive setup', start_jar, step_args=args)
+# Create a jobflow using the connection to EMR and specifying the
+# Hive setup step
+jobid = conn.run_jobflow(
+                    "Hive job", log_bucket.get_bucket_url(),
+                    steps=[setup_step],
+                    keep_alive=keep_alive, action_on_failure='CANCEL_AND_WAIT',
+                    master_instance_type='m1.medium',
+                    slave_instance_type='m1.medium',
+                    num_instances=2,
+                    hadoop_version="0.20")
+# Set the termination protection, so the job id won't be killed after the
+# script is finished (that way we can reuse the instance for something else
+# Don't forget to shut it down when you're done!
+conn.set_termination_protection(jobid, True)
+s3_url = 'Link to a Hive SQL file in S3'
+args = ['s3://'+zone_name+'.elasticmapreduce/libs/hive/hive-script',
+        '--base-path', 's3://'+zone_name+'.elasticmapreduce/libs/hive/',
+        '--hive-versions', '0.7.1',
+        '--run-hive-script', '--args',
+        '-f', s3_url]
+start_jar = 's3://'+zone_name+'.elasticmapreduce/libs/script-runner/script-runner.jar'
+step = JarStep('Run SQL', start_jar, step_args=args)
+conn.add_jobflow_steps(jobid, [step])
+</code></pre>
+<hr />
+<h2>A coverage report for C++ unit tests<a name="acoveragereportforcunittests"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-09 - <a href="/blog/2013/0709_AcoveragereportforCunittests.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0709_AcoveragereportforCunittests.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>A lot of tools and metrics which are pretty much given for some dynamic languages are quite esoteric in C++ land. Unit testing is one of these tools, and so code coverage metrics is even more obscure in C++. Turns out it's not impossible. I have uploaded an <a href="https://github.com/nicolasbrailo/gcov_gtest_sample">example C++ project with unit tests and code coverage report generation</a>. Shouldn't be to hard to adapt this code to your own project.</p>
+<p>Let's analyze some of the core concepts of this example.</p>
+<h3>Unit testing<a name="unittesting"></a></h3>
+<p>A coverage report only makes sense if you have a suite of unit/integration tests. gtest and gmock have worked the best for me but I guess anything that can run a suit of tests will be good to get a coverage report.</p>
+<h3>Getting some coverage<a name="gettingsomecoverage"></a></h3>
+<p>gcov is a simple utility you can find on Linunx to generate coverage reports. gcc has support for it, you just need to compile with "-fprofile-arcs -ftest-coverage --coverage" and link with "--coverage -lgcov". If you see the <a href="https://github.com/nicolasbrailo/gcov_gtest_sample/blob/master/Makefile#L10">line 10 on the makefile for the example project</a>, you'll see I define a new build type, special for coverage report.</p>
+<p>Once the project is built with support for gcov, <a href="https://github.com/nicolasbrailo/gcov_gtest_sample/blob/master/Makefile#L49">running the tests</a> will generate a bunch of stats for lcov to pick up. The makefile includes <a href="https://github.com/nicolasbrailo/gcov_gtest_sample/blob/master/Makefile#L67">a target</a> that takes care of all these steps, compiling the program with gcov support, running the tests and then collecting the results into a nice html report.</p>
+<h3>Getting it running<a name="gettingitrunning"></a></h3>
+<p>Unfortunatelly, generating a coverage report has a lot of dependencies in C++. For the example on my github repository you'll have to install lcov, cppcheck, gtest, gmock and vera++ (a code style checker for C++ which is now discontinued... you should probably search for a replacement). Once you have it running, though, you can easily integrate this with your jenkins setup.</p>
+<hr />
+<h2>My own gdb cheatsheet, just because<a name="myowngdbcheatsheetjustbecause"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-04 - <a href="/blog/2013/0704_Myowngdbcheatsheetjustbecause.html">Permalink</a>  - <a href="/blog/2013/0704_Myowngdbcheatsheetjustbecause.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0704_Myowngdbcheatsheetjustbecause.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Gdb is the de facto tool for debugging applications on GNU/Linux. The first time you see it, it would appear to be a very simple application with very limited capabilities. Truth is, gdb is a very complex tool for a very difficult job, and becoming an proficient user can be a daunting task. To top it off, gdb graphical interfaces don't help at all when using it, so you are better off learning how to use it in console mode.</p>
+<p>There are a ton of guides to learn the basics of gdb, so I'll just leave here a very quick list on the very basics needed to start understanding it:</p>
+<h3>Running stuff<a name="runningstuff"></a></h3>
+<ul>
+<li>Start your debugging session with "gdb $path_to_app"</li>
+<li>If you have a core dump you need to analyze, start it as "gdb $path_to_app $path_to_core"</li>
+<li>Don't forget to 'ulimit -c unlimited' if you want to get core files</li>
+<li>Don't forget to compile with debug symbols ("-g3")</li>
+<li>Are you using gcc? Then instead of -g3 use -ggdb</li>
+</ul>
+<h3>Breaking stuff<a name="breakingstuff"></a></h3>
+<ul>
+<li>Set breakpoints by typing "break"</li>
+<li>Break on functions by typing "break 'Namespace::Class::InnerClass::function(overload_t)'"</li>
+<li>When breaking on function's names, use tab's autocompletion. It's your best friend (don't forget the quotes in the function's name, otherwise the double colon symbol will break the autocompletion)</li>
+<li>You can also "break filename.cpp:line_number"</li>
+<li>Start the show by typing "run"</li>
+</ul>
+<h3>Viewing the source<a name="viewingthesource"></a></h3>
+<ul>
+<li>"list" will show the source code for your current location</li>
+<li>"list foo" will show the source code for function foo</li>
+<li>"list *0x080483c7" will list the source code for whatever there is at address 0x080483c7</li>
+<li>Replace list for disassemble for extra fun</li>
+<li>"disassemble /r ..." will additionally print an hex dump</li>
+<li>"disassemble /m ..." will also interleave the original source</li>
+</ul>
+<h3>While running<a name="whilerunning"></a></h3>
+<ul>
+<li>step will continue execution until next line</li>
+<li>stepi will continue execution until next assembly instruction</li>
+<li>next will continue execution until next line, skipping function calls (ie won't step into another function)</li>
+<li>continue will run until the next breakpoint</li>
+</ul>
+<h3>Inspecting stuff<a name="inspectingstuff"></a></h3>
+<ul>
+<li>'print x' will print an expression. You can print pretty much any valid c/c++ expression.</li>
+<li>"print *0x080483b4" will print whatever there is at 0x080483b4</li>
+<li>"info locals" will print local vars</li>
+<li>"info registers" will print cool stuff</li>
+<li>"backtrace", bt for his friends, will print the current calling stack.</li>
+</ul>
+<p>This cheatsheet is far from being "advanced stuff" but it should be enough to get you started. The rest is practice.</p>
+<hr />
+<h2>A tardis in gdb? Reverse a program's execution!<a name="atardisingdbreverseaprogramsexecution"></a></h2>
+<p>Post by Nico Brailovsky @ 2013-07-02 - <a href="/blog/2013/0702_AtardisingdbReverseaprogramsexecution.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0702_AtardisingdbReverseaprogramsexecution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Have you ever been running a long debug session only to find you missed the spot by overstepping? I sure have and that can be one of the strongest motivators to invent a time machine. And it seems I'm not the only one who thinks so, given that gdb can now travel back in time. That's right, you can save a snapshot of a running program and then reverse the polarity to go back in time, just before you missed your breakpoint!</p>
+<p>It's very simple to use too, you don't need six people to use this feature. Just type "checkpoint" in gdb to let it know you want to record the execution's state, then "restore N" to go back in time. I've recorded a sample debugging session:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) list
+1   int main()
+2   {
+3       int a = 1;
+4       int b =2 ;
+5       a = b;
+6       b = 42;
+7       return 0;
+8   }
+(gdb) run
+Breakpoint 1, main () at test.cpp:3
+3       int a = 1;
+(gdb) n
+4       int b =2 ;
+(gdb) p a
+$1 = 1
+</code></pre>
+<p>Next, create a checkpoint:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) checkpoint
+checkpoint: fork returned pid 29192.
+</code></pre>
+<p>Interesting: a checkpoint is actually implemented as a fork. Moving on:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) n
+5       a = b;
+(gdb) n
+6       b = 42;
+(gdb) p a
+$2 = 2
+</code></pre>
+<p>Ohnoes! We overstepped. Let's go back:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) restart 1
+Switching to process 29192
+#0  main () at test.cpp:4
+4       int b =2 ;
+(gdb) p a
+$3 = 1
+</code></pre>
+<p>And we're back in time.</p>
+<h2>How does it work<a name="howdoesitwork"></a></h2>
+<p>Reversing to a previous execution state is not an easy task. Gdb implements this feature by forking out a new process, a process we can later switch to. This means that reverting to a previous state might break things. The way forking is implemented in Linux, things like open files shouldn't be much of a problem. Sockets should still be connected but, of course, whatever you already sent won't be "unsent".</p>
+<p><a href="http://sourceware.org/gdb/current/onlinedocs/gdbint/Algorithms.html#Algorithms">Gdb internals docs</a> have some useful information on the limitation of this feature.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

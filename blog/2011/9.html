@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2011 September Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2011 September</h2>
+
+<h2>DIY gnome applets<a name="diygnomeapplets"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-29 - <a href="/blog/2011/0929_DIYgnomeapplets.html">Permalink</a>  - <a href="/blog/2011/0929_DIYgnomeapplets.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0929_DIYgnomeapplets.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>We all know Gnome, and similar GUIs, are there only as a fancy console multiplexer, but even so it's useful to have widgets in your menus or dockbars to display useful data, like the release date of DNF (*). Gnome has a limited amount of applets from which you can choose, and most of them are crap or limited in their customization. You can always create your own widgets, but that's a pain in the ass for lazy people like me. Fortunately we lazy people can now use something an order of magnitude more useful than widgets in Gnome : we can use console commands!</p>
+<p>Using something called <a href="http://code.google.com/p/compa/">Compa</a> you can add a meta-widget, that will display the output of any CLI program. This means, of course, that you have all the power of the console to use in your custom made widgets. Need to check your laptop's battery? No need to search for a widget anymore, just <a href="/blog/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.html">cat /proc/acpi/battery/BAT0/state</a>. Need to check the weather? Just wget your favorite forecast page and parse it with grep, sed an awk. OK, maybe that's a little bit too much.</p>
+<p>Once more this proves that anything can be done in console mode - and whatever you can't isn't worth doing anyway.</p>
+<p>(*) Wow, this article has been written a LONG time ago!</p>
+<hr />
+<h2>Cool C++0X features XI: decltype and disappearing constness<a name="coolc0xfeaturesxidecltypeanddisappearingconstness"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-27 - <a href="/blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the <a href="/blog/youfoundadeadlink.html">last posts</a> of this series.</p>
+<p>In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it's present for template type deduction too, but decltype adds a new level of complexity to it.</p>
+<p>Let's start with an example. Would this compile?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    foo.bar = 42;
+}
+</code></pre>
+<p>Clearly not, having a const Foo means you can't touch foo.bar. How about this?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    int&amp; x = foo.bar;
+}
+</code></pre>
+<p>That won't compile either, you can't initialize an int reference from a const int, yet we can do this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
+{
+    const int&amp; x = foo.bar;
+}
+</code></pre>
+<p>If we know that works it must mean that s.result's type is const int. Right? Depends.</p>
+<p>Just as the name implies decltype yields the declared type of a variable, and what's the declared type for Foo.bar?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    // This won't compile
+    int&amp; x = foo.bar;
+    // This will
+    decltype(foo.bar) x = 42;
+}
+</code></pre>
+<p>That's an interesting difference, but it makes sense once you are used to it. To make things more interesting, what happens if you start adding parenthesis (almost) randomly? Try to deduce the type of x:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
+{
+    decltype((foo.bar)) x
+}
+</code></pre>
+<p>If <strong>decltype(x)</strong> is the type of <strong>x</strong> then <strong>decltype((foo.bar))</strong> is the type of <strong>(foo.bar)</strong>. Between <strong>foo.bar</strong> and <strong>(foo.bar)</strong> there's a very important difference; the first refers to a variable whilst the last refers to an expression. Even though <strong>foo.bar</strong> was declared as int, the expression <strong>(foo.bar)</strong> will yield a const int&amp;, since that's the type (though implicit and not declared, since the expression is not declared).</p>
+<p>This is how we would complete the example then:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
+{
+    // These two statements are equivalent
+    decltype((foo.bar)) x = 42;
+    const int&amp; y = 42;
+    // It's very easy to confirm that the typeof x is now const int&amp;
+    // This won't compile:
+    x = 24;
+}
+</code></pre>
+<p>As I said, disappearing constness is not a C++0x specific problem as it may occur on template type deduction, but that's besides the point of this post. Next time we'll continue working with type deduction, but with the new auto feature this time.</p>
+<hr />
+<h2>Running commands on Windows from Linux, through ssh<a name="runningcommandsonwindowsfromlinuxthroughssh"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-22 - <a href="/blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.html">Permalink</a>  - <a href="/blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0922_RunningcommandsonWindowsfromLinuxthroughssh.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Running Windows is something I don't usually like (running of Windows is a different story) but having to run something on Windows command line interface is something I wouldn't wish even to my worst enemies. I was stuck in that situation, don't remember why, but I needed to run a command in a Windows machine, automatically, and I only had ssh (is there a better way of automating scripted tasks in Windows, remotely and without a GUI?). Well, this is what I came up with:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ssh host cmd /c dir
+</code></pre>
+<p>Running that in a bash shell will show the directory listing of C: in machine "host". Ugly as hell, but it's a good way of kickstarting a batch script.</p>
+<hr />
+<h2>Throwing destructors<a name="throwingdestructors"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-20 - <a href="/blog/2011/0920_Throwingdestructors.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0920_Throwingdestructors.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>We already know what happens when you <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">throw from a constructor</a>. Ending up with a half built object is not good, but suppose we do manage to build one correctly. What happens if we <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">throw in a destructor</a> instead? The results are usually much worse, with a very real possibility of having your program terminated. Read on for a brief explanation on the perils of throwing constructors.</p>
+<p>So, according to RAII pattern, resource deallocation should occur during the destructor, yet resource freeing is not exempt of possible errors. How would you notify of an error condition?</p>
+<ul>
+<li>First error handling choice, you notify /dev/null of the error condition. Best case, you may log the error somewhere, but you can't do anything about it, you end up ignoring it. Not good, usually you'll want to do something about the error condition, even more if it's transient.</li>
+<li>Second choice, throw. The user (of the class) will know something has gone horribly wrong. This option seems better, yet it has some disadvantages too (just as it happened with <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">throwing destructors</a>; when is an object completely deleted? is it ever deleted if an exception is thrown whilst running?)</li>
+</ul>
+<p>Yet the worst part is not resource leaking through half destroyed objects, the worst part is having your program call std::abort.</p>
+<p>Think of it this way: when an exception is active, the stack is unwind, i.e. the call stack is traversed backwards until a function which can handle the exception is found. And you just can't unwind the stack while unwinding the stack (you'd need a stack of stacks) so the reasonable thing to do is call std::abort.</p>
+<p>So, what can you do about it? Go to your favorite jobs posting site and start searching for a PHP position, you'll sleep better at nights.</p>
+<hr />
+<h2>Zero padding for Bash scripts<a name="zeropaddingforbashscripts"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-15 - <a href="/blog/2011/0915_ZeropaddingforBashscripts.html">Permalink</a>  - <a href="/blog/2011/0915_ZeropaddingforBashscripts.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0915_ZeropaddingforBashscripts.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Lately I found myself trying to generate a video from a series of images generated by a program. Doesn't sound difficult, until you start running into a stupid issue: your 1000th frame will come before your 2nd frame!</p>
+<p>Luckily there's a very easy fix for this problem, just add zero padding in a bash script. How?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for i in <code>seq 1 10</code>; do echo $i; done
+</code></pre>
+<p>That will print all the numbers between 1 and 10. This one will do the same, with zero padding:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for i in `seq 1 10`; do printf "%02dn" $i; done
+</code></pre>
+<hr />
+<h2>200th post!<a name="200thpost"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-14 - <a href="/blog/2011/0914_200thpost.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0914_200thpost.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Yes, this is the post number 200 on this blog. Considering we are a month away of starting the fourth year, I guess that gives me quite a lousy periodicity, but I am still surprised I post somewhat regularly here after such a long time (hey, in programmer years that's like a whole life!).</p>
+<p>Since the beginning this blog has mutated from being &nbsp;my public notepad to being a place where I research new topics, or write about things that are generally interesting to me. I lost many readers for posting crazy metaprogramming stuff and for constantly babbling about Vim and Linux, but hey, I'm proud of if. Let's see what the next 200 posts bring here.</p>
+<hr />
+<h2>Automagic document conversion for your makefiles<a name="automagicdocumentconversionforyourmakefiles"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-13 - <a href="/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html">Permalink</a>  - <a href="/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>So, now you have <a href="/blog/2011/0818_Makefiles.html">a common makefile</a>, ready to be used for a TDD project and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report automagic generation</a>. Not only that, but it even <a href="/blog/2011/0906_Atalkingmakefile.html">speaks to endlessly annoy your team</a>. What else can we add to this makefile? Well, automatic documentation generation, clearly.</p>
+<blockquote>
+<p>You want to batch convert .doc to .pdf using the command line on a server without a GUI? Or you need automated .ppt to .swf conversion through cron, a sysvinit service, or a remote web server? Online conversion services such as Zamzar.com and Media-convert.com not working for you? Whichever formats you need to batch convert, PyODConverter is a simple Python script for just this purpose.</p>
+</blockquote>
+<p>-- <a href="http://www.oooninja.com/2008/02/batch-command-line-file-conversion-with.html">http://www.oooninja.com/2008/02/batch-command-line-file-conversion-with.html</a></p>
+<hr />
+<h2>Activating tildes and accents for a USA keyboard layout in Ubuntu<a name="activatingtildesandaccentsforausakeyboardlayoutinubuntu"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-08 - <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">Permalink</a>  - <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Wow. This time the title of the post may actually be longer than its contents. How do you enable accents and tildes in Ubuntu? You need it to type cool characters like &aacute;, &Oacute; or &ntilde; (hey, my name has one of these!).</p>
+<p>If you are on Windows I think you have to install a new map, and then guess where the key would be. Or use an alt+something magic spell. In Ubuntu, it works by default you just need to add a compose key, Go to System &gt; Preferences &gt; Keyboard &gt; Options &gt; compose key position, select right alt (or whatever you fancy), there you go, now it works. Try it by typing alt + ' + a.</p>
+<hr />
+<h2>A talking makefile<a name="atalkingmakefile"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-06 - <a href="/blog/2011/0906_Atalkingmakefile.html">Permalink</a>  - <a href="/blog/2011/0906_Atalkingmakefile.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0906_Atalkingmakefile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>So, after learning <a href="/blog/2011/0818_Makefiles.html">how to use makefiles</a>, then <a href="/blog/2011/0822_AMakefileforTDDwithC.html">how to use makefiles for TDD</a> and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report</a>, now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">test: $(TEST_SRCS)
+    @for TEST in $(TEST_BINS); do
+        make "$$TEST";
+        echo "Execute $(TEST)";
+        if ! ./$$TEST; then
+            echo "Oh noes! I detected a failed test from $$TEST. Go and fix your program!" | festival --tts ;
+    done
+</code></pre>
+<p>Try it. You'll love it.</p>
+<p>Bonus chatter: when Valgrind detects over $MUCHOS errors it'll print "Too many errors detected. Go and fix your program", then it won't print so much detail in the next backtraces.</p>
+<hr />
+<h2>Edit pdf files in Ubuntu<a name="editpdffilesinubuntu"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-09-01 - <a href="/blog/2011/0901_EditpdffilesinUbuntu.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0901_EditpdffilesinUbuntu.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Well, for some reason my LaTeX py-pygments stopped compiling. Thanks for breaking backwards compatibility, you pig-ments.</p>
+<p>I had two options, either spend hours trying to fix this by altering the preamble, or just edit the pdf file. Yeah, I know, editing the pdf sounds ugly as hell, but hey at 2 am in the morning I'll take anything. And pdfedit was there to save the day (night). Just apt-get install pdfedit, it's in the repo.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

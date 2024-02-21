@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Fixing some annoying GTK Warnings Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Fixing some annoying GTK Warnings</h2>
+
+Post by Nico Brailovsky @ 2011-11-22 - <a href="/blog/2011/1122_FixingsomeannoyingGTKWarnings.html">Permalink</a> 
+
+<p>So, new Buguntu upgrade, new problems. The usual deal. I don't like Unity so I installed the usual gnome desktop. Now when I start gVim I get a bunch of errors like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gvim:7189): Gtk-WARNING **: Unable to locate theme engine in module_path: "pixmap"
+</code></pre>
+<p>OK, not errors, just warnings. I don't like them anyway, so I did this to fix it:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install gtk2-engines-pixbuf
+</code></pre>
+<p>Now it works. One problem less, NaN to go... time to move back to Debian?</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1122_FixingsomeannoyingGTKWarnings.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

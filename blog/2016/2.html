@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2016 February Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2016 February</h2>
+
+<h2>Vim tip: autocommands<a name="vimtipautocommands"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-25 - <a href="/blog/2016/0225_Vimtipautocommands.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0225_Vimtipautocommands.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Whenever you find yourself thinking "I wish Vim could do this automagically for me", you probably are thinking about autocommands. With autocommands, autocmd for short or au for lazy people, will let you tell Vim, "Hey, use this callback when an event occurs".</p>
+<p>The basic structure is pretty simple: "autocmd Event FileType Action". So, for example, "autocmd BufEnter *.txt call Rot13()" would tell vim to set a callback on BufEnter, that is whenever you change buffers, for all *.txt files, which will rot13 your text. Feel free to use this for actually useful things, like spell checking or auto indenting.</p>
+<hr />
+<h2>Bash tip: idiom to get the first error code from a pipe<a name="bashtipidiomtogetthefirsterrorcodefromapipe"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-23 - <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">Permalink</a>  - <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>When writing a bash script, often times you'll end up with something like this:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">real_command | filter_stuff | prettify | do_something_else
+</code></pre>
+<p>The problem arises when you try to figure out if your command succeeded or not. If you <code>echo $?</code> you'll get the return code for the last chain in the pipe. You don't really care about the output value of do_something_else, do you?</p>
+<p>I haven't found a solution I really like to this problem, but this idiom is handy:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">out=<code>real_command</code> &amp;&amp; echo $out | filter_stuff | prettify | do_something_else
+echo $?
+</code></pre>
+<p>Now $? will hold the value of real_command, and you can actually use it to diagnose the real problem.</p>
+<hr />
+<h2>smaps: A quick memory analysis<a name="smapsaquickmemoryanalysis"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-18 - <a href="/blog/2016/0218_smapsAquickmemoryanalysis.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0218_smapsAquickmemoryanalysis.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Many times you see your process' memory consumption skyrocketing even though you're quite certain you have no memory leaks. This usually marks for the beginning of a very lengthy debugging process with valgrind or a similar tool, but even so some times you might get stuck trying to debug some third party library.</p>
+<p>There's a quick tip in Linux that can help you track down a lib gone haywire:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">cat /proc/<pid>/smaps
+</code></pre>
+<p>smaps will report every mapped section of memory for a certain process, how big the memory allocation is and which binary created the allocation.</p>
+<hr />
+<h2>Some new set operations in C++11 stl<a name="somenewsetoperationsinc11stl"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-16 - <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">Permalink</a>  - <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">3 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0216_SomenewsetoperationsinC11stl.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>The std header has a few cool additions that make life easier in C++11:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f() {
+  vector<int> v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
+  auto less_than_10 = <a href="int x"></a>{ return x &lt; 10; };
+  if (all_of(v.begin(), v.end(), less_than_10)) {
+    cout &lt;&lt; "Yay!";
+  }
+}
+</code></pre>
+<p>Besides all_of, in you can also find any_of and none_of.</p>
+<p>Bonus: do you find that initializer list hideous? Just use std::iota, from stl too:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">vector&lt;int&gt; v(100, 0);
+iota(v.begin(), v.end(), 0);
+</code></pre>
+<hr />
+<h2>Goto hell<a name="gotohell"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-12 - <a href="/blog/2016/0212_Gotohell.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0212_Gotohell.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Small and funny easter egg I found by accident today: stop using "adb shell" to access your device. You're wasting precious keystrokes. Instead, you should be using "adb hell". Yes, 'adb hell' works just as well as 'adb shell' - but it's even more awesome. Go and try it!</p>
+<hr />
+<h2>PSA: OEM unlocks may result in wiped filesystems<a name="psaoemunlocksmayresultinwipedfilesystems"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-11 - <a href="/blog/2016/0211_PSAOEMunlocksmayresultinwipedfilesystems.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0211_PSAOEMunlocksmayresultinwipedfilesystems.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>o, I bricked my tablet. Turns out the bootloader couldn't mount /data: after doing an oem unlock thingy, /data gets wiped and (this is the part the manual I was following didn't warn me about) no filesys is created.</p>
+<p>If this happens, go back to recovery mode, then adb shell and run 'mount /data'. This will give you an error like "Can't mount /dev/block/mmcblk0p23". Write down the /dev/block id and run 'mke2fs -t ext4 /dev/block/mmcblk0p30'. That should fix it.</p>
+<p>In some systems you may be missing libext2_quota.so. If this happens, just look for libext2_quota.so in the interwebs, then adb push this file into /sbin.</p>
+<hr />
+<h2>KDE: Lock screen from CLI<a name="kdelockscreenfromcli"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-09 - <a href="/blog/2016/0209_KDELockscreenfromCLI.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0209_KDELockscreenfromCLI.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>For some reason, one of my (seriously outdated) Kubuntu installations has the nasty habit of not locking the screen when pressing Ctrl+Alt+L. Not always, though. It seems to do this only when I'm in a hurry and need to quickly lock my PC before walking away. This happens often enough to be annoying, but not so frequently as to bother me enough to look for a proper solution.</p>
+<p>Instead of looking for a proper solution, trying to determine what's stealing the focus of the Ctrl+Alt+L key command, I just settled for an easier workaround: lock the screen from the command line. I use the terminal most of the time anyway, so why not just use it to lock the screen as well?</p>
+<p>The magic incantation is easy, if a bit cryptic at first:</p>
+<pre><code>qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock
+</code></pre>
+<p>"qdbus" is a broadcasting service for KDE (Qt, actually). This command basically tells the screen saver service to lock the screen. Works every time, and with an alias in my <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash_aliases#L22" title="bashrc">bashrc</a>, I don't need to remember that horribly long command. Now I only need to determine if my computer detecting when I'm in a hurry is a sign of sentience, and whether this is a threat to mankind. Will report soon.</p>
+<hr />
+<h2>VLCFreemote: no need to leave the couch<a name="vlcfreemotenoneedtoleavethecouch"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-04 - <a href="/blog/2016/0204_VLCFreemotenoneedtoleavethecouch.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0204_VLCFreemotenoneedtoleavethecouch.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I've been quite prolific in my Github account recently, if I may say so myself. The latest of my open-source projects which I think is more or less ready to be "released to the world" is <a href="https://github.com/nicolasbrailo/VlcFreemote">VlcFreemote</a>, a remote control for VLC in Android. From its README file:</p>
+<p>How many times have you been comfortably watching a movie from the couch only to find out you forgot the subtitles? How about being snugly tucked under a blanket, only to find out you need to brave the cold of winter just to add a new episode of your latest binge-watching series? Yeah, that can easily ruin your day.</p>
+<p>Worry no more: with VlcFreemote you can now install a tiny Android app to control your VLC server.</p>
+<p>FAQ:
+* Another VLC remote? Why?There are a few VLC remote controls out there. I think this is the only once that's open source (not 100% sure). It has some nice extra features I haven't found in other remote controls too: bookmarks, automagic movie-skip (jump forward by a percentage of the file length, much more useful than it sounds!) a compact layout and other small things probably not even worth mentioning. In the future, whenever I get some free time, I'd like to add the ability to start VLC automatically from SSH, a feature I would use a lot and I have seen nowhere else.
+* Why isn't this in Google play?Mostly cause I'm lazy and cheap. Getting a Google Play account costs 10 dollars or so, and I'm too lazy and too cheap to get one. Want me to upload it to Google Play? Feel free to buy me a beer. If not you can just get the APK from Github, or download the source code and build it yourself.</p>
+<hr />
+<h2>Don't exit gdb just to run make!<a name="dontexitgdbjusttorunmake"></a></h2>
+<p>Post by Nico Brailovsky @ 2016-02-02 - <a href="/blog/2016/0202_Dontexitgdbjusttorunmake.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0202_Dontexitgdbjusttorunmake.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>f you're more or less successful in your debugging session, it's quite likely that you'll have to modify some source code so you can actually fix a bug. And if you're more or less careful, you might want to validate your changes actually work. We saw some time ago that you don't need to restart gdb after a recompile because gdb is already smart enough to know that the binary changed.</p>
+<p>Turns out you don't even need to drop from gdb to a shell: just type make (using the parameters you'd usually call make with) and watch gdb take care of building your binary again.</p>
+<p>Rebuilding your project like this is not only useful to save time: you can also keep your breakpoints and they should still make sense, assuming you didn't refactor your code too much.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

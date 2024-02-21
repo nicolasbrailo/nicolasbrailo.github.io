@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>My own gdb cheatsheet, just because Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>My own gdb cheatsheet, just because</h2>
+
+Post by Nico Brailovsky @ 2013-07-04 - <a href="/blog/2013/0704_Myowngdbcheatsheetjustbecause.html">Permalink</a>  - [1 comments](md_blog/2013/0704_Myowngdbcheatsheetjustbecause.md)
+
+<p>Gdb is the de facto tool for debugging applications on GNU/Linux. The first time you see it, it would appear to be a very simple application with very limited capabilities. Truth is, gdb is a very complex tool for a very difficult job, and becoming an proficient user can be a daunting task. To top it off, gdb graphical interfaces don't help at all when using it, so you are better off learning how to use it in console mode.</p>
+<p>There are a ton of guides to learn the basics of gdb, so I'll just leave here a very quick list on the very basics needed to start understanding it:</p>
+<h3>Running stuff<a name="runningstuff"></a></h3>
+<ul>
+<li>Start your debugging session with "gdb $path_to_app"</li>
+<li>If you have a core dump you need to analyze, start it as "gdb $path_to_app $path_to_core"</li>
+<li>Don't forget to 'ulimit -c unlimited' if you want to get core files</li>
+<li>Don't forget to compile with debug symbols ("-g3")</li>
+<li>Are you using gcc? Then instead of -g3 use -ggdb</li>
+</ul>
+<h3>Breaking stuff<a name="breakingstuff"></a></h3>
+<ul>
+<li>Set breakpoints by typing "break"</li>
+<li>Break on functions by typing "break 'Namespace::Class::InnerClass::function(overload_t)'"</li>
+<li>When breaking on function's names, use tab's autocompletion. It's your best friend (don't forget the quotes in the function's name, otherwise the double colon symbol will break the autocompletion)</li>
+<li>You can also "break filename.cpp:line_number"</li>
+<li>Start the show by typing "run"</li>
+</ul>
+<h3>Viewing the source<a name="viewingthesource"></a></h3>
+<ul>
+<li>"list" will show the source code for your current location</li>
+<li>"list foo" will show the source code for function foo</li>
+<li>"list *0x080483c7" will list the source code for whatever there is at address 0x080483c7</li>
+<li>Replace list for disassemble for extra fun</li>
+<li>"disassemble /r ..." will additionally print an hex dump</li>
+<li>"disassemble /m ..." will also interleave the original source</li>
+</ul>
+<h3>While running<a name="whilerunning"></a></h3>
+<ul>
+<li>step will continue execution until next line</li>
+<li>stepi will continue execution until next assembly instruction</li>
+<li>next will continue execution until next line, skipping function calls (ie won't step into another function)</li>
+<li>continue will run until the next breakpoint</li>
+</ul>
+<h3>Inspecting stuff<a name="inspectingstuff"></a></h3>
+<ul>
+<li>'print x' will print an expression. You can print pretty much any valid c/c++ expression.</li>
+<li>"print *0x080483b4" will print whatever there is at 0x080483b4</li>
+<li>"info locals" will print local vars</li>
+<li>"info registers" will print cool stuff</li>
+<li>"backtrace", bt for his friends, will print the current calling stack.</li>
+</ul>
+<p>This cheatsheet is far from being "advanced stuff" but it should be enough to get you started. The rest is practice.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0704_Myowngdbcheatsheetjustbecause.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+<hr />
+<h2>In reply to this post, <a href="/blog/2013/1105_Automagicallysetupbreakpointswithgdb.html">Automagically setup breakpoints with gdb | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2013-11-05T08:00:56.000+01:00:<a name="inreplytothispostautomagicallysetupbreakpointswithgdbaninfinitemonkeynicolasbrailovsky39sblogblog20131105_automagicallysetupbreakpointswithgdb.htmlcommented20131105t080056.0000100"></a></h2>
+<p>[&hellip;] then restarting your debugging session. This can be quite frustrating, when you have gdb workset full of breakpoints, watch expressions and all that [&hellip;]</p>
+<p>Original <a href="/blog/2013/0704_Myowngdbcheatsheetjustbecause.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

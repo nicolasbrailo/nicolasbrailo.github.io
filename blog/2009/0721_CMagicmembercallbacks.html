@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>C++: Magic member callbacks Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>C++: Magic member callbacks</h2>
+
+Post by Nico Brailovsky @ 2009-07-21 - <a href="/blog/2009/0721_CMagicmembercallbacks.html">Permalink</a> 
+
+<p>Short post about C++ this time - though calling it a request would be more appropiate. I'm trying to create some kind of magic callback to do this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class Caller {
+ Callback c;
+  public:
+  Caller(Callback c) : c(c) {}
+ void doit(){ c(this); }
+};
+</code></pre>
+<p>Shouldn't be too difficult, right?</p>
+<p>There are some hidden complexities, of course, mostly regarding the callback parameter type, but the idea is simple, keep the caller dependant only in the callback, not in the callee.</p>
+<p>Templates are not a valid solution as the callee may have more than one callback (i.e. expect more than a single object to finish and call the callback) so the whole idea of this is having the callback "bind" to a member method when created, doesn't matter which one.</p>
+<p>I have a solution, tough I'm not too happy about it for now. I'll post it next week, unless someone comes up with a better idea (you know how to submit it if you do, right?).</p>
+<hr />
+<h2>In reply to this post, <a href="">Leonardo Secotaro</a> commented @ 2009-07-31T14:25:20.000+02:00:<a name="inreplytothispostleonardosecotarocommented20090731t142520.0000200"></a></h2>
+<p>This is my implementation</p>
+<pre lang="c++"><code class="language-c++" lang="c++">/<em>----[CallBack.h]----</em>/
+class CallBack {
+ /<em> ... </em>/
+public:
+ virtual void operator() (void<em>) = 0;
+};
+/</em>----[Objeto.h]----<em>/
+#include "CallBack.h"
+#include "Cain.h"
+#include "Abel.h"
+class Objeto: public CallBack{
+ /</em> ... <em>/
+public:
+ void Execute(){
+ Abel </em>pObj = new Abel( this );
+ Cain <em>pObj2 = new Cain( this );
+ pObj-&gt;execute();
+ pObj2-&gt;execute();
+ delete pObj;
+ delete pObj2;
+ }
+ /////////////////////////////////////////////////////
+ void Doit_Abel(Abel</em> Who){
+ /<em> ... </em>/
+ printf("I am a good Kidn");
+ }
+ //////////////////////////////////////////////////////
+ void Doit_Cain(Cain<em> Who){
+ /</em> ... <em>/
+ printf("I am a killern");
+ }
+ ///////////////////////////////////////////////////////
+ void operator() (void</em> Who) {
+ Adan <em>pFather = (Adan</em>) Who;
+ //EntryPoint
+ if (pFather-&gt;WhoamI() == CAIN )
+ Doit_Cain( (Cain<em>)Who);
+ else if (pFather-&gt;WhoamI() == ABEL )
+ Doit_Abel( (Abel</em>)Who);
+ }
+};
+/<em><em>----[Adan.h]----</em>/
+enum Family{CAIN,ABEL};
+class Adan{
+public:
+ virtual Family WhoamI()=0;
+};
+/</em>----[Abel.h]----<em>/
+#include "CallBack.h"
+#include "Adan.h"
+class Abel: public Adan{
+ /</em> ... <em>/
+ CallBack </em>_c;
+public:
+ Abel(CallBack <em>c): _c(c){}
+ Family WhoamI(){ return ABEL;}
+ void execute(){
+ /</em>...<em>/
+ printf("Abel::executen");
+ (</em>_c)((void<em>)this);
+ }
+};
+/</em>----[Cain.h]----<em>/
+#include "CallBack.h"
+class Cain: public Adan{
+ /</em> ... <em>/
+ CallBack </em>_c;
+public:
+ Cain(CallBack <em>c): _c(c){}
+ Family WhoamI(){ return CAIN;}
+ void execute(){
+ /</em>...<em>/
+ printf("Cain::executen");
+ (</em>_c)((void<em>)this);
+ }
+};
+/</em>----[Main.h]----<em>/
+int main(void) {
+ Objeto </em>pObjeto = new Objeto();
+ pObjeto-&gt;Execute();
+ delete pObjeto;
+ return EXIT_SUCCESS;
+}
+/<em>prints</em>/
+Abel::execute
+I am a good Kid
+Cain::execute
+I am a killer
+/<em>--------------------------------</em>/
+</code></pre>
+<p>Original <a href="/blog/2009/0721_CMagicmembercallbacks.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2009-08-02T22:30:14.000+02:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20090802t223014.0000200"></a></h2>
+<p>It does work but you're missing part of the "spec", you can't choose a callback function (i.e. you're tied to a single callback or a type overloaded callback).
+Other than that, the code is quite close to what I've been looking for. Check the solution back in a couple of days (still working on it!)</p>
+<p>Original <a href="/blog/2009/0721_CMagicmembercallbacks.html">published here</a>.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0721_CMagicmembercallbacks.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

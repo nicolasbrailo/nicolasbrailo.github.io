@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Template metaprogramming X: Zero Minus Ten Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Template metaprogramming X: Zero Minus Ten</h2>
+
+Post by Nico Brailovsky @ 2010-06-17 - <a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">Permalink</a> 
+
+<p>So far we've learned the basic constructs of template metaprogramming (loops, branching, return values) and some basic list operations (getting the length of a list, appending and prepending elements, checking if an element is included in a list). Let's put it all together by creating an operation to return the position of an element. It'll be very useful later on too.</p>
+<p>If we go back to the Includes operation we can get some help to define the Position operation: the position of an element in a list is one plus the position of the element we're searching for in the tail, or zero if the head equals said element. The operation is not defined if the element is not in the list.</p>
+<p>Translating to pseudo-code:</p>
+<pre><code>Position (lst.head, lst) &lt;- 0
+Position (e, lst) &lt;- 1 + Position(e, lst.tail)
+</code></pre>
+<p>The translation to C++ is not so trivial this time. Try it, I'll wait... ready? OK, let's start</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Elm, class Lst&gt; struct Position {
+    typedef typename Lst::head Head;
+    typedef typename Lst::tail Tail;
+    static const bool found = (Head == Elm);
+    static const int result = found? 0 : 1 + next;
+    static const int next = Position&lt;Elm, Tail&gt;::result;
+};
+</code></pre>
+<p>Looks easy... but doesn't work. First problem, we can't compare two types, remember? We need to use Eq again. Second problem, although we said the operation is undefined if the element is not included on the list, it would be nice if we could force the compiler to fail if (or when) that happens. Let's rewrite the operation using a façade again, but adding an Assert:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename Elm, typename LST&gt; struct _Position {
+    typedef typename LST::head Head;
+    typedef typename LST::tail Tail;
+    static const bool found = Eq&lt;Elm, Head&gt;::result;
+    static const int result = (found)? 0 : 1 + _Position&lt;Elm, Tail&gt;::result;
+};
+template &lt;typename Elm, typename LST&gt; struct Position {
+    typedef typename Assert&lt;Includes&lt; Elm, LST &gt;::result&gt;::check include;
+    static const int result = _Position&lt;Elm, LST&gt;::result;
+};
+</code></pre>
+<p>Oh, we haven't defined assert yet! There's another problem, too: even if it won't compile, the compiler will try to expand _Position&lt; ..., NIL &gt; indefinitely, causing an error after too many nested template calls. Not nice. We need to add a case to make the compiler stop:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
+// Helper: Will fail to compile if the assert is false
+class Assertion{};
+template &lt;bool cond, class T=Assertion&gt; struct Assert {
+    typedef typename T::fail check;
+};
+template &lt;&gt; struct Assert&lt;true&gt; {
+    typedef void check;
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>***/
+template &lt;typename Elm, typename LST&gt; struct _Position {
+    typedef typename LST::head Head;
+    typedef typename LST::tail Tail;
+    static const bool found = Eq&lt;Elm, Head&gt;::result;
+    static const int result = (found)? 0 : 1 + _Position&lt;Elm, Tail&gt;::result;
+};
+// The compiler will try to expand the position check
+// after NIL has been reached if this isn&#x27;t here
+template &lt;typename Elm&gt; struct _Position&lt;Elm, NIL&gt; {
+    static const int result = 0;
+};
+template &lt;typename Elm, typename LST&gt; struct Position {
+    typedef typename Assert&lt;Includes&lt; Elm, LST &gt;::result&gt;::check include;
+    static const int result = _Position&lt;Elm, LST&gt;::result;
+};
+</code></pre>
+<p>All that code for such a simple operation, man. Also, see what we did with Assert&lt;&gt;? It seems making a compile fail is actually quite easy. That's what I have most experience with.</p>
+<p>We've been through quite a lot, and our toolboox should be quite big already. Next time we'll start steering towards some sort of applicability, trying to use some of all these stuff to implement a real, useful and working program... assuming that's even possible.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/2010/0916_Quoteoftheweek.html">Nicol&aacute;s Brailovsky » Blog Archive » Quote of the week</a> commented @ 2010-09-16T09:02:28.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivequoteoftheweekblog20100916_quoteoftheweek.htmlcommented20100916t090228.0000200"></a></h2>
+<p>[...] &ldquo;Template metaprogramming&ldquo;, chapter 10 by [...]</p>
+<p>Original <a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">published here</a>.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

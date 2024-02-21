@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Stopping commits on git Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Stopping commits on git</h2>
+
+Post by Nico Brailovsky @ 2013-09-05 - <a href="/blog/2013/0905_Stoppingcommitsongit.html">Permalink</a> 
+
+<p>Who hasn't commited debug code by mistake? It's only normal to forget to remove an #include we added only to test some stuff. Luckily it's easy to tell git that we don't want to commit any changes with a certain string.</p>
+<p>On any (git) repo you'll find a .git/hooks folder; add this script in .git/hooks/pre-commit (and don't forget to chmod +x it):</p>
+<pre lang="bash"><code class="language-bash" lang="bash">#!/bin/sh
+if [ 0 != <code>git diff | grep "STOPCOMMIT" | wc -l</code> ]; then
+    echo "Error: STOPCOMMIT found, remove it before commiting";
+    git diff
+    exit 1
+fi
+</code></pre>
+<p>Now git will check your commits and stop them if they contain the STOPCOMMIT string. Now you can add all the debug changes you want, as long as you add a //STOPCOMMIT after them you'll never end up commiting them by mistake.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0905_Stoppingcommitsongit.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

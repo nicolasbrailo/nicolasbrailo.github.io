@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>More preprocessor wizardy: strings Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>More preprocessor wizardy: strings</h2>
+
+Post by Nico Brailovsky @ 2009-08-25 - <a href="/blog/2009/0825_Morepreprocessorwizardystrings.html">Permalink</a> 
+
+<p>No preprocesor wizard should go out of his house without the always useful string maker. Let's say you're trying to create a class with some sort of pseudo type-system (*):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class FooBar {
+   public:
+   const char* get_name(){ return "FooBar"; }
+};
+</code></pre>
+<p>Why would you type ALL that when you can make a simple macro, MK_CLASS, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">MK_CLASS( FooBar )
+   /<em> Other methods </em>/
+};
+</code></pre>
+<p>Problem is, this will only print "Name":</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_CLASS( Name )
+      class Name { public:
+            const char *get_name(){ return "Name"; }
+</code></pre>
+<p>Well, it's an easy fix, just prepend # to your string, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_CLASS( Name )
+      class Name { public:
+            const char *get_name(){ return #Name; }
+</code></pre>
+<p>Or use this nice string maker:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#define MK_STR(str) #str
+</code></pre>
+<p>As usual, use the preprocesor at your own risk.</p>
+<p>(*) Yeah, I know, OO purists will try to beat me to death for this, but it actually has some uses. I've found it to be a specially good solution when working with low level protocols.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0825_Morepreprocessorwizardystrings.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

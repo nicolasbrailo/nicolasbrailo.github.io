@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>gdb: debugging multithreaded applications Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>gdb: debugging multithreaded applications</h2>
+
+Post by Nico Brailovsky @ 2009-10-01 - <a href="/blog/2009/1001_gdbdebuggingmultithreadedapplications.html">Permalink</a> 
+
+<p>Few things look cooler than debugging a multithreaded application using <a href="/blog/2009/0922_gdbgraphictuimode.html">TUI</a> through ssh on a client, halfway across the world. There you are, felling the geek of the century when all of the sudden gdb starts jumping from one thread to the other. OMFGBBQ! What are you going to do now?</p>
+<p>The scheduler locking policy defines when will thread context swtiches occur. If you are debuging a thead and don't want to be bothered by another then just lock the scheduler.</p>
+<p>gdb has a default scheduling locking which defaults to "most annoying", but fortunately you can easily change it:</p>
+<p>set scheduler-locking</p>
+<p>The possible values are:
+* off: Disable locking, switches threads whenever gdb damn pleases
+* on: Enable locking, won't (ever) switch threads. <strong>Beware of deadlocks!</strong>
+* step: Disable locking while running only</p>
+<p>Hopefully this will save you some time.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/1001_gdbdebuggingmultithreadedapplications.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

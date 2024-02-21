@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>C++ pretty functions Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>C++ pretty functions</h2>
+
+Post by Nico Brailovsky @ 2010-06-22 - <a href="/blog/2010/0622_Cprettyfunctions.html">Permalink</a> 
+
+<p>There are two well known macros from the preprocessor which every macro-sorcer must know. They are __FILE__ and __LINE__. You probably already know about them but anyway, __FILE__ will give you the current file and __LINE__ the current line. Easy, huh?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+   printf("%s : %i", <strong>FILE</strong>, <strong>LINE</strong>);
+   return 0;
+}
+</code></pre>
+<p>The program above would give you "main.cpp : 3" as a result. There is nothing going on at execution time, it's all preprocesor wizardy. In fact with "<strong>g{++/cc} -E</strong>" you can even check what the "real" output is (-E means to return the preprocessor output. Keep in mind a lot of stuff will be included from the headers you use).</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+   printf("%s : %i", "main.cpp", 3);
+   return 0;
+}
+</code></pre>
+<p>Well that's nice and all, but g++ can top this easily:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+   std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+   return 0;
+}
+</code></pre>
+<p>There are a couple of notable things about this new "pretty function" thing:
+* 1. It will demangle a function's name
+* 2. This time it isn't a preprocessor secret thing but a real variable g++ will create.</p>
+<p>You can easily use this for better logging functions now (with some macro wizardy, obviously).</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Nicol&aacute;s Brailovsky » Blog Archive » Cool C++0X features VI: A variadic wrapper</a> commented @ 2011-05-17T09:06:06.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivecoolc0xfeaturesviavariadicwrapperblog20110531_coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype.htmlcommented20110517t090606.0000200"></a></h2>
+<p>[...] you want to wrap do_something with something else (Remember __PRETTY_FUNCTION__?). This is a solution, the worst one [...]</p>
+<p>Original <a href="/blog/2010/0622_Cprettyfunctions.html">published here</a>.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0622_Cprettyfunctions.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

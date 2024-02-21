@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Template metaprogramming IV: Nightmares to come Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Template metaprogramming IV: Nightmares to come</h2>
+
+Post by Nico Brailovsky @ 2010-05-06 - <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">Permalink</a> 
+
+<p>By now you should have noticed the warnings were not in vain: we are exploring a bizarre side of C++ here, a side many people prefer to, wisely, ignore. Luckily it probably is too late for you, there is no way back. Only a long spiraling way down into the arms of despair and cryptic compiler error messages... mwahahahaha. But now, let's see where we are.</p>
+<p>In previous entries we learned how to return values, how to define recursive devices and how to provide a partial specialization. Let's see know how can we use partial specialization and complex return type definitions for some more fun template metaprogramming tricks. We had a fraction and a ScalarMultiplication operation for Frak:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N, int D&gt; struct Frak {
+static const long Num = N;
+static const long Den = D;
+};
+template &lt;int N, class X&gt; struct ScalarMultiplication {
+static const long Num = N * X::Num;
+static const long Den = N * X::Den;
+};
+</code></pre>
+<p>Let's try to add an operation to simplify a Fraction. Simplify&lt; Frak&lt;2, 4&gt; &gt; should return 1/2. Mph... simplifying a fraction means dividing it by the MCD. A quick trip to Wikipedia reveals a nice recursive way to implement an MCD device:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int X, int Y&gt;   struct MCD {
+static const long result = MCD&lt;Y, X % Y&gt;::result;
+};
+template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
+static const long result = X;
+};
+</code></pre>
+<p>I won't get into much detail as the link explains it a lot better than whatever I could try, but do take a look at the definition of MCD: that's a partial specialization. No magic there. Back to our simplifying device, we now have all the parts for it. Going back to it's definition we can see that simple(fraction) = fraction / mcd(fraction). Then:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class F&gt; struct Simpl {
+static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+static const long new_num = F::Num / mcd;
+static const long new_den = F::Den / mcd;
+typedef Frak&lt; new_num, new_den &gt; New_Frak;
+typedef typename New_Frak::result result;
+};
+</code></pre>
+<p>Quite a mouthful, but a lot simpler than what you think as there is a lot of unnecessary code there. Until new_num and new_den, no surprises. Typedeffing a Frak is not new, either. typedef typename is something new: typename tells the compiler you're referring to a name inside a template class, otherwise it'd try to refer to a static variable inside said class (*). Knowing what each thing does we can simplify it:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class F&gt; struct Simpl {
+static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+typedef typename Frak&lt; F::Num / mcd, F::Den / mcd &gt;::result New_Frak;
+};
+</code></pre>
+<p>It is a matter of style really. In this case I'd rather use the second one because it matches better its colloquial definition, but if you think the first one is more readable go with it... it doesn't really matter though, no one will ever even try to read this kind of code if you intend to use it in a real application.</p>
+<p>Next time: a "useful" (**) and complete template metaprogramming device, using the complete toolset we've been learning in this crazy templating series.</p>
+<p>(*) Think of it this way:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
+   typedef int Bar;
+   Bar bar;
+};
+</code></pre>
+<p>In a template you don't know if Bar is a typename or varname because there's no access to the specific template definition. As a rule of thumb, if the compiler complains then add typenames.</p>
+<p>(**) Results may vary according to your definition of useful.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>To log or not to log Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>To log or not to log</h2>
+
+Post by Nico Brailovsky @ 2010-09-30 - <a href="/blog/2010/0930_Tologornottolog.html">Permalink</a> 
+
+<p>Logging is nice, we all know that. It saves you from having to stay up all night checking when and why your applications fails. It servers to blame the support guys for not reading it. It's useful to stress test your RAID.</p>
+<p>But logging where you shouldn't is a pain in the ass waiting to happen.</p>
+<p>When designing an application you should choose between domain level objects, wiring objects, library level objects, helper objects, etc. Your logging should be mostly in the wiring of your applications, not in the helper objects and very rarely in the domain level objects. These objects, when well designed, are supposed to be tested and to be run in a production environment with many different loggers. If you log in the middle of your business object you may end up writing logs through cout when you're testing, or worse, when you're supposed to be logging in syslog.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0930_Tologornottolog.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

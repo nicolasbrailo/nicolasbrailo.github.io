@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>GCC instrumentation flag: slow everything down! Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>GCC instrumentation flag: slow everything down!</h2>
+
+Post by Nico Brailovsky @ 2019-05-08 - <a href="/blog/2019/0508_GCCinstrumentationflagsloweverythingdown.html">Permalink</a> 
+
+<p>Here's a nice gcc tip if you think your code is running too fast: instrument everything! (Ok, it may also work if you need to create a profile of your application but for some reason Valgrind isn't your thing).</p>
+<p>Compile with</p>
+<pre lang="c++"><code class="language-c++" lang="c++">g++ foo.cpp -ggdb3 -finstrument-functions
+</code></pre>
+<p>You can get a list of symbols with nm and c++filt, or you can implement your own elf reader too for extra fun.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">extern "C" {
+    bool g__cyg_profile_enabled = false;
+    stack g__cyg_times;
+    void __cyg_profile_func_enter(void *, void *) __attribute__((no_instrument_function));
+    void __cyg_profile_func_exit(void *, void *) __attribute__((no_instrument_function));
+    void cyg_profile_enable() __attribute__((no_instrument_function));
+    void cyg_profile_disable() __attribute__((no_instrument_function));
+    void __cyg_profile_func_enter(void *this_fn, void *call_site) {
+        if (not g__cyg_profile_enabled) return;
+        cout &lt;&lt; this_fn &lt;&lt; endl;
+    }
+    void __cyg_profile_func_exit(void *this_fn, void *call_site) {
+        if (not g__cyg_profile_enabled) return;
+        cout &lt;&lt; this_fn &lt;&lt; endl;
+    }
+    void cyg_profile_enable() {
+        g__cyg_profile_enabled = true;
+    }
+    void cyg_profile_disable() {
+        g__cyg_profile_enabled = false;
+    }
+}
+int a() {
+    return 42;
+}
+int b() {
+    return a();
+}
+int c() {
+    int x = b();
+    int y = a();
+    return x+y;
+}
+int d() {
+    return c() + b();
+}
+int main() {
+    cyg_profile_enable();
+    cout &lt;&lt; d() &lt;&lt; endl;
+    cyg_profile_disable();
+    return 0;
+}
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

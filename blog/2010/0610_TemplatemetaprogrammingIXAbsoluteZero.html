@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Template metaprogramming IX: Absolute Zero Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Template metaprogramming IX: Absolute Zero</h2>
+
+Post by Nico Brailovsky @ 2010-06-10 - <a href="/blog/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.html">Permalink</a> 
+
+<p>By now we should have learned how to perform loops, branching and returns using templates. Let's add a couple of useful operations to our library: append and prepend.</p>
+<p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I've been using so far:</p>
+<pre><code>Prepend(e, lst) &lt;- LST(e, lst)
+</code></pre>
+<p>And in C++ (trivial, this time):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename Elm, typename Lst=NIL&gt; struct Prepend {
+    typedef LST&lt;Elm, Lst&gt; result;
+};
+</code></pre>
+<p>Appending is a little bit more difficult, as we need to first find the end of the list. Think for a second how would you define it... back? Ok, I'd define it this way: appending an element to the list yields a list, consisting of the same head and the result of appending said element to the tail. The null case, as usual, is appending an element to a NIL list; in this case the result is a list with the element itself. So:</p>
+<pre><code>Append(e, NIL) &lt;- LST(e)
+Append(e, lst) &lt;- LST(lst.head, Append(e, lst.tail))
+</code></pre>
+<p>Looks complicated but it follows the same structure as the rest of the basic-ops:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+template &lt;class Elm, class Lst&gt; struct Append {
+    typedef typename Lst::head Head;
+    typedef typename Lst::tail Tail;
+    typedef typename Append&lt;Elm, Tail&gt;::result Next;
+    typedef typename LST&lt;Head, Next&gt;::result result;
+};
+template &lt;class Elm&gt; struct Append&lt;Elm, NIL&gt; {
+    typedef LST&lt;Elm&gt; result;
+};
+</code></pre>
+<p>Easy. Now, what happens if we want to add a default value for Lst, so we can use Append to create lists? Easy too, but we need a façade this time; just rename Append to _Append, then</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// This is here just because I wanted a default param :D
+template &lt;typename Elm, typename Lst=NIL&gt; struct Append {
+    typedef typename _Append&lt;Elm, Lst&gt;::result result;
+};
+</code></pre>
+<p>I promised to add one more operation to our toolbox, returning the position of an element, but this post is getting quite long and I'm afraid it may be too much for the average attention span of a programmer... we'll leave it for next time.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

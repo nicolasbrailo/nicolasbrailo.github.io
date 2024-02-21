@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Starting an EMR job with Boto Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Starting an EMR job with Boto</h2>
+
+Post by Nico Brailovsky @ 2013-07-11 - <a href="/blog/2013/0711_StartinganEMRjobwithBoto.html">Permalink</a> 
+
+<p>I've noticed there are not many articles about boto and Amazon web services. Although boto's documentation is quite good, it lacks some practical examples. Most specifically, I found quite a fair amount of RTFM was needed to get an elastic map reduce job started on Amazon using Boto (and I did it from Google app engine, just to go full cloud!). So here it goes, a very basic EMR job launcher using boto:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">zone_name = 'eu-west-1'
+access_id = ...
+private_key = ...
+# Connect to EMR
+conn = EmrConnection(access_id, private_key,
+                    region=RegionInfo(name=zone_name,
+                    endpoint= zone_name + '.elasticmapreduce.amazonaws.com'))
+# Create a step for the EC2 instance to install Hive
+args = [u's3://'+zone_name+'.elasticmapreduce/libs/hive/hive-script',
+            u'--base-path', u's3://'+zone_name+'.elasticmapreduce/libs/hive/',
+            u'--install-hive', u'--hive-versions', u'0.7.1']
+start_jar = 's3://'+zone_name+ \
+            '.elasticmapreduce/libs/script-runner/script-runner.jar'
+setup_step = JarStep('Hive setup', start_jar, step_args=args)
+# Create a jobflow using the connection to EMR and specifying the
+# Hive setup step
+jobid = conn.run_jobflow(
+                    "Hive job", log_bucket.get_bucket_url(),
+                    steps=[setup_step],
+                    keep_alive=keep_alive, action_on_failure='CANCEL_AND_WAIT',
+                    master_instance_type='m1.medium',
+                    slave_instance_type='m1.medium',
+                    num_instances=2,
+                    hadoop_version="0.20")
+# Set the termination protection, so the job id won't be killed after the
+# script is finished (that way we can reuse the instance for something else
+# Don't forget to shut it down when you're done!
+conn.set_termination_protection(jobid, True)
+s3_url = 'Link to a Hive SQL file in S3'
+args = ['s3://'+zone_name+'.elasticmapreduce/libs/hive/hive-script',
+        '--base-path', 's3://'+zone_name+'.elasticmapreduce/libs/hive/',
+        '--hive-versions', '0.7.1',
+        '--run-hive-script', '--args',
+        '-f', s3_url]
+start_jar = 's3://'+zone_name+'.elasticmapreduce/libs/script-runner/script-runner.jar'
+step = JarStep('Run SQL', start_jar, step_args=args)
+conn.add_jobflow_steps(jobid, [step])
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0711_StartinganEMRjobwithBoto.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

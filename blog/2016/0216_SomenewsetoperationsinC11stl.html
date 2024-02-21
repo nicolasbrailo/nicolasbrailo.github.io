@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Some new set operations in C++11 stl Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Some new set operations in C++11 stl</h2>
+
+Post by Nico Brailovsky @ 2016-02-16 - <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">Permalink</a>  - [3 comments](md_blog/2016/0216_SomenewsetoperationsinC11stl.md)
+
+<p>The std header has a few cool additions that make life easier in C++11:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f() {
+  vector<int> v = {1, 2, 3, 4, 5, 60, 70, 80, 90};
+  auto less_than_10 = <a href="int x"></a>{ return x &lt; 10; };
+  if (all_of(v.begin(), v.end(), less_than_10)) {
+    cout &lt;&lt; "Yay!";
+  }
+}
+</code></pre>
+<p>Besides all_of, in you can also find any_of and none_of.</p>
+<p>Bonus: do you find that initializer list hideous? Just use std::iota, from stl too:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">vector&lt;int&gt; v(100, 0);
+iota(v.begin(), v.end(), 0);
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0216_SomenewsetoperationsinC11stl.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+<h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">pauljurczak</a> commented @ 2016-02-18T05:27:58.000+01:00:<a name="inreplytothispostpauljurczakblogyoufoundadeadlink.htmlcommented20160218t052758.0000100"></a></h2>
+<p>Inequality symbols are rendered as &lt; and &gt; in your post. I checked with Chrome and Explorer.</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">pauljurczak</a> commented @ 2016-02-18T05:28:56.000+01:00:<a name="inreplytothispostpauljurczakblogyoufoundadeadlink.htmlcommented20160218t052856.0000100"></a></h2>
+<p>I meant as &amp; l t ; (without spaces) etc.</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2016-02-18T05:48:49.000+01:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20160218t054849.0000100"></a></h2>
+<p>Well, it's quite ironic that your coment was more successful than my post. Thanks for the heads up, I'll try to fix it as soon as I get a chance!</p>
+<p>Original <a href="/blog/2016/0216_SomenewsetoperationsinC11stl.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

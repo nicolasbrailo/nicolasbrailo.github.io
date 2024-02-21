@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Vim utilities: Impl switcher Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Vim utilities: Impl switcher</h2>
+
+Post by Nico Brailovsky @ 2016-07-04 - <a href="/blog/2016/0704_VimutilitiesImplswitcher.html">Permalink</a> 
+
+<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "<a href="/blog/2016/0701_VimutilitiesBetterTabNew.html">BTN: Better Tab New</a>". Today it's the turn for "Impl switcher".</p>
+<p>With its very imaginative name, "Impl switcher" has a very obvious purpose: it will just switch from a header file to an implementation file. So, between .h and .cpp. Surely there are lots of Vim plugins to do just that, why write another one?</p>
+<p>Most impl-switcher plugins in the wild tend to, in my experience, require either a lot of configuration, a lot of dependencies, or a very specific project layout (or a combination of all three). They also seem to be huge and very complicated projects.</p>
+<p>Impl switcher will recursively go up your directory hierarchy and use "find" to locate any files named like your base file but with a different extension. That makes it very simple and it requires minimal (if any) configuration: just drop it in your .vimrc file and you're good to go. OK, not exactly: it requires a Linux-like system with utilities like "find". Still, a good trade-off to keep the project's dependencies as small as possible.</p>
+<p>Get "impl swicher" here:</p>
+<ul>
+<li><a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/impl_switcher.vim">Git hub repo</a></li>
+<li><a href="http://www.vim.org/scripts/script.php?script_id=5406">Impl switcher's Vim page</a></li>
+</ul>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0704_VimutilitiesImplswitcher.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

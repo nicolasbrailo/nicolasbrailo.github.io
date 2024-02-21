@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Bash tip: idiom to get the first error code from a pipe Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Bash tip: idiom to get the first error code from a pipe</h2>
+
+Post by Nico Brailovsky @ 2016-02-23 - <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">Permalink</a>  - [1 comments](md_blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.md)
+
+<p>When writing a bash script, often times you'll end up with something like this:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">real_command | filter_stuff | prettify | do_something_else
+</code></pre>
+<p>The problem arises when you try to figure out if your command succeeded or not. If you <code>echo $?</code> you'll get the return code for the last chain in the pipe. You don't really care about the output value of do_something_else, do you?</p>
+<p>I haven't found a solution I really like to this problem, but this idiom is handy:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">out=<code>real_command</code> &amp;&amp; echo $out | filter_stuff | prettify | do_something_else
+echo $?
+</code></pre>
+<p>Now $? will hold the value of real_command, and you can actually use it to diagnose the real problem.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+<h2>In reply to this post, <a href="">denisss025</a> commented @ 2016-03-15T06:00:04.000+01:00:<a name="inreplytothispostdenisss025commented20160315t060004.0000100"></a></h2>
+<p>Have you tried set -o pipefail? Here is the description.</p>
+<p>If set, the return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully. This option is disabled by default.</p>
+<p>Original <a href="/blog/2016/0223_Bashtipidiomtogetthefirsterrorcodefromapipe.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

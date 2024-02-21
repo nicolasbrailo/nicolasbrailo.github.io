@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>ndk-gdb life tip: use --verbose Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>ndk-gdb life tip: use --verbose</h2>
+
+Post by Nico Brailovsky @ 2015-06-16 - <a href="/blog/2015/0616_ndkgdblifetipuseverbose.html">Permalink</a> 
+
+<p>Crosscompiling is always fun. No matter how ready-to-use it's packaged, and Android does a pretty decent job at that, you're still bound to find problems that leak through the abstraction layers. If something says it's dummy-proof, I always find the way to perfect myself and be even dumber. For people like me; do yourselves a favour and start launching ndk-gdb this way:</p>
+<pre><code>ndk-gdb --start --verbose
+</code></pre>
+<p>Using the --verbose parameter will probably reveal some hidden errors. For example, when I forgot to chmod 777 my gdbserver binary:</p>
+<pre><code>## COMMAND: adb_cmd pull /system/bin/app_process ./obj/local/armeabi-v7a/app_process
+run-as: exec failed for /data/data/com.nico.trippingsdcardphotomanager/lib/gdbserver Error:Permission denied
+117 KB/s (9560 bytes in 0.079s)
+Pulled app_process from device/emulator.
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0616_ndkgdblifetipuseverbose.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

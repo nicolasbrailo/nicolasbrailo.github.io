@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Vectorization in gcc Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Vectorization in gcc</h2>
+
+Post by Nico Brailovsky @ 2021-03-02 - <a href="/blog/series/Vectorizationingcc.html">Permalink</a> 
+
+<p>[WARNING: DRAFT VERSION, WORK IN PROGRESS]</p>
+<p>Intro</p>
+<p>What is vectorization? That much shouldn't be difficult to answer: whenever you perform the same operation to all elements of a vector you can either do it one by one, or in chunks. You could do it by splitting the chunks across different processors. You can also tell your processor to process a whole chunk at once (extra points if you noticed that these are orthogonal aspects, you could split your vector in chunks, send it to multiple processors and then tell each processor to work on a chunk of that chunk). If you opt to process by chunks on a single processor, you will then use a special set of instructions (SIMD, single instruction multiple data) that can work on several elements at the same time.</p>
+<p>It doesn't seem like a conceptually hard topic to discuss, but looks can be deceptive. Let's toy around with gcc's vectorization capabilities and see what we can learn by telling gcc to vectorize this simple snipet:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+#define SIZE (5)
+long sum(int v[SIZE]) throw()
+{
+    long s = 0;
+    for (unsigned i=0; i&lt;SIZE; i++) s += v[i];
+    return s;
+}
+</code></pre>
+<p>As usual, the empty throw is in there so we can get a cleaner assembly output. To compile this I'm using "g++ -S -c foo.cpp -o /dev/stdout | c++filt".</p>
+<p>If you run that you will notice there isn't anything vectorized. Good, because vectorization is an optimization, and we didn't tell gcc we wanted to optimize our program. Vectorization is turned on by default on -O3, but that also triggers a bunch of other optimizations we don't want right now. Instead we can use "-O2 -ftree-vectorize". Just as a sanity check, you could compile with -O0 and -O2; for such a simple snippet there shouldn't be any major differences which could make the assembly harder to understand.</p>
+<p>Adding the new flags needed to tell gcc to vectorize:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">
+g++ -O2 -ftree-vectorize -S -c foo.cpp -o /dev/stdout | c++filt
+</code></pre>
+<p>Did you run that? Quite disappointing, isn't it? Nothing was vectorized. Why? Let's ask gcc: there's an option called "-ftree-vectorizer-verbose". Let's set it to 7 and see what gcc can tell us about the vectorization pass:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">
+&gt; g++ -O2 -ftree-vectorize -ftree-vectorizer-verbose=7 -S -c foo.cpp -o /dev/stdout | c++filt
+vec.cpp:7: note: Alignment of access forced using peeling.
+(... A bunch of stuff we don't care about right now ...)
+  Calculated minimum iters for profitability: 11
+vec.cpp:7: note:   Profitability threshold = 10
+vec.cpp:7: note: not vectorized: vectorization not profitable.
+vec.cpp:3: note: vectorized 0 loops in function.
+</code></pre>
+<p>That's interesting information: we'll talk about peeling later on, that's important but not right now. What is critical right now is the last message we got for line 7: "vectorization not profitable".</p>
+<p>Using SSE is not free, some special registers in the CPU need to be enabled and then some housekeeping needs to be done to keep them working, so they are not available unless you actually request them. If you will "invest" time into setting SSE up, you want to make sure it eventually pays off. And in this case, for a meager 10-iterations loop, it doesn't.</p>
+<p>To enable vectorization you could increase the number of iterations. GCC also has an option called min-vect-loop-bound, you could probably fiddle around with this to force the vectorization of our example but it's probably not worth it.</p>
+<hr />
+<p>Peeking at a vectorized function</p>
+<p>If we just compile and check the assembly for the snippet we used before, we'll have a frankenstein full of assembly. Let's slightly alter our snipet with a few magic words for now (we'll see what they mean later on) to get a cleaner assembly, and then we'll start inspecting that.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+#define SIZE (100)
+struct Foo { int v[100]; } <strong>attribute</strong> ((aligned (<strong>BIGGEST_ALIGNMENT</strong>)));
+long sum(Foo <strong>restrict</strong> * v) throw()
+{
+    long s = 0;
+    for (unsigned i=0; i&lt;SIZE; i++) s += v-&gt;v[i];
+    return s;
+}
+</code></pre>
+<p>Unimportant note: __restrict__ is not actually needed here, but until we discuss what that keyword does you should be using it, it will (in most cases) make your assembly much cleaner.</p>
+<p>If you compile this with "g++ -O2 -ftree-vectorize -ftree-vectorizer-verbose=7 -S -c" you'll now see a big difference in the analysis gcc gives us:</p>
+<pre><code>
+(...)
+vec.cpp:8: note: Cost model analysis:
+  Vector inside of loop cost: 5
+  Vector outside of loop cost: 4
+  Scalar iteration cost: 3
+  Scalar outside cost: 0
+  prologue iterations: 0
+  epilogue iterations: 0
+  Calculated minimum iters for profitability: 3
+vec.cpp:8: note:   Profitability threshold = 3
+vec.cpp:8: note: LOOP VECTORIZED.
+vec.cpp:5: note: vectorized 1 loops in function.
+</code></pre>
+<p>Whatever those magic incantations mean, they seem to improve the vectorization process: now the profitability threshold is much lower. You can probably imagine why already, but since we'll cover that later on for now let's just keep it in the TODO list. For now, just check out the assembly you get. Shouldn't be to hard to interpret once you know that xmm* are the simd registers, just like R*X registers but for vector operations. The code itself is quite straightforward, it's the usual algorithm you'd have written in assembly but using special vector operations (all those punpck*dq ops).</p>
+<hr />
+<p>C's abstract machine</p>
+<p>Remember all those weird things we had to tell the compiler to get gcc to properly vectorize our code? Well, turns out vector operations have a catch: they don't play nicely with unaligned data and aliasing pointers (what does that mean? be patient!).</p>
+<p>In a way, C and C++ describe a "virtual machine" that kind of resembles an old single thread mono-processor architecture, and the compiler needs to map instructions in this simple architecture to a much more complex design, a modern architecture full of multi level caches, multiple processors, multiple threads per processor and complex instruction sets like SIMD. To do that, it needs to analyze the code to guarantee certain constrains are met.</p>
+<p>An example of how the C virtual machine constraints a program: signed integers aren't supposed to overflow, if they do then that's a (programmer) error and the compiler is free to assume it will never happen. Unsigned integers, on the other hand, are free to overflow as much as needed, they just wrap around. Keeping this in mind and for code like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+template &lt;typename T&gt;
+bool foo(T x) {
+    return (x &gt; x+1);
+}
+</code></pre>
+<p>It looks really simple, but there's a catch. From a math perspective, foo should always return true. From a C virtual machine perspective, foo should always return true iif x+1 can't overflow. Just try and see what happens if you compile the above code for T=unsigned int and for T=int. A C virtual machine can assume that a signed integer will never overflow (because the standard says so) and thus will just produce code similar to "return true", at least for -O2. Unsigned ints, on the other hand, may wrap around to 0 so the compiler can't assume this: try it out and you'll see that even with optimizations on, there will be some kind of check performed.</p>
+<p>Where are we going with this long explanation? Aligned data and aliasing pointers, that's where. Now that you know how C can apply optimizations according to what it can "prove" for the code being analyzed we'll see next time what we need to prove about our code to make it vectorizable.</p>
+<hr />
+<p>Vectorization constraints: Aliasing pointers</p>
+<p>Knowing a little bit more how our C "virtual machine" restricts what we can say about our program, let's talk about pointer aliasing with this example:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+#define SIZE (100)
+void test(int v1[SIZE], int v2[SIZE])
+{
+    for (unsigned i=0; i&lt;SIZE; i++) v1[i] = 2*v2[i];
+}
+</code></pre>
+<p>If you compile that with something like "g++ -O2 -ftree-vectorize -ftree-vectorizer-verbose=7 -S -c vec.cpp" you'll probably get the following out of the vectorizer:</p>
+<pre><code>
+vec.cpp:15: note: versioning for alias required: can't determine dependence between <em>D.2078_11 and </em>D.2077_7
+vec.cpp:15: note: mark for run-time aliasing test between <em>D.2078_11 and </em>D.2077_7
+(... A lot more of output we don't care about right now ...)
+</code></pre>
+<p>That's a funny little message. And if you now check the assembly output, you'll see it's much more complex than what you could have expected. What's going on?</p>
+<p>Let's start by figuring out what "dependence between *D.2078_11 and *D.2077_7" means. Where do those strange names come from? If you spend some time digging through gcc assembly, you'll soon notice that those are the kind of names gcc's backend uses to referr to variables. In fact, you can compile with "-fverbose-asm" and a comment will be placed for each variable access: D.2078 and D.2077 refer to the two input parameters that test receives. And gcc is telling us that it can't determine whether there is a dependency between them or not, so it got marked for "run-time aliasing test".</p>
+<p>Pointer aliasing is what happens if two pointers may overlap. For example:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+int sum(int <em>x, int  </em>y) {
+    for (unsigned i=0; i&lt;3; ++i) {
+        int n = x[i];
+        x[i] = n + y[i];
+    }
+}
+</code></pre>
+<p>That looks like a simple function. Until we call it like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+int main() {
+    int x[] = {1, 2, 3, 4, 5, 6};
+    int <em>x1 = &amp;x[1];
+    int </em>x3 = &amp;x[3];
+    sim(x1, x3);
+    return 0;
+}
+</code></pre>
+<p>Here it's quite clear that for "sum", x and y might overlap. If the elements are processed one by one (like C's abstract machine says it should be done) all is quite clear and we don't care too much whether the elements overlap or not, their result will always be the same and will always be defined. If, however this changes and we intend to vectorize this function, a problem arises: if we process by chunks, instead of processing by elements, the behavior of sum would suddenly change!</p>
+<p>The vectorizer must ensure no behavior changes are introduced, so one of the steps needed to vectorize a function is to ensure there's no overlap between pointers (or, to use the proper terms, no pointer aliasing), and C99 has a keyword to tell the compiler "these two pointers will never alias" called restrict. Unfortunately there's no such keyword for C++, so a compiler extension will have to be used instead:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+#define SIZE (100)
+void test(int * <strong>restrict</strong> v1, int * <strong>restrict</strong> v2)
+{
+    for (unsigned i=0; i&lt;SIZE; i++) v1[i] = 2*v2[i];
+}
+</code></pre>
+<p>Doing this takes care of the messages saying that the compiler can't prove there's no dependency between the two parameters to our test function. Don't waste too much time trying to analyze the assembly right now, though. You'll probably see this message somewhere on the vectorizer's output: "Vectorizing an unaligned access". This means more problems for our test program, but we'll leave that for later.</p>
+<hr />
+<p>Pointer aliasing in C++</p>
+<p>TODO // C99 vs C++11 / valarray</p>
+<hr />
+<p>Runtime checking of pointer aliasing</p>
+<hr />
+<p>Vectorizing unaligned accesses</p>
+<p>Remember our example?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+#define SIZE (100)
+void test(int * <strong>restrict</strong> v1, int * <strong>restrict</strong> v2)
+{
+    for (unsigned i=0; i&lt;SIZE; i++) v1[i] = 2*v2[i];
+}
+</code></pre>
+<p>Compiling that should probably give you a message like this one:</p>
+<pre><code>
+vec.cpp:9: note: vect_model_load_cost: unaligned supported by hardware.
+(...)
+vec.cpp:9: note: Alignment of access forced using peeling.
+vec.cpp:9: note: Vectorizing an unaligned access.
+(...)
+</code></pre>
+<p>What does that mean? Remember our long explanation about how the abstract machine C defines constraints on the program analysis, and how that meant the compiler couldn't be sure that two pointers won't alias? Turns out vectorization also has a problem with unaligned accesses too. If your list of ints starts somewhere accross alignment accesses, SSE will have problems. Luckily that's not a deal breaker for gcc: it detected our architecture supports "unaligned accesses" so it does something called "peeling" to align the access.</p>
+<p>Peeling means that because the access is not guaranteed to be aligned, gcc will implement a short loop to "peel" a few iterations out of the main loop, so the main loop's accesses can be aligned. How? Imagine your vector of ints starts at 0xF123 and you need 0x10 alignment; gcc will create a short loop that will iterate, element by element, 12 times, until 0xF130. Then the main loop can start from 0xF130 and all its accesses will be aligned.</p>
+<p>You may have also noticed a message like this:</p>
+<pre><code>
+vec.cpp:9: note: cost model: epilogue peel iters set to vf/2 because peeling for alignment is unknown .
+</code></pre>
+<p>Like you can imagine, there's a prologue peel loop (the one we've already discussed) and an epilogue peel loop; since we're processing by chunks of N elements per loop, then our iteration must end at some multiple of N. This means we might have up to N-1 elements that can't be processed by the main loop; these get taken care of by the epilogue peel loop. Of course you might choose to take a simpler path and wrap your vector like this:</p>
+<pre><code>
+struct Foo { int v[100]; } <strong>attribute</strong> ((aligned (<strong>BIGGEST_ALIGNMENT</strong>)));
+</code></pre>
+<p>// TODO: add alignas example</p>
+<hr />
+<p>Using intrinsics</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+#define SIZE (100)
+struct Foo { int v[100]; } <strong>attribute</strong> ((aligned (<strong>BIGGEST_ALIGNMENT</strong>)));
+long sum(Foo <strong>restrict</strong> * v) throw()
+{
+    long s = 0;
+    for (unsigned i=0; i&lt;SIZE; i++) s += v-&gt;v[i];
+    return s;
+}
+</code></pre>
+<p>// TODO
+https://software.intel.com/sites/landingpage/IntrinsicsGuide/
+http://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html
+http://stackoverflow.com/questions/7156908/sse-intrinsic-functions-reference</p>
+<hr />
+<p>Some closing thoughts</p>
+<p>Vectorization is not easy, specially if you care about portability. Luckily the compiler does an amazing job on handling the complexity and freeing you of all the nitty-gritty problems around vectorizing a function. You don't really need to check if you'r pointers alias or not, or whether your reads are properly aligned: you just need to write your loop and let the compiler do its magic, it will evaluate if it's worth optimizing or not, and if it is it will take care of creating helper code to make vectorization work properly.</p>
+<p>The downside to all the black-box magic the compiler does on loop-vectorization is quite big, though: you loose all visibility into how your code actually works. It might work wonderfully one day and then the next it might become the slowest part of your program, because a small change made gcc miss the chance of vectorization.</p>
+<p>If (or when) gcc looses the ability to vectorize one of your loops, you'll be digging around a lot of compiler logs to try and figure out what went wrong. If you were to write the vectorized loop yourself using intrinsics you'd be certain that the loop works and it's vectorized (duh!) but you'd have to manage the portability, alignment and aliasing yourself. That's not a trivial task if you are aiming for a portable program.</p>
+<p>If you plan to write a portable vectorized program, your best bet is to check your compiler's manual to see exactly which vectorization types are supported (that means, which types of plain looks can be transformed into vectorized loops). For a full list of all transformations available in gcc, check http://gcc.gnu.org/projects/tree-ssa/vectorization.html#using.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/Vectorizationingcc.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

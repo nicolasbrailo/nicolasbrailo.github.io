@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Cool C++0X features VI: A variadic wrapper Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Cool C++0X features VI: A variadic wrapper</h2>
+
+Post by Nico Brailovsky @ 2011-05-17 - <a href="/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html">Permalink</a> 
+
+<p>Let's work on the last variadic exercise, a wrapper. Say you have something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+int main() {
+    do_something();
+    return 0;
+}
+</code></pre>
+<p>And you want to wrap do_something with something else (Remember <a href="/blog/2010/0622_Cprettyfunctions.html">__PRETTY_FUNCTION__</a>?). This is a solution, the worst one though (or, to be accurate, the most boring one):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void wrap() {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    do_something();
+}
+int main() {
+    wrap();
+    return 0;
+}
+</code></pre>
+<p>Why is it so bad? Let's say you don't control do_something, you just control the wrapper. You may not even control main(), it may be beyond your scope. That means each time do_something changes, or adds an overload, you have to change your code. That's ugly and you should already know how to set up a variadic function to forward the arguments to do_something. Give it a try, next time the solution.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

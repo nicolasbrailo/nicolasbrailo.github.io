@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2011 May Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2011 May</h2>
+
+<h2>Cool C++0X features VIII: Variadic wrapper and type inference with decltype<a name="coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-31 - <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>The wrapper function we built last time looks something like this now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+template <class... Args>
+void wrap(Args... a) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    return 0;
+}
+</code></pre>
+<p>But, as we saw last time, this approach has the problem of requiring the return type of do_something to be known before hand. What can we do to remove this dependency? In C++, not much. You can't really declare a type based on the return type of another function. You do have the option of using lots of metaprogramming wizardy, but this is both error prone and ugly (see <a href="/blog/youfoundadeadlink.html">Stroustroup's C++0x FAQ</a>).</p>
+<p>C++0x lets you do some magic with type inference using decltype; decltype(expr) will yield the type of that expression. It works quite similarly as sizeof does; decltype is resolved at compile time and the expression with which it's being called is not evaluated (more on this later).</p>
+<p>How would this work on our example?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+template <class... Args>
+auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    return do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    int x = wrap(42);
+    std::cout &lt;&lt; x &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Try it (remember to add -std=c++0x) it works great! The syntax is not so terribly difficult to grasp as it was with variadic templates. The auto keywords says "hey, compiler, the return type for this method will be defined later", and then the -&gt; actually declares the return type. This means that the auto-gt idiom isn't part of typedecl but a helper, which in turns means that even if not useful, this is valid C++0x code:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto wrap() -&gt; void {
+}
+</code></pre>
+<p>This means that we have three interesting components to analyze in this scenario:
+* -&gt; (delayed declaration)
+* auto
+* decltype</p>
+<p>We'll go over each one the next time.</p>
+<p>Closing remark: At first I choose the following example to introduce delayed return types and decltype (warning, untested code ahead):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+struct Foo {
+    void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+    void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+    int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+};
+// Untested code ahead
+// This makes g++ coredump (v 4.4.5)
+template <class T>
+struct Wrap : public T {
+    template <class... Args>
+    auto wrap(Args... a) -&gt; decltype( T::do_something(a...) ) {
+        std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+        return T::do_something(a...);
+    }
+};
+int main() {
+    Wrap<Foo> w;
+    w.wrap();
+    w.wrap("nice");
+    std::cout &lt;&lt; w.wrap(42) &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Though this looks MUCH better (and useful), at the time of writing this article mixing variadic templates with decltypes in a template class makes g++ segfault. It should be valid C++, but I can't assure it's correct code since I've never tried it.</p>
+<hr />
+<h2>Repeat (and fix) last command<a name="repeatandfixlastcommand"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-26 - <a href="/blog/2011/0526_Repeatandfixlastcommand.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0526_Repeatandfixlastcommand.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>How many times have you run a command but forgot to add sudo at the beginning? How many times did you open vim instead of gvim? All that has an easy fix, instead of pressing up-left-left-left-left-left... (almost like a Konami code, isn't it?) just use <code>!!</code>.</p>
+<p><code>!!</code> expands to the previous command, so for example:</p>
+<pre><code>vim foo
+</code></pre>
+<p>, then</p>
+<pre><code>g!!
+</code></pre>
+<p>will execute "gvim foo".</p>
+<p>Another common problem, you mistype vim for vmi (hey, it may be a common problem if you're dyslexic). Just type fc, short for fix command, to open the last command in your configured editor. Fix it (lxp, bonus points if anyone understand this :D) then write and save. The fixed command will be executed.</p>
+<hr />
+<h2>Cool C++0X features VII: A variadic wrapper solution<a name="coolc0xfeaturesviiavariadicwrappersolution"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-24 - <a href="/blog/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Last time</a> we were trying to build a wrapper function, in which we don't control the class being wrapped nor the user of the wrapper (meaning we can't change either of those but they could change without warning).</p>
+<p>This was the first approach:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void wrap() {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    do_something();
+}
+int main() {
+    wrap();
+    return 0;
+}
+</code></pre>
+<p>Yet, as we saw, it's not scalable, when either part changes the whole things break. We proposed then a variadic template solution, which, if you tried it yourself, should look something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+template <class... Args>
+void wrap(Args... a) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    return 0;
+}
+</code></pre>
+<p>That's better. Now we don't care about which parameters do_something should get, nor how many of them are there supposed to be, just how it's called. If you read the <a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">previous entries on variadic templates</a> this should be a walk in the park. It still has a flaw though: we need to know the return type of do_something!</p>
+<p>Is there a way to write a wrapper without knowing the return type of a function you are wrapping? Yes, in Ruby you can. But now you can do it in C++0x too, and we'll see how to do it next time.</p>
+<p>A closing remark: You could do something like this wrapping everything in a class:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+struct Foo {
+    void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "\n"; }
+    void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "\n"; }
+};
+template
+struct Wrapper : public Base {
+    template <class... Args>
+    void wrap(Args... a) {
+        std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+        Base::do_something(a...);
+    }
+};
+int main() {
+    Wrapper w;
+    w.wrap();
+    w.wrap("nice");
+    return 0;
+}
+</code></pre>
+<p>The above works just fine, but due to some limitations in the current (stable) version of gcc we will use the former version (the problem with this form will be clear later, I promise).</p>
+<hr />
+<h2>Another downgrade achieved<a name="anotherdowngradeachieved"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-23 - <a href="/blog/2011/0523_Anotherdowngradeachieved.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0523_Anotherdowngradeachieved.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><img alt="Original: http://i.imgur.com/annBL.jpg" src="/blog_img/annBL.jpg" /></p>
+<hr />
+<h2>Go home<a name="gohome"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-19 - <a href="/blog/2011/0519_Gohome.html">Permalink</a>  - <a href="/blog/2011/0519_Gohome.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0519_Gohome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>It really bothers me when people type "cd $HOME" or even worse, "cd /home/username". Why? Just type cd alone, it'll go home by itself.</p>
+<p>Another useful cd tip, use "cd -" as an alias for "cd $OLDPWD" (oldpwd is the previous directory).</p>
+<hr />
+<h2>Cool C++0X features VI: A variadic wrapper<a name="coolc0xfeaturesviavariadicwrapper"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-17 - <a href="/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Let's work on the last variadic exercise, a wrapper. Say you have something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+int main() {
+    do_something();
+    return 0;
+}
+</code></pre>
+<p>And you want to wrap do_something with something else (Remember <a href="/blog/2010/0622_Cprettyfunctions.html">__PRETTY_FUNCTION__</a>?). This is a solution, the worst one though (or, to be accurate, the most boring one):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void wrap() {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    do_something();
+}
+int main() {
+    wrap();
+    return 0;
+}
+</code></pre>
+<p>Why is it so bad? Let's say you don't control do_something, you just control the wrapper. You may not even control main(), it may be beyond your scope. That means each time do_something changes, or adds an overload, you have to change your code. That's ugly and you should already know how to set up a variadic function to forward the arguments to do_something. Give it a try, next time the solution.</p>
+<hr />
+<h2>Just to remind you<a name="justtoremindyou"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-12 - <a href="/blog/2011/0512_Justtoremindyou.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0512_Justtoremindyou.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>It's been too long since the last time this image appeared on my blog:</p>
+<p><img alt="" src="/blog_img/success_vim1.jpg" /></p>
+<hr />
+<h2>Cool C++0X features V: Templates and angle brackets, a short interlude<a name="coolc0xfeaturesvtemplatesandanglebracketsashortinterlude"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-10 - <a href="/blog/2011/0510_CoolC0XfeaturesVTemplatesandanglebracketsashortinterlude.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0510_CoolC0XfeaturesVTemplatesandanglebracketsashortinterlude.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>In the heart of C++ template metaprogramming and code obfuscation, lies the (ab)use of angle brackets. This seemingly innocent token can turn the most clean looking code into the mess that template-detractors like so much to complain about.</p>
+<p>C++0x doesn't do much to clean up this mess, it's probably impossible, but it does offer a subtle feature to improve the legibility of C++ template code, a nifty little feature we have (inadvertently) used.</p>
+<p>Up to C++0x, having two angle brackets together (&gt;&gt;) was parsed as the shift operator (like the one cout uses), meaning that if you had nested templates a lot of compiler errors ensued. C++0x corrects this, meaning that code which in C++ would be like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt; &gt;
+</code></pre>
+<p>Can now be written like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt;&gt;&gt;&gt;&gt;&gt;
+</code></pre>
+<p>Aaand, back to the normal schedule...</p>
+<hr />
+<h2>Eclipse watch expresion<a name="eclipsewatchexpresion"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-05 - <a href="/blog/2011/0505_Eclipsewatchexpresion.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0505_Eclipsewatchexpresion.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>So, now that I'm working for the dark side: did you know Eclipse had watch expressions which shows a variable's value on real time? I bet you did, gdb has that too. Did you know a watch expression can evaluate a method call too? Neat, huh? Well, gdb has that too.</p>
+<p>Anyway, someone on the team was having weird issues. A switch would jump to unexpected places. The state of an object would change between method calls. WTF?</p>
+<p>After some debugging then it downed on me: I once (a long time before this strange behavior) saw this person using watch expressions to evaluate a method's return value. You now have enough information to troubleshoot this problem.</p>
+<p>Ready? It's easy. A watch expression of a method call has the ability to alter an object's status. So, if you have something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+class Foo {
+   int a;
+   public:
+   Foo() : a(0) {}
+   void sumar(){ a++; }
+};
+int main() {
+   Foo bar;
+   /<em> do something </em>/
+   return 42;
+}
+</code></pre>
+<p>and then add a watch expression over bar.sumar(), then bar.a's value will be undefined for the execution of this program. Nice!</p>
+<hr />
+<h2>Cool C++0X features IV: Variadic templates again<a name="coolc0xfeaturesivvariadictemplatesagain"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-05-03 - <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">Permalink</a>  - <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Last time we finally solved the varargs problem. Let's review what we learned:
+* Variadic templates let us create something receiving a variable set of arguments
+* We can process the head of that set, then recursively process the tail
+* It adds weird new syntax
+    + When declaring typename... T you are saying "here goes a list of types"
+    + When declaring T... t you are saying t is a list of objects with different type
+    + When you write t..., you are saying "expand the list of arguments"
+* It's type safe
+* It's very neat to confuse your coworkers</p>
+<p>So, what can we do with it besides implementing our own version of printf? Let's do something better, let's try adding up a list of numbers to start flexing our variadic templatefooness (?).</p>
+<p>What's the usual way of adding a list of numbers? In templates, that is. We need something like this:</p>
+<pre><code>sum (H:T) &lt;- H + sum(T)
+sum () &lt;- 0
+</code></pre>
+<p>Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my <a href="/blog/youfoundadeadlink.html">template metaprogramming series</a>):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+struct Nil{};
+template <typename H, typename T=Nil> struct Lst {
+    typedef H Head;
+    typedef T Tail;
+};
+template &lt;
+        template<typename A, typename B> class Op,
+        typename Head,
+        typename Lst&gt;
+struct intForeach
+{
+    typedef typename intForeach
+        &lt; Op, typename Lst::Head, typename Lst::Tail &gt;::result Next;
+    typedef typename Op&lt; Head, Next &gt;::result result;
+};
+template &lt;
+        template<typename A, typename B> class Op,
+        typename Head&gt;
+struct intForeach <Op, Head, Nil>
+{
+    typedef Head result;
+};
+template &lt;
+        typename Lst,
+        template<typename A,
+        typename B>
+        class Op&gt;
+struct Reduce
+{
+    typedef typename intForeach
+        &lt; Op, typename Lst::Head, typename Lst::Tail &gt;::result result;
+};
+template <int N> struct Num {
+    const static int value = N;
+};
+template <typename A, typename B> struct Sum {
+    static const int r = A::value + B::value;
+    typedef Num<r> result;
+};
+int main() {
+    std::cout &lt;&lt; Reduce&lt;
+        Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt;,
+        Sum &gt;::result::value &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Nothing too fancy, plain old recursion with a sum. Yet it's quite verbose, can we make this a little bit more terse and, hopefully, more clear? Yes, we can. Take a look at that Lst, Lst&lt;...&gt; It sucks. And it's the perfect place to use variadic templates, we just need to construct a structure getting a list of ints, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;
+    // The operation we wish to apply
+    template<typename A, typename B> class Op,
+    // Current element to process
+    class H,
+    // All the rest
+    class... T&gt;
+struct Reduce_V
+{
+    // TODO
+}
+</code></pre>
+<p>That one should look familiar from last time article. Now, to implement a reduce operation we need to operate the current element with the result of reducing the tail, so we have to do something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// Remember how T... means to expand T for the next instance
+    typedef typename Reduce_V<Op, T...>::result Tail_Result
+</code></pre>
+<p>There's something missing. Can you see what? The ending condition, of course. Let's add it and we'll get something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;
+        // The operation we wish to apply
+        template<typename A, typename B> class Op,
+        // All the rest
+        class... T&gt;
+struct Reduce_V
+{
+};
+template &lt;
+        // The operation we wish to apply
+        template<typename A, typename B> class Op,
+        // All the rest
+        class H&gt;
+struct Reduce_V<Op, H>
+{
+    typedef H result;
+};
+template &lt;
+        // The operation we wish to apply
+        template<typename A, typename B> class Op,
+        // Current element to process
+        class H,
+        // All the rest
+        class... T&gt;
+struct Reduce_V<Op, H, T...>
+{
+        // Remember how T&hellip; means to expand T for the next instance
+   typedef typename Reduce_V<Op, T...>::result Tail_Result;
+   // Reduce current value with the next in line
+   typedef typename Op<H, Tail_Result>::result result;
+};
+</code></pre>
+<p>And using it is very simple too:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
+</code></pre>
+<p>Next time we'll see another example for variadic templates and a new C++0x feature.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

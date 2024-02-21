@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Binary portability in Linux Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Binary portability in Linux</h2>
+
+Post by Nico Brailovsky @ 2010-06-15 - <a href="/blog/2010/0615_BinaryportabilityinLinux.html">Permalink</a> 
+
+<p>An interesting topic for a change: is Linux binary portable? That is, can we take a binary file and be sure it'll run in any other Linux system? What happens if we broaden that to any POSIX system, will it blend? Eh, I mean, will it run?
+Doing some research on the subject I wrote down a list of the thought process which led my to an (inconclusive) answer:</p>
+<ol>
+<li>First we should define what a binary is for us: When we talk about a binary we are usually thinking about a compiled binary file, not an interpreted script file like Ruby or Python. Those are for people who like things to actually work, so let's focus on a compiled executable file, like a C/C++ application.</li>
+<li>Defining compiled file: What could it be other than a sequence of bytes the microprocessor can understand? Yes, that's right, it's sort of interpreted code, only there's electronics behind, not more code. This brings us to the first interesting conclusion: the executable must be (leaving emulators aside) compatible with the architecture you're on. Running Sparc? Well then, the binary better be compiled for Sparc because otherwise to the uP will not make any sense.</li>
+<li>Format: as any other thing, a binary file must have a format. That is a standard which defines the structure the file will follow. ELF is the binary format for Linux and it's quite standard. Of course, if the binary format is a standard then we should get perfect portability between different platforms running on equal architecture. Unfortunately that's not the case.</li>
+<li>(Cont'd) Why don't we? The binary depends not only on compile time "stuff" but a loading time linking occurs: the executable binary will get linked with the system files like glibc, or any other dependency on a shared library it may have.</li>
+</ol>
+<p>So, what are the keypoints for Linux binary portability? Architecture, binary format and system libraries.</p>
+<p>Of course, making the executable run is only part of the equation, as running and segfaulting on the spot is not so nice either. For this last part you'll have to closely follow the standards defined by POSIX for paths and stuff like that.</p>
+<h3>Epilogue<a name="epilogue"></a></h3>
+<p>As an epilogue, we could add that Windows binary compatibility tends to be great. Running binaries from 12 years back is no small feat, yet this leads to a whole lot of other problems: an incredible complex loader, security bugs, backwards compatibility headaches, et al. <a href="http://blogs.msdn.com/oldnewthing/">The old new thing</a> is a great source of information for this topics, I'm quite illiterate about Windows binaries nowdays :)</p>
+<h3>Followup links<a name="followuplinks"></a></h3>
+<ul>
+<li><a href="http://evanjones.ca/portable-linux-binaries.html">http://evanjones.ca/portable-linux-binaries.html</a></li>
+<li><a href="http://autopackage.org/docs/devguide/ch07.html">http://autopackage.org/docs/devguide/ch07.html</a> (I swear this one was working when I wrote this text... a year ago)</li>
+</ul>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0615_BinaryportabilityinLinux.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

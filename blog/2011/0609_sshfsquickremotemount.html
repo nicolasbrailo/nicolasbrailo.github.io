@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>sshfs, quick remote mount Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>sshfs, quick remote mount</h2>
+
+Post by Nico Brailovsky @ 2011-06-09 - <a href="/blog/2011/0609_sshfsquickremotemount.html">Permalink</a>  - [4 comments](md_blog/2011/0609_sshfsquickremotemount.md)
+
+<p>When all you have is ssh access to a machine you have enough to mount a remote disk to your work station. How? easy:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sshfs user@host:/path/to/remote/dir /path/to/local/dir
+</code></pre>
+<p>Remember you need permission for both local and remote directories.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0609_sshfsquickremotemount.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+<hr />
+<h2>In reply to this post, <a href="">Anonymous</a> commented @ 2011-06-10T13:56:11.000+02:00:<a name="inreplytothispostanonymouscommented20110610t135611.0000200"></a></h2>
+<p>Awesome tip!! Never knew about this, but it'll be an amazing time saver!</p>
+<p>Original <a href="/blog/2011/0609_sshfsquickremotemount.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="http://techrights.org/2011/06/10/fsf-backs-libreoffice/">Links 10/6/2011: $35 Linux Tablet, Free Software Foundation Backs LibreOffice | Techrights</a> commented @ 2011-06-10T19:06:28.000+02:00:<a name="inreplytothispostlinks106201135linuxtabletfreesoftwarefoundationbackslibreofficetechrightshttptechrights.org20110610fsfbackslibreofficecommented20110610t190628.0000200"></a></h2>
+<p>[...] sshfs, quick remote mount [...]</p>
+<p>Original <a href="/blog/2011/0609_sshfsquickremotemount.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="http://slashdot.org/~twitter/journal/217907">twitter</a> commented @ 2011-06-10T21:59:01.000+02:00:<a name="inreplytothisposttwitterhttpslashdot.orgtwitterjournal217907commented20110610t215901.0000200"></a></h2>
+<p>That's a nice tip, thanks.</p>
+<p>I like the sftp kio slave with Konqueror. Typing "sftp://user@hostname/path" will open path for file browsing. The address can be bookmarked like any other url and the same scheme works for any KDE file open dialog. Files browsed in Konqueror drag and drop seamlessly between the remote computer and local or other remote computers and behave in every other way like a local file. sshfs will generalize this behavior to other file browsers and applications.</p>
+<p>Original <a href="/blog/2011/0609_sshfsquickremotemount.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">Nico</a> commented @ 2011-06-19T13:53:04.000+02:00:<a name="inreplytothispostnicoblogyoufoundadeadlink.htmlcommented20110619t135304.0000200"></a></h2>
+<p>Nice tip twitter, thanks</p>
+<p>Original <a href="/blog/2011/0609_sshfsquickremotemount.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

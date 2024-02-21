@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Detecting and ignoring third party memory problems with Valgrind Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Detecting and ignoring third party memory problems with Valgrind</h2>
+
+Post by Nico Brailovsky @ 2013-06-20 - <a href="/blog/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.html">Permalink</a> 
+
+<p>Lot's of people seem to give up on Valgrind after they see the dreaded "More than ### errors detected, go and fix your program". If the bulk of these errors are caused by crappy code in third party libraries there's very little to be done to fix them, other than creating a ticket for the library maintainer (and if the bulk of these errors are caused by your own code... well, don't write a watchdog please, do fix your program!). And that's assuming the reported error is not even a false positive, since Valgrind can report problems for crazy optimizations -O3 might have or for weird operator arithmetic.</p>
+<p>If these spurious memory errors are there for too long most people will start ignoring Valgrind's output. Luckily, ignoring errors we can't fix is a possibility too, using Valgrind's ignore files.</p>
+<ul>
+<li>Check if someone else has already found this issue. Many times libraries do have an "official" ignore file for the lib</li>
+<li>If you find no ignore file, make really really sure the problem is not on your code. Preferably write a minimal unit test that triggers the warning on Valgrind. Make sure you're not misusing the library.</li>
+<li>Add whatever warnings you found which were not on your application to a new ignore file</li>
+<li>Share your ignore file with the world! Other people will either find it useful or tell you that what you thought was a bug on a lib is actually a problem on your code. That happens more often than not.</li>
+</ul>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>A coverage report for C++ unit tests Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>A coverage report for C++ unit tests</h2>
+
+Post by Nico Brailovsky @ 2013-07-09 - <a href="/blog/2013/0709_AcoveragereportforCunittests.html">Permalink</a> 
+
+<p>A lot of tools and metrics which are pretty much given for some dynamic languages are quite esoteric in C++ land. Unit testing is one of these tools, and so code coverage metrics is even more obscure in C++. Turns out it's not impossible. I have uploaded an <a href="https://github.com/nicolasbrailo/gcov_gtest_sample">example C++ project with unit tests and code coverage report generation</a>. Shouldn't be to hard to adapt this code to your own project.</p>
+<p>Let's analyze some of the core concepts of this example.</p>
+<h3>Unit testing<a name="unittesting"></a></h3>
+<p>A coverage report only makes sense if you have a suite of unit/integration tests. gtest and gmock have worked the best for me but I guess anything that can run a suit of tests will be good to get a coverage report.</p>
+<h3>Getting some coverage<a name="gettingsomecoverage"></a></h3>
+<p>gcov is a simple utility you can find on Linunx to generate coverage reports. gcc has support for it, you just need to compile with "-fprofile-arcs -ftest-coverage --coverage" and link with "--coverage -lgcov". If you see the <a href="https://github.com/nicolasbrailo/gcov_gtest_sample/blob/master/Makefile#L10">line 10 on the makefile for the example project</a>, you'll see I define a new build type, special for coverage report.</p>
+<p>Once the project is built with support for gcov, <a href="https://github.com/nicolasbrailo/gcov_gtest_sample/blob/master/Makefile#L49">running the tests</a> will generate a bunch of stats for lcov to pick up. The makefile includes <a href="https://github.com/nicolasbrailo/gcov_gtest_sample/blob/master/Makefile#L67">a target</a> that takes care of all these steps, compiling the program with gcov support, running the tests and then collecting the results into a nice html report.</p>
+<h3>Getting it running<a name="gettingitrunning"></a></h3>
+<p>Unfortunatelly, generating a coverage report has a lot of dependencies in C++. For the example on my github repository you'll have to install lcov, cppcheck, gtest, gmock and vera++ (a code style checker for C++ which is now discontinued... you should probably search for a replacement). Once you have it running, though, you can easily integrate this with your jenkins setup.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0709_AcoveragereportforCunittests.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

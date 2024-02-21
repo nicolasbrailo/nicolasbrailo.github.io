@@ -1,0 +1,52 @@
+<h2>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h2>
+<p>Post by Nico Brailovsky @ 2020-02-27 - <a href="/md_blog/2020/0227_jqgrepandprettifyjson.md">Permalink</a>  - 3 comments</p>
+<p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
+<p><strong>cat a json file - with pretty print</strong></p>
+<pre lang="c++"><code class="language-c++" lang="c++">jq . /path/to/json_file
+</code></pre>
+<p><strong>Select a single key</strong></p>
+<pre lang="c++"><code class="language-c++" lang="c++">jq '.path.to.key'
+</code></pre>
+<p>The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"</p>
+<p><strong>Delete all entries in an object, except for one</strong></p>
+<pre lang="c++"><code class="language-c++" lang="c++">jq '.foo|=bar'
+</code></pre>
+<p>The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"</p>
+<p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
+<p><a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/md_blog/2020/0227_jqgrepandprettifyjson.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<hr />
+<h2>Mixin(ish) classes with parameter packs in C++<a name="mixinishclasseswithparameterpacksinc"></a></h2>
+<p>Post by Nico Brailovsky @ 2020-02-18 - <a href="/md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md">Permalink</a>  - 2 comments</p>
+<p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
+<pre lang="c++"><code class="language-c++" lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
+</code></pre>
+<p>This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.</p>
+<p>Full example:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct EnableFeatureA {
+  template &lt;typename T&gt; static void apply(T *a) {
+    cout &lt;&lt; a-&gt;a() &lt;&lt; endl;
+  }
+};
+struct EnableFeatureB {
+  template &lt;typename T&gt; static void apply(T *a) {
+    cout &lt;&lt; T::b() &lt;&lt; endl;
+  }
+};
+template &lt;typename Impl, typename... Config&gt;
+struct Foo {
+  Foo(){
+    // Call apply() for each type in Config
+    Impl *p = nullptr;
+    int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
+  }
+};
+struct Bar;
+using FwdFoo = Foo&lt;Bar, EnableFeatureA, EnableFeatureB&gt;;
+struct Bar : FwdFoo {
+   int a() { return 4; }
+   static int b() { return 2; }
+};
+</code></pre>
+<p><a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<hr />
+<p><a href="/md_gen/index6.md">Next</a> | <a href="/md_gen/index4.md">Prev</a></p>

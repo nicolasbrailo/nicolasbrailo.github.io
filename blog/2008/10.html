@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2008 October Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2008 October</h2>
+
+<h2>Splitting flac and ape files in Debian / Ubuntu<a name="splittingflacandapefilesindebianubuntu"></a></h2>
+<p>Post by Nico Brailovsky @ 2008-10-28 - <a href="/blog/2008/1028_SplittingflacandapefilesinDebianUbuntu.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2008/1028_SplittingflacandapefilesinDebianUbuntu.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I keep forgetting this one, so I'll keep it here.</p>
+<p>What to do when you get a <strong>cue</strong> file with a single huge <strong>flac</strong> file, or even worse, an <strong>ape</strong> file? With the right packages it's an easy task (getting the packages right may be hard tough).</p>
+<p>There are three parts to this problem: getting the ape file to a more user friendly format (flac), splitting it and then renaming the splitted files.</p>
+<h3>Needed packages<a name="neededpackages"></a></h3>
+<pre lang="bash"><code class="language-bash" lang="bash">wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4_b3-1_i386.deb &amp;&amp;
+    sudo dpkg -i mac-3.99-u4_b3-1_i386.deb &amp;&amp;
+    rm -f mac-3.99-u4_b3-1_i386.deb
+</code></pre>
+<p>Source: <a href="/blog/youfoundadeadlink.html">BROKENLINK</a></p>
+<p>Now install cuetools:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">  sudo apt-get install cuetools
+</code></pre>
+<h3>Splitting the file<a name="splittingthefile"></a></h3>
+<pre lang="bash"><code class="language-bash" lang="bash">  cuebreakpoints <em>.cue|shnsplit </em>.ape -o flac
+</code></pre>
+<h3>Renaming the splitted parts<a name="renamingthesplittedparts"></a></h3>
+<p>In the cue file there should be a list of the original file names. I hacked a script to parse &amp; rename the files from the previous step, you can get it here: <a href="/blog/youfoundadeadlink.html">cue-rename</a></p>
+<p>For this script to run you'll need php-cli package. Just run it in the same folder the cue file is, as any other bash script. There's a flag to get a preview instead of a complete rename; it's somewhere in the file and I don't have much plans to clean it up anytime soon. Drop me a line if you do.</p>
+<hr />
+<h2>Back online!<a name="backonline"></a></h2>
+<p>Post by Nico Brailovsky @ 2008-10-27 - <a href="/blog/2008/1027_Backonline.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2008/1027_Backonline.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><img alt="Original: ./blog_img/img_lost.png" src="/blog_img/img_lost.png" /></p>
+<hr />
+<h2>Ruby: Method chaining<a name="rubymethodchaining"></a></h2>
+<p>Post by Nico Brailovsky @ 2008-10-16 - <a href="/blog/2008/1016_RubyMethodchaining.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2008/1016_RubyMethodchaining.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Interesante :)</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">
+#!/usr/bin/ruby1.8
+module MethodDecorator
+# Create a chain between methods:
+#   Rename org_mthd to org_alias and then point it to new_mthd
+# The next time org_mthd is called new_methd will be executed
+def add_chain org_mthd, new_mthd, org_alias
+    self.class.class_eval do
+      (alias_method org_alias, org_mthd) unless method_defined? org_alias
+      alias_method org_mthd, new_mthd
+    end
+  end
+  # Extremly evil code ahead!
+  def decorate method, decorator
+    # Create a chain counter if it doesn't exist
+    @chain_counter ||= 0
+    # Use the chain counter as a method id
+    i = (@chain_counter += 1)
+    # Create a new method which will dispatch the call to both                                                                                                    # the original and the decorator method
+    self.class.class_eval
+      def chain_dispatcher#{i} <em>params
+        #{decorator} </em>params
+        chain_original#{i} *params                                                                                                                                  end
+    EOM
+    # Once the method was created, add chain
+    eval "add_chain method, :chain_dispatcher#{i}, :chain_original#{i}"
+  end
+end
+class Foo
+  include MethodDecorator
+  def foo; print "Hello "; end
+  def bar; print "worldn"; end
+  def initialize; decorate :bar, :foo; end
+end
+Foo.new.bar
+</code></pre>
+<p>Ahora si, tengo que buscar ya un plugin para c&oacute;digo.</p>
+<p><em>Edit: Agregado el plugin para c&oacute;digo!</em></p>
+<hr />
+<h2>Lyx<a name="lyx"></a></h2>
+<p>Post by Nico Brailovsky @ 2008-10-15 - <a href="/blog/2008/1015_Lyx.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2008/1015_Lyx.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Continuando el post sobre aplicaciones necesarias para un nuevo sistema, un review que escrib&iacute; hace tiempo sobre Lyx, un frontend para LaTeX:</p>
+<p><a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/</a></p>
+<p>(Tip: hay una versi&oacute;n para Windows)</p>
+<hr />
+<h2>self.start<a name="self.start"></a></h2>
+<p>Post by Nico Brailovsky @ 2008-10-09 - <a href="/blog/2008/1009_self.start.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2008/1009_self.start.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Superado el primer post casi obligatorio, &iquest;de que se trata todo esto?</p>
+<p>Planeo volcar ac&aacute; todo tipo de locuras que se me ocurran, muchas de las cuales estar&aacute;n dedicadas a la inform&aacute;tica. Prometo mantener al m&iacute;nimo los meta-posts.</p>
+<p>El contenido estar&aacute; mayormente en espa&ntilde;ol pero como las estad&iacute;sticas muestran hits de otros lados (yo tampoco me explico c&oacute;mo) algunas cosas ir&aacute;n traducidas.
+With obliged frist post out of the way, what's all this about?</p>
+<p>I'm planning to dump here all kind of crazy ideas I can think of, many of which will be about computing. I promise to keep meta-posts to a bare minimum.</p>
+<p>The content will be mainly in Spanish but as the statistics show hits from some other places (I have no idea why neither) some things will be translated.</p>
+<p>Bonus points para quien adivine de donde saqu&eacute; la imagen.</p>
+<hr />
+<h2>apt-get new computer<a name="aptgetnewcomputer"></a></h2>
+<p>Post by Nico Brailovsky @ 2008-10-09 - <a href="/blog/2008/1009_aptgetnewcomputer.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2008/1009_aptgetnewcomputer.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Siempre me olvido cuales son los paquetes copados para instalar en un nuevo sistema as&iacute; que voy a copiarlo ac&aacute;. Despu&eacute;s pongo links a cada aplicaci&oacute;n.</p>
+<pre lang="bash"><code class="language-bash" lang="bash"># APPS
+apt-get install mozilla-thunderbird lyx
+# DPOTD cool apps
+apt-get install tilda mmv unclutter katapult moc
+# DPOTD SA tools
+sudo apt-get install knetworkmanager xdiskusage iptraf sshfs apt-listbugs
+# Media stuff: flv player, shnsplit/cuebreakpoints (flac), winrar
+apt-get install ffmpeg shntool cuetools flac wavpack unrar vlc
+# Reading APE files (not recommended, though)
+# cuebreakpoints \*.cue|shnsplit -o flac \*.ape
+# http://aidanjm.wordpress.com/2007/02/15/split-lossless-audio-ape-flac-wv-wav-by-cue-file/
+# http://aidanjm.wordpress.com/2007/01/26/using-monkeys-audio-ape-files-in-ubuntu/
+wget http://members.iinet.net.au/~aidanjm/mac-3.99-u4\_b3-1\_i386.deb &amp;&amp;
+sudo dpkg -i mac-3.99-u4\_b3-1\_i386.deb &amp;&amp;
+rm -f mac-3.99-u4\_b3-1\_i386.deb
+# Conky, sensores y plugins
+apt-get install conky libxext-dev lm-sensors build-essential checkinstall wmctrl
+# Servers y script dev
+apt-get install apache2 php5 mysql5-server rails ruby
+# Headers y demas (incluye X11)
+apt-get install libc6-dev libstdc++6-4.1-dev g++-4.1 g++ dpkg-dev build-essential x11proto-core-dev linux-libc-dev libxau-dev libxdmcp-dev x11proto-input-dev x11proto-xext-dev x11proto-kb-dev xtrans-dev libx11-dev libxext-dev glibc-doc libgtk2.0-doc manpages-dev
+# Headers para php
+ant php5-dev ant-optional m4 autoconf autotools-dev automake1.4
+# Ecplise con CDT
+apt-get install java-common libswt3.2-gtk-jni libswt3.2-gtk-java eclipse-rcp liblucene-java liblucene-java-doc libjsch-java libservlet2.4-java libcommons-el-java java libcommons-collections-java java libcommons-logging-java java libcommons-launcher-java liblog4j1.2-java libregexp-java libbcel-java libmx4j-java libcommons-collections3-java libcommons-beanutils-java libcommons-digester-java libcommons-modeler-java libcommons-pool-java libcommons-dbcp-java libtomcat5.5-java eclipse-platform junit eclipse-jdt eclipse-pde exuberant-ctags eclipse-cdt mlock libc-client2002edebian zlib1g-dev libssl-dev eclipse libtld3 odbcinst1debian1 unixodbc sun-java5-bin
+</code></pre>
+<hr />
+<h2>etc/init.d/blog start<a name="etcinit.dblogstart"></a></h2>
+<p>Post by Nico Brailovsky @ 2008-10-04 - <a href="/blog/2008/1004_etcinit.dblogstart.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2008/1004_etcinit.dblogstart.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>First post!!1</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

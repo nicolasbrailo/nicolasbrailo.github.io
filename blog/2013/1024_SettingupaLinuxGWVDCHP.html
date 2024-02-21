@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Setting up a Linux GW V: DCHP Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Setting up a Linux GW V: DCHP</h2>
+
+Post by Nico Brailovsky @ 2013-10-24 - <a href="/blog/2013/1024_SettingupaLinuxGWVDCHP.html">Permalink</a> 
+
+<p>In our custom Linux router we now have DNS and NAT so far, but the client configuration has been absolutely manual. We can't have many clients with this sort of setup, so let's automate the client config with a DHCP server. Begin by installing isc-dhcp-server.</p>
+<p>Edit /etc/dhcp/dhcpd.conf, set the domain-name and the domain-name-servers, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">option domain-name "lan";
+option domain-name-servers 192.168.10.1 192.168.0.1;
+default-lease-time 86400;
+max-lease-time 172800;
+authoritative;
+</code></pre>
+<p>I'm not sure if the first line is needed. The other two will set the DNS servers for your clients. Also, increasing your lease time is recommended, I used one day for default leases. I set this DHCP server as the authoritative server. If this is your router, that's probably what you want.</p>
+<p>Now we need to define the network topology:</p>
+<pre lang="c++"><code class="language-c++" lang="c++"># This is the WAN network, and we won&#x27;t provide a service here
+subnet 192.168.0.0 netmask 255.255.255.0 {
+}
+# Define the service we provide for the LAN
+subnet 192.168.10.1 netmask 255.255.255.0 {
+    range 192.168.10.100 192.168.10.200;
+    option routers 192.168.10.1;
+}
+</code></pre>
+<p>Now we need to restart ISC:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo /./etc/init.d/isc-dhcp-server restart
+</code></pre>
+<p>And now we need to check if everything worked in the client. It's easy this time, we just ask for an IP:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo dhclient
+ifconfig
+</code></pre>
+<p>If everything went fine, we should now have an IP in the 100-200 range, as well as the DNS server in /etc/resolv.conf. We have now setup a very basic router and should be able to server several clients for basic browsing capabilities.</p>
+<p>Next time we'll see how to tidy up everything, for easier administration.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1024_SettingupaLinuxGWVDCHP.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

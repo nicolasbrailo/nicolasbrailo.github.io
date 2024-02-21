@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>C++ name mangling Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>C++ name mangling</h2>
+
+Post by Nico Brailovsky @ 2011-11-17 - <a href="/blog/2011/1117_Cnamemangling.html">Permalink</a> 
+
+<p>There is a topic I have referred to several times on this blog, yet in four years I still haven't explained what it is. I plan to correct this by explaining a little bit about C++ name mangling, and although I won't expect to write anything you couldn't learn by reading <a href="http://en.wikipedia.org/wiki/Name_mangling">Wikipedia</a>, I'll try to have a more practical approach.</p>
+<p>Whenever you compile and link something, there is a lot of information the compiler deduces that you don't really care about. Things like calling conventions, overloads or namespaces. Yet this information is crucial for other stages of the compiler (or linker) to work. For this reason, the compiler will create a decorated version of any object's or function's name.</p>
+<p>In its most simple case, it would be something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void overloaded_function(int);
+void overloaded_function(string);
+</code></pre>
+<p>Which would then be translated to something like:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void fastcall_int_overloaded_function(int);
+void fastcall_string_overloaded_function(string);
+</code></pre>
+<p>Of course, for more complex functions (like class methods) the mangling is much more complicated. Also, remember that's just a mangling convention I just invented, and most likely not used by any compiler in existence.</p>
+<p>Although for the most part we can just ignore name mangling, this has a couple of consequences of which we should be aware:</p>
+<h3>Creating a name for anonymous objects/functions<a name="creatinganameforanonymousobjectsfunctions"></a></h3>
+<p>I will not explain much about this, it might be the topic of another post, but there are certain cases in which you can have a struct or a function defined inside another object anonymously. In these cases, the mangler will assign some sort of denomination for this anonymous object.</p>
+<h3>Linking with C symbols<a name="linkingwithcsymbols"></a></h3>
+<p>C has no mangling. It just doesn't need it. This has a very important consequence, whenever you use C code in C++ you need to specify that your doing so, by using an extern "C" declaration.</p>
+<h3>Debugging<a name="debugging"></a></h3>
+<p>gdb already takes care of this so it may be transparent to you, but if you are using a debugger not aware of how your compiler mangles names, you may end up with a lot of very difficult to understand names.</p>
+<h3>Bonus: Demangling C++ names<a name="bonusdemanglingcnames"></a></h3>
+<p>If you find yourself in the last case, for example when running an nm to get the names defined in a (compiled) object, you can use c++ filt. Like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">nm foo.o | c++filt
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1117_Cnamemangling.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

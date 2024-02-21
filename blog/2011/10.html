@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Posts for 2011 October Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2011 October</h2>
+
+<h2>Annoying "unable to find a medium containing a live file system" in Ubuntu<a name="annoyingunabletofindamediumcontainingalivefilesysteminubuntu"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-27 - <a href="/blog/2011/1027_AnnoyingunabletofindamediumcontainingalivefilesysteminUbuntu.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1027_AnnoyingunabletofindamediumcontainingalivefilesysteminUbuntu.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Sometimes you may get this message when installing Ubuntu. And it's not very helpful, the install just dies.</p>
+<p>Assuming you created the installer appropriately (usb, live cd, whatever), once you reached that message it means that the BIOS already recognized your device as bootable, loaded the bootloader and started executing it. So it's the bootloader that can't find the image, yet that doesn't make sense if you think about it carefully: if the installer was properly created, that shouldn't happen.</p>
+<p>Well, after fighting for a while I realized that some DVD drives connected to a high speed SATA port will give this kind of message error. From the message it's not very clear what causes it, so you can try with one of the crazy kernel options like noapic. If that doesn't work, you can try to change the SATA mode in the BIOS. ACHI worked for me.</p>
+<hr />
+<h2>Passwordless ssh<a name="passwordlessssh"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-25 - <a href="/blog/2011/1025_Passwordlessssh.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1025_Passwordlessssh.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>This is one of those things that are terribly easy nowadays, but since I only do it every once in a while I never remember how it's done: setting up a passwordless ssh. I won't write any explanation, just the command to set it up so I can keep it as reference for the next time I have to do it:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">ssh-keygen -t rsa &amp;&amp; ssh-copy-id USR@HOST
+</code></pre>
+<p>You might also want to specify that HOST requires USR, instead of $(whoami), so you won't have to type ssh USR@HOST next time you want a passwordless loggin. This can be done in /etc/ssh/ssh_config, like this:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">
+Host $HOST
+    User $USER
+</code></pre>
+<p>Replace as needed.</p>
+<hr />
+<h2>Dell and Ubuntu CPU Scaling<a name="dellandubuntucpuscaling"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-20 - <a href="/blog/2011/1020_DellandUbuntuCPUScaling.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1020_DellandUbuntuCPUScaling.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Hi, my name is Nicol&aacute;s Brailovsky and you may remember me from movies like <a href="/blog/2009/0505_FixingkeyboardproblemsinUbuntuJ.J..html">fixing keyboard problems in Ubuntu JJ</a>, <a href="/blog/2009/0806_UbuntuAnnoyingterminalwarning.html">removing the annoying terminal warning</a>, <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">random complaints about dual screen in Buguntu</a> and <a href="/blog/2010/0504_UbuntuSoundstillFUBARd.html">Ubuntu: sound still fubard</a>. This time, I would like to add a new Ubuntu problem to the list of things which make me want to jump off a cliff, though I must warn you that this is a very old article that got forgotten on the stack of posts to review, so it might be dated. Being an old post means that this problem may be fixed by now, but since I don't have a Dell laptop anymore I cannot try it. Anyway, I'll post it as a reference to anyone who may experience something similar.</p>
+<p>To be completely fair, this is a dual fuckup between Dell and Ubuntu: after an upgrade I started noticing that sometimes the CPU slows to a crawl, for no apparent reason. The only fix for this is a complete shutdown, as not even a reboot would make this problem go away. WTF?</p>
+<p>A lot of time after I had given up on trying to solve this problem and decided that submitting to the gods seemingly random will was the best option, a coworker told me what this was about: apparently when you have a 3D GUI (say, a screensaver) and a double monitor the graphics card has to "work too much", drawing too much power. When the power consumption reaches 90 watts, the power supply's limit, the CPU enables something called CPU scaling, bringing the CPU clock speed to about the speed of a wristwatch. No, really:</p>
+<blockquote>
+<p>"Even setting aside the negative performance effect of FSB downshifting in II above, the effective processing power is reduced to 1/8 of 798 Mhz = 100 MHz. This is a reduction to less than 5% of full capacity</p>
+</blockquote>
+<p>-- from <a href="/blog/youfoundadeadlink.html">BROKENLINK</a></p>
+<p>Solution? None, thanks. Just shut it down and reboot.</p>
+<hr />
+<h2>Cool C++0X features XV: Initializer lists for custom (non-std) objects<a name="coolc0xfeaturesxvinitializerlistsforcustomnonstdobjects"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-18 - <a href="/blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Last time we saw how you can use C style array-initialization for C++ objects, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    std::vector<int> v = {1,2,3,4};
+</code></pre>
+<p>We also saw this works for may types of objects, like maps and pairs. How about custom developed objects? Yes, that's right, you can have initilizer lists for your own objects too, and it's quite easy. C++0x offers initializer_lists which you can use on your constructors (or any other methods, for that mater) to have C-style initialization. Let's see an example. We already know how to sum a list of numbers using template lists and variadic templates, so let's try adding an initializer consisting of numbers:</p>
+<p>Let's start by creating a class which can accept an initializer list:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <initializer_list>
+using namespace std;
+struct Add_List {
+    Add_List(initializer_list<int> lst) {
+    }
+};
+int main() {
+    Add_List x = {1, 2, 3};
+    return 0;
+}
+</code></pre>
+<p>That's interesting, as you can see an initializer list is actualy a template class, meaning that nested initializers can easily be defined too. Now, we have the interface, how can we access each element of the list? Let's do the same thing I did when I found out about initilizers, let's search for the header file.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">  template<class _E>
+    class initializer_list
+    {
+    public:
+      typedef _E        value_type;
+      typedef const _E&amp;     reference;
+      typedef const _E&amp;     const_reference;
+      typedef size_t        size_type;
+      typedef const _E<em>     iterator;
+      typedef const _E</em>     const_iterator;
+    private:
+      iterator          _M_array;
+      size_type         _M_len;
+      // The compiler can call a private constructor.
+      initializer_list(const_iterator __a, size_type __l)
+      : _M_array(__a), _M_len(__l) { }
+    public:
+      initializer_list() : _M_array(NULL), _M_len(0) { }
+      // Number of elements.
+      size_type
+      size() const { return _M_len; }
+      // First element.
+      const_iterator
+      begin() const { return _M_array; }
+      // One past the last element.
+      const_iterator
+      end() const { return begin() + size(); }
+  };
+</code></pre>
+<p>Looks surprisingly easy (note that this is for G++ 4.something only). And it is, most of the magic happens in the compiler, so the userland code is quite straight forward. According to that header file, we could build something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+#include <initializer_list>
+using namespace std;
+struct Add_List {
+    Add_List(initializer_list<int> lst) {
+        int sum = 0;
+        for (auto i = lst.begin(); i != lst.end(); ++i)
+            sum += *i;
+        cout &lt;&lt; sum &lt;&lt; "n";
+    }
+};
+int main() {
+    Add_List x = {1, 2, 3};
+    return 0;
+}
+</code></pre>
+<p>As you can see, the initializer lists can be used in any place an iterable container is required, as long as it's const. There's not much more magic to it, but we can use some more C++0x devices to make our list-adding device much more cool, for example to support different actions and not only addition. Next time, though.</p>
+<p>PS: An important lesson from this article: don't be afraid to look into the system headers, they won't bite. You should never ever change them, but taking a peek can only improve your C++ knowledge.</p>
+<hr />
+<h2>Starting Ubuntu in console mode<a name="startingubuntuinconsolemode"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-13 - <a href="/blog/2011/1013_StartingUbuntuinconsolemode.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1013_StartingUbuntuinconsolemode.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Like it or not, Ubuntu is so easy to install that even for servers is very comfortable to just mount the iso and create as many virtual machines as you may need. Sometimes you already have an iso for Ubuntu, but are too lazy to download the server version. For those occasions you can either decide to waste precious RAM running a GUI for a server that will never need it, or you can remove all traces of the graphical login. Like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo update-rc.d -f gdm remove
+</code></pre>
+<p>This will remove GDM from the startup scripts, meaning you can still fire up the graphical interface (*) if you want, but it will start Ubuntu without loading any graphics stuff. This is very useful to save on RAM, startup time and processing power, which even if not that useful for a desktop machine is incredible beneficial when you have several virtual machines running in a single physical server.</p>
+<p>(*) More precisely, if you have users that need it. Remember though, if it can't be done in console mode, it ain't worth doing.</p>
+<hr />
+<h2>Dennis Ritchie &gt; /dev/null<a name="dennisritchiegtdevnull"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-13 - <a href="/blog/2011/1013_DennisRitchiegtdevnull.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1013_DennisRitchiegtdevnull.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<blockquote>
+<p>UNIX is very simple, it just needs a genius to understand its simplicity.</p>
+</blockquote>
+<p>-- Dennis Ritchie</p>
+<hr />
+<h2>Cool C++0X features XIV: Initializer lists<a name="coolc0xfeaturesxivinitializerlists"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-11 - <a href="/blog/2011/1011_CoolC0XfeaturesXIVInitializerlists.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1011_CoolC0XfeaturesXIVInitializerlists.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>We talked last time about ranged fors and how they can simplify our life in C++0x. Now we are going to take a trip back to old C land. Remember when you could initialize your arrays like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int v[] = {1, 2, 3, 4};
+</code></pre>
+<p>C++0X brought a lot of changes to the world, and suddenly instead of int[] you were supposed to use vector, and with it your initializer didn't work anymore. Though luck. Try to compile this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <vector>
+int main() {
+    std::vector<int> v = {1,2,3,4};
+    return 0;
+}
+</code></pre>
+<p>If you did compile it with g++, you may have noticed an interesting error message:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">error: in C++98 'v' must be initialized by constructor, not by '{...}'
+warning: extended initializer lists only available with -std=c++0x or -std=gnu++0x
+</code></pre>
+<p>That's interesting. Try to compile it with g++ again, but using C++0x instead of plain C++. Magic, now it works!</p>
+<p>Initializers lists bring the best of C to C++ world (?) by letting you use initialize any object with an initializer. And I mean *any* object, not just vectors. For example, say you have a map (a map and a bunch of other stuff):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+    map<string, vector\<int>> v = {
+            { "a", {1,2,3} },
+            { "b", {4,5,6} },
+            { "c", {7,8,9} }
+        };
+    cout &lt;&lt; v["b"][1] &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Yes, that works! Maps, vectors, pairs, and even your own custom objects, but we'll see that next time.</p>
+<hr />
+<h2>Open Office, master documents and headless<a name="openofficemasterdocumentsandheadless"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-06 - <a href="/blog/2011/1006_OpenOfficemasterdocumentsandheadless.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1006_OpenOfficemasterdocumentsandheadless.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I have been writing some documentation lately (crazy, I know) and needed due to some bizarre business requirements all the documentation for the application was supposed to be in a single .doc file. That's write, a single file for user manual, technical manual, administration manual and so on. And I had no LaTeX either (damn those MS Office files, I hate them) so using multiple tex files and including them together wasn't an option.</p>
+<p>Choosing the least of all evils, I decided to use Open Office and master documents. With them you can create several different .doc files and then join them together in a single .odm file, which can then be exported to pdf (or .doc, if your boss says so). It's a nice feature, but for such a simple thing as having multiple documents #included in a single one you would expect it to work better. From OO manual:</p>
+<blockquote>
+<p>Yes, master documents do work in OOoWriter. However, their use is full of traps for inexperienced users[...]</p>
+</blockquote>
+<p>Oh, thanks a lot OO.org (?). BTW, exporting an odm to pdf with a headless set == FAIL (i.e. don't even try to use this if you intend to <a href="/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html">autogenerate some documentation with your makefile</a>).</p>
+<hr />
+<h2>Cool C++0X features XII: type inference with auto<a name="coolc0xfeaturesxiitypeinferencewithauto"></a></h2>
+<p>Post by Nico Brailovsky @ 2011-10-04 - <a href="/blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>In the last four entries we worked on a simple example, like the one I'm pasting below, of type inference with decltype, which led us to learn about <a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">delayed type declaration</a> and <a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">decltypes with auto</a>. This time I want to focus just on the auto keyword instead.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <class... Args>
+auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    return do_something(a...);
+}
+</code></pre>
+<p>We saw <a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">last time</a> how decltype can be used in a contrived way to create a local variable without specifying its type, only how to deduce the type for this variable. Luckily, that verbose method of type declaration can be summed up in the following way:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    int x = 2;
+    int y = 3;
+    decltype(x<em>y) z = x</em>y;
+</code></pre>
+<p>Should be written as:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    int x = 2;
+    int y = 3;
+    auto z = x*y;
+</code></pre>
+<p>That's right, when you are declaring local variables it's easier and cleaner to just use auto. This feature isn't even "in the wild" yet, so you can't really predict what will people do with it, but it seems to me that limiting its use to local variables with a very short lived scope is the best strategy. We are yet to see what monstrosities the abuse of this feature will produce, and I'm sure there will be many. Regardless of their potential to drive insane any maintainers, its best use probably comes in loops.</p>
+<p>In any C++ application, you'll find code like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for (FooContainer<Bar>::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
+</code></pre>
+<p>This ugly code can be eliminated with something much more elegant:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for (auto i = foobar.begin(); i != foobar.end(); ++i)
+</code></pre>
+<p>Looks nicer indeed, but we can improve it much further with other tools. We'll see how the next time. For the time being, let's see for what auto is not to be used.</p>
+<p>When using auto, keep in mind it was designed to simplify the declaration of a variable with a complex or difficult to reason type, not as a replacement for other language features like templates. This is a common mistake:</p>
+<p>Wrong:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f(auto x) {
+    cout &lt;&lt; x;
+}
+</code></pre>
+<p>Less wrong:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <T>
+void f(T x) {
+    cout &lt;&lt; x;
+}
+</code></pre>
+<p>It makes no sense to use auto in the place of a template, since a template means that the type will be completed later whereas auto means it should be deduced from an initializer.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

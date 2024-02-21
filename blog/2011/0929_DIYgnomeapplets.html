@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>DIY gnome applets Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>DIY gnome applets</h2>
+
+Post by Nico Brailovsky @ 2011-09-29 - <a href="/blog/2011/0929_DIYgnomeapplets.html">Permalink</a>  - [1 comments](md_blog/2011/0929_DIYgnomeapplets.md)
+
+<p>We all know Gnome, and similar GUIs, are there only as a fancy console multiplexer, but even so it's useful to have widgets in your menus or dockbars to display useful data, like the release date of DNF (*). Gnome has a limited amount of applets from which you can choose, and most of them are crap or limited in their customization. You can always create your own widgets, but that's a pain in the ass for lazy people like me. Fortunately we lazy people can now use something an order of magnitude more useful than widgets in Gnome : we can use console commands!</p>
+<p>Using something called <a href="http://code.google.com/p/compa/">Compa</a> you can add a meta-widget, that will display the output of any CLI program. This means, of course, that you have all the power of the console to use in your custom made widgets. Need to check your laptop's battery? No need to search for a widget anymore, just <a href="/blog/2009/0514_EverythingisafileA.K.A.BatterystateonLinux.html">cat /proc/acpi/battery/BAT0/state</a>. Need to check the weather? Just wget your favorite forecast page and parse it with grep, sed an awk. OK, maybe that's a little bit too much.</p>
+<p>Once more this proves that anything can be done in console mode - and whatever you can't isn't worth doing anyway.</p>
+<p>(*) Wow, this article has been written a LONG time ago!</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0929_DIYgnomeapplets.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+<hr />
+<h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">Gnome 3.2 Released - Features and Updates: Ranjith Siji - Programming the Web</a> commented @ 2011-09-30T09:01:57.000+02:00:<a name="inreplytothispostgnome3.2releasedfeaturesandupdatesranjithsijiprogrammingthewebblogyoufoundadeadlink.htmlcommented20110930t090157.0000200"></a></h2>
+<p>[...] [...]</p>
+<p>Original <a href="/blog/2011/0929_DIYgnomeapplets.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

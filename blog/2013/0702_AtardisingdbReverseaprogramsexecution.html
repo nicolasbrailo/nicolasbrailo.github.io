@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>A tardis in gdb? Reverse a program's execution! Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>A tardis in gdb? Reverse a program's execution!</h2>
+
+Post by Nico Brailovsky @ 2013-07-02 - <a href="/blog/2013/0702_AtardisingdbReverseaprogramsexecution.html">Permalink</a> 
+
+<p>Have you ever been running a long debug session only to find you missed the spot by overstepping? I sure have and that can be one of the strongest motivators to invent a time machine. And it seems I'm not the only one who thinks so, given that gdb can now travel back in time. That's right, you can save a snapshot of a running program and then reverse the polarity to go back in time, just before you missed your breakpoint!</p>
+<p>It's very simple to use too, you don't need six people to use this feature. Just type "checkpoint" in gdb to let it know you want to record the execution's state, then "restore N" to go back in time. I've recorded a sample debugging session:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) list
+1   int main()
+2   {
+3       int a = 1;
+4       int b =2 ;
+5       a = b;
+6       b = 42;
+7       return 0;
+8   }
+(gdb) run
+Breakpoint 1, main () at test.cpp:3
+3       int a = 1;
+(gdb) n
+4       int b =2 ;
+(gdb) p a
+$1 = 1
+</code></pre>
+<p>Next, create a checkpoint:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) checkpoint
+checkpoint: fork returned pid 29192.
+</code></pre>
+<p>Interesting: a checkpoint is actually implemented as a fork. Moving on:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) n
+5       a = b;
+(gdb) n
+6       b = 42;
+(gdb) p a
+$2 = 2
+</code></pre>
+<p>Ohnoes! We overstepped. Let's go back:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">(gdb) restart 1
+Switching to process 29192
+#0  main () at test.cpp:4
+4       int b =2 ;
+(gdb) p a
+$3 = 1
+</code></pre>
+<p>And we're back in time.</p>
+<h2>How does it work<a name="howdoesitwork"></a></h2>
+<p>Reversing to a previous execution state is not an easy task. Gdb implements this feature by forking out a new process, a process we can later switch to. This means that reverting to a previous state might break things. The way forking is implemented in Linux, things like open files shouldn't be much of a problem. Sockets should still be connected but, of course, whatever you already sent won't be "unsent".</p>
+<p><a href="http://sourceware.org/gdb/current/onlinedocs/gdbint/Algorithms.html#Algorithms">Gdb internals docs</a> have some useful information on the limitation of this feature.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0702_AtardisingdbReverseaprogramsexecution.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

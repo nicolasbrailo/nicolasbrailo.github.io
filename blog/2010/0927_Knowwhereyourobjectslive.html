@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Know where your objects live Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Know where your objects live</h2>
+
+Post by Nico Brailovsky @ 2010-09-27 - <a href="/blog/2010/0927_Knowwhereyourobjectslive.html">Permalink</a> 
+
+<p>If you work in an environment where memory management is part of your responsibility then you should be aware of the corner cases in which memory management may come and bite you in the ass. Object ownership is one of those areas.</p>
+<p>If you are going to take ownership of an object you need to be very explicit about it. A common (and mostly wrong) pattern is taking ownership of an object, by default. Things work great until you end up with a production coredump after trying to free an invalid pointer.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">Foo f1;
+Foo <em>f2 = new Foo;
+class BadList {
+  Foo </em>f1, <em>f2;
+  BadList(Foo </em>f1, Foo *f2) :f1(f1), f2(f2) {}
+  ~BadList(){ delete f1; delete f2; }
+}
+</code></pre>
+<p>Seen like that it's more than obvious, but I have seen even experieced programmers fall in this caveat.</p>
+<p><strong>Related reading:</strong> <a href="/blog/2010/0601_Ohshitthestack.html">Oh shit the stack</a>.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0927_Knowwhereyourobjectslive.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

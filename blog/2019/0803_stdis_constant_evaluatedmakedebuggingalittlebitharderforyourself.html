@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>std::is_constant_evaluated: make debugging a little bit harder for yourself! Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>std::is_constant_evaluated: make debugging a little bit harder for yourself!</h2>
+
+Post by Nico Brailovsky @ 2019-08-03 - <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">Permalink</a>  - [2 comments](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md)
+
+<p>Let's pretend you find this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">const int a = foo();
+int b = foo();
+</code></pre>
+<p>Would you be tempted to assume that a==b, always? I would. What if 'foo' actually depends on a global variable, and its return value depends on that global setting? Suddenly the code above will raise a few eyebrows in a code review session.</p>
+<p>Coming to your friendly c++20 standard now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">constexpr int foo() {
+    return (std::is_constant_evaluated())? 42 : 24;
+}
+bool a() {
+    const int x = foo();
+    return x == foo();
+}
+</code></pre>
+<p>I'm sure with careful usage, is_constant_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (<code>cout &lt;&lt; foo()</code>, anyone?) prints different values than my <code>production</code> code.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+<hr />
+<h2>In reply to this post, <a href="">aiusepsi</a> commented @ 2019-08-03T18:58:11.000+02:00:<a name="inreplytothispostaiusepsicommented20190803t185811.0000200"></a></h2>
+<p>From what I can glean from the standard, there's no debug/release mode difference here. In either case, the compiler is required to constant-evaluate foo() when initialising x. From reading P0595R2 it seems like they tightened up the semantics somewhat to make sure that this was the case.</p>
+<p>To test the theory, a program compiled with Clang produces the same result in both -O0 and -O3 modes: https://godbolt.org/z/BpG2Ob</p>
+<p>Original <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2019-08-03T20:10:45.000+02:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20190803t201045.0000200"></a></h2>
+<p>Thanks aiusepsi! I think that somewhat misses the point of the article though: I'm not saying -O levels will provide different behavior, I'm worried that code I use to debug, such as "cout &lt;&lt; foo()" will have different behavior to "const int x = foo()". If there ever is a bug that causes foo to behave differently due to is_const_eval, I'll take hours to find it out.</p>
+<p>The wording in the article might be a bit poor, I think... Probably a good idea if I clarify the last sentence of the article to reflect this!</p>
+<p>Original <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

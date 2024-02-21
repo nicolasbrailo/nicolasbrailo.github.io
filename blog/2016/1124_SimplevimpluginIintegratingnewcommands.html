@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Simple vim plugin I: integrating new commands Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Simple vim plugin I: integrating new commands</h2>
+
+Post by Nico Brailovsky @ 2016-11-24 - <a href="/blog/2016/1124_SimplevimpluginIintegratingnewcommands.html">Permalink</a> 
+
+<p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here's some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
+<p>Longer version:
+We can extend our quick grep integration to other commands, quite easily. Since we defined a few wrappers to request input, get it from visual mode or just guess it, we can also have a helper function to create a scratch buffer and read a system command into it:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">" Find&amp;Grep command wrapper: execute cmd, shows the results in a scratch buffer
+function! FG_EvalSysCmdInNewBuff(cmd)
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    execute '$read !' . a:cmd
+    setlocal nomodifiable
+endfunction
+" Wrap a normal action: ask the user for input, then call func with it
+function! FG_RequestInputAction(msg, func)
+    let needle = input(a:msg)
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+" Wrap a visual action: call func with whatever is selected under the cursor
+function! FG_VAction(func)
+    " Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv"ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    " Remove whitespaces
+    let needle = substitute(needle, "92n92+","","g")
+    let needle = substitute(needle, "92r92+","","g")
+    let needle = substitute(needle, "^92s92+92|92s92+$","","g")
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+" Wrap a normal action: call func with whatever is under the cursor
+function! FG_NAction(func)
+    let needle = expand("<cword>")
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+</code></pre>
+<p>Integrating any new command into our plugin is now trivial. Let's do it for grep and for find:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">" Wrap a find command: search for file "needle", show results in a new window
+function! FG_DoFindFile(needle)
+    let cmd = 'find -type f -iname "<em>' . a:needle . '</em>"'
+    call FG_EvalSysCmdInNewBuff(cmd)
+endfunction
+" Wrap a grep command: search for needle, show results in a new window
+function! FG_DoSearchText(needle)
+    let cmd = 'grep -nri "' . a:needle . '" *'
+    call FG_EvalSysCmdInNewBuff(cmd)
+endfunction
+</code></pre>
+<p>Then just add a few key bindings and you're good to go:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">gt;f :call FG_NAction("FG_DoFindFile")<CR>
+vmap <leader>f :call FG_VAction("FG_DoFindFile")<CR>
+map  <leader>S :call FG_RequestInputAction("Text search: ", "FG_DoSearchText")<CR>
+nmap <leader>s :call FG_NAction("FG_DoSearchText")<CR>
+vmap <leader>s :call FG_VAction("FG_DoSearchText")<CR>
+map  <leader>F :call FG_RequestInputAction("Find file: ", "FG_DoFindFile")<CR>
+</code></pre>
+<p>This is an actual plugin I use in my Vim setup. You can grab the <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">latest version from my Github repo.</a></p>
+<p>Extra tip: add these too if you want to have a <a href="/blog/2015/0402_VimTipIwantmoremenus.html">GUI menu</a> for your new commands as well.</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">menu Project.Find\ File :call FG_RequestInputAction("FG_DoFindFile")
+menu Project.Text\ Search :call FG_RequestInputAction("FG_DoSearchText")
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/1124_SimplevimpluginIintegratingnewcommands.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

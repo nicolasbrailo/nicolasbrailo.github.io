@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Newsflash: C++ object commits sepuku Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Newsflash: C++ object commits sepuku</h2>
+
+Post by Nico Brailovsky @ 2011-04-04 - <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Permalink</a>  - [1 comments](md_blog/2011/0404_NewsflashCobjectcommitssepuku.md)
+
+<p>Check this out. Is it valid C++?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class X {
+  void dispose() {
+    delete this;
+  }
+};
+</code></pre>
+<p>Strange pattern, isn't it?. What happens if you try to dispose a heap object?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f() {
+   X x;
+   x.dispose();
+}
+</code></pre>
+<p>Indeed, nasal demons FTW, you're trying to free an invalid pointer. Yet if we change that a little bit...</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f() {
+   (new X)-&gt;dispose();
+}
+</code></pre>
+<p>Zomg now it works. It's weird, but it works. Why would anybody on earth do something like this? Can you guess when would this be useful?</p>
+<p>Some times you launch a background job, and you don't really care when it's done. You may use a <a href="/blog/2009/0803_CMagiccallbackssolved.html">callback</a> to be notified when the job is done, but if you don't really care then having an object which deletes itself is an option. You'll have to be very careful about it, though, because this is legal C++ too:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">class X {
+  void dispose() {
+    delete this;
+    std::cout &lt;&lt; "Hello worldn";
+  }
+};
+</code></pre>
+<p>Though "Hello world" will be printed, it will be running in a dead object. Which is fine, as far as the compiler cares, but if you do try to reference the this pointer, you'll be in a lot of trouble.</p>
+<p><strong>Bonus reading</strong>
+For a much more interesting note than mine, go and check <a href="http://blogs.msdn.com/b/oldnewthing/archive/2010/08/10/10048149.aspx">When does an object become available for garbage collection?</a> in The Old New Thing.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0404_NewsflashCobjectcommitssepuku.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+<hr />
+<h2>In reply to this post, <a href="/blog/2011/0816_Livingonanullobject.html">Nicol&aacute;s Brailovsky » Blog Archive » Living on a null object</a> commented @ 2011-08-16T09:05:04.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivelivingonanullobjectblog20110816_livingonanullobject.htmlcommented20110816t090504.0000200"></a></h2>
+<p>[...] Now, in this new &ldquo;translated&rdquo; code, what do you think? Will it crash? It won’t, since no one is going to dereference &ldquo;this&rdquo;. Crazy, huh? This crazy idiom also allows even crazier things, like C++ objects committing sepuku [...]</p>
+<p>Original <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

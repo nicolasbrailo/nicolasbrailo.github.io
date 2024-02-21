@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Living on a null object Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Living on a null object</h2>
+
+Post by Nico Brailovsky @ 2011-08-16 - <a href="/blog/2011/0816_Livingonanullobject.html">Permalink</a> 
+
+<p>Check this out:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct S {
+   int f(){ return 42; }
+};
+int main() {
+   S <em>x = (S</em>) NULL;
+   return x-&gt;f();
+}
+</code></pre>
+<p>What does this do? Does it compile? Does it crash? I'll give you a second.</p>
+<p>Ready? It does compile, OK</p>
+<p>But it doesn't crash.</p>
+<p>Why, you may ask</p>
+<p>Think about it, you must.</p>
+<p>The compiler will mangle S::f and translate this into something like:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct S {};
+int mangled_S_f(struct S <em>this){
+   return 42;
+}
+int main() {
+   S </em>x = (S*) NULL;
+   mangled_S_f(x);
+}
+</code></pre>
+<p>Now, in this new "translated" code, what do you think? Will it crash? It won't, since no one is going to dereference "this". Crazy, huh? This crazy idiom also allows even crazier things, like <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">C++ objects committing sepuku</a></p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0816_Livingonanullobject.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

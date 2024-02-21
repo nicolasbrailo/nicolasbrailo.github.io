@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>LaTeX! Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>LaTeX!</h2>
+
+Post by Nico Brailovsky @ 2009-05-12 - <a href="/blog/2009/0512_LaTeX.html">Permalink</a> 
+
+<p>Some time ago I wrote a review about <a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">LyX</a> for <a href="http://debaday.debian.net">DPOTD (recommended link)</a> and now I think it's time for an update: what can you do when LyX is not enough?</p>
+<p>I'll quote myself; the original article ends (almost) like this:</p>
+<blockquote>
+<p><strong>What LyX isn’t for</strong></p>
+<p>Although LyX may be a valuable piece in anyone toolkit it’s worth noticing it isn’t exactly the Swiss army knife of the text editors. If you need to define a very customized layout or format, like slides for a presentation, this is the wrong tool for the job.</p>
+</blockquote>
+<p>After having prepared several presentations with LyX (even my CV!) I'd like to write some more on this last part. Even if I thought that my original comment was mistaken I write once again the same: when you have to create a presentation LyX is not the tool for the job, LaTeX is.</p>
+<p>As I explained in that article, LyX is a front-end for LaTeX but at the same time it's only a small part of LaTeX. Doing several presentations in LyX (using Beamer, a package I'll talk about in another post) I noticed that most of my documents where "ERT", evil red text, which is nothing else than plain TeX code: that means, each time more, I was using LaTeX functionality not available from LyX. This is the reason I've decided to write a how-to LaTeX, a small survival guide for those want to start using with the tips and tricks I've learned in this time.</p>
+<p>The target for these posts series will be, mainly, programmers or other advanced users, without fear of working a little bit in the console, markup languages and maybe a makefile.</p>
+<p>Soon the first part :)</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0512_LaTeX.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

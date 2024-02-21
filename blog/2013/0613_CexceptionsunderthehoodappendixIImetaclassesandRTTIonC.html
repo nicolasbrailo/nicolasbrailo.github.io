@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>C++ exceptions under the hood appendix II: metaclasses and RTTI on C++ Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>C++ exceptions under the hood appendix II: metaclasses and RTTI on C++</h2>
+
+Post by Nico Brailovsky @ 2013-06-13 - <a href="/blog/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.html">Permalink</a> 
+
+<p>A long time ago, when we where just starting to write our mini ABI to handle exceptions without libstdc++'s help, we had to add an empty class to appease the linker:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">namespace __cxxabiv1 {
+    struct __class_type_info {
+        virtual void foo() {}
+    } ti;
+}
+</code></pre>
+<p>I mentioned this class is used to check whether a catch can handle a subtype of the exception thrown, but what does that exactly mean? Let's change a bit our throwing functions to see what happens when we start dealing with inheritance. You may want to check <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v12">the source code for these examples.</a></p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Derived_Exception : public Exception {};
+void raise() {
+    throw Derived_Exception();
+}
+void catchit() {
+    try {
+        raise();
+    } catch(Exception&amp;) {
+        printf("Caught an Exception!\n");
+    } catch(Derived_Exception&amp;) {
+        printf("Caught a Derived_Exception!\n");
+    }
+    printf("catchit handled the exception\n");
+}
+</code></pre>
+<p>What should happen in this example is crystal clear: it should print "Caught an Exception", because that catch block should be able to handle both types, Exception and Derived_Exception. Not only that, if we compile throw.cpp we'll get a warning to let us know that the second catch is dead code:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">throw.cpp: In function void catchit():
+throw.cpp:15:7: warning: exception of type Derived_Exception will be caught [enabled by default]
+throw.cpp:13:7: warning:    by earlier handler for Exception [enabled by default]
+</code></pre>
+<p>Luckily a warning won't stop compilation; we can continue and try to link the resulting .o; we'll find a linker error:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">throw.o:(.rodata._ZTI17Derived_Exception[typeinfo for Derived_Exception]+0x0): undefined reference to `vtable for __cxxabiv1::__si_class_type_info'
+</code></pre>
+<p>And again we start seeing __type_info errors. If we create a fake __si_class_type_info to workaround this problem we we'll finally see our ABI breaks down when dealing with inheritance, in a rather funny way: the compiler will warn us about dead code and then we see that same code being executed by our ABI!</p>
+<pre lang="c++"><code class="language-c++" lang="c++">g++ -c -o throw.o -O0 -ggdb throw.cpp
+throw.cpp: In function void catchit():
+throw.cpp:15:7: warning: exception of type Derived_Exception will be caught [enabled by default]
+throw.cpp:13:7: warning:    by earlier handler for Exception [enabled by default]
+gcc main.o throw.o mycppabi.o -O0 -ggdb -o app
+./app
+begin FTW
+Caught a Derived_Exception!
+end FTW
+catchit handled the exception
+</code></pre>
+<p>Clearly there's something wrong with our ABI, and it's very easy to trace this problem back to the definition of "can_handle", the part of the code that checks whether an exception can by caught by a catch block:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">bool can_handle(const std::type_info <em>thrown_exception,
+                const std::type_info </em>catch_type)
+{
+    // If the catch has no type specifier we;re dealing with a catch(...)
+    // and we can handle this exception regardless of what it is
+    if (not catch_type) return true;
+    // Naive type comparisson: only check if the type name is the same
+    // This won't work with any kind of inheritance
+    if (thrown_exception-&gt;name() == catch_type-&gt;name())
+        return true;
+    // If types don't match just don't handle the exception
+    return false;
+}
+</code></pre>
+<p>Our ABI gets the std::type_info for the exception being thrown and for the type which can be handled, and then compares if the names for these types is the same. This is fine as long as no inheritance is involved, but in the example above we already found a case where an exception should be handled even though a name is not shared.</p>
+<p>The same problem will arise when trying to catch a pointer to an exception: the names won't match. Even more interesting, if you try and link throw.cpp but change the catch to receive a pointer instead, you'll get a new linker error. If you fix it you should end up with something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">namespace __cxxabiv1 {
+    struct __class_type_info    { virtual void foo() {} } ti;
+    struct __si_class_type_info { virtual void foo() {} } si;
+    struct __pointer_type_info  { virtual void foo() {} } ptr;
+}
+</code></pre>
+<p>A very interesting pattern is starting to emerge: there is a different *_type_info for each possible catch type used. In fact the compiler will generate a different structure for each throw style. For example, for these throws:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">throw new Exception;
+throw Exception;
+</code></pre>
+<p>the compiler would generate something like:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">__cxa_throw(_Struct_Type_Info__Ptr__Exception);
+__cxa_throw(_Struct_Type_Info__Class__Exception);
+</code></pre>
+<p>In fact, even for this simple example, the inheritance web (not tree, web) is quite complex (note that I'm kind of inventing the mangling here, it's not what gcc uses):</p>
+<p><img alt="" src="/blog_img/type_info_inheritance.png" /></p>
+<p>All these classes are generated by the compiler to specify precisely which type is being thrown, and how. For example, if an exception of type "Ptr__Type_Info__Derived_Exception" is thrown then a catch can handle it if:</p>
+<p>The catch type equals the thrown type exactly (this is the only check our ABI does).If the catch type is a pointer (ie inherits from cxxabi::ponter_type_info), and said pointer can be casted to the exception type.If the thrown type is a derived type, then we need to check if the catch type is a parent type</p>
+<p>And this list is still missing lots of possibilities, but for the full list is better to check a real C++ ABI. <a href="http://libcxxabi.llvm.org/">LLVM</a> has very clear and easy to understand ABI, you can check these details in the file "private_typeinfo.cpp". If you check LLVM's implementation of run time type information, you'll soon realize why we didn't implement this on our ABI: the amount of rules to determine whether two types are the same or not is incredibly complex.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

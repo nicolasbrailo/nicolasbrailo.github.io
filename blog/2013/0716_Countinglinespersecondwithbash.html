@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Counting lines per second with bash Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Counting lines per second with bash</h2>
+
+Post by Nico Brailovsky @ 2013-07-16 - <a href="/blog/2013/0716_Countinglinespersecondwithbash.html">Permalink</a> 
+
+<p>The other day I wanted to quickly monitor the status of a production nginx after applying some iptables rules and changing some VPN stuff. It's easy to know if you completely screwed up the server: the number of requests per second will drop to zero, all requests will have an httpstatus different from 200, or some other dramatic and easy to measure side effect.</p>
+<p>What happens if you broke something in a slightly more subtle way? Say, you screwed up something in ipsec (now, I wonder how that can happen...) and now networking is slow. Or iptables now enforces some kind of throttling in a way you didn't expect. To detect this type of errors I wrote a quick bash script to output how many lines per second are added to a file. This way I was able to monitor if the throughput of my nginx install didn't decrease after my config changes, without installing a full fledged solution like zabbix.</p>
+<p>I didn't find anything like this readily available, so I'm posting it here in case someone else finds it useful.</p>
+<pre lang="bash"><code class="language-bash" lang="bash">#!/bin/bash
+# Time between checks
+T=5
+# argv[1] will be the file to check
+LOG_FILE=$1
+while true; do
+    tmp=`mktemp`
+    # tail a file into a temp. -n0 means don't output anything at the start so
+    # we can sleep $T seconds and we don't need to worry about previous entries
+    tail -n0 -f $LOG_FILE &gt; $tmp 2&gt;/dev/null &amp; sleep $T;
+    kill $! &gt; /dev/null 2&gt;&amp;1
+    echo "Requests in $LOG_FILE in the last $T seconds: `cat $tmp | wc -l`";
+    rm $tmp;
+done
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0716_Countinglinespersecondwithbash.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

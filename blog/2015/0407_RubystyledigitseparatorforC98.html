@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Ruby-style digit separator for C-98? Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Ruby-style digit separator for C-98?</h2>
+
+Post by Nico Brailovsky @ 2015-04-07 - <a href="/blog/2015/0407_RubystyledigitseparatorforC98.html">Permalink</a> 
+
+<p>A silly, and not very useful tip: I love how ruby allows you to write numbers like 1000000 as 1_000_000. Very useful to write benchmarking tests.</p>
+<p>Until we get to C++14 we don't have a nice alternative, but we have an ugly hack we can use: instead of writing 1000000 write "1 ## 000 ## 000".</p>
+<p>It works, '##' is the preprocessor's token pasting operator, and it will paste two tokens together. Looks ugly, breaks the GUI highlighting, but at least you can count how many zeros you've got.</p>
+<p>Nitpicker's corner: multiplying by 10 is easier, but there is no job-safety involved in that.</p>
+<p>Nitpicker's corner II: The evaluation order of a chain of '##' is not defined, but I don't expect this to cause any problems; any order of evaluation should result in the same result for this case.</p>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0407_RubystyledigitseparatorforC98.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

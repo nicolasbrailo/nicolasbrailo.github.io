@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>Mixin(ish) classes with parameter packs in C++ Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Mixin(ish) classes with parameter packs in C++</h2>
+
+Post by Nico Brailovsky @ 2020-02-18 - <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a>  - [2 comments](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md)
+
+<p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
+<pre lang="c++"><code class="language-c++" lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
+</code></pre>
+<p>This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.</p>
+<p>Full example:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct EnableFeatureA {
+  template &lt;typename T&gt; static void apply(T *a) {
+    cout &lt;&lt; a-&gt;a() &lt;&lt; endl;
+  }
+};
+struct EnableFeatureB {
+  template &lt;typename T&gt; static void apply(T *a) {
+    cout &lt;&lt; T::b() &lt;&lt; endl;
+  }
+};
+template &lt;typename Impl, typename... Config&gt;
+struct Foo {
+  Foo(){
+    // Call apply() for each type in Config
+    Impl *p = nullptr;
+    int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
+  }
+};
+struct Bar;
+using FwdFoo = Foo&lt;Bar, EnableFeatureA, EnableFeatureB&gt;;
+struct Bar : FwdFoo {
+   int a() { return 4; }
+   static int b() { return 2; }
+};
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+<hr />
+<h2>In reply to this post, <a href="">Balazs Benics</a> commented @ 2020-02-18T18:57:18.000+01:00:<a name="inreplytothispostbalazsbenicscommented20200218t185718.0000100"></a></h2>
+<p>Keep in mind that parameter packs can be empty, in which case the array would try to have zero elements.
+Also, some apply function might return an object which overloaded the comma operator, in which case the result of the whole expression would otherwise.</p>
+<p>I would address the mentioned issues like this:
+int dummy[1 + sizeof...(Config)] = { 0, (static_cast(Config::apply(p)), 0)... };</p>
+<p>Note that nobody can override the comma operator there.</p>
+<p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2020-02-19T13:06:50.000+01:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20200219t130650.0000100"></a></h2>
+<p>Good catch, thanks!</p>
+<p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

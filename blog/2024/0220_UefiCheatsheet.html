@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>How to: UEFI shell Nico Brailovsky's blog</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+<h1>Nico Brailovsky's blog</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/">Home</a>
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<div id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button onclick="dosearch()">Search</button>
+</div>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>How to: UEFI shell</h2>
+
+Post by Nico Brailovsky @ 2024-02-20 - <a href="/blog/2024/0220_UefiCheatsheet.html">Permalink</a> 
+
+<p>There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:</p>
+<pre lang="bash"><code class="language-bash" lang="bash"># Set video to 80cols 50 rows, so it's less tiny in a 4k screen
+mode 80 50
+# Show pci device tree. Eg to find the VGA controller
+devtree
+# Show all things that have a FS may be bootable
+map
+# Refresh list of devices, if a new one is connected
+map -r
+# Show maybe bootable things that look like a usb
+map -t cdrom
+# Inspect a fs attached to a mapping (eg when looking at fs0, from the output of §map§)
+# Case sensitive, uses fwd slashes and not back slashes
+ls fs0:
+ls fs0:EFI\BOOT\
+# Moving around: first select mapped device, eg
+fs1:
+# Then cd and ls works
+cd efi
+ls
+</code></pre>
+<p>Eg to boot a Debian live USB on my setup</p>
+<pre lang="bash"><code class="language-bash" lang="bash">shell&gt; mode 80 50
+shell&gt; map  -t cdrom
+shell&gt; FS0:
+shell&gt; FS0:
+FS0:&gt; cd efi\boot
+FS0:\efi\boot&gt; ./grubx64.efi
+</code></pre>
+
+<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0220_UefiCheatsheet.md&body=I%20have%20a%20comment!">Leave a comment</a>
+
+
+
+</div>
+
+<div id="sitefooter">
+  <!-- TODO -->
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>
