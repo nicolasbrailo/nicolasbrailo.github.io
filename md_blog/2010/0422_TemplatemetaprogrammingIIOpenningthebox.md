@@ -84,7 +84,7 @@ Apparently the N-1 template argument gets stripped off in the comments and proba
 Original [published here](md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md).
 
 ---
-## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2020-10-29T17:55:51.000+01:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2020-10-29T17:55:51.000+01:00:
 
 Lol! Yeah I gave up fixing those. It breaks every year or so. If you are reading this article in 2020, it's probably good if you can't compile the examples. You should be using constexprs nowadays anyway :)
 

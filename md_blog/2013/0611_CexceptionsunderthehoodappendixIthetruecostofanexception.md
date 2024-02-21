@@ -31,7 +31,7 @@ I'm guessing you probably mean "paid" :-)
 Original [published here](md_blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md).
 
 ---
-## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2013-06-12T09:37:49.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2013-06-12T09:37:49.000+02:00:
 
 Corrected, thanks!
 

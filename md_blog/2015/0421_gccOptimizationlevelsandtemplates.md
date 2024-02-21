@@ -102,7 +102,7 @@ So... you don't like that GCC doesn't optimize when you don't pass optimization 
 Original [published here](md_blog/2015/0421_gccOptimizationlevelsandtemplates.md).
 
 ---
-## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2015-04-22T10:52:45.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2015-04-22T10:52:45.000+02:00:
 
 While in hindsight it may be obvious that optimization and template instantiation are two different and orthogonal features, I've seen many people assume that "templates" means "optimal code". It's always good to understand how different features of a compiler interact.
 
@@ -116,7 +116,7 @@ You should stop using reserved identifiers.
 Original [published here](md_blog/2015/0421_gccOptimizationlevelsandtemplates.md).
 
 ---
-## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2015-04-23T14:02:57.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2015-04-23T14:02:57.000+02:00:
 
 Indeed, good observation. I'll probably replace the underscores once I get some free time.
 
@@ -132,7 +132,7 @@ It would be interesting to see if making the get\_pow calls constexpr caused col
 Original [published here](md_blog/2015/0421_gccOptimizationlevelsandtemplates.md).
 
 ---
-## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2015-05-27T11:44:39.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2015-05-27T11:44:39.000+02:00:
 
 Indeed that's (more or less) the point of the article: templates != optimization. I haven't thought about playing around with constexpr's, I guess mostly because I'm limited to 03 nowadays due to my job. I'll probably try it out some day.
 

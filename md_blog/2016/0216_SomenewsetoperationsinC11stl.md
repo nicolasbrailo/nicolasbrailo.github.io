@@ -43,7 +43,7 @@ I meant as & l t ; (without spaces) etc.
 Original [published here](md_blog/2016/0216_SomenewsetoperationsinC11stl.md).
 
 ---
-## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2016-02-18T05:48:49.000+01:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2016-02-18T05:48:49.000+01:00:
 
 Well, it's quite ironic that your coment was more successful than my post. Thanks for the heads up, I'll try to fix it as soon as I get a chance!
 

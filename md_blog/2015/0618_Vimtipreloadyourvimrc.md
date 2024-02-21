@@ -26,7 +26,7 @@ augroup end
 Original [published here](md_blog/2015/0618_Vimtipreloadyourvimrc.md).
 
 ---
-## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2015-06-22T09:49:37.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2015-06-22T09:49:37.000+02:00:
 
 Great tip, thanks Anon!
 

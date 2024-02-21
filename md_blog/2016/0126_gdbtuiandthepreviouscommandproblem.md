@@ -56,7 +56,7 @@ There are dozens of us! dozens!
 Original [published here](md_blog/2016/0126_gdbtuiandthepreviouscommandproblem.md).
 
 ---
-## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2018-11-26T09:00:38.000+01:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2018-11-26T09:00:38.000+01:00:
 
 Seems so... and I'm still surprised by that!
 Thanks Anon
