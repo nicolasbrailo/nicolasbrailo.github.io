@@ -1,20 +1,31 @@
-from datetime import datetime
 import os
 import re
 import shutil
 import sys
 
-from helpers import get_all_mds
+from helpers import apply_template, get_all_mds, read_md_doc
 
-POST_IN_IDX_TMPL = """
-## {{title}}
+POST_IN_IDX_TMPL = 'genscripts/templates/post_in_index.md.tmpl'
 
-Post by {{author}} @ {{publishDate}} - [Permalink]({{srcFile}}) {{commentCountTxt}}
+MAIN_IDX_HEADER = """
+@meta docType index
+"""
+MONTH_IDX_HEADER = """
+# Posts for {year} {month_num_str(month)}
 
-{{txt}}
+@meta docType index
 
+"""
+YEAR_IDX_HEADER = """
+# Posts for {year}
 
-[Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@{{srcFile}}&body=I%20have%20a%20comment!)
+@meta docType index
+
+"""
+HISTORY_IDX_HEADER = """
+# Posts for the entire history of this site
+
+@meta docType index
 
 """
 
@@ -52,64 +63,6 @@ def date_index(src_path, posts):
             yr_idx[year].append(p)
     return yr_idx, mnth_idx
 
-def build_anchor_for_title(title):
-    return re.sub(r'[^_.a-zA-Z0-9]', '', title).lower()
-
-def read_md_doc(fpath):
-    doc = {
-        'title': None,
-        'anchorToTile': None,
-        'txt': None,
-        'comments': None,
-        'srcFile': fpath,
-        'commentCount': 0,
-        'commentCountTxt': '',
-        'generatedDate': datetime.now().strftime('%Y-%m-%d'),
-    }
-
-    with open(fpath, 'r') as fp:
-        doc['txt'] = fp.read()
-
-    # Extract title out of doc (needs to be the first line)
-    # eg: '## foo bar\n'
-    doc['title'] = doc['txt'][doc['txt'].find(' '):doc['txt'].find('\n')].strip()
-    doc['txt'] = doc['txt'][doc['txt'].find('\n')+1:]
-
-    doc['anchorToTile'] = build_anchor_for_title(doc['title'])
-
-    # Extract metadata
-    lns = doc['txt'].split('\n')
-    doc['txt'] = []
-    for ln in lns:
-        if ln.startswith('@meta '):
-            k_i = len('@meta ')
-            k_f = ln.find(' ', k_i + 1)
-            key = ln[k_i:k_f]
-            val = ln[k_f+1:]
-            if key in doc:
-                print(f"Duplicated key in {doc['srcFile']}: {key} defined twice, ignoring second definition")
-                continue
-            doc[key] = val
-            if key == 'publishDatetime':
-                try:
-                    parsed_datetime = datetime.strptime(val, '%Y-%m-%dT%H:%M:%S.%f%z')
-                    doc['publishDate'] = parsed_datetime.strftime('%Y-%m-%d')
-                    doc['publishTime'] = parsed_datetime.strftime('%H:%M')
-                except ValueError:
-                    pass
-        else:
-            doc['txt'].append(ln)
-    doc['txt'] = '\n'.join(doc['txt']).strip()
-
-    if '# Comments' in doc['txt']:
-        tmp = doc['txt'].split('# Comments')
-        doc['txt'] = tmp[0]
-        doc['comments'] = tmp[1]
-        doc['commentCount'] = tmp[1].count('## In reply to')
-        doc['commentCountTxt'] = f" - {doc['commentCount']} comments"
-
-    return doc
-
 
 def month_num_str(m):
     return {
@@ -127,12 +80,6 @@ def month_num_str(m):
         12: 'December'
     }.get(m)
 
-def apply_template(tmpl, repl):
-    for key, value in repl.items():
-        token = "{{" + key + "}}"
-        tmpl = tmpl.replace(token, str(value))
-    return tmpl
-
 def build_months_idx_md(tmp_gen_md, yearmonth_idx):
     for year, month_idx in yearmonth_idx.items():
         dirn = os.path.join(tmp_gen_md, str(year))
@@ -145,7 +92,7 @@ def build_months_idx_md(tmp_gen_md, yearmonth_idx):
                 doc = read_md_doc(p)
                 idx_md.append(apply_template(POST_IN_IDX_TMPL, doc))
 
-            md = f"# Posts for {year} {month_num_str(month)}\n\n" + '\n\n---\n\n'.join(idx_md)
+            md = MONTH_IDX_HEADER + '\n\n---\n\n'.join(idx_md)
             with open(idx_path, 'w') as fp:
                 fp.write(md)
 
@@ -155,7 +102,7 @@ def build_year_idx_md(tmp_gen_md, yearmonth_idx):
         if not os.path.exists(dirn):
             os.makedirs(dirn)
 
-        idx_md = [f"# Posts for {year}\n"]
+        idx_md = [YEAR_IDX_HEADER]
         for month, posts in month_idx.items():
             month_idx_path = os.path.join(dirn, f'{month}.md')
             idx_md.append(f' * [{month_num_str(month)}]({month_idx_path})')
@@ -178,7 +125,7 @@ def build_history(tmp_gen_md):
         print("Error: build_history needs to be called after all other year-indexes have been built")
         exit(1)
 
-    all_idx_md = "# Posts for the entire history of this site"
+    all_idx_md = HISTORY_IDX_HEADER
     for idx_path in idxs:
         prefix_start = idx_path.find(tmp_gen_md) + len(tmp_gen_md)
         prefix_end = idx_path.find('/', prefix_start)
@@ -239,7 +186,7 @@ def build_main_index(tmp_gen_md, pages):
         mds.append(' | '.join(idx_navigation))
 
         with open(idx_path, 'w') as fp:
-            fp.write("\n\n---\n\n".join(mds))
+            fp.write(MAIN_IDX_HEADER + "\n\n---\n\n".join(mds))
 
 
 md_src = sys.argv[1]

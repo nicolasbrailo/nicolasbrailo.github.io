@@ -1,9 +1,13 @@
+# Drafts
+
+@meta docType skipHtmlGen
+
+
 # Fix "slow" Grub
 
 @meta author Nico Brailovsky
 @meta publishDatetime TODO
 @meta tags Fixing stuff
-
 
 Grub tends to be setup-and-forget, so this is a tip that should be useless. Except when things break.
 

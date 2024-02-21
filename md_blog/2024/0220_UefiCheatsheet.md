@@ -1,7 +1,7 @@
 # How to: UEFI shell
 
 @meta author Nico Brailovsky
-@meta publishDatetime TODO
+@meta publishDate 2024-02-20
 @meta tags Self reminder, Fixing stuff
 
 There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:

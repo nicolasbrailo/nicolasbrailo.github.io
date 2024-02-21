@@ -248,7 +248,7 @@ import sys
 import re
 import os
 
-from helpers import get_all_mds
+from helpers import apply_template, get_all_mds, read_md_doc
 
 def get_md_convert_rules(html_gen_dest, md_srcs):
     if len(md_srcs) == 0:
@@ -268,43 +268,22 @@ def get_md_convert_rules(html_gen_dest, md_srcs):
             md_files.append((md_src, md_path, html_path))
     return md_files
 
-def normalize_rel_links(md_src, md):
-    # Limitations: nested links won't work. Eg md image with link: [![Label](img)](link)
-    # .*? means match non-greedy, otherwise this will be considered one link: [l1](url1) [l2](url2)
-    md_links = re.findall(']\\(.*?\.md\\)', md)
-    md_links = [x[2:-1] for x in set(md_links)]
-    for md_link in md_links:
-        if md_link.startswith('http://') or md_link.startswith('https://'):
-            continue
-        if not os.path.exists(md_link):
-            print(f'Failed relative link normalization: md file {md_src} links to non-existent file {md_link}')
-            exit(1)
-        if md_link.startswith('/'):
-            pass
-        else:
-            md = md.replace(md_link, f'/{md_link}')
-    return md
-
 def htmlize_rel_links(md_srcs_path, html_dst_path, md):
+    assert(html_dst_path[-1] != '/')
+
     # Limitations: nested links won't work. Eg md image with link: [![Label](img)](link)
     # Absolute links won't work eg [text](/blog/foo.md)
-    md_links = []
+    html_links = []
     for md_src_path in md_srcs_path:
         # .*? means match non-greedy, otherwise this will be considered one link: [l1](url1) [l2](url2)
         md_links = re.findall(f']\\({md_src_path}/.*?\.md\\)', md)
-        print([x[2:-1] for x in set(md_links)])
-        exit(0)
-        md_links.extend()
-
-    for md_link in md_links:
-        if md_link.startswith('http://') or md_link.startswith('https://'):
-            continue
-        if md_link[0] == '/':
-            md_link = md_link[1:]
-        link = md_link[len(f'{md_src_path}/'):-len('.md')]
-        html_link = f'/{html_dst_path}/{link}.html'
-        print("REPL ", md_link, html_link)
-        md = md.replace(md_link, html_link)
+        md_links = [x[2:-1] for x in set(md_links)]
+        for md_link in md_links:
+            link = md_link.replace(md_src_path, '')[:-len('.md')]
+            assert(link[0] == '/')
+            html_link = f'/{html_dst_path}{link}.html'
+            # print(md_link, "->", html_link)
+            md = md.replace(md_link, html_link)
     return md
 
 
@@ -312,18 +291,32 @@ HTML_GEN_DEST = sys.argv[1]
 MD_SRCS = sys.argv[2:]
 md_rules = get_md_convert_rules(HTML_GEN_DEST, MD_SRCS)
 
-#for md_src_dir, md_path, html_path in md_rules:
-md_src_dir = 'md_gen'
-md_path = 'md_gen/index.md'
-html_path = 'blog/index.html'
-if True:
+for md_src_dir, md_path, html_path in md_rules:
     print(md_path, " -> ", html_path)
-    with open(md_path, 'r') as fp:
-        md = fp.read()
+    doc = read_md_doc(md_path)
 
-    md = normalize_rel_links(md_path, md)
-    md = htmlize_rel_links(MD_SRCS, HTML_GEN_DEST, md)
-    html = markdowner.reset().convert(md)
+    if doc['docType'] == 'skipHtmlGen':
+        continue
+
+    doc['txt'] = htmlize_rel_links(MD_SRCS, HTML_GEN_DEST, doc['txt'])
+    doc['txt_html'] = markdowner.reset().convert(doc['txt'])
+    doc['dstHtmlFile'] = f'/{html_path}'
+
+    if doc['comments'] is not None:
+        doc['comments'] = htmlize_rel_links(MD_SRCS, HTML_GEN_DEST, doc['comments'])
+        doc['comments_html'] = markdowner.reset().convert(doc['comments'])
+    else:
+        doc['comments_html'] = None
+
+    if doc['docType'] == 'post':
+        tmpl = 'genscripts/templates/post_standalone.html'
+    elif doc['docType'] == 'index':
+        tmpl = 'genscripts/templates/index.html'
+    elif doc['docType'] == 'notAPost':
+        tmpl = 'genscripts/templates/notapost.html'
+    else:
+        tmpl = 'genscripts/templates/TODO.html'
+    html = apply_template(tmpl, doc)
 
     tgt_dir = os.path.dirname(html_path)
     if not os.path.exists(tgt_dir):
