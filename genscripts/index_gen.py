@@ -248,8 +248,8 @@ tmp_gen_md = sys.argv[2]
 if os.path.exists(tmp_gen_md):
     shutil.rmtree(tmp_gen_md)
 
-INDEX_PAGES = 10
-POSTS_PER_INDEX_PAGE = 2
+INDEX_PAGES = 3
+POSTS_PER_INDEX_PAGE = 10
 
 docs = get_all_mds(md_src)
 year_idx, month_idx = date_index(md_src, docs)
