@@ -107,7 +107,7 @@ It seems that thread safe atomics would be used for this type of synchronization
 Original [published here](md_blog/2013/1203_StaticinitializationinC.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2014-02-12T09:56:09.000+01:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2014-02-12T09:56:09.000+01:00:
 
 > It seems that thread safe atomics would be used for this type of synchronization, but even in very recent g++ I see calls to \_\_cxa\_guard\_acquire in the assembly.
 

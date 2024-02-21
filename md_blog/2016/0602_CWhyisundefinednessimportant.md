@@ -60,7 +60,7 @@ Original [published here](md_blog/2016/0602_CWhyisundefinednessimportant.md).
 Original [published here](md_blog/2016/0602_CWhyisundefinednessimportant.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2016-06-03T17:30:39.000+02:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2016-06-03T17:30:39.000+02:00:
 
 That's a very trollish way of saying "careful with typos" but thanks for reporting nonetheless, anon. Fixed.
 

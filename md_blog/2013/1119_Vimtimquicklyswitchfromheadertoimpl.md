@@ -25,7 +25,7 @@ I've not tried A, but fswitch offers similar functionality: http://www.vim.org/s
 Original [published here](md_blog/2013/1119_Vimtimquicklyswitchfromheadertoimpl.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2013-11-19T21:33:54.000+01:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2013-11-19T21:33:54.000+01:00:
 
 Thanks Matt!
 

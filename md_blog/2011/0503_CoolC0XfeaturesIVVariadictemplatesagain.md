@@ -163,7 +163,7 @@ Thanks for all the C++ posts. They are quite informative, really appreciate the 
 Original [published here](md_blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2013-09-06T22:42:15.000+02:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2013-09-06T22:42:15.000+02:00:
 
 Glad you find them useful Chaitanya, thanks for the feedback
 

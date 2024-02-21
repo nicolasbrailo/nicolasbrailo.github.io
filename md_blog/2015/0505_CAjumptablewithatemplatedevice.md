@@ -208,14 +208,14 @@ A natural checkpoint in the sizing is 4KiB (which is a power of 2), because that
 Original [published here](md_blog/2015/0505_CAjumptablewithatemplatedevice.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2015-05-27T11:46:56.000+02:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2015-05-27T11:46:56.000+02:00:
 
 Nothing more to add to ploxiln's comment. I initially worked on this snippet because I had to do some bucketing similar to what jemalloc does (I'm not sure how jemalloc implements their buckets, though)
 
 Original [published here](md_blog/2015/0505_CAjumptablewithatemplatedevice.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2015-05-27T11:49:07.000+02:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2015-05-27T11:49:07.000+02:00:
 
 It is very much a matter of personal opinion, but your point of view can change rapidly once you discover that someone typo'd a 32 for a 23 and you had to spend a day trying to figure out why some of the buckets are broken :)
 

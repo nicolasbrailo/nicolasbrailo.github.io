@@ -46,7 +46,7 @@ Coincidence. Using recently this tool as well. Might be good to mentioned to you
 Original [published here](md_blog/2020/0227_jqgrepandprettifyjson.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2020-03-01T11:23:24.000+01:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2020-03-01T11:23:24.000+01:00:
 
 That's awesome, thanks!
 

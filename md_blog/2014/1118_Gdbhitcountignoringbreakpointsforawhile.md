@@ -86,7 +86,7 @@ Why not use a print i command when you get the exception? Will it not tell you t
 Original [published here](md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2015-03-26T11:37:20.000+01:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2015-03-26T11:37:20.000+01:00:
 
 Hi Antiskeptic, for the first part of the article, you can indeed simply `print i` to know which iteration is triggering the bug. That should work just as fine as ignoring it forever and then checking the count in gdb, or writing `cout << i` in the loop.
 

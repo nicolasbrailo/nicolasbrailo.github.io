@@ -35,7 +35,7 @@ std::function to the rescue?
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2013-07-20T13:28:20.000+02:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2013-07-20T13:28:20.000+02:00:
 
 I don't think I understand how would you use it... how exactly would you use std::func to have an implementation you want to test accept (ie be injected with) a mock of an object with no virtual methods?
 
@@ -56,7 +56,7 @@ That's like using virtual everywhere, except worse.
 Original [published here](md_blog/2013/0718_MockinginCthevirtualproblem.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2013-07-23T10:09:30.000+02:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2013-07-23T10:09:30.000+02:00:
 
 Thanks for the input Patrick, I've never actually seen this technique used "in the wild". Would you say it adds too much overhead to a simple class declaration? How about bringing up to speed new team members, does it take them a while to get used to it?
 

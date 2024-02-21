@@ -33,7 +33,7 @@ This option is there for quite a long time.
 Original [published here](md_blog/2015/0625_Androidstudioandndkgdbtodebuganativeapp.md).
 
 ---
-## In reply to this post, [nicolasbrailo](/md_blog) commented @ 2015-10-09T12:33:09.000+02:00:
+## In reply to this post, [nicolasbrailo/](md_blog/aboutme.md) commented @ 2015-10-09T12:33:09.000+02:00:
 
 Thanks for the info! I recall trying that option and it still didn't manage to include the gdbserver binary. Hopefully it does now.
 
