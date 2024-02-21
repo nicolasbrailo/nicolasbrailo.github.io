@@ -36,7 +36,7 @@ Ctrl is not needed!
 Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to this post, [nico](md_blog/youfoundadeadlink.md) commented @ 2010-02-14T22:45:17.000+01:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2010-02-14T22:45:17.000+01:00:
 
 Really? All those years practicing yoga so I could reach that weird key combo, for nothing? Man, wish I knew that one sooner :)
 
@@ -77,7 +77,7 @@ that will not work with kernels where the magic sysrq feature is not enabled
 Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to this post, [nico](md_blog/youfoundadeadlink.md) commented @ 2010-05-18T15:54:45.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2010-05-18T15:54:45.000+02:00:
 
 > dsfadsfgafgf
 
@@ -98,7 +98,7 @@ Seems to me you don't need the first 3. "R" seems nice, though.
 Original [published here](md_blog/2009/0714_GNULinuxEmergencyRestart.md).
 
 ---
-## In reply to this post, [nico](md_blog/youfoundadeadlink.md) commented @ 2010-05-18T17:51:10.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2010-05-18T17:51:10.000+02:00:
 
 > David
 

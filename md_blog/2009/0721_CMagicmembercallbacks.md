@@ -156,7 +156,7 @@ I am a killer
 Original [published here](md_blog/2009/0721_CMagicmembercallbacks.md).
 
 ---
-## In reply to this post, [nico](md_blog/youfoundadeadlink.md) commented @ 2009-08-02T22:30:14.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2009-08-02T22:30:14.000+02:00:
 
 It does work but you're missing part of the "spec", you can't choose a callback function (i.e. you're tied to a single callback or a type overloaded callback).
 Other than that, the code is quite close to what I've been looking for. Check the solution back in a couple of days (still working on it!)

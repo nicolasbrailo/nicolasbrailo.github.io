@@ -65,7 +65,7 @@ I hope that helps.
 Original [published here](md_blog/2010/0325_IhateBerkeley.md).
 
 ---
-## In reply to this post, [nico](md_blog/youfoundadeadlink.md) commented @ 2010-03-29T18:59:07.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2010-03-29T18:59:07.000+02:00:
 
 > “DB” is a type name for a struct and part of our ANSI C
 

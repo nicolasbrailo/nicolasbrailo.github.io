@@ -26,7 +26,7 @@ Great work, just what I'm looking for - but where is the file? (the link seems b
 Original [published here](md_blog/2009/0323_ValgrindOCISuppressionsfileFTW.md).
 
 ---
-## In reply to this post, [nico](md_blog/youfoundadeadlink.md) commented @ 2009-04-03T12:06:30.000+02:00:
+## In reply to this post, [nico](md_blog/aboutme.md) commented @ 2009-04-03T12:06:30.000+02:00:
 
 Should have been a temporary glitch, anyway this is the file:
 
