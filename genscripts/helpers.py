@@ -87,7 +87,7 @@ def read_md_doc(fpath):
         doc['txt'] = tmp[0]
         doc['comments'] = validate_rel_links(fpath, tmp[1])
         doc['commentCount'] = tmp[1].count('## In reply to')
-        doc['commentCountTxt'] = f" - {doc['commentCount']} comments"
+        doc['commentCountTxt'] = f" - [{doc['commentCount']} comments]({doc['srcFile']})"
 
     return doc
 
