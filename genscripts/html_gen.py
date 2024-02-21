@@ -287,14 +287,14 @@ def normalize_rel_links(md_src, md):
 
 def htmlize_rel_links(md_srcs_path, html_dst_path, md):
     # Limitations: nested links won't work. Eg md image with link: [![Label](img)](link)
+    # Absolute links won't work eg [text](/blog/foo.md)
     md_links = []
     for md_src_path in md_srcs_path:
         # .*? means match non-greedy, otherwise this will be considered one link: [l1](url1) [l2](url2)
-        md_rel_links = re.findall(f']\\({md_src_path}/.*?\.md\\)', md)
-        md_links.extend([x[2:-1] for x in set(md_rel_links)])
-        md_abs_links = re.findall(f']\\(/{md_src_path}/.*?\.md\\)', md)
-        md_links.extend([x[3:-1] for x in set(md_abs_links)])
-        # Has to be KV of linksrc -> linkds, otherwise we lose src for rpl
+        md_links = re.findall(f']\\({md_src_path}/.*?\.md\\)', md)
+        print([x[2:-1] for x in set(md_links)])
+        exit(0)
+        md_links.extend()
 
     for md_link in md_links:
         if md_link.startswith('http://') or md_link.startswith('https://'):
