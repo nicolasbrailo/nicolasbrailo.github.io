@@ -1,8 +1,6 @@
 # Series, articles and presentations
 
-@meta publishDatetime 2021-02-26T17:45:00.000+01:00
-@meta author Nico Brailovsky
-@meta originalUrl http://monkeywritescode.blogspot.com/p/series-articles-and-presentations.html
+@meta docType notAPost
 
 This page is a list of articles I’ve written over the years which I am allowed to share publicly, and which do not always have an associated post in this blog. In many cases they are the presentations I used for courses or talks.
 
