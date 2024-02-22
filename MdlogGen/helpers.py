@@ -13,6 +13,24 @@ def get_all_mds(src_path):
     return posts
 
 
+def extract_year_month_from_path(prefix, path):
+    prefix_start = path.find(prefix) + len(prefix)
+    if prefix_start == -1:
+        return None, None
+    prefix_end = path.find('/', prefix_start)
+    year_start = prefix_end + 1
+    year_end = year_start + 4
+    month_start = year_end + len('/')
+    month_end = month_start + 2
+    try:
+        year = int(path[year_start:year_end])
+        month = int(path[month_start:month_end])
+    except:
+        return None, None
+
+    return year, month
+
+
 def build_anchor_for_title(title):
     return re.sub(r'[^_.a-zA-Z0-9]', '', title).lower()
 
@@ -52,6 +70,7 @@ def read_md_doc(fpath):
 
     # Extract title out of doc (needs to be the first line)
     # eg: '## foo bar\n'
+    assert(doc['txt'][0] == '#'), f'Format fail for {fpath}'
     doc['title'] = doc['txt'][doc['txt'].find(' '):doc['txt'].find('\n')].strip()
     doc['txt'] = doc['txt'][doc['txt'].find('\n')+1:]
     doc['txt'] = validate_rel_links(fpath, doc['txt'])

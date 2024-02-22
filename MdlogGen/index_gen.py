@@ -3,12 +3,12 @@ import re
 import shutil
 import sys
 
-from helpers import apply_template, get_all_mds, read_md_doc
+from helpers import apply_template, get_all_mds, read_md_doc, extract_year_month_from_path
 
 GENSCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 POST_IN_IDX_TMPL = os.path.join(GENSCRIPT_DIR, 'templates', 'postInIndex.md.tmpl')
 
-MAIN_IDX_HEADER = """
+MAIN_IDX_HEADER = """#
 @meta docType index
 """
 MONTH_IDX_HEADER = """# Posts for {} {}
@@ -26,23 +26,6 @@ HISTORY_IDX_HEADER = """# Posts for the entire history of this site
 @meta docType index
 
 """
-
-def extract_year_month_from_path(prefix, path):
-    prefix_start = path.find(prefix) + len(prefix)
-    if prefix_start == -1:
-        return None, None
-    prefix_end = path.find('/', prefix_start)
-    year_start = prefix_end + 1
-    year_end = year_start + 4
-    month_start = year_end + len('/')
-    month_end = month_start + 2
-    try:
-        year = int(path[year_start:year_end])
-        month = int(path[month_start:month_end])
-    except:
-        return None, None
-
-    return year, month
 
 def date_index(src_path, posts):
     yr_idx = {}
@@ -186,7 +169,6 @@ def build_main_index(tmp_gen_md, pages):
 
         with open(idx_path, 'w') as fp:
             fp.write(MAIN_IDX_HEADER + "\n\n---\n\n".join(mds))
-
 
 md_src = sys.argv[1]
 tmp_gen_md = sys.argv[2]
