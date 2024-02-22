@@ -18,11 +18,17 @@ def get_md_convert_rules(html_gen_dest, md_srcs):
             print(f"md src {md_src} doesn't exist")
             exit(1)
 
-        for md_path in get_all_mds(md_src):
+        if os.path.isfile(md_src):
+            md_paths = [md_src]
+        else:
+            md_paths = get_all_mds(md_src)
+
+        for md_path in md_paths:
             html_path = md_path
             html_path = re.sub('.md$', '.html', html_path)
             html_path = re.sub(f'^{md_src}/', f'{html_gen_dest}/', html_path)
             md_files.append((md_src, md_path, html_path))
+
     return md_files
 
 def htmlize_rel_links(md_srcs_path, html_dst_path, md):
