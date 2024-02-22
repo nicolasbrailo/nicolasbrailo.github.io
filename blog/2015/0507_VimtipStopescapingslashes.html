@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,13 +37,15 @@
 <div id="content" class="language-clike">
 <h2>Vim tip: Stop escaping slashes</h2>
 
-Post by Nico Brailovsky @ 2015-05-07 - <a href="/blog/2015/0507_VimtipStopescapingslashes.html">Permalink</a>  - [1 comments](md_blog/2015/0507_VimtipStopescapingslashes.md)
+Post by Nico Brailovsky @ 2015-05-07 |
+  <a href="/blog/2015/0507_VimtipStopescapingslashes.html">Permalink</a> | <a href="/blog/2015/0507_VimtipStopescapingslashes.html">1 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0507_VimtipStopescapingslashes.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>If you do a lot of search &amp; replace in Vim, eventually you'll end up escaping a lot of slashes. Whenever you have to replace a path, for example. Isn't that annoying? After a couple of levels you end up with a horrible "\/path\/to\/foo\/bar" pattern. And if you miss an escape slash, good luck. It's better to scrap the whole thing and start over.</p>
 <p>Luckily, when you are using the 's'earch command you can pick a different separator. Instead of typing "%s/\/foo\/bar\/baz\//foo\/bar\//g", you can simply type "%s#/foo/bar/baz/#foo/bar/#g". Vim will automagically detect you want to use '#' as a delimiter, and you'll end up with a much more readable pattern.</p>
 <p>Extra tip: this also works in sed</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0507_VimtipStopescapingslashes.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="/blog/2019/0226_VimTipSearchandfreplace.html">VimTip: Search and f(replace) | An infinite monkey - Nico Brailovsky&#39;s blog</a> commented @ 2019-02-26T07:05:03.000+01:00:<a name="inreplytothispostvimtipsearchandfreplaceaninfinitemonkeynicobrailovsky39sblogblog20190226_vimtipsearchandfreplace.htmlcommented20190226t070503.0000100"></a></h2>
@@ -54,7 +55,9 @@ Post by Nico Brailovsky @ 2015-05-07 - <a href="/blog/2015/0507_VimtipStopescapi
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

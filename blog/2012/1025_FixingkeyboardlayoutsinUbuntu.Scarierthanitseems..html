@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Fixing keyboard layouts in Ubuntu. Scarier than it seems.</h2>
 
-Post by Nico Brailovsky @ 2012-10-25 - <a href="/blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..html">Permalink</a> 
+Post by Nico Brailovsky @ 2012-10-25 |
+  <a href="/blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>At the moment of writing this post there is an <a href="https://bugs.launchpad.net/ubuntu/+source/gnome-control-center/+bug/591895">open bug</a> in Ubuntu, still active in 11.04, that makes your keyboard layout revert to whatever GDM wants. Apparently this is caused by GDM failing to synch with the preferences of the session, so if you change your layout (even if you delete the previous one) the change will be reverted next time you login. There seems to be no fix coming soon, so this magic incantation might work if you have this problem:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">sudo dpkg-reconfigure keyboard-configuration
@@ -46,14 +47,16 @@ Post by Nico Brailovsky @ 2012-10-25 - <a href="/blog/2012/1025_Fixingkeyboardla
 <p>This will ask you a lot of questions about your keyboard, good luck guessing. It kind of reminds me the Windows 95 install process, in which erring the keyboard layout meant it was probably easier to just format and reinstall everything all over again. With some luck, next time you reboot your Ubuntu will actually remember your keyboard preference. If not, just take this as an opportunity to learn a foreign language.</p>
 <p>Having keyboard problems? You may also be interested in learning <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">how to activate tildes and accents for a USA keyboard layout in Ubuntu</a>.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

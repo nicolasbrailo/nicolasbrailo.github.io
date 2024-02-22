@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++ exceptions under the hood 14: multiple landing pads & the teachings of the guru</h2>
 
-Post by Nico Brailovsky @ 2013-04-23 - <a href="/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-04-23 |
+  <a href="/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>After a lot of hard work, last time we finally got a working personality function capable of handling exceptions without help of libstdc++. It will indiscriminately handle all exceptions, but it does work. There is a big question we haven't answered yet: if we go back to the LSDA (language specific data area) we'll see something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">.local_lsda_call_site_table:
@@ -101,14 +102,16 @@ Post by Nico Brailovsky @ 2013-04-23 - <a href="/blog/2013/0423_Cexceptionsunder
 <p>That solves the mystery of how a function with multiple try/catch blocks can handle an exception but we still have another question: why are there three call sites when we only specified a single landing pad? The other three are places where an exception might be thrown so they get added as a possible place for cleanup actions or landing pads. If we learned anything from GOTW it should be that exceptions can be thrown in the places we least expect. There is an entry in the call site table for our throw because it's a block that might throw; the compiler also detected another three.</p>
 <p>Now that we know what the start and len fields do, let's change our personality function so the correct landing pad can handle the exception being thrown. Go ahead. My implementation for the next time.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

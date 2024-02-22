@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>CRTP for static dispatching</h2>
 
-Post by Nico Brailovsky @ 2011-03-31 - <a href="/blog/2011/0331_CRTPforstaticdispatching.html">Permalink</a> 
+Post by Nico Brailovsky @ 2011-03-31 |
+  <a href="/blog/2011/0331_CRTPforstaticdispatching.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0331_CRTPforstaticdispatching.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>So, virtual dispatching is just too much overhead for you? I bet you do need every femtosecond from your CPU. Even if you don't, who doesn't like weird C++ constructs? Take CRTP, for example, a Curiously recurring template pattern:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template <class Derived> struct CRTP {
@@ -66,14 +67,16 @@ int main() {
 <p>Using this weird looking (ain't them all?) template device you can have static dispatching with most of the flexibility of dynamic dispatching. As a bonus, you'll drive all your cow-orkers insane!</p>
 <p>Bonus non useful information: In C++ 0X you could use variadic templates and have a proxy object with static dispatching. How cool is that?</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0331_CRTPforstaticdispatching.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

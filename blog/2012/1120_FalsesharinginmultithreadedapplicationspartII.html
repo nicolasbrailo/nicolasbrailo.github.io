@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>False sharing in multi threaded applications, part II</h2>
 
-Post by Nico Brailovsky @ 2012-11-20 - <a href="/blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.html">Permalink</a> 
+Post by Nico Brailovsky @ 2012-11-20 |
+  <a href="/blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>In the last entry we learned how an apparently parallel algorithm can turn into a sequential nightmare via false sharing; what you may think to be two independent variables may actually be spatially close, thus sharing a cache line which gets invalidated by each and every write across cores. But is this a real world issue? If so, how can we fix it?</p>
 <p>We'll work backwards: let's see first how can this be fixed, and then we'll check if this is actually a real world issue.</p>
@@ -66,14 +67,16 @@ Post by Nico Brailovsky @ 2012-11-20 - <a href="/blog/2012/1120_Falsesharinginmu
 </code></pre>
 <p>Alternatively, you could use the align keyword of C++0x, but since it's not implemented on g++ I have never tested it before, so I have no idea how it's supposed to work. For more information on this you can check <a href="http://drdobbs.com/go-parallel/article/showArticle.jhtml?articleID=217500206">Herb Sutter's article, Eliminate False Sharing</a>.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,19 +37,23 @@
 <div id="content" class="language-clike">
 <h2>Vim Tip: Partial Search & Replace</h2>
 
-Post by Nico Brailovsky @ 2009-05-26 - <a href="/blog/2009/0526_VimTipPartialSearchReplace.html">Permalink</a> 
+Post by Nico Brailovsky @ 2009-05-26 |
+  <a href="/blog/2009/0526_VimTipPartialSearchReplace.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0526_VimTipPartialSearchReplace.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>So, you have a paragraph, or any kind of text, and need to replace a substring without altering other paragraphs. You could write :set number and then :A,Bs/what to search/what to replace/g, being A and B the start and end of the paragraph, or you could just use <a href="/blog/2009/0507_VimTipVisualMode.html">visual mode</a>.</p>
 <p>Enter line selection mode (Shift + V) and then select a block of text. Without moving the cursor any further type :s/SEARCH/REPLACE and the search string in the selected block will be replaced without altering any other part of the document.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0526_VimTipPartialSearchReplace.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

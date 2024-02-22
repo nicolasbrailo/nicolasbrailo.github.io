@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Vim tips: Using macros</h2>
 
-Post by Nico Brailovsky @ 2009-03-27 - <a href="/blog/2009/0327_VimtipsUsingmacros.html">Permalink</a> 
+Post by Nico Brailovsky @ 2009-03-27 |
+  <a href="/blog/2009/0327_VimtipsUsingmacros.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0327_VimtipsUsingmacros.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Clik-click tap, clik-click tap, clik-click tap. A team mate is performing some kind of repetitive operation with text and it's becoming more and more annoying. Good news, there's a way to keep your mental sanity and help this guy to be more productive: replace him with a sed/awk script teach him how to use Vim macros!</p>
 <p>Vim macros can repeat for you a sequence of commands. Press <strong><em>q</em></strong><strong><em>q</em></strong> to start recording, then"<strong><em>q</em></strong> again to stop. Use <strong><em>@q</em></strong> to execute a macro. Let's try it:</p>
@@ -60,14 +61,16 @@ text</p>
 <p>Neat, huh? You can also store any number of macros using a different letter after the <strong><em>q</em></strong> to start recording, for example <strong><em>qn</em></strong> to record and <strong><em>@n</em></strong> to execute. Also, use <strong><em>@@</em></strong> to execute once again the last executed macro (from any buffer).</p>
 <p>There are some more things you can do with macros (like editing before executing one) but the best source for that is the manual.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0327_VimtipsUsingmacros.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

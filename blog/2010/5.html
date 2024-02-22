@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2010 May</h2>
 
 <h2>Template metaprogramming VII: The Enemy Within<a name="templatemetaprogrammingviitheenemywithin"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-27 - <a href="/blog/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-27 | <a href="/blog/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Remember where were we last time? We had this code to define a list:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">struct NIL {
     typedef NIL Head;
@@ -82,18 +81,18 @@ template &lt;&gt; struct Length  {
 <p>Thank you St&eacute;phane Michaut for pointing out typos and bugs in the code listings</p>
 <hr />
 <h2>Deleting &gt; Writing<a name="deletinggtwriting"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-25 - <a href="/blog/2010/0525_DeletinggtWriting.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0525_DeletinggtWriting.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-25 | <a href="/blog/2010/0525_DeletinggtWriting.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0525_DeletinggtWriting.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <blockquote>
 <p>Perfection is finally attained not when there is no longer anything to add but when there is no longer anything to take away, when a body has been stripped down to its nakedness.</p>
 <p>Antoine de Saint-Exupery</p>
 </blockquote>
 <hr />
 <h2>Level up!<a name="levelup"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-23 - <a href="/blog/2010/0523_Levelup.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0523_Levelup.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-23 | <a href="/blog/2010/0523_Levelup.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0523_Levelup.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Today it’s been 756864000 seconds of uptime since I was promoted from Release Candidate to V1.0. Hope none of you remember I made this same post 31536000 seconds ago.</p>
 <hr />
 <h2>Template metaprogramming VI: The Spider Webb<a name="templatemetaprogrammingvithespiderwebb"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-20 - <a href="/blog/2010/0520_TemplatemetaprogrammingVITheSpiderWebb.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0520_TemplatemetaprogrammingVITheSpiderWebb.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-20 | <a href="/blog/2010/0520_TemplatemetaprogrammingVITheSpiderWebb.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0520_TemplatemetaprogrammingVITheSpiderWebb.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We have been building our template meta-foo for five chapters now, and I think we are ready to move on to more advanced topics. We will be borrowing a lot more from functional languages from now on, so you may want to actually start practicing some template metaprogramming to keep advancing.</p>
 <p>In our previous entries we worked with basic building blocks, making it quite easy to keep in mind the whole "program flow". Now it won't be so easy anymore, as we'll be using real metaprogramming (i.e. templates operating on templates) so a lot more thought will be needed for each program.</p>
 <p>Another point to keep in mind, you don't have a debugger here. All the magic occurs at compile time so there is no gdb to step through your program to find a logic flaw. There's a little trick to check if you are too far off from the target but, mainly, you'll have to think for yourself.</p>
@@ -147,7 +146,7 @@ typedef Lst&lt; Int&lt;1&gt;, Lst&lt; Int&lt;2&gt;, Lst&lt; Int&lt;3&gt; &gt; &g
 <p>One last note, initializing a static const int in the definition of the class may be non portable (some compilers seem to have trouble with it). An enum may be used instead.</p>
 <hr />
 <h2>Dealing with Office on Linux<a name="dealingwithofficeonlinux"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-18 - <a href="/blog/2010/0518_DealingwithOfficeonLinux.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0518_DealingwithOfficeonLinux.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-18 | <a href="/blog/2010/0518_DealingwithOfficeonLinux.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0518_DealingwithOfficeonLinux.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Seen @ bash.org:</p>
 <blockquote>
 <p>&lt; adamkuj&gt; are there any good open source tools for working with Access DB's (mdb files)?
@@ -158,7 +157,7 @@ Comment: #evilgeeks</p>
 <p>Deal with it. Install a VM, or Wine, and a copy of MS Office. Resistance is futile.</p>
 <hr />
 <h2>Template metaprogramming V: Face to face<a name="templatemetaprogrammingvfacetoface"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-12 - <a href="/blog/2010/0512_TemplatemetaprogrammingVFacetoface.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0512_TemplatemetaprogrammingVFacetoface.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-12 | <a href="/blog/2010/0512_TemplatemetaprogrammingVFacetoface.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0512_TemplatemetaprogrammingVFacetoface.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>By now we have learned the basics for a nice template metaprogramming toolkit:</p>
 <ul>
 <li><strong>Loops</strong> with recursive template definitions</li>
@@ -222,7 +221,7 @@ int main() {
 <p>If you think any part of the code requires clarification ask in the comments. Next, a long overdue topic: lists using template metaprogramming. Guaranteed to blow your mind into little pieces!</p>
 <hr />
 <h2>Random WTFs<a name="randomwtfs"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-10 - <a href="/blog/2010/0510_RandomWTFs.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0510_RandomWTFs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-10 | <a href="/blog/2010/0510_RandomWTFs.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0510_RandomWTFs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <h3>Random WTF 1<a name="randomwtf1"></a></h3>
 <blockquote>
 <p>Note: Use dapper instead of edgy to use Ubuntu Dapper</p>
@@ -232,7 +231,7 @@ int main() {
 <p>I've been working with a big-co supplied ACS server, but it's IE only. WTF!? Aren't ACS all XMLy so they can work everywhere? I hate you all.</p>
 <hr />
 <h2>Template metaprogramming IV: Nightmares to come<a name="templatemetaprogrammingivnightmarestocome"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-06 - <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-06 | <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>By now you should have noticed the warnings were not in vain: we are exploring a bizarre side of C++ here, a side many people prefer to, wisely, ignore. Luckily it probably is too late for you, there is no way back. Only a long spiraling way down into the arms of despair and cryptic compiler error messages... mwahahahaha. But now, let's see where we are.</p>
 <p>In previous entries we learned how to return values, how to define recursive devices and how to provide a partial specialization. Let's see know how can we use partial specialization and complex return type definitions for some more fun template metaprogramming tricks. We had a fraction and a ScalarMultiplication operation for Frak:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N, int D&gt; struct Frak {
@@ -279,7 +278,7 @@ typedef typename Frak&lt; F::Num / mcd, F::Den / mcd &gt;::result New_Frak;
 <p>(**) Results may vary according to your definition of useful.</p>
 <hr />
 <h2>Ubuntu: Sound still FUBAR'd<a name="ubuntusoundstillfubard"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-04 - <a href="/blog/2010/0504_UbuntuSoundstillFUBARd.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0504_UbuntuSoundstillFUBARd.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-04 | <a href="/blog/2010/0504_UbuntuSoundstillFUBARd.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0504_UbuntuSoundstillFUBARd.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Remember my problems with <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">dual screen support</a> in Ubuntu? Well, I still love bashing Ubuntu, and the sound system in Linux is certainly a topic to rant a lot. Making the sound work fine in Ubuntu is an odyssey in pain and frustration, unless it works fine out of the box. And even if it does, it may still have it's kirks. Lots of them.</p>
 <p>In my case the sound starts in mute. I know it's a problem with pulse (which is a WTF in itself) and alsa, I don't really care what's the problem though, I just want to play my mp3s collection without having to carefully turn the knobs up to eleven in alsamixer.</p>
 <p>After trying a lot of the "solutions" found on the internets I've decided the best thing to do, short of switching back to windows me, is adding the following to my "fix_ubuntu_fuckups.sh" start script, which already contains my dual-screen pseudofix:</p>
@@ -291,14 +290,16 @@ amixer -c0 -- sset PCM playback -16dB unmute
 <p>This sets alsamixer to normal volume levels. As for the real fix, I'll wait till the next Ubuntu version. I wonder which sound subsystem will they chose next time.</p>
 <hr />
 <h2>I&#39;m a pirate!<a name="i39mapirate"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-05-02 - <a href="/blog/2010/0502_I39mapirate.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0502_I39mapirate.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-05-02 | <a href="/blog/2010/0502_I39mapirate.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0502_I39mapirate.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><img alt="Original: ./blog_img/img_lost.png" src="/blog_img/img_lost.png" /></p>
 <p>-- <a href="/blog/youfoundadeadlink.html">src</a></p>
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

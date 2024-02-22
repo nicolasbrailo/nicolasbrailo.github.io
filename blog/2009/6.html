@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2009 June</h2>
 
 <h2>LaTeX: LyX Revisited<a name="latexlyxrevisited"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-29 - <a href="/blog/2009/0629_LaTeXLyXRevisited.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0629_LaTeXLyXRevisited.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-29 | <a href="/blog/2009/0629_LaTeXLyXRevisited.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0629_LaTeXLyXRevisited.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Seeing I'm publishing a new LaTeX series it seems appropiate to review my old LyX article. This is just a copy &amp; paste from <a href="http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/">http://debaday.debian.net/2008/01/20/lyx-a-text-editor-that-stays-out-of-the-way/</a>
 Did you ever get to struggle against your text editor’s random format feature while trying to write a document? Open Office may be a great project, but when you want to focus on the content, it can be annoying to have your editor format or unformat your text, seemingly at random.</p>
 <p>Well there are good news for those of us using Vim to create content and then Abiword to format it: LyX is a text editor that produces beautiful documents, without the need of being a designer, and yet manages to stay out of the way. From the tutorial and the homepage (www.lyx.org):</p>
@@ -65,14 +64,14 @@ What LyX isn’t for</p>
 <p>According to it’s homepage, LyX 1.5.3 was released the 16 th of December, 2007. It’s available in Debian since Sarge (packages.debian.org/LyX). Lyx Version 1.5.1, released 4 th of August, 2007, is available in the repository of Ubuntu 7.10. Development is still active. There’s also a Windows version for those of us stuck with primitive a OS at work.</p>
 <hr />
 <h2>Welcome!<a name="welcome"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-27 - <a href="/blog/2009/0627_Welcome.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0627_Welcome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-27 | <a href="/blog/2009/0627_Welcome.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0627_Welcome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A good friend of mine (a programming junkie just like me) just <a href="http://lsecotaro.blogspot.com/">started his blog</a>, so this is kind of a welcome. Actually there's already a link somewhere in this page so this post is just an excuse to post this recommendation about writing articles for a blog:</p>
 <blockquote>
 <p>Remember you didn't like books without pictures as a child? Well, Internet's mental age isn't a day over four years old, use pretty pictures whenever you can.</p>
 </blockquote>
 <hr />
 <h2>Unique var name with C/C++ macros<a name="uniquevarnamewithccmacros"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-25 - <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0625_UniquevarnamewithCCmacros.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-25 | <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0625_UniquevarnamewithCCmacros.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, you're working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won't let you. There's a secret spell to do it anyway:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">// Do magic! Creates a unique name using the line number
 #define LINE_NAME( prefix ) JOIN( prefix, <strong>LINE</strong> )
@@ -90,7 +89,7 @@ What LyX isn’t for</p>
 <p>Original <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">published here</a>.</p>
 <hr />
 <h2>LaTeX: format basics<a name="latexformatbasics"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-22 - <a href="/blog/2009/0622_LaTeXformatbasics.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0622_LaTeXformatbasics.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-22 | <a href="/blog/2009/0622_LaTeXformatbasics.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0622_LaTeXformatbasics.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <h3>Basic structure<a name="basicstructure"></a></h3>
 <p>So, what's the most basic structural elements for any document you write? <strong>Paragraphs</strong>, of course. I ussualy use LyX for writing paragraph-based documents (i.e. most of them) and presentations don't have many, so perhaps this is the structural element I use the least. Oh, wait, there's no element, just a "nn". Point for LaTeX (take that, HTML).</p>
 <p>You'll also need to put titles, sections, subtitles and all that stuff to give your document a nice structure. Well, that's easy too, just use</p>
@@ -162,13 +161,13 @@ end{document}
 <p>You can download the compiled document from <a href="/blog/youfoundadeadlink.html">this link.</a> May be it doesn't look too useful (I'd use <a href="http://www.lyx.org">LyX</a> instead) but soon we'll start doing some cool stuff LyX can't handle. Keep tuned for the next LaTeX article.</p>
 <hr />
 <h2>Vim Tip: Easy Indent<a name="vimtipeasyindent"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-14 - <a href="/blog/2009/0614_VimTipEasyIndent.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0614_VimTipEasyIndent.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-14 | <a href="/blog/2009/0614_VimTipEasyIndent.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0614_VimTipEasyIndent.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Editing source code means you'll be doing a lot of indenting and reindenting. There's an easy way to indent or de-indent a block, using just "&lt;" and "&gt;".</p>
 <p>Using "&gt;" without anyother command will indent that line by itself; use <a href="/blog/2009/0507_VimTipVisualMode.html">visual mode</a> (Shift + V) to select several lines and indent them in one keystroke. You could also press "v%&gt;" while sitting at the beggining of a block to indent it. The same applies to "&lt;".</p>
 <p>"</p>
 <hr />
 <h2>vimrc: Vim startup file<a name="vimrcvimstartupfile"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-11 - <a href="/blog/2009/0611_vimrcVimstartupfile.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0611_vimrcVimstartupfile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-11 | <a href="/blog/2009/0611_vimrcVimstartupfile.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0611_vimrcVimstartupfile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I usually create a partition for /home, so whenever I decide to foobar my OS (i.e. do a kernel update on Ubuntu, or start playing with compiz too much) there's no need to copy my home folder to another disk and back again. Regardless of this, there are some essential files which I'd be dead without. One of these is my .vimrc, the startup file for Vim.</p>
 <p>My .vimrc file has been organically growing since I started using this editor, a couple of years ago, so I've decided to clean it up a little bit and post it here, just to be sure I won't be loosing it. It's got some tweaks to use Vim as an IDE, feel free to download it and change it or use it anyway you want.</p>
 <pre lang="c++"><code class="language-c++" lang="c++">colorscheme torte
@@ -233,7 +232,7 @@ inoremap { {}O
 </code></pre>
 <hr />
 <h2>apt-get install new computer IV: round up<a name="aptgetinstallnewcomputerivroundup"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-09 - <a href="/blog/2009/0609_aptgetinstallnewcomputerIVroundup.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0609_aptgetinstallnewcomputerIVroundup.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-09 | <a href="/blog/2009/0609_aptgetinstallnewcomputerIVroundup.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0609_aptgetinstallnewcomputerIVroundup.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Quick post this time - just a roundup of the "apt-get install new computer" series. This is a one liner I use in any new install I'm planning to work with, hope it's useful for you too.</p>
 <pre lang="bash"><code class="language-bash" lang="bash">
 sudo apt-get install lyx mozilla-thunderbird tilda mmv \
@@ -247,11 +246,11 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
 <p>New package: antiword - read office documents on console</p>
 <hr />
 <h2>Editors Learning Curves<a name="editorslearningcurves"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-07 - <a href="/blog/2009/0607_EditorsLearningCurves.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0607_EditorsLearningCurves.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-07 | <a href="/blog/2009/0607_EditorsLearningCurves.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0607_EditorsLearningCurves.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><img alt="" src="/blog_img/emacs_learning_curves1.png" /></p>
 <hr />
 <h2>Vim Tip: Know your blocks!<a name="vimtipknowyourblocks"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-05 - <a href="/blog/2009/0605_VimTipKnowyourblocks.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0605_VimTipKnowyourblocks.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-05 | <a href="/blog/2009/0605_VimTipKnowyourblocks.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0605_VimTipKnowyourblocks.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Vim is the best editor for programmers and as such it has some neat "programmer commands", which make editing source code a lot easier. Take for example a block with code, or a function definition: how many times did you have to copy the code between parenthesis from one place to the other?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">int foo(int bar, int baz)
 </code></pre>
@@ -264,13 +263,13 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
 <p>(with the cursor placed at _) will delete lots of source code.</p>
 <hr />
 <h2>Testing &amp; mocking<a name="testingmocking"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-02 - <a href="/blog/2009/0602_Testingmocking.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0602_Testingmocking.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-02 | <a href="/blog/2009/0602_Testingmocking.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0602_Testingmocking.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="http://www.intraway.com">Where I work</a> we have been working a lot with unit testing and continuous integration. <a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/testing/testing_mocking.pdf">This is a presentation</a> I worked with, about unit testing and mocking in general (language agnostic but only in spanish, sorry). The examples are in pseudo-ruby, check the next post for a presentation on C++ tools for testing and mocking.</p>
 <p><a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/testing/testing_mocking.pdf">Link to the article</a>
 <a href="/search/label/LaTeX">Article created with LaTeX</a></p>
 <hr />
 <h2>Testing &amp; mocking: C++<a name="testingampmockingc"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-06-02 - <a href="/blog/2009/0602_TestingampmockingC.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0602_TestingampmockingC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-06-02 | <a href="/blog/2009/0602_TestingampmockingC.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0602_TestingampmockingC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Check <a href="/blog/2009/0602_TestingampmockingC.html">the previous post</a> about this presentation.</p>
 <p><a href="http://www.intraway.com">Where I work</a> we have been working a lot with unit testing and continuous integration. <a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/cpp_testing/cpp_testing_mocking.pdf">This is a presentation</a> I worked with, about <a href="http://code.google.com/p/googletest">unit testing</a> and <a href="http://code.google.com/p/googlemock">mocking</a> tools in C++ (only in spanish, sorry).</p>
 <p><a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/cpp_testing/cpp_testing_mocking.pdf">Link to the article</a>
@@ -283,7 +282,9 @@ sudo apt-get install lyx mozilla-thunderbird tilda mmv \
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

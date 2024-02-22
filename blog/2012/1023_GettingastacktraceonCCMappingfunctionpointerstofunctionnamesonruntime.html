@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Getting a stacktrace on C/C++: Mapping function pointers to function names on runtime</h2>
 
-Post by Nico Brailovsky @ 2012-10-23 - <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">Permalink</a>  - [1 comments](md_blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.md)
+Post by Nico Brailovsky @ 2012-10-23 |
+  <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">Permalink</a> | <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">1 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p><a href="/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html">Last time</a> we talked about mapping function addresses to names (albeit mangled) in object files; we can also get this information during runtime:</p>
 <h3>Glibc to the aid<a name="glibctotheaid"></a></h3>
@@ -118,7 +119,7 @@ int get_sym_name(void *addr) {
 <h3>Epilogue / Disclaimer<a name="epiloguedisclaimer"></a></h3>
 <p>The whole series on getting a stacktrace on C++ is merely "educational", as in "never-ever do this on your program". As stated on the first part of the series it's not portable, and it's also extremely frail. If you want something production ready use glibc's backtrace features. And if you want something portable, try libunwind. It works great, but where would the fun be if we skipped the whole learning process and went straight to this library?</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="">Anonymous</a> commented @ 2016-10-16T21:01:01.000+02:00:<a name="inreplytothispostanonymouscommented20161016t210101.0000200"></a></h2>
@@ -128,7 +129,9 @@ int get_sym_name(void *addr) {
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

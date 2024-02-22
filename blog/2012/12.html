@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,12 +38,12 @@
 <h2>Posts for 2012 December</h2>
 
 <h2>Printing broken in Ubuntu? Try lpr<a name="printingbrokeninubuntutrylpr"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-27 - <a href="/blog/2012/1227_PrintingbrokeninUbuntuTrylpr.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1227_PrintingbrokeninUbuntuTrylpr.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-27 | <a href="/blog/2012/1227_PrintingbrokeninUbuntuTrylpr.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1227_PrintingbrokeninUbuntuTrylpr.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Lately I've seen quite a few Ubuntu machines with broken printing (more broken than usual, that is). Sometimes printers are detected, sometimes not. When it doesn't work you usually get a warning saying "Getting printer information failed" even though the printer is connected and you can even ping it. Searching around a little bit I read a couple of threads and bug reports that make me think that it's actually a Gnome 3 migration problem, but I'm not sure. It doesn't matter much anyway: screw UIs, just use <strong>lpr &lt; foo.pdf</strong> from a CLI and keep on killing forests!</p>
 <p>On a cheerful closing note: how funny is it that when the regular printing applet in Gnome is broken we have to use a utility by "Apple Inc"?</p>
 <hr />
 <h2>Setting up a Linux gateway/router<a name="settingupalinuxgatewayrouter"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-25 - <a href="/blog/2012/1225_SettingupaLinuxgatewayrouter.html">Permalink</a>  - <a href="/blog/2012/1225_SettingupaLinuxgatewayrouter.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1225_SettingupaLinuxgatewayrouter.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-25 | <a href="/blog/2012/1225_SettingupaLinuxgatewayrouter.html">Permalink</a> | <a href="/blog/2012/1225_SettingupaLinuxgatewayrouter.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1225_SettingupaLinuxgatewayrouter.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Yes, there are a lot of guides for this, but since I need to document how I did it for my office a lot of time ago, I might as well write a post about it here.</p>
 <p>As expected, if we are going to replace a device, say, a router, we need to replace it with something that can provide the same functionality. In this case, we have chosen a Linux server, so we need to figure out which services are provided by the router and then emulate them someway:</p>
 <ul>
@@ -262,7 +261,7 @@ iptables -A INPUT -i eth0 -p tcp -m state --state NEW
 <p>Now anyone who changes a config file can run this script to have their new rule applied.</p>
 <hr />
 <h2>Non standard UML: decomposing inheritance in sequence diagrams<a name="nonstandardumldecomposinginheritanceinsequencediagrams"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-20 - <a href="/blog/2012/1220_NonstandardUMLdecomposinginheritanceinsequencediagrams.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1220_NonstandardUMLdecomposinginheritanceinsequencediagrams.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-20 | <a href="/blog/2012/1220_NonstandardUMLdecomposinginheritanceinsequencediagrams.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1220_NonstandardUMLdecomposinginheritanceinsequencediagrams.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>TL;DR: In sequence diagrams, separating an object into (some of) its parent classes improves readibility, at the cost of a not so accurate structure description.</p>
 <p>A sequence diagram is supposed to display interactions between objects, making enphasis on its sequentiality. The important part here is "between objects"; as far as I know, the standard states that you should display interaction between entities, or the interaction of an entity with itself through a public interface.</p>
 <p>Usually this works just fine, since a sequence diagram provides a way of understanding a program through the interaction of its entities, however I found that sometimes you need to express the interaction of an object with his own public interface with a little bit more of detail, namely when there's inheritance involved.</p>
@@ -270,12 +269,12 @@ iptables -A INPUT -i eth0 -p tcp -m state --state NEW
 <p>Of course spliting an entity into multiple objects has the disadvantage of inducing the reader to believe these are indeed different objects, but since the purpose of a sequence diagram is not to display a static structure I believe this is an acceptable tradeoff, one that can be diminished by just using a note and a reference to a class diagram, where the accurate structure of the classes can be displayed.</p>
 <hr />
 <h2>Using masqd for custom subdomains<a name="usingmasqdforcustomsubdomains"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-18 - <a href="/blog/2012/1218_Usingmasqdforcustomsubdomains.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1218_Usingmasqdforcustomsubdomains.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-18 | <a href="/blog/2012/1218_Usingmasqdforcustomsubdomains.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1218_Usingmasqdforcustomsubdomains.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Some time ago I had to work on a project with many, and dynamic, subdomains. Things like sub1.domain, sub2.domain, subN.domain. It turns out /etc/hosts doesn't support wildcards. That sucks, but its understandable, that's not why the hosts file is there; that's the reason we have DNS, isn't it?</p>
 <p>Of course installing a DNS server just to resolve a couple of subdomains is much too work for lazy people like me, so it's time to install dnsmasq instead. dnsmasq is a DNS and DHCP proxy, and has a ton of configuration options I don't even know about. If you really want to learn how to use masqd you should read its manpage, if you just want to solve your DNS issues just add "address=/.DOMAIN/IP" to your /etc/dnsmasq.conf (notice the . before the domain. That's the wildcard).</p>
 <hr />
 <h2>CLI music FTW!<a name="climusicftw"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-13 - <a href="/blog/2012/1213_CLImusicFTW.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1213_CLImusicFTW.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-13 | <a href="/blog/2012/1213_CLImusicFTW.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1213_CLImusicFTW.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Does your music collection suck? Did you have to delete all your mp3 because you were facing a major lawsuit by the MPAA? Make your own console-music! Just open a terminal and type this for hours of endless fun:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">cat /dev/urandom | aplay
 </code></pre>
@@ -285,18 +284,18 @@ iptables -A INPUT -i eth0 -p tcp -m state --state NEW
 <p>I wonder if that has copyrights....</p>
 <hr />
 <h2>Checking connectivity for port forwardings<a name="checkingconnectivityforportforwardings"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-11 - <a href="/blog/2012/1211_Checkingconnectivityforportforwardings.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1211_Checkingconnectivityforportforwardings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-11 | <a href="/blog/2012/1211_Checkingconnectivityforportforwardings.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1211_Checkingconnectivityforportforwardings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>This is a little bit outside of what I normally post, but when I find such a terribly useful site I need to share it (so I won't forget next time I need it).</p>
 <p>Have you ever had to set up a forwarding to expose a LAN service to the outside world? It kind of sucks not knowing if you set up everything correctly, and it's not easy to test, since you can only test if the service is working inside your LAN. Normally you would need to either bounce on a proxy outside, or ask a friend to nmap you. Alternatively, you can use <a href="http://canyouseeme.org/">canyouseeme.org</a>, a website that will probe a specific port on the IP you specify, and tell you if it times out or if it's open.</p>
 <p>A great time saver.</p>
 <hr />
 <h2>g++ has a (mean) personaility<a name="ghasameanpersonaility"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-06 - <a href="/blog/2012/1206_ghasameanpersonaility.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1206_ghasameanpersonaility.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-06 | <a href="/blog/2012/1206_ghasameanpersonaility.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1206_ghasameanpersonaility.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Did you ever get a message like "undefined reference to `__gxx_personality_v0'"? It means you are trying to link c++ code with a c linker, just change gcc with g++. But what is gxx_personality?</p>
 <p>Basically, gxx_personality is a global pointer used for stack unwinding. You could make your code compile (assuming you don't have other problems with vtables and such) by defining it as a NULL ptr, and everything should work until an exception is thrown.</p>
 <hr />
 <h2>Tailing Google app engine&#39;s logs on realtime<a name="tailinggoogleappengine39slogsonrealtime"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-05 - <a href="/blog/2012/1205_TailingGoogleappengine39slogsonrealtime.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1205_TailingGoogleappengine39slogsonrealtime.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-05 | <a href="/blog/2012/1205_TailingGoogleappengine39slogsonrealtime.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1205_TailingGoogleappengine39slogsonrealtime.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Knowing in real time when an error occurs on your GAE app is not as easy as it sounds. You can create a custom error handler and then mail you the exception log, but you have to develop that yourself (and if you do it wrong you may end up slowing down the whole app... yes, I know it first hand). You can also keep the GAE log page open and set your browser to refresh it every X seconds, but that's quite cumbersome.</p>
 <p>So, seeing there are a bunch of acceptable but not quite nice solutions out there, I decided to add yet another "solution" that works, but looks ugly. This script will probably break in a few months, or whenever any part of the auth protocol Google uses changes (since I think very little of it is supposed to be public) but until then you can use it to tail GAE's logs on real time.</p>
 <p>Note it will work polling a logs webservice @ Google (just like appcfg does); if you set the frequency too high you may see your daily cost increasing but if you set it too low then the script will only get the last error between intervals (so you might miss errors in between). If too many errors go undetected, though, your problem is likely a too-high error rate and not a low update frequency.</p>
@@ -408,14 +407,16 @@ if __name__ == '__main__':
 </code></pre>
 <hr />
 <h2>Boot Linux in single user mode<a name="bootlinuxinsingleusermode"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-12-04 - <a href="/blog/2012/1204_BootLinuxinsingleusermode.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1204_BootLinuxinsingleusermode.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-12-04 | <a href="/blog/2012/1204_BootLinuxinsingleusermode.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1204_BootLinuxinsingleusermode.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Sooner or later, you'll need a safe boot mode for Linux. Maybe you forgot your password, maybe you need to recover some files of a really really broken system (shame on you for not using a different partition for /home). Luckily in any Linux server you can probably interrupt Lilo or Grub and add to the kernel line the following parameter init="/bin/sh". This will give you a root command shell from which you can do other fun recovery tasks.</p>
 <p>Admin tip: Just don't forget to fill up on coffee before starting.</p>
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

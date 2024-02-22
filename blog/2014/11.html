@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2014 November</h2>
 
 <h2>Gdb hit count: ignoring breakpoints (for a while)<a name="gdbhitcountignoringbreakpointsforawhile"></a></h2>
-<p>Post by Nico Brailovsky @ 2014-11-18 - <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">Permalink</a>  - <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2014-11-18 | <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">Permalink</a> | <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Some times a breakpoint is not enough; if you have a crash inside a loop, the object that makes your code crash might be in the 526th iteration. How can you debug this problem?</p>
 <p>One way would be to set up a <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">watch expression</a>. If you can't setup a watch expression, say, because you're using an iterator and it'd be hard to set one, you can also tell gdb to setup a breakpoint, and then ignore it N times.</p>
 <p>Let's see how this works with this example:</p>
@@ -92,7 +91,9 @@ $1 = (int &amp;) @0x603024: 0
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

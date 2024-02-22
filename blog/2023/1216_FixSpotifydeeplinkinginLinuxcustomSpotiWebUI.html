@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Fix Spotify deeplinking in Linux + custom SpotiWeb UI</h2>
 
-Post by Nico Brailovsky @ 2023-12-16 - <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a> 
+Post by Nico Brailovsky @ 2023-12-16 |
+  <a href="/blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>After a recent update I found <a href="https://nicolasbrailo.github.io/SpotiWeb/">my custom Spotify UI (*)</a> wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:</p>
 <pre lang="bash"><code class="language-bash" lang="bash">sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
@@ -50,14 +51,16 @@ sudo echo '/usr/share/spotify/spotify.real --uri="$1"' &gt; /usr/share/spotify/s
 <p>I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, <a href="https://nicolasbrailo.github.io/SpotiWeb/">so I rolled out my own</a>. It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)</p>
 <p>The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and <a href="https://github.com/nicolasbrailo/SpotiWeb">either run your own, or check out there's no server side processing involved.</a></p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++ exceptions under the hood 9: catching our first exception</h2>
 
-Post by Nico Brailovsky @ 2013-04-02 - <a href="/blog/2013/0402_Cexceptionsunderthehood9catchingourfirstexception.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-04-02 |
+  <a href="/blog/2013/0402_Cexceptionsunderthehood9catchingourfirstexception.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0402_Cexceptionsunderthehood9catchingourfirstexception.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>We finished last chapter on the series about C++ exceptions by adding a personality function that _Unwind_ was able to call and then analyzing the parameters that the personality function receives. Now it's time to begin adding some real behavior to __gxx_personality_v0: when __gxx_personality_v0 is called we should say "yes, this stack frame can indeed handle this exception".</p>
 <p>We have been building up to this point quite a bit: the time where we can implement for the first time a personality function capable of detecting when an exception is thrown, and then saying "yes, I will handle this exception". For that we had to learn how the two-phase lookup work, so we can now reimplement our personality function and our throw test file:</p>
@@ -99,14 +100,16 @@ catchit handled the exception
 </code></pre>
 <p>It works, but something is missing: the catch inside the catch/try block is not being executed! This is happening because the personality function tells Unwind to "install a context" (ie to resume execution) but it never says which context. In this case it's probably resuming executing from after the landing pad, but I'd bet this is actually undefined behavior. We'll see next time how we can specify we want to resume executing from a specific landing pad using the information available on .gcc_except_table (our old friend, the LSDA).</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0402_Cexceptionsunderthehood9catchingourfirstexception.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,19 +38,19 @@
 <h2>Posts for 2009 September</h2>
 
 <h2>Ubuntu Day<a name="ubuntuday"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-28 - <a href="/blog/2009/0928_UbuntuDay.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0928_UbuntuDay.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-28 | <a href="/blog/2009/0928_UbuntuDay.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0928_UbuntuDay.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Spanish only: <a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/no_source/linux_survival_guide.pdf">GNU/Linux, Gu&iacute;a de Supervivencia</a> - Versi&oacute;n <a href="/blog/youfoundadeadlink.html">Ubuntu Day</a>
 Released under <a href="http://en.wikipedia.org/wiki/WTFPL">WTFPL</a> if you care to know. Source code to be available soon too.</p>
 <hr />
 <h2>CM WTF<a name="cmwtf"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-28 - <a href="/blog/2009/0928_CMWTF.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0928_CMWTF.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-28 | <a href="/blog/2009/0928_CMWTF.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0928_CMWTF.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Seen on a cablemodem's configuration page:</p>
 <pre lang="html"><code class="language-html" lang="html">&lt;form action="http://loginData.htm" method="GET"&gt;
 </code></pre>
 <p>Long version: The other day, while stranded on a CLI (using ssh) I did a wget $IP, to see a modem's status web page. I'd have thought an electronic device (which, obviously, is much more difficult to upgrade than a software product, and that's difficult enough as it is) is a little bit better tested than that. I should have known better by now.</p>
 <hr />
 <h2>sed magic: a simple guide<a name="sedmagicasimpleguide"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-24 - <a href="/blog/2009/0924_sedmagicasimpleguide.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0924_sedmagicasimpleguide.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-24 | <a href="/blog/2009/0924_sedmagicasimpleguide.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0924_sedmagicasimpleguide.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The other day I had to create one of those "enum to string" functions. They really suck, always getting out of sync, so I made a script to auto-update the header file containing this function... just add a target to the makefile and you're done!</p>
 <p>Anyway, this is the part of the script I came up with to get the enum elements:</p>
 <pre lang="bash"><code class="language-bash" lang="bash">
@@ -61,7 +60,7 @@ cat enum_definition.h | sed -n '/enum OID/,/};/ s/(.*)/1/p'
 <p>Have fun!</p>
 <hr />
 <h2>gdb: graphic (tui) mode<a name="gdbgraphictuimode"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-22 - <a href="/blog/2009/0922_gdbgraphictuimode.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0922_gdbgraphictuimode.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-22 | <a href="/blog/2009/0922_gdbgraphictuimode.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0922_gdbgraphictuimode.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A little known fact about gdb is that you can use it in graphics mode, called TUI. Yes, you can obviously use <a href="http://www.gnu.org/software/ddd/">DDD</a> or a similar front end but that's not even nearly as cool as using a console based GUI (!), is it?</p>
 <p>The easiest way is to start gdb like this:</p>
 <pre><code>gdb -tui
@@ -70,18 +69,18 @@ cat enum_definition.h | sed -n '/enum OID/,/};/ s/(.*)/1/p'
 <p>Don't know enough about gdb? Read <a href="http://beej.us/guide/bggdb/">http://beej.us/guide/bggdb/</a>, a great gdb intro.</p>
 <hr />
 <h2>First Ubuntu Day in Buenos Aires<a name="firstubuntudayinbuenosaires"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-21 - <a href="/blog/2009/0921_FirstUbuntuDayinBuenosAires.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0921_FirstUbuntuDayinBuenosAires.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-21 | <a href="/blog/2009/0921_FirstUbuntuDayinBuenosAires.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0921_FirstUbuntuDayinBuenosAires.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>On sat. 26 of september, this saturday, I'll be on the first <a href="/blog/youfoundadeadlink.html">Ubuntu Day</a> in Buenos Aires. Of course, I'll be a speaker there, it's time to undust the old <a href="https://raw.githubusercontent.com/nicolasbrailo/powerpoint_monkey/master/no_source/linux_survival_guide.pdf">GNU/Linux Survival Guide Again</a>.</p>
 <p>See you @ Ubuntu Day :)</p>
 <hr />
 <h2>Vim Tip: Rot 13<a name="vimtiprot13"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-15 - <a href="/blog/2009/0915_VimTipRot13.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0915_VimTipRot13.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-15 | <a href="/blog/2009/0915_VimTipRot13.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0915_VimTipRot13.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Are you still puzzled by <a href="/blog/2009/0910_Cincrediblyuselessstuff.html">last week's C++ question</a>, yet you are too lazy to actually search for a Rot13 decoder OR use gcc to check if it works? Well, Vim can do the trick, just use g? to convert text to Rot13</p>
 <p>You may combine it with block selection or you can just convert the whole damn thing using "ggg?G". gg goes to the beggining, g? converts to rot13, G goes to the end.</p>
 <p>This is all very nice but I'm still trying to figure out a way to convert back from rot13 to normal text, can anyone provide a clue?</p>
 <hr />
 <h2>Console foo: Scheduling commands<a name="consolefooschedulingcommands"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-15 - <a href="/blog/2009/0915_ConsolefooSchedulingcommands.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0915_ConsolefooSchedulingcommands.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-15 | <a href="/blog/2009/0915_ConsolefooSchedulingcommands.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0915_ConsolefooSchedulingcommands.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>You can easily schedule a command using "at", which recognizes a nicely formatted date string.</p>
 <p>For example:</p>
 <pre lang="bash"><code class="language-bash" lang="bash">$ at today 3:00 AM
@@ -96,7 +95,7 @@ To check the whole list of accepted formats check the man for at.</p>
 <p>One last note: at will "remember" the current environment variables, so PWD, USER, OLD_DIR and all that will be the same. This means if you schedule a command with a relative path it'll still work!</p>
 <hr />
 <h2>C++: incredibly useless stuff<a name="cincrediblyuselessstuff"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-10 - <a href="/blog/2009/0910_Cincrediblyuselessstuff.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0910_Cincrediblyuselessstuff.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-10 | <a href="/blog/2009/0910_Cincrediblyuselessstuff.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0910_Cincrediblyuselessstuff.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Would this compile? What does it do?</p>
 <pre lang="c++"><code class="language-c++" lang="c++"><br/>int main() {
   http://nicolasb.com.ar
@@ -106,14 +105,16 @@ To check the whole list of accepted formats check the man for at.</p>
 <p>Answer in rot 13: Vg jbexf. uggc: vf n ynory, // vf n pbzzrag, gur erfg bs gur yvar vf vtaberq.</p>
 <hr />
 <h2>non-vacations<a name="nonvacations"></a></h2>
-<p>Post by Nico Brailovsky @ 2009-09-07 - <a href="/blog/2009/0907_nonvacations.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0907_nonvacations.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2009-09-07 | <a href="/blog/2009/0907_nonvacations.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2009/0907_nonvacations.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After some sick time, lots of work, prepearing my new blog (monosinfinitos.com.ar, go check it) and several other,personal stuff regular blog updates will resume tomorrow and continue at least for a week. That's about the buffer size I've left, after that I'll have to write something new or take a longer vacation... we'll see.</p>
 <p>In the meantime, enjoy a pretty picture. [BROKENLINK]</p>
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

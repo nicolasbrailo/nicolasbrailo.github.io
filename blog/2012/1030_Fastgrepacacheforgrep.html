@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Fastgrep, a cache for grep</h2>
 
-Post by Nico Brailovsky @ 2012-10-30 - <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">Permalink</a>  - [1 comments](md_blog/2012/1030_Fastgrepacacheforgrep.md)
+Post by Nico Brailovsky @ 2012-10-30 |
+  <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">Permalink</a> | <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">1 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1030_Fastgrepacacheforgrep.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Sooner or later, you'll find that you need to know where to find a certain piece of text that ctags does not index, and grep is just not fast enough. Say, you're trying to match that log line you see every one in a while to the specific printf("I'm here!\n") that produced it.</p>
 <p>Working on any reasonable sized project, searching for free-form text means you'll need some kind of indexing; grep will work, but you'll end up having to wait a couple of minutes between searches. Funny thing, we can probably speed up grep quite easily. Long story short, you can find a grep cache here: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh">Fastgrep</a>.</p>
@@ -51,7 +52,7 @@ Post by Nico Brailovsky @ 2012-10-30 - <a href="/blog/2012/1030_Fastgrepacachefo
 <p>After a quick Google search I didn't come up with any already available grep cache, so I rolled up a quick version myself which you can find here: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh">Fastgrep</a>. The idea behind it is very simple, if most of the time is wasted accessing files, then just cat every file in the project together and grep that one instead.</p>
 <p>Since the grepcache is actually a merged copy of all the files in the project, it can quickly get out of sync with the rest of the code. To somewhat improve this the index file is only used to get the list of files where a string might be found; these files are then grepped for the real results. This only helps a little bit and eventually everything gets out of sync, but I found that rebuilding the cache in a post-merge git hook (or a post-commit svn hook) is more than enough to make fastgrep more than usable.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1030_Fastgrepacacheforgrep.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="/blog/2016/0706_VimutilitiesFindgrepFastgrep.html">Vim utilities: Findgrep &amp; Fastgrep | An infinite monkey - Nicolas Brailovsky&#39;s blog</a> commented @ 2016-07-06T09:05:59.000+02:00:<a name="inreplytothispostvimutilitiesfindgrepfastgrepaninfinitemonkeynicolasbrailovsky39sblogblog20160706_vimutilitiesfindgrepfastgrep.htmlcommented20160706t090559.0000200"></a></h2>
@@ -61,7 +62,9 @@ Post by Nico Brailovsky @ 2012-10-30 - <a href="/blog/2012/1030_Fastgrepacachefo
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

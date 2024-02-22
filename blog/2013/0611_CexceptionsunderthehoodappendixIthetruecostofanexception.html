@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++ exceptions under the hood appendix I: the true cost of an exception</h2>
 
-Post by Nico Brailovsky @ 2013-06-11 - <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">Permalink</a>  - [2 comments](md_blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md)
+Post by Nico Brailovsky @ 2013-06-11 |
+  <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">Permalink</a> | <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">2 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Remember a long way back, when the series on exception handling was just started, that I mentioned these articles would only apply for gcc/x86? There is a reason for that since not all compilers implement exception handling the same way. In particular, there are two major ways of doing it:</p>
 <ul>
@@ -50,7 +51,7 @@ Post by Nico Brailovsky @ 2013-06-11 - <a href="/blog/2013/0611_Cexceptionsunder
 <p>If we talk about ARM, Sj/Lj seems to be the default option (I'm sure there's a good reason for that but I don't have enough experience with ARM to know it). This exception handling method is based on registering exception handling information upon entering or exiting a method which either uses exceptions or requires a cleanup if an exception is thrown. This will result in a quicker exception handling, but the setup cost is payed whether an exception is thrown or not.</p>
 <p>If you're interested on reading more about sjlj and zero cost exception handling <a href="http://llvm.org/docs/ExceptionHandling.html">LLVM has great documentation</a>.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="">N</a> commented @ 2013-06-11T23:31:26.000+02:00:<a name="inreplytothispostncommented20130611t233126.0000200"></a></h2>
@@ -67,7 +68,9 @@ I'm guessing you probably mean "paid" :-)
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

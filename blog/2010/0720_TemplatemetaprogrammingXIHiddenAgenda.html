@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,21 +37,25 @@
 <div id="content" class="language-clike">
 <h2>Template metaprogramming XI: Hidden Agenda</h2>
 
-Post by Nico Brailovsky @ 2010-07-20 - <a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Permalink</a> 
+Post by Nico Brailovsky @ 2010-07-20 |
+  <a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Wow, number eleven already. We're getting more chapters here than Final Fantasy games. I didn't even imagine there was so much to write about such an esoteric language features like templates. I do wonder if anyone will actually read it, but that's a completely different problem.</p>
 <p>Enough meta-meta talk: what can we do with all the things we have learned? We can calculate pi and e, we already showed that as an example on one of the first chapters. This chapter I'm going to write about what motivated me to explore the bizarre underworld of template metaprogramming. Some time ago I had to <a href="/search?q=Berkeley">work with a Berkeley DB</a> researching the feasibility of developing a magic cache for (real) DB table. Leaving aside the discussion of whether this is a good idea (the project did have a good reason to be researched) I hit a major roadblock when trying to provide a façade for every table; something like this:</p>
 <p><img alt="" src="/blog_img/virtualtemplate.png" />
 See the problem? To do something like that we'd need a <a href="/blog/2009/0803_CMagiccallbackssolved.html">virtual template method</a>, and you can't have that. After seeing that I thought to myself "Hey, I'll use templates!". Then I had two problems, but the damage was done, I couldn't go back. What kind of contorted device could we implement to make such a devious requirement work? I'll leave you to think it, the answers I came up with next week.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

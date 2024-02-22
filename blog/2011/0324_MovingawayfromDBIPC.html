@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Moving away from DB IPC</h2>
 
-Post by Nico Brailovsky @ 2011-03-24 - <a href="/blog/2011/0324_MovingawayfromDBIPC.html">Permalink</a> 
+Post by Nico Brailovsky @ 2011-03-24 |
+  <a href="/blog/2011/0324_MovingawayfromDBIPC.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0324_MovingawayfromDBIPC.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p><a href="/blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.html">Last time</a> I wrote about why DB IPC is bad. Now I intend to write about the way to start moving away from it, towards a better architecture.</p>
 <p>As I mentioned, this pattern is deeply rooted across all the enterprise platform, so removing it is not an easy task, and it can only be done in small steps. Small steps means a compromise solution, you won't be going from IPC DB to a restful application in a week, so having an ugly-but-not-so-much-as-ipc-db solution is the way to go.</p>
@@ -47,14 +48,16 @@ Post by Nico Brailovsky @ 2011-03-24 - <a href="/blog/2011/0324_MovingawayfromDB
 <p>Once you have managed to separate the responsibility of processing the event and the data of the event itself, it's easy to go one step beyond and implement a messaging platform, like CORBA or something like AMQP.</p>
 <p><strong>Conclusion</strong>: the architecture may not be nice with DB notifications either, but you have taken the first step towards decoupling two different components. From this schema to a real queue there's only one step, and once there you can finally begin to have a db-schema for each application.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0324_MovingawayfromDBIPC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

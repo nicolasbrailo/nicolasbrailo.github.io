@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,12 +38,12 @@
 <h2>Posts for 2010 April</h2>
 
 <h2>Buguntu family album<a name="buguntufamilyalbum"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-30 - <a href="/blog/2010/0430_Buguntufamilyalbum.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0430_Buguntufamilyalbum.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-30 | <a href="/blog/2010/0430_Buguntufamilyalbum.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0430_Buguntufamilyalbum.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>This is a very cool family album: <a href="/blog/youfoundadeadlink.html">link</a></p>
 <p>Can't wait to upgrade to 10.04, my current install (9.10) is working like crap.</p>
 <hr />
 <h2>Template metaprogramming III: Entering Pandemonium<a name="templatemetaprogrammingiiienteringpandemonium"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-29 - <a href="/blog/2010/0429_TemplatemetaprogrammingIIIEnteringPandemonium.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0429_TemplatemetaprogrammingIIIEnteringPandemonium.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-29 | <a href="/blog/2010/0429_TemplatemetaprogrammingIIIEnteringPandemonium.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0429_TemplatemetaprogrammingIIIEnteringPandemonium.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you are here and you have read the previous two parts then you are crazy. If you haven't then go and read it, then never come back if you value your sanity at all. We saw last time an example of a factorial using template metaprogramming, now it's time for something a little bit more fun. I was thinking on lists, but that's a bit too much for starters: let's do some more math. Now with fractions!</p>
 <p>So, how would you express a fraction? The fun part, and you already know this, you have only types (*), there are no variables. Luckly static const int saves the day:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template &lt; int N, int D &gt; struct Frak {
@@ -76,7 +75,7 @@
 <p>Knowing the difference between an object and a class defining characteristics, it is clear we can only use static const stuff - it's nonsense talking about template-objects, it's all about template classes.</p>
 <hr />
 <h2>Ubuntu: Dual screen still FUBAR'd<a name="ubuntudualscreenstillfubard"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-27 - <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0427_UbuntuDualscreenstillFUBARd.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-27 | <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0427_UbuntuDualscreenstillFUBARd.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I'm quite sure I have written about this before but I'm too lazy to search for the article right now. Well, dual screens in Ubuntu still sucks. Much less than ever before, granted, but it still works quite bad. In my specific case the whole desktop is shown, in both monitors (which by itself is a huge improvement over previous versions) but the working area is clipped to the notebook's monitor size. Not nice.</p>
 <p>To fix this problem (more like hacking it away, actually) I keep a handy bash script in the top left corner on my desktop:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
@@ -92,7 +91,7 @@ xrandr --output HDMI-2 --left-of HDMI-1 --mode 1680x1050 --rotate normal
 <p>Original <a href="/blog/2010/0427_UbuntuDualscreenstillFUBARd.html">published here</a>.</p>
 <hr />
 <h2>Template metaprogramming II: Openning the box<a name="templatemetaprogrammingiiopenningthebox"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-22 - <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-22 | <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We saw last time how to print a factorial using only template metaprogramming, but didn't explain anything about it. I promised to fix that in this article. Starting by the very beginning:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N&gt; struct Factorial {
     static const int result = N * Factorial&lt;N-1&gt;::result;
@@ -148,7 +147,7 @@ Anyway, thanks for your awesome blog posts!</p>
 <p>Original <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">published here</a>.</p>
 <hr />
 <h2>Vim tip: Word count<a name="vimtipwordcount"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-20 - <a href="/blog/2010/0420_VimtipWordcount.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0420_VimtipWordcount.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-20 | <a href="/blog/2010/0420_VimtipWordcount.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0420_VimtipWordcount.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Trying to count words is a common task. Whenever you're writting a report for class, that is. There are some legitimate reasons but they don't matter now: it's a great chance to show off how great Vim is.</p>
 <p>First method: Type ggVgY"*p to copy the whole text. Then paste it into word and use word count.</p>
 <p>Second method: Type %!wc -w, which executes wc on each line.
@@ -156,14 +155,14 @@ Third method: Type g^g (g, CTRL+g) and watch the bottom of your screen.</p>
 <p>As ussual, Vim rocks.</p>
 <hr />
 <h2>Company policy<a name="companypolicy"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-19 - <a href="/blog/2010/0419_Companypolicy.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0419_Companypolicy.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-19 | <a href="/blog/2010/0419_Companypolicy.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0419_Companypolicy.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I liked this one:</p>
 <p><img alt="Original: http://www.wulffmorgenthaler.com/pics/error2.gif" src="/blog_img/img_lost.png" /></p>
 <p>Great for a 404.</p>
 <p>-- <a href="/blog/youfoundadeadlink.html">src</a></p>
 <hr />
 <h2>Template metaprogramming: A slow descent towards utter maddness<a name="templatemetaprogrammingaslowdescenttowardsuttermaddness"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-15 - <a href="/blog/2010/0415_TemplatemetaprogrammingAslowdescenttowardsuttermaddness.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0415_TemplatemetaprogrammingAslowdescenttowardsuttermaddness.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-15 | <a href="/blog/2010/0415_TemplatemetaprogrammingAslowdescenttowardsuttermaddness.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0415_TemplatemetaprogrammingAslowdescenttowardsuttermaddness.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There have been some articles dealing with template metaprogramming over here. Things like <em>template <int n></em>, which look really weird (but behave in an even more bizarre way). This post starts a series of articles following the contrived and tortuous path down insanity lane and into the mouth of the beast. When we are done things like <em>typedef typename</em> should be clearer than <em>i=i++</em>, should you dare to keep on reading.</p>
 <h3>First things first: Why TF would I...<a name="firstthingsfirstwhytfwouldi..."></a></h3>
 <p>Instead of explaining why let's start backwards: assume you already want to start learning some template metaprogramming. Yeah, I'm sure there are many legitimate reasons, like job security or job security perhaps, but if you want to learn template metaprogramming the most likely explanation is you are nuts. Plain and simple.</p>
@@ -187,7 +186,7 @@ int main() {
 <p>Whoa. Lots of magic going on there, on the simplest of all template metaprogramming tricks. But I don't feel like explaining it right now, I'm too sleepy, so I will leave that for next post.</p>
 <hr />
 <h2>Changing default file associations in gnome<a name="changingdefaultfileassociationsingnome"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-13 - <a href="/blog/2010/0413_Changingdefaultfileassociationsingnome.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0413_Changingdefaultfileassociationsingnome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-13 | <a href="/blog/2010/0413_Changingdefaultfileassociationsingnome.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0413_Changingdefaultfileassociationsingnome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>It's been a long time since I posted a Linux related tip. Not in the mood I guess... well, this is one which really annoyed me, until I found out how easy it is: I hate some of the default file associations in gnome. Movieplayer, for example, is a horrible choice. Breaking and devolving with each new distro release, I have decided to settle with vlc as my default movie player, yet I couldn't easily change the default file type association. After fiddling around with the thingy in gnome resembling a regedit (ugh) I found out the easy way:</p>
 <p>* Right click the file for which you want to change default associations and click properties
 * Select "open with" tab
@@ -195,7 +194,7 @@ int main() {
 * Profit!</p>
 <hr />
 <h2>I hearth Berkeley<a name="ihearthberkeley"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-10 - <a href="/blog/2010/0410_IhearthBerkeley.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0410_IhearthBerkeley.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-10 | <a href="/blog/2010/0410_IhearthBerkeley.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0410_IhearthBerkeley.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <pre lang="c++"><code class="language-c++" lang="c++">error: cannot convert ‘Db<strong>’ to ‘DB</strong>’ for argument ‘1’ to ‘int db_create(DB*<em>, DB_ENV</em>, u_int32_t)’
 </code></pre>
 <p>Thank you very much, Oracle Berkeley, for having a type named Db and another one named DB, and for never using namespaces. It makes my work a much more interesting challenge (*).</p>
@@ -204,7 +203,7 @@ int main() {
 (***) Or because it has some interesting stuff too... who knows. Recursive note FTW (**). I think I have already done that, haven't I?</p>
 <hr />
 <h2>Fixed string: POD String datatype<a name="fixedstringpodstringdatatype"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-09 - <a href="/blog/2010/0409_FixedstringPODStringdatatype.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0409_FixedstringPODStringdatatype.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-09 | <a href="/blog/2010/0409_FixedstringPODStringdatatype.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0409_FixedstringPODStringdatatype.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We saw in <a href="/blog/2010/0407_PODtypesinC.html">POD types in C++</a> the difference between a POD and a non-POD type but the question of how to apply this knowledge to persist an std::string-like object remained open. This problem is a specific version of how to persist an object from which you know the size but has internal buffers using the heap instead of using only stack memory.</p>
 <p>The best example for this case is, perhaps, a column from a table. You know the upper limit of the string's length but using std::string is clearly much better (easier) than a char[N]. Yet you'd be loosing the ability to persist this object in a generic way (i.e. copying memory instead of knowing the object's internal structure).</p>
 <p>Well, there's an easy solution (though more than a solution I'd call it an acceptable trade-off) in which you can create a char[N], a char buffer, with std::string-like behaviour and yet POD-safe (almost POD safe actually, as we'll see now).</p>
@@ -224,7 +223,7 @@ int main() {
 <p>You can see now why I called it a trade-off: it works as we intend it to work but it does have its rough edges (most notably the const char/mutable part). It'll allow you to use a char[N] with some behaviour of an std::string; use it with caution.</p>
 <hr />
 <h2>POD types in C++<a name="podtypesinc"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-04-07 - <a href="/blog/2010/0407_PODtypesinC.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0407_PODtypesinC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-04-07 | <a href="/blog/2010/0407_PODtypesinC.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0407_PODtypesinC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's say you have something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">typedef int A;
 void x(A);
@@ -260,7 +259,9 @@ struct B {
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2013 June</h2>
 
 <h2>Useless code: a template device to calculate e<a name="uselesscodeatemplatedevicetocalculatee"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-06-27 - <a href="/blog/2013/0627_Uselesscodeatemplatedevicetocalculatee.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0627_Uselesscodeatemplatedevicetocalculatee.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-06-27 | <a href="/blog/2013/0627_Uselesscodeatemplatedevicetocalculatee.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0627_Uselesscodeatemplatedevicetocalculatee.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Recently I needed to flex a bit my template metaprogrammingfooness, so I decided to go back and review <a href="/blog/youfoundadeadlink.html">and old article</a> I wrote about it (C++11 made some parts of those articles obsolete, but I'm surprised of how well it's aged). To practice a bit I decided to tackle a problem I'm sure no one ever had before: defining a mathematical const on compile time. This is what I ended up with, do you have a better version? Shouldn't be to hard.</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N, int D&gt; struct Frak {
     static const long Num = N;
@@ -94,7 +93,7 @@ int main() {
 </code></pre>
 <hr />
 <h2>Watchpoints in gdb: wake me up when foo changes<a name="watchpointsingdbwakemeupwhenfoochanges"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-06-25 - <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">Permalink</a>  - <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-06-25 | <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">Permalink</a> | <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I've noticed a lot of people claim gdb is not a good debugger because it doesn't support feature X. X is many times the ability to monitor changes to a memory location (ie when the value of a variable changes). Most times, though, people believe gdb doesn't implement X only because not enough time was spent reading its manual.</p>
 <p>In gdb it's very easy to monitor variable changes using watchpoints. Here's a very simple example session:</p>
 <pre><code>(gdb) list
@@ -129,7 +128,7 @@ main () at test.cpp:7
 <p>PS: Once you find your bug with the aid of a watchpoint, please go and read some books about encapsulation!</p>
 <hr />
 <h2>Detecting and ignoring third party memory problems with Valgrind<a name="detectingandignoringthirdpartymemoryproblemswithvalgrind"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-06-20 - <a href="/blog/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-06-20 | <a href="/blog/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0620_DetectingandignoringthirdpartymemoryproblemswithValgrind.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Lot's of people seem to give up on Valgrind after they see the dreaded "More than ### errors detected, go and fix your program". If the bulk of these errors are caused by crappy code in third party libraries there's very little to be done to fix them, other than creating a ticket for the library maintainer (and if the bulk of these errors are caused by your own code... well, don't write a watchdog please, do fix your program!). And that's assuming the reported error is not even a false positive, since Valgrind can report problems for crazy optimizations -O3 might have or for weird operator arithmetic.</p>
 <p>If these spurious memory errors are there for too long most people will start ignoring Valgrind's output. Luckily, ignoring errors we can't fix is a possibility too, using Valgrind's ignore files.</p>
 <ul>
@@ -140,7 +139,7 @@ main () at test.cpp:7
 </ul>
 <hr />
 <h2>C++ exceptions under the hood appendix II: metaclasses and RTTI on C++<a name="cexceptionsunderthehoodappendixiimetaclassesandrttionc"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-06-13 - <a href="/blog/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-06-13 | <a href="/blog/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0613_CexceptionsunderthehoodappendixIImetaclassesandRTTIonC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A long time ago, when we where just starting to write our mini ABI to handle exceptions without libstdc++'s help, we had to add an empty class to appease the linker:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">namespace __cxxabiv1 {
     struct __class_type_info {
@@ -222,7 +221,7 @@ __cxa_throw(_Struct_Type_Info__Class__Exception);
 <p>And this list is still missing lots of possibilities, but for the full list is better to check a real C++ ABI. <a href="http://libcxxabi.llvm.org/">LLVM</a> has very clear and easy to understand ABI, you can check these details in the file "private_typeinfo.cpp". If you check LLVM's implementation of run time type information, you'll soon realize why we didn't implement this on our ABI: the amount of rules to determine whether two types are the same or not is incredibly complex.</p>
 <hr />
 <h2>C++ exceptions under the hood appendix I: the true cost of an exception<a name="cexceptionsunderthehoodappendixithetruecostofanexception"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-06-11 - <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">Permalink</a>  - <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-06-11 | <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">Permalink</a> | <a href="/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0611_CexceptionsunderthehoodappendixIthetruecostofanexception.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Remember a long way back, when the series on exception handling was just started, that I mentioned these articles would only apply for gcc/x86? There is a reason for that since not all compilers implement exception handling the same way. In particular, there are two major ways of doing it:</p>
 <ul>
 <li>With a lookup table and some metadata, like the Itanium ABI specifies; this is what we talked about.</li>
@@ -234,7 +233,7 @@ __cxa_throw(_Struct_Type_Info__Class__Exception);
 <p>If you're interested on reading more about sjlj and zero cost exception handling <a href="http://llvm.org/docs/ExceptionHandling.html">LLVM has great documentation</a>.</p>
 <hr />
 <h2>Bash scripting and getops<a name="bashscriptingandgetops"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-06-06 - <a href="/blog/2013/0606_Bashscriptingandgetops.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0606_Bashscriptingandgetops.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-06-06 | <a href="/blog/2013/0606_Bashscriptingandgetops.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0606_Bashscriptingandgetops.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Did you ever write a bash script and thought it looked too clean? Yeah, me neither. Anyway, now you can make it look even worse by using getopt. As an upside, you'll be able to read command line options from a user without having to resort to nasty hacks, like hardcoding the switch position into the argv.</p>
 <p>getopt should be installed by default in most Linux distros, and you can even run it as a command line program. It's quite easy to use on a bashcript. For example, something like:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">
@@ -252,7 +251,7 @@ done
 <p>It won't look pretty but it does get the job done. According to "man getopt" it supports things like short &amp; long options and defaults; if you need something more complex, you should probably be using a proper language instead of a bash script.</p>
 <hr />
 <h2>C++ exceptions under the hood 21: a summary and some final thoughts<a name="cexceptionsunderthehood21asummaryandsomefinalthoughts"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-06-04 - <a href="/blog/2013/0604_Cexceptionsunderthehood21asummaryandsomefinalthoughts.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0604_Cexceptionsunderthehood21asummaryandsomefinalthoughts.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-06-04 | <a href="/blog/2013/0604_Cexceptionsunderthehood21asummaryandsomefinalthoughts.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0604_Cexceptionsunderthehood21asummaryandsomefinalthoughts.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After writing twenty some articles about C++ low level exception handling, it's time for a recap and some final thoughts. What did we learn, how is an exception thrown and how is it caught?</p>
 <p>Leaving aside the ugly details of reading the .gcc_except_table, which were probably the biggest part of these articles, we could summarize the whole process like this:</p>
 <ol>
@@ -280,7 +279,9 @@ done
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

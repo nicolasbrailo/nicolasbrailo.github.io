@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>std::is_constant_evaluated: make debugging a little bit harder for yourself!</h2>
 
-Post by Nico Brailovsky @ 2019-08-03 - <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">Permalink</a>  - [2 comments](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md)
+Post by Nico Brailovsky @ 2019-08-03 |
+  <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">Permalink</a> | <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">2 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Let's pretend you find this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">const int a = foo();
@@ -56,7 +57,7 @@ bool a() {
 </code></pre>
 <p>I'm sure with careful usage, is_constant_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (<code>cout &lt;&lt; foo()</code>, anyone?) prints different values than my <code>production</code> code.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="">aiusepsi</a> commented @ 2019-08-03T18:58:11.000+02:00:<a name="inreplytothispostaiusepsicommented20190803t185811.0000200"></a></h2>
@@ -72,7 +73,9 @@ bool a() {
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

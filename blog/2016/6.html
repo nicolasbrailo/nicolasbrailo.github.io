@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2016 June</h2>
 
 <h2>Shared pointers: don't<a name="sharedpointersdont"></a></h2>
-<p>Post by Nico Brailovsky @ 2016-06-15 - <a href="/blog/2016/0615_Sharedpointersdont.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0615_Sharedpointersdont.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2016-06-15 | <a href="/blog/2016/0615_Sharedpointersdont.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0615_Sharedpointersdont.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Ahh, shared pointers! A nice, magical pointer type that will make all of your memory problems go away. Sprinkle some shared_ptrs here and there and, voilà, Valgrind is now happy. Sounds like a silver bullet, doesn't it? That should be your first clue that something's up with the promise of getting Java-like memory management in your c++ application.</p>
 <p>Java and C(++) have a very different concept of memory management. My Java-foo, obviously enough to anyone reading this blog, is not that great, but, from experience, memory management is seen as a chore better left to the bowels of your system, something you don't need (nor want) to care about. Sure, you can tweak and somewhat manage memory allocations if you really want to; the default mindset, however, is to ignore those concerns. The garbage collector will, eventually, find any unused resource and deal with it accordingly.</p>
 <p>C++ programs, at least those that have been more or less successfully designed as opposed to organically grown, tend to have a radically different approach. Memory management is an integral part of a program's design and it can't be left to some automagic memory manager. This leads, again, for those more or less successful designs, to programs with a tree-like hierarchy in which a child or dependent object must live at least as long as its parent scope. This hierarchy leads to easier to understand programs. Some idioms (RAII!) depend on this hierarchy. Some tools (like scoped and unique pointers) make its implementation much simpler. I've seen that Rust really builds on this idea (and seems to take it to 11! I'm still trying to figure out if that's a good or a bad thing, but so far I quite like it).</p>
@@ -59,7 +58,7 @@
 <p>// TODO: There is a very good reason I found to use shared pointers: to create weak_ptr's. Is there a good solution without actually using shared_ptr's? I don't know!</p>
 <hr />
 <h2>C++: Why is undefinedness important<a name="cwhyisundefinednessimportant"></a></h2>
-<p>Post by Nico Brailovsky @ 2016-06-02 - <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a>  - <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">3 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0602_CWhyisundefinednessimportant.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2016-06-02 | <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a> | <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">3 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2016/0602_CWhyisundefinednessimportant.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's start with an example:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">int <em>x = (int</em>) NULL;
 x[0] = 42;
@@ -83,7 +82,9 @@ x[0] = 42;
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>gdb pretty printers</h2>
 
-Post by Nico Brailovsky @ 2012-10-09 - <a href="/blog/2012/1009_gdbprettyprinters.html">Permalink</a> 
+Post by Nico Brailovsky @ 2012-10-09 |
+  <a href="/blog/2012/1009_gdbprettyprinters.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1009_gdbprettyprinters.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>If you have ever used gdb then you know printing an stl object is useless. You'll be flooded with stuff you don't care about, and if you want to find, say, the contents of an std::vector you'll have to dive through tons of junk. It turns there's an easier way, it's called pretty printers and I have no idea why they are not included by default with gdb.</p>
 <p>You'll need to download the pretty printers at svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python and then create a ~/.gdbinit like this one:</p>
@@ -51,14 +52,16 @@ end
 </code></pre>
 <p>Have fun!</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1009_gdbprettyprinters.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

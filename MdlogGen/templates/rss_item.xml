@@ -1,7 +1,7 @@
 <item>
-  <title>{{post_title}}</title>
-  <link>{{post_fqdn_link}}</link>
+  <title>{{title}}</title>
+  <link>{{postFQDNLink}}</link>
   <pubDate>{{publishDate}}</pubDate>
   <author>{{author}}</author>
-  <description>{{post_txt}}</description>
+  <description>{{txt}}</description>
 </item>

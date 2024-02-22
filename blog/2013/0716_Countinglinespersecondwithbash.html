@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Counting lines per second with bash</h2>
 
-Post by Nico Brailovsky @ 2013-07-16 - <a href="/blog/2013/0716_Countinglinespersecondwithbash.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-07-16 |
+  <a href="/blog/2013/0716_Countinglinespersecondwithbash.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0716_Countinglinespersecondwithbash.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>The other day I wanted to quickly monitor the status of a production nginx after applying some iptables rules and changing some VPN stuff. It's easy to know if you completely screwed up the server: the number of requests per second will drop to zero, all requests will have an httpstatus different from 200, or some other dramatic and easy to measure side effect.</p>
 <p>What happens if you broke something in a slightly more subtle way? Say, you screwed up something in ipsec (now, I wonder how that can happen...) and now networking is slow. Or iptables now enforces some kind of throttling in a way you didn't expect. To detect this type of errors I wrote a quick bash script to output how many lines per second are added to a file. This way I was able to monitor if the throughput of my nginx install didn't decrease after my config changes, without installing a full fledged solution like zabbix.</p>
@@ -59,14 +60,16 @@ while true; do
 done
 </code></pre>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0716_Countinglinespersecondwithbash.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

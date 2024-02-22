@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Open Office, master documents and headless</h2>
 
-Post by Nico Brailovsky @ 2011-10-06 - <a href="/blog/2011/1006_OpenOfficemasterdocumentsandheadless.html">Permalink</a> 
+Post by Nico Brailovsky @ 2011-10-06 |
+  <a href="/blog/2011/1006_OpenOfficemasterdocumentsandheadless.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1006_OpenOfficemasterdocumentsandheadless.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>I have been writing some documentation lately (crazy, I know) and needed due to some bizarre business requirements all the documentation for the application was supposed to be in a single .doc file. That's write, a single file for user manual, technical manual, administration manual and so on. And I had no LaTeX either (damn those MS Office files, I hate them) so using multiple tex files and including them together wasn't an option.</p>
 <p>Choosing the least of all evils, I decided to use Open Office and master documents. With them you can create several different .doc files and then join them together in a single .odm file, which can then be exported to pdf (or .doc, if your boss says so). It's a nice feature, but for such a simple thing as having multiple documents #included in a single one you would expect it to work better. From OO manual:</p>
@@ -47,14 +48,16 @@ Post by Nico Brailovsky @ 2011-10-06 - <a href="/blog/2011/1006_OpenOfficemaster
 </blockquote>
 <p>Oh, thanks a lot OO.org (?). BTW, exporting an odm to pdf with a headless set == FAIL (i.e. don't even try to use this if you intend to <a href="/blog/2011/0913_Automagicdocumentconversionforyourmakefiles.html">autogenerate some documentation with your makefile</a>).</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1006_OpenOfficemasterdocumentsandheadless.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

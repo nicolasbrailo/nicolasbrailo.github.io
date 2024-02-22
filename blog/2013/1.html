@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2013 January</h2>
 
 <h2>Cool C++0X features XVII: Lambdas syntax<a name="coolc0xfeaturesxviilambdassyntax"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-01-10 - <a href="/blog/2013/0110_CoolC0XfeaturesXVIILambdassyntax.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0110_CoolC0XfeaturesXVIILambdassyntax.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-01-10 | <a href="/blog/2013/0110_CoolC0XfeaturesXVIILambdassyntax.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0110_CoolC0XfeaturesXVIILambdassyntax.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After creating a device to sum an initializer list as an example of this new feature last time, we created a generic function to receive a function object, which worked just very similarly to Smalltalk's inject. After creating the usual function object, overloading the () operator, we saw a much cooler way of doing that using lambdas, like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">int main() {
     auto f = [] (int a, int b){ return a+b; } ;
@@ -70,7 +69,7 @@
 <p>That's it, now we know how to use basic lambdas. You should keep in mind, though, this mythical beast has a lot more to it than just its syntax. We'll discuss about some of it's darkest secrets, how to use it, when to use it, how does it work. That discussion is for next time, though.</p>
 <hr />
 <h2>Cool C++0X features XVI: Lambdas<a name="coolc0xfeaturesxvilambdas"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-01-08 - <a href="/blog/2013/0108_CoolC0XfeaturesXVILambdas.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0108_CoolC0XfeaturesXVILambdas.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-01-08 | <a href="/blog/2013/0108_CoolC0XfeaturesXVILambdas.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0108_CoolC0XfeaturesXVILambdas.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Last time we created a device to sum an initializer list of ints, something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">void Add(initializer_list<int> lst) {
     int sum = 0;
@@ -115,13 +114,15 @@ int main() {
 <p>Note that we didn't change anything on the method iterating the list, we just changed main! There's a lot to talk about lambdas, so this is only an intro to the subject. Next time we'll discuss the subtleties of the new syntax.</p>
 <hr />
 <h2>"The VM session was closed before any attempt to power it on"<a name="thevmsessionwasclosedbeforeanyattempttopoweriton"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-01-03 - <a href="/blog/2013/0103_TheVMsessionwasclosedbeforeanyattempttopoweriton.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0103_TheVMsessionwasclosedbeforeanyattempttopoweriton.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-01-03 | <a href="/blog/2013/0103_TheVMsessionwasclosedbeforeanyattempttopoweriton.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0103_TheVMsessionwasclosedbeforeanyattempttopoweriton.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Some times Virtualbox gets lazy and decides not to work, no explanation given (no, that cryptic message certainly doesn't count as an explanation). I have no idea what causes this message, at the moment my best theory is an improper planet alignment, but in my experience detaching all media from a VM, running it and then attaching all media again seems to fix the problem.</p>
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

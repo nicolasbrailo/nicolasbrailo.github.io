@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2011 December</h2>
 
 <h2>Anonymous objects in C++<a name="anonymousobjectsinc"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-12-20 - <a href="/blog/2011/1220_AnonymousobjectsinC.html">Permalink</a>  - <a href="/blog/2011/1220_AnonymousobjectsinC.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1220_AnonymousobjectsinC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-12-20 | <a href="/blog/2011/1220_AnonymousobjectsinC.html">Permalink</a> | <a href="/blog/2011/1220_AnonymousobjectsinC.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1220_AnonymousobjectsinC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There are not many cases in which you can have an anonymous *anything* in your code, yet there's an idiom in C++ which lets you use an object with an anonymous type. Like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">void foo()
 {
@@ -64,13 +63,13 @@ void foo()
 <p>I am not aware of many other uses for an anonymous type. Even more considering this idiom can now be replaced with a much cleaner lambda. But hey, it looks cool!</p>
 <hr />
 <h2>Fixing end of line styles between Linux and Windows with SVN<a name="fixingendoflinestylesbetweenlinuxandwindowswithsvn"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-12-13 - <a href="/blog/2011/1213_FixingendoflinestylesbetweenLinuxandWindowswithSVN.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1213_FixingendoflinestylesbetweenLinuxandWindowswithSVN.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-12-13 | <a href="/blog/2011/1213_FixingendoflinestylesbetweenLinuxandWindowswithSVN.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1213_FixingendoflinestylesbetweenLinuxandWindowswithSVN.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Quite a mouthful for such an easy thing. Don't you just hate when half the people in a project use CR/LF and the other half just LF?</p>
 <p>Luckly this is easy to fix, assuming you are using svn. You can use something called <a href="http://www.mediawiki.org/wiki/Subversion/auto-props">auto-props</a> to setup the eol style for different file types.</p>
 <p>Set it once for the project, never worry again. Anyone knows its git counterpart?</p>
 <hr />
 <h2>C++: Checking if a method exists in a parent class<a name="ccheckingifamethodexistsinaparentclass"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-12-08 - <a href="/blog/2011/1208_CCheckingifamethodexistsinaparentclass.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1208_CCheckingifamethodexistsinaparentclass.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-12-08 | <a href="/blog/2011/1208_CCheckingifamethodexistsinaparentclass.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1208_CCheckingifamethodexistsinaparentclass.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I like <a href="/blog/2009/0602_TestingampmockingC.html">Google test and Google mock (C++ only)</a> a lot. These are really great tools to ensure the quality of your code. They do have one problem however, especially <a href="/blog/2009/1023_Retrofittingunittestsforlegacycode.html">when working with a legacy codebase</a>: many times you need to change a signature for a function and your tests begin to fail. Those tests shouldn't really fail, they shouldn't compile at all because you're now trying to mock a function which doesn't exists anymore.</p>
 <p>I worked on a patch to check if a class and its parent share the same methods, but I hit some major roadblocks which I believe cannot be saved:</p>
 <ul>
@@ -140,7 +139,9 @@ TEST(FooTest, ThisShouldCompile) {
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

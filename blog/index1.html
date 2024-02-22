@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2></h2>
 
 <h2>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h2>
-<p>Post by Nico Brailovsky @ 2020-02-27 - <a href="/blog/2020/0227_jqgrepandprettifyjson.html">Permalink</a>  - <a href="/blog/2020/0227_jqgrepandprettifyjson.html">3 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0227_jqgrepandprettifyjson.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2020-02-27 | <a href="/blog/2020/0227_jqgrepandprettifyjson.html">Permalink</a> | <a href="/blog/2020/0227_jqgrepandprettifyjson.html">3 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0227_jqgrepandprettifyjson.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
 <p><strong>cat a json file - with pretty print</strong></p>
 <pre lang="c++"><code class="language-c++" lang="c++">jq . /path/to/json_file
@@ -55,7 +54,7 @@
 <p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
 <hr />
 <h2>Mixin(ish) classes with parameter packs in C++<a name="mixinishclasseswithparameterpacksinc"></a></h2>
-<p>Post by Nico Brailovsky @ 2020-02-18 - <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a>  - <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0218_MixinishclasseswithparameterpacksinC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2020-02-18 | <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a> | <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0218_MixinishclasseswithparameterpacksinC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
 <pre lang="c++"><code class="language-c++" lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
 </code></pre>
@@ -88,7 +87,7 @@ struct Bar : FwdFoo {
 </code></pre>
 <hr />
 <h2>Presenting tips: make your presentations suck a bit less<a name="presentingtipsmakeyourpresentationssuckabitless"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-11-11 - <a href="/blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-11-11 | <a href="/blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I spent the last few years in a role that required a significant part in communicating with other people. Some of that in the form of slides and presentations, because not having slides isn't enterprisy. I'm far from being a great presenter, but I did learn a thing or two. All this is quite general, so it should apply to any kind of topic... as long as that topic is software engineering. I'm still a technical person and an engineer, so a lot of my assumptions about the audience may not hold true if you, for example, need to seriously consider fun things like workplace politics.</p>
 <p>I hope these tips become useful for other people. At the very least I hope I'll remember to re-read this post the next time I have to present something.</p>
 <h2>Tip 1: Your audience wants you to succeed<a name="tip1youraudiencewantsyoutosucceed"></a></h2>
@@ -120,14 +119,14 @@ struct Bar : FwdFoo {
 <p>There are many reasons to present something, from getting people to sit-down-and-pay-attention to "listen to my amazing sales pitch". In the end most of them boil down to some form of entertainment. Yes: most (successful) presentations are just some form of amusement. If you also have a useful message to deliver with it, all the better!</p>
 <hr />
 <h2>Bash tip: Default value for a variable<a name="bashtipdefaultvalueforavariable"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-11-04 - <a href="/blog/2019/1104_BashtipDefaultvalueforavariable.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/1104_BashtipDefaultvalueforavariable.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-11-04 | <a href="/blog/2019/1104_BashtipDefaultvalueforavariable.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/1104_BashtipDefaultvalueforavariable.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>In my Bash scripts, I used to hack my way around default values for variables. Turns out there is a very simple way to give your variables a default value while also letting other override them if they want to:</p>
 <pre><code>FOO=${BAR-bar}
 </code></pre>
 <p>If someone export's BAR, then FOO will equals the already exported value of $BAR, if $BAR doesn't exist then FOO will have the value of the literal 'bar'.</p>
 <hr />
 <h2>std::is_constant_evaluated: make debugging a little bit harder for yourself!<a name="stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-08-03 - <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">Permalink</a>  - <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-08-03 | <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">Permalink</a> | <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's pretend you find this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">const int a = foo();
 int b = foo();
@@ -145,13 +144,13 @@ bool a() {
 <p>I'm sure with careful usage, is_constant_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (<code>cout &lt;&lt; foo()</code>, anyone?) prints different values than my <code>production</code> code.</p>
 <hr />
 <h2>Vim multiple search<a name="vimmultiplesearch"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-07-27 - <a href="/blog/2019/0727_Vimmultiplesearch.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0727_Vimmultiplesearch.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-07-27 | <a href="/blog/2019/0727_Vimmultiplesearch.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0727_Vimmultiplesearch.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I keep forgetting about this one. Maybe writing it down will help me remember: Vim can search for (and highlight) multiple patterns at the same time. Just start your search with \v and split the patterns with |. Eg:</p>
 <pre><code>:/\vfoo|bar
 </code></pre>
 <hr />
 <h2>Bash: Color in command line prompt PS1<a name="bashcolorincommandlinepromptps1"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-07-18 - <a href="/blog/2019/0718_BashColorincommandlinepromptPS1.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0718_BashColorincommandlinepromptPS1.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-07-18 | <a href="/blog/2019/0718_BashColorincommandlinepromptPS1.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0718_BashColorincommandlinepromptPS1.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I'm lately dealing with lots of hosts in different environments (eg local, dev, test, etc). Some actions are safe to perform in some of these hosts, in others not so much. To help quickly figure out which hosts are safe, I wanted to add a color to my Bash prompt (PS1) - for example green for dev, where it's unlikely I'll break anything other than my stuff, red for hosts where carelessness might result in a weekend spent at the office.</p>
 <p>The first result I get in Google when trying to set Bash's PS1 to use colors seems to be wrong (or, rather, I wasn't smart enough to make it work). An escape sequence seems to be missing, resulting in weird behavior with new lines; colors work, but line wrapping gets broken. Took me a while to associate broken \n's with colors, but once I did the fix was easy. Check out here for the <a href="https://stackoverflow.com/questions/342093/ps1-line-wrapping-with-colours-problem">proper way to escape color commands in Bash</a>.</p>
 <p>And here's my current setup:</p>
@@ -162,7 +161,7 @@ export PS1='\A '$COLOR_SET'\h'$COLOR_RESET':\w$ '
 </code></pre>
 <hr />
 <h2>The bestest autocomplete for Vim<a name="thebestestautocompleteforvim"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-06-11 - <a href="/blog/2019/0611_ThebestestautocompleteforVim.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0611_ThebestestautocompleteforVim.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-06-11 | <a href="/blog/2019/0611_ThebestestautocompleteforVim.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0611_ThebestestautocompleteforVim.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>TL;DR: I like <a href="https://github.com/Valloric/YouCompleteMe">YouCompleteMe</a>
 A <a href="https://news.ycombinator.com/item?id=19529557">post in Hacker News</a> drew me to look at autocompletion in Vim. After trying a few plugins years before, I settled for the available-by-default autocomplete in Vim. It's pretty dumb, but pretty dumb covers 90% of what I need: autocompletionForReallyUglyOrLongNames.</p>
 <p>Vim's omnifunc completer is enough if no fancy features are necessary: fast, available, trivial to setup. I have successfully used omnifunc in fairly large projects, and while it requires familiarity with the codebase, some may argue that's a feature and not a bug.</p>
@@ -174,7 +173,7 @@ A <a href="https://news.ycombinator.com/item?id=19529557">post in Hacker News</a
 <p>(#) Disclaimer: Re-reading my own text, it may appear as I'm somewhat belittling Deoplete, CoC, Vundle, Pathogen, etc. That's not my intention. I have the maximum respect for these projects. The engineering effort in them is amazing, and I know for a fact they make life easier for a lot of people. I'm just not one of them.</p>
 <hr />
 <h2>Howto: shutdown a TV with HDMI CEC Chromecast<a name="howtoshutdownatvwithhdmicecchromecast"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-05-28 - <a href="/blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-05-28 | <a href="/blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>That's a long title just to say "how to turn off your TV". Only I want to show how to do it even if you lost your remote control.</p>
 <p>Chromecast can turn your TV on and off, as long as it supports something called HDMI CEC. Of course the Chromecast itself needs to be powered, i.e. you can't plug it to a USB port in your TV.</p>
 <p>The "on" part is easy: you just start casting something (<a href="/blog/2019/0405_ChromecasticSlideshow.html">your pictures, for example</a>) and Chromecast automagically turns your TV on. The off part is a bit harder.</p>
@@ -229,17 +228,18 @@ $ googlesamples-assistant-pushtotalk --device-model-id $AN_ID_YOU_GOT_FROM_GOOGL
 </ul>
 <hr />
 <h2>Say nice things<a name="saynicethings"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-05-14 - <a href="/blog/2019/0514_Saynicethings.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0514_Saynicethings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-05-14 | <a href="/blog/2019/0514_Saynicethings.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0514_Saynicethings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>As software developers, we need to put much more emphasis on positive interactions with our peers. Engineering requires critical thinking. Looking for cases where something (code!) will break. Criticizing what we do, on the hope of doing it better, is a key and necessary aspect of our profession. However, even when done properly (already a hard enough job!) this practice emphasizes negative interactions. In a normal job, what would you say is the ratio of times you hear "this might be better if .." vs "I really liked X"?</p>
 <p>Saying "this was good" is hard. More often than not, it's hard to even notice good code (and I'd go as far as saying that noticing good things is hard in general!). Unlike criticism, positive interactions don't lead to direct improvements. No code will be enhanced by saying "I liked this solution", though people may be more inclined to considering criticism if the positive aspect is also noted.</p>
 <p>In the end, maybe someone just had a slightly better day because you said something nice. That's already a small victory.</p>
 <hr />
-<p><a href="/blog/index.html">Prev</a> | <a href="/blog/index2.html">Next</a></p>
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+  <a href="/blog/index.html">Prev</a> | <a href="/blog/index2.html">Next</a> |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

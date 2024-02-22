@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++: A jump table with a template device</h2>
 
-Post by Nico Brailovsky @ 2015-05-05 - <a href="/blog/2015/0505_CAjumptablewithatemplatedevice.html">Permalink</a>  - [8 comments](md_blog/2015/0505_CAjumptablewithatemplatedevice.md)
+Post by Nico Brailovsky @ 2015-05-05 |
+  <a href="/blog/2015/0505_CAjumptablewithatemplatedevice.html">Permalink</a> | <a href="/blog/2015/0505_CAjumptablewithatemplatedevice.html">8 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0505_CAjumptablewithatemplatedevice.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>A <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">few articles ago</a> we saw how gcc might need some help when mixing template instanciation (pure compile time data) with function calls (deducible compile time information, but not available to the template expander). Now we'll go one step further and combine all three types: pure compile time data, deducible compile time data and pure run time data (*). Just to annoy the compiler, and to see how gcc is able to optimize the results.</p>
 <p>Let's build a simple example, similar to what we used last time: an object that will determine the range of an integer and then invoke a callback with the closest range. Something like this could be used, for example, to allocate a buffer.</p>
@@ -160,7 +161,7 @@ wrapper(int, void (<em>)(int)):
 <li>Run-time only data means something that a compiler could never deduce, like a volatile variable or the parameter of a function called from outside the current translation unit.</li>
 </ul>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0505_CAjumptablewithatemplatedevice.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">ploxiln</a> commented @ 2015-05-06T05:33:48.000+02:00:<a name="inreplytothispostploxilnblogyoufoundadeadlink.htmlcommented20150506t053348.0000200"></a></h2>
@@ -205,7 +206,9 @@ wrapper(int, void (<em>)(int)):
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

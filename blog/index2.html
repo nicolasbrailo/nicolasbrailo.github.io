@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2></h2>
 
 <h2>GCC instrumentation flag: slow everything down!<a name="gccinstrumentationflagsloweverythingdown"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-05-08 - <a href="/blog/2019/0508_GCCinstrumentationflagsloweverythingdown.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0508_GCCinstrumentationflagsloweverythingdown.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-05-08 | <a href="/blog/2019/0508_GCCinstrumentationflagsloweverythingdown.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0508_GCCinstrumentationflagsloweverythingdown.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Here's a nice gcc tip if you think your code is running too fast: instrument everything! (Ok, it may also work if you need to create a profile of your application but for some reason Valgrind isn't your thing).</p>
 <p>Compile with</p>
 <pre lang="c++"><code class="language-c++" lang="c++">g++ foo.cpp -ggdb3 -finstrument-functions
@@ -90,13 +89,13 @@ int main() {
 </code></pre>
 <hr />
 <h2>Chromecastic Slideshow<a name="chromecasticslideshow"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-04-05 - <a href="/blog/2019/0405_ChromecasticSlideshow.html">Permalink</a>  - <a href="/blog/2019/0405_ChromecasticSlideshow.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0405_ChromecasticSlideshow.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-04-05 | <a href="/blog/2019/0405_ChromecasticSlideshow.html">Permalink</a> | <a href="/blog/2019/0405_ChromecasticSlideshow.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0405_ChromecasticSlideshow.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Plug for a new <a href="https://github.com/nicolasbrailo/ChromecasticSlideshow">script I've been working on: https://github.com/nicolasbrailo/ChromecasticSlideshow</a>:</p>
 <p>Slideshows in Chromecast directly from your filesystem, without going through any online service. No Google Photos, Facebook or anything else: plain old random files straight from your disk to your Chromecast.</p>
 <p>Hope someone else finds this useful!</p>
 <hr />
 <h2>VimTip: Search and f(replace)<a name="vimtipsearchandfreplace"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-02-26 - <a href="/blog/2019/0226_VimTipSearchandfreplace.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0226_VimTipSearchandfreplace.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2019-02-26 | <a href="/blog/2019/0226_VimTipSearchandfreplace.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0226_VimTipSearchandfreplace.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Pre-tip: When using search and replace in Vim, <a href="/blog/2015/0507_VimtipStopescapingslashes.html">you don't need to use slashes</a>
 This works just fine:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">%s#search#replace
@@ -107,7 +106,7 @@ This works just fine:</p>
 <p>will replace every occurrence of 'bar' for its line number. You can get creative and use any other Vimscript function.</p>
 <hr />
 <h2>std::byte - great idea. Meh execution?<a name="stdbytegreatidea.mehexecution"></a></h2>
-<p>Post by Nico Brailovsky @ 2018-10-02 - <a href="/blog/2018/1002_stdbytegreatidea.Mehexecution.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/1002_stdbytegreatidea.Mehexecution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2018-10-02 | <a href="/blog/2018/1002_stdbytegreatidea.Mehexecution.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/1002_stdbytegreatidea.Mehexecution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I love the idea of C++17's <a href="https://en.cppreference.com/w/cpp/types/byte">std::byte</a>. A data-type that makes it explicit we're dealing with ugly low-level details? What's there not to love! One thing only, turns out.</p>
 <p>First, the good part: separating character (human) representation from binary (low-level) representation is brilliant. No implicit conversion between the two separates the domains very well and creates a much clearer interface.</p>
 <p>The bad part: std::byte is really really strict. It only accepts other std::bytes as operands(*). You'd hope this would work</p>
@@ -121,7 +120,7 @@ This works just fine:</p>
 <p>(*) Yes, with the exception of shift operations. That was a good design decision!</p>
 <hr />
 <h2>-Wmisleading-indentation<a name="wmisleadingindentation"></a></h2>
-<p>Post by Nico Brailovsky @ 2018-09-30 - <a href="/blog/2018/0930_Wmisleadingindentation.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/0930_Wmisleadingindentation.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2018-09-30 | <a href="/blog/2018/0930_Wmisleadingindentation.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/0930_Wmisleadingindentation.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>This gcc switch is a few years old but I discovered it recently. I'm not sure if that means my code is always very clean or my toolchain too oudated... in any case, -Wmisleading-indentation (which you get with -Wall) warns about this gotcha:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">if (foo)
    bar();
@@ -130,24 +129,24 @@ This works just fine:</p>
 <p>Neat!</p>
 <hr />
 <h2>GitHub tip: Prefill a bug report<a name="githubtipprefillabugreport"></a></h2>
-<p>Post by Nico Brailovsky @ 2018-09-04 - <a href="/blog/2018/0904_GitHubtipPrefillabugreport.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/0904_GitHubtipPrefillabugreport.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2018-09-04 | <a href="/blog/2018/0904_GitHubtipPrefillabugreport.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/0904_GitHubtipPrefillabugreport.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Getting feedback from users is hard. In a platform such as Android, with apps evaluated in a couple of seconds, it's even harder.</p>
 <p>While trying to get bug reports for <a href="https://github.com/nicolasbrailo/VlcFreemote">VlcFreemote</a> I found a neat GitHub trick: you can pre-fill a bug report by using url parameters. For example, check this link: <a href="https://github.com/nicolasbrailo/VlcFreemote/issues/new?title=foo&amp;body=bar">https://github.com/nicolasbrailo/VlcFreemote/issues/new?title=foo&amp;body=bar</a></p>
 <p>Awesome! Takes a second and makes life much easier for bug-reporters!</p>
 <hr />
 <h2>Happiest bug report<a name="happiestbugreport"></a></h2>
-<p>Post by Nico Brailovsky @ 2018-09-02 - <a href="/blog/2018/0902_Happiestbugreport.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/0902_Happiestbugreport.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2018-09-02 | <a href="/blog/2018/0902_Happiestbugreport.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/0902_Happiestbugreport.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Something is wrong: I'm happy over a bug report!</p>
 <p>A few years back I developed a <a href="https://github.com/nicolasbrailo/VlcFreemote">VlcRemote control</a> app for Android. According <a href="https://xkcd.com/1205/">to this chart</a>, I didn't actually save any time doing so. The time I spent spent developing the app is more than the cumulative time I would have spent by getting up from the couch and manually controlling VLC. That said, not having to leave the coziness of a warm blanket in winter probably made it worth the investment.</p>
 <p>Not long ago I decided to <a href="https://f-droid.org/en/packages/com.nicolasbrailo.vlcfreemote/">submit this app to F-Droid</a>. I'm too cheap to pay the 20ish dollars for Google App Store, and since I don't have any commercial interest I don't see the point. I didn't think I'd actually get any users there, but today I got my first bug report. So much happiness! You'd think I shouldn't be happy about my crappy software not-working, but hey, someone actually took the time to try it out. Even more, someone cared enough to submit a bug report!</p>
 <p>Open source rules!</p>
 <hr />
 <h2>Geotagging in Ubuntu: more broken than ever<a name="geotagginginubuntumorebrokenthanever"></a></h2>
-<p>Post by Nico Brailovsky @ 2017-04-14 - <a href="/blog/2017/0414_GeotagginginUbuntumorebrokenthanever.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2017/0414_GeotagginginUbuntumorebrokenthanever.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2017-04-14 | <a href="/blog/2017/0414_GeotagginginUbuntumorebrokenthanever.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2017/0414_GeotagginginUbuntumorebrokenthanever.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>This is depressing. All the geotagging tools in Ubuntu seem dead. Even mine, apparently the latest version of CEF Python changed something that breaks my app. Even worse, looking for "ubuntu geotagging" has my own blog as one of the top results... time to fix my code, I guess?</p>
 <hr />
 <h2>Fixing templates with constexpr's<a name="fixingtemplateswithconstexprs"></a></h2>
-<p>Post by Nico Brailovsky @ 2017-01-18 - <a href="/blog/2017/0118_Fixingtemplateswithconstexprs.html">Permalink</a>  - <a href="/blog/2017/0118_Fixingtemplateswithconstexprs.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2017/0118_Fixingtemplateswithconstexprs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2017-01-18 | <a href="/blog/2017/0118_Fixingtemplateswithconstexprs.html">Permalink</a> | <a href="/blog/2017/0118_Fixingtemplateswithconstexprs.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2017/0118_Fixingtemplateswithconstexprs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For my hundredth (and a bit) c++ post I decided to do something I never did before: fix my old code!</p>
 <p>A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my <a href="/blog/youfoundadeadlink.html">template device to calculate e</a>. Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template <int N, int D> struct Frak {
@@ -246,7 +245,7 @@ float get_e() {
 <p>I called constexpr's one of c++11's killer features, and hopefully you can see why I'm so enthusiastic about them now: there's much less incentive for people to write horrible template metaprogramming devices when simply adding a little keyword to a normal function has the same effect, only cleaner.</p>
 <hr />
 <h2>Quick refresher: argument dependent lookup<a name="quickrefresherargumentdependentlookup"></a></h2>
-<p>Post by Nico Brailovsky @ 2017-01-04 - <a href="/blog/2017/0104_Quickrefresherargumentdependentlookup.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2017/0104_Quickrefresherargumentdependentlookup.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2017-01-04 | <a href="/blog/2017/0104_Quickrefresherargumentdependentlookup.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2017/0104_Quickrefresherargumentdependentlookup.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Since I wasted a few precious minutes stuck on an ADL problem, I figured I needed a quick reminder on how they work. Check this code: does it compile?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">namespace N {
     int foo() {
@@ -271,12 +270,13 @@ int main() {
 </code></pre>
 <p>You'd be tempted to say it won't work either. (Un?)fortunately, 'argument dependant lookup' is a thing, and the second code sample works. How? The compiler will look for 'foo' in the global namespace, and also in the namespace of the arguments to 'foo'. Seeing 'N::Dummy' in there, the compiler is allowed to peak into the namespace N for method 'foo'. Why? Short: operator overloading. Long: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2103.pdf">check here</a> (the 'Why ADL' section is very good).</p>
 <hr />
-<p><a href="/blog/index1.html">Prev</a> | <a href="/blog/history.html">History</a></p>
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+  <a href="/blog/index1.html">Prev</a> |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

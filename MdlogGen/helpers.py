@@ -31,6 +31,11 @@ def extract_year_month_from_path(prefix, path):
     return year, month
 
 
+def is_dynamic_content(prefix, path):
+    y,m = extract_year_month_from_path(prefix, path)
+    return y is not None
+
+
 def build_anchor_for_title(title):
     return re.sub(r'[^_.a-zA-Z0-9]', '', title).lower()
 
@@ -59,6 +64,7 @@ def read_md_doc(fpath):
         'anchorToTile': None,
         'txt': None,
         'comments': None,
+        'extraNav': None,
         'srcFile': fpath,
         'commentCount': 0,
         'commentCountTxt': '',
@@ -86,7 +92,7 @@ def read_md_doc(fpath):
             k_f = ln.find(' ', k_i + 1)
             key = ln[k_i:k_f]
             val = ln[k_f+1:]
-            if key in doc and key != 'docType':
+            if key in doc and key not in ['docType', 'extraNav']:
                 print(f"Duplicated key in {doc['srcFile']}: {key} defined twice, ignoring second definition")
                 continue
             doc[key] = val
@@ -106,7 +112,7 @@ def read_md_doc(fpath):
         doc['txt'] = tmp[0]
         doc['comments'] = validate_rel_links(fpath, tmp[1])
         doc['commentCount'] = tmp[1].count('## In reply to')
-        doc['commentCountTxt'] = f" - [{doc['commentCount']} comments]({doc['srcFile']})"
+        doc['commentCountTxt'] = f"| [{doc['commentCount']} comments]({doc['srcFile']})"
 
     return doc
 
@@ -131,4 +137,9 @@ def apply_template(tmpl_fpath, repl):
         exit(1)
 
     return tmpl
+
+def get_html_link_from_md_rel_path(md_src_path, html_dst_path, md_link):
+    link = md_link.replace(md_src_path, '')[:-len('.md')]
+    assert(link[0] == '/')
+    return f'/{html_dst_path}{link}.html'
 

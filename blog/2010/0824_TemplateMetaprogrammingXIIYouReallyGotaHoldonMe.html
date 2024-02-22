@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Template Metaprogramming XII: You Really Got a Hold on Me</h2>
 
-Post by Nico Brailovsky @ 2010-08-24 - <a href="/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html">Permalink</a> 
+Post by Nico Brailovsky @ 2010-08-24 |
+  <a href="/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Remember our virtual template method problem, from the other time? (I know, I said the answer was scheduled for a week after that post, but then I just forgot about it). May be we could avoid the virtual part by keeping a list of all our caches... how would we know which one should we dispatch the message to? Easy, using templates.</p>
 <p>Instead of a list let's keep two, for twice the fun. One for the rows cache, another for the PKs. We can use PK to know which ROW Cache should we choose. Let's try to write a pseudo code for it:</p>
@@ -86,14 +87,16 @@ int main() {
 </code></pre>
 <p>Great, now we can find an element on a list of types. The real virtual dispatch for the next entry :D</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

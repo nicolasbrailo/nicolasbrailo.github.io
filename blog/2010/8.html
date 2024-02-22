@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2010 August</h2>
 
 <h2>Template Metaprogramming XIII: Heart of Darkness<a name="templatemetaprogrammingxiiiheartofdarkness"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-08-31 - <a href="/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-08-31 | <a href="/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Last time we had a virtual template dispatch problem... we got to the point of knowing which was the index of the cache we were searching for, now we need to actually retrieve an instance of that cache. That's a problem. Why? To begin with, there are no instances, only types!</p>
 <p>The next logical step would be to create a Map device, to map a list of types to a list of instances... let's see how can we do that, in pseudocode</p>
 <pre><code>instances( H|T ) &lt;- [ create_instance(H), instances(T) ]
@@ -103,11 +102,11 @@ template &lt;typename TypeLst&gt; struct NthInstance&lt;1, TypeLst&gt; {
 <p>And the code from fetching the instance itself is even more difficult, so I'll leave that for next time.</p>
 <hr />
 <h2>Date time WTF<a name="datetimewtf"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-08-26 - <a href="/blog/2010/0826_DatetimeWTF.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0826_DatetimeWTF.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-08-26 | <a href="/blog/2010/0826_DatetimeWTF.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0826_DatetimeWTF.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Another one to add to my growing list of bad things about Ubuntu. For some reason my clock froze. I only noticed it when it started to be dark outside, for me the time had frozen at about 17pm.</p>
 <hr />
 <h2>Template Metaprogramming XII: You Really Got a Hold on Me<a name="templatemetaprogrammingxiiyoureallygotaholdonme"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-08-24 - <a href="/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-08-24 | <a href="/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Remember our virtual template method problem, from the other time? (I know, I said the answer was scheduled for a week after that post, but then I just forgot about it). May be we could avoid the virtual part by keeping a list of all our caches... how would we know which one should we dispatch the message to? Easy, using templates.</p>
 <p>Instead of a list let's keep two, for twice the fun. One for the rows cache, another for the PKs. We can use PK to know which ROW Cache should we choose. Let's try to write a pseudo code for it:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">ROW get_row(PK id) {
@@ -155,7 +154,7 @@ int main() {
 <p>Great, now we can find an element on a list of types. The real virtual dispatch for the next entry :D</p>
 <hr />
 <h2>MySQL upsert, Oracle merge<a name="mysqlupsertoraclemerge"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-08-19 - <a href="/blog/2010/0819_MySQLupsertOraclemerge.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0819_MySQLupsertOraclemerge.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-08-19 | <a href="/blog/2010/0819_MySQLupsertOraclemerge.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0819_MySQLupsertOraclemerge.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>How many times have you seen this "pattern"?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">unsigned int row_count = foo-&gt;update();
 if (row_count == 0) {
@@ -175,14 +174,16 @@ ON DUPLICATE KEY UPDATE col1 = 'a', col2 = 'b';
 <p>Nice, isn't it? Oracle has its own version of upsert, called merge (at least the name is better) but it itches a little bit when I write about Oracle, so go and check <a href="http://psoug.org/reference/merge.html">this page</a> instead.</p>
 <hr />
 <h2>C++ Namespaces and g++<a name="cnamespacesandg"></a></h2>
-<p>Post by Nico Brailovsky @ 2010-08-03 - <a href="/blog/2010/0803_CNamespacesandg.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0803_CNamespacesandg.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2010-08-03 | <a href="/blog/2010/0803_CNamespacesandg.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2010/0803_CNamespacesandg.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Have you ever tried to leave open a C++ namespace after EOF (that is, openning a namespace in a headerfile but forgetting to close it). It's a little bit like getting your balls caught by the door. The compiler will throw at you an incredible number of seemingly unrelated errors, all of which occur in a different file than the offending header.</p>
 <p>Reaching EOF on a C++ file without closing all its namespaces should be ilegal; or at least you should have better error reporting, because right now it's almost impossible to know what's the source of the error (for g++, that is).</p>
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

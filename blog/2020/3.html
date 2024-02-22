@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2020 March</h2>
 
 <h2>Weak symbols to mock c-APIs with gmock/gtest<a name="weaksymbolstomockcapiswithgmockgtest"></a></h2>
-<p>Post by Nico Brailovsky @ 2020-03-15 - <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2020-03-15 | <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I recently worked with a c-style API interface which wasn't very open to mocking. The API in question looked something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">handle_t h = api_open();
 api_foo(h, param1, param2);
@@ -82,7 +81,9 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2013 September</h2>
 
 <h2>Setting up a Linux gateway/router, a guide for non network admins<a name="settingupalinuxgatewayrouteraguidefornonnetworkadmins"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-09-26 - <a href="/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-26 | <a href="/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Setting up a Linux GW or router is not as hard as it may seem, as long as you are reading a friendly enough guide. Yes, there are a lot of guides for this, but since I needed to document how I did it, I might as well write a post about it here. My addition to the usual "setting up a linux gw guide": I'll do it using Virtualbox first, so I can test my setup before actually deploying it.</p>
 <p>I'm going to write about how can you setup a regular Linux distro to be your border router/gateway for your LAN, but for easy of use I'll base my examples on Ubuntu.</p>
 <p>As expected, if we are going to replace a device, say, a router, we need to replace it with something that can provide the same functionality. In this case, we have chosen a Linux server, so we need to figure out which services are provided by the router and then emulate them someway:</p>
@@ -75,7 +74,7 @@
 <p>You are all set now, with this virtual setup you can begin setting up your router. We'll see how next time.</p>
 <hr />
 <h2>C preprocessor VI: Recursive macro expansion rules<a name="cpreprocessorvirecursivemacroexpansionrules"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-09-24 - <a href="/blog/2013/0924_CpreprocessorVIRecursivemacroexpansionrules.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0924_CpreprocessorVIRecursivemacroexpansionrules.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-24 | <a href="/blog/2013/0924_CpreprocessorVIRecursivemacroexpansionrules.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0924_CpreprocessorVIRecursivemacroexpansionrules.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>What happens if you define a recursive macro? This might seem like a silly question, but by asking it we can gain some insight on the inner working of the preprocessor.</p>
 <p>Let's start with a simple example:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#define foo bar 1
@@ -130,14 +129,14 @@ foo
 <p>Then again, it's probably a good idea if your macros don't rely on the recursive expansion rules of the preprocessor.</p>
 <hr />
 <h2>Vim tip: Jump to a tag definition<a name="vimtipjumptoatagdefinition"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-09-19 - <a href="/blog/2013/0919_VimtipJumptoatagdefinition.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0919_VimtipJumptoatagdefinition.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-19 | <a href="/blog/2013/0919_VimtipJumptoatagdefinition.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0919_VimtipJumptoatagdefinition.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I admit it, hitting control enter to jump to a definition is a very useful feature of fancy GUIs. Fortunately, it's not exclusive to fancy GUIs, apparently it's been available using ctags too for a little while (if you consider the last 20 or 30 years to be little, that is).</p>
 <p>Just add this magic spell to your .vimrc; next time you open a file in a project with a tags file generated just press ctrl-enter with your cursor over the definition you wish to find:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">map &lt;C-CR&gt; :tab split&lt;CR&gt;:exec("tag ".expand("&lt;cword&gt;"))&lt;CR&gt;
 </code></pre>
 <hr />
 <h2>C preprocessor V: Conditionals<a name="cpreprocessorvconditionals"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-09-17 - <a href="/blog/2013/0917_CpreprocessorVConditionals.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0917_CpreprocessorVConditionals.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-17 | <a href="/blog/2013/0917_CpreprocessorVConditionals.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0917_CpreprocessorVConditionals.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>While walking around the c preprocessor we came to know the stringify operator, the crazy token pasting operator and a __VA_ARGS__ macro. All very weird, but at least the #if's work in a sane way... or do they? They do, but there's some room for unexpected behavior if you don't know some implementation details. Take this code for example:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#if 0
 #  if 0
@@ -150,7 +149,7 @@ foo
 <p>Even though at first it might seem weird for things inside an #if 0 to be important, it makes sense if you think that should an internal #if not respect the proper structure then the preprocessor wouldn't know when to end the first #if 0. Then again, if you find any real-world utility to this bit of preprocessor implementation trivia, you are doing something horribly wrong!</p>
 <hr />
 <h2>Vim tip: open file under cursor<a name="vimtipopenfileundercursor"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-09-12 - <a href="/blog/2013/0912_Vimtipopenfileundercursor.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0912_Vimtipopenfileundercursor.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-12 | <a href="/blog/2013/0912_Vimtipopenfileundercursor.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0912_Vimtipopenfileundercursor.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you have a bunch of #include's you don't need to manually type their path when you need to edit one of them; just place your cursor on top of the written path and remember these helpful commands:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">gf   open in the same window ("goto file")
 f    open in a new window (Ctrl-w f)
@@ -158,14 +157,14 @@ gf   open in a new tab (Ctrl-w gf)
 </code></pre>
 <hr />
 <h2>C preprocessor IV: VA Args<a name="cpreprocessorivvaargs"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-09-10 - <a href="/blog/2013/0910_CpreprocessorIVVAArgs.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0910_CpreprocessorIVVAArgs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-10 | <a href="/blog/2013/0910_CpreprocessorIVVAArgs.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0910_CpreprocessorIVVAArgs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>And things just got even more awesome in our preprocessor series: if just passing a known number of parameters is not cool enough for you you can use a variable number of arguments on a macro definition too. This is very useful to implement printf style debug macros which get replaced by no tokens on a release build. Or to make debugging a bit more complicated, your choice.</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#define DEBUG(fmt, ...) printf(fmt, <strong>VA_ARGS</strong>);
 </code></pre>
 <p>Combining this with stringify will provide you hours of fun. Combining this with token pasting... well, that's just evil.</p>
 <hr />
 <h2>Stopping commits on git<a name="stoppingcommitsongit"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-09-05 - <a href="/blog/2013/0905_Stoppingcommitsongit.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0905_Stoppingcommitsongit.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-05 | <a href="/blog/2013/0905_Stoppingcommitsongit.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0905_Stoppingcommitsongit.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Who hasn't commited debug code by mistake? It's only normal to forget to remove an #include we added only to test some stuff. Luckily it's easy to tell git that we don't want to commit any changes with a certain string.</p>
 <p>On any (git) repo you'll find a .git/hooks folder; add this script in .git/hooks/pre-commit (and don't forget to chmod +x it):</p>
 <pre lang="bash"><code class="language-bash" lang="bash">#!/bin/sh
@@ -178,7 +177,7 @@ fi
 <p>Now git will check your commits and stop them if they contain the STOPCOMMIT string. Now you can add all the debug changes you want, as long as you add a //STOPCOMMIT after them you'll never end up commiting them by mistake.</p>
 <hr />
 <h2>C preprocessor III: Token pasting<a name="cpreprocessoriiitokenpasting"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-09-02 - <a href="/blog/2013/0902_CpreprocessorIIITokenpasting.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0902_CpreprocessorIIITokenpasting.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-09-02 | <a href="/blog/2013/0902_CpreprocessorIIITokenpasting.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0902_CpreprocessorIIITokenpasting.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A stringify operator is good but the token pasting operator goes off the awesomeness chart (if you're working on an ioccc entry, that is). Actually, what token pasting does is conceptually simple: it will paste together two tokens to form a new one. So, for example, PASTE(foo, bar) would result in the "foobar" token. Looks simple enough, doesn't it? The token pasting operator is invoked via '##'. For example:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#define PASTE(x, y) x ## y
 #define FOOBAR 42
@@ -197,7 +196,9 @@ class Foo {
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

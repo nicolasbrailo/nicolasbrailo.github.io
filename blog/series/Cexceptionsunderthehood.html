@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++ exceptions under the hood</h2>
 
-Post by Nico Brailovsky @ 2021-03-02 - <a href="/blog/series/Cexceptionsunderthehood.html">Permalink</a> 
+Post by Nico Brailovsky @ 2021-03-02 |
+  <a href="/blog/series/Cexceptionsunderthehood.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/Cexceptionsunderthehood.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <h3>Index<a name="index"></a></h3>
 <ol>
@@ -1507,14 +1508,16 @@ _ZTI3Bar:
 <p>That should indeed look familiar: the class being thrown is exactly the same as the class that was used for typeid!</p>
 <p>We can now conclude what's going on: <strong>the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends</strong>. Specifying -fno-rtti on g++ only disables the "frontend" functions for RTTI: that means you won't be able to use typeid, and no RTTI classes will be generated... unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won't be able to access the RTTI information of this class via typeid, though).</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/Cexceptionsunderthehood.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

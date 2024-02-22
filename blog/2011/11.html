@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2011 November</h2>
 
 <h2>svn tip: branch stable version, then use externals<a name="svntipbranchstableversionthenuseexternals"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-11-24 - <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">Permalink</a>  - <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1124_svntipbranchstableversionthenuseexternals.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-11-24 | <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">Permalink</a> | <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1124_svntipbranchstableversionthenuseexternals.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Even though the title says svn, this tip is applicable probably for any version control system. Imagine the following scenario: You have project BestAppEver. BestAppEver depends on BestLibEver. Both are using svn. How do you handle this on your version control system?</p>
 <p>One way, the wrong way, that I have seen lots of times is to just include a copy of BestLibEver inside BestAppEver, like this:</p>
 <p><img alt="" src="/blog_img/svn_externals11.png" /></p>
@@ -56,7 +55,7 @@ LibName           LibURL
 <p>Now the team developing BestLibEver can work without complaints from their users and BestAppEver can have a stable svn, with controlled lib upgrades whenever they want.</p>
 <hr />
 <h2>Fixing some annoying GTK Warnings<a name="fixingsomeannoyinggtkwarnings"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-11-22 - <a href="/blog/2011/1122_FixingsomeannoyingGTKWarnings.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1122_FixingsomeannoyingGTKWarnings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-11-22 | <a href="/blog/2011/1122_FixingsomeannoyingGTKWarnings.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1122_FixingsomeannoyingGTKWarnings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, new Buguntu upgrade, new problems. The usual deal. I don't like Unity so I installed the usual gnome desktop. Now when I start gVim I get a bunch of errors like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">(gvim:7189): Gtk-WARNING **: Unable to locate theme engine in module_path: "pixmap"
 </code></pre>
@@ -66,7 +65,7 @@ LibName           LibURL
 <p>Now it works. One problem less, NaN to go... time to move back to Debian?</p>
 <hr />
 <h2>C++ name mangling<a name="cnamemangling"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-11-17 - <a href="/blog/2011/1117_Cnamemangling.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1117_Cnamemangling.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-11-17 | <a href="/blog/2011/1117_Cnamemangling.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1117_Cnamemangling.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There is a topic I have referred to several times on this blog, yet in four years I still haven't explained what it is. I plan to correct this by explaining a little bit about C++ name mangling, and although I won't expect to write anything you couldn't learn by reading <a href="http://en.wikipedia.org/wiki/Name_mangling">Wikipedia</a>, I'll try to have a more practical approach.</p>
 <p>Whenever you compile and link something, there is a lot of information the compiler deduces that you don't really care about. Things like calling conventions, overloads or namespaces. Yet this information is crucial for other stages of the compiler (or linker) to work. For this reason, the compiler will create a decorated version of any object's or function's name.</p>
 <p>In its most simple case, it would be something like this:</p>
@@ -91,7 +90,7 @@ void fastcall_string_overloaded_function(string);
 </code></pre>
 <hr />
 <h2>New Buguntu, new GUI, new problems<a name="newbuguntunewguinewproblems"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-11-01 - <a href="/blog/2011/1101_NewBuguntunewGUInewproblems.html">Permalink</a>  - <a href="/blog/2011/1101_NewBuguntunewGUInewproblems.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1101_NewBuguntunewGUInewproblems.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-11-01 | <a href="/blog/2011/1101_NewBuguntunewGUInewproblems.html">Permalink</a> | <a href="/blog/2011/1101_NewBuguntunewGUInewproblems.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/1101_NewBuguntunewGUInewproblems.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I updated Ubuntu to 11.10 in one of three computers I regularely use. Lot's of problems and very little improvements. Granted, sound now works by default (finally) but dual screen suport is still less than what I would expect from Windows 98. On top of that, the biggest change is the GUi.</p>
 <p>WTF! My computer is not a tablet, give me back my menu. While using my phone it's nice to have only a couple of icons to click. With two big monitors, I miss my launch bar, a propper clock, my custom applets and the applications menu... everything that makes the GUI usable.</p>
 <p>Luckly Ubuntu provides a way to revert to the "classic" desktop, you just need to apt-get install gnome-session-fallback (WTF? I need to INSTALL it? If you plan to roll out a new experimental GUI, at least let me opt-out without downloading more stuff). Of course, since now Ubuntu comes with Gnome 3 even more fun ensues.</p>
@@ -102,7 +101,9 @@ void fastcall_string_overloaded_function(string);
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

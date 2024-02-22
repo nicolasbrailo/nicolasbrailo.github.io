@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,20 +37,24 @@
 <div id="content" class="language-clike">
 <h2>Annoying "unable to find a medium containing a live file system" in Ubuntu</h2>
 
-Post by Nico Brailovsky @ 2011-10-27 - <a href="/blog/2011/1027_AnnoyingunabletofindamediumcontainingalivefilesysteminUbuntu.html">Permalink</a> 
+Post by Nico Brailovsky @ 2011-10-27 |
+  <a href="/blog/2011/1027_AnnoyingunabletofindamediumcontainingalivefilesysteminUbuntu.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1027_AnnoyingunabletofindamediumcontainingalivefilesysteminUbuntu.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Sometimes you may get this message when installing Ubuntu. And it's not very helpful, the install just dies.</p>
 <p>Assuming you created the installer appropriately (usb, live cd, whatever), once you reached that message it means that the BIOS already recognized your device as bootable, loaded the bootloader and started executing it. So it's the bootloader that can't find the image, yet that doesn't make sense if you think about it carefully: if the installer was properly created, that shouldn't happen.</p>
 <p>Well, after fighting for a while I realized that some DVD drives connected to a high speed SATA port will give this kind of message error. From the message it's not very clear what causes it, so you can try with one of the crazy kernel options like noapic. If that doesn't work, you can try to change the SATA mode in the BIOS. ACHI worked for me.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1027_AnnoyingunabletofindamediumcontainingalivefilesysteminUbuntu.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

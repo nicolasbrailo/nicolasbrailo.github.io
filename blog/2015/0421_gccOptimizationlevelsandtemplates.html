@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>gcc: Optimization levels and templates</h2>
 
-Post by Nico Brailovsky @ 2015-04-21 - <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">Permalink</a>  - [6 comments](md_blog/2015/0421_gccOptimizationlevelsandtemplates.md)
+Post by Nico Brailovsky @ 2015-04-21 |
+  <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">Permalink</a> | <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">6 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0421_gccOptimizationlevelsandtemplates.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Analyzing the assembly output for template devices can be a bit discouragging at times, specially when we spend hours trying to tune a mean looking template class only to find out the compiler is not able to reduce it's value like we expected. But hold on, before throwing all your templates away you might want to figure out why they are not optimized.</p>
 <p>Let's start with a simple example: a template device to return the next power of 2:</p>
@@ -104,7 +105,7 @@ _Next_POW2&lt;17, 32l, false&gt;::get_pow():
 <p>What went wrong? It's very clear for us the whole thing is just a chain of calls which could be replaced by the last one, however that information is now only available if you "inspect" the body of each function, and this is something the template instanciator (at least in gcc) can't do. Luckily you just need to enable optimizations, -O1 is enough, to have gcc output the reduced version again.</p>
 <p>Keep it in mind for the next time you're optimizing your code with template metaprogramming: some times the template expander needs some help from the optimizer too.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0421_gccOptimizationlevelsandtemplates.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">Griwes</a> commented @ 2015-04-22T10:44:15.000+02:00:<a name="inreplytothispostgriwesblogyoufoundadeadlink.htmlcommented20150422t104415.0000200"></a></h2>
@@ -135,7 +136,9 @@ _Next_POW2&lt;17, 32l, false&gt;::get_pow():
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -2,7 +2,7 @@
 @meta docType index
 ## jq: grep and prettify json
 
-Post by Nico Brailovsky @ 2020-02-27 - [Permalink](md_blog/2020/0227_jqgrepandprettifyjson.md)  - [3 comments](md_blog/2020/0227_jqgrepandprettifyjson.md) - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0227_jqgrepandprettifyjson.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2020-02-27 | [Permalink](md_blog/2020/0227_jqgrepandprettifyjson.md) | [3 comments](md_blog/2020/0227_jqgrepandprettifyjson.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0227_jqgrepandprettifyjson.md&body=I%20have%20a%20comment!)
 
 If you don't use [jq](https://stedolan.github.io/jq/manual/), you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:
 
@@ -41,7 +41,7 @@ This is probably not even enough to get started. Luckily there's plenty of docs 
 
 ## Mixin(ish) classes with parameter packs in C++
 
-Post by Nico Brailovsky @ 2020-02-18 - [Permalink](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md)  - [2 comments](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md) - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2020-02-18 | [Permalink](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md) | [2 comments](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&body=I%20have%20a%20comment!)
 
 For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:
 
@@ -95,7 +95,7 @@ struct Bar : FwdFoo {
 
 ## Presenting tips: make your presentations suck a bit less
 
-Post by Nico Brailovsky @ 2019-11-11 - [Permalink](md_blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-11-11 | [Permalink](md_blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.md&body=I%20have%20a%20comment!)
 
 I spent the last few years in a role that required a significant part in communicating with other people. Some of that in the form of slides and presentations, because not having slides isn't enterprisy. I'm far from being a great presenter, but I did learn a thing or two. All this is quite general, so it should apply to any kind of topic... as long as that topic is software engineering. I'm still a technical person and an engineer, so a lot of my assumptions about the audience may not hold true if you, for example, need to seriously consider fun things like workplace politics.
 
@@ -173,7 +173,7 @@ There are many reasons to present something, from getting people to sit-down-and
 
 ## Bash tip: Default value for a variable
 
-Post by Nico Brailovsky @ 2019-11-04 - [Permalink](md_blog/2019/1104_BashtipDefaultvalueforavariable.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1104_BashtipDefaultvalueforavariable.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-11-04 | [Permalink](md_blog/2019/1104_BashtipDefaultvalueforavariable.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1104_BashtipDefaultvalueforavariable.md&body=I%20have%20a%20comment!)
 
 In my Bash scripts, I used to hack my way around default values for variables. Turns out there is a very simple way to give your variables a default value while also letting other override them if they want to:
 
@@ -191,7 +191,7 @@ If someone export's BAR, then FOO will equals the already exported value of $BAR
 
 ## std::is_constant_evaluated: make debugging a little bit harder for yourself!
 
-Post by Nico Brailovsky @ 2019-08-03 - [Permalink](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md)  - [2 comments](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-08-03 | [Permalink](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [2 comments](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!)
 
 Let's pretend you find this:
 
@@ -228,7 +228,7 @@ I'm sure with careful usage, is\_constant\_evaluated will allow library writers 
 
 ## Vim multiple search
 
-Post by Nico Brailovsky @ 2019-07-27 - [Permalink](md_blog/2019/0727_Vimmultiplesearch.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0727_Vimmultiplesearch.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-07-27 | [Permalink](md_blog/2019/0727_Vimmultiplesearch.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0727_Vimmultiplesearch.md&body=I%20have%20a%20comment!)
 
 I keep forgetting about this one. Maybe writing it down will help me remember: Vim can search for (and highlight) multiple patterns at the same time. Just start your search with \v and split the patterns with |. Eg:
 
@@ -244,7 +244,7 @@ I keep forgetting about this one. Maybe writing it down will help me remember: V
 
 ## Bash: Color in command line prompt PS1
 
-Post by Nico Brailovsky @ 2019-07-18 - [Permalink](md_blog/2019/0718_BashColorincommandlinepromptPS1.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0718_BashColorincommandlinepromptPS1.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-07-18 | [Permalink](md_blog/2019/0718_BashColorincommandlinepromptPS1.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0718_BashColorincommandlinepromptPS1.md&body=I%20have%20a%20comment!)
 
 I'm lately dealing with lots of hosts in different environments (eg local, dev, test, etc). Some actions are safe to perform in some of these hosts, in others not so much. To help quickly figure out which hosts are safe, I wanted to add a color to my Bash prompt (PS1) - for example green for dev, where it's unlikely I'll break anything other than my stuff, red for hosts where carelessness might result in a weekend spent at the office.
 
@@ -268,7 +268,7 @@ export PS1='\A '$COLOR_SET'\h'$COLOR_RESET':\w$ '
 
 ## The bestest autocomplete for Vim
 
-Post by Nico Brailovsky @ 2019-06-11 - [Permalink](md_blog/2019/0611_ThebestestautocompleteforVim.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0611_ThebestestautocompleteforVim.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-06-11 | [Permalink](md_blog/2019/0611_ThebestestautocompleteforVim.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0611_ThebestestautocompleteforVim.md&body=I%20have%20a%20comment!)
 
 TL;DR: I like [YouCompleteMe](https://github.com/Valloric/YouCompleteMe)
 A [post in Hacker News](https://news.ycombinator.com/item?id=19529557) drew me to look at autocompletion in Vim. After trying a few plugins years before, I settled for the available-by-default autocomplete in Vim. It's pretty dumb, but pretty dumb covers 90% of what I need: autocompletionForReallyUglyOrLongNames.
@@ -295,7 +295,7 @@ Took me years but I'm very happy to finally find an autocomplete plugin that "ju
 
 ## Howto: shutdown a TV with HDMI CEC Chromecast
 
-Post by Nico Brailovsky @ 2019-05-28 - [Permalink](md_blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-05-28 | [Permalink](md_blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md&body=I%20have%20a%20comment!)
 
 That's a long title just to say "how to turn off your TV". Only I want to show how to do it even if you lost your remote control.
 
@@ -377,7 +377,7 @@ Linkdump:
 
 ## Say nice things
 
-Post by Nico Brailovsky @ 2019-05-14 - [Permalink](md_blog/2019/0514_Saynicethings.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0514_Saynicethings.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-05-14 | [Permalink](md_blog/2019/0514_Saynicethings.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0514_Saynicethings.md&body=I%20have%20a%20comment!)
 
 As software developers, we need to put much more emphasis on positive interactions with our peers. Engineering requires critical thinking. Looking for cases where something (code!) will break. Criticizing what we do, on the hope of doing it better, is a key and necessary aspect of our profession. However, even when done properly (already a hard enough job!) this practice emphasizes negative interactions. In a normal job, what would you say is the ratio of times you hear "this might be better if .." vs "I really liked X"?
 
@@ -391,4 +391,4 @@ In the end, maybe someone just had a slightly better day because you said someth
 
 ---
 
-[Prev](md_gen/index.md) | [Next](md_gen/index2.md)
+@meta extraNav [Prev](md_gen/index.md) | [Next](md_gen/index2.md)

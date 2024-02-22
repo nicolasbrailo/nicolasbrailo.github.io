@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,12 +38,12 @@
 <h2>Posts for 2013 April</h2>
 
 <h2>Tip to migrate from VMWare to VirtualBox<a name="tiptomigratefromvmwaretovirtualbox"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-30 - <a href="/blog/2013/0430_TiptomigratefromVMWaretoVirtualBox.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0430_TiptomigratefromVMWaretoVirtualBox.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-30 | <a href="/blog/2013/0430_TiptomigratefromVMWaretoVirtualBox.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0430_TiptomigratefromVMWaretoVirtualBox.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Some times (most times?) migrating from VMWare to VirtualBox can get quite complicated. Mounting a disk from one into the other nowadays usualy works but network stuff seems to break more often than not.</p>
 <p>Here's a little tip for those times when you are trying to get the network for a VMW image working in VBox: try using the third network adapter, that seems to be the same PCI address VMWare uses (in my machine... results might vary).</p>
 <hr />
 <h2>C++ exceptions under the hood 13: setting the context for a landing pad<a name="cexceptionsunderthehood13settingthecontextforalandingpad"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-25 - <a href="/blog/2013/0425_Cexceptionsunderthehood13settingthecontextforalandingpad.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0425_Cexceptionsunderthehood13settingthecontextforalandingpad.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-25 | <a href="/blog/2013/0425_Cexceptionsunderthehood13settingthecontextforalandingpad.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0425_Cexceptionsunderthehood13settingthecontextforalandingpad.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Last time we finally wrote an almost working personality function. We can detect for each stack frame which landing pads are available and then tell _Unwind_ we want to run a specific landing pad. We hit a small issue, though: although we set the context for _Unwind_ to continue executing on the correct landing pad we didn't set the current exception on the register. This, in turn, means that the landing pad won't know which exception should be handling, so it will say "I can't handle this". _Unwind_ will then say "please try the next landing pad" but our ABI is so simple that it has no idea how it should find another landing pad and just tries the same. Over and over again. We have probably invented the most contrived example for a while(true)!</p>
 <p>Let's set the correct context for the landing pad and clean up a bit our ABI:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#include <unistd.h>
@@ -225,7 +224,7 @@ catchit handled the exception
 <p>Can we now improve it and make it handle the correct exception on the correct frame? May be next time.</p>
 <hr />
 <h2>C++ exceptions under the hood 14: multiple landing pads &amp; the teachings of the guru<a name="cexceptionsunderthehood14multiplelandingpadstheteachingsoftheguru"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-23 - <a href="/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-23 | <a href="/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>After a lot of hard work, last time we finally got a working personality function capable of handling exceptions without help of libstdc++. It will indiscriminately handle all exceptions, but it does work. There is a big question we haven't answered yet: if we go back to the LSDA (language specific data area) we'll see something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">.local_lsda_call_site_table:
     .uleb128 .LEHB0-.LFB1
@@ -288,12 +287,12 @@ catchit handled the exception
 <p>Now that we know what the start and len fields do, let's change our personality function so the correct landing pad can handle the exception being thrown. Go ahead. My implementation for the next time.</p>
 <hr />
 <h2>Learning misspells: thanks Vim!<a name="learningmisspellsthanksvim"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-18 - <a href="/blog/2013/0418_LearningmisspellsthanksVim.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0418_LearningmisspellsthanksVim.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-18 | <a href="/blog/2013/0418_LearningmisspellsthanksVim.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0418_LearningmisspellsthanksVim.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I just noticed a very silly "pattern" I usually fall into: since I like vim (perhaps a bit too much) to work with text, even free-form text like this blog post, most of the times I type a lot of text which then must be spell checked (so far I haven't found a spell checking extension I like for vim). While spell checking I correct the original text in vim, and to do this I usually search for the mispel in Vim, thus typing the wrong spelling one more time. This has the side effect of reinforcing the bad spell instead of forcing me to type the correct spelling.</p>
 <p>I wonder how can I fix this problem without a spellchecker for vim.</p>
 <hr />
 <h2>C++ exceptions under the hood 12: and suddenly, reflexion in C++<a name="cexceptionsunderthehood12andsuddenlyreflexioninc"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-16 - <a href="/blog/2013/0416_Cexceptionsunderthehood12andsuddenlyreflexioninC.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0416_Cexceptionsunderthehood12andsuddenlyreflexioninC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-16 | <a href="/blog/2013/0416_Cexceptionsunderthehood12andsuddenlyreflexioninC.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0416_Cexceptionsunderthehood12andsuddenlyreflexioninC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We left our mini-ABI project (<a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v03">link</a>) capable of throwing exceptions, and we are now working on catching them; we implemented a personality function last time which was capable of detecting and handling exceptions but it was still a bit incomplete: even though it can properly notify the stack unwinder when it should stop but our version of __gxx_personality_v0 can't run the code inside a catch block. We learned last time how to read the LSDA, so now it's only a problem of putting all the pieces together to read the .gcc_except_table from within our personality function.</p>
 <p>Let's recap a bit: we figured out last time that our LSDA for the function which has the catch we want to run has the following call site table (that is, the following landing pads [that is, the following catch blocks]):</p>
 <pre lang="c++"><code class="language-c++" lang="c++">.local_lsda_call_site_table:
@@ -397,7 +396,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 <p>Try to run it, and watch a beautiful infinite loop. Can you guess what went wrong? The answer on the next article.</p>
 <hr />
 <h2>C++ exceptions under the hood 11: reading a CFI table<a name="cexceptionsunderthehood11readingacfitable"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-11 - <a href="/blog/2013/0411_Cexceptionsunderthehood11readingaCFItable.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0411_Cexceptionsunderthehood11readingaCFItable.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-11 | <a href="/blog/2013/0411_Cexceptionsunderthehood11readingaCFItable.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0411_Cexceptionsunderthehood11readingaCFItable.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>To properly handle exceptions from within the personality function we've been implementing for our ABI, we need to read the LSDA (language specific data area) to know which call frame (ie which function) can handle which exception, and to know where a landing pad (catch block) can be found). The LSDA table is in CFI format, and we'll see in this chapter how to read it.</p>
 <p>Reading the CFI data can be rather straight forward, but there are a few pitfalls we need to consider first. Two, actually:
 1. There is very little documentation about the .gcc_except_table format (actually, I only found some mails about it) so we'll need to read a lot of source code and disassembles to understand it.
@@ -459,7 +458,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 <p>So we seem to be on the right track, though we don't know yet why there are 3 call site entries when we only defined a single landing pad. In any case, we can cheat a little: by looking at the disassembly we can deduce that all the values on the CFI will be less than 128 and this means that in LEB encoding they can be read as plain uchars. This makes our CFI reading code so much easier, and we will see how to use it in our personality function next time.</p>
 <hr />
 <h2>C++ exceptions under the hood 10: Unwind and call frame info<a name="cexceptionsunderthehood10unwindandcallframeinfo"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-09 - <a href="/blog/2013/0409_Cexceptionsunderthehood10_Unwind_andcallframeinfo.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0409_Cexceptionsunderthehood10_Unwind_andcallframeinfo.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-09 | <a href="/blog/2013/0409_Cexceptionsunderthehood10_Unwind_andcallframeinfo.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0409_Cexceptionsunderthehood10_Unwind_andcallframeinfo.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We left our mini-ABI project (<a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v03">link</a>) capable of throwing exceptions, and we are now working on catching them; we implemented a personality function last time which was capable of detecting and handling exceptions but it was still a bit incomplete: even though it can properly notify the stack unwinder when it should stop but our version of __gxx_personality_v0 can't run the code inside a catch block. It's better than a coredump one might argue, but still a long way from a useful exception handling ABI. Can we improve it?</p>
 <p>How can we tell _Unwind_ where is our landing pad, so we can execute the code inside the catch statement? If we go back to the <a href="/blog/youfoundadeadlink.html">ABI specification</a>, there are a few context management functions which might help us:</p>
 <ul>
@@ -506,12 +505,12 @@ Dump of assembler code for function try_but_dont_catch():
 <p>With the help of _Unwind_ we are now able to get enough information about the current stack frame to decide whether we can or not handle an exception, an also how should we handle it. One more step is needed before we can detect the landing pad we want: we will need to interpret the CFI (call frame information) at the end of the function. This is part of the DWARF spec, the same gdb uses for debugging purposes, and it's not an easy spec to implement. Like we are doing with our ABI, we'll keep this to the bare minimum.</p>
 <hr />
 <h2>Vim tips: my github's vimrc<a name="vimtipsmygithubsvimrc"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-04 - <a href="/blog/2013/0404_Vimtipsmygithubsvimrc.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0404_Vimtipsmygithubsvimrc.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-04 | <a href="/blog/2013/0404_Vimtipsmygithubsvimrc.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0404_Vimtipsmygithubsvimrc.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>It's been a while since I posted my Vimrc. That's probably because I don't really need to back it up in my blog anymore, now I just keep it in <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vimrc">my github repo</a>.</p>
 <p>Now whenever I get a new computer I just clone my repo and get for free my vimrc, my terminator rc and a bunch of useful scripts I regularly use on bash.</p>
 <hr />
 <h2>C++ exceptions under the hood 9: catching our first exception<a name="cexceptionsunderthehood9catchingourfirstexception"></a></h2>
-<p>Post by Nico Brailovsky @ 2013-04-02 - <a href="/blog/2013/0402_Cexceptionsunderthehood9catchingourfirstexception.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0402_Cexceptionsunderthehood9catchingourfirstexception.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2013-04-02 | <a href="/blog/2013/0402_Cexceptionsunderthehood9catchingourfirstexception.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2013/0402_Cexceptionsunderthehood9catchingourfirstexception.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>We finished last chapter on the series about C++ exceptions by adding a personality function that _Unwind_ was able to call and then analyzing the parameters that the personality function receives. Now it's time to begin adding some real behavior to __gxx_personality_v0: when __gxx_personality_v0 is called we should say "yes, this stack frame can indeed handle this exception".</p>
 <p>We have been building up to this point quite a bit: the time where we can implement for the first time a personality function capable of detecting when an exception is thrown, and then saying "yes, I will handle this exception". For that we had to learn how the two-phase lookup work, so we can now reimplement our personality function and our throw test file:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#include <stdio.h>
@@ -574,7 +573,9 @@ catchit handled the exception
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

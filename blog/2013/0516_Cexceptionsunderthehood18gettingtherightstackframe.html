@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++ exceptions under the hood 18: getting the right stack frame</h2>
 
-Post by Nico Brailovsky @ 2013-05-16 - <a href="/blog/2013/0516_Cexceptionsunderthehood18gettingtherightstackframe.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-05-16 |
+  <a href="/blog/2013/0516_Cexceptionsunderthehood18gettingtherightstackframe.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0516_Cexceptionsunderthehood18gettingtherightstackframe.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Our latest personality function knows whether it can handle an exception or not (assuming there is only one catch statement per try block and assuming no inheritance is used) but to make this knowledge useful, we have first to check if the exception we can handle matches the exception being thrown. Let's try to do this.</p>
 <p>Of course, we need first to know the exception type. To do this we need to save the exception type when <strong>__cxa_throw</strong> is called (this is the chance the ABI gives us to set all our custom data):</p>
@@ -105,14 +106,16 @@ if (org_ex_type-&gt;name() != catch_ti-&gt;name())
 <p>Unfortunately, our personality function only checks for the first type the landing pad can handle. If we delete the Fake_Exception catch block and try it again, though, we'd get a different story: finally, success! Our personality function can now select the correct catch in the correct frame, provided there's no try block with multiple catches.</p>
 <p>Next time we'll be further improving this.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0516_Cexceptionsunderthehood18gettingtherightstackframe.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

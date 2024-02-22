@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Gcc tip: better disassembly</h2>
 
-Post by Nico Brailovsky @ 2013-10-08 - <a href="/blog/2013/1008_Gcctipbetterdisassembly.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-10-08 |
+  <a href="/blog/2013/1008_Gcctipbetterdisassembly.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1008_Gcctipbetterdisassembly.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Few things are more awesome than compiling with "g++ -S" and inspecting gcc's dissasembly and learn how the compiler optimizes things you wouldn't even think about. Unfortunately, the assembly might not be the most human friendly format for a program (though I've seen worse).</p>
 <p>While you won't escape the need to learn some assembly to get any meaningful information out of gcc's assembly listing, there are some tips which might make your life much easier:</p>
@@ -49,14 +50,16 @@ Post by Nico Brailovsky @ 2013-10-08 - <a href="/blog/2013/1008_Gcctipbetterdisa
 <h2>Extra, unrelated, tip:<a name="extraunrelatedtip"></a></h2>
 <p>As far as I know, gcc has no option to write to stdout; just use "-o /dev/stdout" to let it write to a fake file which Linux will helpfully create for you, then you can pipe the hell out of gcc's output.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1008_Gcctipbetterdisassembly.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

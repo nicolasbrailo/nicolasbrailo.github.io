@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2015 April</h2>
 
 <h2>Globing in bash<a name="globinginbash"></a></h2>
-<p>Post by Nico Brailovsky @ 2015-04-30 - <a href="/blog/2015/0430_Globinginbash.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0430_Globinginbash.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-04-30 | <a href="/blog/2015/0430_Globinginbash.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0430_Globinginbash.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There is a pretty common and unnecessary pattern used by bash scripts: whenever you need to loop through a list of file names in a path, you might tempted to write something like this.</p>
 <pre lang="c++"><code class="language-c++" lang="c++">for fname in $(ls | grep foo); do echo $fname; done
 </code></pre>
@@ -50,7 +49,7 @@
 <p>Want to know more about bash globbibg? Check out http://www.linuxjournal.com/content/bash-extended-globbing</p>
 <hr />
 <h2>gdb: Print very long strings<a name="gdbprintverylongstrings"></a></h2>
-<p>Post by Nico Brailovsky @ 2015-04-28 - <a href="/blog/2015/0428_gdbPrintverylongstrings.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0428_gdbPrintverylongstrings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-04-28 | <a href="/blog/2015/0428_gdbPrintverylongstrings.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0428_gdbPrintverylongstrings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>gdb defaults are usually quite sensible and just "let you work". Some times, though, your project is not very sensible and you have to do weird things in gdb. An example: printing huge strings or vectors to try and reproduce a heisenbug. A lot of people get surprised at first because gdb will refuse to print very long strings, printing only the first few chars. Same for vectors. And if you have many repeating elements (eg "f000000000000000000000000000000bar") you might see something like "fooo0bar".
 Just type these magic commands to see the whole string:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">&gt; set print repeats 0
@@ -58,7 +57,7 @@ Just type these magic commands to see the whole string:</p>
 </code></pre>
 <hr />
 <h2>gcc: Optimization levels and templates<a name="gccoptimizationlevelsandtemplates"></a></h2>
-<p>Post by Nico Brailovsky @ 2015-04-21 - <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">Permalink</a>  - <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">6 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0421_gccOptimizationlevelsandtemplates.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-04-21 | <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">Permalink</a> | <a href="/blog/2015/0421_gccOptimizationlevelsandtemplates.html">6 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0421_gccOptimizationlevelsandtemplates.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Analyzing the assembly output for template devices can be a bit discouragging at times, specially when we spend hours trying to tune a mean looking template class only to find out the compiler is not able to reduce it's value like we expected. But hold on, before throwing all your templates away you might want to figure out why they are not optimized.</p>
 <p>Let's start with a simple example: a template device to return the next power of 2:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template <int n, long curr_pow, bool stop>
@@ -124,7 +123,7 @@ _Next_POW2&lt;17, 32l, false&gt;::get_pow():
 <p>Keep it in mind for the next time you're optimizing your code with template metaprogramming: some times the template expander needs some help from the optimizer too.</p>
 <hr />
 <h2>Bash traps: almost like RAII for bash<a name="bashtrapsalmostlikeraiiforbash"></a></h2>
-<p>Post by Nico Brailovsky @ 2015-04-16 - <a href="/blog/2015/0416_BashtrapsalmostlikeRAIIforbash.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0416_BashtrapsalmostlikeRAIIforbash.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-04-16 | <a href="/blog/2015/0416_BashtrapsalmostlikeRAIIforbash.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0416_BashtrapsalmostlikeRAIIforbash.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Everywhere, but specially in bash, cleaning up is annoying and error prone. Resource leaks can be common if your bash script is interrupted half-way. Do you need to execute something always, even if your script fails or gets killed? Try using traps:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#!/bin/bash
 foobar() {
@@ -135,7 +134,7 @@ trap "foobar" EXIT
 <p>It doesn't mater how you end this script, "foobar" will always be executed. Want to read more about bash traps? Check <a href="/blog/youfoundadeadlink.html">here.</a></p>
 <hr />
 <h2>C++: Invalidating references to elements in a vector<a name="cinvalidatingreferencestoelementsinavector"></a></h2>
-<p>Post by Nico Brailovsky @ 2015-04-14 - <a href="/blog/2015/0414_CInvalidatingreferencestoelementsinavector.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0414_CInvalidatingreferencestoelementsinavector.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-04-14 | <a href="/blog/2015/0414_CInvalidatingreferencestoelementsinavector.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0414_CInvalidatingreferencestoelementsinavector.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Is this valid C++?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">void do_something(const int&amp;);
 #include <vector>
@@ -161,11 +160,11 @@ void foo() {
 <p>A bit of language laweyering shows that what seems like an error is in fact allowed by the standard, but even if this is valid C++ code you should always keep in mind that assuming that the capacity of a vector will be enough is a VERY big assumption, it's very easy to break and you won't get any warning when it happens (maybe a core dump, if you're lucky).</p>
 <hr />
 <h2>Code natural selection<a name="codenaturalselection"></a></h2>
-<p>Post by Nico Brailovsky @ 2015-04-09 - <a href="/blog/2015/0409_Codenaturalselection.html">Permalink</a>  - <a href="/blog/2015/0409_Codenaturalselection.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0409_Codenaturalselection.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-04-09 | <a href="/blog/2015/0409_Codenaturalselection.html">Permalink</a> | <a href="/blog/2015/0409_Codenaturalselection.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0409_Codenaturalselection.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A funny thought just came to me: if you write nice clean code, it's easy to replace it. Just plug out an object somewhere, replace it with another one implementing the same interface, run the tests. Tada! On the other hand, if you write crappy code it might be nigh impossible to replace it. It will probably be worked around whenever a change is needed, simply adding layers of crust. Maybe that's why legacy code sucks: it's simply code natural selection - and the fittest to survive is simply the crappiest one. I think I'm depressed now.</p>
 <hr />
 <h2>Ruby-style digit separator for C-98?<a name="rubystyledigitseparatorforc98"></a></h2>
-<p>Post by Nico Brailovsky @ 2015-04-07 - <a href="/blog/2015/0407_RubystyledigitseparatorforC98.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0407_RubystyledigitseparatorforC98.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-04-07 | <a href="/blog/2015/0407_RubystyledigitseparatorforC98.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0407_RubystyledigitseparatorforC98.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>A silly, and not very useful tip: I love how ruby allows you to write numbers like 1000000 as 1_000_000. Very useful to write benchmarking tests.</p>
 <p>Until we get to C++14 we don't have a nice alternative, but we have an ugly hack we can use: instead of writing 1000000 write "1 ## 000 ## 000".</p>
 <p>It works, '##' is the preprocessor's token pasting operator, and it will paste two tokens together. Looks ugly, breaks the GUI highlighting, but at least you can count how many zeros you've got.</p>
@@ -173,7 +172,7 @@ void foo() {
 <p>Nitpicker's corner II: The evaluation order of a chain of '##' is not defined, but I don't expect this to cause any problems; any order of evaluation should result in the same result for this case.</p>
 <hr />
 <h2>Vim Tip: I want more menus!<a name="vimtipiwantmoremenus"></a></h2>
-<p>Post by Nico Brailovsky @ 2015-04-02 - <a href="/blog/2015/0402_VimTipIwantmoremenus.html">Permalink</a>  - <a href="/blog/2015/0402_VimTipIwantmoremenus.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0402_VimTipIwantmoremenus.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2015-04-02 | <a href="/blog/2015/0402_VimTipIwantmoremenus.html">Permalink</a> | <a href="/blog/2015/0402_VimTipIwantmoremenus.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2015/0402_VimTipIwantmoremenus.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>As a uber vim geek, you shouldn't be using a lot of gui menus. Scratch that, you shouldn't be using any menus at all, period. Still, I'll admit it's a bit hard to remember every single shortcut for actions you rarely use.</p>
 <p>Say, for example, you like to encrypt your text. Not always, but every once in a while. Enough to make a shortcut for it but not enough to remember what the shortcut is. You can try to grep your ~/.vimrc. You might find something like:</p>
 <pre><code>" Encrypt my stuff
@@ -196,7 +195,9 @@ menu Project.Encrypt ggg?G<CR>
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

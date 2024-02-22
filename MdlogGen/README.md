@@ -2,6 +2,13 @@
 
 // TODO
 
+## Features
+* Site search (using Github search - only logged in Github users can use it)
+* Comments (kind of... they are actually PRs)
+* Static and dynamic content
+* RSS
+
+
 ## Format
 
 * mlogen will process all md files in the specified prefix directory
@@ -21,6 +28,8 @@
     * srcFile: (relative) path to source md file
     * htmlD: (relative) path to source md file
     * generatedDate: Time the md file was read
+* If a metadata line is defined twice, the second definition will be ignored except for docType and extraNav; for docType and extraNav, the last definition will be picked up.
+
 
 ## Limitations
 

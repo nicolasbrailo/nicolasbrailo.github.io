@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Scope ending in C++</h2>
 
-Post by Nico Brailovsky @ 2015-03-31 - <a href="/blog/2015/0331_ScopeendinginC.html">Permalink</a>  - [2 comments](md_blog/2015/0331_ScopeendinginC.md)
+Post by Nico Brailovsky @ 2015-03-31 |
+  <a href="/blog/2015/0331_ScopeendinginC.html">Permalink</a> | <a href="/blog/2015/0331_ScopeendinginC.html">2 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0331_ScopeendinginC.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Is the following code valid C++?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">const int x = 42;
@@ -50,7 +51,7 @@ void f() {
 <p>Unfortunately, it is. According to 3.3.2 in the standard, a definition is available in a child scope up to the point where it's shadowed, and that means "x" will first be interpreted as the global const int, being an index for a vector named "x". Any new references to "x" will point to the new declaration.</p>
 <p>Fun stuff, right?</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0331_ScopeendinginC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, Jason Turner commented @ 2015-04-08T14:30:09.000+02:00:<a name="inreplytothispostjasonturnercommented20150408t143009.0000200"></a></h2>
@@ -64,7 +65,9 @@ void f() {
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

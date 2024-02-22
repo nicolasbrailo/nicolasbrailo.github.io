@@ -2,12 +2,11 @@
 <rss version="2.0">
 
 <channel>
-  <title>{{title}}</title>
-  <link>{{site_fqdn}}</link>
-  <description>{{rss_description}}</description>
+  <title>{{rssTitle}}</title>
+  <link>{{siteFQDN}}</link>
+  <description>{{rssDescription}}</description>
   <lastBuildDate>{{publishDate}}</lastBuildDate>
   <pubDate>{{publishDate}}</pubDate>
-
-  {{rss_items}}
+  {{rssItems}}
 </channel>
 </rss>

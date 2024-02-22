@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>False sharing in multi threaded applications</h2>
 
-Post by Nico Brailovsky @ 2012-11-19 - <a href="/blog/2012/1119_Falsesharinginmultithreadedapplications.html">Permalink</a> 
+Post by Nico Brailovsky @ 2012-11-19 |
+  <a href="/blog/2012/1119_Falsesharinginmultithreadedapplications.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1119_Falsesharinginmultithreadedapplications.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Concurrent programing is hard. Very hard. But every once in a while you can actually find a textbook problem, an application for which a parallel algorithm is not only simple but also intuitive, so clear that it would be difficult to actually do it any other way. You put on your high speed helmet and fasten your seatbelt, ready for an FTL (faster than lineal) jump.</p>
 <p>Running make &amp;&amp; make test only show lower numbers. You actually decreased the performance of your application, by making it multi-threaded! How can this be possible?</p>
@@ -96,14 +97,16 @@ Wow, a simple read from L1 cache now fails because it's been marked as dirty by 
 <p>Can you see now why our simple and elegant parallel algorithm has turned into a messy lineal... steaming pile of code? Each time a core tries to write to his own variable, it's inadvertently invalidating the variables other cores need. This is called false sharing, and we'll see a fix next time.</p>
 <p>(*) Disclaimer: this diagram, and the ones before, are simplifications of what actually happens. In reality there are several levels of cache, and some of those may be shared between cores, so most likely the L1 won't need to go to main memory. Also, even in the case where there is no shared cache between cores, there are <a href="http://en.wikipedia.org/wiki/Cache_coherence">cache coherency protocols</a> which will most likely avoid a read from main memory.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1119_Falsesharinginmultithreadedapplications.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

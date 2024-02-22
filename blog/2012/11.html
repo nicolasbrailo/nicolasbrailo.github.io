@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2012 November</h2>
 
 <h2>Cool C++0X features XIII: auto and ranged for, cleaner loops FTW<a name="coolc0xfeaturesxiiiautoandrangedforcleanerloopsftw"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-11-29 - <a href="/blog/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-29 | <a href="/blog/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Long time without updating this series. Last time we saw how the ugly</p>
 <pre lang="c++"><code class="language-c++" lang="c++">for (FooContainer::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
 </code></pre>
@@ -71,18 +70,18 @@ for (auto&amp; x : foobar) {
 <p>There are many ways to initialize that list, but we'll see how C++0X let's you do it in a new way the next time.</p>
 <hr />
 <h2>Hugging borked on Ubuntu?<a name="huggingborkedonubuntu"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-11-27 - <a href="/blog/2012/1127_HuggingborkedonUbuntu.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1127_HuggingborkedonUbuntu.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-27 | <a href="/blog/2012/1127_HuggingborkedonUbuntu.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1127_HuggingborkedonUbuntu.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Hugging is pretty awesome to create panoramic photos. I use it regularly, for example for this awesome Prague old town square panoramic I took some time ago:</p>
 <p><img alt="Original: ./blog_img/img_lost.png" src="/blog_img/img_lost.png" /></p>
 <p>At some point I realized that, after an upgrade, Hugging just stopped finding connection points. Apparently there's a licences issue somewhere. Just "sudo apt-get install autopano-sift" and continue hugging.</p>
 <hr />
 <h2>Vim tip: goto column<a name="vimtipgotocolumn"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-11-22 - <a href="/blog/2012/1122_Vimtipgotocolumn.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1122_Vimtipgotocolumn.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-22 | <a href="/blog/2012/1122_Vimtipgotocolumn.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1122_Vimtipgotocolumn.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>You can quickly jump to a specified column in Vim by simply typing the column number followed by a pipe, like this:</p>
 <p>80| # go to the 80th column</p>
 <hr />
 <h2>False sharing in multi threaded applications, part II<a name="falsesharinginmultithreadedapplicationspartii"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-11-20 - <a href="/blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-20 | <a href="/blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>In the last entry we learned how an apparently parallel algorithm can turn into a sequential nightmare via false sharing; what you may think to be two independent variables may actually be spatially close, thus sharing a cache line which gets invalidated by each and every write across cores. But is this a real world issue? If so, how can we fix it?</p>
 <p>We'll work backwards: let's see first how can this be fixed, and then we'll check if this is actually a real world issue.</p>
 <p>Remember our code sample, from last time:</p>
@@ -110,7 +109,7 @@ for (auto&amp; x : foobar) {
 <p>Alternatively, you could use the align keyword of C++0x, but since it's not implemented on g++ I have never tested it before, so I have no idea how it's supposed to work. For more information on this you can check <a href="http://drdobbs.com/go-parallel/article/showArticle.jhtml?articleID=217500206">Herb Sutter's article, Eliminate False Sharing</a>.</p>
 <hr />
 <h2>False sharing in multi threaded applications<a name="falsesharinginmultithreadedapplications"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-11-19 - <a href="/blog/2012/1119_Falsesharinginmultithreadedapplications.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1119_Falsesharinginmultithreadedapplications.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-19 | <a href="/blog/2012/1119_Falsesharinginmultithreadedapplications.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1119_Falsesharinginmultithreadedapplications.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Concurrent programing is hard. Very hard. But every once in a while you can actually find a textbook problem, an application for which a parallel algorithm is not only simple but also intuitive, so clear that it would be difficult to actually do it any other way. You put on your high speed helmet and fasten your seatbelt, ready for an FTL (faster than lineal) jump.</p>
 <p>Running make &amp;&amp; make test only show lower numbers. You actually decreased the performance of your application, by making it multi-threaded! How can this be possible?</p>
 <p>While writing concurrent algorithms there are many places where you can fail, miserably. Contention is only one of them, but this is a very subtle way of failure; it will render your concurrent algorithms into a very complicated sequential algorithm, run in many cores. How can a simple concurrent algorithm turn into such a mess?</p>
@@ -168,7 +167,7 @@ Wow, a simple read from L1 cache now fails because it's been marked as dirty by 
 <p>(*) Disclaimer: this diagram, and the ones before, are simplifications of what actually happens. In reality there are several levels of cache, and some of those may be shared between cores, so most likely the L1 won't need to go to main memory. Also, even in the case where there is no shared cache between cores, there are <a href="http://en.wikipedia.org/wiki/Cache_coherence">cache coherency protocols</a> which will most likely avoid a read from main memory.</p>
 <hr />
 <h2>Easy bind dns log analyzer<a name="easybinddnsloganalyzer"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-11-13 - <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">Permalink</a>  - <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">7 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1113_Easybinddnsloganalyzer.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-13 | <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">Permalink</a> | <a href="/blog/2012/1113_Easybinddnsloganalyzer.html">7 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1113_Easybinddnsloganalyzer.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Any real-programmer (tm) should be able to memorize all the static IPs in his network and should feel more comfortable using the IP to access the LAN resources, instead of those user friendly URL things. Of course, not everyone is a real-programmer (tm), and these people usually drive crazy the poor guys who do remember all the static IPs in the office. For them, the DNS was invented.</p>
 <p>Some time ago I set up a bind9 on a spare server I had. Easy job, a side project of a boring late night. Of course, there was no point in just setting up my own TLD; I now had the power to have fun with DNS poisoning, and I could also create nice reports of the queries to the DNS server.</p>
 <p>Having fun with a DNS might be the topic for another post, for this one I'll just focus on how to get query statistics from a bind server.</p>
@@ -241,7 +240,7 @@ end
 </code></pre>
 <hr />
 <h2>Redirecting connections from one port to another with iptables<a name="redirectingconnectionsfromoneporttoanotherwithiptables"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-11-06 - <a href="/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-06 | <a href="/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>People say iptables are incredibly useful. Mind you, I have gotten mostly headaches out of it, but it is easy to see they are a powerful tool. The other day (for reasons not relevant to this post) I needed to run a service on a port, yet have it accept connections in a different port. Say, the service should be listening on port 1234, but the server should accept any connection on port 4321 and "redirect" each package to the correct port. Turns out iptables is the tool for the job.</p>
 <p>For the impatient ones, this is the command I used:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24 \
@@ -271,14 +270,16 @@ iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 -j DNAT --to :1234
 </code></pre>
 <hr />
 <h2>stlfilt: read ugly tmpl errors<a name="stlfiltreaduglytmplerrors"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-11-01 - <a href="/blog/2012/1101_stlfiltreaduglytmplerrors.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1101_stlfiltreaduglytmplerrors.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-11-01 | <a href="/blog/2012/1101_stlfiltreaduglytmplerrors.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1101_stlfiltreaduglytmplerrors.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There's nothing better for Monday mornings than the smell of hundreds of template errors after a make clean all. When using template metaprogramming, a tiny misplaced coma can generate enough error code that, if printed, would crush you under tones of paper. And don't even try to read them, it'll make your head explode.</p>
 <p>Luckily <a href="http://www.bdsoft.com/tools/stlfilt.html">STLFilt</a> can be quite a relief when dealing with this kind of errors. Granted, it won't make a steaming pile of poo seem to be a nice poem, but if you have something like the dog in the picture, to use a metaphor, at least it would put a blanket on its face.</p>
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

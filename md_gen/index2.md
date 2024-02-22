@@ -2,7 +2,7 @@
 @meta docType index
 ## GCC instrumentation flag: slow everything down!
 
-Post by Nico Brailovsky @ 2019-05-08 - [Permalink](md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-05-08 | [Permalink](md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md&body=I%20have%20a%20comment!)
 
 Here's a nice gcc tip if you think your code is running too fast: instrument everything! (Ok, it may also work if you need to create a profile of your application but for some reason Valgrind isn't your thing).
 
@@ -77,7 +77,7 @@ int main() {
 
 ## Chromecastic Slideshow
 
-Post by Nico Brailovsky @ 2019-04-05 - [Permalink](md_blog/2019/0405_ChromecasticSlideshow.md)  - [1 comments](md_blog/2019/0405_ChromecasticSlideshow.md) - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0405_ChromecasticSlideshow.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-04-05 | [Permalink](md_blog/2019/0405_ChromecasticSlideshow.md) | [1 comments](md_blog/2019/0405_ChromecasticSlideshow.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0405_ChromecasticSlideshow.md&body=I%20have%20a%20comment!)
 
 Plug for a new [script I've been working on: https://github.com/nicolasbrailo/ChromecasticSlideshow](https://github.com/nicolasbrailo/ChromecasticSlideshow):
 
@@ -96,7 +96,7 @@ Hope someone else finds this useful!
 
 ## VimTip: Search and f(replace)
 
-Post by Nico Brailovsky @ 2019-02-26 - [Permalink](md_blog/2019/0226_VimTipSearchandfreplace.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0226_VimTipSearchandfreplace.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2019-02-26 | [Permalink](md_blog/2019/0226_VimTipSearchandfreplace.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0226_VimTipSearchandfreplace.md&body=I%20have%20a%20comment!)
 
 Pre-tip: When using search and replace in Vim, [you don't need to use slashes](md_blog/2015/0507_VimtipStopescapingslashes.md)
 This works just fine:
@@ -121,7 +121,7 @@ will replace every occurrence of 'bar' for its line number. You can get creative
 
 ## std::byte - great idea. Meh execution?
 
-Post by Nico Brailovsky @ 2018-10-02 - [Permalink](md_blog/2018/1002_stdbytegreatidea.Mehexecution.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/1002_stdbytegreatidea.Mehexecution.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2018-10-02 | [Permalink](md_blog/2018/1002_stdbytegreatidea.Mehexecution.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/1002_stdbytegreatidea.Mehexecution.md&body=I%20have%20a%20comment!)
 
 I love the idea of C++17's [std::byte](https://en.cppreference.com/w/cpp/types/byte). A data-type that makes it explicit we're dealing with ugly low-level details? What's there not to love! One thing only, turns out.
 
@@ -150,7 +150,7 @@ My prediction: most people will dislike the boilerplate std::byte adds and fall 
 
 ## -Wmisleading-indentation
 
-Post by Nico Brailovsky @ 2018-09-30 - [Permalink](md_blog/2018/0930_Wmisleadingindentation.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0930_Wmisleadingindentation.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2018-09-30 | [Permalink](md_blog/2018/0930_Wmisleadingindentation.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0930_Wmisleadingindentation.md&body=I%20have%20a%20comment!)
 
 This gcc switch is a few years old but I discovered it recently. I'm not sure if that means my code is always very clean or my toolchain too oudated... in any case, -Wmisleading-indentation (which you get with -Wall) warns about this gotcha:
 
@@ -170,7 +170,7 @@ Neat!
 
 ## GitHub tip: Prefill a bug report
 
-Post by Nico Brailovsky @ 2018-09-04 - [Permalink](md_blog/2018/0904_GitHubtipPrefillabugreport.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0904_GitHubtipPrefillabugreport.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2018-09-04 | [Permalink](md_blog/2018/0904_GitHubtipPrefillabugreport.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0904_GitHubtipPrefillabugreport.md&body=I%20have%20a%20comment!)
 
 Getting feedback from users is hard. In a platform such as Android, with apps evaluated in a couple of seconds, it's even harder.
 
@@ -186,7 +186,7 @@ Awesome! Takes a second and makes life much easier for bug-reporters!
 
 ## Happiest bug report
 
-Post by Nico Brailovsky @ 2018-09-02 - [Permalink](md_blog/2018/0902_Happiestbugreport.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0902_Happiestbugreport.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2018-09-02 | [Permalink](md_blog/2018/0902_Happiestbugreport.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0902_Happiestbugreport.md&body=I%20have%20a%20comment!)
 
 Something is wrong: I'm happy over a bug report!
 
@@ -204,7 +204,7 @@ Open source rules!
 
 ## Geotagging in Ubuntu: more broken than ever
 
-Post by Nico Brailovsky @ 2017-04-14 - [Permalink](md_blog/2017/0414_GeotagginginUbuntumorebrokenthanever.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0414_GeotagginginUbuntumorebrokenthanever.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2017-04-14 | [Permalink](md_blog/2017/0414_GeotagginginUbuntumorebrokenthanever.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0414_GeotagginginUbuntumorebrokenthanever.md&body=I%20have%20a%20comment!)
 
 This is depressing. All the geotagging tools in Ubuntu seem dead. Even mine, apparently the latest version of CEF Python changed something that breaks my app. Even worse, looking for "ubuntu geotagging" has my own blog as one of the top results... time to fix my code, I guess?
 
@@ -216,7 +216,7 @@ This is depressing. All the geotagging tools in Ubuntu seem dead. Even mine, app
 
 ## Fixing templates with constexpr's
 
-Post by Nico Brailovsky @ 2017-01-18 - [Permalink](md_blog/2017/0118_Fixingtemplateswithconstexprs.md)  - [1 comments](md_blog/2017/0118_Fixingtemplateswithconstexprs.md) - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0118_Fixingtemplateswithconstexprs.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2017-01-18 | [Permalink](md_blog/2017/0118_Fixingtemplateswithconstexprs.md) | [1 comments](md_blog/2017/0118_Fixingtemplateswithconstexprs.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0118_Fixingtemplateswithconstexprs.md&body=I%20have%20a%20comment!)
 
 For my hundredth (and a bit) c++ post I decided to do something I never did before: fix my old code!
 
@@ -362,7 +362,7 @@ I called constexpr's one of c++11's killer features, and hopefully you can see w
 
 ## Quick refresher: argument dependent lookup
 
-Post by Nico Brailovsky @ 2017-01-04 - [Permalink](md_blog/2017/0104_Quickrefresherargumentdependentlookup.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0104_Quickrefresherargumentdependentlookup.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2017-01-04 | [Permalink](md_blog/2017/0104_Quickrefresherargumentdependentlookup.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0104_Quickrefresherargumentdependentlookup.md&body=I%20have%20a%20comment!)
 
 Since I wasted a few precious minutes stuck on an ADL problem, I figured I needed a quick reminder on how they work. Check this code: does it compile?
 
@@ -404,4 +404,4 @@ You'd be tempted to say it won't work either. (Un?)fortunately, 'argument depend
 
 ---
 
-[Prev](md_gen/index1.md) | [History](md_gen/history.md)
+@meta extraNav [Prev](md_gen/index1.md)

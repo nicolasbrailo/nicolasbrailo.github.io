@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>DB IPC: Communicating processes the wrong way</h2>
 
-Post by Nico Brailovsky @ 2011-03-22 - <a href="/blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.html">Permalink</a> 
+Post by Nico Brailovsky @ 2011-03-22 |
+  <a href="/blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>A common pattern in enterprisy applications is DB IPC, probably one of the worst kind of coupling you can have. If you tell me you never saw it I won't believe you, but in any case: DB IPC is an architecture antipattern, in which you have several semi-independent components which must share some kind of information, and do so through a database. The producer writes into a table, the consumer polls the table for changes.</p>
 <p>For an otherwise perfectly designed application, DB IPC may seem like a bad thing but not the worst kind of architecture possible. Clearly a god object may look uglier than an IPC DB. Yet this kind of architecture leads to a tight coupling between the component's inner data structures, making any change in them very unlikely, if not impossible.</p>
@@ -46,14 +47,16 @@ Post by Nico Brailovsky @ 2011-03-22 - <a href="/blog/2011/0322_DBIPCCommunicati
 <p>Steering away from this pattern is very difficult, as it requires a lot of changes to every single application on the enterprise platform, and the introduction of new technologies like CORBA or web services. Seeing this is maintenance job and not productive (i.e. money making) development, it tends to get delayed.</p>
 <p>Not everything is lost. An intermediate solution, not as ugly as IPC DB but not so nice as CORBA, is implementing a queue using the DB itself. We'll see a way of doing just that next time.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0322_DBIPCCommunicatingprocessesthewrongway.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

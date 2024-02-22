@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Simple vim plugin I: integrating new commands</h2>
 
-Post by Nico Brailovsky @ 2016-11-24 - <a href="/blog/2016/1124_SimplevimpluginIintegratingnewcommands.html">Permalink</a> 
+Post by Nico Brailovsky @ 2016-11-24 |
+  <a href="/blog/2016/1124_SimplevimpluginIintegratingnewcommands.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/1124_SimplevimpluginIintegratingnewcommands.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here's some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
 <p>Longer version:
@@ -109,14 +110,16 @@ map  <leader>F :call FG_RequestInputAction("Find file: ", "FG_DoFindFile")<CR>
 menu Project.Text\ Search :call FG_RequestInputAction("FG_DoSearchText")
 </code></pre>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/1124_SimplevimpluginIintegratingnewcommands.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Vectorization in gcc</h2>
 
-Post by Nico Brailovsky @ 2021-03-02 - <a href="/blog/series/Vectorizationingcc.html">Permalink</a> 
+Post by Nico Brailovsky @ 2021-03-02 |
+  <a href="/blog/series/Vectorizationingcc.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/Vectorizationingcc.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>[WARNING: DRAFT VERSION, WORK IN PROGRESS]</p>
 <p>Intro</p>
@@ -219,14 +220,16 @@ http://stackoverflow.com/questions/7156908/sse-intrinsic-functions-reference</p>
 <p>If (or when) gcc looses the ability to vectorize one of your loops, you'll be digging around a lot of compiler logs to try and figure out what went wrong. If you were to write the vectorized loop yourself using intrinsics you'd be certain that the loop works and it's vectorized (duh!) but you'd have to manage the portability, alignment and aliasing yourself. That's not a trivial task if you are aiming for a portable program.</p>
 <p>If you plan to write a portable vectorized program, your best bet is to check your compiler's manual to see exactly which vectorization types are supported (that means, which types of plain looks can be transformed into vectorized loops). For a full list of all transformations available in gcc, check http://gcc.gnu.org/projects/tree-ssa/vectorization.html#using.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/Vectorizationingcc.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

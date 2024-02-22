@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Avoid compile warnings from 3rd party libs with gcc</h2>
 
-Post by Nico Brailovsky @ 2013-08-15 - <a href="/blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-08-15 |
+  <a href="/blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>So, your code is ferpect. It compiles cleanly with all warning options maxed out. You have already added -ansi, -pedantic, -Wall, -Wc++0x-compat, -Wextra and it all works. Even -Weffc++ emits no warning. And then, a wild third party library appears; your beautiful compile log is now littered with "initialization out of order" and "should declare a virtual destructor" warnings. What to do?</p>
 <p>When including a third party library (like, for example, boost) you will almost never have the option to fix any of the diagnostics that your compiler helpfully provides you. If there's nothing you can do about them, there's no point in getting the warnings either. Disabling -Weffc++ is also not a good idea. If you already took the effort of cleaning your code to such a high standard, you shouldn't now relax it.</p>
@@ -48,14 +49,16 @@ Post by Nico Brailovsky @ 2013-08-15 - <a href="/blog/2013/0815_Avoidcompilewarn
 <p>"So, your code is ferpect" - lol</p>
 <p>Original <a href="/blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.html">published here</a>.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0815_Avoidcompilewarningsfrom3rdpartylibswithgcc.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

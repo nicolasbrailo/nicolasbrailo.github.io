@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++ exceptions under the hood 7: a nice personality</h2>
 
-Post by Nico Brailovsky @ 2013-03-19 - <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">Permalink</a>  - [1 comments](md_blog/2013/0319_Cexceptionsunderthehood7anicepersonality.md)
+Post by Nico Brailovsky @ 2013-03-19 |
+  <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">Permalink</a> | <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">1 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0319_Cexceptionsunderthehood7anicepersonality.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>On our journey to learn about exceptions we have learned so far how a throw is done, that something called "call frame information" helps a library called Unwind to do the stack unwinding, and that the compiler writes something called LSDA, language specific data area, to know which exceptions can a method handle. And we know by now that a lot of magic is done on the personality function; we've never seen it in action though. Let's recap in a bit more of detail about how an exception will be thrown and caught (or, more precisely, how we know so far it will be thrown caught):</p>
 <ul>
@@ -140,7 +141,7 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 </ul>
 <p>So there we have it, a working (well, linkeable) personality function. Doesn't do much, though, so next time we'll start adding some real behavior and try to make it handle an exception.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0319_Cexceptionsunderthehood7anicepersonality.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="">Anonymous</a> commented @ 2018-01-04T10:47:04.000+01:00:<a name="inreplytothispostanonymouscommented20180104t104704.0000100"></a></h2>
@@ -150,7 +151,9 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

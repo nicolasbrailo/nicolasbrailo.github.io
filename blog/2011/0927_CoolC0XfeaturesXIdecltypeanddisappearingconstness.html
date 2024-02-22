@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Cool C++0X features XI: decltype and disappearing constness</h2>
 
-Post by Nico Brailovsky @ 2011-09-27 - <a href="/blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.html">Permalink</a> 
+Post by Nico Brailovsky @ 2011-09-27 |
+  <a href="/blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the <a href="/blog/youfoundadeadlink.html">last posts</a> of this series.</p>
 <p>In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it's present for template type deduction too, but decltype adds a new level of complexity to it.</p>
@@ -99,14 +100,16 @@ void f(const Foo foo)
 </code></pre>
 <p>As I said, disappearing constness is not a C++0x specific problem as it may occur on template type deduction, but that's besides the point of this post. Next time we'll continue working with type deduction, but with the new auto feature this time.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

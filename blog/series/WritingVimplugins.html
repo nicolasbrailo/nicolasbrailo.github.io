@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Writing Vim plugins</h2>
 
-Post by Nico Brailovsky @ 2021-03-02 - <a href="/blog/series/WritingVimplugins.html">Permalink</a> 
+Post by Nico Brailovsky @ 2021-03-02 |
+  <a href="/blog/series/WritingVimplugins.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/WritingVimplugins.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <h2>Vim utilities: Findgrep &amp; Fastgrep<a name="vimutilitiesfindgrepfastgrep"></a></h2>
 <p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "Impl switcher", and "Better Tab New" before that. Today it's Findgrep &amp; Fastgrep's turn.</p>
@@ -239,14 +240,16 @@ map <leader>s :call FG_Search()<CR>
 <p>Just paste that in your .vimrc and you're good to grep.</p>
 <p><strong>Extra tip</strong>: integrate this with my fast grep cache and you have a nice and quick project search integration for vim that works even for very large projects with tools available in most default Linux installs.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/WritingVimplugins.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

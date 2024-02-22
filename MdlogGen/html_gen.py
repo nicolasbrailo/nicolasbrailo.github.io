@@ -2,7 +2,7 @@ import sys
 import re
 import os
 
-from helpers import apply_template, get_all_mds, read_md_doc
+from helpers import apply_template, get_all_mds, read_md_doc, get_html_link_from_md_rel_path
 from md_to_html_helper import markdowner
 
 GENSCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -36,9 +36,7 @@ def htmlize_rel_links(md_srcs_path, html_dst_path, md):
         md_links = re.findall(f']\\({md_src_path}/.*?\.md\\)', md)
         md_links = [x[2:-1] for x in set(md_links)]
         for md_link in md_links:
-            link = md_link.replace(md_src_path, '')[:-len('.md')]
-            assert(link[0] == '/')
-            html_link = f'/{html_dst_path}{link}.html'
+            html_link = get_html_link_from_md_rel_path(md_src_path, html_dst_path, md_link)
             # print(md_link, "->", html_link)
             md = md.replace(md_link, html_link)
     return md
@@ -51,19 +49,23 @@ md_rules = get_md_convert_rules(HTML_GEN_DEST, MD_SRCS)
 for md_src_dir, md_path, html_path in md_rules:
     print(md_path, " -> ", html_path)
     doc = read_md_doc(md_path)
-
+    doc['dstHtmlFile'] = f'/{html_path}'
     if doc['docType'] == 'skipHtmlGen':
         continue
 
-    doc['txt'] = htmlize_rel_links(MD_SRCS, HTML_GEN_DEST, doc['txt'])
-    doc['txt_html'] = markdowner.reset().convert(doc['txt'])
-    doc['dstHtmlFile'] = f'/{html_path}'
+    for htmlizable_key in ['txt', 'comments', 'extraNav', 'commentCountTxt']:
+        if htmlizable_key not in doc or doc[htmlizable_key] is None:
+            doc[htmlizable_key] = None
+            doc[htmlizable_key + '_html'] = None
+        else:
+            doc[htmlizable_key] = htmlize_rel_links(MD_SRCS, HTML_GEN_DEST, doc[htmlizable_key])
+            doc[htmlizable_key + '_html'] = markdowner.reset().convert(doc[htmlizable_key])
 
-    if doc['comments'] is not None:
-        doc['comments'] = htmlize_rel_links(MD_SRCS, HTML_GEN_DEST, doc['comments'])
-        doc['comments_html'] = markdowner.reset().convert(doc['comments'])
-    else:
-        doc['comments_html'] = None
+    # Hackish, but this elements are meant to be inline, and md->html will always wrap everything in a paragraph
+    if doc['commentCountTxt_html'] is not None:
+        doc['commentCountTxt_html'] = re.sub("(^<P>|</P>$)", "", doc['commentCountTxt_html'], flags=re.IGNORECASE)
+    if doc['extraNav_html'] is not None:
+        doc['extraNav_html'] = re.sub("(^<P>|</P>$)", "", doc['extraNav_html'], flags=re.IGNORECASE)
 
     if doc['docType'] == 'post':
         tmpl = 'post.html'
@@ -81,6 +83,7 @@ for md_src_dir, md_path, html_path in md_rules:
     html = apply_template(tmpl, {
                 'content': html,
                 'title': doc['title'],
+                'extraNav_html': doc['extraNav_html'],
             })
 
     tgt_dir = os.path.dirname(html_path)

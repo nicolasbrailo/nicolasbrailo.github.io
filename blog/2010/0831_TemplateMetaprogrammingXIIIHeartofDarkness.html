@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Template Metaprogramming XIII: Heart of Darkness</h2>
 
-Post by Nico Brailovsky @ 2010-08-31 - <a href="/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html">Permalink</a> 
+Post by Nico Brailovsky @ 2010-08-31 |
+  <a href="/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Last time we had a virtual template dispatch problem... we got to the point of knowing which was the index of the cache we were searching for, now we need to actually retrieve an instance of that cache. That's a problem. Why? To begin with, there are no instances, only types!</p>
 <p>The next logical step would be to create a Map device, to map a list of types to a list of instances... let's see how can we do that, in pseudocode</p>
@@ -102,14 +103,16 @@ template &lt;typename TypeLst&gt; struct NthInstance&lt;1, TypeLst&gt; {
 </code></pre>
 <p>And the code from fetching the instance itself is even more difficult, so I'll leave that for next time.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

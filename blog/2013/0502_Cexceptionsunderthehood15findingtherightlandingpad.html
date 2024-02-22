@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++ exceptions under the hood 15: finding the right landing pad</h2>
 
-Post by Nico Brailovsky @ 2013-05-02 - <a href="/blog/2013/0502_Cexceptionsunderthehood15findingtherightlandingpad.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-05-02 |
+  <a href="/blog/2013/0502_Cexceptionsunderthehood15findingtherightlandingpad.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0502_Cexceptionsunderthehood15findingtherightlandingpad.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>This is now the 15th installment in what's becoming the longest series I've written for this blog; we have so far learned how exceptions are thrown and we have written a personality function capable of, with some sort of reflexion, detecting where the catch-blocks are (landing pads, in exception speak). In the last article we wrote a personality function that can handle exceptions, but it does so only with the first landing pad of the first call frame in the stack. Let's improve that a little bit, let's make our personality function capable of choosing the right landing pad in a function with multiple landing pads.</p>
 <p>In a TDD fashion we can first build a test for our ABI. Let's modify our test program, throw.cpp, to have two try/catch blocks:</p>
@@ -158,14 +159,16 @@ L3:
 <p>As usual: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v07">in my github repo</a>.</p>
 <p>Try the example again and voila, no more infinite loop! That was a simple change and we can now choose the correct landing pad. Next time we'll try to make our personality function also pick the correct stack frame instead of choosing the first one.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0502_Cexceptionsunderthehood15findingtherightlandingpad.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

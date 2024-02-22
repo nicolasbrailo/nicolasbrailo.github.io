@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C preprocessor VII: Recursive expansion on function macros</h2>
 
-Post by Nico Brailovsky @ 2013-10-01 - <a href="/blog/2013/1001_CpreprocessorVIIRecursiveexpansiononfunctionmacros.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-10-01 |
+  <a href="/blog/2013/1001_CpreprocessorVIIRecursiveexpansiononfunctionmacros.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1001_CpreprocessorVIIRecursiveexpansiononfunctionmacros.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>The last time we talked about recursive expansion rules on C's preprocessor: to sum it up, each expansion creates a scope, that contains a list of all macros which have already been expanded in said scope, or in a parent scope. That gives us a very nice and easy to understand tree of already-expanded rules.</p>
 <p>Clearly that's too easy for C. We need more complexity: we need to make the expansion rules interact with the argument substitution process and the preprocessor operators too!</p>
@@ -90,14 +91,16 @@ foo(bar, (1, 2, 3))
 </code></pre>
 <p>This last example should be a good representative of the complexities involved in a macro expansion; hopefully now you know more than you ever wanted to know about macros.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1001_CpreprocessorVIIRecursiveexpansiononfunctionmacros.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

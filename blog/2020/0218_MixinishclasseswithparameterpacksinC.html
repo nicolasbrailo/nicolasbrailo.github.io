@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Mixin(ish) classes with parameter packs in C++</h2>
 
-Post by Nico Brailovsky @ 2020-02-18 - <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a>  - [2 comments](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md)
+Post by Nico Brailovsky @ 2020-02-18 |
+  <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a> | <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">2 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
 <pre lang="c++"><code class="language-c++" lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
@@ -71,7 +72,7 @@ struct Bar : FwdFoo {
 };
 </code></pre>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="">Balazs Benics</a> commented @ 2020-02-18T18:57:18.000+01:00:<a name="inreplytothispostbalazsbenicscommented20200218t185718.0000100"></a></h2>
@@ -89,7 +90,9 @@ int dummy[1 + sizeof...(Config)] = { 0, (static_cast(Config::apply(p)), 0)... };
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

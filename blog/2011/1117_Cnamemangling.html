@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>C++ name mangling</h2>
 
-Post by Nico Brailovsky @ 2011-11-17 - <a href="/blog/2011/1117_Cnamemangling.html">Permalink</a> 
+Post by Nico Brailovsky @ 2011-11-17 |
+  <a href="/blog/2011/1117_Cnamemangling.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1117_Cnamemangling.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>There is a topic I have referred to several times on this blog, yet in four years I still haven't explained what it is. I plan to correct this by explaining a little bit about C++ name mangling, and although I won't expect to write anything you couldn't learn by reading <a href="http://en.wikipedia.org/wiki/Name_mangling">Wikipedia</a>, I'll try to have a more practical approach.</p>
 <p>Whenever you compile and link something, there is a lot of information the compiler deduces that you don't really care about. Things like calling conventions, overloads or namespaces. Yet this information is crucial for other stages of the compiler (or linker) to work. For this reason, the compiler will create a decorated version of any object's or function's name.</p>
@@ -63,14 +64,16 @@ void fastcall_string_overloaded_function(string);
 <pre lang="c++"><code class="language-c++" lang="c++">nm foo.o | c++filt
 </code></pre>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1117_Cnamemangling.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2011 May</h2>
 
 <h2>Cool C++0X features VIII: Variadic wrapper and type inference with decltype<a name="coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-31 - <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-31 | <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>The wrapper function we built last time looks something like this now:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
@@ -112,7 +111,7 @@ int main() {
 <p>Though this looks MUCH better (and useful), at the time of writing this article mixing variadic templates with decltypes in a template class makes g++ segfault. It should be valid C++, but I can't assure it's correct code since I've never tried it.</p>
 <hr />
 <h2>Repeat (and fix) last command<a name="repeatandfixlastcommand"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-26 - <a href="/blog/2011/0526_Repeatandfixlastcommand.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0526_Repeatandfixlastcommand.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-26 | <a href="/blog/2011/0526_Repeatandfixlastcommand.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0526_Repeatandfixlastcommand.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>How many times have you run a command but forgot to add sudo at the beginning? How many times did you open vim instead of gvim? All that has an easy fix, instead of pressing up-left-left-left-left-left... (almost like a Konami code, isn't it?) just use <code>!!</code>.</p>
 <p><code>!!</code> expands to the previous command, so for example:</p>
 <pre><code>vim foo
@@ -124,7 +123,7 @@ int main() {
 <p>Another common problem, you mistype vim for vmi (hey, it may be a common problem if you're dyslexic). Just type fc, short for fix command, to open the last command in your configured editor. Fix it (lxp, bonus points if anyone understand this :D) then write and save. The fixed command will be executed.</p>
 <hr />
 <h2>Cool C++0X features VII: A variadic wrapper solution<a name="coolc0xfeaturesviiavariadicwrappersolution"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-24 - <a href="/blog/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-24 | <a href="/blog/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Last time</a> we were trying to build a wrapper function, in which we don't control the class being wrapped nor the user of the wrapper (meaning we can't change either of those but they could change without warning).</p>
 <p>This was the first approach:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
@@ -179,16 +178,16 @@ int main() {
 <p>The above works just fine, but due to some limitations in the current (stable) version of gcc we will use the former version (the problem with this form will be clear later, I promise).</p>
 <hr />
 <h2>Another downgrade achieved<a name="anotherdowngradeachieved"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-23 - <a href="/blog/2011/0523_Anotherdowngradeachieved.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0523_Anotherdowngradeachieved.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-23 | <a href="/blog/2011/0523_Anotherdowngradeachieved.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0523_Anotherdowngradeachieved.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><img alt="Original: http://i.imgur.com/annBL.jpg" src="/blog_img/annBL.jpg" /></p>
 <hr />
 <h2>Go home<a name="gohome"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-19 - <a href="/blog/2011/0519_Gohome.html">Permalink</a>  - <a href="/blog/2011/0519_Gohome.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0519_Gohome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-19 | <a href="/blog/2011/0519_Gohome.html">Permalink</a> | <a href="/blog/2011/0519_Gohome.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0519_Gohome.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>It really bothers me when people type "cd $HOME" or even worse, "cd /home/username". Why? Just type cd alone, it'll go home by itself.</p>
 <p>Another useful cd tip, use "cd -" as an alias for "cd $OLDPWD" (oldpwd is the previous directory).</p>
 <hr />
 <h2>Cool C++0X features VI: A variadic wrapper<a name="coolc0xfeaturesviavariadicwrapper"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-17 - <a href="/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-17 | <a href="/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's work on the last variadic exercise, a wrapper. Say you have something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
@@ -212,12 +211,12 @@ int main() {
 <p>Why is it so bad? Let's say you don't control do_something, you just control the wrapper. You may not even control main(), it may be beyond your scope. That means each time do_something changes, or adds an overload, you have to change your code. That's ugly and you should already know how to set up a variadic function to forward the arguments to do_something. Give it a try, next time the solution.</p>
 <hr />
 <h2>Just to remind you<a name="justtoremindyou"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-12 - <a href="/blog/2011/0512_Justtoremindyou.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0512_Justtoremindyou.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-12 | <a href="/blog/2011/0512_Justtoremindyou.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0512_Justtoremindyou.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>It's been too long since the last time this image appeared on my blog:</p>
 <p><img alt="" src="/blog_img/success_vim1.jpg" /></p>
 <hr />
 <h2>Cool C++0X features V: Templates and angle brackets, a short interlude<a name="coolc0xfeaturesvtemplatesandanglebracketsashortinterlude"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-10 - <a href="/blog/2011/0510_CoolC0XfeaturesVTemplatesandanglebracketsashortinterlude.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0510_CoolC0XfeaturesVTemplatesandanglebracketsashortinterlude.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-10 | <a href="/blog/2011/0510_CoolC0XfeaturesVTemplatesandanglebracketsashortinterlude.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0510_CoolC0XfeaturesVTemplatesandanglebracketsashortinterlude.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>In the heart of C++ template metaprogramming and code obfuscation, lies the (ab)use of angle brackets. This seemingly innocent token can turn the most clean looking code into the mess that template-detractors like so much to complain about.</p>
 <p>C++0x doesn't do much to clean up this mess, it's probably impossible, but it does offer a subtle feature to improve the legibility of C++ template code, a nifty little feature we have (inadvertently) used.</p>
 <p>Up to C++0x, having two angle brackets together (&gt;&gt;) was parsed as the shift operator (like the one cout uses), meaning that if you had nested templates a lot of compiler errors ensued. C++0x corrects this, meaning that code which in C++ would be like this:</p>
@@ -229,7 +228,7 @@ int main() {
 <p>Aaand, back to the normal schedule...</p>
 <hr />
 <h2>Eclipse watch expresion<a name="eclipsewatchexpresion"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-05 - <a href="/blog/2011/0505_Eclipsewatchexpresion.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0505_Eclipsewatchexpresion.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-05 | <a href="/blog/2011/0505_Eclipsewatchexpresion.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0505_Eclipsewatchexpresion.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>So, now that I'm working for the dark side: did you know Eclipse had watch expressions which shows a variable's value on real time? I bet you did, gdb has that too. Did you know a watch expression can evaluate a method call too? Neat, huh? Well, gdb has that too.</p>
 <p>Anyway, someone on the team was having weird issues. A switch would jump to unexpected places. The state of an object would change between method calls. WTF?</p>
 <p>After some debugging then it downed on me: I once (a long time before this strange behavior) saw this person using watch expressions to evaluate a method's return value. You now have enough information to troubleshoot this problem.</p>
@@ -250,7 +249,7 @@ int main() {
 <p>and then add a watch expression over bar.sumar(), then bar.a's value will be undefined for the execution of this program. Nice!</p>
 <hr />
 <h2>Cool C++0X features IV: Variadic templates again<a name="coolc0xfeaturesivvariadictemplatesagain"></a></h2>
-<p>Post by Nico Brailovsky @ 2011-05-03 - <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">Permalink</a>  - <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">2 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2011-05-03 | <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">Permalink</a> | <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Last time we finally solved the varargs problem. Let's review what we learned:
 * Variadic templates let us create something receiving a variable set of arguments
 * We can process the head of that set, then recursively process the tail
@@ -371,7 +370,9 @@ struct Reduce_V<Op, H, T...>
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

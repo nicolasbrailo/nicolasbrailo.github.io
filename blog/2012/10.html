@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2012 October</h2>
 
 <h2>Fastgrep, a cache for grep<a name="fastgrepacacheforgrep"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-10-30 - <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">Permalink</a>  - <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1030_Fastgrepacacheforgrep.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-30 | <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">Permalink</a> | <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1030_Fastgrepacacheforgrep.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Sooner or later, you'll find that you need to know where to find a certain piece of text that ctags does not index, and grep is just not fast enough. Say, you're trying to match that log line you see every one in a while to the specific printf("I'm here!\n") that produced it.</p>
 <p>Working on any reasonable sized project, searching for free-form text means you'll need some kind of indexing; grep will work, but you'll end up having to wait a couple of minutes between searches. Funny thing, we can probably speed up grep quite easily. Long story short, you can find a grep cache here: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh">Fastgrep</a>.</p>
 <p>So, how does it work? If we reason a bit about how grep will spend time we can probably assume the following:
@@ -52,7 +51,7 @@
 <p>Since the grepcache is actually a merged copy of all the files in the project, it can quickly get out of sync with the rest of the code. To somewhat improve this the index file is only used to get the list of files where a string might be found; these files are then grepped for the real results. This only helps a little bit and eventually everything gets out of sync, but I found that rebuilding the cache in a post-merge git hook (or a post-commit svn hook) is more than enough to make fastgrep more than usable.</p>
 <hr />
 <h2>Fixing keyboard layouts in Ubuntu. Scarier than it seems.<a name="fixingkeyboardlayoutsinubuntu.scarierthanitseems."></a></h2>
-<p>Post by Nico Brailovsky @ 2012-10-25 - <a href="/blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-25 | <a href="/blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>At the moment of writing this post there is an <a href="https://bugs.launchpad.net/ubuntu/+source/gnome-control-center/+bug/591895">open bug</a> in Ubuntu, still active in 11.04, that makes your keyboard layout revert to whatever GDM wants. Apparently this is caused by GDM failing to synch with the preferences of the session, so if you change your layout (even if you delete the previous one) the change will be reverted next time you login. There seems to be no fix coming soon, so this magic incantation might work if you have this problem:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">sudo dpkg-reconfigure keyboard-configuration
 </code></pre>
@@ -60,7 +59,7 @@
 <p>Having keyboard problems? You may also be interested in learning <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">how to activate tildes and accents for a USA keyboard layout in Ubuntu</a>.</p>
 <hr />
 <h2>Getting a stacktrace on C/C++: Mapping function pointers to function names on runtime<a name="gettingastacktraceonccmappingfunctionpointerstofunctionnamesonruntime"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-10-23 - <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">Permalink</a>  - <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">1 comments</a> - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-23 | <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">Permalink</a> | <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html">Last time</a> we talked about mapping function addresses to names (albeit mangled) in object files; we can also get this information during runtime:</p>
 <h3>Glibc to the aid<a name="glibctotheaid"></a></h3>
 <p>Let's go one step back: how to get the current stacktrace. Turns out glibc already has a nice feature to get the current stacktrace. Going back to our original program, with some minor changes:</p>
@@ -140,7 +139,7 @@ int get_sym_name(void *addr) {
 <p>The whole series on getting a stacktrace on C++ is merely "educational", as in "never-ever do this on your program". As stated on the first part of the series it's not portable, and it's also extremely frail. If you want something production ready use glibc's backtrace features. And if you want something portable, try libunwind. It works great, but where would the fun be if we skipped the whole learning process and went straight to this library?</p>
 <hr />
 <h2>Getting a stacktrace on C/C++: Mapping function pointers to function names in obj files<a name="gettingastacktraceonccmappingfunctionpointerstofunctionnamesinobjfiles"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-10-18 - <a href="/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-18 | <a href="/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html">Last time</a> we saw how to get a stacktrace in C++, yet we only had access to the list of function pointers and not to the function names. Still, pointers are not that useful. Can we get function names instead? Yes, we can but it's not easy. One option would be to read the elf specification. Boring. Let's tinker around with our test program, may be we can find something interesting:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">    Caller <em>caller = (Caller</em>)sp;
     while (caller) {
@@ -179,7 +178,7 @@ int get_sym_name(void *addr) {
 <p>And, indeed, 0x8048acb and 0x8048aeb are both there: they are the EIP after the ret call! Note that you may use c++filt if the mangled names are too confusing. Anyway, we can indeed get the function names, albeit in a rather contrived way. Is there a better way to get a backtrace and its symbols' names? Turns out there is and we'll see how to get a function's name during runtime, in the next article.</p>
 <hr />
 <h2>Getting a stacktrace on C/C++: Some calling internals<a name="gettingastacktraceonccsomecallinginternals"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-10-16 - <a href="/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-16 | <a href="/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>High level languages tend to have a lot of features for introspection and metaprogramming. One of those useful features is the possibility to get a stacktrace of the current function. At first C++ would seem to lack that ability but once you think about it, high level languages internal workings are in the very basics not that different from lower level languages: they tend to be a virtual representation of the physical hardware. A function call, in the end, will most likely be implemented the same on both C++ and Ruby. So, although it may not be as straight forward as it is with a dynamic language, we should be able to get a stacktrace just fine. Also, there's a big clue for us: gdb can get stacktraces just fine, so why wouldn't we?</p>
 <p>Let's start by trying to figure out how we can get a stacktrace by ourselves, with no help of any other tools. Sounds like a daunting task? It isn't really. Let's write a simple program to figure out how gcc performs function calls:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">int foo() {
@@ -240,12 +239,12 @@ while (caller) {
 <p>Next time we'll see how we can get a function name from it's pointer.</p>
 <hr />
 <h2>Faking a server and testing networks with netcat<a name="fakingaserverandtestingnetworkswithnetcat"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-10-11 - <a href="/blog/2012/1011_Fakingaserverandtestingnetworkswithnetcat.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1011_Fakingaserverandtestingnetworkswithnetcat.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-11 | <a href="/blog/2012/1011_Fakingaserverandtestingnetworkswithnetcat.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1011_Fakingaserverandtestingnetworkswithnetcat.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Not long ago I wrote about having to use iptables to redirect packets from one port to another. Testing this with a real server may be complicated, or at least inconvenient. Luckily we have netcat to help us.</p>
 <p>If you use "nc -l 1234", netcat will create a listening socket on the port 1234. You can check if it's working by doing a "telnet IP 1234", nc should echo whatever you type on the client in the server. In the example from my article explaining an iptables rule, you would do an nc -l 1234, apply the iptables rule and the issue a "netcat IP 4321". If everything went according to plan you should be seeing the echo on your nc server.</p>
 <hr />
 <h2>gdb pretty printers<a name="gdbprettyprinters"></a></h2>
-<p>Post by Nico Brailovsky @ 2012-10-09 - <a href="/blog/2012/1009_gdbprettyprinters.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1009_gdbprettyprinters.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2012-10-09 | <a href="/blog/2012/1009_gdbprettyprinters.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2012/1009_gdbprettyprinters.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you have ever used gdb then you know printing an stl object is useless. You'll be flooded with stuff you don't care about, and if you want to find, say, the contents of an std::vector you'll have to dive through tons of junk. It turns there's an easier way, it's called pretty printers and I have no idea why they are not included by default with gdb.</p>
 <p>You'll need to download the pretty printers at svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python and then create a ~/.gdbinit like this one:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">python
@@ -260,7 +259,9 @@ end
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

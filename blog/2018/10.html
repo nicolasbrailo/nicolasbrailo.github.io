@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -39,7 +38,7 @@
 <h2>Posts for 2018 October</h2>
 
 <h2>std::byte - great idea. Meh execution?<a name="stdbytegreatidea.mehexecution"></a></h2>
-<p>Post by Nico Brailovsky @ 2018-10-02 - <a href="/blog/2018/1002_stdbytegreatidea.Mehexecution.html">Permalink</a>  - <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/1002_stdbytegreatidea.Mehexecution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2018-10-02 | <a href="/blog/2018/1002_stdbytegreatidea.Mehexecution.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/1002_stdbytegreatidea.Mehexecution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I love the idea of C++17's <a href="https://en.cppreference.com/w/cpp/types/byte">std::byte</a>. A data-type that makes it explicit we're dealing with ugly low-level details? What's there not to love! One thing only, turns out.</p>
 <p>First, the good part: separating character (human) representation from binary (low-level) representation is brilliant. No implicit conversion between the two separates the domains very well and creates a much clearer interface.</p>
 <p>The bad part: std::byte is really really strict. It only accepts other std::bytes as operands(*). You'd hope this would work</p>
@@ -55,7 +54,9 @@
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

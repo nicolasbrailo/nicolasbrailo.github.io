@@ -19,6 +19,10 @@ code[class*="language-"],pre[class*="language-"]{color:black;text-shadow:0 1px w
   font-weight: bold;
 }
 
+#sitefooter p {
+  display: inline;
+}
+
 #sitesearch {
   padding: 3rem;
 }

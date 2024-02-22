@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Setting up a Linux GW VI: Configuring a console friendly router and</h2>
 
-Post by Nico Brailovsky @ 2013-10-31 - <a href="/blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.html">Permalink</a> 
+Post by Nico Brailovsky @ 2013-10-31 |
+  <a href="/blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>setting up static DHCP IPs</p>
 <p>We have so far setup a device capable of working as a router for a medium sized LAN, providing NAT, DHCP and DNS services. This is great if you have a dedicated network admin, but you may prefer something easier for casual console users. We'll see how to "refactor" your server configuration now to make it more console friendly.</p>
@@ -66,14 +67,16 @@ ln -s /var/lib/dhcp leases
 </code></pre>
 <p>Then you can check the hardware address in the leases/dhcpd.leases file. I created a symlink to keep this directory at hand, since it gives you a status of the current leases.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 
 
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>

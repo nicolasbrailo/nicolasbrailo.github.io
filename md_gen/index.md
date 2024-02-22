@@ -2,7 +2,7 @@
 @meta docType index
 ## How to: UEFI shell
 
-Post by Nico Brailovsky @ 2024-02-20 - [Permalink](md_blog/2024/0220_UefiCheatsheet.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0220_UefiCheatsheet.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2024-02-20 | [Permalink](md_blog/2024/0220_UefiCheatsheet.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0220_UefiCheatsheet.md&body=I%20have%20a%20comment!)
 
 There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:
 
@@ -54,7 +54,7 @@ FS0:\efi\boot> ./grubx64.efi
 
 ## Move again
 
-Post by Nico Brailovsky @ 2024-02-18 - [Permalink](md_blog/2024/0218_MovedAgain.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0218_MovedAgain.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2024-02-18 | [Permalink](md_blog/2024/0218_MovedAgain.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0218_MovedAgain.md&body=I%20have%20a%20comment!)
 
 I'm now at [nicolasbrailo.github.io](https://nicolasbrailo.github.io/blog). If I count platform, domain or tech-stack changes as a migration, I've now lost count of how many this site has had. It's the third one in the last few years. I moved away from WP because I wasn't happy with the sponsored content added to my site. I also wasn't happy with Blogger, I never quite like the interface, the way to write posts, or the customization options.
 
@@ -90,7 +90,7 @@ This site now came full circle: it started as a self-hosted php bundle, and it's
 
 ## Fix Spotify deeplinking in Linux + custom SpotiWeb UI
 
-Post by Nico Brailovsky @ 2023-12-16 - [Permalink](md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2023-12-16 | [Permalink](md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&body=I%20have%20a%20comment!)
 
 After a recent update I found [my custom Spotify UI (\*)](https://nicolasbrailo.github.io/SpotiWeb/) wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:
 
@@ -118,7 +118,7 @@ The app is hosted in github pages, and because it's entirely client side it does
 
 ## Translated to Chinese!
 
-Post by Nico Brailovsky @ 2023-01-14 - [Permalink](md_blog/2023/0114_TranslatedtoChinese.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/0114_TranslatedtoChinese.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2023-01-14 | [Permalink](md_blog/2023/0114_TranslatedtoChinese.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/0114_TranslatedtoChinese.md&body=I%20have%20a%20comment!)
 
 Small celebratory post, because I never expected it:
 
@@ -134,7 +134,7 @@ Someone translated [one of my open source projects](http://github.com/nicolasbra
 
 ## Bash script preamble
 
-Post by Nico Brailovsky @ 2021-06-27 - [Permalink](md_blog/2021/0627_Bashscriptpreamble.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0627_Bashscriptpreamble.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2021-06-27 | [Permalink](md_blog/2021/0627_Bashscriptpreamble.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0627_Bashscriptpreamble.md&body=I%20have%20a%20comment!)
 
 All background Bash scripts should start with this preamble:
 
@@ -158,7 +158,7 @@ There are countless articles explaining why, and the main purpose of this one is
 
 ## Where is the fun in that?
 
-Post by Nico Brailovsky @ 2021-03-18 - [Permalink](md_blog/2021/0318_Whereisthefuninthat.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0318_Whereisthefuninthat.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2021-03-18 | [Permalink](md_blog/2021/0318_Whereisthefuninthat.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0318_Whereisthefuninthat.md&body=I%20have%20a%20comment!)
 
 You can always find coders asking why coding isn't fun anymore. I can somewhat relate but I never understood why the answer isn't obvious: coding isn't software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there's also not-interesting-stuff in the mix. Maybe testing and documenting isn't your thing, you just want to build something. Maybe the stability from testing and documenting isn't that important to you. Perhaps you know you're the only one who's ever going to read your code. Your future self may be angry at you for a little while if the code breaks... so what? Your experiment crashed? Just reboot it. No problem.
 
@@ -176,7 +176,7 @@ It's understandable that parts of software engineering are not as fun as it was 
 
 ## reboot succesful?
 
-Post by Nico Brailovsky @ 2021-03-17 - [Permalink](md_blog/2021/0317_rebootsuccesful.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0317_rebootsuccesful.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2021-03-17 | [Permalink](md_blog/2021/0317_rebootsuccesful.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0317_rebootsuccesful.md&body=I%20have%20a%20comment!)
 
 Since "migrating" from Wordpress to Blogspot:
 
@@ -193,7 +193,7 @@ That went much better than I expected, considering I couldn't set up a proper HT
 
 ## sudo reboot
 
-Post by Nico Brailovsky @ 2021-03-02 - [Permalink](md_blog/2021/0302_sudoreboot.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0302_sudoreboot.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2021-03-02 | [Permalink](md_blog/2021/0302_sudoreboot.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0302_sudoreboot.md&body=I%20have%20a%20comment!)
 
 Recently found out Wordpress had pretty aggressive ads on my blog. That worked as the encouragement I was needing to work on a task I'd been putting off for years: fix bit-rotted content! I took the opportunity to fix all (most) broken links and source code snippets from the last 14 years. It was supposed to be a short sed script, which of course ended up being 3 days of work - a lot of it manual. A few cool things I figured doing this:
 
@@ -210,7 +210,7 @@ Recently found out Wordpress had pretty aggressive ads on my blog. That worked a
 
 ## Vimtip: Open path
 
-Post by Nico Brailovsky @ 2020-05-08 - [Permalink](md_blog/2020/0508_VimtipOpenpath.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0508_VimtipOpenpath.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2020-05-08 | [Permalink](md_blog/2020/0508_VimtipOpenpath.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0508_VimtipOpenpath.md&body=I%20have%20a%20comment!)
 
 If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:
 
@@ -238,7 +238,7 @@ Then you can do `C-w gf` on either of the first two lines! If needed, Vim will a
 
 ## Weak symbols to mock c-APIs with gmock/gtest
 
-Post by Nico Brailovsky @ 2020-03-15 - [Permalink](md_blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.md)  - [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2020-03-15 | [Permalink](md_blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.md&body=I%20have%20a%20comment!)
 
 I recently worked with a c-style API interface which wasn't very open to mocking. The API in question looked something like this:
 
@@ -303,4 +303,4 @@ This method has the (big) disadvantage of creating an invisible dependency betwe
 
 ---
 
-[Next](md_gen/index1.md)
+@meta extraNav [Next](md_gen/index1.md)

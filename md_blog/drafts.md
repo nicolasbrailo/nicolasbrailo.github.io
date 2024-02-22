@@ -1,6 +1,10 @@
 # Drafts
 
+
 @meta docType skipHtmlGen
+
+# Vim can wget
+c-w gf on url creates tmp
 
 
 # Fix "slow" Grub

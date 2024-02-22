@@ -14,7 +14,7 @@
 <body>
 
 <div id="siteheader">
-<h1>Nico Brailovsky's blog</h1>
+  <h1>Nico Brailovsky's blog</h1>
 
 <div class="nav tabs is-full">
   <a class="is-center" href="/">Home</a>
@@ -22,7 +22,6 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20sitesearch"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/history.html">Archive</a>
   <a class="is-center" href="/blog/series/">Series</a>
   <a class="is-center" href="/blog/projects.html">Projects</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
@@ -38,7 +37,9 @@
 <div id="content" class="language-clike">
 <h2>Static initialization in C++</h2>
 
-Post by Nico Brailovsky @ 2013-12-03 - <a href="/blog/2013/1203_StaticinitializationinC.html">Permalink</a>  - [4 comments](md_blog/2013/1203_StaticinitializationinC.md)
+Post by Nico Brailovsky @ 2013-12-03 |
+  <a href="/blog/2013/1203_StaticinitializationinC.html">Permalink</a> | <a href="/blog/2013/1203_StaticinitializationinC.html">4 comments</a> |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1203_StaticinitializationinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
 
 <p>Let's analyze this seemingly simple code sample:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">struct X {
@@ -108,7 +109,7 @@ void foo() throw() {
 <p>Eventually, __cxa_guard_acquire will check if this object was already initialized or if anyone else is trying to initialize this object, and then it will signal the calling method to run x's constructor if it's safe to do so.</p>
 <p>There's another bit of information in here which is not immediately obvious: in case X's constructor fails (ie an exception is thrown within this method), x_is_initialized won't be set to true. Assuming the exception is caught somewhere else, if foo() is called again the initialization for foo()::x will be attempted to run once again.</p>
 
-<a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1203_StaticinitializationinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</hr>
 
 <hr />
 <h2>In reply to this post, <a href="http://www.aps.anl.gov/epics/">jeff hill</a> commented @ 2014-02-11T20:21:47.000+01:00:<a name="inreplytothispostjeffhillhttpwww.aps.anl.govepicscommented20140211t202147.0000100"></a></h2>
@@ -137,7 +138,9 @@ void foo() throw() {
 </div>
 
 <div id="sitefooter">
-  <!-- TODO -->
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
 </div>
 
 <script src="/search.js"></script>
