@@ -77,7 +77,7 @@ for md_src_dir, md_path, html_path in md_rules:
 
     html = apply_template(os.path.join(GENSCRIPT_DIR, 'templates', tmpl), doc)
 
-    tmpl = os.path.join(GENSCRIPT_DIR, 'templates', 'siteTemplate.html')
+    tmpl = os.path.join(GENSCRIPT_DIR, 'site_design', 'siteTemplate.html')
     html = apply_template(tmpl, {
                 'content': html,
                 'title': doc['title'],
