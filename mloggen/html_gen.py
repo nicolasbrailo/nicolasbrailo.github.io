@@ -135,6 +135,8 @@ import os
 
 from helpers import apply_template, get_all_mds, read_md_doc
 
+GENSCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 def get_md_convert_rules(html_gen_dest, md_srcs):
     if len(md_srcs) == 0:
         print("No md sources in argv")
@@ -194,15 +196,19 @@ for md_src_dir, md_path, html_path in md_rules:
         doc['comments_html'] = None
 
     if doc['docType'] == 'post':
-        tmpl = 'genscripts/templates/post_standalone.html'
+        tmpl = 'post.html'
     elif doc['docType'] == 'index':
-        tmpl = 'genscripts/templates/index.html'
+        tmpl = 'index.html'
     elif doc['docType'] == 'notAPost':
-        tmpl = 'genscripts/templates/notapost.html'
+        tmpl = 'notAPost.html'
     else:
-        tmpl = 'genscripts/templates/TODO.html'
-    html = apply_template(tmpl, doc)
-    html = apply_template('genscripts/templates/general.html', {
+        print(f"Unknown docType {doc['docType']}, don't know which template to use")
+        exit(1)
+
+    html = apply_template(os.path.join(GENSCRIPT_DIR, 'templates', tmpl), doc)
+
+    tmpl = os.path.join(GENSCRIPT_DIR, 'templates', 'siteTemplate.html')
+    html = apply_template(tmpl, {
                 'content': html,
                 'title': doc['title'],
             })

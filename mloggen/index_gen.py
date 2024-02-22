@@ -5,7 +5,8 @@ import sys
 
 from helpers import apply_template, get_all_mds, read_md_doc
 
-POST_IN_IDX_TMPL = 'genscripts/templates/post_in_index.md.tmpl'
+GENSCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+POST_IN_IDX_TMPL = os.path.join(GENSCRIPT_DIR, 'templates', 'postInIndex.md.tmpl')
 
 MAIN_IDX_HEADER = """
 @meta docType index

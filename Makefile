@@ -10,8 +10,8 @@ clean:
 	rm -f codehighlight.js style.css
 
 gen:
-	python3 ./genscripts/index_gen.py md_blog md_gen
-	python3 ./genscripts/html_gen.py blog md_blog md_gen
+	python3 ./mloggen/index_gen.py md_blog md_gen
+	python3 ./mloggen/html_gen.py blog md_blog md_gen
 
 style.css: genscripts/custom.css
 	echo -n "\n\n/* https://unpkg.com/chota@latest */\n" > style.css
