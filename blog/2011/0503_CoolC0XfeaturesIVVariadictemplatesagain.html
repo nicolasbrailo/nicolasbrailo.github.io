@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Cool C++0X features IV: Variadic templates again Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Cool C++0X features IV: Variadic templates again</h2>
+<h2 name="coolc0xfeaturesivvariadictemplatesagain">Cool C++0X features IV: Variadic templates again</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-05-03 |
   <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">Permalink</a> | <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">2 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Last time we finally solved the varargs problem. Let's review what we learned:
 * Variadic templates let us create something receiving a variable set of arguments
 * We can process the head of that set, then recursively process the tail
@@ -156,9 +159,9 @@ struct Reduce_V<Op, H, T...>
 <pre lang="c++"><code class="language-c++" lang="c++">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
 </code></pre>
 <p>Next time we'll see another example for variadic templates and a new C++0x feature.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">Chaitanya</a> commented @ 2013-09-06T22:10:04.000+02:00:<a name="inreplytothispostchaitanyacommented20130906t221004.0000200"></a></h2>
 <p>Thanks for all the C++ posts. They are quite informative, really appreciate the C++ blog series :)</p>
@@ -167,6 +170,7 @@ struct Reduce_V<Op, H, T...>
 <h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2013-09-06T22:42:15.000+02:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20130906t224215.0000200"></a></h2>
 <p>Glad you find them useful Chaitanya, thanks for the feedback</p>
 <p>Original <a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">published here</a>.</p>
+</div>
 
 </div>
 

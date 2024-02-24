@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Force a program to output to stdout Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,19 +34,23 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Force a program to output to stdout</h2>
+<h2 name="forceaprogramtooutputtostdout">Force a program to output to stdout</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-07-30 |
   <a href="/blog/2013/0730_Forceaprogramtooutputtostdout.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0730_Forceaprogramtooutputtostdout.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Silly but handy CLI trick on Linux: Some programs don't have an option to output to stdout. Gcc comes to mind. In that case the symlink '/dev/stdout' will come in handy: /dev/stdout will be symlinked to stdout for each process.</p>
 <p>With this trick you could, for example, run "gcc -S foo.cpp -o /dev/stdout", to get the assembly listing for foo.cpp.</p>
 <p>You probably shouldn't use this trick on anything other than CLI scripting stuff (keep in mind /dev/stdout might be closed or not accessible for some processes).</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

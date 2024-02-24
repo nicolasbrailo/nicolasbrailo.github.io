@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>std::byte - great idea. Meh execution? Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>std::byte - great idea. Meh execution?</h2>
+<h2 name="stdbytegreatidea.mehexecution">std::byte - great idea. Meh execution?</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2018-10-02 |
   <a href="/blog/2018/1002_stdbytegreatidea.Mehexecution.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/1002_stdbytegreatidea.Mehexecution.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>I love the idea of C++17's <a href="https://en.cppreference.com/w/cpp/types/byte">std::byte</a>. A data-type that makes it explicit we're dealing with ugly low-level details? What's there not to love! One thing only, turns out.</p>
 <p>First, the good part: separating character (human) representation from binary (low-level) representation is brilliant. No implicit conversion between the two separates the domains very well and creates a much clearer interface.</p>
 <p>The bad part: std::byte is really really strict. It only accepts other std::bytes as operands(*). You'd hope this would work</p>
@@ -51,10 +54,11 @@ Post by Nico Brailovsky @ 2018-10-02 |
 <p>It doesn't. std::byte only accepts other std::byte's as operands. The design goal behind it is good, sure. In practice, I've noticed this means casts are not limited to the interface between low-level and rest-of-the-world: casts and explicit byte's get sprinkled all over the place.</p>
 <p>My prediction: most people will dislike the boilerplate std::byte adds and fall back to unsinged char's, until the type restrictions in std::byte are relaxed. I hope I'm wrong though!</p>
 <p>(*) Yes, with the exception of shift operations. That was a good design decision!</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

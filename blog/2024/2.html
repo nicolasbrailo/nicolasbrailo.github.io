@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Posts for 2024 February Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -36,6 +36,23 @@
 <div id="content" class="language-clike">
 <h2>Posts for 2024 February</h2>
 
+<h2>Fix "slow" Grub<a name="fixslowgrub"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-02-23 | <a href="/blog/2024/0223_FixSlowGrub.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0223_FixSlowGrub.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Grub tends to be setup-and-forget, so this is a tip that should be useless. Except when things break.</p>
+<p>I noticed while fixing a computer that Grub was "slow" - each keystroke would take about half a second to show up on the screen, give or take a hundred ms, and it wouldn't even queue my keystrokes (leading to skipped keys, and even more frustrating sessions of backspace-backspace-backspace, fix-fix-fix, repeat). This seems to be related to Grub running in a very high resolution, which should be entirely unnecessary - I don't care about 4K boot menus, nor about 4K boot splash screens that will be displayed for a second or two.</p>
+<p>To fix slow-Grub, it's enough to tell it to stick to a more terminal-friendly resolution. Debian-based example:</p>
+<p>Add this to /etc/default/grub</p>
+<pre lang="bash"><code class="language-bash" lang="bash">GRUB_GFXMODE=1024x768
+GRUB_CMDLINE_LINUX_DEFAULT="nosplash verbose debug nomodeset"
+</code></pre>
+<p>Then run <code>update-grub</code>. Next boot up Grub input should behave in a sane way again.</p>
+<h2>Extra tip: Increate terminal font size without murking in Grub<a name="extratipincreateterminalfontsizewithoutmurkingingrub"></a></h2>
+<p>If you got past Grub, you're probably booting into 4K mode terminals, and texts that are but a few millimiters high. You can increase your terminal font size, before ever going to a graphical interface:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">setfont /usr/share/consolefonts/Uni3-Terminus32x16.psf.gz
+</code></pre>
+<h2>Extra extra tip: Kernel arcana<a name="extraextratipkernelarcana"></a></h2>
+<p>If you're reading this, you're probably looking for <code>debug verbose nomodeset earlyprintk=vga loglevel=7 ignore_loglevel</code></p>
+<hr />
 <h2>How to: UEFI shell<a name="howtouefishell"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-02-20 | <a href="/blog/2024/0220_UefiCheatsheet.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0220_UefiCheatsheet.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:</p>

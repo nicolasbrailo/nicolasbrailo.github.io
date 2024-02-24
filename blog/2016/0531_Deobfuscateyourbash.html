@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Deobfuscate your bash Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,22 +34,26 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Deobfuscate your bash</h2>
+<h2 name="deobfuscateyourbash">Deobfuscate your bash</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-05-31 |
   <a href="/blog/2016/0531_Deobfuscateyourbash.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0531_Deobfuscateyourbash.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Who hasn't written some read-only magical Bash voodoo, only to find you need to decrypt your own creation later on? Luckily, <a href="http://explainshell.com/">Explain Shell</a> can help with that. Here's an example from my .bash_history file:</p>
 <pre lang="bash"><code class="language-bash" lang="bash">for fn in *; do echo cat $fn | sed "s|' '$URL'||g" | sed "s|curl -X POST -d '||g" ; done
 </code></pre>
 <p>And <a href="http://explainshell.com/explain?cmd=for+fn+in+*%3B+do+echo+cat+%24fn+%7C+sed+%22s%7C%27+%27%24URL%27%7C%7Cg%22+%7C+sed+%22s%7Ccurl+-X+POST+-d+%27%7C%7Cg%22+%3B+done">Explain Shell's</a> explanation: it's no substitute for knowing Bash but it sure helps.</p>
 <p><strong>Bonus</strong>: while reading my bash history file, I realized I accidentally copy&amp;paste a lot of code to my terminals. There are way too many "template <FOO>" entries in there...</p>
 <p><strong>Bonus II</strong>: It's a good thing they wrote "shell" in a different color. I was wondering why I had "explains hell" in my bookmarks.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

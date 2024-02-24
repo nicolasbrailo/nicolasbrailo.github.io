@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Final classes in C++ Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Final classes in C++</h2>
+<h2 name="finalclassesinc">Final classes in C++</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-07-05 |
   <a href="/blog/2011/0705_FinalclassesinC.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0705_FinalclassesinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Have you ever wondered what's the best way of having a class from which you can't inherit, say, like Java's final? Without any doubt, the best way is having a team capable of not doing things like inheriting from 'class NeverEverEverInheritFromThis'. The second best way involves some magic and lots of beer:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">class Final {
     protected:
@@ -72,10 +75,11 @@ int main() {
 </code></pre>
 <p>Try it and watch it fail!</p>
 <p><strong>Update 2011-07-08:</strong> Amazing how time flies. This article has been written about a year before its publishing, and, believe it or not, it's already showing its age. What I would update on this article is the first paragraph: the best way of not having a problem with final classes is creating a design which doesn't have artificial restrictions to the growth and extensibility of the system (i.e: don't use final classes, they are usually a bad idea). I like that idea, I may write another article about it.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

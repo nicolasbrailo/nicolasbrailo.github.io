@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood 10: Unwind and call frame info Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood 10: Unwind and call frame info</h2>
+<h2 name="cexceptionsunderthehood10unwindandcallframeinfo">C++ exceptions under the hood 10: Unwind and call frame info</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-04-09 |
   <a href="/blog/2013/0409_Cexceptionsunderthehood10_Unwind_andcallframeinfo.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0409_Cexceptionsunderthehood10_Unwind_andcallframeinfo.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>We left our mini-ABI project (<a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v03">link</a>) capable of throwing exceptions, and we are now working on catching them; we implemented a personality function last time which was capable of detecting and handling exceptions but it was still a bit incomplete: even though it can properly notify the stack unwinder when it should stop but our version of __gxx_personality_v0 can't run the code inside a catch block. It's better than a coredump one might argue, but still a long way from a useful exception handling ABI. Can we improve it?</p>
 <p>How can we tell _Unwind_ where is our landing pad, so we can execute the code inside the catch statement? If we go back to the <a href="/blog/youfoundadeadlink.html">ABI specification</a>, there are a few context management functions which might help us:</p>
 <ul>
@@ -84,10 +87,11 @@ Dump of assembler code for function try_but_dont_catch():
    0x0804862a &lt;:+24&gt;:   add    $0x24,%esp
 </code></pre>
 <p>With the help of _Unwind_ we are now able to get enough information about the current stack frame to decide whether we can or not handle an exception, an also how should we handle it. One more step is needed before we can detect the landing pad we want: we will need to interpret the CFI (call frame information) at the end of the function. This is part of the DWARF spec, the same gdb uses for debugging purposes, and it's not an easy spec to implement. Like we are doing with our ABI, we'll keep this to the bare minimum.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

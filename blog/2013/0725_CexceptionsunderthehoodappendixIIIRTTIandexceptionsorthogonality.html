@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality</h2>
+<h2 name="cexceptionsunderthehoodappendixiiirttiandexceptionsorthogonality">C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-07-25 |
   <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">Permalink</a> | <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">1 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Exception handling on C++ requires a lot of reflexion. I don't mean the programmer should be reflecting on exception handling (though that's probably not a bad idea), I mean that a piece of C++ code should be able to understand things about itself. This looks a lot like run-time type information, RTTI. Are they the same? If they are, does exception handling work without RTTI?</p>
 <p>We might be able to get a clue about the difference between RTTI and exception handling by using -fno-rtti on gcc when compiling our ABI project. Let's use the <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/blob/master/abi_v12/throw.cpp">throw.cpp</a> file:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">g++ -fno-rtti -S throw.cpp -o throw.nortti.s
@@ -108,13 +111,14 @@ _ZTI3Bar:
 </code></pre>
 <p>That should indeed look familiar: the class being thrown is exactly the same as the class that was used for typeid!</p>
 <p>We can now conclude what's going on: <strong>the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends</strong>. Specifying -fno-rtti on g++ only disables the "frontend" functions for RTTI: that means you won't be able to use typeid, and no RTTI classes will be generated... unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won't be able to access the RTTI information of this class via typeid, though).</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">C++ Performance: Common Wisdoms and Common &ldquo;Wisdoms&rdquo; - IT Hare</a> commented @ 2018-01-02T11:58:47.000+01:00:<a name="inreplytothispostcperformancecommonwisdomsandcommonldquowisdomsrdquoithareblogyoufoundadeadlink.htmlcommented20180102t115847.0000100"></a></h2>
 <p>[&hellip;] [Brailovsky] Nicol&aacute;s Brailovsky, C++ exceptions under the hood appendix III: RTTI and exceptions orthogonality [&hellip;]</p>
 <p>Original <a href="/blog/2013/0725_CexceptionsunderthehoodappendixIIIRTTIandexceptionsorthogonality.html">published here</a>.</p>
+</div>
 
 </div>
 

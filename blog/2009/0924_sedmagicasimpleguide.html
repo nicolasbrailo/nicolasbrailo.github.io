@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>sed magic: a simple guide Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>sed magic: a simple guide</h2>
+<h2 name="sedmagicasimpleguide">sed magic: a simple guide</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2009-09-24 |
   <a href="/blog/2009/0924_sedmagicasimpleguide.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0924_sedmagicasimpleguide.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>The other day I had to create one of those "enum to string" functions. They really suck, always getting out of sync, so I made a script to auto-update the header file containing this function... just add a target to the makefile and you're done!</p>
 <p>Anyway, this is the part of the script I came up with to get the enum elements:</p>
 <pre lang="bash"><code class="language-bash" lang="bash">
@@ -47,10 +50,11 @@ cat enum_definition.h | sed -n '/enum OID/,/};/ s/(.*)/1/p'
 </code></pre>
 <p>Nice voodoo, isn't it? How the hell are you supposed to understand that? Well, you're not, sed is write-only-code, but you can try reading <a href="http://www.grymoire.com/Unix/Sed.html#toc-uh-25">http://www.grymoire.com/Unix/Sed.html#toc-uh-25</a>, a great sed introduction.</p>
 <p>Have fun!</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

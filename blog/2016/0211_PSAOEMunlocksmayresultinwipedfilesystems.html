@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>PSA: OEM unlocks may result in wiped filesystems Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,19 +34,23 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>PSA: OEM unlocks may result in wiped filesystems</h2>
+<h2 name="psaoemunlocksmayresultinwipedfilesystems">PSA: OEM unlocks may result in wiped filesystems</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-02-11 |
   <a href="/blog/2016/0211_PSAOEMunlocksmayresultinwipedfilesystems.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0211_PSAOEMunlocksmayresultinwipedfilesystems.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>o, I bricked my tablet. Turns out the bootloader couldn't mount /data: after doing an oem unlock thingy, /data gets wiped and (this is the part the manual I was following didn't warn me about) no filesys is created.</p>
 <p>If this happens, go back to recovery mode, then adb shell and run 'mount /data'. This will give you an error like "Can't mount /dev/block/mmcblk0p23". Write down the /dev/block id and run 'mke2fs -t ext4 /dev/block/mmcblk0p30'. That should fix it.</p>
 <p>In some systems you may be missing libext2_quota.so. If this happens, just look for libext2_quota.so in the interwebs, then adb push this file into /sbin.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>A talking makefile Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>A talking makefile</h2>
+<h2 name="atalkingmakefile">A talking makefile</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-09-06 |
   <a href="/blog/2011/0906_Atalkingmakefile.html">Permalink</a> | <a href="/blog/2011/0906_Atalkingmakefile.html">1 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0906_Atalkingmakefile.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>So, after learning <a href="/blog/2011/0818_Makefiles.html">how to use makefiles</a>, then <a href="/blog/2011/0822_AMakefileforTDDwithC.html">how to use makefiles for TDD</a> and for <a href="/blog/2011/0830_AMakefileforcodecoveragereportwithC.html">code coverage report</a>, now you need to annoy your whole team with a talking makefile. What could be better to notify everyone on your team when a test fails than a synthesized voice commanding you to fix your program?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">test: $(TEST_SRCS)
     @for TEST in $(TEST_BINS); do
@@ -51,13 +54,14 @@ Post by Nico Brailovsky @ 2011-09-06 |
 </code></pre>
 <p>Try it. You'll love it.</p>
 <p>Bonus chatter: when Valgrind detects over $MUCHOS errors it'll print "Too many errors detected. Go and fix your program", then it won't print so much detail in the next backtraces.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="http://techrights.org/2011/09/07/linux-world-domination/">Links 7/9/2011: Linux World Domination, China Picks IBM’s GNU/Linux Mainframe | Techrights</a> commented @ 2011-09-07T20:13:23.000+02:00:<a name="inreplytothispostlinks792011linuxworlddominationchinapicksibmsgnulinuxmainframetechrightshttptechrights.org20110907linuxworlddominationcommented20110907t201323.0000200"></a></h2>
 <p>[...] talking makefile [...]</p>
 <p>Original <a href="/blog/2011/0906_Atalkingmakefile.html">published here</a>.</p>
+</div>
 
 </div>
 

@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood 7: a nice personality Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood 7: a nice personality</h2>
+<h2 name="cexceptionsunderthehood7anicepersonality">C++ exceptions under the hood 7: a nice personality</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-03-19 |
   <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">Permalink</a> | <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">1 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0319_Cexceptionsunderthehood7anicepersonality.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>On our journey to learn about exceptions we have learned so far how a throw is done, that something called "call frame information" helps a library called Unwind to do the stack unwinding, and that the compiler writes something called LSDA, language specific data area, to know which exceptions can a method handle. And we know by now that a lot of magic is done on the personality function; we've never seen it in action though. Let's recap in a bit more of detail about how an exception will be thrown and caught (or, more precisely, how we know so far it will be thrown caught):</p>
 <ul>
 <li>The compiler will translate our throw statement into a pair of <strong>__cxa_allocate_exception/__cxa_throw</strong></li>
@@ -139,13 +142,14 @@ _Unwind_Reason_Code __gxx_personality_v0 (
 <li>context: this holds all the information regarding the current stack frame, for example the language specific data area (LSDA). This is what we will be using to detect whether this stack can handle the thrown exception (and also to detect whether we need to run any destructors)</li>
 </ul>
 <p>So there we have it, a working (well, linkeable) personality function. Doesn't do much, though, so next time we'll start adding some real behavior and try to make it handle an exception.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">Anonymous</a> commented @ 2018-01-04T10:47:04.000+01:00:<a name="inreplytothispostanonymouscommented20180104t104704.0000100"></a></h2>
 <p>But .gcc_except_table is same with .eh_frame. (ubuntu Ubuntu 14.04.5 LTS, gcc gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4)</p>
 <p>Original <a href="/blog/2013/0319_Cexceptionsunderthehood7anicepersonality.html">published here</a>.</p>
+</div>
 
 </div>
 

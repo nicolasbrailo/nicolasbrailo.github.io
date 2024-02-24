@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Bash scripting and getops Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Bash scripting and getops</h2>
+<h2 name="bashscriptingandgetops">Bash scripting and getops</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-06-06 |
   <a href="/blog/2013/0606_Bashscriptingandgetops.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0606_Bashscriptingandgetops.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Did you ever write a bash script and thought it looked too clean? Yeah, me neither. Anyway, now you can make it look even worse by using getopt. As an upside, you'll be able to read command line options from a user without having to resort to nasty hacks, like hardcoding the switch position into the argv.</p>
 <p>getopt should be installed by default in most Linux distros, and you can even run it as a command line program. It's quite easy to use on a bashcript. For example, something like:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">
@@ -55,10 +58,11 @@ while getopts "bar" opt; do
 done
 </code></pre>
 <p>It won't look pretty but it does get the job done. According to "man getopt" it supports things like short &amp; long options and defaults; if you need something more complex, you should probably be using a proper language instead of a bash script.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

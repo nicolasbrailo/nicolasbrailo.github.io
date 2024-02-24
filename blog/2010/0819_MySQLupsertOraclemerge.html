@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>MySQL upsert, Oracle merge Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>MySQL upsert, Oracle merge</h2>
+<h2 name="mysqlupsertoraclemerge">MySQL upsert, Oracle merge</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2010-08-19 |
   <a href="/blog/2010/0819_MySQLupsertOraclemerge.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0819_MySQLupsertOraclemerge.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>How many times have you seen this "pattern"?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">unsigned int row_count = foo-&gt;update();
 if (row_count == 0) {
@@ -57,10 +60,11 @@ ON DUPLICATE KEY UPDATE col1 = 'a', col2 = 'b';
 </code></pre>
 <p>Go on, try it, I'll wait. What? It didn't work? Oh, I forgot, you need to create a unique key so the engine can recognize when there is a duplicate key (say, 'create index unique on col1'). Try it now.</p>
 <p>Nice, isn't it? Oracle has its own version of upsert, called merge (at least the name is better) but it itches a little bit when I write about Oracle, so go and check <a href="http://psoug.org/reference/merge.html">this page</a> instead.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

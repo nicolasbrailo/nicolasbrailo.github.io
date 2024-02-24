@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>A C++ template device to obtain an underlying type Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>A C++ template device to obtain an underlying type</h2>
+<h2 name="actemplatedevicetoobtainanunderlyingtype">A C++ template device to obtain an underlying type</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-10-15 |
   <a href="/blog/2013/1015_ACtemplatedevicetoobtainanunderlyingtype.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1015_ACtemplatedevicetoobtainanunderlyingtype.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>What happens when you need to get the underlying data type of a pointer or reference? You can write some crazy metaprogram to do it for you. Like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template <typename T> struct get_real_type      { typedef T type; };
 template <typename T> struct get_real_type<T*>  { typedef T type; };
@@ -60,10 +63,11 @@ int main() {
 }
 </code></pre>
 <p>Incidentally, this is also the basis for the implementation of std::remove_reference. Actually you'd be better of using std::remove_reference, for your own sanity.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

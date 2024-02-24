@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Setting up a Linux GW II: NATting and forwarding Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Setting up a Linux GW II: NATting and forwarding</h2>
+<h2 name="settingupalinuxgwiinattingandforwarding">Setting up a Linux GW II: NATting and forwarding</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-10-03 |
   <a href="/blog/2013/1003_SettingupaLinuxGWIINATtingandforwarding.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1003_SettingupaLinuxGWIINATtingandforwarding.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>For our Linux GW, services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let's set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
 <p>We'll do this by setting up NAT with iptables. We'll also have to configure the OS to forward connections from one network card to the other:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">echo 1 &gt; /proc/sys/net/ipv4/ip_forward
@@ -87,10 +90,11 @@ iface eth1 inet static
 </code></pre>
 <p>We will also have a lot of iptables rules we need to setup during boot time. I have created a script at /home/router/set_forwarding.sh, which I also linked into /etc/init.d/rc.local so it's run whenever the system boots.</p>
 <p>Next time we'll move on to something more complex: installing a DNS server and using domains instead of IPs.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

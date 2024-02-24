@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Design Patterns: C++ Idiom RAII Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Design Patterns: C++ Idiom RAII</h2>
+<h2 name="designpatternscidiomraii">Design Patterns: C++ Idiom RAII</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2010-07-27 |
   <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0727_DesignPatternsCIdiomRAII.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Ohh design patterns. I love buzzwords. Who doesn't? To increase my buzzword count I will be writing about a topic most people programming C++ should already know: RAII, resource acquisition is initialization.</p>
 <h3>Patterns everywhere<a name="patternseverywhere"></a></h3>
 <p>Knowing that Gamma et al didn't list all the known patterns in the universe does come as a surprise to some, not sure why though. The twenty some patterns they write about in their now famous book are (arguably, perhaps) some of the most common design patterns, but the list hardly finishes there.</p>
@@ -107,10 +110,11 @@ class RAII_Wrapper {
 <p>Even if throwing constructors are acceptable, throwing destructors may even be a worst idea: throwing while an exception is already active is a cause for concern (tip: it'll crash your application, doesn't matter how many try/catch blocks you use, due to stack unwinding issues).</p>
 <p>And then, even if we don't care about throwing destructors you have the issue of a release failure: how do you notify the user that a release failure has occurred? And what do you do, should it happen?</p>
 <p>So, RAII is a great idea indeed, and it has it's uses, but you should be careful when choosing this C++ specific pattern.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

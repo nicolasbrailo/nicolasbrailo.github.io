@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Quickly sharing files in Linux via HTTP Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,22 +34,26 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Quickly sharing files in Linux via HTTP</h2>
+<h2 name="quicklysharingfilesinlinuxviahttp">Quickly sharing files in Linux via HTTP</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-05-12 |
   <a href="/blog/2016/0512_QuicklysharingfilesinLinuxviaHTTP.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0512_QuicklysharingfilesinLinuxviaHTTP.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Isn't it awful when you have to share a file too big for email and don't know how? You'd think by 2016 we'd have that figured out. Actually we do, many times over. Just pick a standard that works for you!</p>
 <p>If you don't want to read many pages on file transfer standards (Samba? What's that?) you can try this little snippet:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">python -m SimpleHTTPServer $PORT
 </code></pre>
 <p>This will create an http server sharing the current directory. HTTP, luckily, is one of those things that tend to work everywhere, always.</p>
 <p>Bonus: some other ways of doing the same thing at <a href="https://gist.github.com/willurd/5720255">https://gist.github.com/willurd/5720255</a></p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

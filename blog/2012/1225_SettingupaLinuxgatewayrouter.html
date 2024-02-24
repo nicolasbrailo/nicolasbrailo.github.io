@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Setting up a Linux gateway/router Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Setting up a Linux gateway/router</h2>
+<h2 name="settingupalinuxgatewayrouter">Setting up a Linux gateway/router</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2012-12-25 |
   <a href="/blog/2012/1225_SettingupaLinuxgatewayrouter.html">Permalink</a> | <a href="/blog/2012/1225_SettingupaLinuxgatewayrouter.html">1 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1225_SettingupaLinuxgatewayrouter.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Yes, there are a lot of guides for this, but since I need to document how I did it for my office a lot of time ago, I might as well write a post about it here.</p>
 <p>As expected, if we are going to replace a device, say, a router, we need to replace it with something that can provide the same functionality. In this case, we have chosen a Linux server, so we need to figure out which services are provided by the router and then emulate them someway:</p>
 <ul>
@@ -255,13 +258,14 @@ iptables -A INPUT -i eth0 -p tcp -m state --state NEW
 /./etc/init.d/isc-dhcp/server restart
 </code></pre>
 <p>Now anyone who changes a config file can run this script to have their new rule applied.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">Abby Rhozabel</a> commented @ 2016-04-17T19:39:23.000+02:00:<a name="inreplytothispostabbyrhozabelcommented20160417t193923.0000200"></a></h2>
 <p>Ten computers has a public ip address How will you get internet connection on ten public computers using private ip address and linux box as its router.</p>
 <p>Original <a href="/blog/2012/1225_SettingupaLinuxgatewayrouter.html">published here</a>.</p>
+</div>
 
 </div>
 

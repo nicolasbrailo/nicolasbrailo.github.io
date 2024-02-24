@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Simple vim plugin IV: project greping Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Simple vim plugin IV: project greping</h2>
+<h2 name="simplevimpluginivprojectgreping">Simple vim plugin IV: project greping</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-12-01 |
   <a href="/blog/2016/1201_SimplevimpluginIVprojectgreping.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/1201_SimplevimpluginIVprojectgreping.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>I recently wrote about some of the utilities I created for my Vim setup. Using someone else's Vim scripts is not nearly as fun as writing your own, so I decided to also write a short summary on what it takes to get started writting Vim plugins. For this task, I decided to start with greping.</p>
 <p>Greping can be improved a bit: if you do it a lot in a project, you might find it's useful to also grep the results themselves, to further refine your search. If you have your grep results in vim itself, that is trivial.</p>
 <p>Let's start hacking something in our .vimrc file. Try this:</p>
@@ -57,10 +60,11 @@ map <leader>s :call FG_Search()<CR>
 <p>This function should be pretty clear: it will map <leader>s (in my case, ",s") to FG_Search(). FG_Search will prompt the user for a term to grep, then search for it executing the command. In the end the results are written to a new tab, which is declared as a temp non-modifiable buffer.</p>
 <p>Just paste that in your .vimrc and you're good to grep.</p>
 <p><strong>Extra tip</strong>: integrate this with my fast grep cache and you have a nice and quick project search integration for vim that works even for very large projects with tools available in most default Linux installs.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

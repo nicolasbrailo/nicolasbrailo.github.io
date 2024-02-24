@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Globing in bash Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Globing in bash</h2>
+<h2 name="globinginbash">Globing in bash</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2015-04-30 |
   <a href="/blog/2015/0430_Globinginbash.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0430_Globinginbash.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>There is a pretty common and unnecessary pattern used by bash scripts: whenever you need to loop through a list of file names in a path, you might tempted to write something like this.</p>
 <pre lang="c++"><code class="language-c++" lang="c++">for fname in $(ls | grep foo); do echo $fname; done
 </code></pre>
@@ -48,10 +51,11 @@ Post by Nico Brailovsky @ 2015-04-30 |
 </code></pre>
 <p>Not only the script should be cleaner and faster, bash will take care of properly expanding the file names and you won't have to worry about things like filenames with spaces. This should also be portable to other shells too.</p>
 <p>Want to know more about bash globbibg? Check out http://www.linuxjournal.com/content/bash-extended-globbing</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

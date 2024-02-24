@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Git tip: auto update your ctags Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,21 +34,25 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Git tip: auto update your ctags</h2>
+<h2 name="gittipautoupdateyourctags">Git tip: auto update your ctags</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-08-13 |
   <a href="/blog/2013/0813_Gittipautoupdateyourctags.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0813_Gittipautoupdateyourctags.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>On any your .git/hooks folder; add this script in .git/hooks/post-merge (and don't forget to chmod +x it):</p>
 <pre lang="c++"><code class="language-c++" lang="c++">ctags -R -f .ctags .
 </code></pre>
 <p>Now every time you do a git pull your ctags file will automagically update. You might also want to copy or ln -s this script for the post-commit hook, if you want to run a ctags update on each git commit. Be aware that this will make your commits slower, if generating your tags file takes a long time.</p>
 <p>Extra tip: "-f .ctags" will make ctags write into a hidden file, .ctags, which you can then add to .gitignore. Now ctags magically works in Vim and you won't even need to see your tags file (just don't forget to "set tags=./.ctags;/" on vim).</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

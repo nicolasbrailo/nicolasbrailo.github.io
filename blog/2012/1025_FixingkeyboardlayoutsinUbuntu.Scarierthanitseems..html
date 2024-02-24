@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Fixing keyboard layouts in Ubuntu. Scarier than it seems. Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,21 +34,25 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Fixing keyboard layouts in Ubuntu. Scarier than it seems.</h2>
+<h2 name="fixingkeyboardlayoutsinubuntu.scarierthanitseems.">Fixing keyboard layouts in Ubuntu. Scarier than it seems.</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2012-10-25 |
   <a href="/blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1025_FixingkeyboardlayoutsinUbuntu.Scarierthanitseems..md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>At the moment of writing this post there is an <a href="https://bugs.launchpad.net/ubuntu/+source/gnome-control-center/+bug/591895">open bug</a> in Ubuntu, still active in 11.04, that makes your keyboard layout revert to whatever GDM wants. Apparently this is caused by GDM failing to synch with the preferences of the session, so if you change your layout (even if you delete the previous one) the change will be reverted next time you login. There seems to be no fix coming soon, so this magic incantation might work if you have this problem:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">sudo dpkg-reconfigure keyboard-configuration
 </code></pre>
 <p>This will ask you a lot of questions about your keyboard, good luck guessing. It kind of reminds me the Windows 95 install process, in which erring the keyboard layout meant it was probably easier to just format and reinstall everything all over again. With some luck, next time you reboot your Ubuntu will actually remember your keyboard preference. If not, just take this as an opportunity to learn a foreign language.</p>
 <p>Having keyboard problems? You may also be interested in learning <a href="/blog/2011/0908_ActivatingtildesandaccentsforaUSAkeyboardlayoutinUbuntu.html">how to activate tildes and accents for a USA keyboard layout in Ubuntu</a>.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

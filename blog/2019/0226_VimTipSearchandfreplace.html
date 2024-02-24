@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>VimTip: Search and f(replace) Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>VimTip: Search and f(replace)</h2>
+<h2 name="vimtipsearchandfreplace">VimTip: Search and f(replace)</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2019-02-26 |
   <a href="/blog/2019/0226_VimTipSearchandfreplace.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0226_VimTipSearchandfreplace.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Pre-tip: When using search and replace in Vim, <a href="/blog/2015/0507_VimtipStopescapingslashes.html">you don't need to use slashes</a>
 This works just fine:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">%s#search#replace
@@ -48,10 +51,11 @@ This works just fine:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">%s#bar#\=line(&#x27;.&#x27;)
 </code></pre>
 <p>will replace every occurrence of 'bar' for its line number. You can get creative and use any other Vimscript function.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

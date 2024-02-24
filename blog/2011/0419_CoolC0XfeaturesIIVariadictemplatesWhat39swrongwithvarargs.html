@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Cool C++0X features II, Variadic templates: What&#39;s wrong with varargs Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Cool C++0X features II, Variadic templates: What&#39;s wrong with varargs</h2>
+<h2 name="coolc0xfeaturesiivariadictemplateswhat39swrongwithvarargs">Cool C++0X features II, Variadic templates: What&#39;s wrong with varargs</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-04-19 |
   <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Permalink</a> | <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">1 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Last time</a> we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?</p>
 <p>Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
@@ -96,9 +99,9 @@ int main() {
 </code></pre>
 <p>Remember to compile using -std=c++0x in gcc.</p>
 <p><strong>(Thanks Hugo Arregui for correcting the POD example)</strong></p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">Matthew Fioravante</a> commented @ 2015-09-03T22:38:03.000+02:00:<a name="inreplytothispostmatthewfioravantecommented20150903t223803.0000200"></a></h2>
 <p>"Type-unsafe: You just tell varargs &ldquo;Hey, get me an int&rdquo;. And it will give you an int, no warranties included. If it was supposed to be a short instead, though luck, you end up with a coredump."</p>
@@ -106,6 +109,7 @@ int main() {
 <p>If however you pass a short and then do va_arg(vl, short), you could be triggering undefined behavior.. Similarly with char and the unsigned variants which all get promoted to int.</p>
 <p>More reasons not to use variadic functions...</p>
 <p>Original <a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">published here</a>.</p>
+</div>
 
 </div>
 

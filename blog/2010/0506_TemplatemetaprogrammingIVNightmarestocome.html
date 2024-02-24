@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Template metaprogramming IV: Nightmares to come Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Template metaprogramming IV: Nightmares to come</h2>
+<h2 name="templatemetaprogrammingivnightmarestocome">Template metaprogramming IV: Nightmares to come</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2010-05-06 |
   <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>By now you should have noticed the warnings were not in vain: we are exploring a bizarre side of C++ here, a side many people prefer to, wisely, ignore. Luckily it probably is too late for you, there is no way back. Only a long spiraling way down into the arms of despair and cryptic compiler error messages... mwahahahaha. But now, let's see where we are.</p>
 <p>In previous entries we learned how to return values, how to define recursive devices and how to provide a partial specialization. Let's see know how can we use partial specialization and complex return type definitions for some more fun template metaprogramming tricks. We had a fraction and a ScalarMultiplication operation for Frak:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N, int D&gt; struct Frak {
@@ -84,10 +87,11 @@ typedef typename Frak&lt; F::Num / mcd, F::Den / mcd &gt;::result New_Frak;
 </code></pre>
 <p>In a template you don't know if Bar is a typename or varname because there's no access to the specific template definition. As a rule of thumb, if the compiler complains then add typenames.</p>
 <p>(**) Results may vary according to your definition of useful.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

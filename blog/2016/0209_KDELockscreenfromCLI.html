@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>KDE: Lock screen from CLI Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,22 +34,26 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>KDE: Lock screen from CLI</h2>
+<h2 name="kdelockscreenfromcli">KDE: Lock screen from CLI</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-02-09 |
   <a href="/blog/2016/0209_KDELockscreenfromCLI.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0209_KDELockscreenfromCLI.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>For some reason, one of my (seriously outdated) Kubuntu installations has the nasty habit of not locking the screen when pressing Ctrl+Alt+L. Not always, though. It seems to do this only when I'm in a hurry and need to quickly lock my PC before walking away. This happens often enough to be annoying, but not so frequently as to bother me enough to look for a proper solution.</p>
 <p>Instead of looking for a proper solution, trying to determine what's stealing the focus of the Ctrl+Alt+L key command, I just settled for an easier workaround: lock the screen from the command line. I use the terminal most of the time anyway, so why not just use it to lock the screen as well?</p>
 <p>The magic incantation is easy, if a bit cryptic at first:</p>
 <pre><code>qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock
 </code></pre>
 <p>"qdbus" is a broadcasting service for KDE (Qt, actually). This command basically tells the screen saver service to lock the screen. Works every time, and with an alias in my <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash_aliases#L22" title="bashrc">bashrc</a>, I don't need to remember that horribly long command. Now I only need to determine if my computer detecting when I'm in a hurry is a sign of sentience, and whether this is a threat to mankind. Will report soon.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

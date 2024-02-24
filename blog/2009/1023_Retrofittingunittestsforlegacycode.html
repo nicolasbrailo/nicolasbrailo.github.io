@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Retrofitting unit tests for legacy code Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Retrofitting unit tests for legacy code</h2>
+<h2 name="retrofittingunittestsforlegacycode">Retrofitting unit tests for legacy code</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2009-10-23 |
   <a href="/blog/2009/1023_Retrofittingunittestsforlegacycode.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/1023_Retrofittingunittestsforlegacycode.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Some time ago I saw a discussion at <a href="http://code.google.com/p/googletest/">google test</a> mailing list which made me ask myself how would I go about implementing TDD for a legacy codebase project, based from previous experiences. I came up with a list, open to discussion, which may be useful as a guideline for someone in this situation.</p>
 <h3>Start with integration tests<a name="startwithintegrationtests"></a></h3>
 <p>Integration tests are ugly and won't give you a lot of information about what went wrong when something does, but you have no chance of running real unit tests in <a href="http://en.wikipedia.org/wiki/Dependency_injection">non-injectable</a> code.</p>
@@ -54,10 +57,11 @@ Post by Nico Brailovsky @ 2009-10-23 |
 <p>If you have a project divided in components (even the ugliest legacy code tends have some sort of layers separation, even if coupled with other components) try to create mocks for a whole layer of the application (I ended up with a complete mock of a DB, for example). This will help you in the long run to isolate troublesome modules.</p>
 <h3>Have a team commitment<a name="haveateamcommitment"></a></h3>
 <p>If you're working on your own or with a team, make it mandatory to run the tests for each commit. Even better if you can implement a continuous integration server.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

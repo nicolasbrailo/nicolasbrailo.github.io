@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Crazy git error Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,19 +34,23 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Crazy git error</h2>
+<h2 name="crazygiterror">Crazy git error</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-08-22 |
   <a href="/blog/2013/0822_Crazygiterror.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0822_Crazygiterror.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Have you ever run into this error message on git before?</p>
 <p>fatal: example.com/repo.git/info/refs not found: did you run git update-server-info on the server?</p>
 <p>It can be very baffling, because it may happen even if you change absolutely nothing in your git's configuration. I've read most people attribute this to a typo, and that seems to be the most common case, but I found yet another thing that might trigger this error: if you have set a proxy server, for example for wget, using an environment variable like http_proxy, https_proxy or ftp_proxy then git might be tripping up on your proxy and producing this error message.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

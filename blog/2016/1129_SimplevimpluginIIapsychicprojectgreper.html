@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Simple vim plugin II: a psychic project greper Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Simple vim plugin II: a psychic project greper</h2>
+<h2 name="simplevimpluginiiapsychicprojectgreper">Simple vim plugin II: a psychic project greper</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-11-29 |
   <a href="/blog/2016/1129_SimplevimpluginIIapsychicprojectgreper.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/1129_SimplevimpluginIIapsychicprojectgreper.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>We have been working on a quick grep integration for Vim, and it's looking decent enough for a quick plugin. There's one more easy thing we can improve, though: let's make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That's so old fashioned. Let's make grep guess what to look for.</p>
 <p>In vim you have a psychic function, expand(""). If you call expand(""), it will return whatever word is under the cursor. No need to visually select it. If you're still using the same vimrc definitions, you can do something like</p>
 <pre lang="ruby"><code class="language-ruby" lang="ruby">nmap s :call FG95DoSearch(expand(""))
@@ -92,10 +95,11 @@ vmap <leader>s :call FG_VAction("FG_DoSearchText")<CR>
 map  <leader>S :call FG_RequestInputAction("Text search: ", "FG_DoSearchText")<CR>
 </code></pre>
 <p>Just copy paste that in your vimrc, now you can grep your project in three different ways: press s (,s) to look for the word currently under the cursor, S to type in a search term or select something in visual mode, then S to grep it.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

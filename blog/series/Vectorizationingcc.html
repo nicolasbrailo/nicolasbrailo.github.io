@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Vectorization in gcc Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Vectorization in gcc</h2>
+<h2 name="vectorizationingcc">Vectorization in gcc</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2021-03-02 |
   <a href="/blog/series/Vectorizationingcc.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/Vectorizationingcc.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>[WARNING: DRAFT VERSION, WORK IN PROGRESS]</p>
 <p>Intro</p>
 <p>What is vectorization? That much shouldn't be difficult to answer: whenever you perform the same operation to all elements of a vector you can either do it one by one, or in chunks. You could do it by splitting the chunks across different processors. You can also tell your processor to process a whole chunk at once (extra points if you noticed that these are orthogonal aspects, you could split your vector in chunks, send it to multiple processors and then tell each processor to work on a chunk of that chunk). If you opt to process by chunks on a single processor, you will then use a special set of instructions (SIMD, single instruction multiple data) that can work on several elements at the same time.</p>
@@ -218,10 +221,11 @@ http://stackoverflow.com/questions/7156908/sse-intrinsic-functions-reference</p>
 <p>The downside to all the black-box magic the compiler does on loop-vectorization is quite big, though: you loose all visibility into how your code actually works. It might work wonderfully one day and then the next it might become the slowest part of your program, because a small change made gcc miss the chance of vectorization.</p>
 <p>If (or when) gcc looses the ability to vectorize one of your loops, you'll be digging around a lot of compiler logs to try and figure out what went wrong. If you were to write the vectorized loop yourself using intrinsics you'd be certain that the loop works and it's vectorized (duh!) but you'd have to manage the portability, alignment and aliasing yourself. That's not a trivial task if you are aiming for a portable program.</p>
 <p>If you plan to write a portable vectorized program, your best bet is to check your compiler's manual to see exactly which vectorization types are supported (that means, which types of plain looks can be transformed into vectorized loops). For a full list of all transformations available in gcc, check http://gcc.gnu.org/projects/tree-ssa/vectorization.html#using.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

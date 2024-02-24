@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>gdb: debugging multithreaded applications Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>gdb: debugging multithreaded applications</h2>
+<h2 name="gdbdebuggingmultithreadedapplications">gdb: debugging multithreaded applications</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2009-10-01 |
   <a href="/blog/2009/1001_gdbdebuggingmultithreadedapplications.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/1001_gdbdebuggingmultithreadedapplications.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Few things look cooler than debugging a multithreaded application using <a href="/blog/2009/0922_gdbgraphictuimode.html">TUI</a> through ssh on a client, halfway across the world. There you are, felling the geek of the century when all of the sudden gdb starts jumping from one thread to the other. OMFGBBQ! What are you going to do now?</p>
 <p>The scheduler locking policy defines when will thread context swtiches occur. If you are debuging a thead and don't want to be bothered by another then just lock the scheduler.</p>
 <p>gdb has a default scheduling locking which defaults to "most annoying", but fortunately you can easily change it:</p>
@@ -49,10 +52,11 @@ Post by Nico Brailovsky @ 2009-10-01 |
 * on: Enable locking, won't (ever) switch threads. <strong>Beware of deadlocks!</strong>
 * step: Disable locking while running only</p>
 <p>Hopefully this will save you some time.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

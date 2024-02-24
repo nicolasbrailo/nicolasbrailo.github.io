@@ -5,9 +5,42 @@
   <title>Nico Brailovsky's ideas repository</title>
   <link>https://nicolasbrailo.github.io/</link>
   <description>I write things. A few make sense.</description>
-  <lastBuildDate>2024-02-22</lastBuildDate>
-  <pubDate>2024-02-22</pubDate>
+  <lastBuildDate>2024-02-24</lastBuildDate>
+  <pubDate>2024-02-24</pubDate>
   <item>
+  <title>Fix &quot;slow&quot; Grub</title>
+  <link>https://nicolasbrailo.github.io//blog/2024/0223_FixSlowGrub.html</link>
+  <pubDate>2024-02-23</pubDate>
+  <author>Nico Brailovsky</author>
+  <description>Grub tends to be setup-and-forget, so this is a tip that should be useless. Except when things break.
+
+I noticed while fixing a computer that Grub was &quot;slow&quot; - each keystroke would take about half a second to show up on the screen, give or take a hundred ms, and it wouldn&#x27;t even queue my keystrokes (leading to skipped keys, and even more frustrating sessions of backspace-backspace-backspace, fix-fix-fix, repeat). This seems to be related to Grub running in a very high resolution, which should be entirely unnecessary - I don&#x27;t care about 4K boot menus, nor about 4K boot splash screens that will be displayed for a second or two.
+
+To fix slow-Grub, it&#x27;s enough to tell it to stick to a more terminal-friendly resolution. Debian-based example:
+
+Add this to /etc/default/grub
+
+```bash
+GRUB_GFXMODE=1024x768
+GRUB_CMDLINE_LINUX_DEFAULT=&quot;nosplash verbose debug nomodeset&quot;
+```
+
+Then run `update-grub`. Next boot up Grub input should behave in a sane way again.
+
+## Extra tip: Increate terminal font size without murking in Grub
+
+If you got past Grub, you&#x27;re probably booting into 4K mode terminals, and texts that are but a few millimiters high. You can increase your terminal font size, before ever going to a graphical interface:
+
+```bash
+setfont /usr/share/consolefonts/Uni3-Terminus32x16.psf.gz
+```
+
+## Extra extra tip: Kernel arcana
+
+If you&#x27;re reading this, you&#x27;re probably looking for `debug verbose nomodeset earlyprintk=vga loglevel=7 ignore_loglevel`</description>
+</item>
+
+<item>
   <title>How to: UEFI shell</title>
   <link>https://nicolasbrailo.github.io//blog/2024/0220_UefiCheatsheet.html</link>
   <pubDate>2024-02-20</pubDate>
@@ -205,69 +238,6 @@ Today I learned you can also do this for arbitrary URLs. If you have a file like
 ```
 
 Then you can do `C-w gf` on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</description>
-</item>
-
-<item>
-  <title>Weak symbols to mock c-APIs with gmock/gtest</title>
-  <link>https://nicolasbrailo.github.io//blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html</link>
-  <pubDate>2020-03-15</pubDate>
-  <author>Nico Brailovsky</author>
-  <description>I recently worked with a c-style API interface which wasn&#x27;t very open to mocking. The API in question looked something like this:
-
-```c++
-handle_t h = api_open();
-api_foo(h, param1, param2);
-api_foo2(h, 42);
-api_close(h);
-```
-
-This \*almost\* looks like a C++ interface, with extra steps that make it really really hard to mock (and, thus, to test). If it were a c++ interface, it would be possible to &quot;virtualize&quot; the different methods from the, even if this required a bit of patching to the original library. While a c interface doesn&#x27;t provide this facility, there is another feature that makes mocking such an API with gmock possible: linker weak symbols!
-
-In the header, you can patch your target library to export its symbols like this:
-
-```c++
-handle_t api_open() __attribute__((weak));
-void api_foo(handle_t h, int, float) __attribute__((weak));
-void api_foo2(handle_t h, int) __attribute__((weak));
-void api_close(handle_t h) __attribute__((weak));
-```
-
-The [weak attribute](https://gcc.gnu.org/onlinedocs/gcc-3.2/gcc/Function-Attributes.html) will tell the compiler to emit this symbol marked as &#x27;w&#x27;. If you compile this library and inspect it with `nm`, you&#x27;ll see the (possibly mangled) symbol name and a w next to it. In turn, this tells the linker that this symbol can be overridden.
-
-Normally, if you define &#x27;api\_open&#x27; in more than a single .object file, and then link them all in a single binary, you&#x27;ll end up with a linker error. Something about &quot;multiple symbol definition&quot;, which seems reasonable. If the symbols are instead marked as weak, then the compiler will simply override the symbol table with the last seen instance of that symbol.
-
-Once all mock-able symbols are defined as week, creating a mock is &quot;easy&quot;, albeit not necessarily pretty. Following the example:
-
-```c++
-// Mock definition
-struct MockApi {
- public:
-  MOCK_METHOD(handle_t, api_open, ());
-  MOCK_METHOD(void, api_foo, (handle_t h, int, float));
-  MOCK_METHOD(void, api_foo2, (handle_t h, int));
-  MOCK_METHOD(void, api_close, (handle_t h));
-};
-
-MockApi mocked_api_instance;
-
-// Override default symbols and forward to gtest
-handle_t api_open() { return mocked_api_instance.api_open(); }
-handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h, i); }
-// ...
-```
-
-Note how mocked\_api\_instance has to be a global singleton; since your test under code will probably expect to be able to call this API directly, it&#x27;s necessary to rely on a global object that everyone can access - both your test and their overridden API symbols and the module under test. With all this scaffolding in place, you can now write almost-normal tests.
-
-```c++
-TEST(Foo, Bar) {
-  EXPECT_CALL(mocked_api_instance, api_open).WillOnce(Return(nullptr));
-
-  MyObject o;
-  o.run_test();
-}
-```
-
-This method has the (big) disadvantage of creating an invisible dependency between &quot;mocked\_api\_instance&quot; and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</description>
 </item>
 
 </channel>

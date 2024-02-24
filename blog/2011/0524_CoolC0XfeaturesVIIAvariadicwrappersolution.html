@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Cool C++0X features VII: A variadic wrapper solution Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Cool C++0X features VII: A variadic wrapper solution</h2>
+<h2 name="coolc0xfeaturesviiavariadicwrappersolution">Cool C++0X features VII: A variadic wrapper solution</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-05-24 |
   <a href="/blog/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0524_CoolC0XfeaturesVIIAvariadicwrappersolution.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Last time</a> we were trying to build a wrapper function, in which we don't control the class being wrapped nor the user of the wrapper (meaning we can't change either of those but they could change without warning).</p>
 <p>This was the first approach:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
@@ -92,10 +95,11 @@ int main() {
 }
 </code></pre>
 <p>The above works just fine, but due to some limitations in the current (stable) version of gcc we will use the former version (the problem with this form will be clear later, I promise).</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

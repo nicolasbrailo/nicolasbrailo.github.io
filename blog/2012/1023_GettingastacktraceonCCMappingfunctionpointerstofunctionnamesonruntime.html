@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Getting a stacktrace on C/C++: Mapping function pointers to function names on runtime Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Getting a stacktrace on C/C++: Mapping function pointers to function names on runtime</h2>
+<h2 name="gettingastacktraceonccmappingfunctionpointerstofunctionnamesonruntime">Getting a stacktrace on C/C++: Mapping function pointers to function names on runtime</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2012-10-23 |
   <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">Permalink</a> | <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">1 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p><a href="/blog/2012/1018_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesinobjfiles.html">Last time</a> we talked about mapping function addresses to names (albeit mangled) in object files; we can also get this information during runtime:</p>
 <h3>Glibc to the aid<a name="glibctotheaid"></a></h3>
 <p>Let's go one step back: how to get the current stacktrace. Turns out glibc already has a nice feature to get the current stacktrace. Going back to our original program, with some minor changes:</p>
@@ -117,13 +120,14 @@ int get_sym_name(void *addr) {
 <p>Getting the function name using libdl feels a bit like cheating, after we manually walked the call stack. They are not in the same level of abstraction. Can we check what lurks inside libdl's dladdr? It's absolutely possible. In theory. Now we are dealing not only with a specific architecture (x86) we are also dealing with a binary format (more specifically, elf). To understand what goes on inside libdl's we need to know about the runtime linking process and elf internals. Feel free to peek at glibc/dlfcn/dlinfo.c, but beware that's a daunting task, way beyond the original scope of this article.</p>
 <h3>Epilogue / Disclaimer<a name="epiloguedisclaimer"></a></h3>
 <p>The whole series on getting a stacktrace on C++ is merely "educational", as in "never-ever do this on your program". As stated on the first part of the series it's not portable, and it's also extremely frail. If you want something production ready use glibc's backtrace features. And if you want something portable, try libunwind. It works great, but where would the fun be if we skipped the whole learning process and went straight to this library?</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">Anonymous</a> commented @ 2016-10-16T21:01:01.000+02:00:<a name="inreplytothispostanonymouscommented20161016t210101.0000200"></a></h2>
 <p>WTF? - asm("movl %%ebp,%0" : "=r"(sp));</p>
 <p>Original <a href="/blog/2012/1023_GettingastacktraceonCCMappingfunctionpointerstofunctionnamesonruntime.html">published here</a>.</p>
+</div>
 
 </div>
 

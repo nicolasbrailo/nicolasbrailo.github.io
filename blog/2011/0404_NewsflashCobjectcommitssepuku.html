@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Newsflash: C++ object commits sepuku Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Newsflash: C++ object commits sepuku</h2>
+<h2 name="newsflashcobjectcommitssepuku">Newsflash: C++ object commits sepuku</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-04-04 |
   <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">Permalink</a> | <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">1 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0404_NewsflashCobjectcommitssepuku.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Check this out. Is it valid C++?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">class X {
   void dispose() {
@@ -70,13 +73,14 @@ Post by Nico Brailovsky @ 2011-04-04 |
 <p>Though "Hello world" will be printed, it will be running in a dead object. Which is fine, as far as the compiler cares, but if you do try to reference the this pointer, you'll be in a lot of trouble.</p>
 <p><strong>Bonus reading</strong>
 For a much more interesting note than mine, go and check <a href="http://blogs.msdn.com/b/oldnewthing/archive/2010/08/10/10048149.aspx">When does an object become available for garbage collection?</a> in The Old New Thing.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="/blog/2011/0816_Livingonanullobject.html">Nicol&aacute;s Brailovsky » Blog Archive » Living on a null object</a> commented @ 2011-08-16T09:05:04.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivelivingonanullobjectblog20110816_livingonanullobject.htmlcommented20110816t090504.0000200"></a></h2>
 <p>[...] Now, in this new &ldquo;translated&rdquo; code, what do you think? Will it crash? It won’t, since no one is going to dereference &ldquo;this&rdquo;. Crazy, huh? This crazy idiom also allows even crazier things, like C++ objects committing sepuku [...]</p>
 <p>Original <a href="/blog/2011/0404_NewsflashCobjectcommitssepuku.html">published here</a>.</p>
+</div>
 
 </div>
 

@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Template metaprogramming II: Openning the box Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Template metaprogramming II: Openning the box</h2>
+<h2 name="templatemetaprogrammingiiopenningthebox">Template metaprogramming II: Openning the box</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2010-04-22 |
   <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>We saw last time how to print a factorial using only template metaprogramming, but didn't explain anything about it. I promised to fix that in this article. Starting by the very beginning:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N&gt; struct Factorial {
     static const int result = N * Factorial&lt;N-1&gt;::result;
@@ -93,10 +96,11 @@ Anyway, thanks for your awesome blog posts!</p>
 <h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2020-10-29T17:55:51.000+01:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20201029t175551.0000100"></a></h2>
 <p>Lol! Yeah I gave up fixing those. It breaks every year or so. If you are reading this article in 2020, it's probably good if you can't compile the examples. You should be using constexprs nowadays anyway :)</p>
 <p>Original <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">published here</a>.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

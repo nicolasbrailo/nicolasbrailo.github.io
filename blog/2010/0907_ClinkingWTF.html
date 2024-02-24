@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ linking WTF Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ linking WTF</h2>
+<h2 name="clinkingwtf">C++ linking WTF</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2010-09-07 |
   <a href="/blog/2010/0907_ClinkingWTF.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0907_ClinkingWTF.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>It is a commonly accepted fact that a succesfuly compiled application serves as enough proof of its correctness, but common wisdom doesn't say a thing about linking. If you like linker WTF moments, you'll love this snippet. Can you guess why won't it compile?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
     static const int x = 0;
@@ -81,10 +84,11 @@ const int Foo::y;
 <p>The difference probably has to do with the optimizer. If the optimizer reduces all references to the static variable to a compile time constant then there are no references to the non-existant variable for the linker to complain about.</p>
 <p>You can see these kinds of linker bugs happen often in debug builds but not in release builds because of different optimization levels.</p>
 <p>Original <a href="/blog/2010/0907_ClinkingWTF.html">published here</a>.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Setting up a Linux GW VI: Configuring a console friendly router and Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Setting up a Linux GW VI: Configuring a console friendly router and</h2>
+<h2 name="settingupalinuxgwviconfiguringaconsolefriendlyrouterand">Setting up a Linux GW VI: Configuring a console friendly router and</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-10-31 |
   <a href="/blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>setting up static DHCP IPs</p>
 <p>We have so far setup a device capable of working as a router for a medium sized LAN, providing NAT, DHCP and DNS services. This is great if you have a dedicated network admin, but you may prefer something easier for casual console users. We'll see how to "refactor" your server configuration now to make it more console friendly.</p>
 <h3>Moving DHCP config files<a name="movingdhcpconfigfiles"></a></h3>
@@ -65,10 +68,11 @@ include "/home/router/dhcp/static_hosts.conf";
 ln -s /var/lib/dhcp leases
 </code></pre>
 <p>Then you can check the hardware address in the leases/dhcpd.leases file. I created a symlink to keep this directory at hand, since it gives you a status of the current leases.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

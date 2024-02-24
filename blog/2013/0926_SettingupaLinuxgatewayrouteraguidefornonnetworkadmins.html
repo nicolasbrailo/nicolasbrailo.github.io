@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Setting up a Linux gateway/router, a guide for non network admins Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Setting up a Linux gateway/router, a guide for non network admins</h2>
+<h2 name="settingupalinuxgatewayrouteraguidefornonnetworkadmins">Setting up a Linux gateway/router, a guide for non network admins</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-09-26 |
   <a href="/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Setting up a Linux GW or router is not as hard as it may seem, as long as you are reading a friendly enough guide. Yes, there are a lot of guides for this, but since I needed to document how I did it, I might as well write a post about it here. My addition to the usual "setting up a linux gw guide": I'll do it using Virtualbox first, so I can test my setup before actually deploying it.</p>
 <p>I'm going to write about how can you setup a regular Linux distro to be your border router/gateway for your LAN, but for easy of use I'll base my examples on Ubuntu.</p>
 <p>As expected, if we are going to replace a device, say, a router, we need to replace it with something that can provide the same functionality. In this case, we have chosen a Linux server, so we need to figure out which services are provided by the router and then emulate them someway:</p>
@@ -73,10 +76,11 @@ Post by Nico Brailovsky @ 2013-09-26 |
 <li>Enable a single network adapter, attached to an internal network as well. The name for this network should match that of the other VM.</li>
 </ol>
 <p>You are all set now, with this virtual setup you can begin setting up your router. We'll see how next time.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

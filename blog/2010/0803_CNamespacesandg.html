@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ Namespaces and g++ Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,18 +34,22 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ Namespaces and g++</h2>
+<h2 name="cnamespacesandg">C++ Namespaces and g++</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2010-08-03 |
   <a href="/blog/2010/0803_CNamespacesandg.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0803_CNamespacesandg.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Have you ever tried to leave open a C++ namespace after EOF (that is, openning a namespace in a headerfile but forgetting to close it). It's a little bit like getting your balls caught by the door. The compiler will throw at you an incredible number of seemingly unrelated errors, all of which occur in a different file than the offending header.</p>
 <p>Reaching EOF on a C++ file without closing all its namespaces should be ilegal; or at least you should have better error reporting, because right now it's almost impossible to know what's the source of the error (for g++, that is).</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

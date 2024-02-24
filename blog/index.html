@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title> Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -36,6 +36,23 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Fix "slow" Grub<a name="fixslowgrub"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-02-23 | <a href="/blog/2024/0223_FixSlowGrub.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0223_FixSlowGrub.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Grub tends to be setup-and-forget, so this is a tip that should be useless. Except when things break.</p>
+<p>I noticed while fixing a computer that Grub was "slow" - each keystroke would take about half a second to show up on the screen, give or take a hundred ms, and it wouldn't even queue my keystrokes (leading to skipped keys, and even more frustrating sessions of backspace-backspace-backspace, fix-fix-fix, repeat). This seems to be related to Grub running in a very high resolution, which should be entirely unnecessary - I don't care about 4K boot menus, nor about 4K boot splash screens that will be displayed for a second or two.</p>
+<p>To fix slow-Grub, it's enough to tell it to stick to a more terminal-friendly resolution. Debian-based example:</p>
+<p>Add this to /etc/default/grub</p>
+<pre lang="bash"><code class="language-bash" lang="bash">GRUB_GFXMODE=1024x768
+GRUB_CMDLINE_LINUX_DEFAULT="nosplash verbose debug nomodeset"
+</code></pre>
+<p>Then run <code>update-grub</code>. Next boot up Grub input should behave in a sane way again.</p>
+<h2>Extra tip: Increate terminal font size without murking in Grub<a name="extratipincreateterminalfontsizewithoutmurkingingrub"></a></h2>
+<p>If you got past Grub, you're probably booting into 4K mode terminals, and texts that are but a few millimiters high. You can increase your terminal font size, before ever going to a graphical interface:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">setfont /usr/share/consolefonts/Uni3-Terminus32x16.psf.gz
+</code></pre>
+<h2>Extra extra tip: Kernel arcana<a name="extraextratipkernelarcana"></a></h2>
+<p>If you're reading this, you're probably looking for <code>debug verbose nomodeset earlyprintk=vga loglevel=7 ignore_loglevel</code></p>
+<hr />
 <h2>How to: UEFI shell<a name="howtouefishell"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-02-20 | <a href="/blog/2024/0220_UefiCheatsheet.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0220_UefiCheatsheet.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:</p>
@@ -166,47 +183,6 @@ exec &gt; ~/log.log 2&gt;&amp;1
 ...
 </code></pre>
 <p>Then you can do <code>C-w gf</code> on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</p>
-<hr />
-<h2>Weak symbols to mock c-APIs with gmock/gtest<a name="weaksymbolstomockcapiswithgmockgtest"></a></h2>
-<p>Post by Nico Brailovsky @ 2020-03-15 | <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I recently worked with a c-style API interface which wasn't very open to mocking. The API in question looked something like this:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">handle_t h = api_open();
-api_foo(h, param1, param2);
-api_foo2(h, 42);
-api_close(h);
-</code></pre>
-<p>This *almost* looks like a C++ interface, with extra steps that make it really really hard to mock (and, thus, to test). If it were a c++ interface, it would be possible to "virtualize" the different methods from the, even if this required a bit of patching to the original library. While a c interface doesn't provide this facility, there is another feature that makes mocking such an API with gmock possible: linker weak symbols!</p>
-<p>In the header, you can patch your target library to export its symbols like this:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">handle_t api_open() <strong>attribute</strong>((weak));
-void api_foo(handle_t h, int, float) <strong>attribute</strong>((weak));
-void api_foo2(handle_t h, int) <strong>attribute</strong>((weak));
-void api_close(handle_t h) <strong>attribute</strong>((weak));
-</code></pre>
-<p>The <a href="https://gcc.gnu.org/onlinedocs/gcc-3.2/gcc/Function-Attributes.html">weak attribute</a> will tell the compiler to emit this symbol marked as 'w'. If you compile this library and inspect it with <code>nm</code>, you'll see the (possibly mangled) symbol name and a w next to it. In turn, this tells the linker that this symbol can be overridden.</p>
-<p>Normally, if you define 'api_open' in more than a single .object file, and then link them all in a single binary, you'll end up with a linker error. Something about "multiple symbol definition", which seems reasonable. If the symbols are instead marked as weak, then the compiler will simply override the symbol table with the last seen instance of that symbol.</p>
-<p>Once all mock-able symbols are defined as week, creating a mock is "easy", albeit not necessarily pretty. Following the example:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">// Mock definition
-struct MockApi {
- public:
-  MOCK_METHOD(handle_t, api_open, ());
-  MOCK_METHOD(void, api_foo, (handle_t h, int, float));
-  MOCK_METHOD(void, api_foo2, (handle_t h, int));
-  MOCK_METHOD(void, api_close, (handle_t h));
-};
-MockApi mocked_api_instance;
-// Override default symbols and forward to gtest
-handle_t api_open() { return mocked_api_instance.api_open(); }
-handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h, i); }
-// ...
-</code></pre>
-<p>Note how mocked_api_instance has to be a global singleton; since your test under code will probably expect to be able to call this API directly, it's necessary to rely on a global object that everyone can access - both your test and their overridden API symbols and the module under test. With all this scaffolding in place, you can now write almost-normal tests.</p>
-<pre lang="c++"><code class="language-c++" lang="c++">TEST(Foo, Bar) {
-  EXPECT_CALL(mocked_api_instance, api_open).WillOnce(Return(nullptr));
-  MyObject o;
-  o.run_test();
-}
-</code></pre>
-<p>This method has the (big) disadvantage of creating an invisible dependency between "mocked_api_instance" and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</p>
 <hr />
 
 </div>

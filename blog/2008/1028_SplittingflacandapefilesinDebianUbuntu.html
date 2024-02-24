@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Splitting flac and ape files in Debian / Ubuntu Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Splitting flac and ape files in Debian / Ubuntu</h2>
+<h2 name="splittingflacandapefilesindebianubuntu">Splitting flac and ape files in Debian / Ubuntu</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2008-10-28 |
   <a href="/blog/2008/1028_SplittingflacandapefilesinDebianUbuntu.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2008/1028_SplittingflacandapefilesinDebianUbuntu.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>I keep forgetting this one, so I'll keep it here.</p>
 <p>What to do when you get a <strong>cue</strong> file with a single huge <strong>flac</strong> file, or even worse, an <strong>ape</strong> file? With the right packages it's an easy task (getting the packages right may be hard tough).</p>
 <p>There are three parts to this problem: getting the ape file to a more user friendly format (flac), splitting it and then renaming the splitted files.</p>
@@ -58,10 +61,11 @@ Post by Nico Brailovsky @ 2008-10-28 |
 <h3>Renaming the splitted parts<a name="renamingthesplittedparts"></a></h3>
 <p>In the cue file there should be a list of the original file names. I hacked a script to parse &amp; rename the files from the previous step, you can get it here: <a href="/blog/youfoundadeadlink.html">cue-rename</a></p>
 <p>For this script to run you'll need php-cli package. Just run it in the same folder the cue file is, as any other bash script. There's a flag to get a preview instead of a complete rename; it's somewhere in the file and I don't have much plans to clean it up anytime soon. Drop me a line if you do.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

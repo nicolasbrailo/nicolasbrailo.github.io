@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>False sharing in multi threaded applications, part II Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>False sharing in multi threaded applications, part II</h2>
+<h2 name="falsesharinginmultithreadedapplicationspartii">False sharing in multi threaded applications, part II</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2012-11-20 |
   <a href="/blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1120_FalsesharinginmultithreadedapplicationspartII.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>In the last entry we learned how an apparently parallel algorithm can turn into a sequential nightmare via false sharing; what you may think to be two independent variables may actually be spatially close, thus sharing a cache line which gets invalidated by each and every write across cores. But is this a real world issue? If so, how can we fix it?</p>
 <p>We'll work backwards: let's see first how can this be fixed, and then we'll check if this is actually a real world issue.</p>
 <p>Remember our code sample, from last time:</p>
@@ -65,10 +68,11 @@ Post by Nico Brailovsky @ 2012-11-20 |
 };
 </code></pre>
 <p>Alternatively, you could use the align keyword of C++0x, but since it's not implemented on g++ I have never tested it before, so I have no idea how it's supposed to work. For more information on this you can check <a href="http://drdobbs.com/go-parallel/article/showArticle.jhtml?articleID=217500206">Herb Sutter's article, Eliminate False Sharing</a>.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

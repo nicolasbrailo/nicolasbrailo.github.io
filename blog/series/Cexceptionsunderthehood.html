@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood</h2>
+<h2 name="cexceptionsunderthehood">C++ exceptions under the hood</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2021-03-02 |
   <a href="/blog/series/Cexceptionsunderthehood.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/Cexceptionsunderthehood.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <h3>Index<a name="index"></a></h3>
 <ol>
 <li><a href="#chapter_n_2">A tiny ABI</a></li>
@@ -1506,10 +1509,11 @@ _ZTI3Bar:
 </code></pre>
 <p>That should indeed look familiar: the class being thrown is exactly the same as the class that was used for typeid!</p>
 <p>We can now conclude what's going on: <strong>the implementation for exception throwing type information, which needs reflexion and relies on RTTI info for it, is exactly the same as the underlying implementation for typeid and other RTTI friends</strong>. Specifying -fno-rtti on g++ only disables the "frontend" functions for RTTI: that means you won't be able to use typeid, and no RTTI classes will be generated... unless an exception is thrown, in which case the needed RTTI classes will be generated regardless of -fno-rtti being present (you still won't be able to access the RTTI information of this class via typeid, though).</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

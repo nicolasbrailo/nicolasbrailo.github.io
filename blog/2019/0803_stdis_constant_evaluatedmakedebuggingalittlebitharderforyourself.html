@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>std::is_constant_evaluated: make debugging a little bit harder for yourself! Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>std::is_constant_evaluated: make debugging a little bit harder for yourself!</h2>
+<h2 name="stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself">std::is_constant_evaluated: make debugging a little bit harder for yourself!</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2019-08-03 |
   <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">Permalink</a> | <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">2 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Let's pretend you find this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">const int a = foo();
 int b = foo();
@@ -55,9 +58,9 @@ bool a() {
 }
 </code></pre>
 <p>I'm sure with careful usage, is_constant_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (<code>cout &lt;&lt; foo()</code>, anyone?) prints different values than my <code>production</code> code.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">aiusepsi</a> commented @ 2019-08-03T18:58:11.000+02:00:<a name="inreplytothispostaiusepsicommented20190803t185811.0000200"></a></h2>
 <p>From what I can glean from the standard, there's no debug/release mode difference here. In either case, the compiler is required to constant-evaluate foo() when initialising x. From reading P0595R2 it seems like they tightened up the semantics somewhat to make sure that this was the case.</p>
@@ -68,6 +71,7 @@ bool a() {
 <p>Thanks aiusepsi! I think that somewhat misses the point of the article though: I'm not saying -O levels will provide different behavior, I'm worried that code I use to debug, such as "cout &lt;&lt; foo()" will have different behavior to "const int x = foo()". If there ever is a bug that causes foo to behave differently due to is_const_eval, I'll take hours to find it out.</p>
 <p>The wording in the article might be a bit poor, I think... Probably a good idea if I clarify the last sentence of the article to reflect this!</p>
 <p>Original <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">published here</a>.</p>
+</div>
 
 </div>
 

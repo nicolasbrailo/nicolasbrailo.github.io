@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C preprocessor V: Conditionals Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C preprocessor V: Conditionals</h2>
+<h2 name="cpreprocessorvconditionals">C preprocessor V: Conditionals</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-09-17 |
   <a href="/blog/2013/0917_CpreprocessorVConditionals.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0917_CpreprocessorVConditionals.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>While walking around the c preprocessor we came to know the stringify operator, the crazy token pasting operator and a __VA_ARGS__ macro. All very weird, but at least the #if's work in a sane way... or do they? They do, but there's some room for unexpected behavior if you don't know some implementation details. Take this code for example:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#if 0
 #  if 0
@@ -50,10 +53,11 @@ Post by Nico Brailovsky @ 2013-09-17 |
 </code></pre>
 <p>Clearly the inner if is wrong because the else clause comes before the elseif, however you might think it doesn't matter because it's surrounded by an #if 0. Surprise: it does matter, that's not valid preprocessor input. Even if the outer #if is not "taken", whatever preprocessing directives are inside it should still be valid (though anything that's not a preprocessing directive will indeed be ignored).</p>
 <p>Even though at first it might seem weird for things inside an #if 0 to be important, it makes sense if you think that should an internal #if not respect the proper structure then the preprocessor wouldn't know when to end the first #if 0. Then again, if you find any real-world utility to this bit of preprocessor implementation trivia, you are doing something horribly wrong!</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

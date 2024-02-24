@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Understanding the C preprocessor Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Understanding the C preprocessor</h2>
+<h2 name="understandingthecpreprocessor">Understanding the C preprocessor</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2021-03-02 |
   <a href="/blog/series/UnderstandingtheCpreprocessor.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/UnderstandingtheCpreprocessor.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <hr />
 <h2>C preprocessor: Just a simple replacer?<a name="cpreprocessorjustasimplereplacer"></a></h2>
 <p>Lately, out of curiosity, I spent some time to better understand how the C preprocessor works. I admit it, I thought it was a very dumb copy-paste based replace mechanism, only capable of doing the simpler keyword matching and replacement. Boy, was I wrong. Turns out the preprocessor is actually an organically grown pseudo language (as opposed to a properly designed language feature) inside C, which later got standardized through an incredibly complex set of rules and definitions. Rules for recursion, expansion, pattern matching and crazy operators like # and ## are some of the things that I never before knew existed in the preprocessor.</p>
@@ -199,10 +202,11 @@ foo(bar, (1, 2, 3))
             -&gt; foo foo bar 1 foo bar 1 "(1, 2, 3)"
 </code></pre>
 <p>This last example should be a good representative of the complexities involved in a macro expansion; hopefully now you know more than you ever wanted to know about macros.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

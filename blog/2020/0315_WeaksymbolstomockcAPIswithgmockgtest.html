@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Weak symbols to mock c-APIs with gmock/gtest Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Weak symbols to mock c-APIs with gmock/gtest</h2>
+<h2 name="weaksymbolstomockcapiswithgmockgtest">Weak symbols to mock c-APIs with gmock/gtest</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2020-03-15 |
   <a href="/blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0315_WeaksymbolstomockcAPIswithgmockgtest.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>I recently worked with a c-style API interface which wasn't very open to mocking. The API in question looked something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">handle_t h = api_open();
 api_foo(h, param1, param2);
@@ -78,10 +81,11 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
 }
 </code></pre>
 <p>This method has the (big) disadvantage of creating an invisible dependency between "mocked_api_instance" and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

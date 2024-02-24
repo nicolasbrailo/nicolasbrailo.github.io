@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Ubuntu: Dual monitors Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Ubuntu: Dual monitors</h2>
+<h2 name="ubuntudualmonitors">Ubuntu: Dual monitors</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2009-08-11 |
   <a href="/blog/2009/0811_UbuntuDualmonitors.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0811_UbuntuDualmonitors.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>There's nothing better than feeling like a super villain by having a dual monitor setup. OK, three may be better, you probably couldn't hold back the evil laughter, but my laptop won't support three screens.</p>
 <p>Fortunately, in Ubuntu JJ having a dual screen setup is a breeze. Just <strong>plug the two monitors</strong> and hope it works. Of course, it may not. If that's the case you can go to <strong>System &gt; Preferences &gt; Screen</strong> for a nice GUI, which will let you select each screen's resolution and position. Nothing better for productivity than having your monitors swapped, or even better, flipped upside down.</p>
 <p>Well, sometimes "Screen Preferences" won't work either, too bad. In that' case you'll have to get dirty with <strong><a href="https://www.x.org/wiki/Projects/XRandR">xrandr</a></strong>. It's not too difficult but it's console based (you're not scared of the console, are you?).</p>
@@ -47,10 +50,11 @@ Post by Nico Brailovsky @ 2009-08-11 |
 <pre lang="c++"><code class="language-c++" lang="c++">xrandr --output HDMI-2 --right-of HDMI-1 --mode 1680x1050 --rotate normal
 </code></pre>
 <p>I am sure you can figure out the rest on your own - enjoy the dual screen setup!</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

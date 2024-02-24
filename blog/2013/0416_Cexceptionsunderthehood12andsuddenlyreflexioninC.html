@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood 12: and suddenly, reflexion in C++ Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood 12: and suddenly, reflexion in C++</h2>
+<h2 name="cexceptionsunderthehood12andsuddenlyreflexioninc">C++ exceptions under the hood 12: and suddenly, reflexion in C++</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-04-16 |
   <a href="/blog/2013/0416_Cexceptionsunderthehood12andsuddenlyreflexioninC.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0416_Cexceptionsunderthehood12andsuddenlyreflexioninC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>We left our mini-ABI project (<a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v03">link</a>) capable of throwing exceptions, and we are now working on catching them; we implemented a personality function last time which was capable of detecting and handling exceptions but it was still a bit incomplete: even though it can properly notify the stack unwinder when it should stop but our version of __gxx_personality_v0 can't run the code inside a catch block. We learned last time how to read the LSDA, so now it's only a problem of putting all the pieces together to read the .gcc_except_table from within our personality function.</p>
 <p>Let's recap a bit: we figured out last time that our LSDA for the function which has the catch we want to run has the following call site table (that is, the following landing pads [that is, the following catch blocks]):</p>
 <pre lang="c++"><code class="language-c++" lang="c++">.local_lsda_call_site_table:
@@ -141,10 +144,11 @@ _Unwind_Reason_Code __gxx_personality_v0 (
         return _URC_INSTALL_CONTEXT;
 </code></pre>
 <p>Try to run it, and watch a beautiful infinite loop. Can you guess what went wrong? The answer on the next article.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

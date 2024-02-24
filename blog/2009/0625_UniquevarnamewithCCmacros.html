@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Unique var name with C/C++ macros Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Unique var name with C/C++ macros</h2>
+<h2 name="uniquevarnamewithccmacros">Unique var name with C/C++ macros</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2009-06-25 |
   <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2009/0625_UniquevarnamewithCCmacros.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>So, you're working on some macro magic incantation and you need a unique variable name in you C program? Though it may seem simple at first, using __LINE__ for a variable name, the ## operator (concatenation in the preprocesor) won't let you. There's a secret spell to do it anyway:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">// Do magic! Creates a unique name using the line number
 #define LINE_NAME( prefix ) JOIN( prefix, <strong>LINE</strong> )
@@ -55,10 +58,11 @@ Post by Nico Brailovsky @ 2009-06-25 |
 <h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">How do I concatenate str and integer variables using macros? – program faq</a> commented @ 2017-12-27T16:30:10.000+01:00:<a name="inreplytothisposthowdoiconcatenatestrandintegervariablesusingmacrosprogramfaqblogyoufoundadeadlink.htmlcommented20171227t163010.0000100"></a></h2>
 <p>[&hellip;] reading this answer to a similar problem, and also attempting this similar concept to create level of indirection, I have found no solution, as neither of them work [&hellip;]</p>
 <p>Original <a href="/blog/2009/0625_UniquevarnamewithCCmacros.html">published here</a>.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

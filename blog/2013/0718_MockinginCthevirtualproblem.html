@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Mocking in C++: the virtual problem Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Mocking in C++: the virtual problem</h2>
+<h2 name="mockingincthevirtualproblem">Mocking in C++: the virtual problem</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-07-18 |
   <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">Permalink</a> | <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">8 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0718_MockinginCthevirtualproblem.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Mocking objects is crucial for a good test suite. If you don't have a way to mock heavy objects you'll end up with slow and unreliable tests that depend on database status to work. On the other hand, C++ mocking tends to be a bit harder than it is on dynamic languages. A frequent problem people find when mocking are virtual methods.</p>
 <p>What's the problem with virtual methods? C++ has the policy of "not paying for what you don't use". That means, not using virtual methods is "cheaper" than using them. Classes with no virtual methods don't require a virtual dispatch nor a vtable, which speeds things up. So, for a lot of critical objects people will try to avoid virtual methods.</p>
 <p>How is this a problem for mocking? A mock is usually a class which inherits from the real class, as a way to get the proper interface and to be compatible with code that uses the real implementation. If a mock inherits from the real thing you'll need to define all of its methods as virtual, even if you don't need to, just so you can actually implement a mock.</p>
@@ -53,9 +56,9 @@ Post by Nico Brailovsky @ 2013-07-18 |
 <li>Don't make the mock inherit from the real implementation, make the user code deduce the correct type (eg by using templates). It's also a clean solution, but you loose a lot of type information (which might or might not be important) and it might also severely impact the build time</li>
 </ul>
 <p>To conclude, I don't think there's a perfect solution to the virtual problem. Just choose what looks better and accept we live in an imperfect world.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">Bas</a> commented @ 2013-07-18T22:35:08.000+02:00:<a name="inreplytothispostbascommented20130718t223508.0000200"></a></h2>
 <p>std::function to the rescue?</p>
@@ -91,6 +94,7 @@ Post by Nico Brailovsky @ 2013-07-18 |
 <h2>In reply to this post, <a href="">Todd Greer</a> commented @ 2013-08-01T23:01:37.000+02:00:<a name="inreplytothisposttoddgreercommented20130801t230137.0000200"></a></h2>
 <p>Also remember that this won't work with any methods that are called from ctors and dtors, since they won't be virtually dispatched. With luck, your compiler will warn you if you get that wrong.</p>
 <p>Original <a href="/blog/2013/0718_MockinginCthevirtualproblem.html">published here</a>.</p>
+</div>
 
 </div>
 

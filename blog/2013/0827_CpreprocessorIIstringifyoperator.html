@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C preprocessor II: stringify operator Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C preprocessor II: stringify operator</h2>
+<h2 name="cpreprocessoriistringifyoperator">C preprocessor II: stringify operator</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-08-27 |
   <a href="/blog/2013/0827_CpreprocessorIIstringifyoperator.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0827_CpreprocessorIIstringifyoperator.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>We all more or less know the list of operators that C++ provides for "normal code" but not everyone is aware that the preprocessor also has special operators we can use. Small difference: an operator like '+' will usually operate on numbers, but the preprocessor operates only on a single concept: source code tokens. What kind of operators could a preprocessor have, then? Two, actually. Let's start with the simpler one:</p>
 <p><strong>Stringify</strong>
 The '#' operator is the simplest operator of the preprocessor: it converts the next token to string. Something like this, for example:</p>
@@ -53,10 +56,11 @@ f(123)
 <pre lang="c++"><code class="language-c++" lang="c++">#define f(x) #123 == #x
 </code></pre>
 <p>There's another operator, which is a bit more "esoteric". We'll talk about token pasting next time.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

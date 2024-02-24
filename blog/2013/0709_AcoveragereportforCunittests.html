@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>A coverage report for C++ unit tests Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>A coverage report for C++ unit tests</h2>
+<h2 name="acoveragereportforcunittests">A coverage report for C++ unit tests</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-07-09 |
   <a href="/blog/2013/0709_AcoveragereportforCunittests.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0709_AcoveragereportforCunittests.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>A lot of tools and metrics which are pretty much given for some dynamic languages are quite esoteric in C++ land. Unit testing is one of these tools, and so code coverage metrics is even more obscure in C++. Turns out it's not impossible. I have uploaded an <a href="https://github.com/nicolasbrailo/gcov_gtest_sample">example C++ project with unit tests and code coverage report generation</a>. Shouldn't be to hard to adapt this code to your own project.</p>
 <p>Let's analyze some of the core concepts of this example.</p>
 <h3>Unit testing<a name="unittesting"></a></h3>
@@ -49,10 +52,11 @@ Post by Nico Brailovsky @ 2013-07-09 |
 <p>Once the project is built with support for gcov, <a href="https://github.com/nicolasbrailo/gcov_gtest_sample/blob/master/Makefile#L49">running the tests</a> will generate a bunch of stats for lcov to pick up. The makefile includes <a href="https://github.com/nicolasbrailo/gcov_gtest_sample/blob/master/Makefile#L67">a target</a> that takes care of all these steps, compiling the program with gcov support, running the tests and then collecting the results into a nice html report.</p>
 <h3>Getting it running<a name="gettingitrunning"></a></h3>
 <p>Unfortunatelly, generating a coverage report has a lot of dependencies in C++. For the example on my github repository you'll have to install lcov, cppcheck, gtest, gmock and vera++ (a code style checker for C++ which is now discontinued... you should probably search for a replacement). Once you have it running, though, you can easily integrate this with your jenkins setup.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

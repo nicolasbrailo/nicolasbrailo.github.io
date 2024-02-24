@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Getting a stacktrace on C/C++: Some calling internals Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Getting a stacktrace on C/C++: Some calling internals</h2>
+<h2 name="gettingastacktraceonccsomecallinginternals">Getting a stacktrace on C/C++: Some calling internals</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2012-10-16 |
   <a href="/blog/2012/1016_GettingastacktraceonCCSomecallinginternals.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1016_GettingastacktraceonCCSomecallinginternals.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>High level languages tend to have a lot of features for introspection and metaprogramming. One of those useful features is the possibility to get a stacktrace of the current function. At first C++ would seem to lack that ability but once you think about it, high level languages internal workings are in the very basics not that different from lower level languages: they tend to be a virtual representation of the physical hardware. A function call, in the end, will most likely be implemented the same on both C++ and Ruby. So, although it may not be as straight forward as it is with a dynamic language, we should be able to get a stacktrace just fine. Also, there's a big clue for us: gdb can get stacktraces just fine, so why wouldn't we?</p>
 <p>Let's start by trying to figure out how we can get a stacktrace by ourselves, with no help of any other tools. Sounds like a daunting task? It isn't really. Let's write a simple program to figure out how gcc performs function calls:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">int foo() {
@@ -98,10 +101,11 @@ while (caller) {
 <li>Now we know why inlined functions and optimizations make debugging more difficult (hint: how can you get a stack frame for a function that doesn't really exist?)</li>
 </ul>
 <p>Next time we'll see how we can get a function name from it's pointer.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

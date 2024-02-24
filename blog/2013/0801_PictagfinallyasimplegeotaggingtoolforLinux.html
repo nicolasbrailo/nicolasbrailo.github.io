@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Pictag: finally a simple geotagging tool for Linux Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Pictag: finally a simple geotagging tool for Linux</h2>
+<h2 name="pictagfinallyasimplegeotaggingtoolforlinux">Pictag: finally a simple geotagging tool for Linux</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-08-01 |
   <a href="/blog/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0801_PictagfinallyasimplegeotaggingtoolforLinux.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>TL;DR: Link to a mostly working <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
 <p>Since Google decided not to support Picasa for Linux anymore (yes, a long time ago) I've been looking for a decent photo management alternative. Lately I've settled with Digikam, it does everything Picasa used to do (and much better, I may add) except for providing a way to geotag your pictures on a map.</p>
 <p>Most geotagging solutions involve having an already created waypoints map from a GPS device, which then gets processed and magically added to the images' exif data. That didn't cut it for me, I don't have, nor want, a GPS I can take on holidays, plus I really only want to drag and drop pictures on a map. That's where <a href="https://launchpad.net/pictag">pictag</a> comes in.</p>
@@ -60,10 +63,11 @@ Post by Nico Brailovsky @ 2013-08-01 |
 <p>After you've taken care of that you can download the latest version from <a href="https://launchpad.net/pictag">Launchpad</a> (while writing this article that should be 12.07.17) and run ./bin/pictag, only to watch it fail miserably.</p>
 <p>Pictag seems to be using GSettings, a very annoying Gnome settings manager which won't work unless you actually install whatever program you're trying to run. Luckily we can just hack it out of Pictag simply by commenting out all references to self.settings in PictagWindow.py and Window.py. Either that or get my <a href="https://github.com/nicolasbrailo/pictag">hacked version of Pictag, on my Github repo</a>.</p>
 <p>With some luck, my hacked version of Pictag should run pretty much OK on Ubuntu 13.04 or newer. There seems to be a few issues with libchamplain (the mapping library) on earlier versions of Ubuntu that may cause the map to display only broken images. If you can't load any maps you'll have to get a newer Ubuntu. Or fork my repo and get hacking :)</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

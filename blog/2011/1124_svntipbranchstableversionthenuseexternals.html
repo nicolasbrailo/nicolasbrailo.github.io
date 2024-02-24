@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>svn tip: branch stable version, then use externals Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>svn tip: branch stable version, then use externals</h2>
+<h2 name="svntipbranchstableversionthenuseexternals">svn tip: branch stable version, then use externals</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-11-24 |
   <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">Permalink</a> | <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">1 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1124_svntipbranchstableversionthenuseexternals.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Even though the title says svn, this tip is applicable probably for any version control system. Imagine the following scenario: You have project BestAppEver. BestAppEver depends on BestLibEver. Both are using svn. How do you handle this on your version control system?</p>
 <p>One way, the wrong way, that I have seen lots of times is to just include a copy of BestLibEver inside BestAppEver, like this:</p>
 <p><img alt="" src="/blog_img/svn_externals11.png" /></p>
@@ -54,13 +57,14 @@ LibName           LibURL
 <p>There is a solution for this, and we don't have to go back to the first method of just copying the trunk to our repository: we can ask the maintainer of BestLibEver to just create a branch (or a tag, for this case it's pretty much the same) for a stable version and then use an external to that branch. Like this:</p>
 <p><img alt="" src="/blog_img/svn_externals31.png" /></p>
 <p>Now the team developing BestLibEver can work without complaints from their users and BestAppEver can have a stable svn, with controlled lib upgrades whenever they want.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">Ezequiel</a> commented @ 2011-11-29T16:32:06.000+01:00:<a name="inreplytothispostezequielcommented20111129t163206.0000100"></a></h2>
 <p>An alternative is setting the revision number when defining the external using -r{revision number}</p>
 <p>Original <a href="/blog/2011/1124_svntipbranchstableversionthenuseexternals.html">published here</a>.</p>
+</div>
 
 </div>
 

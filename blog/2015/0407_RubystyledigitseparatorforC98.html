@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Ruby-style digit separator for C-98? Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,21 +34,25 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Ruby-style digit separator for C-98?</h2>
+<h2 name="rubystyledigitseparatorforc98">Ruby-style digit separator for C-98?</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2015-04-07 |
   <a href="/blog/2015/0407_RubystyledigitseparatorforC98.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0407_RubystyledigitseparatorforC98.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>A silly, and not very useful tip: I love how ruby allows you to write numbers like 1000000 as 1_000_000. Very useful to write benchmarking tests.</p>
 <p>Until we get to C++14 we don't have a nice alternative, but we have an ugly hack we can use: instead of writing 1000000 write "1 ## 000 ## 000".</p>
 <p>It works, '##' is the preprocessor's token pasting operator, and it will paste two tokens together. Looks ugly, breaks the GUI highlighting, but at least you can count how many zeros you've got.</p>
 <p>Nitpicker's corner: multiplying by 10 is easier, but there is no job-safety involved in that.</p>
 <p>Nitpicker's corner II: The evaluation order of a chain of '##' is not defined, but I don't expect this to cause any problems; any order of evaluation should result in the same result for this case.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

@@ -1,5 +1,21 @@
 #
 @meta docType index
+## Say nice things
+
+Post by Nico Brailovsky @ 2019-05-14 | [Permalink](md_blog/2019/0514_Saynicethings.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0514_Saynicethings.md&body=I%20have%20a%20comment!)
+
+As software developers, we need to put much more emphasis on positive interactions with our peers. Engineering requires critical thinking. Looking for cases where something (code!) will break. Criticizing what we do, on the hope of doing it better, is a key and necessary aspect of our profession. However, even when done properly (already a hard enough job!) this practice emphasizes negative interactions. In a normal job, what would you say is the ratio of times you hear "this might be better if .." vs "I really liked X"?
+
+Saying "this was good" is hard. More often than not, it's hard to even notice good code (and I'd go as far as saying that noticing good things is hard in general!). Unlike criticism, positive interactions don't lead to direct improvements. No code will be enhanced by saying "I liked this solution", though people may be more inclined to considering criticism if the positive aspect is also noted.
+
+In the end, maybe someone just had a slightly better day because you said something nice. That's already a small victory.
+
+
+
+
+
+---
+
 ## GCC instrumentation flag: slow everything down!
 
 Post by Nico Brailovsky @ 2019-05-08 | [Permalink](md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md&body=I%20have%20a%20comment!)
@@ -353,50 +369,6 @@ I called constexpr's one of c++11's killer features, and hopefully you can see w
 
 
 
-
-
-
-
-
----
-
-## Quick refresher: argument dependent lookup
-
-Post by Nico Brailovsky @ 2017-01-04 | [Permalink](md_blog/2017/0104_Quickrefresherargumentdependentlookup.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0104_Quickrefresherargumentdependentlookup.md&body=I%20have%20a%20comment!)
-
-Since I wasted a few precious minutes stuck on an ADL problem, I figured I needed a quick reminder on how they work. Check this code: does it compile?
-
-```c++
-namespace N {
-    int foo() {
-    }
-}
-
-int main() {
-    return foo();
-}
-```
-
-Of course it doesn't! You'd expect a 'foo' not declared/out of scope error from your compiler. What about this other example?
-
-```c++
-namespace N {
-    struct Dummy;
-
-    int foo(Dummy*) {
-        return 0;
-    }
-
-    int foo() {
-    }
-}
-
-int main() {
-    return foo((N::Dummy*)0);
-}
-```
-
-You'd be tempted to say it won't work either. (Un?)fortunately, 'argument dependant lookup' is a thing, and the second code sample works. How? The compiler will look for 'foo' in the global namespace, and also in the namespace of the arguments to 'foo'. Seeing 'N::Dummy' in there, the compiler is allowed to peak into the namespace N for method 'foo'. Why? Short: operator overloading. Long: [check here](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2103.pdf) (the 'Why ADL' section is very good).
 
 
 

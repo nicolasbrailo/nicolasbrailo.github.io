@@ -49,11 +49,9 @@ def validate_rel_links(md_src, md):
         if md_link.startswith('http://') or md_link.startswith('https://'):
             continue
         if not os.path.exists(md_link):
-            print(f'Failed relative link normalization: md file {md_src} links to non-existent file {md_link}')
-            exit(1)
+            raise RuntimeError(f'Failed relative link normalization: md file {md_src} links to non-existent file {md_link}')
         if md_link.startswith('/'):
-            print(f'Found absolute path link this will break processing: md file {md_src} links to {md_link}')
-            exit(1)
+            raise RuntimeError(f'Found absolute path link this will break processing: md file {md_src} links to {md_link}')
     return md
 
 
@@ -133,8 +131,10 @@ def apply_template(tmpl_fpath, repl):
     if '{{' in tmpl:
         i = tmpl.find('{{')
         f = tmpl.find('}}', i)
-        print(f"Failed to replace template keys at {tmpl_fpath}: missing value for {tmpl[i+2:f]}")
-        exit(1)
+        src = '<unknown md file>'
+        if 'srcFile' in repl:
+            src = repl['srcFile']
+        raise RuntimeError(f"In md {src}: missing value for {tmpl[i+2:f]} required by template {tmpl_fpath}")
 
     return tmpl
 

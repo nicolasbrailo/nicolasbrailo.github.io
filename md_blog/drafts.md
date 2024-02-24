@@ -7,39 +7,6 @@
 c-w gf on url creates tmp
 
 
-# Fix "slow" Grub
-
-@meta author Nico Brailovsky
-@meta publishDatetime TODO
-@meta tags Fixing stuff
-
-Grub tends to be setup-and-forget, so this is a tip that should be useless. Except when things break.
-
-
-I noticed while fixing a computer that Grub was "slow" - each keystroke would take about half a second to show up on the screen, give or take a hundred ms, and it wouldn't even queue my keystrokes (leading to skipped keys, and even more frustrating sessions of backspace-backspace-backspace, fix-fix-fix, repeat). This seems to be related to Grub running in a very high resolution, which should be entirely unnecessary - I don't care about 4K boot menus, nor about 4K boot splash screens that will be displayed for a second or two.
-
-To fix slow-Grub, it's enough to tell it to stick to a more terminal-friendly resolution. Debian-based example:
-
-
-Add this to /etc/default/grub
-
-```bash
-GRUB_GFXMODE=1024x768
-GRUB_CMDLINE_LINUX_DEFAULT="nosplash verbose debug nomodeset"
-```
-
-Then run `update-grub`. Next boot up Grub input should behave in a sane way again.
-
-## Extra tip: Increate terminal font size without murking in Grub
-
-setfont /usr/share/consolefonts/Uni3-Terminus32x16.psf.gz
-
-
-
-# Kernel arcana
-debug verbose nomodeset
-
-
 
 ## Wifi from CLI + Working on main eth connection
 

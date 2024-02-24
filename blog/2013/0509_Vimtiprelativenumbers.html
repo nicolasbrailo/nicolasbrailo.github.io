@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Vim tip: relative numbers Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Vim tip: relative numbers</h2>
+<h2 name="vimtiprelativenumbers">Vim tip: relative numbers</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-05-09 |
   <a href="/blog/2013/0509_Vimtiprelativenumbers.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0509_Vimtiprelativenumbers.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Knowing the line number in Vim is crucial: you might need to jump to a specific line to fix a compiler error, you might want to check your current line to tell someone else where they broke something, or you might need to know a line number, and the diff to your current line, so you can delete N lines.</p>
 <p>You can "<strong>set number</strong>" to get the line number in a bar at the left, and that's fine for most things but also quite unnecessary:</p>
 <ul>
@@ -50,10 +53,11 @@ Post by Nico Brailovsky @ 2013-05-09 |
 <p>That's even easier: just "<strong>set relativenumber</strong>" and the numbers on the left will turn into a relative position from the position of your cursor.</p>
 <p>Now you won't have to count the lines you want to delete: you can instantly know the N on dNd!</p>
 <p>Bonus: watch vim newies struggle with the changing line numbers</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

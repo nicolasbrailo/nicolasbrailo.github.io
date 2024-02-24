@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Bash: Color in command line prompt PS1 Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Bash: Color in command line prompt PS1</h2>
+<h2 name="bashcolorincommandlinepromptps1">Bash: Color in command line prompt PS1</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2019-07-18 |
   <a href="/blog/2019/0718_BashColorincommandlinepromptPS1.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0718_BashColorincommandlinepromptPS1.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>I'm lately dealing with lots of hosts in different environments (eg local, dev, test, etc). Some actions are safe to perform in some of these hosts, in others not so much. To help quickly figure out which hosts are safe, I wanted to add a color to my Bash prompt (PS1) - for example green for dev, where it's unlikely I'll break anything other than my stuff, red for hosts where carelessness might result in a weekend spent at the office.</p>
 <p>The first result I get in Google when trying to set Bash's PS1 to use colors seems to be wrong (or, rather, I wasn't smart enough to make it work). An escape sequence seems to be missing, resulting in weird behavior with new lines; colors work, but line wrapping gets broken. Took me a while to associate broken \n's with colors, but once I did the fix was easy. Check out here for the <a href="https://stackoverflow.com/questions/342093/ps1-line-wrapping-with-colours-problem">proper way to escape color commands in Bash</a>.</p>
 <p>And here's my current setup:</p>
@@ -48,10 +51,11 @@ export COLOR_RESET='\[\e[0m\]'
 # Example:
 export PS1='\A '$COLOR_SET'\h'$COLOR_RESET':\w$ '
 </code></pre>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

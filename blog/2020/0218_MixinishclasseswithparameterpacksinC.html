@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Mixin(ish) classes with parameter packs in C++ Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Mixin(ish) classes with parameter packs in C++</h2>
+<h2 name="mixinishclasseswithparameterpacksinc">Mixin(ish) classes with parameter packs in C++</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2020-02-18 |
   <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a> | <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">2 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
 <pre lang="c++"><code class="language-c++" lang="c++"> int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
 </code></pre>
@@ -70,9 +73,9 @@ struct Bar : FwdFoo {
    static int b() { return 2; }
 };
 </code></pre>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">Balazs Benics</a> commented @ 2020-02-18T18:57:18.000+01:00:<a name="inreplytothispostbalazsbenicscommented20200218t185718.0000100"></a></h2>
 <p>Keep in mind that parameter packs can be empty, in which case the array would try to have zero elements.
@@ -85,6 +88,7 @@ int dummy[1 + sizeof...(Config)] = { 0, (static_cast(Config::apply(p)), 0)... };
 <h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2020-02-19T13:06:50.000+01:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20200219t130650.0000100"></a></h2>
 <p>Good catch, thanks!</p>
 <p>Original <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">published here</a>.</p>
+</div>
 
 </div>
 

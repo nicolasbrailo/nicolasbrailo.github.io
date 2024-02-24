@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood 17: reflecting on an exception type and reading .gcc_except_table Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood 17: reflecting on an exception type and reading .gcc_except_table</h2>
+<h2 name="cexceptionsunderthehood17reflectingonanexceptiontypeandreading.gcc_except_table">C++ exceptions under the hood 17: reflecting on an exception type and reading .gcc_except_table</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-05-14 |
   <a href="/blog/2013/0514_Cexceptionsunderthehood17reflectingonanexceptiontypeandreading.gcc_except_table.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0514_Cexceptionsunderthehood17reflectingonanexceptiontypeandreading.gcc_except_table.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>By now we know that when an exception is thrown we can get a lot of reflexion information by reading the local data storage area AKA .gcc_except_table; reading this table we have been able to implement a personality function capable of deciding which landing pad to run when an exception is thrown. We also know how to read the action table part of the LSDA, so we should be able to modify our personality function to pick the correct catch statement inside a landing pad with multiple catches.</p>
 <p>We left our ABI implementation last time, and dedicated some time to analyze the assembly for .gcc_except_table to discover how can we find the types a catch can handle. We found that indeed there is a part of this table that holds a list of types where this information can be found. Let's try to read it on the cleanup phase, but first let's remember the definition for our LSDA header:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">struct LSDA_Header {
@@ -93,10 +96,11 @@ printf("%s\n", catch_ti-&gt;name());
 <p>The code looks complicated because there are several layers of indirection before actually reaching the struct type_info, but it's not really doing anything complicated: it only reads the .gcc_except_table we found on the disassembly.</p>
 <p>Printing the name of the type is already a big step in the right direction. Also, our personality function is getting a bit messy. Most of the complexity of reading the LSDA can be hidden under the rug for almost no cost at all. You can check my <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v08">implementation here</a>
 Next time we'll see if we can match our newly found type to our original exception.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

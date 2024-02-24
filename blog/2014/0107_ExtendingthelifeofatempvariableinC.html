@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Extending the life of a temp variable in C++ Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Extending the life of a temp variable in C++</h2>
+<h2 name="extendingthelifeofatempvariableinc">Extending the life of a temp variable in C++</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2014-01-07 |
   <a href="/blog/2014/0107_ExtendingthelifeofatempvariableinC.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2014/0107_ExtendingthelifeofatempvariableinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Take a look at this code: what does it do?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">struct X {
     X() { cout &lt;&lt; "X"; }
@@ -61,10 +64,11 @@ int foo() {
 }
 </code></pre>
 <p>It looks a bit strange: ref is a reference to a temporary object. Temporary objects get destroyed as soon as they are created, so ref.y should be an undefined data access. Right? Not quite, the C++ standard has a special consideration for const references using a temporary object: according to 12.2.3 this is a valid read, as long as ref is a "const X&amp;". Even more interesting, in this case the lifetime of the temporary object "X(42)" gets extended until ref goes out of scope: only when the reference is gone the destructor for X will be run!</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

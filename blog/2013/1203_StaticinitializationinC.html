@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Static initialization in C++ Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Static initialization in C++</h2>
+<h2 name="staticinitializationinc">Static initialization in C++</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-12-03 |
   <a href="/blog/2013/1203_StaticinitializationinC.html">Permalink</a> | <a href="/blog/2013/1203_StaticinitializationinC.html">4 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1203_StaticinitializationinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Let's analyze this seemingly simple code sample:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">struct X {
     X();
@@ -107,9 +110,9 @@ void foo() throw() {
 <p>(Note: exception safety ignored, which of course is not the case for a proper libcpp)</p>
 <p>Eventually, __cxa_guard_acquire will check if this object was already initialized or if anyone else is trying to initialize this object, and then it will signal the calling method to run x's constructor if it's safe to do so.</p>
 <p>There's another bit of information in here which is not immediately obvious: in case X's constructor fails (ie an exception is thrown within this method), x_is_initialized won't be set to true. Assuming the exception is caught somewhere else, if foo() is called again the initialization for foo()::x will be attempted to run once again.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="http://www.aps.anl.gov/epics/">jeff hill</a> commented @ 2014-02-11T20:21:47.000+01:00:<a name="inreplytothispostjeffhillhttpwww.aps.anl.govepicscommented20140211t202147.0000100"></a></h2>
 <p>It seems that thread safe atomics would be used for this type of synchronization, but even in very recent g++ I see calls to __cxa_guard_acquire in the assembly. I don't claim to fully understand what goes on behind that curtain, but when single stepping the assembly the run time support code appears to be doing some heavy lifting in __cxa_guard_acquire which does not point to an thread safe atomics based implementation. This is with a very recent mingw build of gcc which admittedly might not be optimally configured.</p>
@@ -133,6 +136,7 @@ void foo() throw() {
 <h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">[Из песочницы] Реализация горячей перезагрузки С++ кода в Linux – CHEPA website</a> commented @ 2019-01-06T16:04:05.000+01:00:<a name="inreplytothispostlinuxchepawebsiteblogyoufoundadeadlink.htmlcommented20190106t160405.0000100"></a></h2>
 <p>[&hellip;] При перезагрузке в динамическую библиотеку с новым кодом, кроме veryUsefulFunction, попадет и статическая переменная static Singleton ins;, и метод Singletor::instance. Как следствие, программа начнет вызывать новые версии обеих функций. Но статическая ins в этой библиотеке еще не инициализирована, и поэтому при первом обращении к ней будет вызван конструктор класса Singleton. Мы этого, конечно, не хотим. Поэтому реализация переносит значения всех таких переменных, которые обнаружит в собранной динамической библиотеке, из старого кода в эту самую динамическую библиотеку с новым кодом вместе с их guard variables. [&hellip;]</p>
 <p>Original <a href="/blog/2013/1203_StaticinitializationinC.html">published here</a>.</p>
+</div>
 
 </div>
 

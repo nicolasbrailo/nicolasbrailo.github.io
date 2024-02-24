@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Gdb hit count: ignoring breakpoints (for a while) Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Gdb hit count: ignoring breakpoints (for a while)</h2>
+<h2 name="gdbhitcountignoringbreakpointsforawhile">Gdb hit count: ignoring breakpoints (for a while)</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2014-11-18 |
   <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">Permalink</a> | <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">2 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Some times a breakpoint is not enough; if you have a crash inside a loop, the object that makes your code crash might be in the 526th iteration. How can you debug this problem?</p>
 <p>One way would be to set up a <a href="/blog/2013/0625_Watchpointsingdbwakemeupwhenfoochanges.html">watch expression</a>. If you can't setup a watch expression, say, because you're using an iterator and it'd be hard to set one, you can also tell gdb to setup a breakpoint, and then ignore it N times.</p>
 <p>Let's see how this works with this example:</p>
@@ -88,9 +91,9 @@ Breakpoint 1, main () at foo.cpp:8
 $1 = (int &amp;) @0x603024: 0
 </code></pre>
 <p>This time gdb will break exactly on the spot we want.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="/blog/youfoundadeadlink.html">Antiskeptic (@notthatsid)</a> commented @ 2015-03-26T11:23:21.000+01:00:<a name="inreplytothispostantiskepticnotthatsidblogyoufoundadeadlink.htmlcommented20150326t112321.0000100"></a></h2>
 <p>Why not use a print i command when you get the exception? Will it not tell you the iteration? I like your hack, but I want to know if this solution is the only way for your example.</p>
@@ -100,6 +103,7 @@ $1 = (int &amp;) @0x603024: 0
 <p>Hi Antiskeptic, for the first part of the article, you can indeed simply <code>print i</code> to know which iteration is triggering the bug. That should work just as fine as ignoring it forever and then checking the count in gdb, or writing <code>cout &lt;&lt; i</code> in the loop.</p>
 <p>For the second part of the article, you still need to use the ignore command. If you want to debug the problem by setting a breakpoint, and only have it trigger in the Nth iteration of the loop, I can't really think of any other ways than setting a (possible complicated) watch expression or using the ignore command. There may be and I'm just not being imaginative enough. C++ is an amazing stack that way, people can come up with very creative solutions to all kinds of problems.</p>
 <p>Original <a href="/blog/2014/1118_Gdbhitcountignoringbreakpointsforawhile.html">published here</a>.</p>
+</div>
 
 </div>
 

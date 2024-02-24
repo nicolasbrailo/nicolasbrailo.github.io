@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Setting up a Linux GW V: DCHP Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Setting up a Linux GW V: DCHP</h2>
+<h2 name="settingupalinuxgwvdchp">Setting up a Linux GW V: DCHP</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-10-24 |
   <a href="/blog/2013/1024_SettingupaLinuxGWVDCHP.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/1024_SettingupaLinuxGWVDCHP.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>In our custom Linux router we now have DNS and NAT so far, but the client configuration has been absolutely manual. We can't have many clients with this sort of setup, so let's automate the client config with a DHCP server. Begin by installing isc-dhcp-server.</p>
 <p>Edit /etc/dhcp/dhcpd.conf, set the domain-name and the domain-name-servers, like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">option domain-name "lan";
@@ -68,10 +71,11 @@ ifconfig
 </code></pre>
 <p>If everything went fine, we should now have an IP in the 100-200 range, as well as the DNS server in /etc/resolv.conf. We have now setup a very basic router and should be able to server several clients for basic browsing capabilities.</p>
 <p>Next time we'll see how to tidy up everything, for easier administration.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

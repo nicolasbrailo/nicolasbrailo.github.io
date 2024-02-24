@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood 14: multiple landing pads & the teachings of the guru Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood 14: multiple landing pads & the teachings of the guru</h2>
+<h2 name="cexceptionsunderthehood14multiplelandingpadstheteachingsoftheguru">C++ exceptions under the hood 14: multiple landing pads & the teachings of the guru</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-04-23 |
   <a href="/blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0423_Cexceptionsunderthehood14multiplelandingpadsamptheteachingsoftheguru.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>After a lot of hard work, last time we finally got a working personality function capable of handling exceptions without help of libstdc++. It will indiscriminately handle all exceptions, but it does work. There is a big question we haven't answered yet: if we go back to the LSDA (language specific data area) we'll see something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">.local_lsda_call_site_table:
     .uleb128 .LEHB0-.LFB1
@@ -100,10 +103,11 @@ Post by Nico Brailovsky @ 2013-04-23 |
 <p>The interesting fields now are start and len: in a function with multiple try/catch blocks we can know whether we should handle an exception by checking if the instruction pointer for the current frame is between start and start + len.</p>
 <p>That solves the mystery of how a function with multiple try/catch blocks can handle an exception but we still have another question: why are there three call sites when we only specified a single landing pad? The other three are places where an exception might be thrown so they get added as a possible place for cleanup actions or landing pads. If we learned anything from GOTW it should be that exceptions can be thrown in the places we least expect. There is an entry in the call site table for our throw because it's a block that might throw; the compiler also detected another three.</p>
 <p>Now that we know what the start and len fields do, let's change our personality function so the correct landing pad can handle the exception being thrown. Go ahead. My implementation for the next time.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

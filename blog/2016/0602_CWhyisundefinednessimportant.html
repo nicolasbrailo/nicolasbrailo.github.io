@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++: Why is undefinedness important Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++: Why is undefinedness important</h2>
+<h2 name="cwhyisundefinednessimportant">C++: Why is undefinedness important</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-06-02 |
   <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">Permalink</a> | <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">3 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0602_CWhyisundefinednessimportant.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Let's start with an example:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">int <em>x = (int</em>) NULL;
 x[0] = 42;
@@ -59,9 +62,9 @@ x[0] = 42;
 <p>Knowing that UB can't happen, and in our example above, the compiler can assume that x+1 will never overflow. If it will never overflow, (x&lt;x+1) will always be true.</p>
 <p>The compiler, by analyzing our program, can detect what conditions might trigger undefined behavior. By knowing that undefined behavior is not allowed, it can assume those conditions will never happen. That's why, for the sample above, any optimizing-compiler will just produce code similar to "return true", at least for -O2.</p>
 <p>Undefined behavior is not (only) to make programmer's lives miserable, it actually is needed to create optimizing compilers.</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, <a href="">anon12</a> commented @ 2016-06-02T12:54:44.000+02:00:<a name="inreplytothispostanon12commented20160602t125444.0000200"></a></h2>
 <p>"From a math perspective, and assuming that T is a numeric type, always_true should always return true"</p>
@@ -76,6 +79,7 @@ x[0] = 42;
 <h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2016-06-03T17:30:39.000+02:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20160603t173039.0000200"></a></h2>
 <p>That's a very trollish way of saying "careful with typos" but thanks for reporting nonetheless, anon. Fixed.</p>
 <p>Original <a href="/blog/2016/0602_CWhyisundefinednessimportant.html">published here</a>.</p>
+</div>
 
 </div>
 

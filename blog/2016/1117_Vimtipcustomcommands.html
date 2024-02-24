@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Vim tip: custom commands Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Vim tip: custom commands</h2>
+<h2 name="vimtipcustomcommands">Vim tip: custom commands</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-11-17 |
   <a href="/blog/2016/1117_Vimtipcustomcommands.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/1117_Vimtipcustomcommands.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>If you have a function that you use a lot, you may find it interesting to use a custom command for it. Try this:</p>
 <pre lang="bash"><code class="language-bash" lang="bash">:command Foo echo('Hola!')
 </code></pre>
@@ -48,10 +51,11 @@ Post by Nico Brailovsky @ 2016-11-17 |
 :cabbrev close Foobar
 </code></pre>
 <p>If you try to :close a document, Vim will now say "Nope!". Other than using this to mess with someone's Vim session, you can replace builtin commands with your own tweaked functions. I tend to use that quite frequently in <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/">my own .vimrc</a>.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

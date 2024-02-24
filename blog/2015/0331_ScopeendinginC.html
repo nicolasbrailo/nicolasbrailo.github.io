@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Scope ending in C++ Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Scope ending in C++</h2>
+<h2 name="scopeendinginc">Scope ending in C++</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2015-03-31 |
   <a href="/blog/2015/0331_ScopeendinginC.html">Permalink</a> | <a href="/blog/2015/0331_ScopeendinginC.html">2 comments</a> |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0331_ScopeendinginC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Is the following code valid C++?</p>
 <pre lang="c++"><code class="language-c++" lang="c++">const int x = 42;
 void f() {
@@ -49,9 +52,9 @@ void f() {
 </code></pre>
 <p>Unfortunately, it is. According to 3.3.2 in the standard, a definition is available in a child scope up to the point where it's shadowed, and that means "x" will first be interpreted as the global const int, being an index for a vector named "x". Any new references to "x" will point to the new declaration.</p>
 <p>Fun stuff, right?</p>
+</div>
 
-</hr>
-
+<div class="post_comments">
 <hr />
 <h2>In reply to this post, Jason Turner commented @ 2015-04-08T14:30:09.000+02:00:<a name="inreplytothispostjasonturnercommented20150408t143009.0000200"></a></h2>
 <p>It's issues like this that make me recommend enabling warnings of shadow variables, if your compiler supports it (https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md#compilers)</p>
@@ -60,6 +63,7 @@ void f() {
 <h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2015-04-08T14:42:53.000+02:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20150408t144253.0000200"></a></h2>
 <p>This weird construct actually has a good reason to be, as someone pointed out to me in twitter, namely to be used when writing constructors. So, while it has some reasonable use cases it can also be abused in amusing and unexpected ways. And indeed we should rely in our tools to let us know when we do this kind of things.</p>
 <p>Original <a href="/blog/2015/0331_ScopeendinginC.html">published here</a>.</p>
+</div>
 
 </div>
 

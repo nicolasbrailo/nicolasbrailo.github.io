@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood 20: running destructors while unwinding Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood 20: running destructors while unwinding</h2>
+<h2 name="cexceptionsunderthehood20runningdestructorswhileunwinding">C++ exceptions under the hood 20: running destructors while unwinding</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-05-28 |
   <a href="/blog/2013/0528_Cexceptionsunderthehood20runningdestructorswhileunwinding.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0528_Cexceptionsunderthehood20runningdestructorswhileunwinding.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>The <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v11">mini ABI version 11</a> we have written last time was able to handle pretty much all the basics to handle an exception: we have an (almost working) ABI capable of throwing and catching exceptions, but it is still unable to properly run destructors. That's quite important if we want to write exception safe code. With what we know about .gcc_except_table running destructors is a piece of cake, we only need to see a bit of assembly:</p>
 <pre><code># Call site table
 .LLSDACSB2:
@@ -66,10 +69,11 @@ Post by Nico Brailovsky @ 2013-05-28 |
 <p>I've uploaded this <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v12">latest and last version to my github repo</a>, but there are some bad news: remember how we cheated by saying that a uleb128 == char? As soon as we start adding blocks to run destructors the .gcc_except_table starts to get quite big (where "big" means we have offsets over 127 bytes long) and that assumption no longer holds.</p>
 <p>For the next version of this ABI we would have to rewrite our LSDA reading functions to read proper uleb128 code. Not a major change, but at this point we wouldn't gain much, we have already achieved our goal: a working minimal ABI capable of handling exceptions without the help of libcxxabi.</p>
 <p>There are parts we haven't covered, like handling non-native exceptions, catching derived types or interoperability between compilers and linkers. Maybe some other time, in this rather long series of articles we already learned quite a bit about low level exception handling in C++.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

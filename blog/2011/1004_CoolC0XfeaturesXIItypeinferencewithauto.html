@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Cool C++0X features XII: type inference with auto Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Cool C++0X features XII: type inference with auto</h2>
+<h2 name="coolc0xfeaturesxiitypeinferencewithauto">Cool C++0X features XII: type inference with auto</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-10-04 |
   <a href="/blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>In the last four entries we worked on a simple example, like the one I'm pasting below, of type inference with decltype, which led us to learn about <a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">delayed type declaration</a> and <a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">decltypes with auto</a>. This time I want to focus just on the auto keyword instead.</p>
 <pre lang="c++"><code class="language-c++" lang="c++">template <class... Args>
 auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
@@ -78,10 +81,11 @@ void f(T x) {
 }
 </code></pre>
 <p>It makes no sense to use auto in the place of a template, since a template means that the type will be completed later whereas auto means it should be deduced from an initializer.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

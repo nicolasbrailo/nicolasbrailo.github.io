@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Cool C++0X features XV: Initializer lists for custom (non-std) objects Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Cool C++0X features XV: Initializer lists for custom (non-std) objects</h2>
+<h2 name="coolc0xfeaturesxvinitializerlistsforcustomnonstdobjects">Cool C++0X features XV: Initializer lists for custom (non-std) objects</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-10-18 |
   <a href="/blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Last time we saw how you can use C style array-initialization for C++ objects, like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">    std::vector<int> v = {1,2,3,4};
 </code></pre>
@@ -105,10 +108,11 @@ int main() {
 </code></pre>
 <p>As you can see, the initializer lists can be used in any place an iterable container is required, as long as it's const. There's not much more magic to it, but we can use some more C++0x devices to make our list-adding device much more cool, for example to support different actions and not only addition. Next time, though.</p>
 <p>PS: An important lesson from this article: don't be afraid to look into the system headers, they won't bite. You should never ever change them, but taking a peek can only improve your C++ knowledge.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

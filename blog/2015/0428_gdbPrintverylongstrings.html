@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>gdb: Print very long strings Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,21 +34,25 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>gdb: Print very long strings</h2>
+<h2 name="gdbprintverylongstrings">gdb: Print very long strings</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2015-04-28 |
   <a href="/blog/2015/0428_gdbPrintverylongstrings.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2015/0428_gdbPrintverylongstrings.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>gdb defaults are usually quite sensible and just "let you work". Some times, though, your project is not very sensible and you have to do weird things in gdb. An example: printing huge strings or vectors to try and reproduce a heisenbug. A lot of people get surprised at first because gdb will refuse to print very long strings, printing only the first few chars. Same for vectors. And if you have many repeating elements (eg "f000000000000000000000000000000bar") you might see something like "fooo0bar".
 Just type these magic commands to see the whole string:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">&gt; set print repeats 0
 &gt; set print elements 0
 </code></pre>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

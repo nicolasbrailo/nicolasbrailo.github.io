@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>C++ exceptions under the hood 5: magic around __cxa_begin_catch and __cxa_end_catch Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>C++ exceptions under the hood 5: magic around __cxa_begin_catch and __cxa_end_catch</h2>
+<h2 name="cexceptionsunderthehood5magicaround__cxa_begin_catchand__cxa_end_catch">C++ exceptions under the hood 5: magic around __cxa_begin_catch and __cxa_end_catch</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2013-03-05 |
   <a href="/blog/2013/0305_Cexceptionsunderthehood5magicaround__cxa_begin_catchand__cxa_end_catch.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2013/0305_Cexceptionsunderthehood5magicaround__cxa_begin_catchand__cxa_end_catch.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>After learning how exceptions are thrown we are now on our way to learn how they are caught. Last time we added to our example application a bunch of try/catch statements to see what they did, and sure enough we got a bunch of linker errors, just like we did when we were trying to find out what does the throw statement do. This is what the linker says when trying to process throw.o:</p>
 <p>Note: You can download the full sourcecode for this project <a href="https://github.com/nicolasbrailo/cpp_exception_handling_abi/tree/master/abi_v02">in my github repo</a>.</p>
 <pre lang="c++"><code class="language-c++" lang="c++">&gt; g++ -c -o throw.o -O0 -ggdb throw.cpp
@@ -96,10 +99,11 @@ collect2: ld returned 1 exit status
 <p>Just a normal return from our function... with some CFI stuff on it.</p>
 <p>So this is it for exception catching, although we don't know yet how <strong>__cxa_begin/end_catch</strong> work, we have an idea that these pair forms what's called a landing pad, a place in the function to handle the raised exception. What we don't know yet is how the landing pads are found. _Unwind_ must somehow go through all the calls in the stack, check if any call (stack frame, to be precise) has a valid try block with a landing pad that can catch the exception, and then resume the execution there.</p>
 <p>This is no small feat, and we'll see how that works next time.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

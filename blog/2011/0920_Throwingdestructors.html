@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Throwing destructors Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Throwing destructors</h2>
+<h2 name="throwingdestructors">Throwing destructors</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-09-20 |
   <a href="/blog/2011/0920_Throwingdestructors.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0920_Throwingdestructors.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>We already know what happens when you <a href="/blog/2010/0225_CCompositeobjectsandthrowingconstructors.html">throw from a constructor</a>. Ending up with a half built object is not good, but suppose we do manage to build one correctly. What happens if we <a href="/blog/2010/0727_DesignPatternsCIdiomRAII.html">throw in a destructor</a> instead? The results are usually much worse, with a very real possibility of having your program terminated. Read on for a brief explanation on the perils of throwing constructors.</p>
 <p>So, according to RAII pattern, resource deallocation should occur during the destructor, yet resource freeing is not exempt of possible errors. How would you notify of an error condition?</p>
 <ul>
@@ -49,10 +52,11 @@ Post by Nico Brailovsky @ 2011-09-20 |
 <p>Yet the worst part is not resource leaking through half destroyed objects, the worst part is having your program call std::abort.</p>
 <p>Think of it this way: when an exception is active, the stack is unwind, i.e. the call stack is traversed backwards until a function which can handle the exception is found. And you just can't unwind the stack while unwinding the stack (you'd need a stack of stacks) so the reasonable thing to do is call std::abort.</p>
 <p>So, what can you do about it? Go to your favorite jobs posting site and start searching for a PHP position, you'll sleep better at nights.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

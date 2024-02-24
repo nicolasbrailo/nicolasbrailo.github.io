@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Redirecting connections from one port to another with iptables Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Redirecting connections from one port to another with iptables</h2>
+<h2 name="redirectingconnectionsfromoneporttoanotherwithiptables">Redirecting connections from one port to another with iptables</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2012-11-06 |
   <a href="/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>People say iptables are incredibly useful. Mind you, I have gotten mostly headaches out of it, but it is easy to see they are a powerful tool. The other day (for reasons not relevant to this post) I needed to run a service on a port, yet have it accept connections in a different port. Say, the service should be listening on port 1234, but the server should accept any connection on port 4321 and "redirect" each package to the correct port. Turns out iptables is the tool for the job.</p>
 <p>For the impatient ones, this is the command I used:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24 \
@@ -67,10 +70,11 @@ iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 4321 -j DNAT --to :1234
 <pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24
          -p tcp --dport 4321 -j DNAT --to :1234
 </code></pre>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

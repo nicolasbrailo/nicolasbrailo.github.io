@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Simple vim plugin III: a polymorphic project greper Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Simple vim plugin III: a polymorphic project greper</h2>
+<h2 name="simplevimpluginiiiapolymorphicprojectgreper">Simple vim plugin III: a polymorphic project greper</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-11-30 |
   <a href="/blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/1130_SimplevimpluginIIIapolymorphicprojectgreper.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">different key binding for different modes</a> we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:</p>
 <pre lang="ruby"><code class="language-ruby" lang="ruby">function! FG_DoSearch(needle)
     let grepbin = 'grep -nri '
@@ -68,10 +71,11 @@ nmap <leader>s :call FG_Search()<CR>
 vmap <leader>s :call FG_Visual_Search()<CR>
 </code></pre>
 <p>The magic here happens in the mapping: nmap will create a mapping that's only enabled when on "normal" mode, vmap when you're in visual mode. As usual, check :help map for more details.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

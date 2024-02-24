@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Template metaprogramming IX: Absolute Zero Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Template metaprogramming IX: Absolute Zero</h2>
+<h2 name="templatemetaprogrammingixabsolutezero">Template metaprogramming IX: Absolute Zero</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2010-06-10 |
   <a href="/blog/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>By now we should have learned how to perform loops, branching and returns using templates. Let's add a couple of useful operations to our library: append and prepend.</p>
 <p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I've been using so far:</p>
 <pre><code>Prepend(e, lst) &lt;- LST(e, lst)
@@ -72,10 +75,11 @@ template &lt;typename Elm, typename Lst=NIL&gt; struct Append {
 };
 </code></pre>
 <p>I promised to add one more operation to our toolbox, returning the position of an element, but this post is getting quite long and I'm afraid it may be too much for the average attention span of a programmer... we'll leave it for next time.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

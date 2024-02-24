@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Gimple Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,18 +34,22 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Gimple</h2>
+<h2 name="gimple">Gimple</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2016-03-24 |
   <a href="/blog/2016/0324_Gimple.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2016/0324_Gimple.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Lately I've been toying around with gcc to learn a bit better how its optimization phases work. Understanding Gimple, the intermediate representation used by gcc, is a useful&nbsp;skill&nbsp;for this. Of course actually *understanding* it is quite an ambitious and daunting&nbsp;task, so it may be a bit more useful to skim through it.</p>
 <p>Turns out that using&nbsp;-fdump-tree-all and&nbsp;-fdump-rtl-all its possible to get a lot of interesting information on the phases the compiler follows to get your code optimized, but the sheer amount of information produced makes it rather hard to make sense out of it. During the next few posts (weeks? months? probably until I satisfy my curiosity about gcc) I will be investigating a little bit the output of the -fdump options in gcc, to see what can be learned from it.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

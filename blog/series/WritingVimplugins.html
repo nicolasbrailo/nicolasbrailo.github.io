@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Writing Vim plugins Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Writing Vim plugins</h2>
+<h2 name="writingvimplugins">Writing Vim plugins</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2021-03-02 |
   <a href="/blog/series/WritingVimplugins.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/series/WritingVimplugins.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <h2>Vim utilities: Findgrep &amp; Fastgrep<a name="vimutilitiesfindgrepfastgrep"></a></h2>
 <p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "Impl switcher", and "Better Tab New" before that. Today it's Findgrep &amp; Fastgrep's turn.</p>
 <p>I <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">wrote about Fastgrep a long time ago</a>. The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by creating a huge blob file with all the files in a project concatenated.</p>
@@ -238,10 +241,11 @@ map <leader>s :call FG_Search()<CR>
 <p>This function should be pretty clear: it will map <leader>s (in my case, ",s") to FG_Search(). FG_Search will prompt the user for a term to grep, then search for it executing the command. In the end the results are written to a new tab, which is declared as a temp non-modifiable buffer.</p>
 <p>Just paste that in your .vimrc and you're good to grep.</p>
 <p><strong>Extra tip</strong>: integrate this with my fast grep cache and you have a nice and quick project search integration for vim that works even for very large projects with tools available in most default Linux installs.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

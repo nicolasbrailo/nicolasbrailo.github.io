@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Hex dump in C++ Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Hex dump in C++</h2>
+<h2 name="hexdumpinc">Hex dump in C++</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-04-07 |
   <a href="/blog/2011/0407_HexdumpinC.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0407_HexdumpinC.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>If you need to work with low level stuff (say communications protocols, compression algorithms, stuff like that) you'll be needing an hex dump function sooner or later. Alex, from <a href="http://www.alexonlinux.com/">Alex on Linux</a>, has a great <a href="http://www.alexonlinux.com/hex-dump-functions">hex dump function</a> for Python and C.</p>
 <p>I added an =NULL for caption, I don't use it.</p>
 <pre lang="c++"><code class="language-c++" lang="c++">void hex_dump(char *data, int size, char *caption=NULL)
@@ -85,10 +88,11 @@ Post by Nico Brailovsky @ 2011-04-07 |
         printf("%s", buffer);
 }
 </code></pre>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 

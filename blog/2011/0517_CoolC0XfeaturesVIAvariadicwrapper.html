@@ -2,8 +2,8 @@
 <html>
 <head>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <title>Cool C++0X features VI: A variadic wrapper Nico Brailovsky's blog</title>
 
 <meta charset="UTF-8">
@@ -34,12 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Cool C++0X features VI: A variadic wrapper</h2>
+<h2 name="coolc0xfeaturesviavariadicwrapper">Cool C++0X features VI: A variadic wrapper</h2>
 
+<div class="post_metadata">
 Post by Nico Brailovsky @ 2011-05-17 |
   <a href="/blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.html">Permalink</a>  |
   <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2011/0517_CoolC0XfeaturesVIAvariadicwrapper.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
 
+<div class="post">
 <p>Let's work on the last variadic exercise, a wrapper. Say you have something like this:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
 void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
@@ -61,10 +64,11 @@ int main() {
 }
 </code></pre>
 <p>Why is it so bad? Let's say you don't control do_something, you just control the wrapper. You may not even control main(), it may be beyond your scope. That means each time do_something changes, or adds an overload, you have to change your code. That's ugly and you should already know how to set up a variadic function to forward the arguments to do_something. Give it a try, next time the solution.</p>
+</div>
 
-</hr>
+<div class="post_comments">
 
-
+</div>
 
 </div>
 
