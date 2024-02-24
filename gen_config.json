@@ -1,0 +1,26 @@
+{
+  "COMMENT": "Source where md files live. All paths are relative to the cwd where you'll run the gen script.",
+  "md_source_dir": "md_blog",
+  "COMMENT": "A path for generated md files (eg indexes)",
+  "md_gen_target_dir": "md_gen",
+  "COMMENT": "path to deploy generated html content",
+  "html_dest_dir": "blog",
+  "COMMENT": "Root folder, should be a parent of html_dest_dir",
+  "base_dest_dir": ".",
+  "COMMENT": "Number of items an RSS index will have",
+  "rss_entries_count": 10,
+  "COMMENT": "Site domain",
+  "site_fqdn":  "https://nicolasbrailo.github.io/",
+  "COMMENT": "",
+  "siteSearchUrl": "https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20",
+
+  "site_title": "Nico Brailovsky's thought repository",
+  "site_descr": "I write things. A few may make sense.",
+
+  "COMMENT": "If there are pages to deploy to a path different than html_dest_dir, specify the src and dst here",
+  "md_to_html_single_files": [
+    {"src": "./index.md", "dst": "."}
+  ],
+
+  "JSON": "Is silly, and won't let me have a trailing comma"
+}
