@@ -1,6 +1,7 @@
-import sys
-import re
+import json
 import os
+import re
+import sys
 
 from helpers import apply_template, get_all_mds, read_md_doc, get_html_link_from_md_rel_path
 from md_to_html_helper import markdowner
@@ -48,8 +49,11 @@ def htmlize_rel_links(md_srcs_path, html_dst_path, md):
     return md
 
 
-HTML_GEN_DEST = sys.argv[1]
-MD_SRCS = sys.argv[2:]
+with open(sys.argv[1], 'r') as fp:
+    SITE_CFG = json.loads(fp.read())
+
+HTML_GEN_DEST = sys.argv[2]
+MD_SRCS = sys.argv[3:]
 md_rules = get_md_convert_rules(HTML_GEN_DEST, MD_SRCS)
 
 for md_src_dir, md_path, html_path in md_rules:
@@ -89,6 +93,10 @@ for md_src_dir, md_path, html_path in md_rules:
     html = apply_template(tmpl, {
                 'content': html,
                 'title': doc['title'],
+                'siteFqdn': SITE_CFG["site_fqdn"],
+                'siteSearchUrl': SITE_CFG["siteSearchUrl"],
+                'siteTitle': SITE_CFG["site_title"],
+                'siteDescr': SITE_CFG["site_descr"],
                 'extraNav_html': doc['extraNav_html'],
             })
 

@@ -1,12 +1,25 @@
 # MdlogGen
 
-// TODO
+MdlogGen creates a static html site based on a set of md files. For example <https://nicolasbrailo.github.io/>.
+
+You'll need to adapt siteTemplate.html and gen_config.json to match your site. Once you have it configured, run `python3 ./MdlogGen/gen.py ./gen_config.json` to generate the static content.
+
 
 ## Features
-* Site search (using Github search - only logged in Github users can use it)
-* Comments (kind of... they are actually PRs)
+
+MdlogGen is meant to be used as a Github site, and it depends on some Github features:
+
+* Site search actually uses Github search - this means only logged in Github users can use it.
+* Comments: kind of... "comments" are links to isssues/PRs, which again will only work for Github users.
+
+Other than these features, MdlogGen should support the following independently of where its content is hosted:
+
 * Static and dynamic content
+* Indexing
+* Archive/history
 * RSS
+* [Code highlighting](https://prismjs.com/)
+* A basic but [extensible design](https://jenil.github.io/chota/)
 
 
 ## Format
@@ -34,5 +47,6 @@
 ## Limitations
 
 * Code blocks seem to fold '\n\n' into a single new line
-
+* Site search requires a Github account
+* // TODO add more
 
