@@ -1,0 +1,3 @@
+[submodule "MdlogGen"]
+	path = MdlogGen
+	url = git@github.com:nicolasbrailo/MdlogGen.git
