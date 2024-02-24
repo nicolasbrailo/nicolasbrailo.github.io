@@ -186,4 +186,13 @@ Using [Bash traps](md_blog/2015/0416_BashtrapsalmostlikeRAIIforbash.md), it's po
 
 
 # MdLogGen
+https://github.com/nicolasbrailo/MdlogGen
+https://github.com/nicolasbrailo/SpotiWeb
+https://github.com/nicolasbrailo/GitToDo
+https://github.com/nicolasbrailo/PyTelegramBot
+https://github.com/nicolasbrailo/PianOli
+https://github.com/nicolasbrailo/wta
+https://github.com/nicolasbrailo/zigbee2mqtt2web
+
+
 

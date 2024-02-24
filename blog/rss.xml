@@ -12,24 +12,25 @@
   <link>https://nicolasbrailo.github.io//blog/2024/0223_FixSlowGrub.html</link>
   <pubDate>2024-02-23</pubDate>
   <author>Nico Brailovsky</author>
-  <description>Grub tends to be setup-and-forget, so this is a tip that should be useless. Except when things break.
+  <description><![CDATA[
+    <pre>Grub tends to be setup-and-forget, so this is a tip that should be useless. Except when things break.
 
-I noticed while fixing a computer that Grub was &quot;slow&quot; - each keystroke would take about half a second to show up on the screen, give or take a hundred ms, and it wouldn&#x27;t even queue my keystrokes (leading to skipped keys, and even more frustrating sessions of backspace-backspace-backspace, fix-fix-fix, repeat). This seems to be related to Grub running in a very high resolution, which should be entirely unnecessary - I don&#x27;t care about 4K boot menus, nor about 4K boot splash screens that will be displayed for a second or two.
+I noticed while fixing a computer that Grub was "slow" - each keystroke would take about half a second to show up on the screen, give or take a hundred ms, and it wouldn't even queue my keystrokes (leading to skipped keys, and even more frustrating sessions of backspace-backspace-backspace, fix-fix-fix, repeat). This seems to be related to Grub running in a very high resolution, which should be entirely unnecessary - I don't care about 4K boot menus, nor about 4K boot splash screens that will be displayed for a second or two.
 
-To fix slow-Grub, it&#x27;s enough to tell it to stick to a more terminal-friendly resolution. Debian-based example:
+To fix slow-Grub, it's enough to tell it to stick to a more terminal-friendly resolution. Debian-based example:
 
 Add this to /etc/default/grub
 
 ```bash
 GRUB_GFXMODE=1024x768
-GRUB_CMDLINE_LINUX_DEFAULT=&quot;nosplash verbose debug nomodeset&quot;
+GRUB_CMDLINE_LINUX_DEFAULT="nosplash verbose debug nomodeset"
 ```
 
 Then run `update-grub`. Next boot up Grub input should behave in a sane way again.
 
 ## Extra tip: Increate terminal font size without murking in Grub
 
-If you got past Grub, you&#x27;re probably booting into 4K mode terminals, and texts that are but a few millimiters high. You can increase your terminal font size, before ever going to a graphical interface:
+If you got past Grub, you're probably booting into 4K mode terminals, and texts that are but a few millimiters high. You can increase your terminal font size, before ever going to a graphical interface:
 
 ```bash
 setfont /usr/share/consolefonts/Uni3-Terminus32x16.psf.gz
@@ -37,7 +38,8 @@ setfont /usr/share/consolefonts/Uni3-Terminus32x16.psf.gz
 
 ## Extra extra tip: Kernel arcana
 
-If you&#x27;re reading this, you&#x27;re probably looking for `debug verbose nomodeset earlyprintk=vga loglevel=7 ignore_loglevel`</description>
+If you're reading this, you're probably looking for `debug verbose nomodeset earlyprintk=vga loglevel=7 ignore_loglevel`</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -45,10 +47,11 @@ If you&#x27;re reading this, you&#x27;re probably looking for `debug verbose nom
   <link>https://nicolasbrailo.github.io//blog/2024/0220_UefiCheatsheet.html</link>
   <pubDate>2024-02-20</pubDate>
   <author>Nico Brailovsky</author>
-  <description>There are countless &quot;how to use an UEFI shell&quot; notes out there, but this is the cheatsheet I tend to use:
+  <description><![CDATA[
+    <pre>There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:
 
 ```bash
-# Set video to 80cols 50 rows, so it&#x27;s less tiny in a 4k screen
+# Set video to 80cols 50 rows, so it's less tiny in a 4k screen
 mode 80 50
 
 # Show pci device tree. Eg to find the VGA controller
@@ -79,13 +82,14 @@ ls
 Eg to boot a Debian live USB on my setup
 
 ```bash
-shell&gt; mode 80 50
-shell&gt; map  -t cdrom
-shell&gt; FS0:
-shell&gt; FS0:
-FS0:&gt; cd efi\boot
-FS0:\efi\boot&gt; ./grubx64.efi
-```</description>
+shell> mode 80 50
+shell> map  -t cdrom
+shell> FS0:
+shell> FS0:
+FS0:> cd efi\boot
+FS0:\efi\boot> ./grubx64.efi
+```</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -93,21 +97,22 @@ FS0:\efi\boot&gt; ./grubx64.efi
   <link>https://nicolasbrailo.github.io//blog/2024/0218_MovedAgain.html</link>
   <pubDate>2024-02-18</pubDate>
   <author>Nico Brailovsky</author>
-  <description>I&#x27;m now at [nicolasbrailo.github.io](https://nicolasbrailo.github.io/blog). If I count platform, domain or tech-stack changes as a migration, I&#x27;ve now lost count of how many this site has had. It&#x27;s the third one in the last few years. I moved away from WP because I wasn&#x27;t happy with the sponsored content added to my site. I also wasn&#x27;t happy with Blogger, I never quite like the interface, the way to write posts, or the customization options.
+  <description><![CDATA[
+    <pre>I'm now at [nicolasbrailo.github.io](https://nicolasbrailo.github.io/blog). If I count platform, domain or tech-stack changes as a migration, I've now lost count of how many this site has had. It's the third one in the last few years. I moved away from WP because I wasn't happy with the sponsored content added to my site. I also wasn't happy with Blogger, I never quite like the interface, the way to write posts, or the customization options.
 
-This site now came full circle: it started as a self-hosted php bundle, and it&#x27;s now a kind-of-self-hosted static html site, [generated from .md files in Github](https://github.com/nicolasbrailo/nicolasbrailo.github.io). I figured I&#x27;m the person who reads this site the most, so I should like it. I&#x27;m a nerd, so I like writing code; hence the custom md-to-html converter, about which I should blog some time soon. This is also only meant as a fun project (and a great self-reminder mechanism, persistent through the decades) so why not reinvent the wheel, and create a custom md-to-html renderer for it?
+This site now came full circle: it started as a self-hosted php bundle, and it's now a kind-of-self-hosted static html site, [generated from .md files in Github](https://github.com/nicolasbrailo/nicolasbrailo.github.io). I figured I'm the person who reads this site the most, so I should like it. I'm a nerd, so I like writing code; hence the custom md-to-html converter, about which I should blog some time soon. This is also only meant as a fun project (and a great self-reminder mechanism, persistent through the decades) so why not reinvent the wheel, and create a custom md-to-html renderer for it?
 
 
 ## ToDo
-* RSS doesn&#x27;t work yet
-* There are broken things from back the 2010&#x27;s - I need to review old posts
-* Some content isn&#x27;t migrated yet
+* RSS doesn't work yet
+* There are broken things from back the 2010's - I need to review old posts
+* Some content isn't migrated yet
 
 
 ## Fun stats
 
-* There are about 450 posts, in about 15 years. This means I&#x27;m quite lazy.
-* Most of the external links are actually broken. If you browse the site, you&#x27;ll notice the further back in time you go, the more dead links you get. This site has survived a non trivial chunk of the existing Internet.
+* There are about 450 posts, in about 15 years. This means I'm quite lazy.
+* Most of the external links are actually broken. If you browse the site, you'll notice the further back in time you go, the more dead links you get. This site has survived a non trivial chunk of the existing Internet.
 * This blog started some time in 2008, and since then has had at least 5 domains (but possibly more)
     * nicolasb[com.ar]
     * monosinfinitos[com.ar]
@@ -115,9 +120,10 @@ This site now came full circle: it started as a self-hosted php bundle, and it&#
     * monkeywritescode.blogspot.com
     * Now: [nicolasbrailo.github.io](https://nicolasbrailo.github.io/blog)
 * Finally deleted all content from Wordpress - just today!
-* I moved away from Wordpress in 2021. Somehow, the site still claims to have 20 visitors a day, even though there are no posts (other than a text saying &quot;moved to...&quot;)
-* I still haven&#x27;t deleted all the content from Blogger - but it&#x27;s in my ToDo list
-* `wc $(find md_blog -type f)` says this blog has 116068 words in 16497 lines. This is comparable to 400 pages book, though not necessarily a good one. Google says &#x27;The Return of the King&#x27; is about 135K words, and &#x27;The Hobbit&#x27; is about 100K. &#x27;Sense and Sensibility&#x27; comes closest at 119K words.</description>
+* I moved away from Wordpress in 2021. Somehow, the site still claims to have 20 visitors a day, even though there are no posts (other than a text saying "moved to...")
+* I still haven't deleted all the content from Blogger - but it's in my ToDo list
+* `wc $(find md_blog -type f)` says this blog has 116068 words in 16497 lines. This is comparable to 400 pages book, though not necessarily a good one. Google says 'The Return of the King' is about 135K words, and 'The Hobbit' is about 100K. 'Sense and Sensibility' comes closest at 119K words.</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -125,23 +131,25 @@ This site now came full circle: it started as a self-hosted php bundle, and it&#
   <link>https://nicolasbrailo.github.io//blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.html</link>
   <pubDate>2023-12-16</pubDate>
   <author>Nico Brailovsky</author>
-  <description>After a recent update I found [my custom Spotify UI (\*)](https://nicolasbrailo.github.io/SpotiWeb/) wasn&#x27;t working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here&#x27;s my fix:
+  <description><![CDATA[
+    <pre>After a recent update I found [my custom Spotify UI (\*)](https://nicolasbrailo.github.io/SpotiWeb/) wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:
 
 ```bash
 sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
-sudo echo &#x27;/usr/share/spotify/spotify.real --uri=&quot;$1&quot;&#x27; &gt; /usr/share/spotify/spotify
+sudo echo '/usr/share/spotify/spotify.real --uri="$1"' > /usr/share/spotify/spotify
 
 ```
 
-Seems old versions of spotify would try to open anything as a deeplink, but new versions require a `--uri` parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I&#x27;m too lazy to read manuals.
+Seems old versions of spotify would try to open anything as a deeplink, but new versions require a `--uri` parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.
 
-In the &quot;reminder to myself&quot; category, as there is zero chance I&#x27;ll remember this next time I&#x27;m setting up a computer.
+In the "reminder to myself" category, as there is zero chance I'll remember this next time I'm setting up a computer.
 
 ### (\*) SpotiWeb: custom Spotify UI
 
-I don&#x27;t like &quot;recent&quot; changes (recent being the last 3 or 4 years!) to Spotify&#x27;s UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It&#x27;s a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn&#x27;t even have a search function: you can use the browser&#x27;s search if you need one!)
+I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)
 
-The app is hosted in github pages, and because it&#x27;s entirely client side it doesn&#x27;t need any kind of server side support to run. Check out the source here and [either run your own, or check out there&#x27;s no server side processing involved.](https://github.com/nicolasbrailo/SpotiWeb)</description>
+The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and [either run your own, or check out there's no server side processing involved.](https://github.com/nicolasbrailo/SpotiWeb)</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -149,11 +157,13 @@ The app is hosted in github pages, and because it&#x27;s entirely client side it
   <link>https://nicolasbrailo.github.io//blog/2023/0114_TranslatedtoChinese.html</link>
   <pubDate>2023-01-14</pubDate>
   <author>Nico Brailovsky</author>
-  <description>Small celebratory post, because I never expected it:
+  <description><![CDATA[
+    <pre>Small celebratory post, because I never expected it:
 
 [![](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)
 
-Someone translated [one of my open source projects](http://github.com/nicolasbrailo/pianOli) to Chinese!</description>
+Someone translated [one of my open source projects](http://github.com/nicolasbrailo/pianOli) to Chinese!</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -161,19 +171,21 @@ Someone translated [one of my open source projects](http://github.com/nicolasbra
   <link>https://nicolasbrailo.github.io//blog/2021/0627_Bashscriptpreamble.html</link>
   <pubDate>2021-06-27</pubDate>
   <author>Nico Brailovsky</author>
-  <description>All background Bash scripts should start with this preamble:
+  <description><![CDATA[
+    <pre>All background Bash scripts should start with this preamble:
 
 ```bash
 set -euo pipefail
-exec &gt; ~/log.log 2&gt;&amp;1
+exec > ~/log.log 2>&1
 ```
 
-There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won&#x27;t go into the details. For reference:
+There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:
 
 * **-e** halts the script on error
 * **-u** errors when using an undefined variable
 * **-o pipefail** makes pipe error return value sane
-* **exec &gt; ~/log.log 2&gt;&amp;1** redirect all output to ~/log.log</description>
+* **exec > ~/log.log 2>&1** redirect all output to ~/log.log</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -181,13 +193,15 @@ There are countless articles explaining why, and the main purpose of this one is
   <link>https://nicolasbrailo.github.io//blog/2021/0318_Whereisthefuninthat.html</link>
   <pubDate>2021-03-18</pubDate>
   <author>Nico Brailovsky</author>
-  <description>You can always find coders asking why coding isn&#x27;t fun anymore. I can somewhat relate but I never understood why the answer isn&#x27;t obvious: coding isn&#x27;t software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there&#x27;s also not-interesting-stuff in the mix. Maybe testing and documenting isn&#x27;t your thing, you just want to build something. Maybe the stability from testing and documenting isn&#x27;t that important to you. Perhaps you know you&#x27;re the only one who&#x27;s ever going to read your code. Your future self may be angry at you for a little while if the code breaks... so what? Your experiment crashed? Just reboot it. No problem.
+  <description><![CDATA[
+    <pre>You can always find coders asking why coding isn't fun anymore. I can somewhat relate but I never understood why the answer isn't obvious: coding isn't software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there's also not-interesting-stuff in the mix. Maybe testing and documenting isn't your thing, you just want to build something. Maybe the stability from testing and documenting isn't that important to you. Perhaps you know you're the only one who's ever going to read your code. Your future self may be angry at you for a little while if the code breaks... so what? Your experiment crashed? Just reboot it. No problem.
 
-If you&#x27;re coding-to-sell, you&#x27;re not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You&#x27;re not writing code to learn new things, that&#x27;s only a nice side-effect; you are trying to build a product.
+If you're coding-to-sell, you're not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You're not writing code to learn new things, that's only a nice side-effect; you are trying to build a product.
 
-Furthermore, you&#x27;re not investing time to learn something or just to have fun; you&#x27;re trading time for money (if you learn something in the process, that&#x27;s good - but probably not why you&#x27;re being paid a salary as a software engineer).
+Furthermore, you're not investing time to learn something or just to have fun; you're trading time for money (if you learn something in the process, that's good - but probably not why you're being paid a salary as a software engineer).
 
-It&#x27;s understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it&#x27;s not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it&#x27;s kept me interested in software development for the last 15 (ish) years. I&#x27;m hoping it&#x27;ll do the trick for much longer than that.</description>
+It's understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it's not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it's kept me interested in software development for the last 15 (ish) years. I'm hoping it'll do the trick for much longer than that.</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -195,12 +209,14 @@ It&#x27;s understandable that parts of software engineering are not as fun as it
   <link>https://nicolasbrailo.github.io//blog/2021/0317_rebootsuccesful.html</link>
   <pubDate>2021-03-17</pubDate>
   <author>Nico Brailovsky</author>
-  <description>Since &quot;migrating&quot; from Wordpress to Blogspot:
+  <description><![CDATA[
+    <pre>Since "migrating" from Wordpress to Blogspot:
 
 * Traffic to Wordpress fell from ~100ish visitors a day to ~30 or ~40ish.
 * This site went from 0 to also ~30 or ~40ish.
 
-That went much better than I expected, considering I couldn&#x27;t set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don&#x27;t want to monetize). Let&#x27;s see how it goes 10 years from now, when I have to migrate from Blogpost to something else.</description>
+That went much better than I expected, considering I couldn't set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don't want to monetize). Let's see how it goes 10 years from now, when I have to migrate from Blogpost to something else.</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -208,12 +224,14 @@ That went much better than I expected, considering I couldn&#x27;t set up a prop
   <link>https://nicolasbrailo.github.io//blog/2021/0302_sudoreboot.html</link>
   <pubDate>2021-03-02</pubDate>
   <author>Nico Brailovsky</author>
-  <description>Recently found out Wordpress had pretty aggressive ads on my blog. That worked as the encouragement I was needing to work on a task I&#x27;d been putting off for years: fix bit-rotted content! I took the opportunity to fix all (most) broken links and source code snippets from the last 14 years. It was supposed to be a short sed script, which of course ended up being 3 days of work - a lot of it manual. A few cool things I figured doing this:
+  <description><![CDATA[
+    <pre>Recently found out Wordpress had pretty aggressive ads on my blog. That worked as the encouragement I was needing to work on a task I'd been putting off for years: fix bit-rotted content! I took the opportunity to fix all (most) broken links and source code snippets from the last 14 years. It was supposed to be a short sed script, which of course ended up being 3 days of work - a lot of it manual. A few cool things I figured doing this:
 
 * Even if I very sparingly add new posts, 14 years is still a lot of content. By the infinite monkey theorem, some of it should be good. Right?
-* A new reason to dislike template metaprogramming: so many &#x27;template &amp; lt; class &amp; gt;&#x27;, so much broken code...
+* A new reason to dislike template metaprogramming: so many 'template & lt; class & gt;', so much broken code...
 * I have 400+ posts and less than 10 images. While I quite like adding visual content, very little of it (except memes!) survived the successive blog migrations.
-* I can estimate there have been at least 3 platform migrations since the first post. I can count the number of times that &#x27;&lt;&#x27; gets html-encoded like the rings of a tree. &#x27;&amp; amp;amp;lt;&#x27; was the longest encode sequence I found.</description>
+* I can estimate there have been at least 3 platform migrations since the first post. I can count the number of times that '<' gets html-encoded like the rings of a tree. '& amp;amp;lt;' was the longest encode sequence I found.</pre>
+  ]]></description>
 </item>
 
 <item>
@@ -221,23 +239,25 @@ That went much better than I expected, considering I couldn&#x27;t set up a prop
   <link>https://nicolasbrailo.github.io//blog/2020/0508_VimtipOpenpath.html</link>
   <pubDate>2020-05-08</pubDate>
   <author>Nico Brailovsky</author>
-  <description>If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:
+  <description><![CDATA[
+    <pre>If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:
 
 ```c++
-#include &quot;foo/bar.h&quot;
+#include "foo/bar.h"
 ```
 
-Place your cursor anywhere in &quot;foo/bar.h&quot; and press `gf` to open the referenced path. More interestingly, you can also do `C-w`, release and then `gf` to open in a new tab.
+Place your cursor anywhere in "foo/bar.h" and press `gf` to open the referenced path. More interestingly, you can also do `C-w`, release and then `gf` to open in a new tab.
 
 Today I learned you can also do this for arbitrary URLs. If you have a file like this:
 
 ```c++
-#include &quot;foo/bar.h&quot;
+#include "foo/bar.h"
 // https://github.com/nicolasbrailo/Nico.rc/blob/master/README.md
 ...
 ```
 
-Then you can do `C-w gf` on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</description>
+Then you can do `C-w gf` on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</pre>
+  ]]></description>
 </item>
 
 </channel>
