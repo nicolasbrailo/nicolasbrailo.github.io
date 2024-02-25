@@ -5,9 +5,57 @@
   <title>Nico Brailovsky's thought repository</title>
   <link>https://nicolasbrailo.github.io/</link>
   <description>I write things. A few may make sense.</description>
-  <lastBuildDate>2024-02-24</lastBuildDate>
-  <pubDate>2024-02-24</pubDate>
+  <lastBuildDate>2024-02-25</lastBuildDate>
+  <pubDate>2024-02-25</pubDate>
   <item>
+  <title>MdLogGen</title>
+  <link>https://nicolasbrailo.github.io//blog/2024/0225_MdlogGen.html</link>
+  <pubDate>2024-02-25</pubDate>
+  <author>Nico Brailovsky</author>
+  <description><![CDATA[
+    <pre>If you're reading this, you somehow found me at [nicolasbrailo.github.io](https://nicolasbrailo.github.io/blog). Maybe you came here from [one of my many previous blogs](md_blog/2024/0218_MovedAgain.md), and you're marveling at the beautiful new design (?). As I alluded to in the ["moved again"](md_blog/2024/0218_MovedAgain.md) note, this site is built from a source of md files, [using a custom md-to-html enginge](https://github.com/nicolasbrailo/MdlogGen). If you're sane, you're probably why I would create an md-to-html engine, instead of using one of the many available options.
+
+## MdlogGen: yet another MD site generator
+
+[MdlogGen](https://github.com/nicolasbrailo/MdlogGen) is a simple md-to-static-html, however it supports a few features I wasn't able to find elsewhere: comments, and site-search. MdlogGen depends on Github for these two features (or, rather, depends on the viewer to have a Github account to be able to use these two features).
+
+MdlogGen also supports the exact feature set I need, no more and no less; while using an off-the-shelf generator may have been a better longer term investment, 90% for the raison d'etre of this site is "for fun", and spending a weekend writing hacky code is more fun than spending a weekend trying to figure out how to configure Github deploy rules, and learning to use a third party content generator. I get to write enough code for a living during the week - weekends are for fun code! An alternate reason is that I already had to spend a chunk of time cleaning XML exports from my previous sites to build this one - so MdlogGen is sort of a natural evolution of those scripts. Kind of.
+
+Check out [MdlogGen](https://github.com/nicolasbrailo/MdlogGen)'s reamde: while many other md-to-html generators exist, I think this may be one of the simplest feature-complete generators out there.</pre>
+  ]]></description>
+</item>
+
+<item>
+  <title>Bash tip: expand args</title>
+  <link>https://nicolasbrailo.github.io//blog/2024/0225_BashTipExpandArgs.html</link>
+  <pubDate>2024-02-25</pubDate>
+  <author>Nico Brailovsky</author>
+  <description><![CDATA[
+    <pre>If you're writing a script and it looks like this
+
+```bash
+your_bin --arg1 \
+         --arg2=123 \
+         --arg3=345 \
+         --arg4...
+```
+
+It can get pretty ugly to maintain. Instead, try this:
+
+```bash
+many_args=(
+  --arg1
+  --arg2=123
+  --arg3=345
+  --arg4...
+)
+
+your_bin "${many_args[@]}"
+```</pre>
+  ]]></description>
+</item>
+
+<item>
   <title>Fix &quot;slow&quot; Grub</title>
   <link>https://nicolasbrailo.github.io//blog/2024/0223_FixSlowGrub.html</link>
   <pubDate>2024-02-23</pubDate>
@@ -216,47 +264,6 @@ It's understandable that parts of software engineering are not as fun as it was 
 * This site went from 0 to also ~30 or ~40ish.
 
 That went much better than I expected, considering I couldn't set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don't want to monetize). Let's see how it goes 10 years from now, when I have to migrate from Blogpost to something else.</pre>
-  ]]></description>
-</item>
-
-<item>
-  <title>sudo reboot</title>
-  <link>https://nicolasbrailo.github.io//blog/2021/0302_sudoreboot.html</link>
-  <pubDate>2021-03-02</pubDate>
-  <author>Nico Brailovsky</author>
-  <description><![CDATA[
-    <pre>Recently found out Wordpress had pretty aggressive ads on my blog. That worked as the encouragement I was needing to work on a task I'd been putting off for years: fix bit-rotted content! I took the opportunity to fix all (most) broken links and source code snippets from the last 14 years. It was supposed to be a short sed script, which of course ended up being 3 days of work - a lot of it manual. A few cool things I figured doing this:
-
-* Even if I very sparingly add new posts, 14 years is still a lot of content. By the infinite monkey theorem, some of it should be good. Right?
-* A new reason to dislike template metaprogramming: so many 'template & lt; class & gt;', so much broken code...
-* I have 400+ posts and less than 10 images. While I quite like adding visual content, very little of it (except memes!) survived the successive blog migrations.
-* I can estimate there have been at least 3 platform migrations since the first post. I can count the number of times that '<' gets html-encoded like the rings of a tree. '& amp;amp;lt;' was the longest encode sequence I found.</pre>
-  ]]></description>
-</item>
-
-<item>
-  <title>Vimtip: Open path</title>
-  <link>https://nicolasbrailo.github.io//blog/2020/0508_VimtipOpenpath.html</link>
-  <pubDate>2020-05-08</pubDate>
-  <author>Nico Brailovsky</author>
-  <description><![CDATA[
-    <pre>If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:
-
-```c++
-#include "foo/bar.h"
-```
-
-Place your cursor anywhere in "foo/bar.h" and press `gf` to open the referenced path. More interestingly, you can also do `C-w`, release and then `gf` to open in a new tab.
-
-Today I learned you can also do this for arbitrary URLs. If you have a file like this:
-
-```c++
-#include "foo/bar.h"
-// https://github.com/nicolasbrailo/Nico.rc/blob/master/README.md
-...
-```
-
-Then you can do `C-w gf` on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</pre>
   ]]></description>
 </item>
 

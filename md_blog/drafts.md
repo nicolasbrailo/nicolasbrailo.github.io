@@ -105,30 +105,6 @@ for dev in $cap_pcms; do
 done
 ```
 
-# Bash tip: expand args
-
-If you're writing a script and it looks like this
-
-```bash
-your_bin --arg1 \
-         --arg2=123 \
-         --arg3=345 \
-         --arg4...
-```
-
-It can get pretty ugly to maintain. Instead, try this:
-
-```bash
-many_args=(
-  --arg1
-  --arg2=123
-  --arg3=345
-  --arg4...
-)
-
-your_bin "${many_args[@]}"
-```
-
 # Bash: goto
 
 I rediscovered a nifty little utility I added to my [bashrc](https://github.com/nicolasbrailo/Nico.rc) a while back: [goto](https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh). Goto is a short script that works as a bookmark mechanism for Bash. With you, you can set a bookmark directory, and then jump to that directory from anywhere else (with autocomplete). For example:
@@ -185,8 +161,6 @@ Another utility I recently rediscovered in my [bashrc](https://github.com/nicola
 Using [Bash traps](md_blog/2015/0416_BashtrapsalmostlikeRAIIforbash.md), it's possible to detect when the terminal changes size: you need to `trap $YOUR_FUNC SIGWINCH`. You can [download this script](https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/ps1.sh), add it to your bashrc in a trap, and get dynamic prompts depending on your terminal width.
 
 
-# MdLogGen
-https://github.com/nicolasbrailo/MdlogGen
 https://github.com/nicolasbrailo/SpotiWeb
 https://github.com/nicolasbrailo/GitToDo
 https://github.com/nicolasbrailo/PyTelegramBot

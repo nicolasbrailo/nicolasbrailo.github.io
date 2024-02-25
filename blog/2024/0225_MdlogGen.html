@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>MdLogGen Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/series/">Series</a>
+  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="mdloggen">MdLogGen</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-02-25 |
+  <a href="/blog/2024/0225_MdlogGen.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0225_MdlogGen.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>If you're reading this, you somehow found me at <a href="https://nicolasbrailo.github.io/blog">nicolasbrailo.github.io</a>. Maybe you came here from <a href="/blog/2024/0218_MovedAgain.html">one of my many previous blogs</a>, and you're marveling at the beautiful new design (?). As I alluded to in the <a href="/blog/2024/0218_MovedAgain.html">"moved again"</a> note, this site is built from a source of md files, <a href="https://github.com/nicolasbrailo/MdlogGen">using a custom md-to-html enginge</a>. If you're sane, you're probably why I would create an md-to-html engine, instead of using one of the many available options.</p>
+<h2>MdlogGen: yet another MD site generator<a name="mdloggenyetanothermdsitegenerator"></a></h2>
+<p><a href="https://github.com/nicolasbrailo/MdlogGen">MdlogGen</a> is a simple md-to-static-html, however it supports a few features I wasn't able to find elsewhere: comments, and site-search. MdlogGen depends on Github for these two features (or, rather, depends on the viewer to have a Github account to be able to use these two features).</p>
+<p>MdlogGen also supports the exact feature set I need, no more and no less; while using an off-the-shelf generator may have been a better longer term investment, 90% for the raison d'etre of this site is "for fun", and spending a weekend writing hacky code is more fun than spending a weekend trying to figure out how to configure Github deploy rules, and learning to use a third party content generator. I get to write enough code for a living during the week - weekends are for fun code! An alternate reason is that I already had to spend a chunk of time cleaning XML exports from my previous sites to build this one - so MdlogGen is sort of a natural evolution of those scripts. Kind of.</p>
+<p>Check out <a href="https://github.com/nicolasbrailo/MdlogGen">MdlogGen</a>'s reamde: while many other md-to-html generators exist, I think this may be one of the simplest feature-complete generators out there.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

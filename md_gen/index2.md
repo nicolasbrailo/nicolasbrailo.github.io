@@ -1,5 +1,114 @@
 #
 @meta docType index
+## The bestest autocomplete for Vim
+
+Post by Nico Brailovsky @ 2019-06-11 | [Permalink](md_blog/2019/0611_ThebestestautocompleteforVim.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0611_ThebestestautocompleteforVim.md&body=I%20have%20a%20comment!)
+
+TL;DR: I like [YouCompleteMe](https://github.com/Valloric/YouCompleteMe)
+A [post in Hacker News](https://news.ycombinator.com/item?id=19529557) drew me to look at autocompletion in Vim. After trying a few plugins years before, I settled for the available-by-default autocomplete in Vim. It's pretty dumb, but pretty dumb covers 90% of what I need: autocompletionForReallyUglyOrLongNames.
+
+Vim's omnifunc completer is enough if no fancy features are necessary: fast, available, trivial to setup. I have successfully used omnifunc in fairly large projects, and while it requires familiarity with the codebase, some may argue that's a feature and not a bug.
+
+Now I confess: I don't understand Vundle, Pathogen or any other Vim plugin handler. Second extravagant opinion in this post: I don't see the point of a plugin manager for Vim. I like knowing the source code of every plugin I use well enough so I can troubleshoot it when it breaks (\*). I prefer to #include (or, rather, source) them manually. Keeping [everything in Github](https://github.com/nicolasbrailo/Nico.rc), I rarely need to set up a plugin twice. The effort to install and configure a plugin is usually not a lot more than learning how to use that plugin in the first place.
+
+While being Vundle illiterate may have made my experience a bit more complicated than necessary, I still found the experience of installing autocompletion plugins quite horrible (#). [Deoplete](https://github.com/Shougo/deoplete.nvim) had me chasing dependencies all over the place and Conquer of Completion seems to require such specific setup of version and plugins that I didn't even attempt to install it.
+
+YouCompleteMe, though, was a pleasant surprise: its documentation explained how to install in three steps, and it is a mostly self-contained plugin. While YCM has a compiled dependency, setting it up is pretty trivial. It just works out of the box.
+
+Took me years but I'm very happy to finally find an autocomplete plugin that "just works" for my basic Vim setup.
+
+(\*) For some reason, I only feel this way about Vim
+
+(#) Disclaimer: Re-reading my own text, it may appear as I'm somewhat belittling Deoplete, CoC, Vundle, Pathogen, etc. That's not my intention. I have the maximum respect for these projects. The engineering effort in them is amazing, and I know for a fact they make life easier for a lot of people. I'm just not one of them.
+
+
+
+
+
+---
+
+## Howto: shutdown a TV with HDMI CEC Chromecast
+
+Post by Nico Brailovsky @ 2019-05-28 | [Permalink](md_blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.md&body=I%20have%20a%20comment!)
+
+That's a long title just to say "how to turn off your TV". Only I want to show how to do it even if you lost your remote control.
+
+Chromecast can turn your TV on and off, as long as it supports something called HDMI CEC. Of course the Chromecast itself needs to be powered, i.e. you can't plug it to a USB port in your TV.
+
+The "on" part is easy: you just start casting something ([your pictures, for example](md_blog/2019/0405_ChromecasticSlideshow.md)) and Chromecast automagically turns your TV on. The off part is a bit harder.
+
+Turning off is, obviously, an implemented feature, as the Google assistant can do it. After some Wireshark sniffing, I couldn't find any URL you can call in a Chromecast to turn off the TV. Some [people invested more time on this than me](https://github.com/balloob/pychromecast/issues/196), so I assume there's just no simple way to directly use a Chromecast for this. Luckily you can use the Google assistant.
+
+I wrote "simple way". The following maybe doesn't quite qualify as "simple", but it's not too time consuming. It's certainly not elegant, but hey (as of the date I'm writing this article) it works.
+
+How to turn a TV off using a Chromecast
+---------------------------------------
+
+### Part 1: Set up the Google assistant SDK
+
+There's no easy way to make a Chromecast turn off a TV, so instead we'll interface with a Google assistant, then ask the assistant to do it for us. There's also no easy way to do this with an API, but the assistant's voice recognition is actually quite good. Let's start by installing the SDK:
+
+1. Follow the setup instructions for the [Google Assistant library](https://developers.google.com/assistant/sdk/guides/library/python/embed/setup), with the changes described below.
+2. The assistant examples need a microphone present, but we're not going to use it. If you don't have one and you're doing this in a RaspberryPi, just fake one by putting this in ~/.asoundrc:
+
+```c++
+pcm.!default {
+  type asym
+  capture.pcm "mic"
+}
+pcm.mic {
+  type plug
+  slave {
+    pcm "null"
+  }
+}
+```
+
+3. The same may be needed for a speaker.
+4. Continue the setup guide: create a project in the Actions console. Register also a dummy model to download the json credentials.
+5. Follow the "Install the SDK and Sample Code" instructions. In May 2019, they work fine in a RaspberryPI 3 with Raspbian.
+6. Try running the sample code. googlesamples-assistant-hotword segfaults but googlesamples-assistant-pushtotalk works fine.
+
+### Part 2: Hack the sample to turn off a TV
+
+You should now have the samples from the SDK running. At least those that don't crash. If you have a microphone, you can ask anything you normally ask the Google assistant like... the weather?
+
+The assistant can turn off your TV if you say "Turn off $Chromecast\_Name". But what if you don't like talking to your phone?
+
+I'm sure you expect I'll reveal a nice, clean way to invoke the assistant and make it turn off your Chromecast. Sorry, that would take too long. There is a text interface for the assistant but I wasn't able to have it running in less than 15 minutes, so these are your options:
+
+* Use festival. echo "$Google assistant command" | text2wave -o cmd.wav will generate a command that (often) the assistant can understand. If you don't have such luck:
+* Just record yourself. Hackish? Sure, but if all you need is to shut down a TV, that's enough. **Important note**: Record yourself in mono 16KHz. Otherwise the assistant may not understand the wav file. If you run "file command.wav" it should look like this:
+
+```c++
+command.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz
+```
+
+Whatever method you choose, create a wav file with the command you want to execute (i.e. "turn off $Chromecast\_name) and put it in the directory where you installed the Google Assistant SDK.
+
+### Part 3: Throw your remote to the recycling bin!
+
+You're ready now. Goto the directory where you installed the SDK and recorded your voice command, then try this:
+
+```c++
+$ source env/bin/activate
+$ googlesamples-assistant-pushtotalk --device-model-id $AN_ID_YOU_GOT_FROM_GOOGLE --project-id $YOUR_GOOGLE_PROJECT_ID --once --verbose -i ./command.wav
+```
+
+With a bit of luck that should shut down your TV.
+
+Linkdump:
+
+* https://developers.google.com/assistant/sdk/overview
+* https://developers.google.com/assistant/sdk/guides/library/python/
+* https://developers.google.com/assistant/sdk/guides/library/python/embed/setup
+
+
+
+
+
+---
+
 ## Say nice things
 
 Post by Nico Brailovsky @ 2019-05-14 | [Permalink](md_blog/2019/0514_Saynicethings.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0514_Saynicethings.md&body=I%20have%20a%20comment!)
@@ -211,164 +320,6 @@ A few years back I developed a [VlcRemote control](https://github.com/nicolasbra
 Not long ago I decided to [submit this app to F-Droid](https://f-droid.org/en/packages/com.nicolasbrailo.vlcfreemote/). I'm too cheap to pay the 20ish dollars for Google App Store, and since I don't have any commercial interest I don't see the point. I didn't think I'd actually get any users there, but today I got my first bug report. So much happiness! You'd think I shouldn't be happy about my crappy software not-working, but hey, someone actually took the time to try it out. Even more, someone cared enough to submit a bug report!
 
 Open source rules!
-
-
-
-
-
----
-
-## Geotagging in Ubuntu: more broken than ever
-
-Post by Nico Brailovsky @ 2017-04-14 | [Permalink](md_blog/2017/0414_GeotagginginUbuntumorebrokenthanever.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0414_GeotagginginUbuntumorebrokenthanever.md&body=I%20have%20a%20comment!)
-
-This is depressing. All the geotagging tools in Ubuntu seem dead. Even mine, apparently the latest version of CEF Python changed something that breaks my app. Even worse, looking for "ubuntu geotagging" has my own blog as one of the top results... time to fix my code, I guess?
-
-
-
-
-
----
-
-## Fixing templates with constexpr's
-
-Post by Nico Brailovsky @ 2017-01-18 | [Permalink](md_blog/2017/0118_Fixingtemplateswithconstexprs.md) | [1 comments](md_blog/2017/0118_Fixingtemplateswithconstexprs.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2017/0118_Fixingtemplateswithconstexprs.md&body=I%20have%20a%20comment!)
-
-For my hundredth (and a bit) c++ post I decided to do something I never did before: fix my old code!
-
-A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my [template device to calculate e](md_blog/youfoundadeadlink.md). Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):
-
-```c++
-template <int N, int D> struct Frak {
-        static const long Num = N;
-        static const long Den = D;
-};
-
-template <int N, typename F> struct ScalarMultiplication {
-    typedef Frak<N*F::Num, N*F::Den> result;
-};
-
-template <int X, int Y> struct MCD {
-        static const long result = MCD<Y, X % Y>::result;
-};
-
-template <int X> struct MCD<X, 0> {
-        static const long result = X;
-};
-
-template <class F> struct Simpl {
-        static const long mcd = MCD<F::Num, F::Den>::result;
-        typedef Frak< F::Num / mcd, F::Den / mcd > result;
-};
-
-template <typename X1, typename Y1> struct SameBase {
-    typedef typename ScalarMultiplication< Y1::Den, X1>::result X;
-    typedef typename ScalarMultiplication< X1::Den, Y1>::result Y;
-};
-
-template <typename X, typename Y> struct Sum {
-    typedef SameBase<X, Y> B;
-    static const long Num = B::X::Num + B::Y::Num;
-    static const long Den = B::Y::Den; // == B::X::Den
-    typedef typename Simpl< Frak<Num, Den> >::result result;
-};
-
-template <int N> struct Fact {
-    static const long result = N * Fact<N-1>::result;
-};
-template <> struct Fact<0> {
-    static const long result = 1;
-};
-
-template <int N> struct E {
-    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
-    static const long Den = Fact<N>::result;
-    typedef Frak< 1, Den > term;
-    typedef typename E<N-1>::result next_term;
-    typedef typename Sum< term, next_term >::result result;
-};
-template <> struct E<0> {
-    typedef Frak<1, 1> result;
-};
-
-int main() {
-  typedef E<8>::result X;
-  std::cout << "e = " << (1.0 * X::Num / X::Den) << "\n";
-  std::cout << "e = " << X::Num <<"/"<< X::Den << "\n";
-  return 0;
-}
-```
-
-While this is just a toy example to play with templates, it does illustrate code I've seen in the wild. Would this look cleaner in c++11? Yes, it would. Constexprs are, in my opinion, one of the most overlooked "killer" features of c++11.
-
-Starting with a simple example:
-
-```c++
-constexpr int foo(int a, int b) { return a+b; }
-static constexpr int n = foo(1, 2);
-int bar() { return n; }
-```
-
-Try to compile it with "g++ -std=c++11 -fverbose-asm -O0 -c -S -o /dev/stdout" and see what happens. You should get the equivalent of "return 3" - just as anyone would expect - but note that no optimizations were enabled. What about loops? Let's try this:
-
-```c++
-constexpr int f(int n) {
-    return (n<2)? 1 : n + f(n-1);
-}
-
-constexpr int n = f(999);
-```
-
-You'll probably get an error about maximum depth exceeded, but that's alright: we have loops in constexprs too! (note that some of these restrictions have been relaxed in C++17).
-
-In general, if you can express your function as a single const return statement, it should be a valid constexpr. With this new knowledge, let's convert the template meta-atrocity above to something a bit less hideous:
-
-```c++
-struct PodFrac {
-    int num;
-    int den;
-};
-
-constexpr int mcd(int a, int b) {
-    return (b==0)? a : mcd(b, a%b);
-}
-
-constexpr PodFrac simpl(const PodFrac &amp;f) {
-    return PodFrac{f.num / mcd(f.num, f.den), f.den / mcd(f.num, f.den)};
-}
-
-constexpr PodFrac sum(const PodFrac &amp;a, const PodFrac &amp;b) {
-    return simpl(PodFrac{a.num*b.den + b.num*a.den, a.den*b.den});
-}
-
-constexpr int fact(int n) {
-    return (n==0)? 1 : n*fact(n-1);
-}
-
-constexpr PodFrac e(int n) {
-    return (n==0)? PodFrac{1, 1} :
-                   sum(PodFrac{1, fact(n)}, e(n-1));
-}
-
-constexpr float e_num = 1.0 * e(8).num / e(8).den;
-
-float get_e() {
-    return e_num;
-}
-```
-
-Disclaimer: while I explicitly stated this multiple times in my "[C++ template metaprogramming introduction](md_blog/youfoundadeadlink.md)" article, it's worth re-stating it: this code is meant as an example to showcase a c++ feature, not as a proper way of deriving a mathematical constant in production code.
-
-First thoughts after comparing the two versions: much, much [, much]\*100 cleaner.
-
-As you may notice, all constexprs need to be a return statement. There's no multi-statement constexpr in c++11, which explains why loops are not really supported. For the same reason the implementation of e() is a bit hindered by this limitation: its code would be much more readable splitting it in a few lines with proper names. Good news: some of these restrictions have been relaxed in C++17.
-
-Note that if you analyze your compiler's output when building without optimizations, you may see either a const with e's value, or a static initializer that does some trivial operation, like loading e's value from a fraction: gcc seems to get tired of constexpr evaluation after a few recursive calls, so your results may vary (slightly).
-
-I called constexpr's one of c++11's killer features, and hopefully you can see why I'm so enthusiastic about them now: there's much less incentive for people to write horrible template metaprogramming devices when simply adding a little keyword to a normal function has the same effect, only cleaner.
-
-
-
 
 
 

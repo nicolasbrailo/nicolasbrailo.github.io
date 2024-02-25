@@ -4,7 +4,7 @@
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-<title>Posts for 2024 Nico Brailovsky's thought repository</title>
+<title>Bash tip: expand args Nico Brailovsky's thought repository</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,18 +34,35 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Posts for 2024</h2>
+<h2 name="bashtipexpandargs">Bash tip: expand args</h2>
 
-<ul>
-<li><a href="/blog/2024/2.html">February</a><ul>
-<li><a href="/blog/2024/2.html#mdloggen">MdLogGen</a></li>
-<li><a href="/blog/2024/2.html#bashtipexpandargs">Bash tip: expand args</a></li>
-<li><a href="/blog/2024/2.html#fixslowgrub">Fix "slow" Grub</a></li>
-<li><a href="/blog/2024/2.html#howtouefishell">How to: UEFI shell</a></li>
-<li><a href="/blog/2024/2.html#moveagain">Move again</a></li>
-</ul>
-</li>
-</ul>
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-02-25 |
+  <a href="/blog/2024/0225_BashTipExpandArgs.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0225_BashTipExpandArgs.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>If you're writing a script and it looks like this</p>
+<pre lang="bash"><code class="language-bash" lang="bash">your_bin --arg1 \
+         --arg2=123 \
+         --arg3=345 \
+         --arg4...
+</code></pre>
+<p>It can get pretty ugly to maintain. Instead, try this:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">many_args=(
+  --arg1
+  --arg2=123
+  --arg3=345
+  --arg4...
+)
+your_bin "${many_args[@]}"
+</code></pre>
+</div>
+
+<div class="post_comments">
+
+</div>
 
 </div>
 

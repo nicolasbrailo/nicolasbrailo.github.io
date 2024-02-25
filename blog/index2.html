@@ -36,6 +36,73 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>The bestest autocomplete for Vim<a name="thebestestautocompleteforvim"></a></h2>
+<p>Post by Nico Brailovsky @ 2019-06-11 | <a href="/blog/2019/0611_ThebestestautocompleteforVim.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0611_ThebestestautocompleteforVim.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>TL;DR: I like <a href="https://github.com/Valloric/YouCompleteMe">YouCompleteMe</a>
+A <a href="https://news.ycombinator.com/item?id=19529557">post in Hacker News</a> drew me to look at autocompletion in Vim. After trying a few plugins years before, I settled for the available-by-default autocomplete in Vim. It's pretty dumb, but pretty dumb covers 90% of what I need: autocompletionForReallyUglyOrLongNames.</p>
+<p>Vim's omnifunc completer is enough if no fancy features are necessary: fast, available, trivial to setup. I have successfully used omnifunc in fairly large projects, and while it requires familiarity with the codebase, some may argue that's a feature and not a bug.</p>
+<p>Now I confess: I don't understand Vundle, Pathogen or any other Vim plugin handler. Second extravagant opinion in this post: I don't see the point of a plugin manager for Vim. I like knowing the source code of every plugin I use well enough so I can troubleshoot it when it breaks (*). I prefer to #include (or, rather, source) them manually. Keeping <a href="https://github.com/nicolasbrailo/Nico.rc">everything in Github</a>, I rarely need to set up a plugin twice. The effort to install and configure a plugin is usually not a lot more than learning how to use that plugin in the first place.</p>
+<p>While being Vundle illiterate may have made my experience a bit more complicated than necessary, I still found the experience of installing autocompletion plugins quite horrible (#). <a href="https://github.com/Shougo/deoplete.nvim">Deoplete</a> had me chasing dependencies all over the place and Conquer of Completion seems to require such specific setup of version and plugins that I didn't even attempt to install it.</p>
+<p>YouCompleteMe, though, was a pleasant surprise: its documentation explained how to install in three steps, and it is a mostly self-contained plugin. While YCM has a compiled dependency, setting it up is pretty trivial. It just works out of the box.</p>
+<p>Took me years but I'm very happy to finally find an autocomplete plugin that "just works" for my basic Vim setup.</p>
+<p>(*) For some reason, I only feel this way about Vim</p>
+<p>(#) Disclaimer: Re-reading my own text, it may appear as I'm somewhat belittling Deoplete, CoC, Vundle, Pathogen, etc. That's not my intention. I have the maximum respect for these projects. The engineering effort in them is amazing, and I know for a fact they make life easier for a lot of people. I'm just not one of them.</p>
+<hr />
+<h2>Howto: shutdown a TV with HDMI CEC Chromecast<a name="howtoshutdownatvwithhdmicecchromecast"></a></h2>
+<p>Post by Nico Brailovsky @ 2019-05-28 | <a href="/blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0528_HowtoshutdownaTVwithHDMICECChromecast.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>That's a long title just to say "how to turn off your TV". Only I want to show how to do it even if you lost your remote control.</p>
+<p>Chromecast can turn your TV on and off, as long as it supports something called HDMI CEC. Of course the Chromecast itself needs to be powered, i.e. you can't plug it to a USB port in your TV.</p>
+<p>The "on" part is easy: you just start casting something (<a href="/blog/2019/0405_ChromecasticSlideshow.html">your pictures, for example</a>) and Chromecast automagically turns your TV on. The off part is a bit harder.</p>
+<p>Turning off is, obviously, an implemented feature, as the Google assistant can do it. After some Wireshark sniffing, I couldn't find any URL you can call in a Chromecast to turn off the TV. Some <a href="https://github.com/balloob/pychromecast/issues/196">people invested more time on this than me</a>, so I assume there's just no simple way to directly use a Chromecast for this. Luckily you can use the Google assistant.</p>
+<p>I wrote "simple way". The following maybe doesn't quite qualify as "simple", but it's not too time consuming. It's certainly not elegant, but hey (as of the date I'm writing this article) it works.</p>
+<h2>How to turn a TV off using a Chromecast<a name="howtoturnatvoffusingachromecast"></a></h2>
+<h3>Part 1: Set up the Google assistant SDK<a name="part1setupthegoogleassistantsdk"></a></h3>
+<p>There's no easy way to make a Chromecast turn off a TV, so instead we'll interface with a Google assistant, then ask the assistant to do it for us. There's also no easy way to do this with an API, but the assistant's voice recognition is actually quite good. Let's start by installing the SDK:</p>
+<ol>
+<li>Follow the setup instructions for the <a href="https://developers.google.com/assistant/sdk/guides/library/python/embed/setup">Google Assistant library</a>, with the changes described below.</li>
+<li>The assistant examples need a microphone present, but we're not going to use it. If you don't have one and you're doing this in a RaspberryPi, just fake one by putting this in ~/.asoundrc:</li>
+</ol>
+<pre lang="c++"><code class="language-c++" lang="c++">pcm.!default {
+  type asym
+  capture.pcm "mic"
+}
+pcm.mic {
+  type plug
+  slave {
+    pcm "null"
+  }
+}
+</code></pre>
+<ol>
+<li>The same may be needed for a speaker.</li>
+<li>Continue the setup guide: create a project in the Actions console. Register also a dummy model to download the json credentials.</li>
+<li>Follow the "Install the SDK and Sample Code" instructions. In May 2019, they work fine in a RaspberryPI 3 with Raspbian.</li>
+<li>Try running the sample code. googlesamples-assistant-hotword segfaults but googlesamples-assistant-pushtotalk works fine.</li>
+</ol>
+<h3>Part 2: Hack the sample to turn off a TV<a name="part2hackthesampletoturnoffatv"></a></h3>
+<p>You should now have the samples from the SDK running. At least those that don't crash. If you have a microphone, you can ask anything you normally ask the Google assistant like... the weather?</p>
+<p>The assistant can turn off your TV if you say "Turn off $Chromecast_Name". But what if you don't like talking to your phone?</p>
+<p>I'm sure you expect I'll reveal a nice, clean way to invoke the assistant and make it turn off your Chromecast. Sorry, that would take too long. There is a text interface for the assistant but I wasn't able to have it running in less than 15 minutes, so these are your options:</p>
+<ul>
+<li>Use festival. echo "$Google assistant command" | text2wave -o cmd.wav will generate a command that (often) the assistant can understand. If you don't have such luck:</li>
+<li>Just record yourself. Hackish? Sure, but if all you need is to shut down a TV, that's enough. <strong>Important note</strong>: Record yourself in mono 16KHz. Otherwise the assistant may not understand the wav file. If you run "file command.wav" it should look like this:</li>
+</ul>
+<pre lang="c++"><code class="language-c++" lang="c++">command.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz
+</code></pre>
+<p>Whatever method you choose, create a wav file with the command you want to execute (i.e. "turn off $Chromecast_name) and put it in the directory where you installed the Google Assistant SDK.</p>
+<h3>Part 3: Throw your remote to the recycling bin!<a name="part3throwyourremotetotherecyclingbin"></a></h3>
+<p>You're ready now. Goto the directory where you installed the SDK and recorded your voice command, then try this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">$ source env/bin/activate
+$ googlesamples-assistant-pushtotalk --device-model-id $AN_ID_YOU_GOT_FROM_GOOGLE --project-id $YOUR_GOOGLE_PROJECT_ID --once --verbose -i ./command.wav
+</code></pre>
+<p>With a bit of luck that should shut down your TV.</p>
+<p>Linkdump:</p>
+<ul>
+<li>https://developers.google.com/assistant/sdk/overview</li>
+<li>https://developers.google.com/assistant/sdk/guides/library/python/</li>
+<li>https://developers.google.com/assistant/sdk/guides/library/python/embed/setup</li>
+</ul>
+<hr />
 <h2>Say nice things<a name="saynicethings"></a></h2>
 <p>Post by Nico Brailovsky @ 2019-05-14 | <a href="/blog/2019/0514_Saynicethings.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0514_Saynicethings.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>As software developers, we need to put much more emphasis on positive interactions with our peers. Engineering requires critical thinking. Looking for cases where something (code!) will break. Criticizing what we do, on the hope of doing it better, is a key and necessary aspect of our profession. However, even when done properly (already a hard enough job!) this practice emphasizes negative interactions. In a normal job, what would you say is the ratio of times you hear "this might be better if .." vs "I really liked X"?</p>
@@ -145,109 +212,6 @@ This works just fine:</p>
 <p>A few years back I developed a <a href="https://github.com/nicolasbrailo/VlcFreemote">VlcRemote control</a> app for Android. According <a href="https://xkcd.com/1205/">to this chart</a>, I didn't actually save any time doing so. The time I spent spent developing the app is more than the cumulative time I would have spent by getting up from the couch and manually controlling VLC. That said, not having to leave the coziness of a warm blanket in winter probably made it worth the investment.</p>
 <p>Not long ago I decided to <a href="https://f-droid.org/en/packages/com.nicolasbrailo.vlcfreemote/">submit this app to F-Droid</a>. I'm too cheap to pay the 20ish dollars for Google App Store, and since I don't have any commercial interest I don't see the point. I didn't think I'd actually get any users there, but today I got my first bug report. So much happiness! You'd think I shouldn't be happy about my crappy software not-working, but hey, someone actually took the time to try it out. Even more, someone cared enough to submit a bug report!</p>
 <p>Open source rules!</p>
-<hr />
-<h2>Geotagging in Ubuntu: more broken than ever<a name="geotagginginubuntumorebrokenthanever"></a></h2>
-<p>Post by Nico Brailovsky @ 2017-04-14 | <a href="/blog/2017/0414_GeotagginginUbuntumorebrokenthanever.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2017/0414_GeotagginginUbuntumorebrokenthanever.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>This is depressing. All the geotagging tools in Ubuntu seem dead. Even mine, apparently the latest version of CEF Python changed something that breaks my app. Even worse, looking for "ubuntu geotagging" has my own blog as one of the top results... time to fix my code, I guess?</p>
-<hr />
-<h2>Fixing templates with constexpr's<a name="fixingtemplateswithconstexprs"></a></h2>
-<p>Post by Nico Brailovsky @ 2017-01-18 | <a href="/blog/2017/0118_Fixingtemplateswithconstexprs.html">Permalink</a> | <a href="/blog/2017/0118_Fixingtemplateswithconstexprs.html">1 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2017/0118_Fixingtemplateswithconstexprs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>For my hundredth (and a bit) c++ post I decided to do something I never did before: fix my old code!</p>
-<p>A long time ago I wrote about template metaprogramming devices. There, I tried to explain that many atrocities have been commited in the name of performance and "compile time evaluation". Template metaprogramming is probably one of the worse culprits of job security. Its (ab)use can create monstrosities, all in the name of runtime performance. Like, for example, my <a href="/blog/youfoundadeadlink.html">template device to calculate e</a>. Let's remember what that atrocious code looks like (follow the link if you want an explanation on how this works):</p>
-<pre lang="c++"><code class="language-c++" lang="c++">template <int N, int D> struct Frak {
-        static const long Num = N;
-        static const long Den = D;
-};
-template <int N, typename F> struct ScalarMultiplication {
-    typedef Frak<N*F::Num, N*F::Den> result;
-};
-template <int X, int Y> struct MCD {
-        static const long result = MCD<Y, X % Y>::result;
-};
-template <int X> struct MCD<X, 0> {
-        static const long result = X;
-};
-template <class F> struct Simpl {
-        static const long mcd = MCD<F::Num, F::Den>::result;
-        typedef Frak&lt; F::Num / mcd, F::Den / mcd &gt; result;
-};
-template <typename X1, typename Y1> struct SameBase {
-    typedef typename ScalarMultiplication&lt; Y1::Den, X1&gt;::result X;
-    typedef typename ScalarMultiplication&lt; X1::Den, Y1&gt;::result Y;
-};
-template <typename X, typename Y> struct Sum {
-    typedef SameBase<X, Y> B;
-    static const long Num = B::X::Num + B::Y::Num;
-    static const long Den = B::Y::Den; // == B::X::Den
-    typedef typename Simpl&lt; Frak<Num, Den> &gt;::result result;
-};
-template <int N> struct Fact {
-    static const long result = N * Fact<N-1>::result;
-};
-template &lt;&gt; struct Fact&lt;0&gt; {
-    static const long result = 1;
-};
-template <int N> struct E {
-    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
-    static const long Den = Fact<N>::result;
-    typedef Frak&lt; 1, Den &gt; term;
-    typedef typename E<N-1>::result next_term;
-    typedef typename Sum&lt; term, next_term &gt;::result result;
-};
-template &lt;&gt; struct E&lt;0&gt; {
-    typedef Frak&lt;1, 1&gt; result;
-};
-int main() {
-  typedef E&lt;8&gt;::result X;
-  std::cout &lt;&lt; "e = " &lt;&lt; (1.0 * X::Num / X::Den) &lt;&lt; "\n";
-  std::cout &lt;&lt; "e = " &lt;&lt; X::Num &lt;&lt;"/"&lt;&lt; X::Den &lt;&lt; "\n";
-  return 0;
-}
-</code></pre>
-<p>While this is just a toy example to play with templates, it does illustrate code I've seen in the wild. Would this look cleaner in c++11? Yes, it would. Constexprs are, in my opinion, one of the most overlooked "killer" features of c++11.</p>
-<p>Starting with a simple example:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">constexpr int foo(int a, int b) { return a+b; }
-static constexpr int n = foo(1, 2);
-int bar() { return n; }
-</code></pre>
-<p>Try to compile it with "g++ -std=c++11 -fverbose-asm -O0 -c -S -o /dev/stdout" and see what happens. You should get the equivalent of "return 3" - just as anyone would expect - but note that no optimizations were enabled. What about loops? Let's try this:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">constexpr int f(int n) {
-    return (n&lt;2)? 1 : n + f(n-1);
-}
-constexpr int n = f(999);
-</code></pre>
-<p>You'll probably get an error about maximum depth exceeded, but that's alright: we have loops in constexprs too! (note that some of these restrictions have been relaxed in C++17).</p>
-<p>In general, if you can express your function as a single const return statement, it should be a valid constexpr. With this new knowledge, let's convert the template meta-atrocity above to something a bit less hideous:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">struct PodFrac {
-    int num;
-    int den;
-};
-constexpr int mcd(int a, int b) {
-    return (b==0)? a : mcd(b, a%b);
-}
-constexpr PodFrac simpl(const PodFrac &amp;f) {
-    return PodFrac{f.num / mcd(f.num, f.den), f.den / mcd(f.num, f.den)};
-}
-constexpr PodFrac sum(const PodFrac &amp;a, const PodFrac &amp;b) {
-    return simpl(PodFrac{a.num<em>b.den + b.num</em>a.den, a.den<em>b.den});
-}
-constexpr int fact(int n) {
-    return (n==0)? 1 : n</em>fact(n-1);
-}
-constexpr PodFrac e(int n) {
-    return (n==0)? PodFrac{1, 1} :
-                   sum(PodFrac{1, fact(n)}, e(n-1));
-}
-constexpr float e_num = 1.0 * e(8).num / e(8).den;
-float get_e() {
-    return e_num;
-}
-</code></pre>
-<p>Disclaimer: while I explicitly stated this multiple times in my "<a href="/blog/youfoundadeadlink.html">C++ template metaprogramming introduction</a>" article, it's worth re-stating it: this code is meant as an example to showcase a c++ feature, not as a proper way of deriving a mathematical constant in production code.</p>
-<p>First thoughts after comparing the two versions: much, much [, much]*100 cleaner.</p>
-<p>As you may notice, all constexprs need to be a return statement. There's no multi-statement constexpr in c++11, which explains why loops are not really supported. For the same reason the implementation of e() is a bit hindered by this limitation: its code would be much more readable splitting it in a few lines with proper names. Good news: some of these restrictions have been relaxed in C++17.</p>
-<p>Note that if you analyze your compiler's output when building without optimizations, you may see either a const with e's value, or a static initializer that does some trivial operation, like loading e's value from a fraction: gcc seems to get tired of constexpr evaluation after a few recursive calls, so your results may vary (slightly).</p>
-<p>I called constexpr's one of c++11's killer features, and hopefully you can see why I'm so enthusiastic about them now: there's much less incentive for people to write horrible template metaprogramming devices when simply adding a little keyword to a normal function has the same effect, only cleaner.</p>
 <hr />
 
 </div>
