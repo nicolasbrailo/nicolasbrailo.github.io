@@ -1,5 +1,29 @@
 #
 @meta docType index
+## Bash: Color in command line prompt PS1
+
+Post by Nico Brailovsky @ 2019-07-18 | [Permalink](md_blog/2019/0718_BashColorincommandlinepromptPS1.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0718_BashColorincommandlinepromptPS1.md&body=I%20have%20a%20comment!)
+
+I'm lately dealing with lots of hosts in different environments (eg local, dev, test, etc). Some actions are safe to perform in some of these hosts, in others not so much. To help quickly figure out which hosts are safe, I wanted to add a color to my Bash prompt (PS1) - for example green for dev, where it's unlikely I'll break anything other than my stuff, red for hosts where carelessness might result in a weekend spent at the office.
+
+The first result I get in Google when trying to set Bash's PS1 to use colors seems to be wrong (or, rather, I wasn't smart enough to make it work). An escape sequence seems to be missing, resulting in weird behavior with new lines; colors work, but line wrapping gets broken. Took me a while to associate broken \n's with colors, but once I did the fix was easy. Check out here for the [proper way to escape color commands in Bash](https://stackoverflow.com/questions/342093/ps1-line-wrapping-with-colours-problem).
+
+And here's my current setup:
+
+```c++
+export COLOR_SET='\[\e['$THIS_HOST_COLOR'm\]'
+export COLOR_RESET='\[\e[0m\]'
+
+# Example:
+export PS1='\A '$COLOR_SET'\h'$COLOR_RESET':\w$ '
+```
+
+
+
+
+
+---
+
 ## The bestest autocomplete for Vim
 
 Post by Nico Brailovsky @ 2019-06-11 | [Permalink](md_blog/2019/0611_ThebestestautocompleteforVim.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0611_ThebestestautocompleteforVim.md&body=I%20have%20a%20comment!)
@@ -302,24 +326,6 @@ Getting feedback from users is hard. In a platform such as Android, with apps ev
 While trying to get bug reports for [VlcFreemote](https://github.com/nicolasbrailo/VlcFreemote) I found a neat GitHub trick: you can pre-fill a bug report by using url parameters. For example, check this link: <https://github.com/nicolasbrailo/VlcFreemote/issues/new?title=foo&body=bar>
 
 Awesome! Takes a second and makes life much easier for bug-reporters!
-
-
-
-
-
----
-
-## Happiest bug report
-
-Post by Nico Brailovsky @ 2018-09-02 | [Permalink](md_blog/2018/0902_Happiestbugreport.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0902_Happiestbugreport.md&body=I%20have%20a%20comment!)
-
-Something is wrong: I'm happy over a bug report!
-
-A few years back I developed a [VlcRemote control](https://github.com/nicolasbrailo/VlcFreemote) app for Android. According [to this chart](https://xkcd.com/1205/), I didn't actually save any time doing so. The time I spent spent developing the app is more than the cumulative time I would have spent by getting up from the couch and manually controlling VLC. That said, not having to leave the coziness of a warm blanket in winter probably made it worth the investment.
-
-Not long ago I decided to [submit this app to F-Droid](https://f-droid.org/en/packages/com.nicolasbrailo.vlcfreemote/). I'm too cheap to pay the 20ish dollars for Google App Store, and since I don't have any commercial interest I don't see the point. I didn't think I'd actually get any users there, but today I got my first bug report. So much happiness! You'd think I shouldn't be happy about my crappy software not-working, but hey, someone actually took the time to try it out. Even more, someone cared enough to submit a bug report!
-
-Open source rules!
 
 
 

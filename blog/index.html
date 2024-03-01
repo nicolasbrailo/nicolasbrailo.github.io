@@ -36,6 +36,19 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Bash: goto<a name="bashgoto"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-03-01 | <a href="/blog/2024/0301_BashGoto.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0301_BashGoto.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<h1><a name=""></a></h1>
+<p>I rediscovered a nifty little utility I added to my <a href="https://github.com/nicolasbrailo/Nico.rc">bashrc</a> a while back: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh">goto</a>. Goto is a short script that works as a bookmark mechanism for Bash. With you, you can set a bookmark directory, and then jump to that directory from anywhere else (with autocomplete). For example:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">$ cd foo/bar/baz
+foo/bar/baz$ goto . bookmark
+foo/bar/baz$ cd /
+/$ goto boo<tab>
+foo/bar/baz$
+</code></pre>
+<p>It works by setting itself as a Bash autocomplete, so that bookmarks are autocompletable and available anywhere in Bash. A bookmark is itself nothing more than a symlink saved to <code>~/goto</code>.</p>
+<p>To install, you can <code>wget -O - https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh &gt; ~/.goto.sh</code> and add it to your bashrc.</p>
+<hr />
 <h2>MdLogGen<a name="mdloggen"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-02-25 | <a href="/blog/2024/0225_MdlogGen.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0225_MdlogGen.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you're reading this, you somehow found me at <a href="https://nicolasbrailo.github.io/blog">nicolasbrailo.github.io</a>. Maybe you came here from <a href="/blog/2024/0218_MovedAgain.html">one of my many previous blogs</a>, and you're marveling at the beautiful new design (?). As I alluded to in the <a href="/blog/2024/0218_MovedAgain.html">"moved again"</a> note, this site is built from a source of md files, <a href="https://github.com/nicolasbrailo/MdlogGen">using a custom md-to-html enginge</a>. If you're sane, you're probably why I would create an md-to-html engine, instead of using one of the many available options.</p>
@@ -177,15 +190,6 @@ exec &gt; ~/log.log 2&gt;&amp;1
 <p>If you're coding-to-sell, you're not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You're not writing code to learn new things, that's only a nice side-effect; you are trying to build a product.</p>
 <p>Furthermore, you're not investing time to learn something or just to have fun; you're trading time for money (if you learn something in the process, that's good - but probably not why you're being paid a salary as a software engineer).</p>
 <p>It's understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it's not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it's kept me interested in software development for the last 15 (ish) years. I'm hoping it'll do the trick for much longer than that.</p>
-<hr />
-<h2>reboot succesful?<a name="rebootsuccesful"></a></h2>
-<p>Post by Nico Brailovsky @ 2021-03-17 | <a href="/blog/2021/0317_rebootsuccesful.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2021/0317_rebootsuccesful.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>Since "migrating" from Wordpress to Blogspot:</p>
-<ul>
-<li>Traffic to Wordpress fell from ~100ish visitors a day to ~30 or ~40ish.</li>
-<li>This site went from 0 to also ~30 or ~40ish.</li>
-</ul>
-<p>That went much better than I expected, considering I couldn't set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don't want to monetize). Let's see how it goes 10 years from now, when I have to migrate from Blogpost to something else.</p>
 <hr />
 
 </div>

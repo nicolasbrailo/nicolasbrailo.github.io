@@ -1,5 +1,31 @@
 #
 @meta docType index
+## Bash: goto
+
+Post by Nico Brailovsky @ 2024-03-01 | [Permalink](md_blog/2024/0301_BashGoto.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0301_BashGoto.md&body=I%20have%20a%20comment!)
+
+#
+
+I rediscovered a nifty little utility I added to my [bashrc](https://github.com/nicolasbrailo/Nico.rc) a while back: [goto](https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh). Goto is a short script that works as a bookmark mechanism for Bash. With you, you can set a bookmark directory, and then jump to that directory from anywhere else (with autocomplete). For example:
+
+```bash
+$ cd foo/bar/baz
+foo/bar/baz$ goto . bookmark
+foo/bar/baz$ cd /
+/$ goto boo<tab>
+foo/bar/baz$
+```
+
+It works by setting itself as a Bash autocomplete, so that bookmarks are autocompletable and available anywhere in Bash. A bookmark is itself nothing more than a symlink saved to `~/goto`.
+
+To install, you can `wget -O - https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh > ~/.goto.sh` and add it to your bashrc.
+
+
+
+
+
+---
+
 ## MdLogGen
 
 Post by Nico Brailovsky @ 2024-02-25 | [Permalink](md_blog/2024/0225_MdlogGen.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0225_MdlogGen.md&body=I%20have%20a%20comment!)
@@ -256,23 +282,6 @@ If you're coding-to-sell, you're not writing code for yourself. You write for a 
 Furthermore, you're not investing time to learn something or just to have fun; you're trading time for money (if you learn something in the process, that's good - but probably not why you're being paid a salary as a software engineer).
 
 It's understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it's not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it's kept me interested in software development for the last 15 (ish) years. I'm hoping it'll do the trick for much longer than that.
-
-
-
-
-
----
-
-## reboot succesful?
-
-Post by Nico Brailovsky @ 2021-03-17 | [Permalink](md_blog/2021/0317_rebootsuccesful.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0317_rebootsuccesful.md&body=I%20have%20a%20comment!)
-
-Since "migrating" from Wordpress to Blogspot:
-
-* Traffic to Wordpress fell from ~100ish visitors a day to ~30 or ~40ish.
-* This site went from 0 to also ~30 or ~40ish.
-
-That went much better than I expected, considering I couldn't set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don't want to monetize). Let's see how it goes 10 years from now, when I have to migrate from Blogpost to something else.
 
 
 
