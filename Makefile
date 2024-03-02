@@ -9,6 +9,9 @@ clean:
 
 gen:
 	python3 ./MdlogGen/gen.py ./gen_config.json
+	# Add a hacky redir from index, since index doesn't have any content...
+	cat index.html | sed 's#<meta charset="UTF-8">#<meta http-equiv="Refresh" content="0; url='"'"'/blog'"'"'" />#g' > tmp
+	mv tmp index.html
 
 publish: gen
 	git add blog* md_blog*

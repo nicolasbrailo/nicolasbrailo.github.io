@@ -5,6 +5,7 @@
 ## [Posts for 2024](md_gen/2024/index.md)
 
 * [March](md_gen/2024/3.md)
+    * [Wifi from the CLI](md_gen/2024/3.md#wififromthecli)
     * [Bash: goto](md_gen/2024/3.md#bashgoto)
  * [February](md_gen/2024/2.md)
     * [MdLogGen](md_gen/2024/2.md#mdloggen)

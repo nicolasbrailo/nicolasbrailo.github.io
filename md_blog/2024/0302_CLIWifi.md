@@ -1,10 +1,8 @@
-# Posts for 2024 March
+# Wifi from the CLI
 
-@meta docType index
-
-## Wifi from the CLI
-
-Post by Nico Brailovsky @ 2024-03-01 | [Permalink](md_blog/2024/0302_CLIWifi.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0302_CLIWifi.md&body=I%20have%20a%20comment!)
+@meta publishDate 2024-03-01
+@meta author Nico Brailovsky
+@meta tags Metapost
 
 Another one to file in the category of self reminders, and a cheatsheet I'll need this weekend: whenever I need to work on the main (eth!) connection of a server, instead of grabbing a keyboard and a monitor it's easier to connect to wifi. For example, when I need to change the IP of a Raspberry PI in my network. Note this guide assumes a Debian-like environment:
 
@@ -61,30 +59,3 @@ dhclient -r wlp3s0
 # To be sure:
 rfkill
 ```
-
-
-
-
-
----
-
-## Bash: goto
-
-Post by Nico Brailovsky @ 2024-03-01 | [Permalink](md_blog/2024/0301_BashGoto.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0301_BashGoto.md&body=I%20have%20a%20comment!)
-
-I rediscovered a nifty little utility I added to my [bashrc](https://github.com/nicolasbrailo/Nico.rc) a while back: [goto](https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh). Goto is a short script that works as a bookmark mechanism for Bash. With it, you can set a bookmark directory, and then jump to that directory from anywhere else (with autocomplete). For example:
-
-```bash
-$ cd foo/bar/baz
-foo/bar/baz$ goto . bookmark
-foo/bar/baz$ cd /
-/$ goto boo<tab>
-foo/bar/baz$
-```
-
-It works by setting itself as a Bash autocomplete, so that bookmarks are autocompletable and available anywhere in Bash. A bookmark is itself nothing more than a symlink saved to `~/goto`.
-
-To install, you can `wget -O - https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh > ~/.goto.sh` and add it to your bashrc.
-
-
-

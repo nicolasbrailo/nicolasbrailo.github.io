@@ -4,7 +4,7 @@
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-<title>Posts for 2024 March Nico Brailovsky's thought repository</title>
+<title>Wifi from the CLI Nico Brailovsky's thought repository</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,10 +34,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Posts for 2024 March</h2>
+<h2 name="wififromthecli">Wifi from the CLI</h2>
 
-<h2>Wifi from the CLI<a name="wififromthecli"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-03-01 | <a href="/blog/2024/0302_CLIWifi.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0302_CLIWifi.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-03-01 |
+  <a href="/blog/2024/0302_CLIWifi.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0302_CLIWifi.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
 <p>Another one to file in the category of self reminders, and a cheatsheet I'll need this weekend: whenever I need to work on the main (eth!) connection of a server, instead of grabbing a keyboard and a monitor it's easier to connect to wifi. For example, when I need to change the IP of a Raspberry PI in my network. Note this guide assumes a Debian-like environment:</p>
 <pre lang="bash"><code class="language-bash" lang="bash"># Figure out which interfaces exist
 ip a
@@ -75,18 +80,11 @@ dhclient -r wlp3s0
 # To be sure:
 rfkill
 </code></pre>
-<hr />
-<h2>Bash: goto<a name="bashgoto"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-03-01 | <a href="/blog/2024/0301_BashGoto.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0301_BashGoto.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I rediscovered a nifty little utility I added to my <a href="https://github.com/nicolasbrailo/Nico.rc">bashrc</a> a while back: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh">goto</a>. Goto is a short script that works as a bookmark mechanism for Bash. With it, you can set a bookmark directory, and then jump to that directory from anywhere else (with autocomplete). For example:</p>
-<pre lang="bash"><code class="language-bash" lang="bash">$ cd foo/bar/baz
-foo/bar/baz$ goto . bookmark
-foo/bar/baz$ cd /
-/$ goto boo<tab>
-foo/bar/baz$
-</code></pre>
-<p>It works by setting itself as a Bash autocomplete, so that bookmarks are autocompletable and available anywhere in Bash. A bookmark is itself nothing more than a symlink saved to <code>~/goto</code>.</p>
-<p>To install, you can <code>wget -O - https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh &gt; ~/.goto.sh</code> and add it to your bashrc.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
 
 </div>
 

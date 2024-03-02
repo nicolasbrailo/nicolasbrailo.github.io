@@ -1,5 +1,21 @@
 #
 @meta docType index
+## Vim multiple search
+
+Post by Nico Brailovsky @ 2019-07-27 | [Permalink](md_blog/2019/0727_Vimmultiplesearch.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0727_Vimmultiplesearch.md&body=I%20have%20a%20comment!)
+
+I keep forgetting about this one. Maybe writing it down will help me remember: Vim can search for (and highlight) multiple patterns at the same time. Just start your search with \v and split the patterns with |. Eg:
+
+```
+:/\vfoo|bar
+```
+
+
+
+
+
+---
+
 ## Bash: Color in command line prompt PS1
 
 Post by Nico Brailovsky @ 2019-07-18 | [Permalink](md_blog/2019/0718_BashColorincommandlinepromptPS1.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0718_BashColorincommandlinepromptPS1.md&body=I%20have%20a%20comment!)
@@ -310,22 +326,6 @@ if (foo)
 ```
 
 Neat!
-
-
-
-
-
----
-
-## GitHub tip: Prefill a bug report
-
-Post by Nico Brailovsky @ 2018-09-04 | [Permalink](md_blog/2018/0904_GitHubtipPrefillabugreport.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0904_GitHubtipPrefillabugreport.md&body=I%20have%20a%20comment!)
-
-Getting feedback from users is hard. In a platform such as Android, with apps evaluated in a couple of seconds, it's even harder.
-
-While trying to get bug reports for [VlcFreemote](https://github.com/nicolasbrailo/VlcFreemote) I found a neat GitHub trick: you can pre-fill a bug report by using url parameters. For example, check this link: <https://github.com/nicolasbrailo/VlcFreemote/issues/new?title=foo&body=bar>
-
-Awesome! Takes a second and makes life much easier for bug-reporters!
 
 
 
