@@ -1,5 +1,27 @@
 #
 @meta docType index
+## Vim can wget + c-w search
+
+Post by Nico Brailovsky @ 2024-03-03 | [Permalink](md_blog/2024/0303_VimWgetSite.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0303_VimWgetSite.md&body=I%20have%20a%20comment!)
+
+I (re?)learned a thing today: Vim can wget a site!
+
+Doing `c-w gf` tells Vim to open whatever path is under the cursor. This is usually something like "#include <foo/bar/baz.h>", which means it will ask Vim to open `foo/bar/baz.h`. If you happen to have `http://nicolasbrailo.github.io` under your cursor, you'll be fetching this site into a temp buffer, in Vim.
+
+## Bonus tip:
+
+If `c-w gf` isn't finding the files you want it to, you may need to set your search path:
+
+```vim
+set path+=/home/user/path/to/foo,/home/user/src/bar
+```
+
+
+
+
+
+---
+
 ## Wifi from the CLI
 
 Post by Nico Brailovsky @ 2024-03-01 | [Permalink](md_blog/2024/0302_CLIWifi.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0302_CLIWifi.md&body=I%20have%20a%20comment!)
@@ -161,7 +183,7 @@ GRUB_CMDLINE_LINUX_DEFAULT="nosplash verbose debug nomodeset"
 
 Then run `update-grub`. Next boot up Grub input should behave in a sane way again.
 
-## Extra tip: Increate terminal font size without murking in Grub
+## Extra tip: Increase terminal font size without murking in Grub
 
 If you got past Grub, you're probably booting into 4K mode terminals, and texts that are but a few millimiters high. You can increase your terminal font size, before ever going to a graphical interface:
 
@@ -304,30 +326,6 @@ Small celebratory post, because I never expected it:
 [![](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)
 
 Someone translated [one of my open source projects](http://github.com/nicolasbrailo/pianOli) to Chinese!
-
-
-
-
-
----
-
-## Bash script preamble
-
-Post by Nico Brailovsky @ 2021-06-27 | [Permalink](md_blog/2021/0627_Bashscriptpreamble.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0627_Bashscriptpreamble.md&body=I%20have%20a%20comment!)
-
-All background Bash scripts should start with this preamble:
-
-```bash
-set -euo pipefail
-exec > ~/log.log 2>&1
-```
-
-There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:
-
-* **-e** halts the script on error
-* **-u** errors when using an undefined variable
-* **-o pipefail** makes pipe error return value sane
-* **exec > ~/log.log 2>&1** redirect all output to ~/log.log
 
 
 

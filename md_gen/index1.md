@@ -1,5 +1,29 @@
 #
 @meta docType index
+## Bash script preamble
+
+Post by Nico Brailovsky @ 2021-06-27 | [Permalink](md_blog/2021/0627_Bashscriptpreamble.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0627_Bashscriptpreamble.md&body=I%20have%20a%20comment!)
+
+All background Bash scripts should start with this preamble:
+
+```bash
+set -euo pipefail
+exec > ~/log.log 2>&1
+```
+
+There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:
+
+* **-e** halts the script on error
+* **-u** errors when using an undefined variable
+* **-o pipefail** makes pipe error return value sane
+* **exec > ~/log.log 2>&1** redirect all output to ~/log.log
+
+
+
+
+
+---
+
 ## Where is the fun in that?
 
 Post by Nico Brailovsky @ 2021-03-18 | [Permalink](md_blog/2021/0318_Whereisthefuninthat.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0318_Whereisthefuninthat.md&body=I%20have%20a%20comment!)
@@ -329,43 +353,6 @@ FOO=${BAR-bar}
 ```
 
 If someone export's BAR, then FOO will equals the already exported value of $BAR, if $BAR doesn't exist then FOO will have the value of the literal 'bar'.
-
-
-
-
-
----
-
-## std::is_constant_evaluated: make debugging a little bit harder for yourself!
-
-Post by Nico Brailovsky @ 2019-08-03 | [Permalink](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [2 comments](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!)
-
-Let's pretend you find this:
-
-```c++
-const int a = foo();
-int b = foo();
-```
-
-Would you be tempted to assume that a==b, always? I would. What if 'foo' actually depends on a global variable, and its return value depends on that global setting? Suddenly the code above will raise a few eyebrows in a code review session.
-
-Coming to your friendly c++20 standard now:
-
-```c++
-constexpr int foo() {
-    return (std::is_constant_evaluated())? 42 : 24;
-}
-
-bool a() {
-    const int x = foo();
-    return x == foo();
-}
-```
-
-I'm sure with careful usage, is\_constant\_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (`cout << foo()`, anyone?) prints different values than my `production` code.
-
-
-
 
 
 

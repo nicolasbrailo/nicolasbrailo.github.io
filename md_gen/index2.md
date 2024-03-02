@@ -1,5 +1,42 @@
 #
 @meta docType index
+## std::is_constant_evaluated: make debugging a little bit harder for yourself!
+
+Post by Nico Brailovsky @ 2019-08-03 | [Permalink](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [2 comments](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!)
+
+Let's pretend you find this:
+
+```c++
+const int a = foo();
+int b = foo();
+```
+
+Would you be tempted to assume that a==b, always? I would. What if 'foo' actually depends on a global variable, and its return value depends on that global setting? Suddenly the code above will raise a few eyebrows in a code review session.
+
+Coming to your friendly c++20 standard now:
+
+```c++
+constexpr int foo() {
+    return (std::is_constant_evaluated())? 42 : 24;
+}
+
+bool a() {
+    const int x = foo();
+    return x == foo();
+}
+```
+
+I'm sure with careful usage, is\_constant\_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (`cout << foo()`, anyone?) prints different values than my `production` code.
+
+
+
+
+
+
+
+
+---
+
 ## Vim multiple search
 
 Post by Nico Brailovsky @ 2019-07-27 | [Permalink](md_blog/2019/0727_Vimmultiplesearch.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0727_Vimmultiplesearch.md&body=I%20have%20a%20comment!)
@@ -306,26 +343,6 @@ It doesn't. std::byte only accepts other std::byte's as operands. The design goa
 My prediction: most people will dislike the boilerplate std::byte adds and fall back to unsinged char's, until the type restrictions in std::byte are relaxed. I hope I'm wrong though!
 
 (\*) Yes, with the exception of shift operations. That was a good design decision!
-
-
-
-
-
----
-
-## -Wmisleading-indentation
-
-Post by Nico Brailovsky @ 2018-09-30 | [Permalink](md_blog/2018/0930_Wmisleadingindentation.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/0930_Wmisleadingindentation.md&body=I%20have%20a%20comment!)
-
-This gcc switch is a few years old but I discovered it recently. I'm not sure if that means my code is always very clean or my toolchain too oudated... in any case, -Wmisleading-indentation (which you get with -Wall) warns about this gotcha:
-
-```c++
-if (foo)
-   bar();
-   baz();
-```
-
-Neat!
 
 
 

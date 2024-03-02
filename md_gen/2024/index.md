@@ -3,6 +3,7 @@
 @meta docType index
 
  * [March](md_gen/2024/3.md)
+    * [Vim can wget + c-w search](md_gen/2024/3.md#vimcanwgetcwsearch)
     * [Wifi from the CLI](md_gen/2024/3.md#wififromthecli)
     * [Bash: goto](md_gen/2024/3.md#bashgoto)
  * [February](md_gen/2024/2.md)

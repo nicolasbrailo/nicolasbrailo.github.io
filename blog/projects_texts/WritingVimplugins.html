@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Writing Vim plugins Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="writingvimplugins">Writing Vim plugins</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2021-03-02 |
+  <a href="/blog/projects_texts/WritingVimplugins.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/projects_texts/WritingVimplugins.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<h2>Vim utilities: Findgrep &amp; Fastgrep<a name="vimutilitiesfindgrepfastgrep"></a></h2>
+<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "Impl switcher", and "Better Tab New" before that. Today it's Findgrep &amp; Fastgrep's turn.</p>
+<p>I <a href="/blog/2012/1030_Fastgrepacacheforgrep.html">wrote about Fastgrep a long time ago</a>. The idea behind it is to speed up the slowest part in a grep command, the disk seek time, by creating a huge blob file with all the files in a project concatenated.</p>
+<p>Fastgrep works great. But it requires a context switch, going from your IDE to your console just to grep. Findgrep fills the gap between the IDE and the command line: this utility provides a few key bindings to let you quickly run some common commands, like searching for a selected string or finding a file in the project directory.</p>
+<p>You can get <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/fastgrep.sh">Fastgrep here</a>. <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Findgrep is available in Github</a>, and you can easily replace Fastgrep with normal grep if you need to.</p>
+<hr />
+<h2>Vim utilities: Impl switcher<a name="vimutilitiesimplswitcher"></a></h2>
+<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. Last time I presented "<a href="/blog/2016/0701_VimutilitiesBetterTabNew.html">BTN: Better Tab New</a>". Today it's the turn for "Impl switcher".</p>
+<p>With its very imaginative name, "Impl switcher" has a very obvious purpose: it will just switch from a header file to an implementation file. So, between .h and .cpp. Surely there are lots of Vim plugins to do just that, why write another one?</p>
+<p>Most impl-switcher plugins in the wild tend to, in my experience, require either a lot of configuration, a lot of dependencies, or a very specific project layout (or a combination of all three). They also seem to be huge and very complicated projects.</p>
+<p>Impl switcher will recursively go up your directory hierarchy and use "find" to locate any files named like your base file but with a different extension. That makes it very simple and it requires minimal (if any) configuration: just drop it in your .vimrc file and you're good to go. OK, not exactly: it requires a Linux-like system with utilities like "find". Still, a good trade-off to keep the project's dependencies as small as possible.</p>
+<p>Get "impl swicher" here:</p>
+<ul>
+<li><a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/impl_switcher.vim">Git hub repo</a></li>
+<li><a href="http://www.vim.org/scripts/script.php?script_id=5406">Impl switcher's Vim page</a></li>
+</ul>
+<hr />
+<h2>Vim utilities: Better Tab New<a name="vimutilitiesbettertabnew"></a></h2>
+<p>I spent some time writing utility scripts for my Vim setup. I figured I can share them here, someone may even find them useful or at least get a laugh out of it. The first one is called "Better Tab New" and you can get it from my <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/bettertabnew.vim">Github repo</a> or from the script's <a href="http://www.vim.org/scripts/script.php?script_id=5405">Vim page</a>.</p>
+<p>Why would you want a better tab new, and what's wrong with the default one? Simple: tabnew, in Vim, will just open a file. For that to happen you need to specify the exact path of a file. That's usually perfectly fine, but sometimes you need tabnew to be a bit smarter: maybe you just grep'ed something and ended up with a path that looks like "/foo/bar/baz:my_text:42". Or maybe you want to open a file and go to a specific line. Those are things for which the default tabnew implementation isn't very good. BTN fills that niche and lets you create a simpler workflow when using grep.</p>
+<p>Get BTN: Better Tab New here:</p>
+<ul>
+<li><a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/bettertabnew.vim">Gihub repo</a></li>
+<li><a href="http://www.vim.org/scripts/script.php?script_id=5405">BTN's Vim page</a></li>
+</ul>
+<hr />
+<h2>Simple vim plugin I: integrating new commands<a name="simplevimpluginiintegratingnewcommands"></a></h2>
+<p>TL;DR: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">Here's some code</a> to integrate system commands into vim. You can just drop it in your vimrc, create a small wrapper function in your vimrc and configure a few key binding to make it work.</p>
+<p>Longer version:
+We can extend our quick grep integration to other commands, quite easily. Since we defined a few wrappers to request input, get it from visual mode or just guess it, we can also have a helper function to create a scratch buffer and read a system command into it:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">" Find&amp;Grep command wrapper: execute cmd, shows the results in a scratch buffer
+function! FG_EvalSysCmdInNewBuff(cmd)
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    execute '$read !' . a:cmd
+    setlocal nomodifiable
+endfunction
+" Wrap a normal action: ask the user for input, then call func with it
+function! FG_RequestInputAction(msg, func)
+    let needle = input(a:msg)
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+" Wrap a visual action: call func with whatever is selected under the cursor
+function! FG_VAction(func)
+    " Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv"ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    " Remove whitespaces
+    let needle = substitute(needle, "92n92+","","g")
+    let needle = substitute(needle, "92r92+","","g")
+    let needle = substitute(needle, "^92s92+92|92s92+$","","g")
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+" Wrap a normal action: call func with whatever is under the cursor
+function! FG_NAction(func)
+    let needle = expand("&lt;cword&gt;")
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+</code></pre>
+<p>Integrating any new command into our plugin is now trivial. Let's do it for grep and for find:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">" Wrap a find command: search for file "needle", show results in a new window
+function! FG_DoFindFile(needle)
+    let cmd = 'find -type f -iname "<em>' . a:needle . '</em>"'
+    call FG_EvalSysCmdInNewBuff(cmd)
+endfunction
+" Wrap a grep command: search for needle, show results in a new window
+function! FG_DoSearchText(needle)
+    let cmd = 'grep -nri "' . a:needle . '" *'
+    call FG_EvalSysCmdInNewBuff(cmd)
+endfunction
+</code></pre>
+<p>Then just add a few key bindings and you're good to go:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">gt;f :call FG_NAction("FG_DoFindFile")&lt;CR&gt;
+vmap &lt;leader&gt;f :call FG_VAction("FG_DoFindFile")&lt;CR&gt;
+map  &lt;leader&gt;S :call FG_RequestInputAction("Text search: ", "FG_DoSearchText")&lt;CR&gt;
+nmap &lt;leader&gt;s :call FG_NAction("FG_DoSearchText")&lt;CR&gt;
+vmap &lt;leader&gt;s :call FG_VAction("FG_DoSearchText")&lt;CR&gt;
+map  &lt;leader&gt;F :call FG_RequestInputAction("Find file: ", "FG_DoFindFile")&lt;CR&gt;
+</code></pre>
+<p>This is an actual plugin I use in my Vim setup. You can grab the <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/vim/plugins/findgrep.vim">latest version from my Github repo.</a></p>
+<p>Extra tip: add these too if you want to have a <a href="/blog/2015/0402_VimTipIwantmoremenus.html">GUI menu</a> for your new commands as well.</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">menu Project.Find\ File :call FG_RequestInputAction("FG_DoFindFile")
+menu Project.Text\ Search :call FG_RequestInputAction("FG_DoSearchText")
+</code></pre>
+<hr />
+<h2>Simple vim plugin II: a psychic project greper<a name="simplevimpluginiiapsychicprojectgreper"></a></h2>
+<p>We have been working on a quick grep integration for Vim, and it's looking decent enough for a quick plugin. There's one more easy thing we can improve, though: let's make it psychic! So far we had to tell grep what to look for, either by selecting the text in visual mode or by actually typing the search terms. Typing! That's so old fashioned. Let's make grep guess what to look for.</p>
+<p>In vim you have a psychic function, expand(""). If you call expand(""), it will return whatever word is under the cursor. No need to visually select it. If you're still using the same vimrc definitions, you can do something like</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">nmap s :call FG95DoSearch(expand(""))
+</code></pre>
+<p>Let's clean things up a little bit:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">" Wrap a grep command: search for needle, show results in a new window
+function! FG_DoSearch(needle)
+    let grepbin = 'grep -nri '
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    let cmd = grepbin . ' "' . a:needle . '" *'
+    echom cmd
+    execute '$read !' . cmd
+    setlocal nomodifiable
+endfunction
+" Wrap a normal action: ask the user for input, then call func with it
+function! FG_RequestInputAction(msg, func)
+    let needle = input(a:msg)
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+" Wrap a visual action: call func with whatever is selected under the cursor
+function! FG_VAction(func)
+    " Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv"ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    " Remove whitespaces
+    let needle = substitute(needle, "92n92+","","g")
+    let needle = substitute(needle, "92r92+","","g")
+    let needle = substitute(needle, "^92s92+92|92s92+$","","g")
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+" Wrap a normal action: call func with whatever is under the cursor
+function! FG_NAction(func)
+    let needle = expand("<cword>")
+    if strlen(needle) &gt; 0
+        execute 'call' a:func .'("'. needle . '")'
+    endif
+endfunction
+nmap <leader>s :call FG_NAction("FG_DoSearchText")<CR>
+vmap <leader>s :call FG_VAction("FG_DoSearchText")<CR>
+map  <leader>S :call FG_RequestInputAction("Text search: ", "FG_DoSearchText")<CR>
+</code></pre>
+<p>Just copy paste that in your vimrc, now you can grep your project in three different ways: press s (,s) to look for the word currently under the cursor, S to type in a search term or select something in visual mode, then S to grep it.</p>
+<hr />
+<h2>Simple vim plugin III: a polymorphic project greper<a name="simplevimpluginiiiapolymorphicprojectgreper"></a></h2>
+<p>We've recently seen a very basic function to integrate grep to vim. We can improve it a little bit with very simple changes. Using this tip to have <a href="/blog/2015/0602_Vimtippolymorphickeybindings.html">different key binding for different modes</a> we can do something a bit smarter . Let's create two functions, one for normal mode that should prompt the user what to search for, and another function to automagically pick whatever is selected:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">function! FG_DoSearch(needle)
+    let grepbin = 'grep -nri '
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    let cmd = grepbin . ' "' . a:needle . '" *'
+    execute '$read !' . cmd
+    setlocal nomodifiable
+endfunction
+function! FG_Search()
+    let needle = input("Search for: ")
+    call FG_DoSearch(needle)
+endfunction
+function! FG_Visual_Search()
+    " Copy whatever is selected in visual mode
+    try
+        silent! let a_save = @a
+        silent! normal! gv"ay
+        silent! let needle = @a
+    finally
+        silent! let @a = a_save
+    endtry
+    call FG_DoSearch(needle)
+endfunction
+nmap <leader>s :call FG_Search()<CR>
+vmap <leader>s :call FG_Visual_Search()<CR>
+</code></pre>
+<p>The magic here happens in the mapping: nmap will create a mapping that's only enabled when on "normal" mode, vmap when you're in visual mode. As usual, check :help map for more details.</p>
+<hr />
+<h2>Simple vim plugin IV: project greping<a name="simplevimpluginivprojectgreping"></a></h2>
+<p>I recently wrote about some of the utilities I created for my Vim setup. Using someone else's Vim scripts is not nearly as fun as writing your own, so I decided to also write a short summary on what it takes to get started writting Vim plugins. For this task, I decided to start with greping.</p>
+<p>Greping can be improved a bit: if you do it a lot in a project, you might find it's useful to also grep the results themselves, to further refine your search. If you have your grep results in vim itself, that is trivial.</p>
+<p>Let's start hacking something in our .vimrc file. Try this:</p>
+<pre lang="ruby"><code class="language-ruby" lang="ruby">function! FG_Search()
+    let needle = input("Search for: ")
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    let grepbin = 'grep -nri '
+    let cmd = grepbin . ' "' . needle . '" *'
+    execute '$read !' . cmd
+    setlocal nomodifiable
+endfunction
+map <leader>s :call FG_Search()<CR>
+</code></pre>
+<p>This function should be pretty clear: it will map <leader>s (in my case, ",s") to FG_Search(). FG_Search will prompt the user for a term to grep, then search for it executing the command. In the end the results are written to a new tab, which is declared as a temp non-modifiable buffer.</p>
+<p>Just paste that in your .vimrc and you're good to grep.</p>
+<p><strong>Extra tip</strong>: integrate this with my fast grep cache and you have a nice and quick project search integration for vim that works even for very large projects with tools available in most default Linux installs.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

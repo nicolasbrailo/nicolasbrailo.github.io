@@ -1,8 +1,16 @@
-# Series, articles and presentations
+# Projects and long-reads
 
 @meta docType notAPost
 
-This page is a list of articles I’ve written over the years which I am allowed to share publicly, and which do not always have an associated post in this blog. In many cases they are the presentations I used for courses or talks.
+# Open source projects
+
+```
+// TODO: Lists projects here
+```
+
+# Long form reads
+
+This is a list of long-form articles I’ve written over the years which I am allowed to share publicly, and which do not always have an associated post in this blog. In many cases they are the presentations I used for courses or talks.
 
 ## Testing & mocking
 

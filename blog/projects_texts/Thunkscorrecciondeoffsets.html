@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Thunks, correccion de offsets Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="thunkscorrecciondeoffsets">Thunks, correccion de offsets</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2011-08-28 |
+  <a href="/blog/projects_texts/Thunkscorrecciondeoffsets.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/projects_texts/Thunkscorrecciondeoffsets.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<pre lang="c++"><code class="language-c++" lang="c++">&lt;br/&gt;  1 struct Base0 {                                            |  1 struct Base0 {&lt;br/&gt;  2         int base0;                                        |  2         int base0;&lt;br/&gt;  3 };                                                        |  3 };&lt;br/&gt;  4                                                           |  4&lt;br/&gt;  5 struct Base1_0 : Base0 {                                  |  5 struct Base1_0 {&lt;br/&gt;  6         int base1_0;                                      |  6         struct Base0 parent;&lt;br/&gt;  7 };                                                        |  7         int base1_0;&lt;br/&gt;  8                                                           |  8 };&lt;br/&gt;  9 struct Base1_1 : Base0 {                                  |  9&lt;br/&gt; 10         int base1_1;                                      | 10 struct Base1_1 {&lt;br/&gt; 11 };                                                        | 11         struct Base0 parent;&lt;br/&gt; 12                                                           | 12         int base1_1;&lt;br/&gt; 13 struct Der : Base1_0, Base1_1 {                           | 13 };&lt;br/&gt; 14         int der;                                          | 14&lt;br/&gt; 15 };                                                        | 15 struct Der {&lt;br/&gt; 16                                                           | 16         struct Base1_0 p1;&lt;br/&gt; 17 int main() {                                              | 17         struct Base1_1 p2;&lt;br/&gt; 18         extern Der* getder();                             | 18         int der;&lt;br/&gt; 19                                                           | 19 };&lt;br/&gt; 20         Der *d = getder();                                | 20&lt;br/&gt; 21         Base1_0* b1_0;                                    | 21 int main() {&lt;br/&gt; 22         b1_0 = d;                                         | 22         extern struct Der* getder();&lt;br/&gt; 23                                                           | 23         struct Der *d = getder();&lt;br/&gt; 24         Base1_1* b1_1;                                    | 24         struct Base1_0* b1_0;&lt;br/&gt; 25         b1_1 = d;                                         | 25         b1_0 = &amp;d-&gt;p1;&lt;br/&gt; 26                                                           | 26&lt;br/&gt; 27         return 0;                                         | 27         struct Base1_1* b1_1;&lt;br/&gt; 28 }                                                         | 28         b1_1 = (d != 0)? &amp;d-&gt;p2 : 0;&lt;br/&gt; 29                                                           | 29&lt;br/&gt; 30                                                           | 30         return 0;&lt;br/&gt;~                                                             | 31 }&lt;br/&gt;~                                                             | 32&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;cpp.cpp                                     21,1-8        Todo c.c                                         32,0-1        Todo&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;
+</code></pre>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

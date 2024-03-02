@@ -2,7 +2,7 @@
 
 @meta publishDate 2024-03-01
 @meta author Nico Brailovsky
-@meta tags Metapost
+@meta tags Bash, Fixing things, Linux
 
 Another one to file in the category of self reminders, and a cheatsheet I'll need this weekend: whenever I need to work on the main (eth!) connection of a server, instead of grabbing a keyboard and a monitor it's easier to connect to wifi. For example, when I need to change the IP of a Raspberry PI in my network. Note this guide assumes a Debian-like environment:
 

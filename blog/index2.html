@@ -21,8 +21,7 @@
   <a class="is-center"
      href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
      onclick="togglesearch(); return false">Site search</a>
-  <a class="is-center" href="/blog/series/">Series</a>
-  <a class="is-center" href="/blog/projects.html">Projects</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
   <a class="is-center" href="/blog/aboutme.html">About</a>
 </div>
 
@@ -36,6 +35,24 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>std::is_constant_evaluated: make debugging a little bit harder for yourself!<a name="stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself"></a></h2>
+<p>Post by Nico Brailovsky @ 2019-08-03 | <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">Permalink</a> | <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Let's pretend you find this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">const int a = foo();
+int b = foo();
+</code></pre>
+<p>Would you be tempted to assume that a==b, always? I would. What if 'foo' actually depends on a global variable, and its return value depends on that global setting? Suddenly the code above will raise a few eyebrows in a code review session.</p>
+<p>Coming to your friendly c++20 standard now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">constexpr int foo() {
+    return (std::is_constant_evaluated())? 42 : 24;
+}
+bool a() {
+    const int x = foo();
+    return x == foo();
+}
+</code></pre>
+<p>I'm sure with careful usage, is_constant_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (<code>cout &lt;&lt; foo()</code>, anyone?) prints different values than my <code>production</code> code.</p>
+<hr />
 <h2>Vim multiple search<a name="vimmultiplesearch"></a></h2>
 <p>Post by Nico Brailovsky @ 2019-07-27 | <a href="/blog/2019/0727_Vimmultiplesearch.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0727_Vimmultiplesearch.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I keep forgetting about this one. Maybe writing it down will help me remember: Vim can search for (and highlight) multiple patterns at the same time. Just start your search with \v and split the patterns with |. Eg:</p>
@@ -207,15 +224,6 @@ This works just fine:</p>
 <p>It doesn't. std::byte only accepts other std::byte's as operands. The design goal behind it is good, sure. In practice, I've noticed this means casts are not limited to the interface between low-level and rest-of-the-world: casts and explicit byte's get sprinkled all over the place.</p>
 <p>My prediction: most people will dislike the boilerplate std::byte adds and fall back to unsinged char's, until the type restrictions in std::byte are relaxed. I hope I'm wrong though!</p>
 <p>(*) Yes, with the exception of shift operations. That was a good design decision!</p>
-<hr />
-<h2>-Wmisleading-indentation<a name="wmisleadingindentation"></a></h2>
-<p>Post by Nico Brailovsky @ 2018-09-30 | <a href="/blog/2018/0930_Wmisleadingindentation.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/0930_Wmisleadingindentation.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>This gcc switch is a few years old but I discovered it recently. I'm not sure if that means my code is always very clean or my toolchain too oudated... in any case, -Wmisleading-indentation (which you get with -Wall) warns about this gotcha:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">if (foo)
-   bar();
-   baz();
-</code></pre>
-<p>Neat!</p>
 <hr />
 
 </div>
