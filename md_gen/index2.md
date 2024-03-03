@@ -1,5 +1,23 @@
 #
 @meta docType index
+## Bash tip: Default value for a variable
+
+Post by Nico Brailovsky @ 2019-11-04 | [Permalink](md_blog/2019/1104_BashtipDefaultvalueforavariable.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1104_BashtipDefaultvalueforavariable.md&body=I%20have%20a%20comment!)
+
+In my Bash scripts, I used to hack my way around default values for variables. Turns out there is a very simple way to give your variables a default value while also letting other override them if they want to:
+
+```
+FOO=${BAR-bar}
+```
+
+If someone export's BAR, then FOO will equals the already exported value of $BAR, if $BAR doesn't exist then FOO will have the value of the literal 'bar'.
+
+
+
+
+
+---
+
 ## std::is_constant_evaluated: make debugging a little bit harder for yourself!
 
 Post by Nico Brailovsky @ 2019-08-03 | [Permalink](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [2 comments](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!)
@@ -314,35 +332,6 @@ Did you know $replace doesn't have to be a literal expression? You can also use 
 ```
 
 will replace every occurrence of 'bar' for its line number. You can get creative and use any other Vimscript function.
-
-
-
-
-
----
-
-## std::byte - great idea. Meh execution?
-
-Post by Nico Brailovsky @ 2018-10-02 | [Permalink](md_blog/2018/1002_stdbytegreatidea.Mehexecution.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2018/1002_stdbytegreatidea.Mehexecution.md&body=I%20have%20a%20comment!)
-
-I love the idea of C++17's [std::byte](https://en.cppreference.com/w/cpp/types/byte). A data-type that makes it explicit we're dealing with ugly low-level details? What's there not to love! One thing only, turns out.
-
-First, the good part: separating character (human) representation from binary (low-level) representation is brilliant. No implicit conversion between the two separates the domains very well and creates a much clearer interface.
-
-The bad part: std::byte is really really strict. It only accepts other std::bytes as operands(\*). You'd hope this would work
-
-```c++
-auto f() {
-  byte b{42};
-  return b &amp; 0b11;
-}
-```
-
-It doesn't. std::byte only accepts other std::byte's as operands. The design goal behind it is good, sure. In practice, I've noticed this means casts are not limited to the interface between low-level and rest-of-the-world: casts and explicit byte's get sprinkled all over the place.
-
-My prediction: most people will dislike the boilerplate std::byte adds and fall back to unsinged char's, until the type restrictions in std::byte are relaxed. I hope I'm wrong though!
-
-(\*) Yes, with the exception of shift operations. That was a good design decision!
 
 
 

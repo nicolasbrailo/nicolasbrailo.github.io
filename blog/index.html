@@ -35,6 +35,29 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Bash: list ALSA PCMs<a name="bashlistalsapcms"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-03-04 | <a href="/blog/2024/0304_FindRightPCM.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0304_FindRightPCM.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Linux audio isn't friendly, even if pipewire is making huge strides in making it "just work". If you ever find you need to get down to the ALSA level, something is probably very broken. If (when) this happens, and you can't figure out which of your ALSA cards you should be using, just try them all:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">set -euo pipefail
+if [ -z "${1+x}" ] || [ ! -f "${1}" ]; then
+  echo "Will iterate over all known PCMs to try to capture or play audio and report which work"
+  echo "Usage: $0 PLAYABLE_FILE"
+  exit 1
+fi
+sample=${1}
+plays_pcms=$( aplay --list-pcms | grep ':CARD=' )
+for dev in $plays_pcms; do
+  aplay --duration=1 --device="$dev" "$sample" 1&gt;/dev/null 2&gt;/dev/null &amp;&amp; \
+    echo "Playback may work on interface '$dev'"
+done
+cap_pcms=$( arecord --list-pcms | grep ':CARD=' )
+for dev in $cap_pcms; do
+  arecord --rate 48000 -f S16_LE --disable-resample --duration=1 --device="$dev" \
+      /dev/null 1&gt;/dev/null 2&gt;/dev/null &amp;&amp; \
+      echo "Capture may work on interface '$dev'"
+done
+</code></pre>
+<hr />
 <h2>Vim can wget + c-w search<a name="vimcanwgetcwsearch"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-03-03 | <a href="/blog/2024/0303_VimWgetSite.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0303_VimWgetSite.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I (re?)learned a thing today: Vim can wget a site!</p>
@@ -210,12 +233,6 @@ sudo echo '/usr/share/spotify/spotify.real --uri="$1"' &gt; /usr/share/spotify/s
 <h3>(*) SpotiWeb: custom Spotify UI<a name="spotiwebcustomspotifyui"></a></h3>
 <p>I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, <a href="https://nicolasbrailo.github.io/SpotiWeb/">so I rolled out my own</a>. It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)</p>
 <p>The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and <a href="https://github.com/nicolasbrailo/SpotiWeb">either run your own, or check out there's no server side processing involved.</a></p>
-<hr />
-<h2>Translated to Chinese!<a name="translatedtochinese"></a></h2>
-<p>Post by Nico Brailovsky @ 2023-01-14 | <a href="/blog/2023/0114_TranslatedtoChinese.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2023/0114_TranslatedtoChinese.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>Small celebratory post, because I never expected it:</p>
-<p><a href="/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg"><img alt="" src="/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg" /></a></p>
-<p>Someone translated <a href="http://github.com/nicolasbrailo/pianOli">one of my open source projects</a> to Chinese!</p>
 <hr />
 
 </div>

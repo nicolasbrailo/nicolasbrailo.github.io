@@ -35,6 +35,13 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Bash tip: Default value for a variable<a name="bashtipdefaultvalueforavariable"></a></h2>
+<p>Post by Nico Brailovsky @ 2019-11-04 | <a href="/blog/2019/1104_BashtipDefaultvalueforavariable.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/1104_BashtipDefaultvalueforavariable.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>In my Bash scripts, I used to hack my way around default values for variables. Turns out there is a very simple way to give your variables a default value while also letting other override them if they want to:</p>
+<pre><code>FOO=${BAR-bar}
+</code></pre>
+<p>If someone export's BAR, then FOO will equals the already exported value of $BAR, if $BAR doesn't exist then FOO will have the value of the literal 'bar'.</p>
+<hr />
 <h2>std::is_constant_evaluated: make debugging a little bit harder for yourself!<a name="stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself"></a></h2>
 <p>Post by Nico Brailovsky @ 2019-08-03 | <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">Permalink</a> | <a href="/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Let's pretend you find this:</p>
@@ -210,20 +217,6 @@ This works just fine:</p>
 <pre lang="c++"><code class="language-c++" lang="c++">%s#bar#\=line(&#x27;.&#x27;)
 </code></pre>
 <p>will replace every occurrence of 'bar' for its line number. You can get creative and use any other Vimscript function.</p>
-<hr />
-<h2>std::byte - great idea. Meh execution?<a name="stdbytegreatidea.mehexecution"></a></h2>
-<p>Post by Nico Brailovsky @ 2018-10-02 | <a href="/blog/2018/1002_stdbytegreatidea.Mehexecution.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2018/1002_stdbytegreatidea.Mehexecution.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I love the idea of C++17's <a href="https://en.cppreference.com/w/cpp/types/byte">std::byte</a>. A data-type that makes it explicit we're dealing with ugly low-level details? What's there not to love! One thing only, turns out.</p>
-<p>First, the good part: separating character (human) representation from binary (low-level) representation is brilliant. No implicit conversion between the two separates the domains very well and creates a much clearer interface.</p>
-<p>The bad part: std::byte is really really strict. It only accepts other std::bytes as operands(*). You'd hope this would work</p>
-<pre lang="c++"><code class="language-c++" lang="c++">auto f() {
-  byte b{42};
-  return b &amp; 0b11;
-}
-</code></pre>
-<p>It doesn't. std::byte only accepts other std::byte's as operands. The design goal behind it is good, sure. In practice, I've noticed this means casts are not limited to the interface between low-level and rest-of-the-world: casts and explicit byte's get sprinkled all over the place.</p>
-<p>My prediction: most people will dislike the boilerplate std::byte adds and fall back to unsinged char's, until the type restrictions in std::byte are relaxed. I hope I'm wrong though!</p>
-<p>(*) Yes, with the exception of shift operations. That was a good design decision!</p>
 <hr />
 
 </div>

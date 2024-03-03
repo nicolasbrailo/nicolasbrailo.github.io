@@ -1,5 +1,21 @@
 #
 @meta docType index
+## Translated to Chinese!
+
+Post by Nico Brailovsky @ 2023-01-14 | [Permalink](md_blog/2023/0114_TranslatedtoChinese.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/0114_TranslatedtoChinese.md&body=I%20have%20a%20comment!)
+
+Small celebratory post, because I never expected it:
+
+[![](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)
+
+Someone translated [one of my open source projects](http://github.com/nicolasbrailo/pianOli) to Chinese!
+
+
+
+
+
+---
+
 ## Bash script preamble
 
 Post by Nico Brailovsky @ 2021-06-27 | [Permalink](md_blog/2021/0627_Bashscriptpreamble.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0627_Bashscriptpreamble.md&body=I%20have%20a%20comment!)
@@ -335,24 +351,6 @@ Tip 10: Why are you there? Why are they there?
 Before even planning a presentation, ask yourself: why? What's the purpose, what do \*I\* want to get out of it? More importantly: what do other people get out of it? The first reaction is usually "sharing information!". Unless you are a particularly skilled presenter, the information you had to share can probably be better understood by writing down a whitepaper, or maybe just an email.
 
 There are many reasons to present something, from getting people to sit-down-and-pay-attention to "listen to my amazing sales pitch". In the end most of them boil down to some form of entertainment. Yes: most (successful) presentations are just some form of amusement. If you also have a useful message to deliver with it, all the better!
-
-
-
-
-
----
-
-## Bash tip: Default value for a variable
-
-Post by Nico Brailovsky @ 2019-11-04 | [Permalink](md_blog/2019/1104_BashtipDefaultvalueforavariable.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1104_BashtipDefaultvalueforavariable.md&body=I%20have%20a%20comment!)
-
-In my Bash scripts, I used to hack my way around default values for variables. Turns out there is a very simple way to give your variables a default value while also letting other override them if they want to:
-
-```
-FOO=${BAR-bar}
-```
-
-If someone export's BAR, then FOO will equals the already exported value of $BAR, if $BAR doesn't exist then FOO will have the value of the literal 'bar'.
 
 
 

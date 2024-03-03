@@ -1,5 +1,42 @@
 #
 @meta docType index
+## Bash: list ALSA PCMs
+
+Post by Nico Brailovsky @ 2024-03-04 | [Permalink](md_blog/2024/0304_FindRightPCM.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0304_FindRightPCM.md&body=I%20have%20a%20comment!)
+
+Linux audio isn't friendly, even if pipewire is making huge strides in making it "just work". If you ever find you need to get down to the ALSA level, something is probably very broken. If (when) this happens, and you can't figure out which of your ALSA cards you should be using, just try them all:
+
+
+```bash
+set -euo pipefail
+
+if [ -z "${1+x}" ] || [ ! -f "${1}" ]; then
+  echo "Will iterate over all known PCMs to try to capture or play audio and report which work"
+  echo "Usage: $0 PLAYABLE_FILE"
+  exit 1
+fi
+
+sample=${1}
+plays_pcms=$( aplay --list-pcms | grep ':CARD=' )
+for dev in $plays_pcms; do
+  aplay --duration=1 --device="$dev" "$sample" 1>/dev/null 2>/dev/null && \
+    echo "Playback may work on interface '$dev'"
+done
+
+cap_pcms=$( arecord --list-pcms | grep ':CARD=' )
+for dev in $cap_pcms; do
+  arecord --rate 48000 -f S16_LE --disable-resample --duration=1 --device="$dev" \
+      /dev/null 1>/dev/null 2>/dev/null && \
+      echo "Capture may work on interface '$dev'"
+done
+```
+
+
+
+
+
+---
+
 ## Vim can wget + c-w search
 
 Post by Nico Brailovsky @ 2024-03-03 | [Permalink](md_blog/2024/0303_VimWgetSite.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0303_VimWgetSite.md&body=I%20have%20a%20comment!)
@@ -310,22 +347,6 @@ In the "reminder to myself" category, as there is zero chance I'll remember this
 I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)
 
 The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and [either run your own, or check out there's no server side processing involved.](https://github.com/nicolasbrailo/SpotiWeb)
-
-
-
-
-
----
-
-## Translated to Chinese!
-
-Post by Nico Brailovsky @ 2023-01-14 | [Permalink](md_blog/2023/0114_TranslatedtoChinese.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/0114_TranslatedtoChinese.md&body=I%20have%20a%20comment!)
-
-Small celebratory post, because I never expected it:
-
-[![](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)
-
-Someone translated [one of my open source projects](http://github.com/nicolasbrailo/pianOli) to Chinese!
 
 
 
