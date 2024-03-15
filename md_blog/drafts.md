@@ -2,32 +2,6 @@
 
 @meta docType skipHtmlGen
 
-# Bash ',' is a legal function name, and a perfect prefix
-
-If you have a set of [miscellaneous Bash-helpers](https://github.com/nicolasbrailo/Nico.rc) that you frequently use, you probably want some sort of namespace for easy access. For example, prepending the name of all your helpers with "myHelper-" is a good way of getting autocomplete to show only the relevant helpers you need. "myHelper-" is too much typining, though.
-
-Unless your distro is extremely minimnal, all the letters in Bash are taken and you can't have an unambiguous single-letter "namespace". You need to look beyond letters: ',' is a ferpectly legal Bash name. You can prefix all your helpers with ',' for easy and quick autocomplete. An example [from my bashrc](https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/android.sh):
-
-```bash
-function ,alogcat() {
-  local MAYBE_TEE
-  MAYBE_TEE="$1"
-  adb logcat -c
-  if [ -z "${MAYBE_TEE}" ]; then
-    adb logcat
-  else
-    adb logcat | tee "$MAYBE_TEE"
-  fi
-}
-
-function ,a-screen-off() {
-  adb shell input keyevent 26
-}
-```
-
-With this, I can type `,a` to get an autocomplete of just my Android helpers.
-
-
 # Bash: dynamic PS1 based on terminal size
 
 Another utility I recently rediscovered in my [bashrc](https://github.com/nicolasbrailo/Nico.rc): [dynamic PS1 based on terminal size](https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/ps1.sh). Of course, I've had this enabled for years, but I never really "noticed" it: it's just how Bash works, right?
@@ -48,5 +22,51 @@ https://github.com/nicolasbrailo/PianOli
 https://github.com/nicolasbrailo/wta
 https://github.com/nicolasbrailo/zigbee2mqtt2web
 
+
+
+# More random tips to debug a failing Linux
+
+Once you're trying to read acpi tables, all hope is lost. But you may as well know how to dump an acpi table:
+
+```bash
+acpidump -b # Dump all tables
+iasl -d *   # Decompile them into a human "readable" format
+```
+
+This will let you find ACPI entries for devices you care about, but they'll be cryptically named. To map them to something you may be able to identify, try
+
+```bash
+lspci -QvvPPnn  # Get tons of info from lspci, find one you like
+lshw -C display # Or you can try lshw, too. Anything that will print a PCI path.
+```
+
+Once you have a PCI path, go to its sysfs entry. For example, for device 0:03:00:
+
+```bash
+cat /sys/devices/pci0000:00/0000:00:03.0/firmware_node/path
+```
+
+This should tell you the ACPI name of a PCI device. You can then use acpi_call to tinker with your devices, and break them even more.
+
+
+
+# Booting and blocking a GPU
+
+cd /sys/devices/pci0000:00/0000\:03\:00.0
+echo 1 > remove
+This removes from pci tree in OS but doesn't disable device
+
+#Let linux inherit graphic mode from grub
+set linux_gfx_mode=keep
+export linux_gfx_mode
+
+Then add nomodeset to kerenel params
+pcistub="pci-stub.ids=8086:46a6"
+
+
+# Debug slow systemd boot
+
+systemd-analyze plot > ./boot.svg
+systemd-analyze blame
 
 

@@ -3,6 +3,8 @@
 @meta docType index
 
  * [March](md_gen/2024/3.md)
+    * [Bash ',' is a legal function name, and a perfect prefix](md_gen/2024/3.md#bashisalegalfunctionnameandaperfectprefix)
+    * [Spotiweb](md_gen/2024/3.md#spotiweb)
     * [Bash: list ALSA PCMs](md_gen/2024/3.md#bashlistalsapcms)
     * [Vim can wget + c-w search](md_gen/2024/3.md#vimcanwgetcwsearch)
     * [Wifi from the CLI](md_gen/2024/3.md#wififromthecli)

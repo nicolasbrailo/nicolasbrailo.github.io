@@ -1,5 +1,69 @@
 #
 @meta docType index
+## Move again
+
+Post by Nico Brailovsky @ 2024-02-18 | [Permalink](md_blog/2024/0218_MovedAgain.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0218_MovedAgain.md&body=I%20have%20a%20comment!)
+
+I'm now at [nicolasbrailo.github.io](https://nicolasbrailo.github.io/blog). If I count platform, domain or tech-stack changes as a migration, I've now lost count of how many this site has had. It's the third one in the last few years. I moved away from WP because I wasn't happy with the sponsored content added to my site. I also wasn't happy with Blogger, I never quite like the interface, the way to write posts, or the customization options.
+
+This site now came full circle: it started as a self-hosted php bundle, and it's now a kind-of-self-hosted static html site, [generated from .md files in Github](https://github.com/nicolasbrailo/nicolasbrailo.github.io). I figured I'm the person who reads this site the most, so I should like it. I'm a nerd, so I like writing code; hence the custom md-to-html converter, about which I should blog some time soon. This is also only meant as a fun project (and a great self-reminder mechanism, persistent through the decades) so why not reinvent the wheel, and create a custom md-to-html renderer for it?
+
+
+## ToDo
+* RSS doesn't work yet
+* There are broken things from back the 2010's - I need to review old posts
+* Some content isn't migrated yet
+
+
+## Fun stats
+
+* There are about 450 posts, in about 15 years. This means I'm quite lazy.
+* Most of the external links are actually broken. If you browse the site, you'll notice the further back in time you go, the more dead links you get. This site has survived a non trivial chunk of the existing Internet.
+* This blog started some time in 2008, and since then has had at least 5 domains (but possibly more)
+    * nicolasb[com.ar]
+    * monosinfinitos[com.ar]
+    * monoinfinito.wordpress.com
+    * monkeywritescode.blogspot.com
+    * Now: [nicolasbrailo.github.io](https://nicolasbrailo.github.io/blog)
+* Finally deleted all content from Wordpress - just today!
+* I moved away from Wordpress in 2021. Somehow, the site still claims to have 20 visitors a day, even though there are no posts (other than a text saying "moved to...")
+* I still haven't deleted all the content from Blogger - but it's in my ToDo list
+* `wc $(find md_blog -type f)` says this blog has 116068 words in 16497 lines. This is comparable to 400 pages book, though not necessarily a good one. Google says 'The Return of the King' is about 135K words, and 'The Hobbit' is about 100K. 'Sense and Sensibility' comes closest at 119K words.
+
+
+
+
+
+---
+
+## Fix Spotify deeplinking in Linux + custom SpotiWeb UI
+
+Post by Nico Brailovsky @ 2023-12-16 | [Permalink](md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&body=I%20have%20a%20comment!)
+
+After a recent update I found [my custom Spotify UI (\*)](https://nicolasbrailo.github.io/SpotiWeb/) wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:
+
+```bash
+sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
+sudo echo '/usr/share/spotify/spotify.real --uri="$1"' > /usr/share/spotify/spotify
+
+```
+
+Seems old versions of spotify would try to open anything as a deeplink, but new versions require a `--uri` parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.
+
+In the "reminder to myself" category, as there is zero chance I'll remember this next time I'm setting up a computer.
+
+### (\*) SpotiWeb: custom Spotify UI
+
+I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)
+
+The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and [either run your own, or check out there's no server side processing involved.](https://github.com/nicolasbrailo/SpotiWeb)
+
+
+
+
+
+---
+
 ## Translated to Chinese!
 
 Post by Nico Brailovsky @ 2023-01-14 | [Permalink](md_blog/2023/0114_TranslatedtoChinese.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/0114_TranslatedtoChinese.md&body=I%20have%20a%20comment!)
@@ -219,138 +283,6 @@ This is probably not even enough to get started. Luckily there's plenty of docs 
 
 
 
-
-
-
-
-
----
-
-## Mixin(ish) classes with parameter packs in C++
-
-Post by Nico Brailovsky @ 2020-02-18 | [Permalink](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md) | [2 comments](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&body=I%20have%20a%20comment!)
-
-For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:
-
-```c++
- int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
-```
-
-This idiom will unpack a parameter pack and call T::apply, for each T in the parameter pack. You can use this idiom to build very clean mixin-type interfaces with static dispatch, or to build job security.
-
-Full example:
-
-```c++
-struct EnableFeatureA {
-  template &lt;typename T&gt; static void apply(T *a) {
-    cout &lt;&lt; a-&gt;a() &lt;&lt; endl;
-  }
-};
-
-struct EnableFeatureB {
-  template &lt;typename T&gt; static void apply(T *a) {
-    cout &lt;&lt; T::b() &lt;&lt; endl;
-  }
-};
-
-template &lt;typename Impl, typename... Config&gt;
-struct Foo {
-  Foo(){
-    // Call apply() for each type in Config
-    Impl *p = nullptr;
-    int dummy[sizeof...(Config)] = { (Config::apply(p), 0)... };
-  }
-};
-
-struct Bar;
-using FwdFoo = Foo&lt;Bar, EnableFeatureA, EnableFeatureB&gt;;
-
-struct Bar : FwdFoo {
-   int a() { return 4; }
-   static int b() { return 2; }
-};
-```
-
-
-
-
-
-
-
-
----
-
-## Presenting tips: make your presentations suck a bit less
-
-Post by Nico Brailovsky @ 2019-11-11 | [Permalink](md_blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.md&body=I%20have%20a%20comment!)
-
-I spent the last few years in a role that required a significant part in communicating with other people. Some of that in the form of slides and presentations, because not having slides isn't enterprisy. I'm far from being a great presenter, but I did learn a thing or two. All this is quite general, so it should apply to any kind of topic... as long as that topic is software engineering. I'm still a technical person and an engineer, so a lot of my assumptions about the audience may not hold true if you, for example, need to seriously consider fun things like workplace politics.
-
-I hope these tips become useful for other people. At the very least I hope I'll remember to re-read this post the next time I have to present something.
-
-Tip 1: Your audience wants you to succeed
------------------------------------------
-
-This is perhaps the most groundbreaking revelation. When you present something, people are giving you their time. Instead of browsing memes they are sitting down, listenning to what you have to say (at least until their limited attention span runs out). Nearly all of your audience will want to learn something, have fun, or at least be entretained. In a large enough crowd, the majority will be there voluntarily. There is just one logical conclusion: they want you to succeed! Few will go there with the expectation that your presentation will suck; that would be wasted time for them too.
-
-Tip 2: Your audience wants you to succeed. Except for \*that person\*.
-----------------------------------------------------------------------
-
-Ok, tip #1 needs a caveat: \*that person\*. Most people will want to enjoy your presentation as much as they can and move on to the next thing. Except there will always be that person. You know who; might just be schadenfreude, or maybe they like showing off "they know best". Whatever the reason, they'll have a nitpick, an impossible question or an "actually" to add. There's good news, though: everyone dislikes him!
-
-Whenever the annoying person of the group raises their hand, there's usually a collective sigh and a lot of eye-rolling in the audience. Don't invest most of your energy in dealing with that person. Do pay attention to the issues this person raises; they may in fact be good objections. Just learn how to defer. 99% of the time it suffices to say "good observation, let's pick it up one-on-one after this presentation". The audience is happy, the person raising the question feels heard and you may actually learn something new from the interaction.
-
-Tip 3: Understand your medium
------------------------------
-
-A long time ago I thought slides were slides were slides. And a presentation is the decoration on top. Big mistake! The first thing I learned -the hard way- is that presentations, and in particular slides, need to be tailored to your delivery medium. Doing an online webcast presentation is very different than doing a presentation in person. It's even harder if you have a mixed audience, with some people online and some people in person. I personally try to avoid this situation like hell, as the end result tends to be a session that's not quite good for anyone. I prefer to have two sessions, one in person only and one just online. Some people are capable of having a successful presentation with a mixed audience. I'm not that skilled.
-
-Tip 4: Give your audience a break
----------------------------------
-
-You know your presentation. You've practiced, know the material, understand every nook and cranny of your talk. However, for your audience it's (hopefully) all new knowledge. And it's hard to absorb new knowledge with a person talking non stop, all the time. Give your audience a pause. Let them think. \*Stay silent\*.
-
-It sounds scary: being on the spotlight, standing up and not saying anything for \*minutes\*. Well, it may seem like minutes, but it's usually just a few seconds you need: that's usually enough for people to think through a new idea. Learn to be comfortable with a bit of silence.
-
-Tip 5: Silence for emphasis
----------------------------
-
-Silence is important, so it gets two tips. People need silence to think, sure. But also consider this: while you shut up, people think of what you last said (or dinner, depending on the talk). That means, if you need to emphazise a particular aspect of your talk don't repeat it over and over again; present it, then make a pause. Just 5 seconds. If you quickly move on it becomes another bit of information in a sea of new knowledge. Stop for emphasis.
-
-Tip 6: Questions?
------------------
-
-In light of all the praise of silence, here's an extra beneffit of shutting up: people get to ask questions. Yes, that's also scary, but interaction is great to help people understand. Invite questions with your silence!
-
-Yes, an open conversation is scary. Besides the job of presenting you're now also a moderator. It can derail the whole timing and it makes presenting that much harder. So what? Your presentation may be good but it's not \*that good\*: if your audience engages you're doing something right. Follow their lead.
-
-The difficult part is learning when to stop a runaway discussion. As a general rule, if you see engagement from different people across the room you're doing fine. If you only see a small group of people nitpicking over a detail, it's time to stop (remember tip #2!)
-
-Tip 7: Most important slide? Last one
--------------------------------------
-
-The last slide will be shown the longest. While you get closing questions from the audience (or akwardly stand in a corner while saying "no questions?", whichever happens) the final slide will be on screen. People will now either stare at their phones or ar this final slide. Make it count! Don't use a "Questions?" clipart (please don't use clipart). Make the last slide a summary of the most relevant point of your talk. Add some followup links and contact information.
-
-If there is only one slide your audience will remember (and you may not even get that) it will probably be the last one.
-
-Tip 8: Paper drafts
--------------------
-
-Some times a computer is too limiting. Start with a paper draft to organize your ideas. Maybe you can also draw a mock of a few important slides. You don't need to design the entire thing on paper but by not having to fight your tools (is this image \*really\* aligned with that text?) you can focus on content, then on "UX" and only then on the implementation. If you run out of time battling powerpoint you can still have good content. If you run out of time battling powerpoint while designing your third slide, you may have a brilliant presentation with 10% of the content you wanted to show.
-
-Tip 9: Know your audience \*and yourself\*
-------------------------------------------
-
-Some presentations are good for jokes and an informal tone. Some are to present quarterly financial numbers to your board of directors. It's pretty clear in which one you can use cat memes (and if it's not, maybe you need to start smaller!) - but you should also know to which style of presentation you naturally lean.
-
-Slides are boring but safe. Q&A's are good to let people understand a topic at their own pace. Videos are a safe back up, but hard to seamlessly integrate in a presentation. Jokes are great, but really hard if you're not familiar with the audience. Know which style works for you and rely on it; but also try to mix in some new skill you are trying to develop. You may be surprised.
-
-Tip 10: Why are you there? Why are they there?
-----------------------------------------------
-
-Before even planning a presentation, ask yourself: why? What's the purpose, what do \*I\* want to get out of it? More importantly: what do other people get out of it? The first reaction is usually "sharing information!". Unless you are a particularly skilled presenter, the information you had to share can probably be better understood by writing down a whitepaper, or maybe just an email.
-
-There are many reasons to present something, from getting people to sit-down-and-pay-attention to "listen to my amazing sales pitch". In the end most of them boil down to some form of entertainment. Yes: most (successful) presentations are just some form of amusement. If you also have a useful message to deliver with it, all the better!
 
 
 

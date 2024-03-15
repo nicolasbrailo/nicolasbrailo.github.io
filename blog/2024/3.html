@@ -35,6 +35,37 @@
 <div id="content" class="language-clike">
 <h2>Posts for 2024 March</h2>
 
+<h2>Bash ',' is a legal function name, and a perfect prefix<a name="bashisalegalfunctionnameandaperfectprefix"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-03-15 | <a href="/blog/2024/0315_BashCommaIsAValidFunctionName.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0315_BashCommaIsAValidFunctionName.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you have a set of <a href="https://github.com/nicolasbrailo/Nico.rc">miscellaneous Bash-helpers</a> that you frequently use, you probably want some sort of namespace for easy access. For example, prepending the name of all your helpers with "myHelper-" is a good way of getting autocomplete to show only the relevant helpers you need. "myHelper-" is too much typining, though.</p>
+<p>Unless your distro is extremely minimnal, all the letters in Bash are taken and you can't have an unambiguous single-letter "namespace". You need to look beyond letters: ',' is a ferpectly legal Bash name. You can prefix all your helpers with ',' for easy and quick autocomplete. An example <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/android.sh">from my bashrc</a>:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">function ,alogcat() {
+  local MAYBE_TEE
+  MAYBE_TEE="$1"
+  adb logcat -c
+  if [ -z "${MAYBE_TEE}" ]; then
+    adb logcat
+  else
+    adb logcat | tee "$MAYBE_TEE"
+  fi
+}
+function ,a-screen-off() {
+  adb shell input keyevent 26
+}
+</code></pre>
+<p>With this, I can type <code>,a</code> to get an autocomplete of just my Android helpers.</p>
+<hr />
+<h2>Spotiweb<a name="spotiweb"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-03-14 | <a href="/blog/2024/0314_Spotiweb.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0314_Spotiweb.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you find the native client for Spotify is too cluttered, <a href="https://github.com/nicolasbrailo/Spotiweb">Spotiweb</a> can provide a simpler experience. <a href="https://github.com/nicolasbrailo/Spotiweb">Spotiweb</a> automatically goes through the list of your followed artists to create an index groupped by category. The categories will be automatically determined based on the artists you follow. The result will be a simple web page with an index of all the artists you followed, groupped by somewhat logical categories (when categories exist).</p>
+<p><img alt="SpotiWeb running looks like this" src="https://raw.githubusercontent.com/nicolasbrailo/SpotiWeb/master/screenshot.png" /></p>
+<p>You can use this service from <a href="https://nicolasbrailo.github.io/SpotiWeb/">nicolasbrailo.github.io/SpotiWeb</a> - you will need a developer API key+secret. All the storage is local to your browser (there is no key, user data or anything at all being sent to any external host, everything is done in your browser) and you can even use this client offline (Spotify won't work offline, though). You can also self-host this service, either by forking the project or by running it via a local webserver.</p>
+<p>This is a utility that grew somewhat organically from a simple index of artists; as more and more features of the native client got broken in my different setups, the web app "grew" to replace it. Today it's pretty much a full-fledged web-app capable of replacing the native client entirely, able to play music using Spotify's web sdk, integrate with the native client (if one is available) and with local speakers in your network.</p>
+<ul>
+<li><a href="https://github.com/nicolasbrailo/Spotiweb">Project repo: Spotiweb</a></li>
+<li><a href="https://nicolasbrailo.github.io/SpotiWeb/">Run in your browser</a></li>
+</ul>
+<hr />
 <h2>Bash: list ALSA PCMs<a name="bashlistalsapcms"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-03-04 | <a href="/blog/2024/0304_FindRightPCM.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0304_FindRightPCM.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Linux audio isn't friendly, even if pipewire is making huge strides in making it "just work". If you ever find you need to get down to the ALSA level, something is probably very broken. If (when) this happens, and you can't figure out which of your ALSA cards you should be using, just try them all:</p>

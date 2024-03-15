@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Spotiweb Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="spotiweb">Spotiweb</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-03-14 |
+  <a href="/blog/2024/0314_Spotiweb.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0314_Spotiweb.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>If you find the native client for Spotify is too cluttered, <a href="https://github.com/nicolasbrailo/Spotiweb">Spotiweb</a> can provide a simpler experience. <a href="https://github.com/nicolasbrailo/Spotiweb">Spotiweb</a> automatically goes through the list of your followed artists to create an index groupped by category. The categories will be automatically determined based on the artists you follow. The result will be a simple web page with an index of all the artists you followed, groupped by somewhat logical categories (when categories exist).</p>
+<p><img alt="SpotiWeb running looks like this" src="https://raw.githubusercontent.com/nicolasbrailo/SpotiWeb/master/screenshot.png" /></p>
+<p>You can use this service from <a href="https://nicolasbrailo.github.io/SpotiWeb/">nicolasbrailo.github.io/SpotiWeb</a> - you will need a developer API key+secret. All the storage is local to your browser (there is no key, user data or anything at all being sent to any external host, everything is done in your browser) and you can even use this client offline (Spotify won't work offline, though). You can also self-host this service, either by forking the project or by running it via a local webserver.</p>
+<p>This is a utility that grew somewhat organically from a simple index of artists; as more and more features of the native client got broken in my different setups, the web app "grew" to replace it. Today it's pretty much a full-fledged web-app capable of replacing the native client entirely, able to play music using Spotify's web sdk, integrate with the native client (if one is available) and with local speakers in your network.</p>
+<ul>
+<li><a href="https://github.com/nicolasbrailo/Spotiweb">Project repo: Spotiweb</a></li>
+<li><a href="https://nicolasbrailo.github.io/SpotiWeb/">Run in your browser</a></li>
+</ul>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>
