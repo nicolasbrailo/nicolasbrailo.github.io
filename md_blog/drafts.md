@@ -2,6 +2,20 @@
 
 @meta docType skipHtmlGen
 
+# Backup your Github repos
+
+I try to back up all my online accounts, in case a provider ceases to exist, or one of my accounts is banned for (unknowingly!) breaking terms-of-service. The other day I figured I wasn't doing that with Github, so I wrote [a script to back up all my (or any user's) repos automatically](https://github.com/nicolasbrailo/Nico.rc/blob/master/github.backup.sh):
+
+```bash
+wget -q "https://api.github.com/users/$USER/repos" -O- > idx.json
+for repo in $( cat idx.json | jq '.[].ssh_url' ); do
+  git clone --recurse-submodules "$repo"
+done
+```
+
+This will clone all *PUBLIC* repos to a local computer, from which you can tar.gz and upload to your preferred archive service.
+
+
 # Bash: dynamic PS1 based on terminal size
 
 Another utility I recently rediscovered in my [bashrc](https://github.com/nicolasbrailo/Nico.rc): [dynamic PS1 based on terminal size](https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/ps1.sh). Of course, I've had this enabled for years, but I never really "noticed" it: it's just how Bash works, right?
