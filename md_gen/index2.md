@@ -1,5 +1,44 @@
 #
 @meta docType index
+## jq: grep and prettify json
+
+Post by Nico Brailovsky @ 2020-02-27 | [Permalink](md_blog/2020/0227_jqgrepandprettifyjson.md) | [3 comments](md_blog/2020/0227_jqgrepandprettifyjson.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0227_jqgrepandprettifyjson.md&body=I%20have%20a%20comment!)
+
+If you don't use [jq](https://stedolan.github.io/jq/manual/), you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:
+
+**cat a json file - with pretty print**
+
+```c++
+jq . /path/to/json_file
+```
+
+**Select a single key**
+
+```c++
+jq '.path.to.key'
+```
+
+The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"
+
+**Delete all entries in an object, except for one**
+
+```c++
+jq '.foo|=bar'
+```
+
+The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"
+
+This is probably not even enough to get started. Luckily there's plenty of docs to read @ <https://stedolan.github.io/jq/manual/>
+
+
+
+
+
+
+
+
+---
+
 ## Mixin(ish) classes with parameter packs in C++
 
 Post by Nico Brailovsky @ 2020-02-18 | [Permalink](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md) | [2 comments](md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0218_MixinishclasseswithparameterpacksinC.md&body=I%20have%20a%20comment!)
@@ -345,81 +384,6 @@ As software developers, we need to put much more emphasis on positive interactio
 Saying "this was good" is hard. More often than not, it's hard to even notice good code (and I'd go as far as saying that noticing good things is hard in general!). Unlike criticism, positive interactions don't lead to direct improvements. No code will be enhanced by saying "I liked this solution", though people may be more inclined to considering criticism if the positive aspect is also noted.
 
 In the end, maybe someone just had a slightly better day because you said something nice. That's already a small victory.
-
-
-
-
-
----
-
-## GCC instrumentation flag: slow everything down!
-
-Post by Nico Brailovsky @ 2019-05-08 | [Permalink](md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0508_GCCinstrumentationflagsloweverythingdown.md&body=I%20have%20a%20comment!)
-
-Here's a nice gcc tip if you think your code is running too fast: instrument everything! (Ok, it may also work if you need to create a profile of your application but for some reason Valgrind isn't your thing).
-
-Compile with
-
-```c++
-g++ foo.cpp -ggdb3 -finstrument-functions
-```
-
-You can get a list of symbols with nm and c++filt, or you can implement your own elf reader too for extra fun.
-
-```c++
-extern "C" {
-    bool g__cyg_profile_enabled = false;
-    stack g__cyg_times;
-
-    void __cyg_profile_func_enter(void *, void *) __attribute__((no_instrument_function));
-    void __cyg_profile_func_exit(void *, void *) __attribute__((no_instrument_function));
-    void cyg_profile_enable() __attribute__((no_instrument_function));
-    void cyg_profile_disable() __attribute__((no_instrument_function));
-
-    void __cyg_profile_func_enter(void *this_fn, void *call_site) {
-        if (not g__cyg_profile_enabled) return;
-        cout &lt;&lt; this_fn &lt;&lt; endl;
-    }
-
-    void __cyg_profile_func_exit(void *this_fn, void *call_site) {
-        if (not g__cyg_profile_enabled) return;
-        cout &lt;&lt; this_fn &lt;&lt; endl;
-    }
-
-    void cyg_profile_enable() {
-        g__cyg_profile_enabled = true;
-    }
-
-    void cyg_profile_disable() {
-        g__cyg_profile_enabled = false;
-    }
-}
-
-int a() {
-    return 42;
-}
-
-int b() {
-    return a();
-}
-
-int c() {
-    int x = b();
-    int y = a();
-    return x+y;
-}
-
-int d() {
-    return c() + b();
-}
-
-int main() {
-    cyg_profile_enable();
-    cout << d() << endl;
-    cyg_profile_disable();
-    return 0;
-}
-```
 
 
 

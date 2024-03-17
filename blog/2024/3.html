@@ -35,6 +35,16 @@
 <div id="content" class="language-clike">
 <h2>Posts for 2024 March</h2>
 
+<h2>Backup your Github repos<a name="backupyourgithubrepos"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-03-17 | <a href="/blog/2024/0317_GithubBackups.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0317_GithubBackups.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I try to back up all my online accounts, in case a provider ceases to exist, or one of my accounts is banned for (unknowingly) breaking terms-of-service. The other day I figured I wasn't doing that with Github, so I wrote <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/github.backup.sh">a script to back up all my (or any user's) repos automatically</a>. The gist is:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">wget -q "https://api.github.com/users/$USER/repos" -O- &gt; idx.json
+for repo in $( cat idx.json | jq '.[].ssh_url' ); do
+  git clone --recurse-submodules "$repo"
+done
+</code></pre>
+<p>This will clone all <em>PUBLIC</em> repos to a local computer, from which you can tar.gz and upload to your preferred archive medium.</p>
+<hr />
 <h2>Bash ',' is a legal function name, and a perfect prefix<a name="bashisalegalfunctionnameandaperfectprefix"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-03-15 | <a href="/blog/2024/0315_BashCommaIsAValidFunctionName.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0315_BashCommaIsAValidFunctionName.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you have a set of <a href="https://github.com/nicolasbrailo/Nico.rc">miscellaneous Bash-helpers</a> that you frequently use, you probably want some sort of namespace for easy access. For example, prepending the name of all your helpers with "myHelper-" is a good way of getting autocomplete to show only the relevant helpers you need. "myHelper-" is too much typing, though.</p>

@@ -35,6 +35,38 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>How to: UEFI shell<a name="howtouefishell"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-02-20 | <a href="/blog/2024/0220_UefiCheatsheet.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0220_UefiCheatsheet.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:</p>
+<pre lang="bash"><code class="language-bash" lang="bash"># Set video to 80cols 50 rows, so it's less tiny in a 4k screen
+mode 80 50
+# Show pci device tree. Eg to find the VGA controller
+devtree
+# Show all things that have a FS may be bootable
+map
+# Refresh list of devices, if a new one is connected
+map -r
+# Show maybe bootable things that look like a usb
+map -t cdrom
+# Inspect a fs attached to a mapping (eg when looking at fs0, from the output of §map§)
+# Case sensitive, uses fwd slashes and not back slashes
+ls fs0:
+ls fs0:EFI\BOOT\
+# Moving around: first select mapped device, eg
+fs1:
+# Then cd and ls works
+cd efi
+ls
+</code></pre>
+<p>Eg to boot a Debian live USB on my setup</p>
+<pre lang="bash"><code class="language-bash" lang="bash">shell&gt; mode 80 50
+shell&gt; map  -t cdrom
+shell&gt; FS0:
+shell&gt; FS0:
+FS0:&gt; cd efi\boot
+FS0:\efi\boot&gt; ./grubx64.efi
+</code></pre>
+<hr />
 <h2>Move again<a name="moveagain"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-02-18 | <a href="/blog/2024/0218_MovedAgain.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0218_MovedAgain.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I'm now at <a href="https://nicolasbrailo.github.io/blog">nicolasbrailo.github.io</a>. If I count platform, domain or tech-stack changes as a migration, I've now lost count of how many this site has had. It's the third one in the last few years. I moved away from WP because I wasn't happy with the sponsored content added to my site. I also wasn't happy with Blogger, I never quite like the interface, the way to write posts, or the customization options.</p>
@@ -174,22 +206,6 @@ handle_t api_api_foo(handle_t h, int i) { return mocked_api_instance.api_open(h,
 }
 </code></pre>
 <p>This method has the (big) disadvantage of creating an invisible dependency between "mocked_api_instance" and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!</p>
-<hr />
-<h2>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h2>
-<p>Post by Nico Brailovsky @ 2020-02-27 | <a href="/blog/2020/0227_jqgrepandprettifyjson.html">Permalink</a> | <a href="/blog/2020/0227_jqgrepandprettifyjson.html">3 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0227_jqgrepandprettifyjson.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
-<p><strong>cat a json file - with pretty print</strong></p>
-<pre lang="c++"><code class="language-c++" lang="c++">jq . /path/to/json_file
-</code></pre>
-<p><strong>Select a single key</strong></p>
-<pre lang="c++"><code class="language-c++" lang="c++">jq '.path.to.key'
-</code></pre>
-<p>The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"</p>
-<p><strong>Delete all entries in an object, except for one</strong></p>
-<pre lang="c++"><code class="language-c++" lang="c++">jq '.foo|=bar'
-</code></pre>
-<p>The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"</p>
-<p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
 <hr />
 
 </div>

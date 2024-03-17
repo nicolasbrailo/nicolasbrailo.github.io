@@ -35,6 +35,22 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>jq: grep and prettify json<a name="jqgrepandprettifyjson"></a></h2>
+<p>Post by Nico Brailovsky @ 2020-02-27 | <a href="/blog/2020/0227_jqgrepandprettifyjson.html">Permalink</a> | <a href="/blog/2020/0227_jqgrepandprettifyjson.html">3 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0227_jqgrepandprettifyjson.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you don't use <a href="https://stedolan.github.io/jq/manual/">jq</a>, you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:</p>
+<p><strong>cat a json file - with pretty print</strong></p>
+<pre lang="c++"><code class="language-c++" lang="c++">jq . /path/to/json_file
+</code></pre>
+<p><strong>Select a single key</strong></p>
+<pre lang="c++"><code class="language-c++" lang="c++">jq '.path.to.key'
+</code></pre>
+<p>The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"</p>
+<p><strong>Delete all entries in an object, except for one</strong></p>
+<pre lang="c++"><code class="language-c++" lang="c++">jq '.foo|=bar'
+</code></pre>
+<p>The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"</p>
+<p>This is probably not even enough to get started. Luckily there's plenty of docs to read @ <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual/</a></p>
+<hr />
 <h2>Mixin(ish) classes with parameter packs in C++<a name="mixinishclasseswithparameterpacksinc"></a></h2>
 <p>Post by Nico Brailovsky @ 2020-02-18 | <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">Permalink</a> | <a href="/blog/2020/0218_MixinishclasseswithparameterpacksinC.html">2 comments</a> | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0218_MixinishclasseswithparameterpacksinC.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For some reason I couldn't find many examples of how to use a parameter pack as a mixin, to enable different features with no runtime overhead. Here is a full example of you might implement this (be aware there are some nasal daemons in the code below!). The technique is really based on this one line:</p>
@@ -214,57 +230,6 @@ $ googlesamples-assistant-pushtotalk --device-model-id $AN_ID_YOU_GOT_FROM_GOOGL
 <p>As software developers, we need to put much more emphasis on positive interactions with our peers. Engineering requires critical thinking. Looking for cases where something (code!) will break. Criticizing what we do, on the hope of doing it better, is a key and necessary aspect of our profession. However, even when done properly (already a hard enough job!) this practice emphasizes negative interactions. In a normal job, what would you say is the ratio of times you hear "this might be better if .." vs "I really liked X"?</p>
 <p>Saying "this was good" is hard. More often than not, it's hard to even notice good code (and I'd go as far as saying that noticing good things is hard in general!). Unlike criticism, positive interactions don't lead to direct improvements. No code will be enhanced by saying "I liked this solution", though people may be more inclined to considering criticism if the positive aspect is also noted.</p>
 <p>In the end, maybe someone just had a slightly better day because you said something nice. That's already a small victory.</p>
-<hr />
-<h2>GCC instrumentation flag: slow everything down!<a name="gccinstrumentationflagsloweverythingdown"></a></h2>
-<p>Post by Nico Brailovsky @ 2019-05-08 | <a href="/blog/2019/0508_GCCinstrumentationflagsloweverythingdown.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2019/0508_GCCinstrumentationflagsloweverythingdown.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>Here's a nice gcc tip if you think your code is running too fast: instrument everything! (Ok, it may also work if you need to create a profile of your application but for some reason Valgrind isn't your thing).</p>
-<p>Compile with</p>
-<pre lang="c++"><code class="language-c++" lang="c++">g++ foo.cpp -ggdb3 -finstrument-functions
-</code></pre>
-<p>You can get a list of symbols with nm and c++filt, or you can implement your own elf reader too for extra fun.</p>
-<pre lang="c++"><code class="language-c++" lang="c++">extern "C" {
-    bool g__cyg_profile_enabled = false;
-    stack g__cyg_times;
-    void __cyg_profile_func_enter(void *, void *) __attribute__((no_instrument_function));
-    void __cyg_profile_func_exit(void *, void *) __attribute__((no_instrument_function));
-    void cyg_profile_enable() __attribute__((no_instrument_function));
-    void cyg_profile_disable() __attribute__((no_instrument_function));
-    void __cyg_profile_func_enter(void *this_fn, void *call_site) {
-        if (not g__cyg_profile_enabled) return;
-        cout &lt;&lt; this_fn &lt;&lt; endl;
-    }
-    void __cyg_profile_func_exit(void *this_fn, void *call_site) {
-        if (not g__cyg_profile_enabled) return;
-        cout &lt;&lt; this_fn &lt;&lt; endl;
-    }
-    void cyg_profile_enable() {
-        g__cyg_profile_enabled = true;
-    }
-    void cyg_profile_disable() {
-        g__cyg_profile_enabled = false;
-    }
-}
-int a() {
-    return 42;
-}
-int b() {
-    return a();
-}
-int c() {
-    int x = b();
-    int y = a();
-    return x+y;
-}
-int d() {
-    return c() + b();
-}
-int main() {
-    cyg_profile_enable();
-    cout &lt;&lt; d() &lt;&lt; endl;
-    cyg_profile_disable();
-    return 0;
-}
-</code></pre>
 <hr />
 
 </div>

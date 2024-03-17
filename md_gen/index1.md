@@ -1,5 +1,57 @@
 #
 @meta docType index
+## How to: UEFI shell
+
+Post by Nico Brailovsky @ 2024-02-20 | [Permalink](md_blog/2024/0220_UefiCheatsheet.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0220_UefiCheatsheet.md&body=I%20have%20a%20comment!)
+
+There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:
+
+```bash
+# Set video to 80cols 50 rows, so it's less tiny in a 4k screen
+mode 80 50
+
+# Show pci device tree. Eg to find the VGA controller
+devtree
+
+# Show all things that have a FS may be bootable
+map
+
+# Refresh list of devices, if a new one is connected
+map -r
+
+# Show maybe bootable things that look like a usb
+map -t cdrom
+
+# Inspect a fs attached to a mapping (eg when looking at fs0, from the output of §map§)
+# Case sensitive, uses fwd slashes and not back slashes
+ls fs0:
+ls fs0:EFI\BOOT\
+
+# Moving around: first select mapped device, eg
+fs1:
+
+# Then cd and ls works
+cd efi
+ls
+```
+
+Eg to boot a Debian live USB on my setup
+
+```bash
+shell> mode 80 50
+shell> map  -t cdrom
+shell> FS0:
+shell> FS0:
+FS0:> cd efi\boot
+FS0:\efi\boot> ./grubx64.efi
+```
+
+
+
+
+
+---
+
 ## Move again
 
 Post by Nico Brailovsky @ 2024-02-18 | [Permalink](md_blog/2024/0218_MovedAgain.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0218_MovedAgain.md&body=I%20have%20a%20comment!)
@@ -244,45 +296,6 @@ TEST(Foo, Bar) {
 ```
 
 This method has the (big) disadvantage of creating an invisible dependency between "mocked\_api\_instance" and the rest of the test. An out-of-order inclusion can make your test fail, unexpectedly, and people trying to write new tests will find it quite hard to understand what is going on with out some good docs. On the other hand, this technique will let you create very stable tests with few run-time dependencies, so I still believe they can add a lot of value for integration tests!
-
-
-
-
-
----
-
-## jq: grep and prettify json
-
-Post by Nico Brailovsky @ 2020-02-27 | [Permalink](md_blog/2020/0227_jqgrepandprettifyjson.md) | [3 comments](md_blog/2020/0227_jqgrepandprettifyjson.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0227_jqgrepandprettifyjson.md&body=I%20have%20a%20comment!)
-
-If you don't use [jq](https://stedolan.github.io/jq/manual/), you are missing a very important utility in your bash toolset. jq let's you query and filter json files from a cli. Just like awk or sed, js's "language" is basically write only, meaning whenever you need to do something there's a 99% chance you'll just be copy-pasting recipes from Stackoverflow until you find the one that works for you. Here are a couple of recipes I found most useful:
-
-**cat a json file - with pretty print**
-
-```c++
-jq . /path/to/json_file
-```
-
-**Select a single key**
-
-```c++
-jq '.path.to.key'
-```
-
-The command above will return "42" for a json that looks like "{path: {to: {key: 42}}}"
-
-**Delete all entries in an object, except for one**
-
-```c++
-jq '.foo|=bar'
-```
-
-The command above will return "{foo: {bar:''}}" for a json that looks like "{foo: {bar:'', baz: ''}}"
-
-This is probably not even enough to get started. Luckily there's plenty of docs to read @ <https://stedolan.github.io/jq/manual/>
-
-
-
 
 
 

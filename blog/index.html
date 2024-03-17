@@ -35,6 +35,16 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Backup your Github repos<a name="backupyourgithubrepos"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-03-17 | <a href="/blog/2024/0317_GithubBackups.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0317_GithubBackups.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I try to back up all my online accounts, in case a provider ceases to exist, or one of my accounts is banned for (unknowingly) breaking terms-of-service. The other day I figured I wasn't doing that with Github, so I wrote <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/github.backup.sh">a script to back up all my (or any user's) repos automatically</a>. The gist is:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">wget -q "https://api.github.com/users/$USER/repos" -O- &gt; idx.json
+for repo in $( cat idx.json | jq '.[].ssh_url' ); do
+  git clone --recurse-submodules "$repo"
+done
+</code></pre>
+<p>This will clone all <em>PUBLIC</em> repos to a local computer, from which you can tar.gz and upload to your preferred archive medium.</p>
+<hr />
 <h2>Bash ',' is a legal function name, and a perfect prefix<a name="bashisalegalfunctionnameandaperfectprefix"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-03-15 | <a href="/blog/2024/0315_BashCommaIsAValidFunctionName.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0315_BashCommaIsAValidFunctionName.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you have a set of <a href="https://github.com/nicolasbrailo/Nico.rc">miscellaneous Bash-helpers</a> that you frequently use, you probably want some sort of namespace for easy access. For example, prepending the name of all your helpers with "myHelper-" is a good way of getting autocomplete to show only the relevant helpers you need. "myHelper-" is too much typing, though.</p>
@@ -192,38 +202,6 @@ GRUB_CMDLINE_LINUX_DEFAULT="nosplash verbose debug nomodeset"
 </code></pre>
 <h2>Extra extra tip: Kernel arcana<a name="extraextratipkernelarcana"></a></h2>
 <p>If you're reading this, you're probably looking for <code>debug verbose nomodeset earlyprintk=vga loglevel=7 ignore_loglevel</code></p>
-<hr />
-<h2>How to: UEFI shell<a name="howtouefishell"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-02-20 | <a href="/blog/2024/0220_UefiCheatsheet.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0220_UefiCheatsheet.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>There are countless "how to use an UEFI shell" notes out there, but this is the cheatsheet I tend to use:</p>
-<pre lang="bash"><code class="language-bash" lang="bash"># Set video to 80cols 50 rows, so it's less tiny in a 4k screen
-mode 80 50
-# Show pci device tree. Eg to find the VGA controller
-devtree
-# Show all things that have a FS may be bootable
-map
-# Refresh list of devices, if a new one is connected
-map -r
-# Show maybe bootable things that look like a usb
-map -t cdrom
-# Inspect a fs attached to a mapping (eg when looking at fs0, from the output of §map§)
-# Case sensitive, uses fwd slashes and not back slashes
-ls fs0:
-ls fs0:EFI\BOOT\
-# Moving around: first select mapped device, eg
-fs1:
-# Then cd and ls works
-cd efi
-ls
-</code></pre>
-<p>Eg to boot a Debian live USB on my setup</p>
-<pre lang="bash"><code class="language-bash" lang="bash">shell&gt; mode 80 50
-shell&gt; map  -t cdrom
-shell&gt; FS0:
-shell&gt; FS0:
-FS0:&gt; cd efi\boot
-FS0:\efi\boot&gt; ./grubx64.efi
-</code></pre>
 <hr />
 
 </div>
