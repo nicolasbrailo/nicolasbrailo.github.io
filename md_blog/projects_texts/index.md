@@ -125,7 +125,7 @@ This is a list of long-form articles I’ve written over the years which I am al
 
 ## C++ exceptions under the hood (read as single page)
 
-1. [C++ exceptions under the hood](md_blog/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.md)
+1. [C++ exceptions under the hood](md_blog/2013/0205_Cexceptionsunderthehood.md)
 2. [C++ exceptions under the hood 2: a tiny ABI](md_blog/2013/0212_CexceptionsunderthehoodIIatinyABI.md)
 3. [C++ exceptions under the hood 3: an ABI to appease the linker](md_blog/2013/0219_Cexceptionsunderthehood3anABItoappeasethelinker.md)
 4. [C++ exceptions under the hood 4: catching what you throw](md_blog/2013/0226_Cexceptionsunderthehood4catchingwhatyouthrow.md)
