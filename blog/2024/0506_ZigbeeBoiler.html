@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Zigbee Boiler Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="zigbeeboiler">Zigbee Boiler</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-05-06 |
+  <a href="/blog/2024/0506_ZigbeeBoiler.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0506_ZigbeeBoiler.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>Weekend project: made my boiler Zigbee compatible, bypassing a Drayton heating thermostat. I'm quite proud of the final results:</p>
+<p><a href="/blog_img/zigbeeboiler01.jpg"><img alt="" src="/blog_img/zigbeeboiler01.jpg" /></a></p>
+<p>On the left, the wiring; on the right, the control panel. <strong>Disclaimer: this note shows an experiment. Don't take any electrical advise from this text.</strong></p>
+<p>For a few years, I've been using <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web">my own home automation system</a>, developed almost from scratch. I should write about it some day (tl;dr, it was a fun weekend project that turned into multiple, mostly fun, weekend projects). Something missing from my home automation was heating integration, which is especially sad given I have Zigbee temperature sensors everywhere. With the winter over I spent a weekend working on making my boiler Zigbee compatible (wouldn't want an expensive emergency visit in the middle of winter to repair my winter).</p>
+<p>My boiler uses a Drayton thermostat as a control, which seems very common in the UK (n=3). They seem mostly used as an on/off switch (OpenTherm isn't very common here), so there's no reason I couldn't bypass it with a relay while keeping the normal thermostat as a backup. Both the installation manual and the back of my control unit confirm this:</p>
+<p><a href="/blog_img/zigbeeboiler02.jpg"><img alt="" src="/blog_img/zigbeeboiler02.jpg" /></a></p>
+<p>The heating-on signal is just closing the circuit between two terminals. For good measure, I decided to check this with a volt-meter (which, by the way, I strongly recommend against; unlike attaching a probe to a running program with gdb, probing a live circuit can be a shocking experience).</p>
+<p>Once I was triple sure the chances of sparks and magic smoke where low, I got a 1 channel Zigbee relay module (220v, dry, 5 amps); if you are reading this guide for inspiration, make sure your switch can handle more power than your fuse. You don't want random electrical equipment acting as a fuse for your fuse. Also look for a "dry" relay, to keep power supply and control circuits separate, and needless to say it should handle 220V. I went for a "MHCOZY Tuya Dry Contact Zigbee Relay Switch Module,1 Channel AC 100-240V" - there are a few like these and they all seem to be the same whitelabel Zigbee element.</p>
+<p><a href="/blog_img/zigbeeboiler03.jpg"><img alt="" src="/blog_img/zigbeeboiler03.jpg" /></a></p>
+<p>A picture of the wiring; the connection needs to be parallel to the existing controller, to keep both working.</p>
+<p>The control logic lives in my <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/heating/rules.py">monolithic home automation repo</a>, as a set of configurable Python rules, and while I've only had a few cold days to try them out, they seem to work. Next winter I'll be able to control my thermostat remotely from my <a href="https://github.com/nicolasbrailo/PyTelegramBot">Telegram bot</a>, while I take a holiday to the beach.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>
