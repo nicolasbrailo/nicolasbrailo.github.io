@@ -5,8 +5,8 @@
   <title>Nico Brailovsky's thought repository</title>
   <link>https://nicolasbrailo.github.io/</link>
   <description>I write things. A few may make sense.</description>
-  <lastBuildDate>2024-05-06</lastBuildDate>
-  <pubDate>2024-05-06</pubDate>
+  <lastBuildDate>2024-05-14</lastBuildDate>
+  <pubDate>2024-05-14</pubDate>
   <item>
   <title>Zigbee Boiler</title>
   <link>https://nicolasbrailo.github.io//blog/2024/0506_ZigbeeBoiler.html</link>
@@ -19,7 +19,7 @@
 
 On the left, the wiring; on the right, the control panel. **Disclaimer: this note shows an experiment. Don't take any electrical advise from this text.**
 
-For a few years, I've been using <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web">my own home automation system</a>, developed almost from scratch. I should write about it some day (tl;dr, it was a fun weekend project that turned into multiple, mostly fun, weekend projects). Something missing from my home automation was heating integration, which is especially sad given I have Zigbee temperature sensors everywhere. With the winter over I spent a weekend working on making my boiler Zigbee compatible (wouldn't want an expensive emergency visit in the middle of winter to repair my winter).
+For a few years, I've been using <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web">my own home automation system</a>, developed almost from scratch. I should write about it some day (tl;dr, it was a fun weekend project that turned into multiple, mostly fun, weekend projects). Something missing from my home automation was heating integration, which is especially sad given I have Zigbee temperature sensors everywhere. With the winter over I spent a weekend working on making my boiler Zigbee compatible (wouldn't want an expensive emergency visit in the middle of winter to repair my boiler).
 
 My boiler uses a Drayton thermostat as a control, which seems very common in the UK (n=3). They seem mostly used as an on/off switch (OpenTherm isn't very common here), so there's no reason I couldn't bypass it with a relay while keeping the normal thermostat as a backup. Both the installation manual and the back of my control unit confirm this:
 
