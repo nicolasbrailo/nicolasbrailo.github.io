@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Raspberry Pi: HDMI debugging Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="raspberrypihdmidebugging">Raspberry Pi: HDMI debugging</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-05-18 |
+  <a href="/blog/2024/0518_RaspberryPiHDMI.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0518_RaspberryPiHDMI.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>If a Raspberry Pi boots but has no HDMI signal:</p>
+<ul>
+<li>Add <code>hdmi_force_hotplug=1</code> to /boot/firmware/config.txt - this forces the Pi to send HDMI video even if it thinks there's no monitor connected.</li>
+<li>Add <code>config_hdmi_boost=4</code> to /boot/firmware/config.txt - this tweaks the HDMI signal strength.</li>
+</ul>
+<p>Also, remove all possible adapters (each will add a bit of noise and attenuation) and get a cable with good shielding.</p>
+<p>Source <a href="https://elinux.org/R-Pi_Troubleshooting#No_HDMI_output_at_all">https://elinux.org/R-Pi_Troubleshooting#No_HDMI_output_at_all</a></p>
+<p>Extra tip: Unlike their bigger brothers, Raspberry Pi Zeros don't seem to want to boot up with no SD card in, not even to show a bootloader error.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

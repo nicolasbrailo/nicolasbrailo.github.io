@@ -3,6 +3,8 @@
 @meta docType index
 
  * [May](md_gen/2024/5.md)
+    * [Raspberry Pi UART debug notes](md_gen/2024/5.md#raspberrypiuartdebugnotes)
+    * [Raspberry Pi: HDMI debugging](md_gen/2024/5.md#raspberrypihdmidebugging)
     * [Zigbee Boiler](md_gen/2024/5.md#zigbeeboiler)
  * [March](md_gen/2024/3.md)
     * [Backup your Github repos](md_gen/2024/3.md#backupyourgithubrepos)

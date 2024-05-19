@@ -4,7 +4,7 @@
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-<title>Posts for 2024 May Nico Brailovsky's thought repository</title>
+<title>Raspberry Pi UART debug notes Nico Brailovsky's thought repository</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,10 +33,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Posts for 2024 May</h2>
+<h2 name="raspberrypiuartdebugnotes">Raspberry Pi UART debug notes</h2>
 
-<h2>Raspberry Pi UART debug notes<a name="raspberrypiuartdebugnotes"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-05-19 | <a href="/blog/2024/0519_RaspberryPiUARTNotes.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0519_RaspberryPiUARTNotes.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-05-19 |
+  <a href="/blog/2024/0519_RaspberryPiUARTNotes.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0519_RaspberryPiUARTNotes.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
 <p>I spent a bit of time setting up UARTs to troubleshoot different Raspberry Pis. Here are my notes.</p>
 <h2>Electrical config<a name="electricalconfig"></a></h2>
 <ul>
@@ -196,31 +201,11 @@ MESS:00:00:09.547298:0: uart: Baud rate[    0.000000] Booting Linux on physical 
 </code></pre>
 <p>Won't win any ID prizes, but it got the job done:</p>
 <p><a href="/blog_img/240519_UART.jpg"><img alt="" src="/blog_img/240519_UART.jpg" /></a></p>
-<hr />
-<h2>Raspberry Pi: HDMI debugging<a name="raspberrypihdmidebugging"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-05-18 | <a href="/blog/2024/0518_RaspberryPiHDMI.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0518_RaspberryPiHDMI.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>If a Raspberry Pi boots but has no HDMI signal:</p>
-<ul>
-<li>Add <code>hdmi_force_hotplug=1</code> to /boot/firmware/config.txt - this forces the Pi to send HDMI video even if it thinks there's no monitor connected.</li>
-<li>Add <code>config_hdmi_boost=4</code> to /boot/firmware/config.txt - this tweaks the HDMI signal strength.</li>
-</ul>
-<p>Also, remove all possible adapters (each will add a bit of noise and attenuation) and get a cable with good shielding.</p>
-<p>Source <a href="https://elinux.org/R-Pi_Troubleshooting#No_HDMI_output_at_all">https://elinux.org/R-Pi_Troubleshooting#No_HDMI_output_at_all</a></p>
-<p>Extra tip: Unlike their bigger brothers, Raspberry Pi Zeros don't seem to want to boot up with no SD card in, not even to show a bootloader error.</p>
-<hr />
-<h2>Zigbee Boiler<a name="zigbeeboiler"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-05-06 | <a href="/blog/2024/0506_ZigbeeBoiler.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0506_ZigbeeBoiler.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>Weekend project: made my boiler Zigbee compatible, bypassing a Drayton heating thermostat. I'm quite proud of the final results:</p>
-<p><a href="/blog_img/zigbeeboiler01.jpg"><img alt="" src="/blog_img/zigbeeboiler01.jpg" /></a></p>
-<p>On the left, the wiring; on the right, the control panel. <strong>Disclaimer: this note shows an experiment. Don't take any electrical advise from this text.</strong></p>
-<p>For a few years, I've been using <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web">my own home automation system</a>, developed almost from scratch. I should write about it some day (tl;dr, it was a fun weekend project that turned into multiple, mostly fun, weekend projects). Something missing from my home automation was heating integration, which is especially sad given I have Zigbee temperature sensors everywhere. With the winter over I spent a weekend working on making my boiler Zigbee compatible (wouldn't want an expensive emergency visit in the middle of winter to repair my boiler).</p>
-<p>My boiler uses a Drayton thermostat as a control, which seems very common in the UK (n=3). They seem mostly used as an on/off switch (OpenTherm isn't very common here), so there's no reason I couldn't bypass it with a relay while keeping the normal thermostat as a backup. Both the installation manual and the back of my control unit confirm this:</p>
-<p><a href="/blog_img/zigbeeboiler02.jpg"><img alt="" src="/blog_img/zigbeeboiler02.jpg" /></a></p>
-<p>The heating-on signal is just closing the circuit between two terminals. For good measure, I decided to check this with a volt-meter (which, by the way, I strongly recommend against; unlike attaching a probe to a running program with gdb, probing a live circuit can be a shocking experience).</p>
-<p>Once I was triple sure the chances of sparks and magic smoke where low, I got a 1 channel Zigbee relay module (220v, dry, 5 amps); if you are reading this guide for inspiration, make sure your switch can handle more power than your fuse. You don't want random electrical equipment acting as a fuse for your fuse. Also look for a "dry" relay, to keep power supply and control circuits separate, and needless to say it should handle 220V. I went for a "MHCOZY Tuya Dry Contact Zigbee Relay Switch Module,1 Channel AC 100-240V" - there are a few like these and they all seem to be the same whitelabel Zigbee element.</p>
-<p><a href="/blog_img/zigbeeboiler03.jpg"><img alt="" src="/blog_img/zigbeeboiler03.jpg" /></a></p>
-<p>A picture of the wiring; the connection needs to be parallel to the existing controller, to keep both working.</p>
-<p>The control logic lives in my <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/heating/rules.py">monolithic home automation repo</a>, as a set of configurable Python rules, and while I've only had a few cold days to try them out, they seem to work. Next winter I'll be able to control my thermostat remotely from my <a href="https://github.com/nicolasbrailo/PyTelegramBot">Telegram bot</a>, while I take a holiday to the beach.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
 
 </div>
 
