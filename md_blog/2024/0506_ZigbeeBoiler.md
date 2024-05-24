@@ -2,7 +2,7 @@
 
 @meta publishDate 2024-05-06
 @meta author Nico Brailovsky
-@meta tags Zigbee, Automation
+@meta tags Zigbee, IoT
 
 Weekend project: made my boiler Zigbee compatible, bypassing a Drayton heating thermostat. I'm quite proud of the final results:
 

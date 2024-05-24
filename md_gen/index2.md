@@ -1,5 +1,22 @@
 #
 @meta docType index
+## reboot succesful?
+
+Post by Nico Brailovsky @ 2021-03-17 | [Permalink](md_blog/2021/0317_rebootsuccesful.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0317_rebootsuccesful.md&body=I%20have%20a%20comment!)
+
+Since "migrating" from Wordpress to Blogspot:
+
+* Traffic to Wordpress fell from ~100ish visitors a day to ~30 or ~40ish.
+* This site went from 0 to also ~30 or ~40ish.
+
+That went much better than I expected, considering I couldn't set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don't want to monetize). Let's see how it goes 10 years from now, when I have to migrate from Blogpost to something else.
+
+
+
+
+
+---
+
 ## sudo reboot
 
 Post by Nico Brailovsky @ 2021-03-02 | [Permalink](md_blog/2021/0302_sudoreboot.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0302_sudoreboot.md&body=I%20have%20a%20comment!)
@@ -346,30 +363,6 @@ I keep forgetting about this one. Maybe writing it down will help me remember: V
 
 ```
 :/\vfoo|bar
-```
-
-
-
-
-
----
-
-## Bash: Color in command line prompt PS1
-
-Post by Nico Brailovsky @ 2019-07-18 | [Permalink](md_blog/2019/0718_BashColorincommandlinepromptPS1.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0718_BashColorincommandlinepromptPS1.md&body=I%20have%20a%20comment!)
-
-I'm lately dealing with lots of hosts in different environments (eg local, dev, test, etc). Some actions are safe to perform in some of these hosts, in others not so much. To help quickly figure out which hosts are safe, I wanted to add a color to my Bash prompt (PS1) - for example green for dev, where it's unlikely I'll break anything other than my stuff, red for hosts where carelessness might result in a weekend spent at the office.
-
-The first result I get in Google when trying to set Bash's PS1 to use colors seems to be wrong (or, rather, I wasn't smart enough to make it work). An escape sequence seems to be missing, resulting in weird behavior with new lines; colors work, but line wrapping gets broken. Took me a while to associate broken \n's with colors, but once I did the fix was easy. Check out here for the [proper way to escape color commands in Bash](https://stackoverflow.com/questions/342093/ps1-line-wrapping-with-colours-problem).
-
-And here's my current setup:
-
-```c++
-export COLOR_SET='\[\e['$THIS_HOST_COLOR'm\]'
-export COLOR_RESET='\[\e[0m\]'
-
-# Example:
-export PS1='\A '$COLOR_SET'\h'$COLOR_RESET':\w$ '
 ```
 
 

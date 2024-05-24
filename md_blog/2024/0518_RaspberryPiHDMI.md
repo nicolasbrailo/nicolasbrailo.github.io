@@ -2,7 +2,7 @@
 
 @meta publishDate 2024-05-18
 @meta author Nico Brailovsky
-@meta tags Raspberry Pi, Linux, Embedded
+@meta tags Raspberry Pi, Linux, Embedded, IoT
 
 If a Raspberry Pi boots but has no HDMI signal:
 

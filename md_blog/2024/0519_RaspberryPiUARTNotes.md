@@ -2,7 +2,7 @@
 
 @meta publishDate 2024-05-19
 @meta author Nico Brailovsky
-@meta tags Raspberry Pi, Linux, Embedded
+@meta tags Raspberry Pi, Linux, Embedded, IoT
 
 I spent a bit of time setting up UARTs to troubleshoot different Raspberry Pis. Here are my notes.
 

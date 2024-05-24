@@ -3,6 +3,7 @@
 @meta docType index
 
  * [May](md_gen/2024/5.md)
+    * [No cloud IoT: LAN only Security camera](md_gen/2024/5.md#nocloudiotlanonlysecuritycamera)
     * [Raspberry Pi UART debug notes](md_gen/2024/5.md#raspberrypiuartdebugnotes)
     * [Raspberry Pi: HDMI debugging](md_gen/2024/5.md#raspberrypihdmidebugging)
     * [Zigbee Boiler](md_gen/2024/5.md#zigbeeboiler)
