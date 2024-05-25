@@ -13,7 +13,7 @@ A while back I spent some time setting up a security camera/doorbell. I wanted t
 * stores videos on a disk when there is motion, so I can review them later.
 * will send me a message when I'm out of home and motion is detected.
 
-The process required a lot of trial and error, guessing arcane commands from poor documentation or from random (often decade-old and unmaintained) open source projects. I figured I should document my setup.
+The process required a lot of trial and error, guessing arcane commands from poor documentation or from random (often decade-old, unmaintained) open source projects. I figured I should document my setup.
 
 ## tl;dr
 
