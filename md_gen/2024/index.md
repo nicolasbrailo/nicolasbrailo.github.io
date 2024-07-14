@@ -2,6 +2,12 @@
 
 @meta docType index
 
+ * [July](md_gen/2024/7.md)
+    * [Houseboard P0: HDMI to eDP](md_gen/2024/7.md#houseboardp0hdmitoedp)
+ * [June](md_gen/2024/6.md)
+    * [Houseboard P0: PP0](md_gen/2024/6.md#houseboardp0pp0)
+    * [RaspberryPi gpio cli monitor](md_gen/2024/6.md#raspberrypigpioclimonitor)
+    * [LD2410S: mmWave human-presence detection](md_gen/2024/6.md#ld2410smmwavehumanpresencedetection)
  * [May](md_gen/2024/5.md)
     * [No cloud IoT: LAN only Security camera](md_gen/2024/5.md#nocloudiotlanonlysecuritycamera)
     * [Raspberry Pi UART debug notes](md_gen/2024/5.md#raspberrypiuartdebugnotes)

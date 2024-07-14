@@ -1,5 +1,151 @@
 #
 @meta docType index
+## Spotiweb
+
+Post by Nico Brailovsky @ 2024-03-14 | [Permalink](md_blog/2024/0314_Spotiweb.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0314_Spotiweb.md&body=I%20have%20a%20comment!)
+
+If you find the native client for Spotify is too cluttered, [Spotiweb](https://github.com/nicolasbrailo/Spotiweb) can provide a simpler experience. [Spotiweb](https://github.com/nicolasbrailo/Spotiweb) automatically goes through the list of your followed artists to create an index groupped by category. The categories will be automatically determined based on the artists you follow. The result will be a simple web page with an index of all the artists you followed, groupped by somewhat logical categories (when categories exist).
+
+![SpotiWeb running looks like this](https://raw.githubusercontent.com/nicolasbrailo/SpotiWeb/master/screenshot.png)
+
+You can use this service from [nicolasbrailo.github.io/SpotiWeb](https://nicolasbrailo.github.io/SpotiWeb/) - you will need a developer API key+secret. All the storage is local to your browser (there is no key, user data or anything at all being sent to any external host, everything is done in your browser) and you can even use this client offline (Spotify won't work offline, though). You can also self-host this service, either by forking the project or by running it via a local webserver.
+
+This is a utility that grew somewhat organically from a simple index of artists; as more and more features of the native client got broken in my different setups, the web app "grew" to replace it. Today it's pretty much a full-fledged web-app capable of replacing the native client entirely, able to play music using Spotify's web sdk, integrate with the native client (if one is available) and with local speakers in your network.
+
+ * [Project repo: Spotiweb](https://github.com/nicolasbrailo/Spotiweb)
+ * [Run in your browser](https://nicolasbrailo.github.io/SpotiWeb/)
+
+
+
+
+
+---
+
+## Bash: list ALSA PCMs
+
+Post by Nico Brailovsky @ 2024-03-04 | [Permalink](md_blog/2024/0304_FindRightPCM.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0304_FindRightPCM.md&body=I%20have%20a%20comment!)
+
+Linux audio isn't friendly, even if pipewire is making huge strides in making it "just work". If you ever find you need to get down to the ALSA level, something is probably very broken. If (when) this happens, and you can't figure out which of your ALSA cards you should be using, just try them all:
+
+
+```bash
+set -euo pipefail
+
+if [ -z "${1+x}" ] || [ ! -f "${1}" ]; then
+  echo "Will iterate over all known PCMs to try to capture or play audio and report which work"
+  echo "Usage: $0 PLAYABLE_FILE"
+  exit 1
+fi
+
+sample=${1}
+plays_pcms=$( aplay --list-pcms | grep ':CARD=' )
+for dev in $plays_pcms; do
+  aplay --duration=1 --device="$dev" "$sample" 1>/dev/null 2>/dev/null && \
+    echo "Playback may work on interface '$dev'"
+done
+
+cap_pcms=$( arecord --list-pcms | grep ':CARD=' )
+for dev in $cap_pcms; do
+  arecord --rate 48000 -f S16_LE --disable-resample --duration=1 --device="$dev" \
+      /dev/null 1>/dev/null 2>/dev/null && \
+      echo "Capture may work on interface '$dev'"
+done
+```
+
+
+
+
+
+---
+
+## Vim can wget + c-w search
+
+Post by Nico Brailovsky @ 2024-03-03 | [Permalink](md_blog/2024/0303_VimWgetSite.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0303_VimWgetSite.md&body=I%20have%20a%20comment!)
+
+I (re?)learned a thing today: Vim can wget a site!
+
+Doing `c-w gf` tells Vim to open whatever path is under the cursor. This is usually something like "#include <foo/bar/baz.h>", which means it will ask Vim to open `foo/bar/baz.h`. If you happen to have `http://nicolasbrailo.github.io` under your cursor, you'll be fetching this site into a temp buffer, in Vim.
+
+## Bonus tip:
+
+If `c-w gf` isn't finding the files you want it to, you may need to set your search path:
+
+```vim
+set path+=/home/user/path/to/foo,/home/user/src/bar
+```
+
+
+
+
+
+---
+
+## Wifi from the CLI
+
+Post by Nico Brailovsky @ 2024-03-01 | [Permalink](md_blog/2024/0302_CLIWifi.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0302_CLIWifi.md&body=I%20have%20a%20comment!)
+
+Another one to file in the category of self reminders, and a cheatsheet I'll need this weekend: whenever I need to work on the main (eth!) connection of a server, instead of grabbing a keyboard and a monitor it's easier to connect to wifi. For example, when I need to change the IP of a Raspberry PI in my network. Note this guide assumes a Debian-like environment:
+
+```bash
+# Figure out which interfaces exist
+ip a
+
+# Figure out which interfaces are connected
+ip link show
+# For example:
+ip link show wlp3s0
+```
+
+Restart the interface (which will do nothing, because it's probably not autoconfigurable)
+
+```
+ip link set wlp3s0 down
+ip link set wlp3s0 up
+```
+
+Start `wpa_cli`. Creating a new network may be needed, but I don't have notes. Once a network is created, its config will be in `/etc/wpa_supplicant/wpa_supplicant.conf`. Then:
+
+```bash
+$ wpa_cli
+> scan
+[Wait a few seconds]
+> scan_results
+>
+```
+
+Connect:
+
+```bash
+# Connect
+wpa_supplicant -B -i wlp3s -c < $( wpa_passphrase "your ssid name" "password" )
+# Request IP
+dhclient wlp3s0
+# Confirm connection
+ip addr show wlp3s0
+```
+
+Work on main interface (leave on a loop, in case wifi disconnects for whatever reason)
+
+```bash
+while true; do dhclient -r eno1 ; dhclient eno1 ; ip addr show eno1; sleep 1; echo "DONE"; done 
+```
+
+When done, kill wifi
+
+```bash
+ip link set wlp3s0 down
+# Release addr locally
+dhclient -r wlp3s0
+# To be sure:
+rfkill
+```
+
+
+
+
+
+---
+
 ## Bash: goto
 
 Post by Nico Brailovsky @ 2024-03-01 | [Permalink](md_blog/2024/0301_BashGoto.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0301_BashGoto.md&body=I%20have%20a%20comment!)
@@ -194,92 +340,6 @@ This site now came full circle: it started as a self-hosted php bundle, and it's
 * I moved away from Wordpress in 2021. Somehow, the site still claims to have 20 visitors a day, even though there are no posts (other than a text saying "moved to...")
 * I still haven't deleted all the content from Blogger - but it's in my ToDo list
 * `wc $(find md_blog -type f)` says this blog has 116068 words in 16497 lines. This is comparable to 400 pages book, though not necessarily a good one. Google says 'The Return of the King' is about 135K words, and 'The Hobbit' is about 100K. 'Sense and Sensibility' comes closest at 119K words.
-
-
-
-
-
----
-
-## Fix Spotify deeplinking in Linux + custom SpotiWeb UI
-
-Post by Nico Brailovsky @ 2023-12-16 | [Permalink](md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&body=I%20have%20a%20comment!)
-
-After a recent update I found [my custom Spotify UI (\*)](https://nicolasbrailo.github.io/SpotiWeb/) wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:
-
-```bash
-sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
-sudo echo '/usr/share/spotify/spotify.real --uri="$1"' > /usr/share/spotify/spotify
-
-```
-
-Seems old versions of spotify would try to open anything as a deeplink, but new versions require a `--uri` parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.
-
-In the "reminder to myself" category, as there is zero chance I'll remember this next time I'm setting up a computer.
-
-### (\*) SpotiWeb: custom Spotify UI
-
-I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)
-
-The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and [either run your own, or check out there's no server side processing involved.](https://github.com/nicolasbrailo/SpotiWeb)
-
-
-
-
-
----
-
-## Translated to Chinese!
-
-Post by Nico Brailovsky @ 2023-01-14 | [Permalink](md_blog/2023/0114_TranslatedtoChinese.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/0114_TranslatedtoChinese.md&body=I%20have%20a%20comment!)
-
-Small celebratory post, because I never expected it:
-
-[![](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)
-
-Someone translated [one of my open source projects](http://github.com/nicolasbrailo/pianOli) to Chinese!
-
-
-
-
-
----
-
-## Bash script preamble
-
-Post by Nico Brailovsky @ 2021-06-27 | [Permalink](md_blog/2021/0627_Bashscriptpreamble.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0627_Bashscriptpreamble.md&body=I%20have%20a%20comment!)
-
-All background Bash scripts should start with this preamble:
-
-```bash
-set -euo pipefail
-exec > ~/log.log 2>&1
-```
-
-There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:
-
-* **-e** halts the script on error
-* **-u** errors when using an undefined variable
-* **-o pipefail** makes pipe error return value sane
-* **exec > ~/log.log 2>&1** redirect all output to ~/log.log
-
-
-
-
-
----
-
-## Where is the fun in that?
-
-Post by Nico Brailovsky @ 2021-03-18 | [Permalink](md_blog/2021/0318_Whereisthefuninthat.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0318_Whereisthefuninthat.md&body=I%20have%20a%20comment!)
-
-You can always find coders asking why coding isn't fun anymore. I can somewhat relate but I never understood why the answer isn't obvious: coding isn't software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there's also not-interesting-stuff in the mix. Maybe testing and documenting isn't your thing, you just want to build something. Maybe the stability from testing and documenting isn't that important to you. Perhaps you know you're the only one who's ever going to read your code. Your future self may be angry at you for a little while if the code breaks... so what? Your experiment crashed? Just reboot it. No problem.
-
-If you're coding-to-sell, you're not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You're not writing code to learn new things, that's only a nice side-effect; you are trying to build a product.
-
-Furthermore, you're not investing time to learn something or just to have fun; you're trading time for money (if you learn something in the process, that's good - but probably not why you're being paid a salary as a software engineer).
-
-It's understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it's not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it's kept me interested in software development for the last 15 (ish) years. I'm hoping it'll do the trick for much longer than that.
 
 
 

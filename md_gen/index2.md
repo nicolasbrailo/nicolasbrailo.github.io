@@ -1,5 +1,91 @@
 #
 @meta docType index
+## Fix Spotify deeplinking in Linux + custom SpotiWeb UI
+
+Post by Nico Brailovsky @ 2023-12-16 | [Permalink](md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/1216_FixSpotifydeeplinkinginLinuxcustomSpotiWebUI.md&body=I%20have%20a%20comment!)
+
+After a recent update I found [my custom Spotify UI (\*)](https://nicolasbrailo.github.io/SpotiWeb/) wasn't working. The way my custom UI works is by generating a simple list of followed artists, and then playing in the native app by using deep-linking. A recent update seems to have broken this in Linux based OSes, so here's my fix:
+
+```bash
+sudo mv /usr/share/spotify/spotify /usr/share/spotify/spotify.real
+sudo echo '/usr/share/spotify/spotify.real --uri="$1"' > /usr/share/spotify/spotify
+
+```
+
+Seems old versions of spotify would try to open anything as a deeplink, but new versions require a `--uri` parameter on argv. Surely there is a cleaner way of doing this in xdg-open, but I'm too lazy to read manuals.
+
+In the "reminder to myself" category, as there is zero chance I'll remember this next time I'm setting up a computer.
+
+### (\*) SpotiWeb: custom Spotify UI
+
+I don't like "recent" changes (recent being the last 3 or 4 years!) to Spotify's UI, [so I rolled out my own](https://nicolasbrailo.github.io/SpotiWeb/). It's a plain, boring, unobtrusive view of all your followed artists, grouped by categories. It also runs in any browser and is extremely minimalist (doesn't even have a search function: you can use the browser's search if you need one!)
+
+The app is hosted in github pages, and because it's entirely client side it doesn't need any kind of server side support to run. Check out the source here and [either run your own, or check out there's no server side processing involved.](https://github.com/nicolasbrailo/SpotiWeb)
+
+
+
+
+
+---
+
+## Translated to Chinese!
+
+Post by Nico Brailovsky @ 2023-01-14 | [Permalink](md_blog/2023/0114_TranslatedtoChinese.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2023/0114_TranslatedtoChinese.md&body=I%20have%20a%20comment!)
+
+Small celebratory post, because I never expected it:
+
+[![](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)](/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg)
+
+Someone translated [one of my open source projects](http://github.com/nicolasbrailo/pianOli) to Chinese!
+
+
+
+
+
+---
+
+## Bash script preamble
+
+Post by Nico Brailovsky @ 2021-06-27 | [Permalink](md_blog/2021/0627_Bashscriptpreamble.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0627_Bashscriptpreamble.md&body=I%20have%20a%20comment!)
+
+All background Bash scripts should start with this preamble:
+
+```bash
+set -euo pipefail
+exec > ~/log.log 2>&1
+```
+
+There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:
+
+* **-e** halts the script on error
+* **-u** errors when using an undefined variable
+* **-o pipefail** makes pipe error return value sane
+* **exec > ~/log.log 2>&1** redirect all output to ~/log.log
+
+
+
+
+
+---
+
+## Where is the fun in that?
+
+Post by Nico Brailovsky @ 2021-03-18 | [Permalink](md_blog/2021/0318_Whereisthefuninthat.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0318_Whereisthefuninthat.md&body=I%20have%20a%20comment!)
+
+You can always find coders asking why coding isn't fun anymore. I can somewhat relate but I never understood why the answer isn't obvious: coding isn't software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there's also not-interesting-stuff in the mix. Maybe testing and documenting isn't your thing, you just want to build something. Maybe the stability from testing and documenting isn't that important to you. Perhaps you know you're the only one who's ever going to read your code. Your future self may be angry at you for a little while if the code breaks... so what? Your experiment crashed? Just reboot it. No problem.
+
+If you're coding-to-sell, you're not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You're not writing code to learn new things, that's only a nice side-effect; you are trying to build a product.
+
+Furthermore, you're not investing time to learn something or just to have fun; you're trading time for money (if you learn something in the process, that's good - but probably not why you're being paid a salary as a software engineer).
+
+It's understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it's not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it's kept me interested in software development for the last 15 (ish) years. I'm hoping it'll do the trick for much longer than that.
+
+
+
+
+
+---
+
 ## reboot succesful?
 
 Post by Nico Brailovsky @ 2021-03-17 | [Permalink](md_blog/2021/0317_rebootsuccesful.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0317_rebootsuccesful.md&body=I%20have%20a%20comment!)
@@ -215,155 +301,6 @@ struct Bar : FwdFoo {
 
 
 
-
-
-
-
-
----
-
-## Presenting tips: make your presentations suck a bit less
-
-Post by Nico Brailovsky @ 2019-11-11 | [Permalink](md_blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1111_Presentingtipsmakeyourpresentationssuckabitless.md&body=I%20have%20a%20comment!)
-
-I spent the last few years in a role that required a significant part in communicating with other people. Some of that in the form of slides and presentations, because not having slides isn't enterprisy. I'm far from being a great presenter, but I did learn a thing or two. All this is quite general, so it should apply to any kind of topic... as long as that topic is software engineering. I'm still a technical person and an engineer, so a lot of my assumptions about the audience may not hold true if you, for example, need to seriously consider fun things like workplace politics.
-
-I hope these tips become useful for other people. At the very least I hope I'll remember to re-read this post the next time I have to present something.
-
-Tip 1: Your audience wants you to succeed
------------------------------------------
-
-This is perhaps the most groundbreaking revelation. When you present something, people are giving you their time. Instead of browsing memes they are sitting down, listenning to what you have to say (at least until their limited attention span runs out). Nearly all of your audience will want to learn something, have fun, or at least be entretained. In a large enough crowd, the majority will be there voluntarily. There is just one logical conclusion: they want you to succeed! Few will go there with the expectation that your presentation will suck; that would be wasted time for them too.
-
-Tip 2: Your audience wants you to succeed. Except for \*that person\*.
-----------------------------------------------------------------------
-
-Ok, tip #1 needs a caveat: \*that person\*. Most people will want to enjoy your presentation as much as they can and move on to the next thing. Except there will always be that person. You know who; might just be schadenfreude, or maybe they like showing off "they know best". Whatever the reason, they'll have a nitpick, an impossible question or an "actually" to add. There's good news, though: everyone dislikes him!
-
-Whenever the annoying person of the group raises their hand, there's usually a collective sigh and a lot of eye-rolling in the audience. Don't invest most of your energy in dealing with that person. Do pay attention to the issues this person raises; they may in fact be good objections. Just learn how to defer. 99% of the time it suffices to say "good observation, let's pick it up one-on-one after this presentation". The audience is happy, the person raising the question feels heard and you may actually learn something new from the interaction.
-
-Tip 3: Understand your medium
------------------------------
-
-A long time ago I thought slides were slides were slides. And a presentation is the decoration on top. Big mistake! The first thing I learned -the hard way- is that presentations, and in particular slides, need to be tailored to your delivery medium. Doing an online webcast presentation is very different than doing a presentation in person. It's even harder if you have a mixed audience, with some people online and some people in person. I personally try to avoid this situation like hell, as the end result tends to be a session that's not quite good for anyone. I prefer to have two sessions, one in person only and one just online. Some people are capable of having a successful presentation with a mixed audience. I'm not that skilled.
-
-Tip 4: Give your audience a break
----------------------------------
-
-You know your presentation. You've practiced, know the material, understand every nook and cranny of your talk. However, for your audience it's (hopefully) all new knowledge. And it's hard to absorb new knowledge with a person talking non stop, all the time. Give your audience a pause. Let them think. \*Stay silent\*.
-
-It sounds scary: being on the spotlight, standing up and not saying anything for \*minutes\*. Well, it may seem like minutes, but it's usually just a few seconds you need: that's usually enough for people to think through a new idea. Learn to be comfortable with a bit of silence.
-
-Tip 5: Silence for emphasis
----------------------------
-
-Silence is important, so it gets two tips. People need silence to think, sure. But also consider this: while you shut up, people think of what you last said (or dinner, depending on the talk). That means, if you need to emphazise a particular aspect of your talk don't repeat it over and over again; present it, then make a pause. Just 5 seconds. If you quickly move on it becomes another bit of information in a sea of new knowledge. Stop for emphasis.
-
-Tip 6: Questions?
------------------
-
-In light of all the praise of silence, here's an extra beneffit of shutting up: people get to ask questions. Yes, that's also scary, but interaction is great to help people understand. Invite questions with your silence!
-
-Yes, an open conversation is scary. Besides the job of presenting you're now also a moderator. It can derail the whole timing and it makes presenting that much harder. So what? Your presentation may be good but it's not \*that good\*: if your audience engages you're doing something right. Follow their lead.
-
-The difficult part is learning when to stop a runaway discussion. As a general rule, if you see engagement from different people across the room you're doing fine. If you only see a small group of people nitpicking over a detail, it's time to stop (remember tip #2!)
-
-Tip 7: Most important slide? Last one
--------------------------------------
-
-The last slide will be shown the longest. While you get closing questions from the audience (or akwardly stand in a corner while saying "no questions?", whichever happens) the final slide will be on screen. People will now either stare at their phones or ar this final slide. Make it count! Don't use a "Questions?" clipart (please don't use clipart). Make the last slide a summary of the most relevant point of your talk. Add some followup links and contact information.
-
-If there is only one slide your audience will remember (and you may not even get that) it will probably be the last one.
-
-Tip 8: Paper drafts
--------------------
-
-Some times a computer is too limiting. Start with a paper draft to organize your ideas. Maybe you can also draw a mock of a few important slides. You don't need to design the entire thing on paper but by not having to fight your tools (is this image \*really\* aligned with that text?) you can focus on content, then on "UX" and only then on the implementation. If you run out of time battling powerpoint you can still have good content. If you run out of time battling powerpoint while designing your third slide, you may have a brilliant presentation with 10% of the content you wanted to show.
-
-Tip 9: Know your audience \*and yourself\*
-------------------------------------------
-
-Some presentations are good for jokes and an informal tone. Some are to present quarterly financial numbers to your board of directors. It's pretty clear in which one you can use cat memes (and if it's not, maybe you need to start smaller!) - but you should also know to which style of presentation you naturally lean.
-
-Slides are boring but safe. Q&A's are good to let people understand a topic at their own pace. Videos are a safe back up, but hard to seamlessly integrate in a presentation. Jokes are great, but really hard if you're not familiar with the audience. Know which style works for you and rely on it; but also try to mix in some new skill you are trying to develop. You may be surprised.
-
-Tip 10: Why are you there? Why are they there?
-----------------------------------------------
-
-Before even planning a presentation, ask yourself: why? What's the purpose, what do \*I\* want to get out of it? More importantly: what do other people get out of it? The first reaction is usually "sharing information!". Unless you are a particularly skilled presenter, the information you had to share can probably be better understood by writing down a whitepaper, or maybe just an email.
-
-There are many reasons to present something, from getting people to sit-down-and-pay-attention to "listen to my amazing sales pitch". In the end most of them boil down to some form of entertainment. Yes: most (successful) presentations are just some form of amusement. If you also have a useful message to deliver with it, all the better!
-
-
-
-
-
----
-
-## Bash tip: Default value for a variable
-
-Post by Nico Brailovsky @ 2019-11-04 | [Permalink](md_blog/2019/1104_BashtipDefaultvalueforavariable.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/1104_BashtipDefaultvalueforavariable.md&body=I%20have%20a%20comment!)
-
-In my Bash scripts, I used to hack my way around default values for variables. Turns out there is a very simple way to give your variables a default value while also letting other override them if they want to:
-
-```
-FOO=${BAR-bar}
-```
-
-If someone export's BAR, then FOO will equals the already exported value of $BAR, if $BAR doesn't exist then FOO will have the value of the literal 'bar'.
-
-
-
-
-
----
-
-## std::is_constant_evaluated: make debugging a little bit harder for yourself!
-
-Post by Nico Brailovsky @ 2019-08-03 | [Permalink](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [2 comments](md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md) | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0803_stdis_constant_evaluatedmakedebuggingalittlebitharderforyourself.md&body=I%20have%20a%20comment!)
-
-Let's pretend you find this:
-
-```c++
-const int a = foo();
-int b = foo();
-```
-
-Would you be tempted to assume that a==b, always? I would. What if 'foo' actually depends on a global variable, and its return value depends on that global setting? Suddenly the code above will raise a few eyebrows in a code review session.
-
-Coming to your friendly c++20 standard now:
-
-```c++
-constexpr int foo() {
-    return (std::is_constant_evaluated())? 42 : 24;
-}
-
-bool a() {
-    const int x = foo();
-    return x == foo();
-}
-```
-
-I'm sure with careful usage, is\_constant\_evaluated will allow library writers to create much more performant code. I'm also sure I'll lose a lot of hair trying to figure out why my debug code (`cout << foo()`, anyone?) prints different values than my `production` code.
-
-
-
-
-
-
-
-
----
-
-## Vim multiple search
-
-Post by Nico Brailovsky @ 2019-07-27 | [Permalink](md_blog/2019/0727_Vimmultiplesearch.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2019/0727_Vimmultiplesearch.md&body=I%20have%20a%20comment!)
-
-I keep forgetting about this one. Maybe writing it down will help me remember: Vim can search for (and highlight) multiple patterns at the same time. Just start your search with \v and split the patterns with |. Eg:
-
-```
-:/\vfoo|bar
-```
 
 
 

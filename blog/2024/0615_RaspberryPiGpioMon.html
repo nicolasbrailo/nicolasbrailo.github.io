@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>RaspberryPi gpio cli monitor Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="raspberrypigpioclimonitor">RaspberryPi gpio cli monitor</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-06-15 |
+  <a href="/blog/2024/0615_RaspberryPiGpioMon.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0615_RaspberryPiGpioMon.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>I wrote a <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">small CLI utility to display when a GPIO pin changes state in a Raspberry Pi</a>.</p>
+<p>Using <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">gpiomon</a>, it's possible to monitor all pins to get an output like this:</p>
+<pre><code>$ ./gpiomon
+CNT P00 P01 P02 P03 P04 P05 P06 P07 P08 P09 P10 P11 P12 P13 P14 P15 P16 P17 P18 P19 P20 P21 P22 P23 P24
+000 &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt;  0   0   0   0   0   0  &gt;1&lt;  0   0   0   0   0  &gt;1&lt;  0   0   0
+001  1   1   1   1   1   1   1   1   1   0   0   0   0   0  &gt;1&lt;  1   0   0   0   0   0   1   0   0   0
+002  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+003  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+004  1   1   1   1   1  &gt;1&lt;  1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+005  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+</code></pre>
+<p>Where the left most column is the number of seconds since startup. It's also easy to monitor a single pin:</p>
+<pre><code>$ ./gpiomon 21
+000 PIN 21 = &gt;1&lt;
+001 PIN 21 =  1
+002 PIN 21 =  1
+003 PIN 21 = &gt;0&lt;
+004 PIN 21 =  0
+005 PIN 21 =  0
+006 PIN 21 = &gt;1&lt;
+007 PIN 21 =  1
+</code></pre>
+<p>And most useful of all, an option to only print out (log) when a pin changes state. Eg:</p>
+<pre><code>$ ./gpiomon -u -l 21
+000 PIN 21 = &gt;1&lt;
+009 PIN 21 = &gt;0&lt;
+015 PIN 21 = &gt;1&lt;
+</code></pre>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

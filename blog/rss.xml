@@ -5,9 +5,217 @@
   <title>Nico Brailovsky's thought repository</title>
   <link>https://nicolasbrailo.github.io/</link>
   <description>I write things. A few may make sense.</description>
-  <lastBuildDate>2024-05-25</lastBuildDate>
-  <pubDate>2024-05-25</pubDate>
+  <lastBuildDate>2024-07-14</lastBuildDate>
+  <pubDate>2024-07-14</pubDate>
   <item>
+  <title>Houseboard P0: HDMI to eDP</title>
+  <link>https://nicolasbrailo.github.io//blog/2024/0707_HouseboardHdmiToEdp.html</link>
+  <pubDate>2024-07-07</pubDate>
+  <author>Nico Brailovsky</author>
+  <description><![CDATA[
+    <pre>Minor victory in my quest to build a houseboard based on a Linux-PoE-netboot-RaspberryPi-etc: I figured out how to run my own LCD panel.
+
+[![](/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg)](/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg)
+
+The first step was verifying my panel worked. For this, I used a display port to eDP converter. Turns out eDP is basically DP, but over a ribbon cable. There are some cheap boards, [for example](https://www.aliexpress.com/item/1005006914739674.html), that do this - searching for "DP to eDP" or "display port to eDP" will yield a high number of vendors. The key part is matching the ribbon type of the panel you need to drive (30 or 40 pins).
+
+Unfortunatelly, single-board-computers (like the RaspberryPi) don't have DP, despite DP being better than HDMI in every way. The cost of adding a DP connector seems to be high and mosty in licenses, not necessarily in components, so SBCs don't do it. This meant that getting my expensive GPU to use my cheap panel wasn't good for much beyond knowing the panel works.
+
+Fortunatelly, I managed to find a board that liked my panel:
+
+[![](/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg)](/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg)
+
+I got a "[PCB-800807V6-1HDMI-EDP 30PIN LCD driver board](https://www.aliexpress.com/item/32968710965.html)", which comes at about £10 and supports multiple resolutions. This was a nice lucky find, and it unblocked the build of HouseboardP0, which I'll document in some other entry.</pre>
+  ]]></description>
+</item>
+
+<item>
+  <title>Houseboard P0: PP0</title>
+  <link>https://nicolasbrailo.github.io//blog/2024/0630_HouseboardP0.html</link>
+  <pubDate>2024-06-30</pubDate>
+  <author>Nico Brailovsky</author>
+  <description><![CDATA[
+    <pre>I have a [ton of unnecessary home automation](https://github.com/nicolasbrailo/BatiCasa), but I'm lacking some kind of house board: a quick way of getting info before leaving (like weather, or transport conditions), leaving messages (don't forget to pick up kids from school) or just a shopping list. Sensible people would look at readily available digital signage solutions. Of course I didn't do that, instead decided to build my own.
+
+I settled for a quick list of requirements to guide the project: Linux based, running off power-over-ethernet, with net-boot and 100% locally hosted. How hard can that be?
+
+The first step to design my houseboard was searching for a panel. Here is a capture of the moment it failed:
+
+[![](/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg)](/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg)
+
+Turns out that scoring a random replacement panel for a laptop and trying to pair that with a random controller board works well in theory but needs a lot of luck. Starting with a cheapish £40 LCD panel with an eDP connector, I got an HDMI-to-eDP board. My panel and my board didn't like each other, so all I got was backlight, and that is not very useful unless you only need to display binary information.
+
+Since ordering and shipping a different panel controller board would take a few weeks, I decided to change my strategy: my P0 would be changed to a Prototype-Prototype-0 (PP0), using a similar platform to let me start working on the software and sensors, while I figured the way to control a panel. Here is Houseboard PP0, in all it's glory:
+
+[![](/blog_img/0630_HouseboardP0/2PP0.jpg)](/blog_img/0630_HouseboardP0/2PP0.jpg)
+
+I got a USB-powered touchscreen, which is powered by a RaspberryPi 4. The RPI itself is powered over PoE, and there is an HDMI connection between the Rpi and the screen, and a secondary USB connection to get touch screen support. The PoE adapter is barely capable of powering the screen AND the Rpi: if I turn the brightness of the screen to 100%, the system will reset.
+
+And with a few sensors (a PIR + mmWave):
+
+[![](/blog_img/0630_HouseboardP0/3Sensors.jpg)](/blog_img/0630_HouseboardP0/3Sensors.jpg)
+
+It's not going to win any design prizes, but it works
+
+[![](/blog_img/0630_HouseboardP0/4Running.jpg)](/blog_img/0630_HouseboardP0/4Running.jpg)
+
+While eventually I did end up solving my LCD panel woes, Houseboard PP0 let me start building some software for the houseboard quickly:
+
+1. A [Wayland based image display](https://github.com/nicolasbrailo/swayimg) built on top of Swayimage; to show a gallery of pictures when there is no other info to show
+2. A [presence service](https://github.com/nicolasbrailo/pipresencemon) (to determine when there are humans nearby, based on PIR and mmWave sensors).
+
+
+## BoM for Houseboard PP0
+
+* A RaspberryPi 4 (any Pi will do, but having a bunch of USB ports makes this project a lot simpler)
+* A USB powered screen. I went for a 14'' 1080p 1920x1080, and with the PoE constrain that's probably as big as it's feasible. My browsing history says I got this one: https://www.amazon.co.uk/dp/B0CB5FWGT8
+* PoE splitter (USBC + ETH out, 5v 4A) - Look for the adapter with largest power rating you can, a cheap one won't work. I went for this one: https://www.amazon.co.uk/dp/B0CHW5K5F4
+* [PIR sensor](https://thepihut.com/products/pir-motion-sensor-module) (NB VCC=5v, connect to Pin4, GND Pin6, OUT Pin17)
+* [Smaller PIR sensor](https://thepihut.com/products/breadboard-friendly-mini-pir-motion-sensor-with-3-pin-header) (VCC=5v Pin4, GND Pin6, OUT Pin17)
+  
+## Useful references
+* [Pi GPIO pins](https://pi4j.com/1.2/pins/model-3b-rev1.html)
+* [PI Zero pins](https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1)</pre>
+  ]]></description>
+</item>
+
+<item>
+  <title>RaspberryPi gpio cli monitor</title>
+  <link>https://nicolasbrailo.github.io//blog/2024/0615_RaspberryPiGpioMon.html</link>
+  <pubDate>2024-06-15</pubDate>
+  <author>Nico Brailovsky</author>
+  <description><![CDATA[
+    <pre>I wrote a [small CLI utility to display when a GPIO pin changes state in a Raspberry Pi](https://github.com/nicolasbrailo/pi_gpio_mon/tree/main).
+
+Using [gpiomon](https://github.com/nicolasbrailo/pi_gpio_mon/tree/main), it's possible to monitor all pins to get an output like this:
+
+```
+$ ./gpiomon
+CNT P00 P01 P02 P03 P04 P05 P06 P07 P08 P09 P10 P11 P12 P13 P14 P15 P16 P17 P18 P19 P20 P21 P22 P23 P24
+000 >1< >1< >1< >1< >1< >1< >1< >1< >1<  0   0   0   0   0   0  >1<  0   0   0   0   0  >1<  0   0   0
+001  1   1   1   1   1   1   1   1   1   0   0   0   0   0  >1<  1   0   0   0   0   0   1   0   0   0
+002  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+003  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+004  1   1   1   1   1  >1<  1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+005  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+```
+
+Where the left most column is the number of seconds since startup. It's also easy to monitor a single pin:
+
+```
+$ ./gpiomon 21
+000 PIN 21 = >1<
+001 PIN 21 =  1
+002 PIN 21 =  1
+003 PIN 21 = >0<
+004 PIN 21 =  0
+005 PIN 21 =  0
+006 PIN 21 = >1<
+007 PIN 21 =  1
+```
+
+And most useful of all, an option to only print out (log) when a pin changes state. Eg:
+
+```
+$ ./gpiomon -u -l 21
+000 PIN 21 = >1<
+009 PIN 21 = >0<
+015 PIN 21 = >1<
+```</pre>
+  ]]></description>
+</item>
+
+<item>
+  <title>LD2410S: mmWave human-presence detection</title>
+  <link>https://nicolasbrailo.github.io//blog/2024/0615_LD2410SmmWaveSensor.html</link>
+  <pubDate>2024-06-15</pubDate>
+  <author>Nico Brailovsky</author>
+  <description><![CDATA[
+    <pre>For a project, I bought a bunch of cheap LD2410S, an mmWave (radar) sensor to detect human presence (I actually started with an infrared sensor, but it had too many false negatives for my use case). The ones I got were pre-flashed with firmware to use a pin to announce presence or absence. To figure out if it's working or not, I tried using my [GPIOmon](md_blog/2024/0615_RaspberryPiGpioMon.md) byt found the sensor so accurate, that I couldn't manage to not detect my presence when in the room, no mater what material I used to cover it. Instead, I had to leave the room, and only then confirm the sensor was working as expected by looking at the GPIOmon logs.
+
+The LD2410S also has a UART interface, and comes with a (Windows only) test app, but I wasn't able to make it work under Wine. I spent a bit of time reverse engineering how to talk UART with the LD2410S from the manual, and I got halfway there. There are examples, but many of them (even in the manufacturer's page) seem to be for a different model, and the LD2410S doesn't behave quite the same. First, I tested a basic command to figure out how to talk to the sensor:
+
+```
+import serial
+import binascii
+
+ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=10)
+
+def read_ser():
+    data = b''
+    while True:
+        data = data + binascii.hexlify(ser.read())
+        if data.endswith(b'04030201') or data.endswith(b'08070605') or len(data) > 50:
+            print(' <= ', data)
+            return
+
+def ser_message(msg):
+    head = "FDFCFBFA"
+    tail = "04030201"
+    fullmsg = head + msg + tail
+    print(' => ', fullmsg)
+    ser.write(binascii.unhexlify(fullmsg))
+    read_ser()
+
+# Enter config mode
+ser_message("0400" + "FF000100")
+
+# Request serial
+ser_message("0200" + "1100")
+
+# Write new serial
+ser_message("0C00" + "10000800" + "BADB0B00F00DF00D")
+
+# Request serial
+ser_message("0200" + "1100")
+
+# Disable config mode
+ser_message("0400" + "FE010000")
+
+ser.close()
+```
+
+If things work, the reply to the 4th message (request serial) should be the serial we set in the message just before. Something like `<=  b'fdfcfbfa0e00110100000800BADB0B00F00DF00D04030201'`. Once that worked, I knew I could talk to the device over UART, but I still couldn't make sense of the periodic reports the device was sending:
+
+
+```
+import serial
+import binascii
+
+ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=10)
+
+data = b''
+while True:
+    data = data + binascii.hexlify(ser.read())
+    if len(data) == 10:
+        print('< ', data)
+        data = b''
+
+ser.close()
+```
+
+The periodic messages here didn't match any of the messages specified in the docs I found, so I printed these out together with the GPIO status. Got something like this:
+
+```
+<  b'6e02320162'    GPIO=1
+<  b'6e02320162'    GPIO=1
+<  b'6e00000062'    GPIO=0
+<  b'6e00000062'    GPIO=0
+...
+<  b'6e00000062'    GPIO=0
+<  b'6e01000062'    GPIO=0
+<  b'6e01000062'    GPIO=0
+<  b'6e02d20062'    GPIO=1
+<  b'6e02d20062'    GPIO=1
+<  b'6e02d20062'    GPIO=1
+<  b'6e02d20062'    GPIO=1
+```
+
+I still haven't figured out what these messages mean, and my weekend timedout so it will have to wait (unless a kind reader of this note can drop me a line with info on how to parse the sensor's report, that is.)</pre>
+  ]]></description>
+</item>
+
+<item>
   <title>No cloud IoT: LAN only Security camera</title>
   <link>https://nicolasbrailo.github.io//blog/2024/0523_NoCloudSecurityCam.html</link>
   <pubDate>2024-05-23</pubDate>
@@ -388,144 +596,6 @@ function ,a-screen-off() {
 ```
 
 With this, I can type `,a` to get an autocomplete of just my Android helpers.</pre>
-  ]]></description>
-</item>
-
-<item>
-  <title>Spotiweb</title>
-  <link>https://nicolasbrailo.github.io//blog/2024/0314_Spotiweb.html</link>
-  <pubDate>2024-03-14</pubDate>
-  <author>Nico Brailovsky</author>
-  <description><![CDATA[
-    <pre>If you find the native client for Spotify is too cluttered, [Spotiweb](https://github.com/nicolasbrailo/Spotiweb) can provide a simpler experience. [Spotiweb](https://github.com/nicolasbrailo/Spotiweb) automatically goes through the list of your followed artists to create an index groupped by category. The categories will be automatically determined based on the artists you follow. The result will be a simple web page with an index of all the artists you followed, groupped by somewhat logical categories (when categories exist).
-
-![SpotiWeb running looks like this](https://raw.githubusercontent.com/nicolasbrailo/SpotiWeb/master/screenshot.png)
-
-You can use this service from [nicolasbrailo.github.io/SpotiWeb](https://nicolasbrailo.github.io/SpotiWeb/) - you will need a developer API key+secret. All the storage is local to your browser (there is no key, user data or anything at all being sent to any external host, everything is done in your browser) and you can even use this client offline (Spotify won't work offline, though). You can also self-host this service, either by forking the project or by running it via a local webserver.
-
-This is a utility that grew somewhat organically from a simple index of artists; as more and more features of the native client got broken in my different setups, the web app "grew" to replace it. Today it's pretty much a full-fledged web-app capable of replacing the native client entirely, able to play music using Spotify's web sdk, integrate with the native client (if one is available) and with local speakers in your network.
-
- * [Project repo: Spotiweb](https://github.com/nicolasbrailo/Spotiweb)
- * [Run in your browser](https://nicolasbrailo.github.io/SpotiWeb/)</pre>
-  ]]></description>
-</item>
-
-<item>
-  <title>Bash: list ALSA PCMs</title>
-  <link>https://nicolasbrailo.github.io//blog/2024/0304_FindRightPCM.html</link>
-  <pubDate>2024-03-04</pubDate>
-  <author>Nico Brailovsky</author>
-  <description><![CDATA[
-    <pre>Linux audio isn't friendly, even if pipewire is making huge strides in making it "just work". If you ever find you need to get down to the ALSA level, something is probably very broken. If (when) this happens, and you can't figure out which of your ALSA cards you should be using, just try them all:
-
-
-```bash
-set -euo pipefail
-
-if [ -z "${1+x}" ] || [ ! -f "${1}" ]; then
-  echo "Will iterate over all known PCMs to try to capture or play audio and report which work"
-  echo "Usage: $0 PLAYABLE_FILE"
-  exit 1
-fi
-
-sample=${1}
-plays_pcms=$( aplay --list-pcms | grep ':CARD=' )
-for dev in $plays_pcms; do
-  aplay --duration=1 --device="$dev" "$sample" 1>/dev/null 2>/dev/null && \
-    echo "Playback may work on interface '$dev'"
-done
-
-cap_pcms=$( arecord --list-pcms | grep ':CARD=' )
-for dev in $cap_pcms; do
-  arecord --rate 48000 -f S16_LE --disable-resample --duration=1 --device="$dev" \
-      /dev/null 1>/dev/null 2>/dev/null && \
-      echo "Capture may work on interface '$dev'"
-done
-```</pre>
-  ]]></description>
-</item>
-
-<item>
-  <title>Vim can wget + c-w search</title>
-  <link>https://nicolasbrailo.github.io//blog/2024/0303_VimWgetSite.html</link>
-  <pubDate>2024-03-03</pubDate>
-  <author>Nico Brailovsky</author>
-  <description><![CDATA[
-    <pre>I (re?)learned a thing today: Vim can wget a site!
-
-Doing `c-w gf` tells Vim to open whatever path is under the cursor. This is usually something like "#include <foo/bar/baz.h>", which means it will ask Vim to open `foo/bar/baz.h`. If you happen to have `http://nicolasbrailo.github.io` under your cursor, you'll be fetching this site into a temp buffer, in Vim.
-
-## Bonus tip:
-
-If `c-w gf` isn't finding the files you want it to, you may need to set your search path:
-
-```vim
-set path+=/home/user/path/to/foo,/home/user/src/bar
-```</pre>
-  ]]></description>
-</item>
-
-<item>
-  <title>Wifi from the CLI</title>
-  <link>https://nicolasbrailo.github.io//blog/2024/0302_CLIWifi.html</link>
-  <pubDate>2024-03-01</pubDate>
-  <author>Nico Brailovsky</author>
-  <description><![CDATA[
-    <pre>Another one to file in the category of self reminders, and a cheatsheet I'll need this weekend: whenever I need to work on the main (eth!) connection of a server, instead of grabbing a keyboard and a monitor it's easier to connect to wifi. For example, when I need to change the IP of a Raspberry PI in my network. Note this guide assumes a Debian-like environment:
-
-```bash
-# Figure out which interfaces exist
-ip a
-
-# Figure out which interfaces are connected
-ip link show
-# For example:
-ip link show wlp3s0
-```
-
-Restart the interface (which will do nothing, because it's probably not autoconfigurable)
-
-```
-ip link set wlp3s0 down
-ip link set wlp3s0 up
-```
-
-Start `wpa_cli`. Creating a new network may be needed, but I don't have notes. Once a network is created, its config will be in `/etc/wpa_supplicant/wpa_supplicant.conf`. Then:
-
-```bash
-$ wpa_cli
-> scan
-[Wait a few seconds]
-> scan_results
->
-```
-
-Connect:
-
-```bash
-# Connect
-wpa_supplicant -B -i wlp3s -c < $( wpa_passphrase "your ssid name" "password" )
-# Request IP
-dhclient wlp3s0
-# Confirm connection
-ip addr show wlp3s0
-```
-
-Work on main interface (leave on a loop, in case wifi disconnects for whatever reason)
-
-```bash
-while true; do dhclient -r eno1 ; dhclient eno1 ; ip addr show eno1; sleep 1; echo "DONE"; done 
-```
-
-When done, kill wifi
-
-```bash
-ip link set wlp3s0 down
-# Release addr locally
-dhclient -r wlp3s0
-# To be sure:
-rfkill
-```</pre>
   ]]></description>
 </item>
 

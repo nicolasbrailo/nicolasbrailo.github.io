@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Posts for 2024 June Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2024 June</h2>
+
+<h2>Houseboard P0: PP0<a name="houseboardp0pp0"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-06-30 | <a href="/blog/2024/0630_HouseboardP0.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0630_HouseboardP0.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I have a <a href="https://github.com/nicolasbrailo/BatiCasa">ton of unnecessary home automation</a>, but I'm lacking some kind of house board: a quick way of getting info before leaving (like weather, or transport conditions), leaving messages (don't forget to pick up kids from school) or just a shopping list. Sensible people would look at readily available digital signage solutions. Of course I didn't do that, instead decided to build my own.</p>
+<p>I settled for a quick list of requirements to guide the project: Linux based, running off power-over-ethernet, with net-boot and 100% locally hosted. How hard can that be?</p>
+<p>The first step to design my houseboard was searching for a panel. Here is a capture of the moment it failed:</p>
+<p><a href="/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg" /></a></p>
+<p>Turns out that scoring a random replacement panel for a laptop and trying to pair that with a random controller board works well in theory but needs a lot of luck. Starting with a cheapish £40 LCD panel with an eDP connector, I got an HDMI-to-eDP board. My panel and my board didn't like each other, so all I got was backlight, and that is not very useful unless you only need to display binary information.</p>
+<p>Since ordering and shipping a different panel controller board would take a few weeks, I decided to change my strategy: my P0 would be changed to a Prototype-Prototype-0 (PP0), using a similar platform to let me start working on the software and sensors, while I figured the way to control a panel. Here is Houseboard PP0, in all it's glory:</p>
+<p><a href="/blog_img/0630_HouseboardP0/2PP0.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/2PP0.jpg" /></a></p>
+<p>I got a USB-powered touchscreen, which is powered by a RaspberryPi 4. The RPI itself is powered over PoE, and there is an HDMI connection between the Rpi and the screen, and a secondary USB connection to get touch screen support. The PoE adapter is barely capable of powering the screen AND the Rpi: if I turn the brightness of the screen to 100%, the system will reset.</p>
+<p>And with a few sensors (a PIR + mmWave):</p>
+<p><a href="/blog_img/0630_HouseboardP0/3Sensors.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/3Sensors.jpg" /></a></p>
+<p>It's not going to win any design prizes, but it works</p>
+<p><a href="/blog_img/0630_HouseboardP0/4Running.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/4Running.jpg" /></a></p>
+<p>While eventually I did end up solving my LCD panel woes, Houseboard PP0 let me start building some software for the houseboard quickly:</p>
+<ol>
+<li>A <a href="https://github.com/nicolasbrailo/swayimg">Wayland based image display</a> built on top of Swayimage; to show a gallery of pictures when there is no other info to show</li>
+<li>A <a href="https://github.com/nicolasbrailo/pipresencemon">presence service</a> (to determine when there are humans nearby, based on PIR and mmWave sensors).</li>
+</ol>
+<h2>BoM for Houseboard PP0<a name="bomforhouseboardpp0"></a></h2>
+<ul>
+<li>A RaspberryPi 4 (any Pi will do, but having a bunch of USB ports makes this project a lot simpler)</li>
+<li>A USB powered screen. I went for a 14'' 1080p 1920x1080, and with the PoE constrain that's probably as big as it's feasible. My browsing history says I got this one: https://www.amazon.co.uk/dp/B0CB5FWGT8</li>
+<li>PoE splitter (USBC + ETH out, 5v 4A) - Look for the adapter with largest power rating you can, a cheap one won't work. I went for this one: https://www.amazon.co.uk/dp/B0CHW5K5F4</li>
+<li><a href="https://thepihut.com/products/pir-motion-sensor-module">PIR sensor</a> (NB VCC=5v, connect to Pin4, GND Pin6, OUT Pin17)</li>
+<li><a href="https://thepihut.com/products/breadboard-friendly-mini-pir-motion-sensor-with-3-pin-header">Smaller PIR sensor</a> (VCC=5v Pin4, GND Pin6, OUT Pin17)</li>
+</ul>
+<h2>Useful references<a name="usefulreferences"></a></h2>
+<ul>
+<li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
+<li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
+</ul>
+<hr />
+<h2>RaspberryPi gpio cli monitor<a name="raspberrypigpioclimonitor"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-06-15 | <a href="/blog/2024/0615_RaspberryPiGpioMon.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0615_RaspberryPiGpioMon.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I wrote a <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">small CLI utility to display when a GPIO pin changes state in a Raspberry Pi</a>.</p>
+<p>Using <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">gpiomon</a>, it's possible to monitor all pins to get an output like this:</p>
+<pre><code>$ ./gpiomon
+CNT P00 P01 P02 P03 P04 P05 P06 P07 P08 P09 P10 P11 P12 P13 P14 P15 P16 P17 P18 P19 P20 P21 P22 P23 P24
+000 &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt;  0   0   0   0   0   0  &gt;1&lt;  0   0   0   0   0  &gt;1&lt;  0   0   0
+001  1   1   1   1   1   1   1   1   1   0   0   0   0   0  &gt;1&lt;  1   0   0   0   0   0   1   0   0   0
+002  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+003  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+004  1   1   1   1   1  &gt;1&lt;  1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+005  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+</code></pre>
+<p>Where the left most column is the number of seconds since startup. It's also easy to monitor a single pin:</p>
+<pre><code>$ ./gpiomon 21
+000 PIN 21 = &gt;1&lt;
+001 PIN 21 =  1
+002 PIN 21 =  1
+003 PIN 21 = &gt;0&lt;
+004 PIN 21 =  0
+005 PIN 21 =  0
+006 PIN 21 = &gt;1&lt;
+007 PIN 21 =  1
+</code></pre>
+<p>And most useful of all, an option to only print out (log) when a pin changes state. Eg:</p>
+<pre><code>$ ./gpiomon -u -l 21
+000 PIN 21 = &gt;1&lt;
+009 PIN 21 = &gt;0&lt;
+015 PIN 21 = &gt;1&lt;
+</code></pre>
+<hr />
+<h2>LD2410S: mmWave human-presence detection<a name="ld2410smmwavehumanpresencedetection"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-06-15 | <a href="/blog/2024/0615_LD2410SmmWaveSensor.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0615_LD2410SmmWaveSensor.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>For a project, I bought a bunch of cheap LD2410S, an mmWave (radar) sensor to detect human presence (I actually started with an infrared sensor, but it had too many false negatives for my use case). The ones I got were pre-flashed with firmware to use a pin to announce presence or absence. To figure out if it's working or not, I tried using my <a href="/blog/2024/0615_RaspberryPiGpioMon.html">GPIOmon</a> byt found the sensor so accurate, that I couldn't manage to not detect my presence when in the room, no mater what material I used to cover it. Instead, I had to leave the room, and only then confirm the sensor was working as expected by looking at the GPIOmon logs.</p>
+<p>The LD2410S also has a UART interface, and comes with a (Windows only) test app, but I wasn't able to make it work under Wine. I spent a bit of time reverse engineering how to talk UART with the LD2410S from the manual, and I got halfway there. There are examples, but many of them (even in the manufacturer's page) seem to be for a different model, and the LD2410S doesn't behave quite the same. First, I tested a basic command to figure out how to talk to the sensor:</p>
+<pre><code>import serial
+import binascii
+ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=10)
+def read_ser():
+    data = b''
+    while True:
+        data = data + binascii.hexlify(ser.read())
+        if data.endswith(b'04030201') or data.endswith(b'08070605') or len(data) &gt; 50:
+            print(' &lt;= ', data)
+            return
+def ser_message(msg):
+    head = "FDFCFBFA"
+    tail = "04030201"
+    fullmsg = head + msg + tail
+    print(' =&gt; ', fullmsg)
+    ser.write(binascii.unhexlify(fullmsg))
+    read_ser()
+# Enter config mode
+ser_message("0400" + "FF000100")
+# Request serial
+ser_message("0200" + "1100")
+# Write new serial
+ser_message("0C00" + "10000800" + "BADB0B00F00DF00D")
+# Request serial
+ser_message("0200" + "1100")
+# Disable config mode
+ser_message("0400" + "FE010000")
+ser.close()
+</code></pre>
+<p>If things work, the reply to the 4th message (request serial) should be the serial we set in the message just before. Something like <code>&lt;=  b'fdfcfbfa0e00110100000800BADB0B00F00DF00D04030201'</code>. Once that worked, I knew I could talk to the device over UART, but I still couldn't make sense of the periodic reports the device was sending:</p>
+<pre><code>import serial
+import binascii
+ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=10)
+data = b''
+while True:
+    data = data + binascii.hexlify(ser.read())
+    if len(data) == 10:
+        print('&lt; ', data)
+        data = b''
+ser.close()
+</code></pre>
+<p>The periodic messages here didn't match any of the messages specified in the docs I found, so I printed these out together with the GPIO status. Got something like this:</p>
+<pre><code>&lt;  b'6e02320162'    GPIO=1
+&lt;  b'6e02320162'    GPIO=1
+&lt;  b'6e00000062'    GPIO=0
+&lt;  b'6e00000062'    GPIO=0
+...
+&lt;  b'6e00000062'    GPIO=0
+&lt;  b'6e01000062'    GPIO=0
+&lt;  b'6e01000062'    GPIO=0
+&lt;  b'6e02d20062'    GPIO=1
+&lt;  b'6e02d20062'    GPIO=1
+&lt;  b'6e02d20062'    GPIO=1
+&lt;  b'6e02d20062'    GPIO=1
+</code></pre>
+<p>I still haven't figured out what these messages mean, and my weekend timedout so it will have to wait (unless a kind reader of this note can drop me a line with info on how to parse the sensor's report, that is.)</p>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

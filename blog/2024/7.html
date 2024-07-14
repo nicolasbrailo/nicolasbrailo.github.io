@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Posts for 2024 July Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Posts for 2024 July</h2>
+
+<h2>Houseboard P0: HDMI to eDP<a name="houseboardp0hdmitoedp"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-07-07 | <a href="/blog/2024/0707_HouseboardHdmiToEdp.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0707_HouseboardHdmiToEdp.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Minor victory in my quest to build a houseboard based on a Linux-PoE-netboot-RaspberryPi-etc: I figured out how to run my own LCD panel.</p>
+<p><a href="/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg" /></a></p>
+<p>The first step was verifying my panel worked. For this, I used a display port to eDP converter. Turns out eDP is basically DP, but over a ribbon cable. There are some cheap boards, <a href="https://www.aliexpress.com/item/1005006914739674.html">for example</a>, that do this - searching for "DP to eDP" or "display port to eDP" will yield a high number of vendors. The key part is matching the ribbon type of the panel you need to drive (30 or 40 pins).</p>
+<p>Unfortunatelly, single-board-computers (like the RaspberryPi) don't have DP, despite DP being better than HDMI in every way. The cost of adding a DP connector seems to be high and mosty in licenses, not necessarily in components, so SBCs don't do it. This meant that getting my expensive GPU to use my cheap panel wasn't good for much beyond knowing the panel works.</p>
+<p>Fortunatelly, I managed to find a board that liked my panel:</p>
+<p><a href="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg" /></a></p>
+<p>I got a "<a href="https://www.aliexpress.com/item/32968710965.html">PCB-800807V6-1HDMI-EDP 30PIN LCD driver board</a>", which comes at about £10 and supports multiple resolutions. This was a nice lucky find, and it unblocked the build of HouseboardP0, which I'll document in some other entry.</p>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>
