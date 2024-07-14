@@ -35,6 +35,55 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Homeboard P0: Stonebaked Margherita<a name="homeboardp0stonebakedmargherita"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-07-14 | <a href="/blog/2024/0714_StonebakedMargheritaHomeboard.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0714_StonebakedMargheritaHomeboard.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p><strong>Homeboard P0 has been built!!1</strong></p>
+<p>After figuring out <a href="/blog/2024/0707_HouseboardHdmiToEdp.html">how to run my own LCD panel</a>, it was just a question of buying the right cables. I wanted to build a homeboard, and I thought I'd spend a ton of time writing cool software. Turns out 90% of the project is a game of "did I buy the right cable". Eventually I did end up with enough cables to build this monstrosity:</p>
+<p><a href="/blog_img/0714_HomeboardP0/1PanelTest.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/1PanelTest.jpg" /></a></p>
+<p>You are admiring a:</p>
+<ul>
+<li>Raspberry Pi zero,</li>
+<li>Powered over ethernet, with a PoE adapter</li>
+<li>The Raspberry Pi Zero powers the LCD controller board</li>
+<li>But the controller board needs 12V, so there is a DC-DC board that bumps the 5V from the RaspberryPi to the 12V the board needs.</li>
+</ul>
+<p>(Full list of materials further down, so you don't need to hunt all of these)</p>
+<p>Here the glorious moment everything is connected together, and actually boots an OS:</p>
+<p><a href="/blog_img/0714_HomeboardP0/2Boots.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/2Boots.jpg" /></a></p>
+<p>Of course at this point I realized the weak point of my design is on the mechanical linkage between the different boards. To tame this quite literally unwieldy hodgepodge of cables, I ate a pizza:</p>
+<p><a href="/blog_img/0714_HomeboardP0/3Mechanical.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/3Mechanical.jpg" /></a></p>
+<p>Using the cardboard box of a pizza, some ducktape and a few M2 screws, I built a beautiful hack mount for all my boards, which let me move the assembly around for tests. This was enough for quick power checks, but pizza box cardboard isn't a very durable material. I upgraded to a full frame:</p>
+<p><a href="/blog_img/0714_HomeboardP0/4Framing.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/4Framing.jpg" /></a></p>
+<p>This is an Ikea picture frame, with an LCD screen tapped to the front and a hole in the back for the eDP connector. Everything mounted together:</p>
+<p><a href="/blog_img/0714_HomeboardP0/5BoardMount.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/5BoardMount.jpg" /></a></p>
+<p>And the glorious, glorious first boot of the Stonebaked Margherita Homeboard P0:</p>
+<p><a href="/blog_img/0714_HomeboardP0/6FirstBoot.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/6FirstBoot.jpg" /></a></p>
+<p>Of course at this stage the only thing the Houseboard P0 does is boot. An achievement, but not too useful. Next up, I'll make it do something. Possibly crash.</p>
+<h2>BoM<a name="bom"></a></h2>
+<ul>
+<li>Pi Zero (not W, but W works too)</li>
+<li><a href="https://www.amazon.co.uk/dp/B0742D2718">LCD panel</a></li>
+<li><a href="https://www.aliexpress.com/item/32968710965.html">HDMI to eDP board</a></li>
+<li><a href="https://thepihut.com/products/poe-to-micro-usb-adapter-for-pi-zero-ethernet-power-ieee-802-3af-compliant">PoE adapter</a></li>
+<li><a href="https://www.amazon.co.uk/dp/B08F7SXC7S?psc=1&amp;ref=ppx_yo2ov_dt_b_product_details">M2 Screws</a></li>
+<li><a href="https://www.amazon.co.uk/Step-up-Supply-Adjustable-Converter-4-5V-32V/dp/B075JQTPX6?">Step up board DC-DC 5v to 12V</a></li>
+<li><a href="https://www.amazon.co.uk/dp/B08F7SXC7S">M2 Screws</a></li>
+<li><a href="https://thepihut.com/collections/jumper-wires">Jumper wires</a> (get a mix of F/F, M/F and M/M)</li>
+<li>Pizza. Margherita not required.</li>
+<li>Mini HDMI to HDMI</li>
+</ul>
+<p>Optionals:</p>
+<ul>
+<li><a href="https://www.amazon.co.uk/gp/product/B0B7RHPMT7/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;psc=1">UART</a> - to figure out why things don't boot, or to <a href="/blog/2024/0615_LD2410SmmWaveSensor.html">debug sensors</a></li>
+<li>Regulable power source 3 to 30V - useful to debug power to elements in isolation</li>
+<li><a href="https://www.aliexpress.com/i/1005006282168742.html">HLK-LD2410S 24G mmWave sensor</a> <a href="https://drive.google.com/file/d/1CYgZTTEkZoo29QDd8V-qMWQCiwLFjlw1/view">Manual</a> - not used yet, but soon</li>
+</ul>
+<h2>Useful references<a name="usefulreferences"></a></h2>
+<ul>
+<li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
+<li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
+</ul>
+<hr />
 <h2>Houseboard P0: HDMI to eDP<a name="houseboardp0hdmitoedp"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-07-07 | <a href="/blog/2024/0707_HouseboardHdmiToEdp.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0707_HouseboardHdmiToEdp.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Minor victory in my quest to build a houseboard based on a Linux-PoE-netboot-RaspberryPi-etc: I figured out how to run my own LCD panel.</p>
@@ -436,26 +485,6 @@ for repo in $( cat idx.json | jq '.[].ssh_url' ); do
 done
 </code></pre>
 <p>This will clone all <em>PUBLIC</em> repos to a local computer, from which you can tar.gz and upload to your preferred archive medium.</p>
-<hr />
-<h2>Bash ',' is a legal function name, and a perfect prefix<a name="bashisalegalfunctionnameandaperfectprefix"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-03-15 | <a href="/blog/2024/0315_BashCommaIsAValidFunctionName.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0315_BashCommaIsAValidFunctionName.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>If you have a set of <a href="https://github.com/nicolasbrailo/Nico.rc">miscellaneous Bash-helpers</a> that you frequently use, you probably want some sort of namespace for easy access. For example, prepending the name of all your helpers with "myHelper-" is a good way of getting autocomplete to show only the relevant helpers you need. "myHelper-" is too much typing, though.</p>
-<p>Unless your distro is extremely minimal, all the letters in Bash are taken and you can't have an unambiguous single-letter "namespace". You need to look beyond letters: ',' is a ferpectly legal Bash name. You can prefix all your helpers with ',' for easy and quick autocomplete. An example <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/android.sh">from my bashrc</a>:</p>
-<pre lang="bash"><code class="language-bash" lang="bash">function ,alogcat() {
-  local MAYBE_TEE
-  MAYBE_TEE="$1"
-  adb logcat -c
-  if [ -z "${MAYBE_TEE}" ]; then
-    adb logcat
-  else
-    adb logcat | tee "$MAYBE_TEE"
-  fi
-}
-function ,a-screen-off() {
-  adb shell input keyevent 26
-}
-</code></pre>
-<p>With this, I can type <code>,a</code> to get an autocomplete of just my Android helpers.</p>
 <hr />
 
 </div>

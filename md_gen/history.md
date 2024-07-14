@@ -5,6 +5,7 @@
 ## [Posts for 2024](md_gen/2024/index.md)
 
 * [July](md_gen/2024/7.md)
+    * [Homeboard P0: Stonebaked Margherita](md_gen/2024/7.md#homeboardp0stonebakedmargherita)
     * [Houseboard P0: HDMI to eDP](md_gen/2024/7.md#houseboardp0hdmitoedp)
  * [June](md_gen/2024/6.md)
     * [Houseboard P0: PP0](md_gen/2024/6.md#houseboardp0pp0)
