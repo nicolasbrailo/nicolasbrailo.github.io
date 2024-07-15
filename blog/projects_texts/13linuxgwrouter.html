@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Setting up a Linux gateway/router, a guide for non network admins Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Setting up a Linux gateway/router, a guide for non network admins</h2>
+
+<h2>Index<a name="index"></a></h2>
+<ol>
+<li><a href="/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html">Setting up a Linux gateway/router, a guide for non network admins</a></li>
+<li><a href="/blog/2013/1003_SettingupaLinuxGWIINATtingandforwarding.html">Setting up a Linux GW II: NATting and forwarding</a></li>
+<li><a href="/blog/2013/1010_SettingupaLinuxGWIIISettingupDNSwithbind9.html">Setting up a Linux GW III: Setting up DNS with bind9</a></li>
+<li><a href="/blog/2013/1017_SettingupaLinuxGWIVSettingupapparmor.html">Setting up a Linux GW IV: Setting up apparmor</a></li>
+<li><a href="/blog/2013/1024_SettingupaLinuxGWVDCHP.html">Setting up a Linux GW V: DCHP</a></li>
+<li><a href="/blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.html">Setting up a Linux GW VI: Configuring a console friendly router and setting up static DHCP IPs</a></li>
+<li><a href="/blog/2013/1107_SettingupaLinuxGWVIIFunwithiptablessettingupportforwardings.html">Setting up a Linux GW VII: Fun with iptables, setting up port forwardings</a></li>
+<li><a href="/blog/2013/1114_SettingupaLinuxGWVIIIProxyandcontentfiltering.html">Setting up a Linux GW VIII: Proxy and content filtering</a></li>
+</ol>
+<hr />
+<h2><a href="/blog/2013/0926_SettingupaLinuxgatewayrouteraguidefornonnetworkadmins.html">Setting up a Linux gateway/router, a guide for non network admins</a><a name="settingupalinuxgatewayrouteraguidefornonnetworkadminsblog20130926_settingupalinuxgatewayrouteraguidefornonnetworkadmins.html"></a></h2>
+<p>Published 2013-09-26</p>
+<p>Setting up a Linux GW or router is not as hard as it may seem, as long as you are reading a friendly enough guide. Yes, there are a lot of guides for this, but since I needed to document how I did it, I might as well write a post about it here. My addition to the usual "setting up a linux gw guide": I'll do it using Virtualbox first, so I can test my setup before actually deploying it.</p>
+<p>I'm going to write about how can you setup a regular Linux distro to be your border router/gateway for your LAN, but for easy of use I'll base my examples on Ubuntu.</p>
+<p>As expected, if we are going to replace a device, say, a router, we need to replace it with something that can provide the same functionality. In this case, we have chosen a Linux server, so we need to figure out which services are provided by the router and then emulate them someway:</p>
+<ul>
+<li>DHCP to manage leases</li>
+<li>DNS to translate domains to IPs</li>
+<li>NAT, to multiplex a single connection</li>
+<li>Service forwarding, to expose internal services to an external network</li>
+</ul>
+<p>Luckily Linux supports all of these:</p>
+<ul>
+<li>ISC for DHCP</li>
+<li>bind9 for DNS</li>
+<li>iptables for NAT</li>
+<li>iptables again, for service forwarding</li>
+</ul>
+<p>We'll be setting up each of these services in the next posts, for now:</p>
+<h3>Preliminary work, the hardware setup<a name="preliminaryworkthehardwaresetup"></a></h3>
+<p>Before you setup any services, you are going to need two things: first two network cards, one for the outgoing connection and another one for the (switched) LAN, and a way of telling your server that you want all traffic from network 1 forwarded to network 2. You may want to install more than two cards, in case you need to route several LANs. We'll see that later.</p>
+<p>You will also need an OS. I have chosen Ubuntu because it's very simple to install, and has all the software we need available in the repositories, but you can use any other distribution if it suits your needs.</p>
+<p>Also, throughout this guide I will assume a setup like this:
+* WAN access through eth0, DHCP address
+* LAN routing in eth1, network 192.168.10.1/24</p>
+<h3>If you don't have all this hardware...<a name="ifyoudonthaveallthishardware..."></a></h3>
+<p>Not everyone may have two spare desktops with three NICs ready for testing. Even if you do, you may be too lazy to setup the physical part of your network. If this is your case, you can also setup a virtual machine to emulate your setup, and Virtualbox is great for the task:</p>
+<ol>
+<li>Begin by creating what will be your router VM.</li>
+<li>Enable the first network adapter. This one should be able to see your physycal router (i.e. connect to a WAN).</li>
+<li>Enable a second network adapter. Use the 'Internal network' option in the 'Attached to' field. This will be your LAN interface.</li>
+<li>Create a second VM. This one will be your client.</li>
+<li>Enable a single network adapter, attached to an internal network as well. The name for this network should match that of the other VM.</li>
+</ol>
+<p>You are all set now, with this virtual setup you can begin setting up your router. We'll see how next time.</p>
+<h2><a href="/blog/2013/1003_SettingupaLinuxGWIINATtingandforwarding.html">Setting up a Linux GW II: NATting and forwarding</a><a name="settingupalinuxgwiinattingandforwardingblog20131003_settingupalinuxgwiinattingandforwarding.html"></a></h2>
+<p>Published 2013-10-03</p>
+<p>For our Linux GW, services like DNS and DHCP are nice-to-have, but having real connectivity is way more important. Let's set up the NAT and connection forwarding features of the new router, then we can test if our setup is working properly by pinging an IP of one LAN from the other.</p>
+<p>We'll do this by setting up NAT with iptables. We'll also have to configure the OS to forward connections from one network card to the other:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
+# Add a line like this for each eth* LAN
+iptables --append FORWARD --in-interface eth1 -j ACCEPT
+</code></pre>
+<p>We will also need to setup the IP for eth0, since there won't be a DHCP server (we ARE the server!). Open /etc/network/interfaces and add something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++"># Configure the WAN port to get IP via DHCP
+auto eth0
+iface eth0 inet dhcp
+# Configure the LAN port
+auto eth1
+iface eth1 inet static
+    address 192.168.10.1    # (Or whatever IP you want)
+    netmask 255.255.255.0   # Netmasks explanations not included
+</code></pre>
+<p>Once that's checked, restart networking services like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo /./etc/init.d/networking restart
+</code></pre>
+<p>Everything ready, now just plug your PC to the new router and test it. Remember to manually set your IP in the same network range as your router, since there's no DHCP at the moment. This may be useful to debug a problem.</p>
+<p>In your client PC, set your IP address:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ifconfig eth0 192.168.10.10
+</code></pre>
+<p>Test if you IP is set:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ping 192.168.10.10
+</code></pre>
+<p>If you get a reply, your new IP is OK, if not there's a problem with your client. Second step, see if you can reach the router:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ping 192.168.10.1
+</code></pre>
+<p>Note that you may need to renew everything (i.e. restart networking and manually assign your IP) after you connect the cable.</p>
+<p>Again, if you get a reply then you have connectivity with the router. So far we haven't tested the iptables rules nor the forwarding, so any issue at this point should be of IP configuration. If everything went well, it's time to test the NAT rules and the forwarding.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ping 192.168.1.1
+</code></pre>
+<p>That should give you an error. Of course, since there's no DHCP there's no route set. Let's manually set a route in the client:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo route add default gateway 192.168.10.1
+</code></pre>
+<p>Then again:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ping 192.168.0.1
+</code></pre>
+<p>Magic! It works! If it doesn't, you have a problem either in the NAT configuration or the IP Forwarding of the router. You can check this with wireshark, if the pings reach the server but they never get a reply back then it's the NAT, i.e. it can forward the IP packages on eth1 to eth0 but the router has no NAT, and it doesn't know how to route the answer back. If the pings never even reach eth0, then you have an ip forwarding problem.</p>
+<h3>Persisting the forwarding rules<a name="persistingtheforwardingrules"></a></h3>
+<p>In order to have the forwarding rules persisting after a reboot, we need first to change /etc/sysctl.conf to allow IP forwarding. It's just a mater of uncommenting this line:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">net.ipv4.ip_forward = 1
+</code></pre>
+<p>We will also have a lot of iptables rules we need to setup during boot time. I have created a script at /home/router/set_forwarding.sh, which I also linked into /etc/init.d/rc.local so it's run whenever the system boots.</p>
+<p>Next time we'll move on to something more complex: installing a DNS server and using domains instead of IPs.</p>
+<h2><a href="/blog/2013/1010_SettingupaLinuxGWIIISettingupDNSwithbind9.html">Setting up a Linux GW III: Setting up DNS with bind9</a><a name="settingupalinuxgwiiisettingupdnswithbind9blog20131010_settingupalinuxgwiiisettingupdnswithbind9.html"></a></h2>
+<p>Published 2013-10-10</p>
+<p>If you have been following my series on how to install a Linux based router, you should now have a setup where a client is able to see the outside world via a router. We can try something more complex now, like pinging a domain instead of an IP. Something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ping google.com
+</code></pre>
+<p>You should get a message saying the host is unknown. Can you guess why? Right, there's no DNS.</p>
+<h3>Setting up DNS<a name="settingupdns"></a></h3>
+<p>DNS will be necessary to resolve domains to IPs. bind9 is the default option for Debian based servers (are there others? no idea).</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo apt-get install bind9
+</code></pre>
+<p>This will get your DNS server up and running, but you will still need to add this server manually to your client (again, because there's no DHCP running):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo echo "nameserver 192.168.10.1" &gt; /etc/resolv.conf
+</code></pre>
+<p>And now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ping google.com
+</code></pre>
+<p>Magic again, it (may) work. If it doesn't, you may need to open /etc/bind/named.conf and setup your router (192.168.0.1) as a forwarder, then restart the bind server.</p>
+<p>Of course this is rather boring. If you are going to install a DNS you might as well create a custom TLD for your LAN.</p>
+<h3>Setting up a custom TLD with bind9 for your LAN<a name="settingupacustomtldwithbind9foryourlan"></a></h3>
+<p>So far on the series about how to install a Linux based router, we set up a Linux router with NAT and a basic DNS. Now we'll setup a custom TLD, so you can have custom domains for your LAN. For example, if you want your router to have a nice user friendly name, instead of just an IP.</p>
+<p>Let's start by adding a local zone to /etc/bind/named.conf.local, for a domain we'll call "lan":</p>
+<pre lang="c++"><code class="language-c++" lang="c++">zone "lan" {
+        type master;
+        file "/home/router/named/lan.db";
+};
+</code></pre>
+<p>Now we need to add a reverse zone. Note how the name is the IP reversed:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">zone "10.168.192.in-addr.arpa" {
+    type master;
+        file "/home/router/named/rev.10.168.192.in-addr.arpa";
+};
+</code></pre>
+<p>We still need to create both files (lan.db and rev.10.168.192.in-addr.arpa), but will do that later. Lets setup a place to log all the DNS queries (optional):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">logging {
+    channel query.log {
+        file "/home/router/named/dns.log";
+        severity debug 3;
+          print-time yes;
+    };
+    category queries { query.log; };
+};
+</code></pre>
+<p>For the log entry I have chosen /home/router/named as the log directory, just because for this project I'm keeping everything together (config and logs) so it's easy for people not used to administer a Linux box, but of course this means that apparmor must be configured to allow reads and writes for bind in this directory. We'll get to that in a second, first let's create the needed zone files for our new TLD.</p>
+<p>Remember our two zone files? I put them on /home/router/named, but usually they are on /etc/bind. Again, I did this so I can have all the config files together. These are my two files:</p>
+<p>For lan.db</p>
+<pre lang="c++"><code class="language-c++" lang="c++">lan.      IN      SOA     ns1.lan. admin.lan. (
+                                                        2006081401
+                                                        28800
+                                                        3600
+                                                        604800
+                                                        38400
+ )
+lan.      IN      NS              ns1.lan.
+wiki             IN      A       192.168.0.66
+ns1              IN      A       192.168.0.1
+router           IN      A       192.168.0.1
+</code></pre>
+<p>For rev.10.168.192.in-addr.arpa</p>
+<pre lang="c++"><code class="language-c++" lang="c++">@ IN SOA ns1.lan. admin.example.com. (
+                        2006081401;
+                        28800;
+                        604800;
+                        604800;
+                        86400
+)
+                     IN    NS     ns1.lan.
+1                    IN    PTR    lan
+</code></pre>
+<p>Most of these lines are black magic, and since an explanation of both DNS and Bind is out of scope (feel free to read the RFC if you need more info) let's just say you can add new DNS entries by adding lines like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">NICE_NAME           IN      A       REAL_IP
+</code></pre>
+<p>This will make bind translate NICE_NAME.lan to REAL_IP. Of course, this will depend on the TLD you defined. Now restart bind to get a crapton of errors. It will complain about not being able to load a master file in /home/router/named. Remember that apparmor thing I mentioned?</p>
+<h2><a href="/blog/2013/1017_SettingupaLinuxGWIVSettingupapparmor.html">Setting up a Linux GW IV: Setting up apparmor</a><a name="settingupalinuxgwivsettingupapparmorblog20131017_settingupalinuxgwivsettingupapparmor.html"></a></h2>
+<p>Published 2013-10-17</p>
+<p>Apparmor is a service that runs in the background, checking what other binaries can and can't do. For example, it will allow bind9 to open a listening socket on port 53 (DNS), but it will deny an attempt to open a listening socket on port 64. This is a security measure to limit the damage a compromised bind9 binary running as root might do. And since we are going to use a non standard configuration, we need to tell apparmor that it's OK.</p>
+<p>After installing bind9 we should get a new file in /etc/apparmor.d/usr.sbin.named. Add the following lines at the bottom:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">  /home/router/named/** rw,
+  /home/router/named/ rw,
+</code></pre>
+<p>And restart apparmor service:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">/./etc/init.d/apparmor restart
+</code></pre>
+<p>Since we were modifying apparmor to allow a non-standard bind installation, now restart bind too. This time it will start without any errors, and you should be able to tail -f /home/router/named/dns.log to see the DNS queries on real time. If it doesn't, check that /home/router/named is writable to the bind user (I did a chgrp -R bind named).</p>
+<h2><a href="/blog/2013/1024_SettingupaLinuxGWVDCHP.html">Setting up a Linux GW V: DCHP</a><a name="settingupalinuxgwvdchpblog20131024_settingupalinuxgwvdchp.html"></a></h2>
+<p>Published 2013-10-24</p>
+<p>In our custom Linux router we now have DNS and NAT so far, but the client configuration has been absolutely manual. We can't have many clients with this sort of setup, so let's automate the client config with a DHCP server. Begin by installing isc-dhcp-server.</p>
+<p>Edit /etc/dhcp/dhcpd.conf, set the domain-name and the domain-name-servers, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">option domain-name "lan";
+option domain-name-servers 192.168.10.1 192.168.0.1;
+default-lease-time 86400;
+max-lease-time 172800;
+authoritative;
+</code></pre>
+<p>I'm not sure if the first line is needed. The other two will set the DNS servers for your clients. Also, increasing your lease time is recommended, I used one day for default leases. I set this DHCP server as the authoritative server. If this is your router, that's probably what you want.</p>
+<p>Now we need to define the network topology:</p>
+<pre lang="c++"><code class="language-c++" lang="c++"># This is the WAN network, and we won&#x27;t provide a service here
+subnet 192.168.0.0 netmask 255.255.255.0 {
+}
+# Define the service we provide for the LAN
+subnet 192.168.10.1 netmask 255.255.255.0 {
+    range 192.168.10.100 192.168.10.200;
+    option routers 192.168.10.1;
+}
+</code></pre>
+<p>Now we need to restart ISC:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo /./etc/init.d/isc-dhcp-server restart
+</code></pre>
+<p>And now we need to check if everything worked in the client. It's easy this time, we just ask for an IP:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">sudo dhclient
+ifconfig
+</code></pre>
+<p>If everything went fine, we should now have an IP in the 100-200 range, as well as the DNS server in /etc/resolv.conf. We have now setup a very basic router and should be able to server several clients for basic browsing capabilities.</p>
+<p>Next time we'll see how to tidy up everything, for easier administration.</p>
+<h2><a href="/blog/2013/1031_SettingupaLinuxGWVIConfiguringaconsolefriendlyrouterandsettingupstaticDHCPIPs.html">Setting up a Linux GW VI: Configuring a console friendly router and</a><a name="settingupalinuxgwviconfiguringaconsolefriendlyrouterandblog20131031_settingupalinuxgwviconfiguringaconsolefriendlyrouterandsettingupstaticdhcpips.html"></a></h2>
+<p>Published 2013-10-31</p>
+<p>setting up static DHCP IPs</p>
+<p>We have so far setup a device capable of working as a router for a medium sized LAN, providing NAT, DHCP and DNS services. This is great if you have a dedicated network admin, but you may prefer something easier for casual console users. We'll see how to "refactor" your server configuration now to make it more console friendly.</p>
+<h3>Moving DHCP config files<a name="movingdhcpconfigfiles"></a></h3>
+<p>Since I want to keep everything together for easy administration, I will move the configuration files for DHCP to /home/router/dhcp. Changing the dhcpd.conf file itself is easy, just move the subnets declarations and add this line:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">include "/home/router/dhcp/subnets.conf";
+include "/home/router/dhcp/static_hosts.conf";
+</code></pre>
+<p>Like we did before with bind, we need to configure apparmor. vim /etc/apparmor.d/usr.sbin.dhcpd and add this two lines:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">/home/router/dhcp/ rw,
+/home/router/dhcp/** rw,
+</code></pre>
+<p>Restart apparmor service, then restart dhcpd. Everything should work just fine.</p>
+<h3>Setting up static IPs<a name="settingupstaticips"></a></h3>
+<p>Remember the static_hosts file we created before? We can use that to define a static IP. Add the following to set a static IP host:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">host HostName {
+    hardware ethernet 00:00:00:00:00:00
+    fixed-address 192.168.10.50;
+}
+</code></pre>
+<p>After that, just restart the DHCP service and renew your client's IP. Done, it's static now!</p>
+<p>Wait a minute: how do you find the MAC for your host? I'm to lazy to copy and type it, so I did the following:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">cd /home/router/dhcp
+ln -s /var/lib/dhcp leases
+</code></pre>
+<p>Then you can check the hardware address in the leases/dhcpd.leases file. I created a symlink to keep this directory at hand, since it gives you a status of the current leases.</p>
+<h2><a href="/blog/2013/1107_SettingupaLinuxGWVIIFunwithiptablessettingupportforwardings.html">Setting up a Linux GW VII: Fun with iptables, setting up port</a><a name="settingupalinuxgwviifunwithiptablessettingupportblog20131107_settingupalinuxgwviifunwithiptablessettingupportforwardings.html"></a></h2>
+<p>Published 2013-11-07</p>
+<p>forwardings</p>
+<p>In any LAN you'll probably want to expose some services to the outer world, be it for a bittorrent connection or because you have internal servers you need to access from outside your internal LAN. To do this, you'll have to tell your router to forward some external port to an internal one, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -i eth0 -p tcp
+    --dport PORT -j DNAT --to INTERNAL_IP:INTERNAL_PORT
+# This rule may not be needed, depending on other chain confings
+iptables -A INPUT -i eth0 -p tcp -m state --state NEW
+    --dport PORT -j DNAT --to INTERNAL_IP:INTERNAL_PORT
+</code></pre>
+<p>This is enough to expose a private server to the world, but it will not be very useful when your dynamic IP changes, so you'll need to set INTERNAL_IP to be a static IP.</p>
+<p>Of course, this commands are little less than black magic. iptables are rather complex and quite difficult to master, but as a short description we can say they are a way of applying a set of rules to incoming network packets. In iptables you have different tables of rules (in this case we use -t[able] nat) and specify that we want our rule to be applied in the PREROUTING phase. -i specifies that this rule should be applied only to packets incoming from eth0, and --dport means this rule applies only to packets incoming from a certain port. Of course, if you are going to specify a port then you need to specify the protocol (in this case, tcp).</p>
+<p>Now we have replicated in our setup almost all the functionalities a small COTS router has. Next time we'll see how to improve that by adding a proxy.</p>
+<h2><a href="/blog/2013/1114_SettingupaLinuxGWVIIIProxyandcontentfiltering.html">Setting up a Linux GW VIII: Proxy and content filtering</a><a name="settingupalinuxgwviiiproxyandcontentfilteringblog20131114_settingupalinuxgwviiiproxyandcontentfiltering.html"></a></h2>
+<p>Published 2013-11-14</p>
+<p>Now that we have a basic gateway we can do crazy stuff, like installing a proxy. You may want to manually configure a proxy for each client, but you can also choose to install a transparent proxy for all your users. This can be done with squid, let's see how.</p>
+<p>Start by installing squid on your gateway. You can choose a different machine, but you'll have to do some magic with iptales. It's easier to just use the same machine.</p>
+<p>Once squid is installed head to /etc/squid/ to vim squid.conf. Yes, it's very scary to see such a long config file, but it's mostly just comments. Luckily squid has reasonable defaults, so you can just ignore most of this file. Just to test if your squid installation was successful, before changing anything, you can tail -f /var/log/squid/access.log and set your browser's proxy to your gateway's IP, port 3128 (squid's default port). If everything works you should be able to browse and also see the access logs scrolling by.</p>
+<p>If you are getting a 'denied' page on every request, you may have to configure squid to allow http access. Search for the 'http_access deny all' and comment it. You may also have to search for the local networks definitions and set it up correctly (something like 'acl localnet src 192.168.0.0/24').</p>
+<p>Once you have verified that your proxy is working, you can configure it to run on transparent mode. Search for the http_port directive, and change it to something like 'http_port 8213 transparent' (noticed I changed the default port). It is also a good practice to specify IP and port, so squid can bind only to the local interface (you are probably not interested in serving as a proxy for the outside world, unless you plan to run a reverse proxy).</p>
+<p>Changing squid to run on transparent mode is not enough, though. You will also need to tell your router to redirect every incoming packet from port 80 to squid. Assuming your LAN is on the 192.168.10.0/24 address and squid is listenning on port 1234, you can use this magic command to setup your iptables rule:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">iptables -t nat -A PREROUTING -s 192.168.10.0/24 -p tcp --dport 80 -j DNAT --to :1234
+</code></pre>
+<p>If this doesn't work for you, or you want a more detailed explanation, you can check <a href="/blog/2012/1106_Redirectingconnectionsfromoneporttoanotherwithiptables.html">my post about this iptables rule</a>.</p>
+<p>Everything ready, you should be able to unconfigure the proxy from your browser and start using squid right away, no configuration needed. tail -f /var/log/squid/access.log for hours of (thought-policing) fun.</p>
+<h3>Adding a content filter to squid<a name="addingacontentfiltertosquid"></a></h3>
+<p>Now that you have a gateway and a transparent proxy, it's time to install a content filter too. It's not hard, just go to your squid's config file and search for the acl section. Over there, add the following two lines:</p>
+<pre><code>acl blocksites url_regex "/home/router/blocked_sites.acl"
+http_access deny blocksites
+</code></pre>
+<p>This will include the blocked_sites.acl file and deny access to every URL on it. There are many <a href="/blog/youfoundadeadlink.html">blacklist</a> services out there, from which you can download a nice filter to suit your needs.</p>
+<p>Of course, you probably don't want to restart squid each time a new site is added to your blocklist. For this you can use "squid -k reconfigure" to make squid reload its configuration.</p>
+<p>Some random tips for squid:
+* If you think your squid is responding too slowly, you can manually setup your DNS servers. Considering squid will most likely be installed on the gateway, it might be easier to just use the gateway's gateway for the DNS, instead of the bind service running on the box. You can set this option with the directive "dns_nameservers xxx.xxx.xxx.xxx yyy.yyy.yyy.yyy" on squid.conf.
+* The TCP_MISS on the access.log means that a request was successfully served, but the content was not cached. You can review your cache limits if you get this message too much, may be you can increase the caching limit.
+* You don't need to restart squid each time you change the configuration. That would be ackward if you have a lot of users. Try "squid -k reconfigure" instead.</p>
+
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

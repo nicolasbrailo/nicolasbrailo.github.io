@@ -1,3 +1,147 @@
+## TODO: Add a post for these, then add [them here](md_blog/projects_texts/index.md)
+
+* https://github.com/nicolasbrailo/zigbee2mqtt2web
+* https://github.com/nicolasbrailo/BatiCasa
+* https://github.com/nicolasbrailo/PyTelegramBot
+* https://github.com/nicolasbrailo/GitToDo
+* https://github.com/nicolasbrailo/wta
+* https://github.com/nicolasbrailo/gowatch
+* https://github.com/nicolasbrailo/swayimg
+* https://github.com/nicolasbrailo/pipresencemon
+
+
+
+# Homeboard P0: Stonebaked Margherita Picture frame
+
+@meta publishDate 2024-07-??
+@meta author Nico Brailovsky
+@meta tags IoT, RaspberryPi, Homeboard
+
+TODO
+# Homeboard
+
+## OS
+* Standard RaspberryPi minimal installation, no GUI. arm 32 OS, to run with Rpi Zero
+* Connect UART, debug why it doesn't boot
+* Over UART, enable ssh, reboot
+* Disconnect UART, then ssh
+
+## Prepare Wayland
+By default, Wayland won't work in RpI Zero. It can be enabled with:
+* Add the following to /boot/firmware/config.txt
+    dtoverlay=vc4-kms-v3d
+    gpu_mem=128
+* sudo apt-get install mesa-utils-bin wayfire 
+* /boot/firmware/cmdline.txt needs to have `wayland=on` 
+* reboot
+* In terminal: wayfire - an empty wayland screen (with a cursor) should show up
+
+## swayimg
+* sudo apt-get install libcurl git ninja-build meson
+* sudo apt-get install libcurl4-openssl-dev
+* sudo apt-get install libwayland-dev wayland-protocols
+* sudo apt-get install libjson-c-dev libxkbcommon-dev libfontconfig-dev libjpeg-dev
+* git clone https://github.com/nicolasbrailo/swayimg.git
+* meson setup [build|--wipe build] -> Should find curl and libjpeg
+* ninja -C build
+* Launch wayfire in a terminal
+* WAYLAND_DISPLAY="wayland-1" DISPLAY="" /home/batman/swayimg/build/swayimg
+
+## Screen rotation
+
+Because of the way the flex cable is fed to the HDMI-to-eDP board, my screen ended up rotated 180 degrees. This fixes it:
+
+1. Do `kmsprint` or `kmsprint -m`
+2. Look for the name of the screen, eg HDMI-A-1
+3. Look for the mode, eg 1920x1080@60.00
+4. Create this in ~/.config/wayfire.ini, replacing the values found above for your setup
+
+```
+[output:HDMI-A-1]
+mode = 1920X1080@60.00
+position = 0,0
+transform = 90
+```
+
+No need to reboot wayfire, should fix itself immediately
+
+## P1: A picture frame
+
+No netboot, just normal Rpi OS with services.
+
+
+```
+[Unit]
+Description=wayfire
+After=multi-user.target
+
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=wayfire
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=10s
+User=batman
+
+[Install]
+WantedBy=multi-user.target
+```
+
+/etc/systemd/system/wayfire.service
+
+Then
+* `sudo systemctl daemon-reload`
+* journalctl --follow --unit wayfire
+* sudo systemctl enable wayfire
+* sudo systemctl restart wayfire
+
+
+```
+[Unit]
+Description=ambience
+After=multi-user.target
+
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000 WAYLAND_DISPLAY="wayland-1" DISPLAY=""
+ExecStart=/home/batman/swayimg/build/swayimg
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=3s
+User=batman
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then
+* `sudo systemctl daemon-reload`
+* journalctl --follow --unit wayfire --unit ambience
+* sudo systemctl enable ambiene
+* sudo systemctl restart ambience
+
+
+
+
+
+
+
+
+# Thunks, correccion de offsets
+
+@meta publishDatetime 2011-08-28T19:38:00.000+02:00
+@meta author Nico Brailovsky
+@meta originalUrl 
+
+```c++
+<br/>  1 struct Base0 {                                            |  1 struct Base0 {<br/>  2         int base0;                                        |  2         int base0;<br/>  3 };                                                        |  3 };<br/>  4                                                           |  4<br/>  5 struct Base1_0 : Base0 {                                  |  5 struct Base1_0 {<br/>  6         int base1_0;                                      |  6         struct Base0 parent;<br/>  7 };                                                        |  7         int base1_0;<br/>  8                                                           |  8 };<br/>  9 struct Base1_1 : Base0 {                                  |  9<br/> 10         int base1_1;                                      | 10 struct Base1_1 {<br/> 11 };                                                        | 11         struct Base0 parent;<br/> 12                                                           | 12         int base1_1;<br/> 13 struct Der : Base1_0, Base1_1 {                           | 13 };<br/> 14         int der;                                          | 14<br/> 15 };                                                        | 15 struct Der {<br/> 16                                                           | 16         struct Base1_0 p1;<br/> 17 int main() {                                              | 17         struct Base1_1 p2;<br/> 18         extern Der* getder();                             | 18         int der;<br/> 19                                                           | 19 };<br/> 20         Der *d = getder();                                | 20<br/> 21         Base1_0* b1_0;                                    | 21 int main() {<br/> 22         b1_0 = d;                                         | 22         extern struct Der* getder();<br/> 23                                                           | 23         struct Der *d = getder();<br/> 24         Base1_1* b1_1;                                    | 24         struct Base1_0* b1_0;<br/> 25         b1_1 = d;                                         | 25         b1_0 = &amp;d-&gt;p1;<br/> 26                                                           | 26<br/> 27         return 0;                                         | 27         struct Base1_1* b1_1;<br/> 28 }                                                         | 28         b1_1 = (d != 0)? &amp;d-&gt;p2 : 0;<br/> 29                                                           | 29<br/> 30                                                           | 30         return 0;<br/>~                                                             | 31 }<br/>~                                                             | 32<br/>~                                                             |~<br/>~                                                             |~<br/>~                                                             |~<br/>~                                                             |~<br/>~                                                             |~<br/>~                                                             |~<br/>~                                                             |~<br/>~                                                             |~<br/>~                                                             |~<br/>~                                                             |~<br/>cpp.cpp                                     21,1-8        Todo c.c                                         32,0-1        Todo<br/><br/><br/>
+```
+
+
+
+
+
 # Vectorization in gcc
 
 @meta publishDatetime 2021-03-02T15:54:00.000+01:00

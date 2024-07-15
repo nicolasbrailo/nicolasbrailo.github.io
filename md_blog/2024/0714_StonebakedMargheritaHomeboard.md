@@ -51,6 +51,7 @@ Of course at this stage the only thing the Houseboard P0 does is boot. An achiev
 * [Step up board DC-DC 5v to 12V](https://www.amazon.co.uk/Step-up-Supply-Adjustable-Converter-4-5V-32V/dp/B075JQTPX6?)
 * [M2 Screws](https://www.amazon.co.uk/dp/B08F7SXC7S)
 * [Jumper wires](https://thepihut.com/collections/jumper-wires) (get a mix of F/F, M/F and M/M)
+* [An Ikea Ribba picture frame](https://www.ikea.com/gb/en/p/ribba-frame-white-00268876/)
 * Pizza. Margherita not required.
 * Mini HDMI to HDMI
 

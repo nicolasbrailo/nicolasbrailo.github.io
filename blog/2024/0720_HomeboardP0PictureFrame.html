@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Homeboard P0: Stonebaked Margherita Picture frame Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="homeboardp0stonebakedmargheritapictureframe">Homeboard P0: Stonebaked Margherita Picture frame</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-07-20 |
+  <a href="/blog/2024/0720_HomeboardP0PictureFrame.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0720_HomeboardP0PictureFrame.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>TODO</p>
+<h1>Homeboard<a name="homeboard"></a></h1>
+<h2>OS<a name="os"></a></h2>
+<ul>
+<li>Standard RaspberryPi minimal installation, no GUI. arm 32 OS, to run with Rpi Zero</li>
+<li>Connect UART, debug why it doesn't boot</li>
+<li>Over UART, enable ssh, reboot</li>
+<li>Disconnect UART, then ssh</li>
+</ul>
+<h2>Prepare Wayland<a name="preparewayland"></a></h2>
+<p>By default, Wayland won't work in RpI Zero. It can be enabled with:
+* Add the following to /boot/firmware/config.txt
+    dtoverlay=vc4-kms-v3d
+    gpu_mem=128
+* sudo apt-get install mesa-utils-bin wayfire 
+* /boot/firmware/cmdline.txt needs to have <code>wayland=on</code> 
+* reboot
+* In terminal: wayfire - an empty wayland screen (with a cursor) should show up</p>
+<h2>swayimg<a name="swayimg"></a></h2>
+<ul>
+<li>sudo apt-get install libcurl git ninja-build meson</li>
+<li>sudo apt-get install libcurl4-openssl-dev</li>
+<li>sudo apt-get install libwayland-dev wayland-protocols</li>
+<li>sudo apt-get install libjson-c-dev libxkbcommon-dev libfontconfig-dev libjpeg-dev</li>
+<li>git clone https://github.com/nicolasbrailo/swayimg.git</li>
+<li>meson setup [build|--wipe build] -&gt; Should find curl and libjpeg</li>
+<li>ninja -C build</li>
+<li>Launch wayfire in a terminal</li>
+<li>WAYLAND_DISPLAY="wayland-1" DISPLAY="" /home/batman/swayimg/build/swayimg</li>
+</ul>
+<h2>Screen rotation<a name="screenrotation"></a></h2>
+<p>Because of the way the flex cable is fed to the HDMI-to-eDP board, my screen ended up rotated 180 degrees. This fixes it:</p>
+<ol>
+<li>Do <code>kmsprint</code> or <code>kmsprint -m</code></li>
+<li>Look for the name of the screen, eg HDMI-A-1</li>
+<li>Look for the mode, eg 1920x1080@60.00</li>
+<li>Create this in ~/.config/wayfire.ini, replacing the values found above for your setup</li>
+</ol>
+<pre><code>[output:HDMI-A-1]
+mode = 1920X1080@60.00
+position = 0,0
+transform = 90
+</code></pre>
+<p>No need to reboot wayfire, should fix itself immediately</p>
+<h2>P1: A picture frame<a name="p1apictureframe"></a></h2>
+<p>No netboot, just normal Rpi OS with services.</p>
+<pre><code>[Unit]
+Description=wayfire
+After=multi-user.target
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=wayfire
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=10s
+User=batman
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>/etc/systemd/system/wayfire.service</p>
+<p>Then
+* <code>sudo systemctl daemon-reload</code>
+* journalctl --follow --unit wayfire
+* sudo systemctl enable wayfire
+* sudo systemctl restart wayfire</p>
+<pre><code>[Unit]
+Description=ambience
+After=multi-user.target
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000 WAYLAND_DISPLAY="wayland-1" DISPLAY=""
+ExecStart=/home/batman/swayimg/build/swayimg
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=3s
+User=batman
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>Then
+* <code>sudo systemctl daemon-reload</code>
+* journalctl --follow --unit wayfire --unit ambience
+* sudo systemctl enable ambiene
+* sudo systemctl restart ambience</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

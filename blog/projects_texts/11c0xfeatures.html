@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Cool C++0X features Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>Cool C++0X features</h2>
+
+<h2>Index<a name="index"></a></h2>
+<ol>
+<li><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Cool C++0X features 1: Intro</a></li>
+<li><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Cool C++0X features 2, Variadic templates: What's wrong with varargs</a></li>
+<li><a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">Cool C++0X features 3: Variadic templates, a fix for varargs</a></li>
+<li><a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">Cool C++0X features 4: Variadic templates again</a></li>
+<li><a href="/blog/2011/0510_CoolC0XfeaturesVTemplatesandanglebracketsashortinterlude.html">Cool C++0X features 5: Templates and angle brackets, a short interlude</a></li>
+<li><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Cool C++0X features 6: A variadic wrapper</a></li>
+<li><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Cool C++0X features 7: A variadic wrapper solution</a></li>
+<li><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Cool C++0X features 8: Variadic wrapper and type inference with decltype</a></li>
+<li><a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">Cool C++0X features 9: delayed type declaration</a></li>
+<li><a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">Cool C++0X features 10: type inference with decltype</a></li>
+<li><a href="/blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.html">Cool C++0X features 11: decltype and disappearing constness</a></li>
+<li><a href="/blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.html">Cool C++0X features 12: type inference with auto</a></li>
+<li><a href="/blog/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.html">Cool C++0X features 13: auto and ranged for, cleaner loops FTW</a></li>
+<li><a href="/blog/2011/1011_CoolC0XfeaturesXIVInitializerlists.html">Cool C++0X features 14: Initializer lists</a></li>
+<li><a href="/blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.html">Cool C++0X features 15: Initializer lists for custom (non-std) objects</a></li>
+<li><a href="/blog/2013/0108_CoolC0XfeaturesXVILambdas.html">Cool C++0X features 16: Lambdas</a></li>
+<li><a href="/blog/2013/0110_CoolC0XfeaturesXVIILambdassyntax.html">Cool C++0X features 17: Lambdas syntax</a></li>
+</ol>
+<hr />
+<h2><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Cool C++0X features I: Intro</a><a name="coolc0xfeaturesiintroblog20110418_coolc0xfeaturesiintro.html"></a></h2>
+<p>Published 2011-04-18</p>
+<p>C++0X brings some very cool changes, and I wanted to start a series of posts regarding some of these changes, with a small explanation of each new feature (that I currently understand, at least), an example of its usage and why I think it's a cool thing. Notice these two may be mutually exclusive, some of these may just be cool but I wouldn't recommend using them on a day to day basis. An example of a very cool feature which I wouldn't normally use in a project is the one I want to write about today: variadic templates.</p>
+<p>What's not to love about variadic templates? Its name implies (correctly) that it uses templates, and it also has a "variadic" thingy, which you can use to look smart since no one really knows what it means.</p>
+<p>Templates themselves can quickly get complicated if used by unexperienced padawans in the art of martial C++, yet their hypnotic beauty draws every programmer to use them just like flies are drawn to fire. When used correctly they can produce very elegant code; if not for the template programmer, at least for the end user. Yet in all their power, templates in C++ have been lacking a fundamental aspect: a variable number of arguments.</p>
+<p>There are ways to work around this limitation, like using a list of types paired with a template-paramlist-object. Sounds familiar? (I know it doesn't, don't worry). You could also generate N constructors, one overload for each parameter count. The drawback, exponential compile time (say, TR1). These are all hacks, which are in place only because there wasn't a safe way of passing a list of types associated with a list of arguments. This is over now with variadic templates in C++0X.</p>
+<p>So, what kind of problem would variadic templates solve? Let's name a few:
+* A typesafe varargs function (a function with a variable number of arguments)
+* Easily create a template object which acts as a tuple
+* An easier implementation of a reduce (inject) function</p>
+<p>This entry is getting quite long so we'll start seeing these examples on the next post.</p>
+<h2><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Cool C++0X features II, Variadic templates: What&#39;s wrong with varargs</a><a name="coolc0xfeaturesiivariadictemplateswhat39swrongwithvarargsblog20110419_coolc0xfeaturesiivariadictemplateswhat39swrongwithvarargs.html"></a></h2>
+<p>Published 2011-04-19</p>
+<p><a href="/blog/2011/0418_CoolC0XfeaturesIIntro.html">Last time</a> we explained what variadic templates are. We'll see what they can do now. We mentioned that solving the problem of having a type-safe varargs is one of the best ways of applying variadic templates, but what's varargs?</p>
+<p>Varargs functions (from C world, not even from C++!) are functions which have a variable number of arguments, just like printf. These are usually very dangerous functions, since they are not typesafe. Let's see how they are implemented with an example:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
+#include <iostream>
+// My god, it's full of bugs
+void va_println(int args_left, ...) {
+   va_list arg_lst;
+   va_start(arg_lst, args_left);
+   while(args_left--) {
+      const char <em>p = va_arg(arg_lst, const char</em>);
+      std::cout &lt;&lt; p;
+   }
+   va_end(arg_lst);
+}
+int main() {
+   va_println(3, "Hola ", "mundo", "n");
+   return 0;
+}
+</code></pre>
+<p>This implementation of a function with variable arguments is, more or less, the best C can give us, yet it riddled with bugs and hidden problems. Let's go one by one:</p>
+<ul>
+<li><strong>Arg num will get out of sync</strong>: You need to specify the list of args as well as how many you have. That WILL get out of sync. Trust me, it's just a mater of time. And when it does, you'll have a coredump.</li>
+<li><strong>Type-unsafe</strong>: You just tell varargs "Hey, get me an int". And it will give you an int, no warranties included. If it was supposed to be a short instead, though luck, you end up with a coredump.</li>
+<li><strong>No, really, coredump</strong>: Where are so many coredumps coming from, you may ask. Easy, varargs it's just a way of handling the stack. Calling va_arg just moves the stack pointer by the sizeof the datatype you requested. That means no compile-time checks are included.</li>
+<li><strong>No pod types</strong>: Remember POD types? Try running this code:</li>
+</ul>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <stdarg.h>
+struct X { virtual ~X(){} };
+void va_println(int args_left, ...) {
+   va_list arg_lst;
+   va_start(arg_lst, args_left);
+   while(args_left--) {
+      X <em>p = va_arg(arg_lst, X</em>);
+   }
+   va_end(arg_lst);
+}
+int main() {
+   X x, y, z;
+   va_println(3, x, y, z);
+   return 0;
+}
+</code></pre>
+<h3>And how do we fix it?<a name="andhowdowefixit"></a></h3>
+<p>The fix is easy. Too easy. You just need C++0X. We will discuss why this is better next time, but just as a sneak peak:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void println() {}
+template <typename H, typename... T> void println(H p, T... t) {
+   std::cout &lt;&lt; p;
+   println(t...);
+}
+int main() {
+   println("Hola", " mundo ", 42, 'n');
+   return 0;
+}
+</code></pre>
+<p>Remember to compile using -std=c++0x in gcc.</p>
+<p><strong>(Thanks Hugo Arregui for correcting the POD example)</strong></p>
+<h2><a href="/blog/2011/0426_CoolC0XfeaturesIIIVariadictemplatesafixforvarargs.html">Cool C++0X features III: Variadic templates, a fix for varargs</a><a name="coolc0xfeaturesiiivariadictemplatesafixforvarargsblog20110426_coolc0xfeaturesiiivariadictemplatesafixforvarargs.html"></a></h2>
+<p>Published 2011-04-26</p>
+<p><a href="/blog/2011/0419_CoolC0XfeaturesIIVariadictemplatesWhat39swrongwithvarargs.html">Last time</a> we saw why a function with varargs may bring lots of problems. Then we saw how to solve it, but never explained why that last solution doesn't have the problems the varargs solution had, nor how does it work. Let's start by copying the solution here:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// Stop condition
+void println() {}
+// General case
+template <typename H, typename... T>
+void println(H p, T... t)
+{
+   std::cout &lt;&lt; p;
+   println(t...);
+}
+int main() {
+   println("Hola", " mundo ", 42, 'n';);
+   return 0;
+}
+</code></pre>
+<p>It certainly looks much better than the varargs function, even though some new strange syntax has been introduced. Keep in mind some <a href="/blog/youfoundadeadlink.html">template-foo</a> is required, not only because of the syntax but because we'll be talking about functional programming too.</p>
+<p>With all that intro (the last 2 articles were just an intro!) now we are in a good shape to ask what a variadic template really is. In its easiest form, it's just a list of template arguments, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename... T> void foo(T... t) {}
+</code></pre>
+<p>That simple template can accept as many parameters as you need, of any type. This is much safer than a vararg because:</p>
+<ul>
+<li>Doesn't require the user to specify the number of args passed to foo, so it just can't get out of sync</li>
+<li>It's typesafe; since C++ templates are type-safe, variadic templates are type safe too. You won't be able to request an int where a char is required, you'll just get a compiler error.</li>
+<li>Compile time check: you get type safety just because this is all compiled code. If it doesn't compile, you get an error (albeit a little cryptic).</li>
+<li><a href="/blog/2010/0407_PODtypesinC.html">POD types</a> support</li>
+<li>Better performance; small gain, but a gain indeed. Since this is all done in compile time there's no need to handle the stack dynamically, nor of having a loop getting the args. It's all known when you compile, thus the compiler can just optimize the hell out of everything</li>
+</ul>
+<p>Pretty neat, huh? But how does it work? Variadic templates are actually very similar to how Haskell handles lists, you get all the arguments as a list of types in which you can either get the head or the tail. To do something useful, get the head and continue processing the tail recursively.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename H, typename... T>
+void do_something(H h, T... t)
+{
+    // Do something useful with h
+    really_do_something(h);
+    // Continue processing the tail
+    do_something(t...);
+}
+</code></pre>
+<p>Of course, you'll eventually need a condition to stop processing: (we'll explain the new syntax later)</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void do_something()
+{
+    // Do nothing :)
+}
+</code></pre>
+<p>When the list is completely processed the empty do_something function will be called. Easy, right? But it does have a lot of weird syntax. Let's see what each of those ellipses mean:</p>
+<ul>
+<li>When declaring typename... T you are saying "here goes a list of types". That is, when you use ellipses after the typename (or class) declaration but before the name of the type, then you are expecting a list of types there.</li>
+<li>When declaring T... t you are saying t is a list of objects with different type. That is, you declared T... as a type which holds a list of types, therefore t, of type T, is an instance of a list of objects, each of different type</li>
+<li>When you write t..., you are saying "expand the list of arguments". You declared t as a list of objects, but you have no way of accessing each of those objects, just to the list as a whole. When you write the name of the object followed by ellipses, you are saying expand these types and their instance for the called function</li>
+</ul>
+<p>With all that in mind, let's put together our typesafe printf:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// Condition to stop processing
+void println() {}
+// Println receives a list of arguments. We don't know it's type nor
+// how many there are, so we just get the head and expand the rest
+template <typename H, typename... T>
+void println(H p, T... t)
+{
+    // Do something useful with the head
+    std::cout &lt;&lt; p;
+    // Expand the rest (pass it recursively to println)
+    println(t...);
+}
+int main() {
+    // See how it works even better than varargs?
+   println("Hola", " mundo ", 42, 'n');
+   return 0;
+}
+</code></pre>
+<p>Next time, we'll see a more complex (and fun) example of variadic templates.</p>
+<h2><a href="/blog/2011/0503_CoolC0XfeaturesIVVariadictemplatesagain.html">Cool C++0X features IV: Variadic templates again</a><a name="coolc0xfeaturesivvariadictemplatesagainblog20110503_coolc0xfeaturesivvariadictemplatesagain.html"></a></h2>
+<p>Published 2011-05-03</p>
+<p>Last time we finally solved the varargs problem. Let's review what we learned:
+* Variadic templates let us create something receiving a variable set of arguments
+* We can process the head of that set, then recursively process the tail
+* It adds weird new syntax
+    + When declaring typename... T you are saying "here goes a list of types"
+    + When declaring T... t you are saying t is a list of objects with different type
+    + When you write t..., you are saying "expand the list of arguments"
+* It's type safe
+* It's very neat to confuse your coworkers</p>
+<p>So, what can we do with it besides implementing our own version of printf? Let's do something better, let's try adding up a list of numbers to start flexing our variadic templatefooness (?).</p>
+<p>What's the usual way of adding a list of numbers? In templates, that is. We need something like this:</p>
+<pre><code>sum (H:T) &lt;- H + sum(T)
+sum () &lt;- 0
+</code></pre>
+<p>Of course, in C++ templates you don't have values, you just have types. We could implement it like this (if this looks like a new language you may want to check my <a href="/blog/youfoundadeadlink.html">template metaprogramming series</a>):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+struct Nil{};
+template <typename H, typename T=Nil> struct Lst {
+    typedef H Head;
+    typedef T Tail;
+};
+template &lt;
+        template<typename A, typename B> class Op,
+        typename Head,
+        typename Lst&gt;
+struct intForeach
+{
+    typedef typename intForeach
+        &lt; Op, typename Lst::Head, typename Lst::Tail &gt;::result Next;
+    typedef typename Op&lt; Head, Next &gt;::result result;
+};
+template &lt;
+        template<typename A, typename B> class Op,
+        typename Head&gt;
+struct intForeach <Op, Head, Nil>
+{
+    typedef Head result;
+};
+template &lt;
+        typename Lst,
+        template<typename A,
+        typename B>
+        class Op&gt;
+struct Reduce
+{
+    typedef typename intForeach
+        &lt; Op, typename Lst::Head, typename Lst::Tail &gt;::result result;
+};
+template <int N> struct Num {
+    const static int value = N;
+};
+template <typename A, typename B> struct Sum {
+    static const int r = A::value + B::value;
+    typedef Num<r> result;
+};
+int main() {
+    std::cout &lt;&lt; Reduce&lt;
+        Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt;,
+        Sum &gt;::result::value &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Nothing too fancy, plain old recursion with a sum. Yet it's quite verbose, can we make this a little bit more terse and, hopefully, more clear? Yes, we can. Take a look at that Lst, Lst&lt;...&gt; It sucks. And it's the perfect place to use variadic templates, we just need to construct a structure getting a list of ints, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;
+    // The operation we wish to apply
+    template<typename A, typename B> class Op,
+    // Current element to process
+    class H,
+    // All the rest
+    class... T&gt;
+struct Reduce_V
+{
+    // TODO
+}
+</code></pre>
+<p>That one should look familiar from last time article. Now, to implement a reduce operation we need to operate the current element with the result of reducing the tail, so we have to do something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// Remember how T... means to expand T for the next instance
+    typedef typename Reduce_V<Op, T...>::result Tail_Result
+</code></pre>
+<p>There's something missing. Can you see what? The ending condition, of course. Let's add it and we'll get something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;
+        // The operation we wish to apply
+        template<typename A, typename B> class Op,
+        // All the rest
+        class... T&gt;
+struct Reduce_V
+{
+};
+template &lt;
+        // The operation we wish to apply
+        template<typename A, typename B> class Op,
+        // All the rest
+        class H&gt;
+struct Reduce_V<Op, H>
+{
+    typedef H result;
+};
+template &lt;
+        // The operation we wish to apply
+        template<typename A, typename B> class Op,
+        // Current element to process
+        class H,
+        // All the rest
+        class... T&gt;
+struct Reduce_V<Op, H, T...>
+{
+        // Remember how T&hellip; means to expand T for the next instance
+   typedef typename Reduce_V<Op, T...>::result Tail_Result;
+   // Reduce current value with the next in line
+   typedef typename Op<H, Tail_Result>::result result;
+};
+</code></pre>
+<p>And using it is very simple too:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">std::cout &lt;&lt; Reduce_V&lt; Sum, Num&lt;1&gt;, Num&lt;2&gt;, Num&lt;3&gt;, Num&lt;4&gt;&gt;::result::value &lt;&lt; "n";
+</code></pre>
+<p>Next time we'll see another example for variadic templates and a new C++0x feature.</p>
+<h2><a href="/blog/2011/0510_CoolC0XfeaturesVTemplatesandanglebracketsashortinterlude.html">Cool C++0X features V: Templates and angle brackets, a short interlude</a><a name="coolc0xfeaturesvtemplatesandanglebracketsashortinterludeblog20110510_coolc0xfeaturesvtemplatesandanglebracketsashortinterlude.html"></a></h2>
+<p>Published 2011-05-10</p>
+<p>In the heart of C++ template metaprogramming and code obfuscation, lies the (ab)use of angle brackets. This seemingly innocent token can turn the most clean looking code into the mess that template-detractors like so much to complain about.</p>
+<p>C++0x doesn't do much to clean up this mess, it's probably impossible, but it does offer a subtle feature to improve the legibility of C++ template code, a nifty little feature we have (inadvertently) used.</p>
+<p>Up to C++0x, having two angle brackets together (&gt;&gt;) was parsed as the shift operator (like the one cout uses), meaning that if you had nested templates a lot of compiler errors ensued. C++0x corrects this, meaning that code which in C++ would be like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt; &gt; &gt; &gt; &gt; &gt;
+</code></pre>
+<p>Can now be written like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">Reduce&lt;Sum, Lst&lt;Num&lt;2&gt;, Lst&lt;Num&lt;4&gt;, Lst&lt;Num&lt;6&gt;, Lst&lt; Num&lt;8&gt;&gt;&gt;&gt;&gt;&gt;
+</code></pre>
+<p>Aaand, back to the normal schedule...</p>
+<h2><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Cool C++0X features VIII: Variadic wrapper and type inference with decltype</a><a name="coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltypeblog20110531_coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype.html"></a></h2>
+<p>Published 2011-05-31</p>
+<p>The wrapper function we built last time looks something like this now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+template <class... Args>
+void wrap(Args... a) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    return 0;
+}
+</code></pre>
+<p>But, as we saw last time, this approach has the problem of requiring the return type of do_something to be known before hand. What can we do to remove this dependency? In C++, not much. You can't really declare a type based on the return type of another function. You do have the option of using lots of metaprogramming wizardy, but this is both error prone and ugly (see <a href="/blog/youfoundadeadlink.html">Stroustroup's C++0x FAQ</a>).</p>
+<p>C++0x lets you do some magic with type inference using decltype; decltype(expr) will yield the type of that expression. It works quite similarly as sizeof does; decltype is resolved at compile time and the expression with which it's being called is not evaluated (more on this later).</p>
+<p>How would this work on our example?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+template <class... Args>
+auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    return do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    int x = wrap(42);
+    std::cout &lt;&lt; x &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Try it (remember to add -std=c++0x) it works great! The syntax is not so terribly difficult to grasp as it was with variadic templates. The auto keywords says "hey, compiler, the return type for this method will be defined later", and then the -&gt; actually declares the return type. This means that the auto-gt idiom isn't part of typedecl but a helper, which in turns means that even if not useful, this is valid C++0x code:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto wrap() -&gt; void {
+}
+</code></pre>
+<p>This means that we have three interesting components to analyze in this scenario:
+* -&gt; (delayed declaration)
+* auto
+* decltype</p>
+<p>We'll go over each one the next time.</p>
+<p>Closing remark: At first I choose the following example to introduce delayed return types and decltype (warning, untested code ahead):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+struct Foo {
+    void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+    void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+    int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+};
+// Untested code ahead
+// This makes g++ coredump (v 4.4.5)
+template <class T>
+struct Wrap : public T {
+    template <class... Args>
+    auto wrap(Args... a) -&gt; decltype( T::do_something(a...) ) {
+        std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+        return T::do_something(a...);
+    }
+};
+int main() {
+    Wrap<Foo> w;
+    w.wrap();
+    w.wrap("nice");
+    std::cout &lt;&lt; w.wrap(42) &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Though this looks MUCH better (and useful), at the time of writing this article mixing variadic templates with decltypes in a template class makes g++ segfault. It should be valid C++, but I can't assure it's correct code since I've never tried it.</p>
+<h2><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Cool C++0X features VIII: Variadic wrapper and type inference with decltype</a><a name="coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltypeblog20110531_coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype.html"></a></h2>
+<p>Published 2011-05-31</p>
+<p>The wrapper function we built last time looks something like this now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+template <class... Args>
+void wrap(Args... a) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    return 0;
+}
+</code></pre>
+<p>But, as we saw last time, this approach has the problem of requiring the return type of do_something to be known before hand. What can we do to remove this dependency? In C++, not much. You can't really declare a type based on the return type of another function. You do have the option of using lots of metaprogramming wizardy, but this is both error prone and ugly (see <a href="/blog/youfoundadeadlink.html">Stroustroup's C++0x FAQ</a>).</p>
+<p>C++0x lets you do some magic with type inference using decltype; decltype(expr) will yield the type of that expression. It works quite similarly as sizeof does; decltype is resolved at compile time and the expression with which it's being called is not evaluated (more on this later).</p>
+<p>How would this work on our example?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+template <class... Args>
+auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    return do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    int x = wrap(42);
+    std::cout &lt;&lt; x &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Try it (remember to add -std=c++0x) it works great! The syntax is not so terribly difficult to grasp as it was with variadic templates. The auto keywords says "hey, compiler, the return type for this method will be defined later", and then the -&gt; actually declares the return type. This means that the auto-gt idiom isn't part of typedecl but a helper, which in turns means that even if not useful, this is valid C++0x code:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto wrap() -&gt; void {
+}
+</code></pre>
+<p>This means that we have three interesting components to analyze in this scenario:
+* -&gt; (delayed declaration)
+* auto
+* decltype</p>
+<p>We'll go over each one the next time.</p>
+<p>Closing remark: At first I choose the following example to introduce delayed return types and decltype (warning, untested code ahead):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+struct Foo {
+    void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+    void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+    int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+};
+// Untested code ahead
+// This makes g++ coredump (v 4.4.5)
+template <class T>
+struct Wrap : public T {
+    template <class... Args>
+    auto wrap(Args... a) -&gt; decltype( T::do_something(a...) ) {
+        std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+        return T::do_something(a...);
+    }
+};
+int main() {
+    Wrap<Foo> w;
+    w.wrap();
+    w.wrap("nice");
+    std::cout &lt;&lt; w.wrap(42) &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Though this looks MUCH better (and useful), at the time of writing this article mixing variadic templates with decltypes in a template class makes g++ segfault. It should be valid C++, but I can't assure it's correct code since I've never tried it.</p>
+<h2><a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">Cool C++0X features VIII: Variadic wrapper and type inference with decltype</a><a name="coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltypeblog20110531_coolc0xfeaturesviiivariadicwrapperandtypeinferencewithdecltype.html"></a></h2>
+<p>Published 2011-05-31</p>
+<p>The wrapper function we built last time looks something like this now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+template <class... Args>
+void wrap(Args... a) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    return 0;
+}
+</code></pre>
+<p>But, as we saw last time, this approach has the problem of requiring the return type of do_something to be known before hand. What can we do to remove this dependency? In C++, not much. You can't really declare a type based on the return type of another function. You do have the option of using lots of metaprogramming wizardy, but this is both error prone and ugly (see <a href="/blog/youfoundadeadlink.html">Stroustroup's C++0x FAQ</a>).</p>
+<p>C++0x lets you do some magic with type inference using decltype; decltype(expr) will yield the type of that expression. It works quite similarly as sizeof does; decltype is resolved at compile time and the expression with which it's being called is not evaluated (more on this later).</p>
+<p>How would this work on our example?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+template <class... Args>
+auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    return do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    int x = wrap(42);
+    std::cout &lt;&lt; x &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Try it (remember to add -std=c++0x) it works great! The syntax is not so terribly difficult to grasp as it was with variadic templates. The auto keywords says "hey, compiler, the return type for this method will be defined later", and then the -&gt; actually declares the return type. This means that the auto-gt idiom isn't part of typedecl but a helper, which in turns means that even if not useful, this is valid C++0x code:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto wrap() -&gt; void {
+}
+</code></pre>
+<p>This means that we have three interesting components to analyze in this scenario:
+* -&gt; (delayed declaration)
+* auto
+* decltype</p>
+<p>We'll go over each one the next time.</p>
+<p>Closing remark: At first I choose the following example to introduce delayed return types and decltype (warning, untested code ahead):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+struct Foo {
+    void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+    void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+    int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+};
+// Untested code ahead
+// This makes g++ coredump (v 4.4.5)
+template <class T>
+struct Wrap : public T {
+    template <class... Args>
+    auto wrap(Args... a) -&gt; decltype( T::do_something(a...) ) {
+        std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+        return T::do_something(a...);
+    }
+};
+int main() {
+    Wrap<Foo> w;
+    w.wrap();
+    w.wrap("nice");
+    std::cout &lt;&lt; w.wrap(42) &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Though this looks MUCH better (and useful), at the time of writing this article mixing variadic templates with decltypes in a template class makes g++ segfault. It should be valid C++, but I can't assure it's correct code since I've never tried it.</p>
+<h2><a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">Cool C++0X features IX: delayed type declaration</a><a name="coolc0xfeaturesixdelayedtypedeclarationblog20110607_coolc0xfeaturesixdelayedtypedeclaration.html"></a></h2>
+<p>Published 2011-06-07</p>
+<p>In the last two entries we worked on a wrapper object which allows us to decorate a method before or after calling (hello aspects!), or at least that's what it should do when g++ fully implements decltypes and variadic templates. Our wrapper function looks something like this (check out the previous entry for the wrapper object):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+void do_something() { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+void do_something(const char*) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; }
+int do_something(int) { std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n"; return 123; }
+template <class... Args>
+auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    return do_something(a...);
+}
+int main() {
+    wrap();
+    wrap("nice");
+    int x = wrap(42);
+    std::cout &lt;&lt; x &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>After the example, we were left with three new syntax changes to analyze:
+* -&gt; (delayed declaration)
+* decltype
+* auto</p>
+<p>Let's study the -&gt; operator this time: <strong>-&gt; (delayed declaration)</strong>
+This is the easiest one. When a method is declared auto (I've left this one for the end because auto is used for other things too) it means its return type will be defined somewhere else. Note that in this regard the final implementation differs from <a href="/blog/youfoundadeadlink.html">Stroustroup's FAQ</a>.</p>
+<p>The -&gt; operator in a method's definition says "Here's the return type". I'll paste the same simple example we had last time, the following two snippets of code are equivalent:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void foo() {}
+</code></pre>
+<p>Is the same as:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto foo() -&gt; void {}
+</code></pre>
+<h2><a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">Cool C++0X features X: type inference with decltype</a><a name="coolc0xfeaturesxtypeinferencewithdecltypeblog20110610_coolc0xfeaturesxtypeinferencewithdecltype.html"></a></h2>
+<p>Published 2011-06-10</p>
+<p>After creating a <a href="/blog/2011/0531_CoolC0XfeaturesVIIIVariadicwrapperandtypeinferencewithdecltype.html">wrapper object</a> on the last entries, we were left with three syntax changes two analyze:</p>
+<ul>
+<li><a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">-&gt; (delayed declaration)</a></li>
+<li>decltype</li>
+<li>auto</li>
+</ul>
+<p>We already saw the first, and we'll be talking about the other two this time. This was the original wrapper function which led us here:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <class... Args>
+auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    return do_something(a...);
+}
+</code></pre>
+<p>Back on topic: <strong>decltype</strong>
+This operator (yes, decltype is an operator) is a cousin of sizeof which will yield the type of an expression. Why do I say it's a cousin of sizeof? Because it's been in the compilers for a long time, only in disguise. This is because you can't get the size of an expression without knowing it's type, so even though it's implementation has existed for a long time only now it's available to the programmer.</p>
+<p>One of it's interesting features is that the expression with which you call decltype won't be evaluated, so you can safely use a function call within a decltype, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto foo(int x) -&gt; decltype( bar(x) ) {
+    return bar(x);
+}
+</code></pre>
+<p>Doing this with, say, a macro, would get bar(x) evaluated twice, yet with decltype it will be evaluated only once. Any valid C++ expression can go within a decltype operator, so for example this is valid too:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename A, typename B>
+auto multiply(A x, B y) -&gt; decltype( x<em>y )
+{
+    return x</em>y;
+}
+</code></pre>
+<p>What's the type of A and B? What's the type of A*B? We don't care, the compiler will take care of that for us. Let's look again at that example, more closely:</p>
+<p><strong>-&gt; (delayed declaration) and decltype</strong>
+Why bother creating a delayed type declaration at all and not just use the decltype in place of the auto? That's because of a scope problem, see this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// Declare a template function receiving two types as param
+template <typename A, typename B>
+// If we are declaring a multiplication operation, what&#x27;s the return type of A<em>B?
+// We can&#x27;t multiply classes, and we don&#x27;t know any instances of them
+auto multiply(A x, B y)
+// Luckily, the method signature now defined both parameters, meaning
+// we don&#x27;t need to expressly know the type of A</em>B, we just evaluate
+// x<em>y and use whatever type that yields
+    -&gt; decltype( x</em>y )
+{
+    return x*y;
+}
+</code></pre>
+<p><strong>decltype</strong>
+As you see, decltype can be a very powerful tool if the return type of a function is not known for the programmer when writing the code, but you can use it to declare any type, anywhere, if you are too lazy to type. If you, for example, are very bad at math and don't remember that the integers group is closed for multiplication, you could write this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    int x = 2;
+    int y = 3;
+    decltype(x<em>y) z = x</em>y;
+</code></pre>
+<p>Yes, you can use it as VB's dim! (kidding, just kidding, please don't hit me). Even though this works and it's perfectly legal, auto is a better option for this. We'll see that on the next entry.</p>
+<h2><a href="/blog/2011/0927_CoolC0XfeaturesXIdecltypeanddisappearingconstness.html">Cool C++0X features XI: decltype and disappearing constness</a><a name="coolc0xfeaturesxidecltypeanddisappearingconstnessblog20110927_coolc0xfeaturesxidecltypeanddisappearingconstness.html"></a></h2>
+<p>Published 2011-09-27</p>
+<p>After a long, long hiatus, the C++0x series are back. You may want to check where we left by reading the <a href="/blog/youfoundadeadlink.html">last posts</a> of this series.</p>
+<p>In the last few entries we saw how to use decltype for type inference. Object types is a problem that seems easy but gets complicated very quickly, for example when you start dealing with constness. Constness is difficult in many ways but this time I want to review how constness works with type inference. This topic is not C++0x specific as it's present for template type deduction too, but decltype adds a new level of complexity to it.</p>
+<p>Let's start with an example. Would this compile?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    foo.bar = 42;
+}
+</code></pre>
+<p>Clearly not, having a const Foo means you can't touch foo.bar. How about this?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    int&amp; x = foo.bar;
+}
+</code></pre>
+<p>That won't compile either, you can't initialize an int reference from a const int, yet we can do this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
+{
+    const int&amp; x = foo.bar;
+}
+</code></pre>
+<p>If we know that works it must mean that s.result's type is const int. Right? Depends.</p>
+<p>Just as the name implies decltype yields the declared type of a variable, and what's the declared type for Foo.bar?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
+    int bar;
+};
+void f(const Foo foo)
+{
+    // This won't compile
+    int&amp; x = foo.bar;
+    // This will
+    decltype(foo.bar) x = 42;
+}
+</code></pre>
+<p>That's an interesting difference, but it makes sense once you are used to it. To make things more interesting, what happens if you start adding parenthesis (almost) randomly? Try to deduce the type of x:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
+{
+    decltype((foo.bar)) x
+}
+</code></pre>
+<p>If <strong>decltype(x)</strong> is the type of <strong>x</strong> then <strong>decltype((foo.bar))</strong> is the type of <strong>(foo.bar)</strong>. Between <strong>foo.bar</strong> and <strong>(foo.bar)</strong> there's a very important difference; the first refers to a variable whilst the last refers to an expression. Even though <strong>foo.bar</strong> was declared as int, the expression <strong>(foo.bar)</strong> will yield a const int&amp;, since that's the type (though implicit and not declared, since the expression is not declared).</p>
+<p>This is how we would complete the example then:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f(const Foo foo)
+{
+    // These two statements are equivalent
+    decltype((foo.bar)) x = 42;
+    const int&amp; y = 42;
+    // It's very easy to confirm that the typeof x is now const int&amp;
+    // This won't compile:
+    x = 24;
+}
+</code></pre>
+<p>As I said, disappearing constness is not a C++0x specific problem as it may occur on template type deduction, but that's besides the point of this post. Next time we'll continue working with type deduction, but with the new auto feature this time.</p>
+<h2><a href="/blog/2011/1004_CoolC0XfeaturesXIItypeinferencewithauto.html">Cool C++0X features XII: type inference with auto</a><a name="coolc0xfeaturesxiitypeinferencewithautoblog20111004_coolc0xfeaturesxiitypeinferencewithauto.html"></a></h2>
+<p>Published 2011-10-04</p>
+<p>In the last four entries we worked on a simple example, like the one I'm pasting below, of type inference with decltype, which led us to learn about <a href="/blog/2011/0607_CoolC0XfeaturesIXdelayedtypedeclaration.html">delayed type declaration</a> and <a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">decltypes with auto</a>. This time I want to focus just on the auto keyword instead.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <class... Args>
+auto wrap(Args... a) -&gt; decltype( do_something(a...) ) {
+    std::cout &lt;&lt; <strong>PRETTY_FUNCTION</strong> &lt;&lt; "n";
+    return do_something(a...);
+}
+</code></pre>
+<p>We saw <a href="/blog/2011/0610_CoolC0XfeaturesXtypeinferencewithdecltype.html">last time</a> how decltype can be used in a contrived way to create a local variable without specifying its type, only how to deduce the type for this variable. Luckily, that verbose method of type declaration can be summed up in the following way:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    int x = 2;
+    int y = 3;
+    decltype(x<em>y) z = x</em>y;
+</code></pre>
+<p>Should be written as:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    int x = 2;
+    int y = 3;
+    auto z = x*y;
+</code></pre>
+<p>That's right, when you are declaring local variables it's easier and cleaner to just use auto. This feature isn't even "in the wild" yet, so you can't really predict what will people do with it, but it seems to me that limiting its use to local variables with a very short lived scope is the best strategy. We are yet to see what monstrosities the abuse of this feature will produce, and I'm sure there will be many. Regardless of their potential to drive insane any maintainers, its best use probably comes in loops.</p>
+<p>In any C++ application, you'll find code like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for (FooContainer<Bar>::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
+</code></pre>
+<p>This ugly code can be eliminated with something much more elegant:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for (auto i = foobar.begin(); i != foobar.end(); ++i)
+</code></pre>
+<p>Looks nicer indeed, but we can improve it much further with other tools. We'll see how the next time. For the time being, let's see for what auto is not to be used.</p>
+<p>When using auto, keep in mind it was designed to simplify the declaration of a variable with a complex or difficult to reason type, not as a replacement for other language features like templates. This is a common mistake:</p>
+<p>Wrong:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void f(auto x) {
+    cout &lt;&lt; x;
+}
+</code></pre>
+<p>Less wrong:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <T>
+void f(T x) {
+    cout &lt;&lt; x;
+}
+</code></pre>
+<p>It makes no sense to use auto in the place of a template, since a template means that the type will be completed later whereas auto means it should be deduced from an initializer.</p>
+<h2><a href="/blog/2012/1129_CoolC0XfeaturesXIIIautoandrangedforcleanerloopsFTW.html">Cool C++0X features XIII: auto and ranged for, cleaner loops FTW</a><a name="coolc0xfeaturesxiiiautoandrangedforcleanerloopsftwblog20121129_coolc0xfeaturesxiiiautoandrangedforcleanerloopsftw.html"></a></h2>
+<p>Published 2012-11-29</p>
+<p>Long time without updating this series. Last time we saw how the ugly</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for (FooContainer::const_iterator i = foobar.begin(); i != foobar.end(); ++i)
+</code></pre>
+<p>could be transformed into the much cleaner</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for (auto i = foobar.begin(); i != foobar.end(); ++i)
+</code></pre>
+<p>Yet we are not done, we can clean that a lot more using for range statements.</p>
+<p>Ranged for is basically syntactic sugar (no flamewar intended) for shorter for statements. It's nothing new and it's been part of many languages for many years already, so there will be no lores about the greatness of C++ innovations (flamewar intended), but it still is a nice improvement to have, considering how tedious can be to write nested loops. This certainly looks much cleaner:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">for (auto x : foobar)
+</code></pre>
+<p>This last for-statement, even though it looks good enough to print and hang in a wall, raises a lot of questions. What's the type of x? What if I want to change its value? Let's try to answer that.</p>
+<p>The type of the iterator will be the same as the type of the vector, so in this case x would be an int:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">std::vector foobar;
+for (auto x : foobar) {
+    std::cout &lt;&lt; (x+2);
+}
+</code></pre>
+<p>And now, what happens if you want to alter the contents of a list and not only display them? That's easy too, just declare x as an auto reference:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">std::vector foobar;
+for (auto&amp; x : foobar) {
+    std::cout &lt;&lt; (x+2);
+}
+</code></pre>
+<p>This looks really nice but it won't really do anything, for two different reasons:</p>
+<ul>
+<li>Ranged fors won't work until g++ 4.5.6 is released</li>
+<li>The list is empty!</li>
+</ul>
+<p>There are many ways to initialize that list, but we'll see how C++0X let's you do it in a new way the next time.</p>
+<h2><a href="/blog/2011/1011_CoolC0XfeaturesXIVInitializerlists.html">Cool C++0X features XIV: Initializer lists</a><a name="coolc0xfeaturesxivinitializerlistsblog20111011_coolc0xfeaturesxivinitializerlists.html"></a></h2>
+<p>Published 2011-10-11</p>
+<p>We talked last time about ranged fors and how they can simplify our life in C++0x. Now we are going to take a trip back to old C land. Remember when you could initialize your arrays like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int v[] = {1, 2, 3, 4};
+</code></pre>
+<p>C++0X brought a lot of changes to the world, and suddenly instead of int[] you were supposed to use vector, and with it your initializer didn't work anymore. Though luck. Try to compile this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <vector>
+int main() {
+    std::vector<int> v = {1,2,3,4};
+    return 0;
+}
+</code></pre>
+<p>If you did compile it with g++, you may have noticed an interesting error message:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">error: in C++98 'v' must be initialized by constructor, not by '{...}'
+warning: extended initializer lists only available with -std=c++0x or -std=gnu++0x
+</code></pre>
+<p>That's interesting. Try to compile it with g++ again, but using C++0x instead of plain C++. Magic, now it works!</p>
+<p>Initializers lists bring the best of C to C++ world (?) by letting you use initialize any object with an initializer. And I mean *any* object, not just vectors. For example, say you have a map (a map and a bunch of other stuff):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+    map<string, vector\<int>> v = {
+            { "a", {1,2,3} },
+            { "b", {4,5,6} },
+            { "c", {7,8,9} }
+        };
+    cout &lt;&lt; v["b"][1] &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>Yes, that works! Maps, vectors, pairs, and even your own custom objects, but we'll see that next time.</p>
+<h2><a href="/blog/2011/1018_CoolC0XfeaturesXVInitializerlistsforcustomnonstdobjects.html">Cool C++0X features XV: Initializer lists for custom (non-std) objects</a><a name="coolc0xfeaturesxvinitializerlistsforcustomnonstdobjectsblog20111018_coolc0xfeaturesxvinitializerlistsforcustomnonstdobjects.html"></a></h2>
+<p>Published 2011-10-18</p>
+<p>Last time we saw how you can use C style array-initialization for C++ objects, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    std::vector<int> v = {1,2,3,4};
+</code></pre>
+<p>We also saw this works for may types of objects, like maps and pairs. How about custom developed objects? Yes, that's right, you can have initilizer lists for your own objects too, and it's quite easy. C++0x offers initializer_lists which you can use on your constructors (or any other methods, for that mater) to have C-style initialization. Let's see an example. We already know how to sum a list of numbers using template lists and variadic templates, so let's try adding an initializer consisting of numbers:</p>
+<p>Let's start by creating a class which can accept an initializer list:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <initializer_list>
+using namespace std;
+struct Add_List {
+    Add_List(initializer_list<int> lst) {
+    }
+};
+int main() {
+    Add_List x = {1, 2, 3};
+    return 0;
+}
+</code></pre>
+<p>That's interesting, as you can see an initializer list is actualy a template class, meaning that nested initializers can easily be defined too. Now, we have the interface, how can we access each element of the list? Let's do the same thing I did when I found out about initilizers, let's search for the header file.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">  template<class _E>
+    class initializer_list
+    {
+    public:
+      typedef _E        value_type;
+      typedef const _E&amp;     reference;
+      typedef const _E&amp;     const_reference;
+      typedef size_t        size_type;
+      typedef const _E<em>     iterator;
+      typedef const _E</em>     const_iterator;
+    private:
+      iterator          _M_array;
+      size_type         _M_len;
+      // The compiler can call a private constructor.
+      initializer_list(const_iterator __a, size_type __l)
+      : _M_array(__a), _M_len(__l) { }
+    public:
+      initializer_list() : _M_array(NULL), _M_len(0) { }
+      // Number of elements.
+      size_type
+      size() const { return _M_len; }
+      // First element.
+      const_iterator
+      begin() const { return _M_array; }
+      // One past the last element.
+      const_iterator
+      end() const { return begin() + size(); }
+  };
+</code></pre>
+<p>Looks surprisingly easy (note that this is for G++ 4.something only). And it is, most of the magic happens in the compiler, so the userland code is quite straight forward. According to that header file, we could build something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">#include <iostream>
+#include <initializer_list>
+using namespace std;
+struct Add_List {
+    Add_List(initializer_list<int> lst) {
+        int sum = 0;
+        for (auto i = lst.begin(); i != lst.end(); ++i)
+            sum += *i;
+        cout &lt;&lt; sum &lt;&lt; "n";
+    }
+};
+int main() {
+    Add_List x = {1, 2, 3};
+    return 0;
+}
+</code></pre>
+<p>As you can see, the initializer lists can be used in any place an iterable container is required, as long as it's const. There's not much more magic to it, but we can use some more C++0x devices to make our list-adding device much more cool, for example to support different actions and not only addition. Next time, though.</p>
+<p>PS: An important lesson from this article: don't be afraid to look into the system headers, they won't bite. You should never ever change them, but taking a peek can only improve your C++ knowledge.</p>
+<h2><a href="/blog/2013/0108_CoolC0XfeaturesXVILambdas.html">Cool C++0X features XVI: Lambdas</a><a name="coolc0xfeaturesxvilambdasblog20130108_coolc0xfeaturesxvilambdas.html"></a></h2>
+<p>Published 2013-01-08</p>
+<p>Last time we created a device to sum an initializer list of ints, something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">void Add(initializer_list<int> lst) {
+    int sum = 0;
+    for (auto i = lst.begin(); i != lst.end(); ++i)
+        sum += *i;
+    cout &lt;&lt; sum &lt;&lt; "n";
+}
+</code></pre>
+<p>And then we said this can be improved using some new C++0x wizardry to support actions other than adding. How would we do that? Easy, we need to decouple the iteration of the list from the operation logic. We can do something like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+// Note how we don't care about the type of OP, just that
+// it can be called (i.e. has an operator ())
+template <class OP>
+void do_something(OP op, int init, initializer_list<int> lst) {
+    int sum = init;
+    for (auto i = lst.begin(); i != lst.end(); ++i)
+    {
+        int x = *i;
+        sum = op(sum, x);
+    }
+    cout &lt;&lt; sum &lt;&lt; "n";
+}
+struct Sum {
+    int operator() (int a, int b)
+    {
+        return a + b;
+    }
+};
+int main() {
+    do_something(Sum(), 0, {1, 2, 3, 4});
+    return 0;
+}
+</code></pre>
+<p>We had to do some changes other than passing the operation-object into the do_something method; since the start value (zero) was hardcoded we had to remove it to really decouple the action from the iteration.</p>
+<p>Other than creating a function object (which is the correct name for the object wrapping our operation) we don't see any strange changes, there's no C++0x there, but C++0x gives us a little tool which gives you the power of creating much simpler and nicer code, or to make the next maintainers' life a living hell. That's a discussion for other time though, now let's take a sneak preview a lambdas, the evolution of function objects:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+    auto f = [] (int a, int b){ return a+b; } ;
+    do_something(f, 0, {1, 2, 3, 4});
+    return 0;
+}
+</code></pre>
+<p>Note that we didn't change anything on the method iterating the list, we just changed main! There's a lot to talk about lambdas, so this is only an intro to the subject. Next time we'll discuss the subtleties of the new syntax.</p>
+<h2><a href="/blog/2013/0110_CoolC0XfeaturesXVIILambdassyntax.html">Cool C++0X features XVII: Lambdas syntax</a><a name="coolc0xfeaturesxviilambdassyntaxblog20130110_coolc0xfeaturesxviilambdassyntax.html"></a></h2>
+<p>Published 2013-01-10</p>
+<p>After creating a device to sum an initializer list as an example of this new feature last time, we created a generic function to receive a function object, which worked just very similarly to Smalltalk's inject. After creating the usual function object, overloading the () operator, we saw a much cooler way of doing that using lambdas, like this:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+    auto f = [] (int a, int b){ return a+b; } ;
+    do_something(f, 0, {1, 2, 3, 4});
+    return 0;
+}
+</code></pre>
+<p>Pretty cool. Pretty weird too. Let's analyze how to declare a lambda before we continue discussing about the usage of this new feature.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto f
+</code></pre>
+<p>Auto f. Lambdas have a type, and you can explicitly declare it. The type might be quite complicated though, and it doesn't really add any information that makes reading the code any easier, so we are better off using C++0x's new feature, auto, which will infer the type for us. Saves a lot of typing, trust me.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto f = [] (int a, int b)
+</code></pre>
+<p>Brackets, and then the parameters specification. Looks weird but the brackets are there just to tell the compiler "hey, an anonymous method comes here" (actually the brackets could be omitted in this case but we'll need them later on). After that, it's just a normal method declaration. Useless trivia: before C++0x you could have anonymous objects but not anonymous methods. Can you think where would you have an anonymous object? I think I even wrote an article about it on this blog, but I'm too lazy to search for it.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto f = [] (int a, int b) { return a+b; }
+</code></pre>
+<p>After the lambda's signature, which is the same as the signature of a common method, you have the body of the method. It can be as short or as long as you want, it's just a method's body (though for the sanity of the maintainer you'd better keep it short).</p>
+<p>Watch out though, that's not the end of the declaration, we're missing a crucial piece on this lambda:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto f = [] (int a, int b) { return a+b; };
+</code></pre>
+<p>I'd use the blink tag, but I think it has been deprecated. Notice that last semicolon; when you declare the lambda's body you finish with a semicolon inside, just as you would inside a normal method, but that's not the end of the expression, for the lambda declared outside the body of that method still needs another semicolon to appraise the compiler god.</p>
+<p>And now, we know almost everything we need to know about lambda's syntax. Notice how the return type of the method is automagically deduced. That's useful, but there's something the compiler can't deduce by itself about the return type. If you are trying to return a reference to something, you need to make this explicit, the compiler has no way of detecting if you need a copy return or a reference return (until the next draft of C++, which I heard incorporates mind reading capabilities into the compiler. You may have to wait a couple of years though). This is easy to specify, though:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto f = [&amp;] (int a, int b) { return a+b; };
+</code></pre>
+<p>Just add an ampersand between the brackets and the lambda will return a reference instead of a copy of whatever object you're trying to return. How about receiving a reference instead of returning one? That's easy, remember the signature is the same as any other method:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">auto f = [] (int&amp; a, int&amp; b) { return a+b; };
+</code></pre>
+<p>That's it, now we know how to use basic lambdas. You should keep in mind, though, this mythical beast has a lot more to it than just its syntax. We'll discuss about some of it's darkest secrets, how to use it, when to use it, how does it work. That discussion is for next time, though.</p>
+
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

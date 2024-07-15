@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Homeboard Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="homeboard">Homeboard</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-07-20 |
+  <a href="/blog/projects_texts/homeboard.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/projects_texts/homeboard.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<h2><a href="/blog/2024/0630_HouseboardP0.html">Houseboard P0: PP0</a><a name="houseboardp0pp0blog20240630_houseboardp0.html"></a></h2>
+<p>Published 2024-06-30</p>
+<p>I have a <a href="https://github.com/nicolasbrailo/BatiCasa">ton of unnecessary home automation</a>, but I'm lacking some kind of house board: a quick way of getting info before leaving (like weather, or transport conditions), leaving messages (don't forget to pick up kids from school) or just a shopping list. Sensible people would look at readily available digital signage solutions. Of course I didn't do that, instead decided to build my own.</p>
+<p>I settled for a quick list of requirements to guide the project: Linux based, running off power-over-ethernet, with net-boot and 100% locally hosted. How hard can that be?</p>
+<p>The first step to design my houseboard was searching for a panel. Here is a capture of the moment it failed:</p>
+<p><a href="/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg" /></a></p>
+<p>Turns out that scoring a random replacement panel for a laptop and trying to pair that with a random controller board works well in theory but needs a lot of luck. Starting with a cheapish £40 LCD panel with an eDP connector, I got an HDMI-to-eDP board. My panel and my board didn't like each other, so all I got was backlight, and that is not very useful unless you only need to display binary information.</p>
+<p>Since ordering and shipping a different panel controller board would take a few weeks, I decided to change my strategy: my P0 would be changed to a Prototype-Prototype-0 (PP0), using a similar platform to let me start working on the software and sensors, while I figured the way to control a panel. Here is Houseboard PP0, in all it's glory:</p>
+<p><a href="/blog_img/0630_HouseboardP0/2PP0.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/2PP0.jpg" /></a></p>
+<p>I got a USB-powered touchscreen, which is powered by a RaspberryPi 4. The RPI itself is powered over PoE, and there is an HDMI connection between the Rpi and the screen, and a secondary USB connection to get touch screen support. The PoE adapter is barely capable of powering the screen AND the Rpi: if I turn the brightness of the screen to 100%, the system will reset.</p>
+<p>And with a few sensors (a PIR + mmWave):</p>
+<p><a href="/blog_img/0630_HouseboardP0/3Sensors.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/3Sensors.jpg" /></a></p>
+<p>It's not going to win any design prizes, but it works</p>
+<p><a href="/blog_img/0630_HouseboardP0/4Running.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/4Running.jpg" /></a></p>
+<p>While eventually I did end up solving my LCD panel woes, Houseboard PP0 let me start building some software for the houseboard quickly:</p>
+<ol>
+<li>A <a href="https://github.com/nicolasbrailo/swayimg">Wayland based image display</a> built on top of Swayimage; to show a gallery of pictures when there is no other info to show</li>
+<li>A <a href="https://github.com/nicolasbrailo/pipresencemon">presence service</a> (to determine when there are humans nearby, based on PIR and mmWave sensors).</li>
+</ol>
+<h2>BoM for Houseboard PP0<a name="bomforhouseboardpp0"></a></h2>
+<ul>
+<li>A RaspberryPi 4 (any Pi will do, but having a bunch of USB ports makes this project a lot simpler)</li>
+<li>A USB powered screen. I went for a 14'' 1080p 1920x1080, and with the PoE constrain that's probably as big as it's feasible. My browsing history says I got this one: https://www.amazon.co.uk/dp/B0CB5FWGT8</li>
+<li>PoE splitter (USBC + ETH out, 5v 4A) - Look for the adapter with largest power rating you can, a cheap one won't work. I went for this one: https://www.amazon.co.uk/dp/B0CHW5K5F4</li>
+<li><a href="https://thepihut.com/products/pir-motion-sensor-module">PIR sensor</a> (NB VCC=5v, connect to Pin4, GND Pin6, OUT Pin17)</li>
+<li><a href="https://thepihut.com/products/breadboard-friendly-mini-pir-motion-sensor-with-3-pin-header">Smaller PIR sensor</a> (VCC=5v Pin4, GND Pin6, OUT Pin17)</li>
+</ul>
+<h2>Useful references<a name="usefulreferences"></a></h2>
+<ul>
+<li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
+<li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
+</ul>
+<hr />
+<h2><a href="/blog/2024/0714_StonebakedMargheritaHomeboard.html">Homeboard P0: Stonebaked Margherita</a><a name="homeboardp0stonebakedmargheritablog20240714_stonebakedmargheritahomeboard.html"></a></h2>
+<p>Published 2024-07-14</p>
+<p><strong>Homeboard P0 has been built!!1</strong></p>
+<p>After figuring out <a href="/blog/2024/0707_HouseboardHdmiToEdp.html">how to run my own LCD panel</a>, it was just a question of buying the right cables. I wanted to build a homeboard, and I thought I'd spend a ton of time writing cool software. Turns out 90% of the project is a game of "did I buy the right cable". Eventually I did end up with enough cables to build this monstrosity:</p>
+<p><a href="/blog_img/0714_HomeboardP0/1PanelTest.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/1PanelTest.jpg" /></a></p>
+<p>You are admiring a:</p>
+<ul>
+<li>Raspberry Pi zero,</li>
+<li>Powered over ethernet, with a PoE adapter</li>
+<li>The Raspberry Pi Zero powers the LCD controller board</li>
+<li>But the controller board needs 12V, so there is a DC-DC board that bumps the 5V from the RaspberryPi to the 12V the board needs.</li>
+</ul>
+<p>(Full list of materials further down, so you don't need to hunt all of these)</p>
+<p>Here the glorious moment everything is connected together, and actually boots an OS:</p>
+<p><a href="/blog_img/0714_HomeboardP0/2Boots.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/2Boots.jpg" /></a></p>
+<p>Of course at this point I realized the weak point of my design is on the mechanical linkage between the different boards. To tame this quite literally unwieldy hodgepodge of cables, I ate a pizza:</p>
+<p><a href="/blog_img/0714_HomeboardP0/3Mechanical.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/3Mechanical.jpg" /></a></p>
+<p>Using the cardboard box of a pizza, some ducktape and a few M2 screws, I built a beautiful hack mount for all my boards, which let me move the assembly around for tests. This was enough for quick power checks, but pizza box cardboard isn't a very durable material. I upgraded to a full frame:</p>
+<p><a href="/blog_img/0714_HomeboardP0/4Framing.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/4Framing.jpg" /></a></p>
+<p>This is an Ikea picture frame, with an LCD screen tapped to the front and a hole in the back for the eDP connector. Everything mounted together:</p>
+<p><a href="/blog_img/0714_HomeboardP0/5BoardMount.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/5BoardMount.jpg" /></a></p>
+<p>And the glorious, glorious first boot of the Stonebaked Margherita Homeboard P0:</p>
+<p><a href="/blog_img/0714_HomeboardP0/6FirstBoot.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/6FirstBoot.jpg" /></a></p>
+<p>Of course at this stage the only thing the Houseboard P0 does is boot. An achievement, but not too useful. Next up, I'll make it do something. Possibly crash.</p>
+<h2>BoM<a name="bom"></a></h2>
+<ul>
+<li>Pi Zero (not W, but W works too)</li>
+<li><a href="https://www.amazon.co.uk/dp/B0742D2718">LCD panel</a></li>
+<li><a href="https://www.aliexpress.com/item/32968710965.html">HDMI to eDP board</a></li>
+<li><a href="https://thepihut.com/products/poe-to-micro-usb-adapter-for-pi-zero-ethernet-power-ieee-802-3af-compliant">PoE adapter</a></li>
+<li><a href="https://www.amazon.co.uk/dp/B08F7SXC7S?psc=1&amp;ref=ppx_yo2ov_dt_b_product_details">M2 Screws</a></li>
+<li><a href="https://www.amazon.co.uk/Step-up-Supply-Adjustable-Converter-4-5V-32V/dp/B075JQTPX6?">Step up board DC-DC 5v to 12V</a></li>
+<li><a href="https://www.amazon.co.uk/dp/B08F7SXC7S">M2 Screws</a></li>
+<li><a href="https://thepihut.com/collections/jumper-wires">Jumper wires</a> (get a mix of F/F, M/F and M/M)</li>
+<li><a href="https://www.ikea.com/gb/en/p/ribba-frame-white-00268876/">An Ikea Ribba picture frame</a></li>
+<li>Pizza. Margherita not required.</li>
+<li>Mini HDMI to HDMI</li>
+</ul>
+<p>Optionals:</p>
+<ul>
+<li><a href="https://www.amazon.co.uk/gp/product/B0B7RHPMT7/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;psc=1">UART</a> - to figure out why things don't boot, or to <a href="/blog/2024/0615_LD2410SmmWaveSensor.html">debug sensors</a></li>
+<li>Regulable power source 3 to 30V - useful to debug power to elements in isolation</li>
+<li><a href="https://www.aliexpress.com/i/1005006282168742.html">HLK-LD2410S 24G mmWave sensor</a> <a href="https://drive.google.com/file/d/1CYgZTTEkZoo29QDd8V-qMWQCiwLFjlw1/view">Manual</a> - not used yet, but soon</li>
+</ul>
+<h2>Useful references<a name="usefulreferences"></a></h2>
+<ul>
+<li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
+<li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
+</ul>
+<hr />
+<h2><a href="/blog/2024/0720_HomeboardP0PictureFrame.html">Homeboard P0: Stonebaked Margherita Picture frame</a><a name="homeboardp0stonebakedmargheritapictureframeblog20240720_homeboardp0pictureframe.html"></a></h2>
+<p>Published 2024-07-20</p>
+<p>TODO</p>
+<h1>Homeboard<a name="homeboard"></a></h1>
+<h2>OS<a name="os"></a></h2>
+<ul>
+<li>Standard RaspberryPi minimal installation, no GUI. arm 32 OS, to run with Rpi Zero</li>
+<li>Connect UART, debug why it doesn't boot</li>
+<li>Over UART, enable ssh, reboot</li>
+<li>Disconnect UART, then ssh</li>
+</ul>
+<h2>Prepare Wayland<a name="preparewayland"></a></h2>
+<p>By default, Wayland won't work in RpI Zero. It can be enabled with:
+* Add the following to /boot/firmware/config.txt
+    dtoverlay=vc4-kms-v3d
+    gpu_mem=128
+* sudo apt-get install mesa-utils-bin wayfire 
+* /boot/firmware/cmdline.txt needs to have <code>wayland=on</code> 
+* reboot
+* In terminal: wayfire - an empty wayland screen (with a cursor) should show up</p>
+<h2>swayimg<a name="swayimg"></a></h2>
+<ul>
+<li>sudo apt-get install libcurl git ninja-build meson</li>
+<li>sudo apt-get install libcurl4-openssl-dev</li>
+<li>sudo apt-get install libwayland-dev wayland-protocols</li>
+<li>sudo apt-get install libjson-c-dev libxkbcommon-dev libfontconfig-dev libjpeg-dev</li>
+<li>git clone https://github.com/nicolasbrailo/swayimg.git</li>
+<li>meson setup [build|--wipe build] -&gt; Should find curl and libjpeg</li>
+<li>ninja -C build</li>
+<li>Launch wayfire in a terminal</li>
+<li>WAYLAND_DISPLAY="wayland-1" DISPLAY="" /home/batman/swayimg/build/swayimg</li>
+</ul>
+<h2>Screen rotation<a name="screenrotation"></a></h2>
+<p>Because of the way the flex cable is fed to the HDMI-to-eDP board, my screen ended up rotated 180 degrees. This fixes it:</p>
+<ol>
+<li>Do <code>kmsprint</code> or <code>kmsprint -m</code></li>
+<li>Look for the name of the screen, eg HDMI-A-1</li>
+<li>Look for the mode, eg 1920x1080@60.00</li>
+<li>Create this in ~/.config/wayfire.ini, replacing the values found above for your setup</li>
+</ol>
+<pre><code>[output:HDMI-A-1]
+mode = 1920X1080@60.00
+position = 0,0
+transform = 90
+</code></pre>
+<p>No need to reboot wayfire, should fix itself immediately</p>
+<h2>P1: A picture frame<a name="p1apictureframe"></a></h2>
+<p>No netboot, just normal Rpi OS with services.</p>
+<pre><code>[Unit]
+Description=wayfire
+After=multi-user.target
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=wayfire
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=10s
+User=batman
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>/etc/systemd/system/wayfire.service</p>
+<p>Then
+* <code>sudo systemctl daemon-reload</code>
+* journalctl --follow --unit wayfire
+* sudo systemctl enable wayfire
+* sudo systemctl restart wayfire</p>
+<pre><code>[Unit]
+Description=ambience
+After=multi-user.target
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000 WAYLAND_DISPLAY="wayland-1" DISPLAY=""
+ExecStart=/home/batman/swayimg/build/swayimg
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=3s
+User=batman
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>Then
+* <code>sudo systemctl daemon-reload</code>
+* journalctl --follow --unit wayfire --unit ambience
+* sudo systemctl enable ambiene
+* sudo systemctl restart ambience</p>
+<hr />
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

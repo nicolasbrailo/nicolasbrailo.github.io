@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>C++ Template Metaprogramming Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2>C++ Template Metaprogramming</h2>
+
+<h2>Index<a name="index"></a></h2>
+<ol>
+<li><a href="/blog/2010/0415_TemplatemetaprogrammingAslowdescenttowardsuttermaddness.html">Template metaprogramming</a></li>
+<li><a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">Template metaprogramming 2</a></li>
+<li><a href="/blog/2010/0429_TemplatemetaprogrammingIIIEnteringPandemonium.html">Template metaprogramming 3</a></li>
+<li><a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">Template metaprogramming 4</a></li>
+<li><a href="/blog/2010/0512_TemplatemetaprogrammingVFacetoface.html">Template metaprogramming 5</a></li>
+<li><a href="/blog/2010/0520_TemplatemetaprogrammingVITheSpiderWebb.html">Template metaprogramming 6</a></li>
+<li><a href="/blog/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.html">Template metaprogramming 7</a></li>
+<li><a href="/blog/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.html">Template metaprogramming 8</a></li>
+<li><a href="/blog/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.html">Template metaprogramming 9</a></li>
+<li><a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">Template metaprogramming 10</a></li>
+<li><a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Template metaprogramming 11</a></li>
+<li><a href="/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html">Template Metaprogramming 12</a></li>
+<li><a href="/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html">Template Metaprogramming 13</a></li>
+<li><a href="/blog/2010/0914_TemplateMetaprogrammingXIVMarathon.html">Template Metaprogramming 14</a></li>
+<li><a href="/blog/2010/0923_TemplateMetaprogrammingXVGemini.html">Template Metaprogramming 15</a></li>
+</ol>
+<hr />
+<h2><a href="/blog/2010/0415_TemplatemetaprogrammingAslowdescenttowardsuttermaddness.html">Template metaprogramming: A slow descent towards utter maddness</a><a name="templatemetaprogrammingaslowdescenttowardsuttermaddnessblog20100415_templatemetaprogrammingaslowdescenttowardsuttermaddness.html"></a></h2>
+<p>Published 2010-04-15</p>
+<p>There have been some articles dealing with template metaprogramming over here. Things like <em>template <int n></em>, which look really weird (but behave in an even more bizarre way). This post starts a series of articles following the contrived and tortuous path down insanity lane and into the mouth of the beast. When we are done things like <em>typedef typename</em> should be clearer than <em>i=i++</em>, should you dare to keep on reading.</p>
+<h3>First things first: Why TF would I...<a name="firstthingsfirstwhytfwouldi..."></a></h3>
+<p>Instead of explaining why let's start backwards: assume you already want to start learning some template metaprogramming. Yeah, I'm sure there are many legitimate reasons, like job security or job security perhaps, but if you want to learn template metaprogramming the most likely explanation is you are nuts. Plain and simple.</p>
+<p>Practical uses? Not really. Yeah, there are some (if you are a boost developer) and lets you write some neat stuff, but in your every day job you are most likely never going to use them. And that is a good thing (tm), for mere mortal programmers tend to like getting their jobs done. Having said that, let's learn some template metaprogramming!</p>
+<h3>Metawhat?<a name="metawhat"></a></h3>
+<p>First, we need to start with a little clarification: using <em>template</em>  to parametrize a class, something like std::vector does, is not template metaprogramming. That's just a generic class (Java-pun intended). That is indeed a useful case for templates, but it has little fun in it.</p>
+<p>Template metaprogramming is much more fun than mere generic classes. The template processing in C++ is a language on it's own (no, really, like a Turing complete language and everything), though a language with very weird syntax and a very strange "design". Design between quotes because there was no design in its initial stages, template processing is a sub-language organically grown as a side effect of adding partial templates specialization (more on this later), so don't expect a nice language. Here, let me show you an example of another organically grown language: Microsoft's .bat scripting. You can imagine now what kind of beast this is if we are comparing it to bat scripts, right? (Nitpickers note. yup, I do know bat scripting is not a real language as it's not Turing complete. The comparison still stands though).</p>
+<h3>First step<a name="firststep"></a></h3>
+<p>Enough chatter. Let's start with an empty program and work our way down from there:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N&gt; struct Factorial {
+ static const int result = N * Factorial::result;
+};
+template &lt;&gt; struct Factorial&lt;0&gt; {
+ static const int result = 1;
+};
+int main() {
+ std::cout &lt;&lt; Factorial&lt;5&gt;::result &lt;&lt; "n";
+ retrun 0;
+}
+</code></pre>
+<p>Whoa. Lots of magic going on there, on the simplest of all template metaprogramming tricks. But I don't feel like explaining it right now, I'm too sleepy, so I will leave that for next post.</p>
+<h2><a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">Template metaprogramming II: Openning the box</a><a name="templatemetaprogrammingiiopenningtheboxblog20100422_templatemetaprogrammingiiopenningthebox.html"></a></h2>
+<p>Published 2010-04-22</p>
+<p>We saw last time how to print a factorial using only template metaprogramming, but didn't explain anything about it. I promised to fix that in this article. Starting by the very beginning:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N&gt; struct Factorial {
+    static const int result = N * Factorial&lt;N-1&gt;::result;
+};
+template &lt;&gt; struct Factorial&lt;0&gt; {
+    static const int result = 1;
+};
+int main() {
+    std::cout &lt;&lt; Factorial&lt;5&gt;::result &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<h3>Why static const?<a name="whystaticconst"></a></h3>
+<p>Templates get evaluated on compile time, remember? That means all that code actually executes when compiling the source, not when executing the resulting binary (assuming it actually compiles, of course). Having as a constraint the fact that all your code must resolve on compile time means only const vars make sense. Also, as you're working with classes (templates are applied to classes, not objects) only static objects make sense.</p>
+<p>That explains the <em>static const</em> thing, what about the Factorial&lt;0&gt;? Well it's obviously an edge case. It describes a specific case of a Factorial. It's a specialization! Why do we need it? Take a look again at the definition of struct Factorial: it's a recursive definition. How do we break from the recursive loop? With a base case, obviously.</p>
+<p>If this is starting to remind you of anything then you are crazier than you think, and you already know some Haskel. Indeed, template metaprogramming has some resemblance to Haskel programming: no const "variables", no for-loop (only recursion), base cases (pattern matching), and cryptic error messages which makes you want to jump of a cliff.</p>
+<p>A useful trick I learned when working with Haskel (many many years ago) is to declare the problem, instead of thinking it. For our problem the factorial of a number is defined as said number times the factorial of that same number minus one, being the factorial of 0 always 1.</p>
+<p>Translating:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// the factorial of a number is defined as said number times
+// the factorial of that same number minus one
+template &lt;int N&gt; struct Factorial {
+    static const int result = N * Factorial&lt;N-1&gt;::result;
+};
+// being the factorial of 0 always 1.
+template &lt;&gt; struct Factorial&lt;0&gt; {
+    static const int result = 1;
+};
+</code></pre>
+<p>That's good for a first approach... next time something more complex (and less theory, promise).</p>
+<hr />
+<p>Thanks to St&eacute;phane Michaut for reporting broken code in this page.</p>
+<hr />
+<h2>In reply to this post, <a href="">Felix</a> commented @ 2020-10-29T10:18:31.000+01:00:<a name="inreplytothispostfelixcommented20201029t101831.0000100"></a></h2>
+<p>Hi!
+Maybe I am missing the point, but shouldn't it be</p>
+<p>template struct Factorial {
+ static const int result = N * Factorial::result;
+};</p>
+<p>Otherwise the template instantiation leads to an endless recursion.
+Anyway, thanks for your awesome blog posts!</p>
+<p>Original <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="">Felix Berlakovich</a> commented @ 2020-10-29T10:19:22.000+01:00:<a name="inreplytothispostfelixberlakovichcommented20201029t101922.0000100"></a></h2>
+<p>Sry, I meant N * Factorial::result;</p>
+<p>Original <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="">Felix</a> commented @ 2020-10-29T10:22:14.000+01:00:<a name="inreplytothispostfelixcommented20201029t102214.0000100"></a></h2>
+<p>Apparently the N-1 template argument gets stripped off in the comments and probably also in your source code listing. That is why I thought there was a mistake in the listing and also in my comment.</p>
+<p>Original <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">published here</a>.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/aboutme.html">nico</a> commented @ 2020-10-29T17:55:51.000+01:00:<a name="inreplytothispostnicoblogaboutme.htmlcommented20201029t175551.0000100"></a></h2>
+<p>Lol! Yeah I gave up fixing those. It breaks every year or so. If you are reading this article in 2020, it's probably good if you can't compile the examples. You should be using constexprs nowadays anyway :)</p>
+<p>Original <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">published here</a>.</p>
+<h2><a href="/blog/2010/0429_TemplatemetaprogrammingIIIEnteringPandemonium.html">Template metaprogramming III: Entering Pandemonium</a><a name="templatemetaprogrammingiiienteringpandemoniumblog20100429_templatemetaprogrammingiiienteringpandemonium.html"></a></h2>
+<p>Published 2010-04-29</p>
+<p>If you are here and you have read the previous two parts then you are crazy. If you haven't then go and read it, then never come back if you value your sanity at all. We saw last time an example of a factorial using template metaprogramming, now it's time for something a little bit more fun. I was thinking on lists, but that's a bit too much for starters: let's do some more math. Now with fractions!</p>
+<p>So, how would you express a fraction? The fun part, and you already know this, you have only types (*), there are no variables. Luckly static const int saves the day:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt; int N, int D &gt; struct Frak {
+    static const long Num = N;
+    static const long Den = D;
+};
+</code></pre>
+<p>Woo hoo... how boring, let's do something on those Fraktions, so they don't get bored... like multiplying:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt; int N, typename X &gt; struct ScalarMultiplication {
+    static const long Num = N * X::Num;
+    static const long Den = N * X::Den;
+};
+</code></pre>
+<p>Well that does the job, I guess, but it's ugly. Too ugly... why would we redefine a Fraction when we already have a great definition? Let's try again:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt; int N, typename X &gt; struct ScalarMultiplication {
+    typedef Frak&lt; N<em>X::Num, N</em>X::Den &gt; result;
+};
+</code></pre>
+<p>OK, now you think I'm pulling your leg, but, promise, I'm not. This actually works, and it looks nice! Check out that sexy typedef: you can't have variables, we said, so instead we return types. Frak is a type when binded to two concrete values, so Frak is a type too. Just typedef it to a result and be done with it.</p>
+<p>How do we test if it worked? Easy:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">int main() {
+    typedef Frak&lt; 2, 3 &gt; Two_Thirds;
+    typedef ScalarMultiplication&lt; 2, Two_Thirds &gt;::result Four_Sixths;
+    std::cout &lt;&lt; Four_Sixths::Num &lt;&lt; "/" &lt;&lt; Four_Sixths::Den &lt;&lt; "n";
+}
+</code></pre>
+<p>Nice! By now you should have learned how to return new types, which are the result types for template metaprogramming devices. You should have also learnt how to write a device which operates on another template device... congratulations, that's metaprogramming. Next time, something a little bit more interesting.</p>
+<p>(*) Boring theory rant: What do I mean you can't have return values so you must use types instead? Let's see: a variable or an attribute are both parts of an object. If I have a variable named height in a class named Person, then each person gets his own height. Even if the numeric value is the same there won't be two shared height attributes. On the other hand static const vars are defining parts of classes, not objects; stupidity could be static const var of Person (only in this case we'd all be equally stupid... this is were the analogy falls apart, I'm sorry).</p>
+<p>Knowing the difference between an object and a class defining characteristics, it is clear we can only use static const stuff - it's nonsense talking about template-objects, it's all about template classes.</p>
+<h2><a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">Template metaprogramming IV: Nightmares to come</a><a name="templatemetaprogrammingivnightmarestocomeblog20100506_templatemetaprogrammingivnightmarestocome.html"></a></h2>
+<p>Published 2010-05-06</p>
+<p>By now you should have noticed the warnings were not in vain: we are exploring a bizarre side of C++ here, a side many people prefer to, wisely, ignore. Luckily it probably is too late for you, there is no way back. Only a long spiraling way down into the arms of despair and cryptic compiler error messages... mwahahahaha. But now, let's see where we are.</p>
+<p>In previous entries we learned how to return values, how to define recursive devices and how to provide a partial specialization. Let's see know how can we use partial specialization and complex return type definitions for some more fun template metaprogramming tricks. We had a fraction and a ScalarMultiplication operation for Frak:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N, int D&gt; struct Frak {
+static const long Num = N;
+static const long Den = D;
+};
+template &lt;int N, class X&gt; struct ScalarMultiplication {
+static const long Num = N * X::Num;
+static const long Den = N * X::Den;
+};
+</code></pre>
+<p>Let's try to add an operation to simplify a Fraction. Simplify&lt; Frak&lt;2, 4&gt; &gt; should return 1/2. Mph... simplifying a fraction means dividing it by the MCD. A quick trip to Wikipedia reveals a nice recursive way to implement an MCD device:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int X, int Y&gt;   struct MCD {
+static const long result = MCD&lt;Y, X % Y&gt;::result;
+};
+template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
+static const long result = X;
+};
+</code></pre>
+<p>I won't get into much detail as the link explains it a lot better than whatever I could try, but do take a look at the definition of MCD: that's a partial specialization. No magic there. Back to our simplifying device, we now have all the parts for it. Going back to it's definition we can see that simple(fraction) = fraction / mcd(fraction). Then:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class F&gt; struct Simpl {
+static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+static const long new_num = F::Num / mcd;
+static const long new_den = F::Den / mcd;
+typedef Frak&lt; new_num, new_den &gt; New_Frak;
+typedef typename New_Frak::result result;
+};
+</code></pre>
+<p>Quite a mouthful, but a lot simpler than what you think as there is a lot of unnecessary code there. Until new_num and new_den, no surprises. Typedeffing a Frak is not new, either. typedef typename is something new: typename tells the compiler you're referring to a name inside a template class, otherwise it'd try to refer to a static variable inside said class (*). Knowing what each thing does we can simplify it:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class F&gt; struct Simpl {
+static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+typedef typename Frak&lt; F::Num / mcd, F::Den / mcd &gt;::result New_Frak;
+};
+</code></pre>
+<p>It is a matter of style really. In this case I'd rather use the second one because it matches better its colloquial definition, but if you think the first one is more readable go with it... it doesn't really matter though, no one will ever even try to read this kind of code if you intend to use it in a real application.</p>
+<p>Next time: a "useful" (**) and complete template metaprogramming device, using the complete toolset we've been learning in this crazy templating series.</p>
+<p>(*) Think of it this way:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct Foo {
+   typedef int Bar;
+   Bar bar;
+};
+</code></pre>
+<p>In a template you don't know if Bar is a typename or varname because there's no access to the specific template definition. As a rule of thumb, if the compiler complains then add typenames.</p>
+<p>(**) Results may vary according to your definition of useful.</p>
+<h2><a href="/blog/2010/0512_TemplatemetaprogrammingVFacetoface.html">Template metaprogramming V: Face to face</a><a name="templatemetaprogrammingvfacetofaceblog20100512_templatemetaprogrammingvfacetoface.html"></a></h2>
+<p>Published 2010-05-12</p>
+<p>By now we have learned the basics for a nice template metaprogramming toolkit:</p>
+<ul>
+<li><strong>Loops</strong> with recursive template definitions</li>
+<li><strong>Conditionals</strong> with partial template specializations</li>
+<li><strong>Returns</strong> using typedefs</li>
+</ul>
+<p>Unfortunately that's all you need for a Turing complete language, meaning now we have the power, bwahahaha! Mph, I'm sorry, back on topic, it means we can now create a fully functional and useful template metaprogramming device... for approximating e, nonetheless. Oh, you think that's not useful? Well though luck, that's all you get for now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N, int D&gt; struct Frak {
+    static const long Num = N;
+    static const long Den = D;
+};
+template &lt;class X, int N&gt; struct ScalarMultiplication {
+    static const long Num = N * X::Num;
+    static const long Den = N * X::Den;
+    typedef Frak&lt;Num, Den&gt; result;
+};
+template &lt; class X1, class Y1 &gt; struct SameBase {
+    typedef typename ScalarMultiplication&lt; X1, Y1::Den &gt;::result X;
+    typedef typename ScalarMultiplication&lt; Y1, X1::Den &gt;::result Y;
+};
+template &lt;int X, int Y&gt; struct MCD {
+    static const long result = MCD&lt;Y, X % Y&gt;::result;
+};
+template &lt;int X&gt; struct MCD&lt;X, 0&gt; {
+    static const long result = X;
+};
+template &lt;class F&gt; struct Simpl {
+    static const long mcd = MCD&lt;F::Num, F::Den&gt;::result;
+    static const long new_num = F::Num / mcd;
+    static const long new_den = F::Den / mcd;
+    typedef Frak&lt; new_num, new_den &gt; result;
+};
+template &lt; class F1, class F2 &gt; struct Sum {
+    typedef SameBase&lt;F1, F2&gt; B;
+    static const long Num = B::X::Num + B::Y::Num;
+    static const long Den = B::Y::Den; // == B::X::Den
+    typedef typename Simpl&lt; Frak&lt;Num, Den&gt; &gt;::result result;
+};
+template &lt;int N&gt; struct Fact {
+    static const long result = N * Fact&lt;N-1&gt;::result;
+};
+template &lt;&gt; struct Fact&lt;0&gt; {
+    static const long result = 1;
+};
+template &lt;int N&gt; struct E {
+    // e = S(1/n!) = 1/0! + 1/1! + 1/2! + ...
+    static const long Den = Fact&lt;N&gt;::result;
+    typedef Frak&lt; 1, Den &gt; term;
+    typedef typename E&lt;N-1&gt;::result next_term;
+    typedef typename Sum&lt; term, next_term &gt;::result result;
+};
+template &lt;&gt; struct E&lt;0&gt; {
+    typedef Frak&lt;1, 1&gt; result;
+};
+int main() {
+    cout &lt;&lt; (1.0 * E&lt;8&gt;::result::Num /  E&lt;8&gt;::result::Den) &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+<p>Looking nice, isn't it? You should have all what's needed to understand what's going on there. Even more, almost everything has been explained in previous articles, with the exception of EqBase. But that's left as an exersice for the reader because the writer is too lazy.</p>
+<p>If you think any part of the code requires clarification ask in the comments. Next, a long overdue topic: lists using template metaprogramming. Guaranteed to blow your mind into little pieces!</p>
+<h2><a href="/blog/2010/0520_TemplatemetaprogrammingVITheSpiderWebb.html">Template metaprogramming VI: The Spider Webb</a><a name="templatemetaprogrammingvithespiderwebbblog20100520_templatemetaprogrammingvithespiderwebb.html"></a></h2>
+<p>Published 2010-05-20</p>
+<p>We have been building our template meta-foo for five chapters now, and I think we are ready to move on to more advanced topics. We will be borrowing a lot more from functional languages from now on, so you may want to actually start practicing some template metaprogramming to keep advancing.</p>
+<p>In our previous entries we worked with basic building blocks, making it quite easy to keep in mind the whole "program flow". Now it won't be so easy anymore, as we'll be using real metaprogramming (i.e. templates operating on templates) so a lot more thought will be needed for each program.</p>
+<p>Another point to keep in mind, you don't have a debugger here. All the magic occurs at compile time so there is no gdb to step through your program to find a logic flaw. There's a little trick to check if you are too far off from the target but, mainly, you'll have to think for yourself.</p>
+<p>Let's start with any functional programming course basics: lists. We have to think, first, how can a list make any sense when you only have types and no values. It means you can have a list like "int, char, void**, Foo", and not something like "1, 2, 3". Or, can you? There's a way to trick the compiler into creating a type from a integral value:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N&gt; struct Int {
+    static const int value = N;
+};
+</code></pre>
+<p>Voila! Now you can create a list of numbers. For our next trick, let's implement the list itself. No pointer magic, think of a functional definition of a list. Come on, I'll wait... ready? OK, a list is a tuple T of two values, in which the first element, called head, is the first element of the list and the second element, called tail, is either a list or the NULL element.</p>
+<p>Quite a mouthful... let's go over that definition again:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// A list is a tuple T of two values
+List: [ ..., ... ]
+// in which the first element, called head, is the first element of the list
+List: [ Head, ... ]
+// and the second element, called tail,
+List: [ Head, Tail]
+// is either a list or the NULL element
+List: [ Head, Tail]
+Tail: List | Nil
+</code></pre>
+<p>So, as an example, a list of numbers could be expressed as:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">    List( 1, List( 2, List( 3, NIL ) ) )
+</code></pre>
+<p>Closing up... how would you define this list in C++? Easy:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename H, typename T&gt; LST {
+    typedef H Head;
+    typedef T Tail;
+};
+</code></pre>
+<p>We need here a NIL type to use as a list ending element. We could also use a default template type, so we won't have to write the last NIL to end a list definition. Thus we have now:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct NIL {
+    typedef NIL Head;
+    typedef NIL Tail;
+};
+template &lt;typename H, typename T&gt; struct LST {
+    typedef H Head;
+    typedef T Tail;
+};
+</code></pre>
+<p>Nice. You should remember the following rules:</p>
+<ol>
+<li>We can use template to define a template class, defining a new type based on a number instead of another type ;)</li>
+<li>We can't "store" a value in a type... unless we store it as a static value, that is.</li>
+<li>Using a convention for defining result holding variable names is very useful, as there are no interfaces and more than once we'll be using a result from an unknown class</li>
+</ol>
+<p>With that said, let's translate the list (1, 2, 3) to Tmpl C++</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;int N&gt; Int{ static const int result = N; };
+typedef Lst&lt; Int&lt;1&gt;, Lst&lt; Int&lt;2&gt;, Lst&lt; Int&lt;3&gt; &gt; &gt; &gt; OneTwoThree;
+</code></pre>
+<p>Not so bad to start with. Next time we'll be doing something a little bit more useful with this list.</p>
+<p>One last note, initializing a static const int in the definition of the class may be non portable (some compilers seem to have trouble with it). An enum may be used instead.</p>
+<h2><a href="/blog/2010/0527_TemplatemetaprogrammingVIITheEnemyWithin.html">Template metaprogramming VII: The Enemy Within</a><a name="templatemetaprogrammingviitheenemywithinblog20100527_templatemetaprogrammingviitheenemywithin.html"></a></h2>
+<p>Published 2010-05-27</p>
+<p>Remember where were we last time? We had this code to define a list:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct NIL {
+    typedef NIL Head;
+    typedef NIL Tail;
+};
+template &lt;typename H, typename T=NIL&gt; struct Lst {
+    typedef H Head;
+    typedef T Tail;
+};
+template &lt;int N&gt; struct Int{ static const int result = N; };
+typedef Lst&lt; Int&lt;1&gt;, Lst&lt; Int&lt;2&gt;, Lst&lt; Int&lt;3&gt; &gt; &gt; &gt; OneTwoThree;
+</code></pre>
+<p>Now, to increase our template-foo, let's practice some basic operations. The same operations you would implement to practice your skill any other functional language. If I remember correctly these where useful when learning Haskel: getting a list's lenght, getting the Nth element, appending and preppending elements... that sort of stuff.</p>
+<p>Let's start with the most basic: getting the length of a list. We don't really have a for loop so using recursion is the only way. It gets easier if we think again on our definition of list: "think of a list as tuple, two elements, the first (called head) will be the first element of the list and the second element as another list or a NIL object". Whit this definition of a list, then it's length turns to be 1 (the head) + the length of the remaining list (the tail), with a special case for the length of a NIL object which should always be 0. In template-speak:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename LST&gt; struct Length {
+    typedef typename LST::Tail Tail;
+    static const unsigned int tail_length = Length&lt; Tail &gt;::result;
+    static const unsigned int result = 1 + tail_length;
+};
+template &lt;&gt; struct Length &lt;NIL&gt; {
+    static const unsigned int result = 0;
+};
+</code></pre>
+<p>I know. You are thinking "wait, what?". Well, even for this basic case we need to use some esoteric language features:</p>
+<ul>
+<li>typename is needed to tell the compiler LST::Tail is a type and not a static variable (like Length::result is). Did you remember that from <a href="/blog/2010/0506_TemplatemetaprogrammingIVNightmarestocome.html">chapter IV</a>?</li>
+<li>We have to use recursive templates, but you probably already figured that out. You should remember this from <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">chapter II</a>.</li>
+<li>We can provide a spetialization of a template. You should also remember this from <a href="/blog/2010/0422_TemplatemetaprogrammingIIOpenningthebox.html">chapter II</a>.</li>
+</ul>
+<p>Obviously, you can write it this way too:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename LST&gt; struct Length {
+    static const unsigned int result = 1 + Length&lt; typename LST::Tail &gt;::result;
+};
+template &lt;&gt; struct Length  {
+    static const unsigned int result = 0;
+};
+</code></pre>
+<p>The rest of the "basic" list-operations are quite similar, but I'll leave that for another post.</p>
+<hr />
+<p>Thank you St&eacute;phane Michaut for pointing out typos and bugs in the code listings</p>
+<h2><a href="/blog/2010/0603_TemplatemetaprogrammingVIIIARoughWhimperofInsanity.html">Template metaprogramming VIII: A Rough Whimper of Insanity</a><a name="templatemetaprogrammingviiiaroughwhimperofinsanityblog20100603_templatemetaprogrammingviiiaroughwhimperofinsanity.html"></a></h2>
+<p>Published 2010-06-03</p>
+<p>Remember last time? We learned how to get the lenght of a list. This time I'll introduce some more of these basic ops. Let's begin with "Nth": getting the Nth element of a list; which, remember, in this case is a type, not a concrete element. This means the Nth element will be something like int, char, const char*, not 1, 2 or 3. We introduced a trick to get around this limitation before using a template , go there to refresh your memory if needed.</p>
+<p>So, what would the coloquial definition of "Nth" be? I'd put it like "The operation Nth for a list equals the head of the list for N = 0 and Nth (minus one) of the tail otherwise". A little bit more formally:</p>
+<pre><code>Nth(0, lst) &lt;- lst.head
+Nth(n, lst) &lt;- Nth(n-1, lst.tail)
+</code></pre>
+<p>Translating this to C++ should be a breeze to you now. Try it, I'll wait. Read? OK, this is MY answer:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename LST, int N&gt; struct Nth {
+    typedef typename LST::Tail Tail;
+    typedef typename Nth&lt;Tail, N-1&gt;::result result;
+};
+template &lt;typename LST&gt; struct Nth&lt;LST, 0&gt; {
+    typedef typename LST::head result;
+};
+</code></pre>
+<p>Though the structure is very similar to the previous "basic operation", getting the length of a list, the concept is quite different. This time we're defining a return type recursively. Anyway, it was too easy indeed, let's try a more complex operation now.</p>
+<p>How can we check if an element exists on a list? Seems easy enough, an element is included in a list if the head equals the element itself or if the element is included in the tail. In the pseudo language I just invented:</p>
+<pre><code>Includes(lst.head, lst) &lt;- true
+Includes(e, lst) &lt;- Includes(e, lst.tail)
+</code></pre>
+<p>Looks easy, right? Well, there's a bug there, can you spot it? Yeah, we're missing the false condition. We should add a third specialization:</p>
+<pre><code>Includes(lst.head, lst) &lt;- true
+Includes(e, NIL) &lt;- false
+Includes(e, lst) &lt;- Includes(e, lst.tail)
+</code></pre>
+<p>Again, let's translate the pseudocode to C++. Try it, I'll wait. Read? OK, this is MY answer:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Elm, class Lst&gt;
+struct Includes {
+    typedef typename LST::head Head;
+    typedef typename LST::tail Tail;
+    static const bool found = (Elm == Head);
+    static const bool found_tail = Includes&lt;Elm, Tail&gt;::result;
+    static const bool result = found || found_tail;
+};
+template &lt;class Elm&gt; struct Includes &lt;Elm, NIL&gt; {
+    static const bool result = false;
+};
+</code></pre>
+<p>Looks nice, doesn't it? Too bad it won't work, you can't compare two types. What would (int == char) mean in C++? We need a helper there, some kind of trick to compare two types. We can use partial template specialization again:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class X, class Y&gt;
+struct Eq { static const bool result = false; }
+template &lt;class X&gt;
+struct Eq&lt;X, X&gt; { static const bool result = true; }
+</code></pre>
+<p>With this little struct now we can write our include operation this way:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Elm, class Lst&gt;
+struct Includes {
+    static const bool result = Eq&lt;Elm, typename LST::head&gt;::result
+                   || Includes&lt;Elm, typename LST::tail&gt;::result;
+};
+template &lt;class Elm&gt; struct Includes&lt;Elm, NIL&gt; {
+    static const bool result = false;
+};
+</code></pre>
+<p>Very esoteric looking, the right mix of Haskel, C++ and booze to ensure job security for life. Next time we'll find a way to search for the position of an element, a somewhat more complicated task.</p>
+<h2><a href="/blog/2010/0610_TemplatemetaprogrammingIXAbsoluteZero.html">Template metaprogramming IX: Absolute Zero</a><a name="templatemetaprogrammingixabsolutezeroblog20100610_templatemetaprogrammingixabsolutezero.html"></a></h2>
+<p>Published 2010-06-10</p>
+<p>By now we should have learned how to perform loops, branching and returns using templates. Let's add a couple of useful operations to our library: append and prepend.</p>
+<p>Prepending an element to a list is very easy: the result is a list (oh surprise) consisting of a head (the element we want to add) and a tail (the old list). In the pseudocode I've been using so far:</p>
+<pre><code>Prepend(e, lst) &lt;- LST(e, lst)
+</code></pre>
+<p>And in C++ (trivial, this time):</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename Elm, typename Lst=NIL&gt; struct Prepend {
+    typedef LST&lt;Elm, Lst&gt; result;
+};
+</code></pre>
+<p>Appending is a little bit more difficult, as we need to first find the end of the list. Think for a second how would you define it... back? Ok, I'd define it this way: appending an element to the list yields a list, consisting of the same head and the result of appending said element to the tail. The null case, as usual, is appending an element to a NIL list; in this case the result is a list with the element itself. So:</p>
+<pre><code>Append(e, NIL) &lt;- LST(e)
+Append(e, lst) &lt;- LST(lst.head, Append(e, lst.tail))
+</code></pre>
+<p>Looks complicated but it follows the same structure as the rest of the basic-ops:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+template &lt;class Elm, class Lst&gt; struct Append {
+    typedef typename Lst::head Head;
+    typedef typename Lst::tail Tail;
+    typedef typename Append&lt;Elm, Tail&gt;::result Next;
+    typedef typename LST&lt;Head, Next&gt;::result result;
+};
+template &lt;class Elm&gt; struct Append&lt;Elm, NIL&gt; {
+    typedef LST&lt;Elm&gt; result;
+};
+</code></pre>
+<p>Easy. Now, what happens if we want to add a default value for Lst, so we can use Append to create lists? Easy too, but we need a façade this time; just rename Append to _Append, then</p>
+<pre lang="c++"><code class="language-c++" lang="c++">// This is here just because I wanted a default param :D
+template &lt;typename Elm, typename Lst=NIL&gt; struct Append {
+    typedef typename _Append&lt;Elm, Lst&gt;::result result;
+};
+</code></pre>
+<p>I promised to add one more operation to our toolbox, returning the position of an element, but this post is getting quite long and I'm afraid it may be too much for the average attention span of a programmer... we'll leave it for next time.</p>
+<h2><a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">Template metaprogramming X: Zero Minus Ten</a><a name="templatemetaprogrammingxzerominustenblog20100617_templatemetaprogrammingxzerominusten.html"></a></h2>
+<p>Published 2010-06-17</p>
+<p>So far we've learned the basic constructs of template metaprogramming (loops, branching, return values) and some basic list operations (getting the length of a list, appending and prepending elements, checking if an element is included in a list). Let's put it all together by creating an operation to return the position of an element. It'll be very useful later on too.</p>
+<p>If we go back to the Includes operation we can get some help to define the Position operation: the position of an element in a list is one plus the position of the element we're searching for in the tail, or zero if the head equals said element. The operation is not defined if the element is not in the list.</p>
+<p>Translating to pseudo-code:</p>
+<pre><code>Position (lst.head, lst) &lt;- 0
+Position (e, lst) &lt;- 1 + Position(e, lst.tail)
+</code></pre>
+<p>The translation to C++ is not so trivial this time. Try it, I'll wait... ready? OK, let's start</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Elm, class Lst&gt; struct Position {
+    typedef typename Lst::head Head;
+    typedef typename Lst::tail Tail;
+    static const bool found = (Head == Elm);
+    static const int result = found? 0 : 1 + next;
+    static const int next = Position&lt;Elm, Tail&gt;::result;
+};
+</code></pre>
+<p>Looks easy... but doesn't work. First problem, we can't compare two types, remember? We need to use Eq again. Second problem, although we said the operation is undefined if the element is not included on the list, it would be nice if we could force the compiler to fail if (or when) that happens. Let's rewrite the operation using a façade again, but adding an Assert:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;typename Elm, typename LST&gt; struct _Position {
+    typedef typename LST::head Head;
+    typedef typename LST::tail Tail;
+    static const bool found = Eq&lt;Elm, Head&gt;::result;
+    static const int result = (found)? 0 : 1 + _Position&lt;Elm, Tail&gt;::result;
+};
+template &lt;typename Elm, typename LST&gt; struct Position {
+    typedef typename Assert&lt;Includes&lt; Elm, LST &gt;::result&gt;::check include;
+    static const int result = _Position&lt;Elm, LST&gt;::result;
+};
+</code></pre>
+<p>Oh, we haven't defined assert yet! There's another problem, too: even if it won't compile, the compiler will try to expand _Position&lt; ..., NIL &gt; indefinitely, causing an error after too many nested template calls. Not nice. We need to add a case to make the compiler stop:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
+// Helper: Will fail to compile if the assert is false
+class Assertion{};
+template &lt;bool cond, class T=Assertion&gt; struct Assert {
+    typedef typename T::fail check;
+};
+template &lt;&gt; struct Assert&lt;true&gt; {
+    typedef void check;
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>***/
+template &lt;typename Elm, typename LST&gt; struct _Position {
+    typedef typename LST::head Head;
+    typedef typename LST::tail Tail;
+    static const bool found = Eq&lt;Elm, Head&gt;::result;
+    static const int result = (found)? 0 : 1 + _Position&lt;Elm, Tail&gt;::result;
+};
+// The compiler will try to expand the position check
+// after NIL has been reached if this isn&#x27;t here
+template &lt;typename Elm&gt; struct _Position&lt;Elm, NIL&gt; {
+    static const int result = 0;
+};
+template &lt;typename Elm, typename LST&gt; struct Position {
+    typedef typename Assert&lt;Includes&lt; Elm, LST &gt;::result&gt;::check include;
+    static const int result = _Position&lt;Elm, LST&gt;::result;
+};
+</code></pre>
+<p>All that code for such a simple operation, man. Also, see what we did with Assert&lt;&gt;? It seems making a compile fail is actually quite easy. That's what I have most experience with.</p>
+<p>We've been through quite a lot, and our toolboox should be quite big already. Next time we'll start steering towards some sort of applicability, trying to use some of all these stuff to implement a real, useful and working program... assuming that's even possible.</p>
+<hr />
+<h2>In reply to this post, <a href="/blog/2010/0916_Quoteoftheweek.html">Nicol&aacute;s Brailovsky » Blog Archive » Quote of the week</a> commented @ 2010-09-16T09:02:28.000+02:00:<a name="inreplytothispostnicolaacutesbrailovskyblogarchivequoteoftheweekblog20100916_quoteoftheweek.htmlcommented20100916t090228.0000200"></a></h2>
+<p>[...] &ldquo;Template metaprogramming&ldquo;, chapter 10 by [...]</p>
+<p>Original <a href="/blog/2010/0617_TemplatemetaprogrammingXZeroMinusTen.html">published here</a>.</p>
+<h2><a href="/blog/2010/0720_TemplatemetaprogrammingXIHiddenAgenda.html">Template metaprogramming XI: Hidden Agenda</a><a name="templatemetaprogrammingxihiddenagendablog20100720_templatemetaprogrammingxihiddenagenda.html"></a></h2>
+<p>Published 2010-07-20</p>
+<p>Wow, number eleven already. We're getting more chapters here than Final Fantasy games. I didn't even imagine there was so much to write about such an esoteric language features like templates. I do wonder if anyone will actually read it, but that's a completely different problem.</p>
+<p>Enough meta-meta talk: what can we do with all the things we have learned? We can calculate pi and e, we already showed that as an example on one of the first chapters. This chapter I'm going to write about what motivated me to explore the bizarre underworld of template metaprogramming. Some time ago I had to <a href="/search?q=Berkeley">work with a Berkeley DB</a> researching the feasibility of developing a magic cache for (real) DB table. Leaving aside the discussion of whether this is a good idea (the project did have a good reason to be researched) I hit a major roadblock when trying to provide a façade for every table; something like this:</p>
+<p><img alt="" src="/blog_img/virtualtemplate.png" />
+See the problem? To do something like that we'd need a <a href="/blog/2009/0803_CMagiccallbackssolved.html">virtual template method</a>, and you can't have that. After seeing that I thought to myself "Hey, I'll use templates!". Then I had two problems, but the damage was done, I couldn't go back. What kind of contorted device could we implement to make such a devious requirement work? I'll leave you to think it, the answers I came up with next week.</p>
+<h2><a href="/blog/2010/0824_TemplateMetaprogrammingXIIYouReallyGotaHoldonMe.html">Template Metaprogramming XII: You Really Got a Hold on Me</a><a name="templatemetaprogrammingxiiyoureallygotaholdonmeblog20100824_templatemetaprogrammingxiiyoureallygotaholdonme.html"></a></h2>
+<p>Published 2010-08-24</p>
+<p>Remember our virtual template method problem, from the other time? (I know, I said the answer was scheduled for a week after that post, but then I just forgot about it). May be we could avoid the virtual part by keeping a list of all our caches... how would we know which one should we dispatch the message to? Easy, using templates.</p>
+<p>Instead of a list let's keep two, for twice the fun. One for the rows cache, another for the PKs. We can use PK to know which ROW Cache should we choose. Let's try to write a pseudo code for it:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">ROW get_row(PK id) {
+    pos &lt;- Position of PK in pks_lst
+    return cache[ pos ].get_row( id )
+}
+</code></pre>
+<p>Doesn't look too hard. Building on our previous toolbox, let's use Eq, Position and the definition of a list:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">struct NIL {
+    typedef NIL head;
+    typedef NIL tail;
+};
+template &lt; class H, class T=NIL&gt; struct LST {
+    typedef H head;
+    typedef T tail;
+};
+template &lt;class X, class Y&gt; struct Eq { static const bool result = false; };
+template &lt;class X&gt; struct Eq&lt;X, X&gt; { static const bool result = true; };
+template &lt;class Elm, class LST&gt; struct Position {
+    private:
+    typedef typename LST::head H;
+    typedef typename LST::tail T;
+    static const bool found = Eq&lt;H, Elm&gt;::result;
+    public:
+    static const int result = found? 1 : 1 + Position&lt;Elm, T&gt;::result;
+};
+template &lt;class Elm&gt; struct Position&lt;Elm, NIL&gt; {
+    static const int result = 0;
+};
+class Facade {
+    typedef LST&lt;int, LST&lt;char, LST&lt;float&gt; &gt; &gt; Lst;
+    public:
+    template &lt;class PK&gt; int find(PK) {
+        return Position&lt; PK, Lst &gt;::result;
+    }
+};
+#include &lt;iostream&gt;
+using std::cout;
+int main() {
+    Facade f;
+    std::cout &lt;&lt; f.find(1.0) &lt;&lt; "\n";
+    return 0;
+}
+</code></pre>
+<p>Great, now we can find an element on a list of types. The real virtual dispatch for the next entry :D</p>
+<h2><a href="/blog/2010/0831_TemplateMetaprogrammingXIIIHeartofDarkness.html">Template Metaprogramming XIII: Heart of Darkness</a><a name="templatemetaprogrammingxiiiheartofdarknessblog20100831_templatemetaprogrammingxiiiheartofdarkness.html"></a></h2>
+<p>Published 2010-08-31</p>
+<p>Last time we had a virtual template dispatch problem... we got to the point of knowing which was the index of the cache we were searching for, now we need to actually retrieve an instance of that cache. That's a problem. Why? To begin with, there are no instances, only types!</p>
+<p>The next logical step would be to create a Map device, to map a list of types to a list of instances... let's see how can we do that, in pseudocode</p>
+<pre><code>instances( H|T ) &lt;- [ create_instance(H), instances(T) ]
+instances( NIL ) &lt;- NIL
+</code></pre>
+<p>Looks easy. How can we map that to c++?</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template &lt;class Lst&gt; struct Instance {
+    typedef typename Lst::head Elm;
+    Elm instance;
+    Instance&lt; typename Lst::tail &gt; next;
+};
+template &lt;&gt; struct Instance&lt;NIL&gt; {};
+#include &lt;iostream&gt;
+using std::cout;
+int main() {
+    typedef LST&lt;int, LST&lt;char, LST&lt;float&gt; &gt; &gt; Lst;
+    Instance&lt;Lst&gt; lst;
+    lst.instance = 1;
+    lst.next.instance = &#x27;a&#x27;;
+    lst.next.next.instance = 3.1;
+    std::cout &lt;&lt; lst.next.instance &lt;&lt; "n";
+    return 0;
+}
+</code></pre>
+<p>All those next.next.next.instance look ugly. Let's use some more meta-magic to get the Nth instance (why not a [] operator? several reasons, you can't mix non-const ints with templates nicely, there would be problems to define the return type... all those options are workable but it's easier if we do this in another device.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">template <typename LST> struct Nth {
+    typedef typename LST::tail Tail;
+    typedef typename Nth::result result;
+};
+template <typename LST> struct Nth {
+    typedef typename LST::head result;
+};
+</code></pre>
+<p>Remember that one from the toolbox? Now we know how to get a specific index position, yet getting the instance is a different problem (the Nth device returns a type, not an instance). We should do something different, the problem is knowing the return type. What's the return type for the Nth instance of the Instances list?</p>
+<pre><code>   type &lt;- Nth(TypesLst, Type)
+   type var &lt;- NthInstance(InstancesLst, N)
+</code></pre>
+<p>Not so easy, right? This is the translated C++:</p>
+<pre lang="c++"><code class="language-c++" lang="c++">
+template &lt;int N, typename TypeLst&gt; struct NthInstance {
+    // This one isnt easy...
+    // This is the next type in the list
+    typedef typename TypeLst::tail TypeNext;
+    //  * Nth::result is the Nth type in Lst (i.e. char, int, ...)
+    typedef typename NthInstance&lt;N-1, TypeLst&gt;::NthInstanceType NthInstanceType;
+    //  * typename Nth::result &amp; is a reference to said type and the ret type
+    template &lt;InstancesLst&gt;
+    static NthInstanceType&amp; get(InstancesLst &amp;instances_lst) {
+        return NthInstance::get(instances_lst.next);
+    }
+};
+// Remember, just for fun we choose a 1-based system (wtf..)
+template &lt;typename TypeLst&gt; struct NthInstance&lt;1, TypeLst&gt; {
+    typedef typename TypeLst::head NthInstanceType;
+    template &lt;InstancesLst&gt;
+    static NthInstanceType&amp; get(InstancesLst &amp;instances_lst) {
+        return instances_lst.instance;
+    }
+};
+</code></pre>
+<p>And the code from fetching the instance itself is even more difficult, so I'll leave that for next time.</p>
+<h2><a href="/blog/2010/0914_TemplateMetaprogrammingXIVMarathon.html">Template Metaprogramming XIV: Marathon</a><a name="templatemetaprogrammingxivmarathonblog20100914_templatemetaprogrammingxivmarathon.html"></a></h2>
+<p>Published 2010-09-14</p>
+<p>If you remember previous entry, we got our evil device to the point of getting a specific instance using only a type hint. Now we need to put all the code together. I won't add much to the code, you should be able to parse it yourself.</p>
+<pre lang="c++"><code class="language-c++" lang="c++">/<strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em>/
+struct NIL {
+    typedef NIL head;
+    typedef NIL tail;
+};
+template &lt;class H, class T=NIL&gt; struct LST {
+    typedef H head;
+    typedef T tail;
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &lt;class X, class Y&gt; struct Eq { static const bool result = false; };
+template &lt;class X&gt; struct Eq&lt;X, X&gt; { static const bool result = true; };
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &lt;class Elm, class LST&gt; struct Position {
+private:
+    typedef typename LST::head H;
+    typedef typename LST::tail T;
+    static const bool found = Eq&lt;H, Elm&gt;::result;
+public:
+    static const int result = found? 1 : 1 + Position&lt;Elm, T&gt;::result;
+};
+template &lt;class Elm&gt; struct Position&lt;Elm, NIL&gt; {
+    static const int result = 0;
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &lt;typename LST, int N&gt; struct Nth {
+    typedef typename LST::Tail Tail;
+    typedef typename Nth&lt;Tail, N-1&gt;::result result;
+};
+template &lt;typename LST&gt; struct Nth&lt;LST, 0&gt; {
+    typedef typename LST::head result;
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &lt;typename Lst&gt; struct Instances {
+    typedef typename Lst::head Elm;
+    Elm instance;
+    Instances&lt;typename Lst::tail&gt; next;
+};
+template &lt;&gt; struct Instances&lt;NIL&gt; {};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>/
+/</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong>/
+template &lt;int N, typename TypeLst&gt; struct NthInstance {
+    // This one isnt easy...
+    // This is the next type in the list
+    typedef typename TypeLst::tail TypeNext;
+    //  * Nth::result is the Nth type in Lst (i.e. char, int, ...)
+    typedef typename NthInstance&lt;N-1, TypeNext&gt;::NthInstanceType NthInstanceType;
+    //  * typename Nth::result &amp; is a reference to said type and the ret type
+    template &lt;typename InstancesLst&gt;
+    static NthInstanceType&amp; get(InstancesLst &amp;instances_lst) {
+        return NthInstance&lt;N-1, TypeNext&gt;::get(instances_lst.next);
+    }
+};
+// Remember, just for fun we choose a 1-based system (wtf..)
+template &lt;typename TypeLst&gt; struct NthInstance&lt;1, TypeLst&gt; {
+    typedef typename TypeLst::head NthInstanceType;
+    template &lt;typename InstancesLst&gt;
+    static NthInstanceType&amp; get(InstancesLst &amp;instances_lst) {
+        return instances_lst.instance;
+    }
+};
+/</strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>***/
+class Facade {
+    typedef LST&lt;int, LST&lt;char, LST&lt;double&gt; &gt; &gt; Lst;
+    Instances&lt;Lst&gt; instances;
+    public:
+    template &lt;typename PK&gt; int find(PK) {
+        return Position&lt;PK, Lst&gt;::result;
+    }
+    template &lt;typename PK&gt;
+    // This is a difficult one... it should be parsed like this:
+    //  1) Get the desired instance position using Position::result
+    //  2) Get the type @ the desired position with NthInstance::Type
+    //  3) Define said type as a return type (with an &amp; at the end, i.e. make
+    //      it a reference to the return type)
+    typename NthInstance&lt; Position&lt;PK, Lst&gt;::result, Lst &gt;::NthInstanceType&amp;
+    get_instance(PK) {
+        const int idx_position = Position&lt;PK, Lst&gt;::result;
+        typedef typename NthInstance&lt;idx_position, Lst&gt;::NthInstanceType IdxType;
+        IdxType &amp;idx = NthInstance&lt;idx_position, Lst&gt;::get( instances );
+        return idx;
+    }
+};
+#include &lt;iostream&gt;
+int main() {
+    Facade f;
+    int &amp;a = f.get_instance(1);
+    char &amp;b = f.get_instance('a');
+    double &amp;c = f.get_instance(1.0);
+    a = 42; b = 'n'; c = 4.2;
+    std::cout &lt;&lt; f.get_instance(1) &lt;&lt; "\n";
+    std::cout &lt;&lt; f.get_instance('a') &lt;&lt; "\n";
+    std::cout &lt;&lt; f.get_instance(1.0) &lt;&lt; "\n";
+    a = 43; b = 'm'; c = 5.2;
+    std::cout &lt;&lt; f.get_instance(1) &lt;&lt; "\n";
+    std::cout &lt;&lt; f.get_instance('a') &lt;&lt; "\n";
+    std::cout &lt;&lt; f.get_instance(1.0) &lt;&lt; "\n";
+    return 0;
+}
+</code></pre>
+<p>The only thing missing now is a map, to convert a primitive type to an index type, but that's trivial and so it will be left as an exercise for the reader (?). We just implemented the most evil code in the whole world. Next time, the conclusions.</p>
+<h2><a href="/blog/2010/0923_TemplateMetaprogrammingXVGemini.html">Template Metaprogramming XV: Gemini</a><a name="templatemetaprogrammingxvgeminiblog20100923_templatemetaprogrammingxvgemini.html"></a></h2>
+<p>Published 2010-09-23</p>
+<p>This is the end. My only reader, the end. After 15 chapters of template metaprogramming you should have learned why staying away from them is a good idea, but if you have been following this series then you should know now when and why they could be useful.</p>
+<p>These posts were a compendium of mostly isolated data I found during my travels through the depths of metaprogramming tricks, there are books and people much more capable than me if you want to learn more about this subject (<a href="http://en.wikipedia.org/wiki/Modern_C%2B%2B_Design">Modern C++ Design by Andrei Alexandrescu</a> comes to mind).</p>
+<p>The whole idea of having a cache and a virtual template method was nice, but after seeing the result I decided it was best to have a factory method and an IDL. It may not be so l33t, but whoever has to maintain the code after me will be grateful.</p>
+<p>This is the last post on this topic because I feel I have written most, if not everything, I can transmit through this medium but also for an important reason, most likely I won't be working with C++ code so much from now on [1] so there won't be as many chances for me to see the dark, insane, side of this beautiful (in its own way) programming language in a programming language. I know most of you must have barely skimmed through these articles, but I still hope you enjoyed them.</p>
+<p>[1] That's right, I'm leaving C++ for the dark side of development, I'll be working with Java from now on. Keep in mind this article may have been written a long time before it's published.</p>
+<p>[2] Wow, it was a long time since I used the meta-post category</p>
+<hr />
+<h2>In reply to this post, <a href="">Manuel</a> commented @ 2010-09-29T17:17:35.000+02:00:<a name="inreplytothispostmanuelcommented20100929t171735.0000200"></a></h2>
+<p>Interfaces FTW !</p>
+<p>Original <a href="/blog/2010/0923_TemplateMetaprogrammingXVGemini.html">published here</a>.</p>
+
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>
