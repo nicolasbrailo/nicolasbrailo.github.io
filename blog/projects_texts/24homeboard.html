@@ -47,6 +47,7 @@ Post by Nico Brailovsky @ 2024-07-20 |
 <h2>Index<a name="index"></a></h2>
 <ul>
 <li><a href="/blog/2024/0630_HouseboardP0.html">Homeboard: PP0</a></li>
+<li><a href="/blog/2024/0707_HouseboardHdmiToEdp.html">Homeboard: HDMI to eDP</a></li>
 <li><a href="/blog/2024/0714_StonebakedMargheritaHomeboard.html">Homeboard Stonebaked Margherita: P0</a></li>
 </ul>
 <hr />
@@ -82,6 +83,16 @@ Post by Nico Brailovsky @ 2024-07-20 |
 <li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
 <li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
 </ul>
+<hr />
+<h2><a href="/blog/2024/0707_HouseboardHdmiToEdp.html">Houseboard P0: HDMI to eDP</a><a name="houseboardp0hdmitoedpblog20240707_houseboardhdmitoedp.html"></a></h2>
+<p>Published 2024-07-07</p>
+<p>Minor victory in my quest to build a houseboard based on a Linux-PoE-netboot-RaspberryPi-etc: I figured out how to run my own LCD panel.</p>
+<p><a href="/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg" /></a></p>
+<p>The first step was verifying my panel worked. For this, I used a display port to eDP converter. Turns out eDP is basically DP, but over a ribbon cable. There are some cheap boards, <a href="https://www.aliexpress.com/item/1005006914739674.html">for example</a>, that do this - searching for "DP to eDP" or "display port to eDP" will yield a high number of vendors. The key part is matching the ribbon type of the panel you need to drive (30 or 40 pins).</p>
+<p>Unfortunatelly, single-board-computers (like the RaspberryPi) don't have DP, despite DP being better than HDMI in every way. The cost of adding a DP connector seems to be high and mosty in licenses, not necessarily in components, so SBCs don't do it. This meant that getting my expensive GPU to use my cheap panel wasn't good for much beyond knowing the panel works.</p>
+<p>Fortunatelly, I managed to find a board that liked my panel:</p>
+<p><a href="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg" /></a></p>
+<p>I got a "<a href="https://www.aliexpress.com/item/32968710965.html">PCB-800807V6-1HDMI-EDP 30PIN LCD driver board</a>", which comes at about £10 and supports multiple resolutions. This was a nice lucky find, and it unblocked the build of HouseboardP0, which I'll document in some other entry.</p>
 <hr />
 <h2><a href="/blog/2024/0714_StonebakedMargheritaHomeboard.html">Homeboard P0: Stonebaked Margherita</a><a name="homeboardp0stonebakedmargheritablog20240714_stonebakedmargheritahomeboard.html"></a></h2>
 <p>Published 2024-07-14</p>
