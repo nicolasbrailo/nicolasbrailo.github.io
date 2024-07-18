@@ -3,6 +3,7 @@
 @meta docType index
 
  * [July](md_gen/2024/7.md)
+    * [Homeboard P0: Stonebaked Margherita Picture frame](md_gen/2024/7.md#homeboardp0stonebakedmargheritapictureframe)
     * [Homeboard P0: Stonebaked Margherita](md_gen/2024/7.md#homeboardp0stonebakedmargherita)
     * [Houseboard P0: HDMI to eDP](md_gen/2024/7.md#houseboardp0hdmitoedp)
  * [June](md_gen/2024/6.md)

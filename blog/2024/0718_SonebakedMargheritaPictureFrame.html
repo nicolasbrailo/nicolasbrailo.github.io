@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Homeboard P0: Stonebaked Margherita Picture frame Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="homeboardp0stonebakedmargheritapictureframe">Homeboard P0: Stonebaked Margherita Picture frame</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-07-18 |
+  <a href="/blog/2024/0718_SonebakedMargheritaPictureFrame.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0718_SonebakedMargheritaPictureFrame.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>With my homeboard booting up, it's time to make it show something. Some day I'll build a net-boot capable system, but until then I'd like to have it do something, even if it's by installing a few services by hand.</p>
+<p><a href="/blog_img/0714_HomeboardP0/6FirstBoot.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/6FirstBoot.jpg" /></a></p>
+<h2>OS<a name="os"></a></h2>
+<p>Starting with a base Raspbian Bookworm for Rpi Zero (32 bit), with no GUI:</p>
+<ul>
+<li>Debug why the system doesn't boot, as with any new install</li>
+<li>UART into the system, then enable SSH (because the USB ports are hard to reach to connect a keyboard)</li>
+<li>Disconnect UART, reconnect sensors, login over SSH</li>
+<li>apt-get update, upgrade, etc...</li>
+</ul>
+<h2>Prepare Wayland<a name="preparewayland"></a></h2>
+<p>Raspbian Bookworm 32bit doesn't have support for Wayland out of the box. To enable:</p>
+<ul>
+<li>Add this magic to /boot/firmware/config.txt</li>
+</ul>
+<pre lang="bash"><code class="language-bash" lang="bash">dtoverlay=vc4-kms-v3d
+gpu_mem=128
+</code></pre>
+<ul>
+<li>/boot/firmware/cmdline.txt needs to have <code>wayland=on</code> </li>
+<li>sudo apt-get install mesa-utils-bin wayfire </li>
+<li>reboot</li>
+<li>After booting up, it should be possible to run <code>wayfire</code> in a terminal; an empty Wayland screen (with a cursor) should show up</li>
+</ul>
+<h2>Screen rotation<a name="screenrotation"></a></h2>
+<p>Because of the way the flex cable is fed to the HDMI-to-eDP board, the screen may end up rotated 180 degrees. You may also want a portrait picture frame, instead of a landscape one. To rotate Wayland:</p>
+<ol>
+<li>Do <code>kmsprint</code> or <code>kmsprint -m</code></li>
+<li>Look for the name of the screen, eg HDMI-A-1</li>
+<li>Look for the mode, eg 1920x1080@60.00</li>
+<li>Create this in ~/.config/wayfire.ini, replacing the values found above for your setup</li>
+</ol>
+<pre lang="bash"><code class="language-bash" lang="bash">[output:HDMI-A-1]
+mode = 1920X1080@60.00
+position = 0,0
+transform = 90
+</code></pre>
+<p>No need to reboot Wayfire, it should pick up the changes and fix itself immediately. I think.</p>
+<h2>swayimg<a name="swayimg"></a></h2>
+<p>With a GUI, it's time to show a picture. I <a href="https://github.com/nicolasbrailo/swayimg">hacked swayimg to load pictures from a local server</a>, plus a few other useful features to make it more usable in a RpiW, like consuming less memory than default, and porting to 32 bits. To install dependencies:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install libcurl git ninja-build meson
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libwayland-dev wayland-protocols
+sudo apt-get install libjson-c-dev libxkbcommon-dev libfontconfig-dev libjpeg-dev
+</code></pre>
+<p>To build: [Yes, this is building swayimg in our target. This is horrible and will take a long time, so be prepared for a long coffee break. Some day I'll setup a crosscompiler].</p>
+<pre lang="bash"><code class="language-bash" lang="bash">git clone https://github.com/nicolasbrailo/swayimg.git
+meson setup [build|--wipe build]
+ninja -C build
+</code></pre>
+<p>To start:</p>
+<ul>
+<li>Launch Wayfire in a terminal</li>
+<li>In another terminal:</li>
+<li><code>WAYLAND_DISPLAY="wayland-1" DISPLAY="" /home/batman/swayimg/build/swayimg</code></li>
+</ul>
+<p>Check that nothing crashes too much.</p>
+<h2>P0 picture frame<a name="p0pictureframe"></a></h2>
+<p>With everything "working", we can make Wayfire and swayimg a system service, so they'll start at boot:</p>
+<p>Add this to <code>/etc/systemd/system/wayfire.service</code> (change the user name):</p>
+<pre lang="config"><code class="language-config" lang="config">[Unit]
+Description=wayfire
+After=multi-user.target
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=wayfire
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=10s
+User=batman
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>Also this to <code>/etc/systemd/system/ambience.service</code> (also change the user name. Or make a new user):</p>
+<pre lang="config"><code class="language-config" lang="config">[Unit]
+Description=ambience
+After=multi-user.target
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000 WAYLAND_DISPLAY="wayland-1" DISPLAY=""
+ExecStart=/home/batman/swayimg/build/swayimg
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=3s
+User=batman
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>Then:</p>
+<ul>
+<li><code>sudo systemctl daemon-reload</code></li>
+<li>In a terminal: <code>journalctl --follow --unit wayfire --unit ambience</code></li>
+<li>In another terminal:</li>
+</ul>
+<pre lang="bash"><code class="language-bash" lang="bash">sudo systemctl enable wayfire
+sudo systemctl enable ambiene
+sudo systemctl restart wayfire
+sudo systemctl restart ambience
+</code></pre>
+<p>Next time you boot up, the Stonebaked Margherita P0 frame should behave like a picture frame.</p>
+<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>
