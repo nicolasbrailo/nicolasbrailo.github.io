@@ -2,6 +2,8 @@
 
 @meta docType index
 
+ * [September](md_gen/2024/9.md)
+    * [Homeboard: wwwslide](md_gen/2024/9.md#homeboardwwwslide)
  * [July](md_gen/2024/7.md)
     * [Homeboard P0: Stonebaked Margherita Picture frame](md_gen/2024/7.md#homeboardp0stonebakedmargheritapictureframe)
     * [Homeboard P0: Stonebaked Margherita](md_gen/2024/7.md#homeboardp0stonebakedmargherita)

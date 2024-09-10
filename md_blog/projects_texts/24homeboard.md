@@ -12,6 +12,7 @@ TODO: Write about the project
 * [Homeboard: HDMI to eDP](md_blog/2024/0707_HouseboardHdmiToEdp.md)
 * [Homeboard Stonebaked Margherita: P0](md_blog/2024/0714_StonebakedMargheritaHomeboard.md)
 * [Homeboard P0: Stonebaked Margherita Picture frame](md_blog/2024/0718_SonebakedMargheritaPictureFrame.md)
+* [Homeboard: wwwslide](md_blog/2024/0909_wwwslide.md)
 
 
 ---
@@ -29,5 +30,9 @@ TODO: Write about the project
 ---
 
 @include md_blog/2024/0718_SonebakedMargheritaPictureFrame.md
+
+---
+
+@include md_blog/2024/0909_wwwslide.md
 
 ---
