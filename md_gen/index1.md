@@ -1,5 +1,26 @@
 #
 @meta docType index
+## Raspberry Pi: HDMI debugging
+
+Post by Nico Brailovsky @ 2024-05-18 | [Permalink](md_blog/2024/0518_RaspberryPiHDMI.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0518_RaspberryPiHDMI.md&body=I%20have%20a%20comment!)
+
+If a Raspberry Pi boots but has no HDMI signal:
+
+* Add `hdmi_force_hotplug=1` to /boot/firmware/config.txt - this forces the Pi to send HDMI video even if it thinks there's no monitor connected.
+* Add `config_hdmi_boost=4` to /boot/firmware/config.txt - this tweaks the HDMI signal strength.
+
+Also, remove all possible adapters (each will add a bit of noise and attenuation) and get a cable with good shielding.
+
+Source <https://elinux.org/R-Pi_Troubleshooting#No_HDMI_output_at_all>
+
+Extra tip: Unlike their bigger brothers, Raspberry Pi Zeros don't seem to want to boot up with no SD card in, not even to show a bootloader error.
+
+
+
+
+
+---
+
 ## Zigbee Boiler
 
 Post by Nico Brailovsky @ 2024-05-06 | [Permalink](md_blog/2024/0506_ZigbeeBoiler.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0506_ZigbeeBoiler.md&body=I%20have%20a%20comment!)
@@ -269,38 +290,6 @@ If you're reading this, you somehow found me at [nicolasbrailo.github.io](https:
 MdlogGen also supports the exact feature set I need, no more and no less; while using an off-the-shelf generator may have been a better longer term investment, 90% for the raison d'etre of this site is "for fun", and spending a weekend writing hacky code is more fun than spending a weekend trying to figure out how to configure Github deploy rules, and learning to use a third party content generator. I get to write enough code for a living during the week - weekends are for fun code! An alternate reason is that I already had to spend a chunk of time cleaning XML exports from my previous sites to build this one - so MdlogGen is sort of a natural evolution of those scripts. Kind of.
 
 Check out [MdlogGen](https://github.com/nicolasbrailo/MdlogGen)'s reamde: while many other md-to-html generators exist, I think this may be one of the simplest feature-complete generators out there.
-
-
-
-
-
----
-
-## Bash tip: expand args
-
-Post by Nico Brailovsky @ 2024-02-25 | [Permalink](md_blog/2024/0225_BashTipExpandArgs.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0225_BashTipExpandArgs.md&body=I%20have%20a%20comment!)
-
-If you're writing a script and it looks like this
-
-```bash
-your_bin --arg1 \
-         --arg2=123 \
-         --arg3=345 \
-         --arg4...
-```
-
-It can get pretty ugly to maintain. Instead, try this:
-
-```bash
-many_args=(
-  --arg1
-  --arg2=123
-  --arg3=345
-  --arg4...
-)
-
-your_bin "${many_args[@]}"
-```
 
 
 

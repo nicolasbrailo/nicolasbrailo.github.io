@@ -13,6 +13,7 @@ TODO: Write about the project
 * [Homeboard Stonebaked Margherita: P0](md_blog/2024/0714_StonebakedMargheritaHomeboard.md)
 * [Homeboard P0: Stonebaked Margherita Picture frame](md_blog/2024/0718_SonebakedMargheritaPictureFrame.md)
 * [Homeboard: wwwslide](md_blog/2024/0909_wwwslide.md)
+* [Homeboard: Crosscompiling to RaspberryPi Zero](md_blog/2024/1012_rpixcompile.md)
 
 
 ---
@@ -34,5 +35,9 @@ TODO: Write about the project
 ---
 
 @include md_blog/2024/0909_wwwslide.md
+
+---
+
+@include md_blog/2024/1012_rpixcompile.md
 
 ---

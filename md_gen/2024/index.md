@@ -2,6 +2,8 @@
 
 @meta docType index
 
+ * [October](md_gen/2024/10.md)
+    * [Homeboard: Crosscompiling to RaspberryPi Zero](md_gen/2024/10.md#homeboardcrosscompilingtoraspberrypizero)
  * [September](md_gen/2024/9.md)
     * [Homeboard: wwwslide](md_gen/2024/9.md#homeboardwwwslide)
  * [July](md_gen/2024/7.md)

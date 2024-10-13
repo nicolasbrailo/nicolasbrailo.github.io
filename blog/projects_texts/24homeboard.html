@@ -51,6 +51,7 @@ Post by Nico Brailovsky @ 2024-07-20 |
 <li><a href="/blog/2024/0714_StonebakedMargheritaHomeboard.html">Homeboard Stonebaked Margherita: P0</a></li>
 <li><a href="/blog/2024/0718_SonebakedMargheritaPictureFrame.html">Homeboard P0: Stonebaked Margherita Picture frame</a></li>
 <li><a href="/blog/2024/0909_wwwslide.html">Homeboard: wwwslide</a></li>
+<li><a href="/blog/2024/1012_rpixcompile.html">Homeboard: Crosscompiling to RaspberryPi Zero</a></li>
 </ul>
 <hr />
 <h2><a href="/blog/2024/0630_HouseboardP0.html">Houseboard P0: PP0</a><a name="houseboardp0pp0blog20240630_houseboardp0.html"></a></h2>
@@ -264,6 +265,28 @@ sudo systemctl restart ambience
 <p>Reverse geolocation: the metadata of each picture includes a reverse-geolocation. No need to guess where you took a picture, wwwslide will guess for you (as long as your pictures have geotags in their exif data)</p>
 </blockquote>
 <p>wwwslide v0 was just a Flask service sending local-disk jpg's, and I found I frequently wondered where a particular picture was taken, or wish I had a way to see more pictures from a specific location. I'm quite proud of the idea to implement this: wwwslide will watermark pictures with a qr-code that can be used to get more info on the shown picture, and to display more picture of a specific album.</p>
+<hr />
+<h2><a href="/blog/2024/1012_rpixcompile.html">Homeboard: Crosscompiling to RaspberryPi Zero</a><a name="homeboardcrosscompilingtoraspberrypizeroblog20241012_rpixcompile.html"></a></h2>
+<p>Published 2024-09-12</p>
+<p>Homeboard continues progressing, albeit at a snail pace. Using a RaspberryPi Zero as the base board means not only the project runs at a leisurely pace, but so do any attempts at compiling software in the target itself. Because I got tired of measuring my build times in minutes, I decided it's time to set up a cross-compiler from my PC to my homeboard. This means I can now build things in my reasonably fast PC, and deploy the resulting binary to the RaspberryPi Zero.</p>
+<p>Setting up a cross compiler from scratch can be challenging, as it requires replicating a large chunk of your target. Luckily, the Raspberry Pi is a popular platform and plenty of articles explaining how to set up a x-compiler are available. Unluckily, I found most of them didn't work for me, with my host being Debian Bookworm. In the end I managed to find a combination of arcane spells to make x-compiling work.</p>
+<p>First, get a Raspberry Pi Zero image, and mount it locally. This will be the sys-root of the target when x-compiling:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">wget https://downloads.raspberrypi.com/raspios_armhf/images/raspios_armhf-2024-07-04/2024-07-04-raspios-bookworm-armhf.img.xz
+xz -d 2024-07-04-raspios-bookworm-armhf.img.xz
+# Find out the mount-start offset (multiply by 512)
+fdisk -lu "$IMG_FNAME" | grep Linux | awk '{print $2}'
+mkdir -p mnt
+mount -o loop,offset=541065216 2024-07-04-raspios-bookworm-armhf.img.xz ./mnt
+</code></pre>
+<p>And to build things:</p>
+<pre><code>clang -target arm-linux-gnueabihf -mcpu=arm1176jzf-s --sysroot ./mnt/ test.c
+</code></pre>
+<p>That's all; this should create a binary in armv6 format, ready to be deployed to your target. A few things I discovered:</p>
+<ul>
+<li>I couldn't make this work with gcc. I don't know why.</li>
+<li>If your <code>--sysroot</code> isn't correct, things won't work. You won't get an error, but a binary will still be built; it will just be a binary with the wrong format, and you'll only know because it will segfault on start. Good luck trying to figure out if the segfault is yours, or from a problem in the build process.</li>
+</ul>
+<p>I wrapped this in a convenient bash script so you can build a <a href="https://github.com/nicolasbrailo/rpiz-xcompile">makefile that will x-compile easily, have a look here: https://github.com/nicolasbrailo/rpiz-xcompile</a></p>
 <hr />
 <p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 </div>

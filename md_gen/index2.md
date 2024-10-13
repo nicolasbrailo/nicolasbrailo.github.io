@@ -1,5 +1,37 @@
 #
 @meta docType index
+## Bash tip: expand args
+
+Post by Nico Brailovsky @ 2024-02-25 | [Permalink](md_blog/2024/0225_BashTipExpandArgs.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0225_BashTipExpandArgs.md&body=I%20have%20a%20comment!)
+
+If you're writing a script and it looks like this
+
+```bash
+your_bin --arg1 \
+         --arg2=123 \
+         --arg3=345 \
+         --arg4...
+```
+
+It can get pretty ugly to maintain. Instead, try this:
+
+```bash
+many_args=(
+  --arg1
+  --arg2=123
+  --arg3=345
+  --arg4...
+)
+
+your_bin "${many_args[@]}"
+```
+
+
+
+
+
+---
+
 ## Fix "slow" Grub
 
 Post by Nico Brailovsky @ 2024-02-23 | [Permalink](md_blog/2024/0223_FixSlowGrub.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0223_FixSlowGrub.md&body=I%20have%20a%20comment!)
@@ -238,34 +270,6 @@ Recently found out Wordpress had pretty aggressive ads on my blog. That worked a
 * A new reason to dislike template metaprogramming: so many 'template & lt; class & gt;', so much broken code...
 * I have 400+ posts and less than 10 images. While I quite like adding visual content, very little of it (except memes!) survived the successive blog migrations.
 * I can estimate there have been at least 3 platform migrations since the first post. I can count the number of times that '<' gets html-encoded like the rings of a tree. '& amp;amp;lt;' was the longest encode sequence I found.
-
-
-
-
-
----
-
-## Vimtip: Open path
-
-Post by Nico Brailovsky @ 2020-05-08 | [Permalink](md_blog/2020/0508_VimtipOpenpath.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2020/0508_VimtipOpenpath.md&body=I%20have%20a%20comment!)
-
-If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:
-
-```c++
-#include "foo/bar.h"
-```
-
-Place your cursor anywhere in "foo/bar.h" and press `gf` to open the referenced path. More interestingly, you can also do `C-w`, release and then `gf` to open in a new tab.
-
-Today I learned you can also do this for arbitrary URLs. If you have a file like this:
-
-```c++
-#include "foo/bar.h"
-// https://github.com/nicolasbrailo/Nico.rc/blob/master/README.md
-...
-```
-
-Then you can do `C-w gf` on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!
 
 
 

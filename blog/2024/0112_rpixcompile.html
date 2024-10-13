@@ -4,7 +4,7 @@
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-<title>Posts for 2024 October Nico Brailovsky's thought repository</title>
+<title>Homeboard: Crosscompiling to RaspberryPi Zero Nico Brailovsky's thought repository</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,14 +34,19 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Posts for 2024 October</h2>
+<h2 name="homeboardcrosscompilingtoraspberrypizero">Homeboard: Crosscompiling to RaspberryPi Zero</h2>
 
-<h2>Homeboard: Crosscompiling to RaspberryPi Zero<a name="homeboardcrosscompilingtoraspberrypizero"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-09-12 | <a href="/blog/2024/1012_rpixcompile.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/1012_rpixcompile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2024-09-12 |
+  <a href="/blog/2024/0112_rpixcompile.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0112_rpixcompile.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
 <p>Homeboard continues progressing, albeit at a snail pace. Using a RaspberryPi Zero as the base board means not only the project runs at a leisurely pace, but so do any attempts at compiling software in the target itself. Because I got tired of measuring my build times in minutes, I decided it's time to set up a cross-compiler from my PC to my homeboard. This means I can now build things in my reasonably fast PC, and deploy the resulting binary to the RaspberryPi Zero.</p>
 <p>Setting up a cross compiler from scratch can be challenging, as it requires replicating a large chunk of your target. Luckily, the Raspberry Pi is a popular platform and plenty of articles explaining how to set up a x-compiler are available. Unluckily, I found most of them didn't work for me, with my host being Debian Bookworm. In the end I managed to find a combination of arcane spells to make x-compiling work.</p>
 <p>First, get a Raspberry Pi Zero image, and mount it locally. This will be the sys-root of the target when x-compiling:</p>
-<pre lang="bash"><code class="language-bash" lang="bash">wget https://downloads.raspberrypi.com/raspios_armhf/images/raspios_armhf-2024-07-04/2024-07-04-raspios-bookworm-armhf.img.xz
+<pre><code>wget https://downloads.raspberrypi.com/raspios_armhf/images/raspios_armhf-2024-07-04/2024-07-04-raspios-bookworm-armhf.img.xz
 xz -d 2024-07-04-raspios-bookworm-armhf.img.xz
 # Find out the mount-start offset (multiply by 512)
 fdisk -lu "$IMG_FNAME" | grep Linux | awk '{print $2}'
@@ -54,9 +59,13 @@ mount -o loop,offset=541065216 2024-07-04-raspios-bookworm-armhf.img.xz ./mnt
 <p>That's all; this should create a binary in armv6 format, ready to be deployed to your target. A few things I discovered:</p>
 <ul>
 <li>I couldn't make this work with gcc. I don't know why.</li>
-<li>If your <code>--sysroot</code> isn't correct, things won't work. You won't get an error, but a binary will still be built; it will just be a binary with the wrong format, and you'll only know because it will segfault on start. Good luck trying to figure out if the segfault is yours, or from a problem in the build process.</li>
+<li>If your <code>--sysroot</code> isn't correct, things won't work. You won't get an error, and a binary will be built; it will just be a binary with the wrong format, and you'll only know because it will segfault on start. Good luck trying to figure out if the segfault is yours, or from a problem in the build process.</li>
 </ul>
-<p>I wrapped this in a convenient bash script so you can build a <a href="https://github.com/nicolasbrailo/rpiz-xcompile">makefile that will x-compile easily, have a look here: https://github.com/nicolasbrailo/rpiz-xcompile</a></p>
+</div>
+
+<div class="post_comments">
+
+</div>
 
 </div>
 

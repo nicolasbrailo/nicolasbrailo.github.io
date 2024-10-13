@@ -4,7 +4,9 @@
 
 ## [Posts for 2024](md_gen/2024/index.md)
 
-* [September](md_gen/2024/9.md)
+* [October](md_gen/2024/10.md)
+    * [Homeboard: Crosscompiling to RaspberryPi Zero](md_gen/2024/10.md#homeboardcrosscompilingtoraspberrypizero)
+ * [September](md_gen/2024/9.md)
     * [Homeboard: wwwslide](md_gen/2024/9.md#homeboardwwwslide)
  * [July](md_gen/2024/7.md)
     * [Homeboard P0: Stonebaked Margherita Picture frame](md_gen/2024/7.md#homeboardp0stonebakedmargheritapictureframe)

@@ -36,6 +36,24 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Bash tip: expand args<a name="bashtipexpandargs"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-02-25 | <a href="/blog/2024/0225_BashTipExpandArgs.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0225_BashTipExpandArgs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you're writing a script and it looks like this</p>
+<pre lang="bash"><code class="language-bash" lang="bash">your_bin --arg1 \
+         --arg2=123 \
+         --arg3=345 \
+         --arg4...
+</code></pre>
+<p>It can get pretty ugly to maintain. Instead, try this:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">many_args=(
+  --arg1
+  --arg2=123
+  --arg3=345
+  --arg4...
+)
+your_bin "${many_args[@]}"
+</code></pre>
+<hr />
 <h2>Fix "slow" Grub<a name="fixslowgrub"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-02-23 | <a href="/blog/2024/0223_FixSlowGrub.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0223_FixSlowGrub.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Grub tends to be setup-and-forget, so this is a tip that should be useless. Except when things break.</p>
@@ -170,19 +188,6 @@ exec &gt; ~/log.log 2&gt;&amp;1
 <li>I have 400+ posts and less than 10 images. While I quite like adding visual content, very little of it (except memes!) survived the successive blog migrations.</li>
 <li>I can estimate there have been at least 3 platform migrations since the first post. I can count the number of times that '&lt;' gets html-encoded like the rings of a tree. '&amp; amp;amp;lt;' was the longest encode sequence I found.</li>
 </ul>
-<hr />
-<h2>Vimtip: Open path<a name="vimtipopenpath"></a></h2>
-<p>Post by Nico Brailovsky @ 2020-05-08 | <a href="/blog/2020/0508_VimtipOpenpath.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2020/0508_VimtipOpenpath.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>If you are editing a file which references another file (like, say, a cpp file #including a header file) then you can use Vim to open the referenced file in a new tab like this:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">#include "foo/bar.h"
-</code></pre>
-<p>Place your cursor anywhere in "foo/bar.h" and press <code>gf</code> to open the referenced path. More interestingly, you can also do <code>C-w</code>, release and then <code>gf</code> to open in a new tab.</p>
-<p>Today I learned you can also do this for arbitrary URLs. If you have a file like this:</p>
-<pre lang="c++"><code class="language-c++" lang="c++">#include "foo/bar.h"
-// https://github.com/nicolasbrailo/Nico.rc/blob/master/README.md
-...
-</code></pre>
-<p>Then you can do <code>C-w gf</code> on either of the first two lines! If needed, Vim will automatically fetch the referenced url for you and store it in a temp location. Magic!</p>
 <hr />
 
 </div>

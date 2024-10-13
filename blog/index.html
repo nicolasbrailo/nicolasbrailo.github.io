@@ -36,6 +36,28 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Homeboard: Crosscompiling to RaspberryPi Zero<a name="homeboardcrosscompilingtoraspberrypizero"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-09-12 | <a href="/blog/2024/1012_rpixcompile.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/1012_rpixcompile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Homeboard continues progressing, albeit at a snail pace. Using a RaspberryPi Zero as the base board means not only the project runs at a leisurely pace, but so do any attempts at compiling software in the target itself. Because I got tired of measuring my build times in minutes, I decided it's time to set up a cross-compiler from my PC to my homeboard. This means I can now build things in my reasonably fast PC, and deploy the resulting binary to the RaspberryPi Zero.</p>
+<p>Setting up a cross compiler from scratch can be challenging, as it requires replicating a large chunk of your target. Luckily, the Raspberry Pi is a popular platform and plenty of articles explaining how to set up a x-compiler are available. Unluckily, I found most of them didn't work for me, with my host being Debian Bookworm. In the end I managed to find a combination of arcane spells to make x-compiling work.</p>
+<p>First, get a Raspberry Pi Zero image, and mount it locally. This will be the sys-root of the target when x-compiling:</p>
+<pre lang="bash"><code class="language-bash" lang="bash">wget https://downloads.raspberrypi.com/raspios_armhf/images/raspios_armhf-2024-07-04/2024-07-04-raspios-bookworm-armhf.img.xz
+xz -d 2024-07-04-raspios-bookworm-armhf.img.xz
+# Find out the mount-start offset (multiply by 512)
+fdisk -lu "$IMG_FNAME" | grep Linux | awk '{print $2}'
+mkdir -p mnt
+mount -o loop,offset=541065216 2024-07-04-raspios-bookworm-armhf.img.xz ./mnt
+</code></pre>
+<p>And to build things:</p>
+<pre><code>clang -target arm-linux-gnueabihf -mcpu=arm1176jzf-s --sysroot ./mnt/ test.c
+</code></pre>
+<p>That's all; this should create a binary in armv6 format, ready to be deployed to your target. A few things I discovered:</p>
+<ul>
+<li>I couldn't make this work with gcc. I don't know why.</li>
+<li>If your <code>--sysroot</code> isn't correct, things won't work. You won't get an error, but a binary will still be built; it will just be a binary with the wrong format, and you'll only know because it will segfault on start. Good luck trying to figure out if the segfault is yours, or from a problem in the build process.</li>
+</ul>
+<p>I wrapped this in a convenient bash script so you can build a <a href="https://github.com/nicolasbrailo/rpiz-xcompile">makefile that will x-compile easily, have a look here: https://github.com/nicolasbrailo/rpiz-xcompile</a></p>
+<hr />
 <h2>Homeboard: wwwslide<a name="homeboardwwwslide"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-09-10 | <a href="/blog/2024/0909_wwwslide.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0909_wwwslide.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Homeboard hasn't seen much progress during the holidays, except for a small but useful piece of software: I created <a href="https://github.com/nicolasbrailo/wwwslide">a hacky way to serve pictures over a web interface</a>. This is a fairly fundamental piece of infrastructure for my homeboard project; most of the time these will be displaying some ambient information, but most of the screen's real estate will be used to show my (reasonably large and decades spanning) personal picture collection.</p>
@@ -571,17 +593,6 @@ MESS:00:00:09.547298:0: uart: Baud rate[    0.000000] Booting Linux on physical 
 </code></pre>
 <p>Won't win any ID prizes, but it got the job done:</p>
 <p><a href="/blog_img/240519_UART.jpg"><img alt="" src="/blog_img/240519_UART.jpg" /></a></p>
-<hr />
-<h2>Raspberry Pi: HDMI debugging<a name="raspberrypihdmidebugging"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-05-18 | <a href="/blog/2024/0518_RaspberryPiHDMI.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0518_RaspberryPiHDMI.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>If a Raspberry Pi boots but has no HDMI signal:</p>
-<ul>
-<li>Add <code>hdmi_force_hotplug=1</code> to /boot/firmware/config.txt - this forces the Pi to send HDMI video even if it thinks there's no monitor connected.</li>
-<li>Add <code>config_hdmi_boost=4</code> to /boot/firmware/config.txt - this tweaks the HDMI signal strength.</li>
-</ul>
-<p>Also, remove all possible adapters (each will add a bit of noise and attenuation) and get a cable with good shielding.</p>
-<p>Source <a href="https://elinux.org/R-Pi_Troubleshooting#No_HDMI_output_at_all">https://elinux.org/R-Pi_Troubleshooting#No_HDMI_output_at_all</a></p>
-<p>Extra tip: Unlike their bigger brothers, Raspberry Pi Zeros don't seem to want to boot up with no SD card in, not even to show a bootloader error.</p>
 <hr />
 <p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 
