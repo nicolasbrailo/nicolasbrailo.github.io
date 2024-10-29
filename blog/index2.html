@@ -36,6 +36,14 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>MdLogGen<a name="mdloggen"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-02-25 | <a href="/blog/2024/0225_MdlogGen.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0225_MdlogGen.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>If you're reading this, you somehow found me at <a href="https://nicolasbrailo.github.io/blog">nicolasbrailo.github.io</a>. Maybe you came here from <a href="/blog/2024/0218_MovedAgain.html">one of my many previous blogs</a>, and you're marveling at the beautiful new design (?). As I alluded to in the <a href="/blog/2024/0218_MovedAgain.html">"moved again"</a> note, this site is built from a source of md files, <a href="https://github.com/nicolasbrailo/MdlogGen">using a custom md-to-html enginge</a>. If you're sane, you're probably why I would create an md-to-html engine, instead of using one of the many available options.</p>
+<h2>MdlogGen: yet another MD site generator<a name="mdloggenyetanothermdsitegenerator"></a></h2>
+<p><a href="https://github.com/nicolasbrailo/MdlogGen">MdlogGen</a> is a simple md-to-static-html, however it supports a few features I wasn't able to find elsewhere: comments, and site-search. MdlogGen depends on Github for these two features (or, rather, depends on the viewer to have a Github account to be able to use these two features).</p>
+<p>MdlogGen also supports the exact feature set I need, no more and no less; while using an off-the-shelf generator may have been a better longer term investment, 90% for the raison d'etre of this site is "for fun", and spending a weekend writing hacky code is more fun than spending a weekend trying to figure out how to configure Github deploy rules, and learning to use a third party content generator. I get to write enough code for a living during the week - weekends are for fun code! An alternate reason is that I already had to spend a chunk of time cleaning XML exports from my previous sites to build this one - so MdlogGen is sort of a natural evolution of those scripts. Kind of.</p>
+<p>Check out <a href="https://github.com/nicolasbrailo/MdlogGen">MdlogGen</a>'s reamde: while many other md-to-html generators exist, I think this may be one of the simplest feature-complete generators out there.</p>
+<hr />
 <h2>Bash tip: expand args<a name="bashtipexpandargs"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-02-25 | <a href="/blog/2024/0225_BashTipExpandArgs.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0225_BashTipExpandArgs.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>If you're writing a script and it looks like this</p>
@@ -178,16 +186,6 @@ exec &gt; ~/log.log 2&gt;&amp;1
 <li>This site went from 0 to also ~30 or ~40ish.</li>
 </ul>
 <p>That went much better than I expected, considering I couldn't set up a proper HTTP301-permanently moved (WP charges you for that, which IMO is slight extortionate for a site I don't want to monetize). Let's see how it goes 10 years from now, when I have to migrate from Blogpost to something else.</p>
-<hr />
-<h2>sudo reboot<a name="sudoreboot"></a></h2>
-<p>Post by Nico Brailovsky @ 2021-03-02 | <a href="/blog/2021/0302_sudoreboot.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2021/0302_sudoreboot.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>Recently found out Wordpress had pretty aggressive ads on my blog. That worked as the encouragement I was needing to work on a task I'd been putting off for years: fix bit-rotted content! I took the opportunity to fix all (most) broken links and source code snippets from the last 14 years. It was supposed to be a short sed script, which of course ended up being 3 days of work - a lot of it manual. A few cool things I figured doing this:</p>
-<ul>
-<li>Even if I very sparingly add new posts, 14 years is still a lot of content. By the infinite monkey theorem, some of it should be good. Right?</li>
-<li>A new reason to dislike template metaprogramming: so many 'template &amp; lt; class &amp; gt;', so much broken code...</li>
-<li>I have 400+ posts and less than 10 images. While I quite like adding visual content, very little of it (except memes!) survived the successive blog migrations.</li>
-<li>I can estimate there have been at least 3 platform migrations since the first post. I can count the number of times that '&lt;' gets html-encoded like the rings of a tree. '&amp; amp;amp;lt;' was the longest encode sequence I found.</li>
-</ul>
 <hr />
 
 </div>

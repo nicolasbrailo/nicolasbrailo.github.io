@@ -5,7 +5,8 @@
 ## [Posts for 2024](md_gen/2024/index.md)
 
 * [October](md_gen/2024/10.md)
-    * [Homeboard: Crosscompiling to RaspberryPi Zero](md_gen/2024/10.md#homeboardcrosscompilingtoraspberrypizero)
+    * [Homeboard: Wayland on X](md_gen/2024/10.md#homeboardwaylandonx)
+    * [Crosscompiling to RaspberryPi Zero](md_gen/2024/10.md#crosscompilingtoraspberrypizero)
  * [September](md_gen/2024/9.md)
     * [Homeboard: wwwslide](md_gen/2024/9.md#homeboardwwwslide)
  * [July](md_gen/2024/7.md)

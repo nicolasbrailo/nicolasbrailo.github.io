@@ -36,8 +36,15 @@
 <div id="content" class="language-clike">
 <h2>Posts for 2024 October</h2>
 
-<h2>Homeboard: Crosscompiling to RaspberryPi Zero<a name="homeboardcrosscompilingtoraspberrypizero"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-09-12 | <a href="/blog/2024/1012_rpixcompile.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/1012_rpixcompile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<h2>Homeboard: Wayland on X<a name="homeboardwaylandonx"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-10-28 | <a href="/blog/2024/1028_waylandonx.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/1028_waylandonx.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Besides <a href="/blog/2024/1012_rpixcompile.html">cross-compiling to RaspberryPi</a>, at times it's also useful to just run things locally. While faster than building on the target, the cycle of xcompile and deploy is still cumbersome for short sessions (i.e. when the target is usually offline, unpowered, and possibly lost somewhere in my house). For these situations, I found out I can run Wayland based apps on top of my X-based desktop, using Weston.</p>
+<p>Weston is an implementation of Wayland. If you don't have it already, you can <code>apt-get install weston</code>. If you do this in an X based desktop, you can still run weston in a terminal, inside X.</p>
+<p><a href="/blog_img/241028weston.jpg"><img alt="" src="/blog_img/241028weston.jpg" /></a></p>
+<p>Between Wayland on X and <a href="/blog/2024/1012_rpixcompile.html">cross-compiling to RaspberryPi</a>, I can test my fork (hack) of <a href="https://github.com/nicolasbrailo/swayimg">Swayimg</a> for RaspberryPi Zero.</p>
+<hr />
+<h2>Crosscompiling to RaspberryPi Zero<a name="crosscompilingtoraspberrypizero"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-10-12 | <a href="/blog/2024/1012_rpixcompile.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/1012_rpixcompile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Homeboard continues progressing, albeit at a snail pace. Using a RaspberryPi Zero as the base board means not only the project runs at a leisurely pace, but so do any attempts at compiling software in the target itself. Because I got tired of measuring my build times in minutes, I decided it's time to set up a cross-compiler from my PC to my homeboard. This means I can now build things in my reasonably fast PC, and deploy the resulting binary to the RaspberryPi Zero.</p>
 <p>Setting up a cross compiler from scratch can be challenging, as it requires replicating a large chunk of your target. Luckily, the Raspberry Pi is a popular platform and plenty of articles explaining how to set up a x-compiler are available. Unluckily, I found most of them didn't work for me, with my host being Debian Bookworm. In the end I managed to find a combination of arcane spells to make x-compiling work.</p>
 <p>First, get a Raspberry Pi Zero image, and mount it locally. This will be the sys-root of the target when x-compiling:</p>
