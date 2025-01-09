@@ -36,6 +36,76 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>No cloud IoT: LAN only Security camera<a name="nocloudiotlanonlysecuritycamera"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-05-23 | <a href="/blog/2024/0523_NoCloudSecurityCam.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0523_NoCloudSecurityCam.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>A while back I spent some time setting up a security camera/doorbell. I wanted to have a camera that</p>
+<ul>
+<li>Requires no external vendor connection: I must be able to run it locally, forever, with or without Internet.</li>
+<li>I can monitor on real time, ideally with my phone.</li>
+<li>notifies me when the doorbell button is pressed (integrating with the Sonos speakers throughout my home).</li>
+<li>triggers an event when motion is detected, so I can integrate it with other systems.</li>
+<li>stores videos on a disk when there is motion, so I can review them later.</li>
+<li>will send me a message when I'm out of home and motion is detected.</li>
+</ul>
+<p>The process required a lot of trial and error, guessing arcane commands from poor documentation or from random (often decade-old, unmaintained) open source projects. I figured I should document my setup.</p>
+<h2>tl;dr<a name="tldr"></a></h2>
+<p>This article ended up being a lot longer than I expected, so if you're here for the short version:</p>
+<ul>
+<li>Reolink makes cameras that are easy to integrate with and require no cloud</li>
+<li>
+<p>Here's an <a href="https://github.com/nicolasbrailo/reolink_aio/tree/ec2469fe45bb4f050900a7bb8d23f51c2bbd6da2/examples/reolink_onvif_subscription">example of how to subscribe and process camera events</a>, like motion detection or doorbell presses.</p>
+</li>
+<li>
+<p>Any sane camera will stream over RTSP. Once you find the RTSP URL, you can test it with ffmepg: <code>ffmpeg -i $rtsp_url, -c:v copy -c:a copy $outpath</code></p>
+</li>
+<li>
+<p>I built a <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/reolink_cam/nvrish.py">hacky galery for stored RTSP streams</a>.</p>
+</li>
+<li>
+<p>And also send <a href="https://github.com/nicolasbrailo/PyTelegramBot">copies of the video over Telegram</a></p>
+</li>
+</ul>
+<h2>Sourcing a camera<a name="sourcingacamera"></a></h2>
+<p>I went for Reolink. After a lot of reading (and a few months of usage, now) it's a very good option in its price range (cheap). They seem to have a good range of cameras, and all the features I was looking for: LAN-first, streaming, motion events, power-over-ethernet and a decent enough admin interface. Besides a very good range of PTZ (pan-tilt-zoom) cams, they also have a PoE a doorbell, which closed the deal for me.</p>
+<p>PoE, again: Can't recommend PoE enough: there's no Wifi fighting, and if things get wonky you just ask the switch to cycle the port. You probably already need to run a cable for power, so why not do it for eth instead, and get both in one?</p>
+<p>I would love a camera with open source firmware, but I figured if I spent my time tinkering with cam firmware, I would have never actually got the time to integrate it with my IoT network - so maybe a project for the far off future, when I have finished absolutely everything else on my ToDo list. As it is, I decided it's an acceptable trade-off to have an untrusted closed-source firmware running in my network, placed in an isolated vlan without internet access (it's not the only untrusted device I run in my network, and I admit not all of them live in vlans...)</p>
+<h2>Talking to the camera<a name="talkingtothecamera"></a></h2>
+<p>There is a protocol called "<a href="https://en.wikipedia.org/wiki/ONVIF">ONVIF</a>". Wikipedia claims it hails from the dark ages of the late 2000's, and it has an XML based transport to prove it. ONVIF is meant to be a standard way to discover how an IP camera works, but, like most XML-based protocols turned out to be in practice, is extremely verbose, requires you to traverse countless schema definition files to understand it, and it's quite hard to parse. Of course most cameras I've seen seem to implement ONVIF either partially or with non-standard extensions, making the whole design idea around the XML schema quite pointless anyway.</p>
+<p>Reolink cams also support an HTTP/Json REST-like API, which makes things a lot easier. The HTTP interface is simple to inspect and understand by looking at the admin page with a browser's dev tools. Unfortunately, not everything is exposed through their HTTP API, so a bit of ONVIF digging may be necessary. Most notably, in the version of the firmware I tried, it's not possible to configure the camera to talk back to a server when events happen - which is quite important if you intend to use it as a doorbell.</p>
+<p>There is an <a href="https://github.com/nicolasbrailo/reolink_aio">open source project that translates most of the Reolink HTTP commands to python</a>. This project makes it very easy to replicate the functionality of the admin interface, but with a Python API. This project should cover 99% of all basic usage. Using this project, you can do things like <code>cam.doorbell_led</code> to set up the LED state. Most importantly, <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/reolink_cam/__init__.py#L77">it will take care of the login flow for you</a>, which is quite tedious to implement using raw requests.</p>
+<h2>Getting the camera to talk back to us<a name="gettingthecameratotalkbacktous"></a></h2>
+<p>Note <a href="https://github.com/nicolasbrailo/reolink_aio">the project I linked above is actually a fork</a>. The original project exists pretty much solely to integrate with HomeAssistant, and it's not too ~~user~~developer-friendly if what you're looking for is a way to configure a camera to talk back to a server. Since my most important goal was to use a camera as a doorbell, the first requirement was getting some sort of notification when the doorbell button is pressed.</p>
+<p>Reolink cams can announce events back to a URL (<a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/reolink_cam/__init__.py#L92C11-L92C37">as simple as <code>cam.subscribe(webhook_url)</code></a>), but they will do so in an ONVIF format. There is a standalone example of how to <a href="https://github.com/nicolasbrailo/reolink_aio/tree/ec2469fe45bb4f050900a7bb8d23f51c2bbd6da2/examples/reolink_onvif_subscription">subscribe to ONVIF notifications, and how to parse them, over here</a>.</p>
+<p>In the example above, there is a Flask server printing a Json version of the ONVIF message. For Reolink cams, it prints the state of the camera (either motion detected, or doorbell button pressed) in a human-friendly Json format. I found the latency to be less than a second for the doorbell press event. The motion detection events, and the AI people detection events, also seem to trigger with low latency, but you'll need to tweak the config to suite your environment; if there is lots of movement in your street, it can be quite noisy.</p>
+<h2>Streaming<a name="streaming"></a></h2>
+<p>Streaming is easy! Reolink has an <a href="https://en.wikipedia.org/wiki/Real-Time_Streaming_Protocol">RTSP</a> link. RTSP is an UDP based protocol that will transport media from a streaming device to another (and you likely use it every day, whenever you make a VoIP call). It's also lightweight, relatively sane, and comes to us from the late 90's (I wonder what happened between the 90's and 10's that gave us XML based protocols).</p>
+<p>The RTSP link will be something like <code>rtsp://$user:$pass@$cam_ip:554/h264Preview_01_main</code>, but it's <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/reolink_cam/__init__.py#L92C11-L92C37">easier to ask the camera</a>. There are different stream URLs, depending on the camera model, supported codecs, etc, so a little bit of trial and error may be required.</p>
+<p>To test an RTSP URL, <a href="https://www.videolan.org/">VLC</a> is 80% likely to work. I found it, however, quite hard to debug failures using VLC. There may be codec mismatches, missing libraries, connection failures, or other random problems - and VLC it would just say "nope". This is usually good enough for most users, there is not too much a "normal" user can do on an RTSP setup failure. We are, however, not normal, so we use <a href="https://ffmpeg.org/">ffmpeg</a>:</p>
+<pre><code>ffmpeg -i $rtsp_url, -c:v copy -c:a copy $outpath
+</code></pre>
+<p>This magic ffmpeg incantation will connecto to an RTSP URL and copy the incoming audio and video streams to a file, without any re-encoding (by default ffmpeg will try to reencode and spend tons of cpu on it). If everything goes fine, you'll end up with an mpeg of your camera. If it doesn't, ffmpeg will usually print a developer friendly (ish) error message.</p>
+<p>Of course once we found a working RTSP URL we wouldn't want to use ffmpeg just to check who's at the door. For that, I found <a href="https://github.com/penguin86/ojo">Ojo works amazingly well</a>. It's an RTSP viewer for Android, available in <a href="https://f-droid.org/is/packages/it.danieleverducci.ojo/">F-Droid and probably other app stores</a>.</p>
+<h2>NVR-like service<a name="nvrlikeservice"></a></h2>
+<p>If you can see an RTSP stream, you can also save to disk. In fact that's exactly what we did to test it, with ffmpeg. <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/reolink_cam/ffmpeg_helper.py">My custom Reolink integration</a> has an ffmpeg helper; whenever motion is reported by the camera, it will save a copy of the RTSP stream to disk. This means:</p>
+<ul>
+<li>we rely on the camera to report movement, so there can be false positives, and false negatives. You'll need to figure out how well the camera motion detection algorithms work for you.</li>
+<li>by only recording when the camera reports movement, we save a ton of disk space and CPU: no need to record when 99% of the day there is no motion. I like keeping my electricity bill down.</li>
+<li>but we miss the first few seconds of movement. By the time the camera triggers a motion alert, the RTSP is set up, and we start recording, it's likely that more than a few seconds have passed.</li>
+</ul>
+<p>I don't know if this is how real NVR services behave: my IoT network is built for fun, and since I have fun coding, I don't always spend a lot of time looking into already-built services. I didn't immediately find an open source NVR-like service that worked as I wanted, so I quickly hacked one based on ffmpeg and some <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/reolink_cam/nvrish.py">hacky Flask to create a gallery for the stored videos</a>.</p>
+<h2>Telegram integration<a name="telegramintegration"></a></h2>
+<p>By now, I had a camera integrated into a system that </p>
+<ul>
+<li>I can monitor on real time, using RTSP</li>
+<li>notifies me when the doorbell button is pressed</li>
+<li>triggers an event when motion is detected</li>
+<li>stores videos on a disk when there is motion</li>
+</ul>
+<p>I was only missing IM notifications. I used <a href="https://github.com/nicolasbrailo/PyTelegramBot">Telegram for this, with a custom built integration</a>. The <a href="https://github.com/nicolasbrailo/BatiCasa/blob/main/notifications.py#L140">notifications will trigger</a> first when motion is detected, and it will send a still frame of the camera stream. Once the motion stops, it will reencode the video in a format that Telegram likes, and send it over too:</p>
+<pre><code>ffmpeg -i $fpath -vf scale=640:360 -c:v libx264 -crf 23 -preset veryfast -c:a copy $out_path
+</code></pre>
+<p>Unfortunately this integration seems to trigger some spam control in Telegram, and got my account banned. I recommend sending pictures only, that seems to be more acceptable to Telegram's term of service.</p>
+<hr />
 <h2>Raspberry Pi UART debug notes<a name="raspberrypiuartdebugnotes"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-05-19 | <a href="/blog/2024/0519_RaspberryPiUARTNotes.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0519_RaspberryPiUARTNotes.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I spent a bit of time setting up UARTs to troubleshoot different Raspberry Pis. Here are my notes.</p>
@@ -335,18 +405,6 @@ dhclient -r wlp3s0
 # To be sure:
 rfkill
 </code></pre>
-<hr />
-<h2>Bash: goto<a name="bashgoto"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-03-01 | <a href="/blog/2024/0301_BashGoto.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0301_BashGoto.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I rediscovered a nifty little utility I added to my <a href="https://github.com/nicolasbrailo/Nico.rc">bashrc</a> a while back: <a href="https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh">goto</a>. Goto is a short script that works as a bookmark mechanism for Bash. With it, you can set a bookmark directory, and then jump to that directory from anywhere else (with autocomplete). For example:</p>
-<pre lang="bash"><code class="language-bash" lang="bash">$ cd foo/bar/baz
-foo/bar/baz$ goto . bookmark
-foo/bar/baz$ cd /
-/$ goto boo<tab>
-foo/bar/baz$
-</code></pre>
-<p>It works by setting itself as a Bash autocomplete, so that bookmarks are autocompletable and available anywhere in Bash. A bookmark is itself nothing more than a symlink saved to <code>~/goto</code>.</p>
-<p>To install, you can <code>wget -O - https://github.com/nicolasbrailo/Nico.rc/blob/master/bash/goto.sh &gt; ~/.goto.sh</code> and add it to your bashrc.</p>
 <hr />
 
 </div>

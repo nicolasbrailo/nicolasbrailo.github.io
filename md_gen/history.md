@@ -2,6 +2,13 @@
 
 @meta docType index
 
+## [Posts for 2025](md_gen/2025/index.md)
+
+* [January](md_gen/2025/1.md)
+    * [Zigbee Boiler: bugfix addendum](md_gen/2025/1.md#zigbeeboilerbugfixaddendum)
+
+---
+
 ## [Posts for 2024](md_gen/2024/index.md)
 
 * [October](md_gen/2024/10.md)

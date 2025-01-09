@@ -19,3 +19,7 @@ publish: gen
 
 favicon.ico:
 	wget https://openverse.org/image/b7a1247d-e959-4e46-a881-8b905627cae2?q=monkey
+
+install_sysdeps:
+	sudo apt install python3-markdown
+
