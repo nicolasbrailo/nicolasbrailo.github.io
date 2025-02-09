@@ -1,5 +1,71 @@
 #
 @meta docType index
+## Wifi from the CLI
+
+Post by Nico Brailovsky @ 2024-03-01 | [Permalink](md_blog/2024/0302_CLIWifi.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0302_CLIWifi.md&body=I%20have%20a%20comment!)
+
+Another one to file in the category of self reminders, and a cheatsheet I'll need this weekend: whenever I need to work on the main (eth!) connection of a server, instead of grabbing a keyboard and a monitor it's easier to connect to wifi. For example, when I need to change the IP of a Raspberry PI in my network. Note this guide assumes a Debian-like environment:
+
+```bash
+# Figure out which interfaces exist
+ip a
+
+# Figure out which interfaces are connected
+ip link show
+# For example:
+ip link show wlp3s0
+```
+
+Restart the interface (which will do nothing, because it's probably not autoconfigurable)
+
+```
+ip link set wlp3s0 down
+ip link set wlp3s0 up
+```
+
+Start `wpa_cli`. Creating a new network may be needed, but I don't have notes. Once a network is created, its config will be in `/etc/wpa_supplicant/wpa_supplicant.conf`. Then:
+
+```bash
+$ wpa_cli
+> scan
+[Wait a few seconds]
+> scan_results
+>
+```
+
+Connect:
+
+```bash
+# Connect
+wpa_supplicant -B -i wlp3s -c < $( wpa_passphrase "your ssid name" "password" )
+# Request IP
+dhclient wlp3s0
+# Confirm connection
+ip addr show wlp3s0
+```
+
+Work on main interface (leave on a loop, in case wifi disconnects for whatever reason)
+
+```bash
+while true; do dhclient -r eno1 ; dhclient eno1 ; ip addr show eno1; sleep 1; echo "DONE"; done 
+```
+
+When done, kill wifi
+
+```bash
+ip link set wlp3s0 down
+# Release addr locally
+dhclient -r wlp3s0
+# To be sure:
+rfkill
+```
+
+
+
+
+
+---
+
 ## Bash: goto
 
 Post by Nico Brailovsky @ 2024-03-01 | [Permalink](md_blog/2024/0301_BashGoto.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0301_BashGoto.md&body=I%20have%20a%20comment!)
@@ -262,24 +328,6 @@ There are countless articles explaining why, and the main purpose of this one is
 * **-u** errors when using an undefined variable
 * **-o pipefail** makes pipe error return value sane
 * **exec > ~/log.log 2>&1** redirect all output to ~/log.log
-
-
-
-
-
----
-
-## Where is the fun in that?
-
-Post by Nico Brailovsky @ 2021-03-18 | [Permalink](md_blog/2021/0318_Whereisthefuninthat.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2021/0318_Whereisthefuninthat.md&body=I%20have%20a%20comment!)
-
-You can always find coders asking why coding isn't fun anymore. I can somewhat relate but I never understood why the answer isn't obvious: coding isn't software engineering. When you go from coding to engineering, the focus changes. A lot of the interesting stuff is there, but there's also not-interesting-stuff in the mix. Maybe testing and documenting isn't your thing, you just want to build something. Maybe the stability from testing and documenting isn't that important to you. Perhaps you know you're the only one who's ever going to read your code. Your future self may be angry at you for a little while if the code breaks... so what? Your experiment crashed? Just reboot it. No problem.
-
-If you're coding-to-sell, you're not writing code for yourself. You write for a team, even if that team is only you and future-you. You write it so it may scale and adapt to new requirements. You write it to survive a bit more than a weekend, and to be stable. You're not writing code to learn new things, that's only a nice side-effect; you are trying to build a product.
-
-Furthermore, you're not investing time to learn something or just to have fun; you're trading time for money (if you learn something in the process, that's good - but probably not why you're being paid a salary as a software engineer).
-
-It's understandable that parts of software engineering are not as fun as it was hacking in a basement while you were a kid. There is still a very big overlap, but it's not just the same activity. Myself, I try to focus on the fun parts and just have discipline to get the boring parts out of the way. I usually work in places where the balance is fairly decent, and it's kept me interested in software development for the last 15 (ish) years. I'm hoping it'll do the trick for much longer than that.
 
 
 
