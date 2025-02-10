@@ -40,8 +40,19 @@
 <p>Post by Nico Brailovsky @ 2024-07-18 | <a href="/blog/2024/0718_SonebakedMargheritaPictureFrame.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0718_SonebakedMargheritaPictureFrame.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>With my homeboard booting up, it's time to make it show something. Some day I'll build a net-boot capable system, but until then I'd like to have it do something, even if it's by installing a few services by hand.</p>
 <p><a href="/blog_img/0714_HomeboardP0/6FirstBoot.jpg"><img alt="" src="/blog_img/0714_HomeboardP0/6FirstBoot.jpg" /></a></p>
-<h2>OS<a name="os"></a></h2>
-<p>Starting with a base Raspbian Bookworm for Rpi Zero (32 bit), with no GUI:</p>
+<h2>SD bootstrap<a name="sdbootstrap"></a></h2>
+<p>[Feb 25 edit: added this section]</p>
+<p>An Rpi Zero won't do much without one, so, starting with a base Raspbian Bookworm for Rpi Zero (32 bit), with no GUI:</p>
+<ul>
+<li><a href="https://www.raspberrypi.com/software/operating-systems/">Download an ISO</a> compatible with the board</li>
+<li><code>sudo dd of=/dev/sdX if=./XXXX.img bs=8M status=progress</code></li>
+<li>Mount sd card, then</li>
+<li>Enable ssh: <code>cd /media/$USER/bootfs &amp;&amp; touch ssh &amp;&amp; touch ssh.txt</code></li>
+<li><a href="https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-a-user">Create user (headless)</a>: <code>echo username:password &gt; /media/$USER/bootfs/userconf.txt</code></li>
+</ul>
+<p>These steps will give you an sd card that should boot and automatically connect to an eth connection (not wifi, of course), and let you ssh into the device to continue the setup. No need to hook up a keyboard.</p>
+<h2>First boot<a name="firstboot"></a></h2>
+<p>Optional: UART is useful to debug the first boot, but if the SD bootstrap was successful everything should just work.</p>
 <ul>
 <li>Debug why the system doesn't boot, as with any new install</li>
 <li>UART into the system, then enable SSH (because the USB ports are hard to reach to connect a keyboard)</li>

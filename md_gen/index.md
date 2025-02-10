@@ -160,9 +160,24 @@ With my homeboard booting up, it's time to make it show something. Some day I'll
 
 [![](/blog_img/0714_HomeboardP0/6FirstBoot.jpg)](/blog_img/0714_HomeboardP0/6FirstBoot.jpg)
 
-## OS
+## SD bootstrap
 
-Starting with a base Raspbian Bookworm for Rpi Zero (32 bit), with no GUI:
+[Feb 25 edit: added this section]
+
+An Rpi Zero won't do much without one, so, starting with a base Raspbian Bookworm for Rpi Zero (32 bit), with no GUI:
+
+* [Download an ISO](https://www.raspberrypi.com/software/operating-systems/) compatible with the board
+* `sudo dd of=/dev/sdX if=./XXXX.img bs=8M status=progress`
+* Mount sd card, then
+* Enable ssh: `cd /media/$USER/bootfs && touch ssh && touch ssh.txt`
+* [Create user (headless)](https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-a-user): `echo username:password > /media/$USER/bootfs/userconf.txt`
+
+These steps will give you an sd card that should boot and automatically connect to an eth connection (not wifi, of course), and let you ssh into the device to continue the setup. No need to hook up a keyboard.
+
+
+## First boot
+
+Optional: UART is useful to debug the first boot, but if the SD bootstrap was successful everything should just work.
 
 * Debug why the system doesn't boot, as with any new install
 * UART into the system, then enable SSH (because the USB ports are hard to reach to connect a keyboard)
