@@ -43,10 +43,44 @@ dtoverlay=vc4-kms-v3d
 gpu_mem=128
 ```
 
-* /boot/firmware/cmdline.txt needs to have `wayland=on` 
-* sudo apt-get install mesa-utils-bin wayfire 
+* /boot/firmware/cmdline.txt needs to have `wayland=on`
+* `sudo apt-get install mesa-utils-bin wayfire seatd` - seatd is required to manage sessions, otherwise wayfire will complain it can't open a terminal.
+* `sudo usermod -aG tty username` - I'm not sure if this is required. Try to skip it and see what happens. Let me know if you do.
 * reboot
 * After booting up, it should be possible to run `wayfire` in a terminal; an empty Wayland screen (with a cursor) should show up
+
+## Wayfire as a service
+
+With everything "working", we can make Wayfire a system service, so it will start at boot:
+
+Add this to `/etc/systemd/system/wayfire.service` (change the user name, and you may want to change the runtime dir too):
+
+```config
+[Unit]
+Description=wayfire
+After=multi-user.target
+
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=wayfire
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=10s
+User=batman
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Now enable the service
+
+* `sudo systemctl daemon-reload`
+* `sudo systemctl enable wayfire`
+
+Use this on your next reboot to find out why things are broken: `journalctl --follow --unit wayfire`
+
+Note: wayfire seems to crash a few times on startup. I guess there is a service dependency I haven't found yet, but as long as it's set to `Restart=Always` it should eventually come up.
 
 ## Screen rotation
 
@@ -64,7 +98,7 @@ position = 0,0
 transform = 90
 ```
 
-No need to reboot Wayfire, it should pick up the changes and fix itself immediately. I think.
+~~No need to reboot Wayfire, it should pick up the changes and fix itself immediately. I think.~~ You'll need to `sudo systemctl restart wayfire` to see the changes.
 
 
 ## swayimg
@@ -97,28 +131,6 @@ Check that nothing crashes too much.
 
 ## P0 picture frame
 
-With everything "working", we can make Wayfire and swayimg a system service, so they'll start at boot:
-
-Add this to `/etc/systemd/system/wayfire.service` (change the user name):
-
-```config
-[Unit]
-Description=wayfire
-After=multi-user.target
-
-[Service]
-Environment=XDG_RUNTIME_DIR=/run/user/1000
-ExecStart=wayfire
-StandardOutput=inherit
-StandardError=inherit
-Restart=always
-RestartSec=10s
-User=batman
-
-[Install]
-WantedBy=multi-user.target
-```
-
 Also this to `/etc/systemd/system/ambience.service` (also change the user name. Or make a new user):
 
 ```config
@@ -139,7 +151,6 @@ User=batman
 WantedBy=multi-user.target
 ```
 
-
 Then:
 
 * `sudo systemctl daemon-reload`
@@ -147,9 +158,7 @@ Then:
 * In another terminal:
 
 ```bash
-sudo systemctl enable wayfire
-sudo systemctl enable ambiene
-sudo systemctl restart wayfire
+sudo systemctl enable ambience
 sudo systemctl restart ambience
 ```
 

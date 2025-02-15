@@ -68,11 +68,36 @@
 gpu_mem=128
 </code></pre>
 <ul>
-<li>/boot/firmware/cmdline.txt needs to have <code>wayland=on</code> </li>
-<li>sudo apt-get install mesa-utils-bin wayfire </li>
+<li>/boot/firmware/cmdline.txt needs to have <code>wayland=on</code></li>
+<li><code>sudo apt-get install mesa-utils-bin wayfire seatd</code> - seatd is required to manage sessions, otherwise wayfire will complain it can't open a terminal.</li>
+<li><code>sudo usermod -aG tty username</code> - I'm not sure if this is required. Try to skip it and see what happens. Let me know if you do.</li>
 <li>reboot</li>
 <li>After booting up, it should be possible to run <code>wayfire</code> in a terminal; an empty Wayland screen (with a cursor) should show up</li>
 </ul>
+<h2>Wayfire as a service<a name="wayfireasaservice"></a></h2>
+<p>With everything "working", we can make Wayfire a system service, so it will start at boot:</p>
+<p>Add this to <code>/etc/systemd/system/wayfire.service</code> (change the user name, and you may want to change the runtime dir too):</p>
+<pre lang="config"><code class="language-config" lang="config">[Unit]
+Description=wayfire
+After=multi-user.target
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=wayfire
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=10s
+User=batman
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>Now enable the service</p>
+<ul>
+<li><code>sudo systemctl daemon-reload</code></li>
+<li><code>sudo systemctl enable wayfire</code></li>
+</ul>
+<p>Use this on your next reboot to find out why things are broken: <code>journalctl --follow --unit wayfire</code></p>
+<p>Note: wayfire seems to crash a few times on startup. I guess there is a service dependency I haven't found yet, but as long as it's set to <code>Restart=Always</code> it should eventually come up.</p>
 <h2>Screen rotation<a name="screenrotation"></a></h2>
 <p>Because of the way the flex cable is fed to the HDMI-to-eDP board, the screen may end up rotated 180 degrees. You may also want a portrait picture frame, instead of a landscape one. To rotate Wayland:</p>
 <ol>
@@ -86,7 +111,7 @@ mode = 1920X1080@60.00
 position = 0,0
 transform = 90
 </code></pre>
-<p>No need to reboot Wayfire, it should pick up the changes and fix itself immediately. I think.</p>
+<p>~~No need to reboot Wayfire, it should pick up the changes and fix itself immediately. I think.~~ You'll need to <code>sudo systemctl restart wayfire</code> to see the changes.</p>
 <h2>swayimg<a name="swayimg"></a></h2>
 <p>With a GUI, it's time to show a picture. I <a href="https://github.com/nicolasbrailo/swayimg">hacked swayimg to load pictures from a local server</a>, plus a few other useful features to make it more usable in a RpiW, like consuming less memory than default, and porting to 32 bits. To install dependencies:</p>
 <pre lang="bash"><code class="language-bash" lang="bash">sudo apt-get install libcurl git ninja-build meson
@@ -107,22 +132,6 @@ ninja -C build
 </ul>
 <p>Check that nothing crashes too much.</p>
 <h2>P0 picture frame<a name="p0pictureframe"></a></h2>
-<p>With everything "working", we can make Wayfire and swayimg a system service, so they'll start at boot:</p>
-<p>Add this to <code>/etc/systemd/system/wayfire.service</code> (change the user name):</p>
-<pre lang="config"><code class="language-config" lang="config">[Unit]
-Description=wayfire
-After=multi-user.target
-[Service]
-Environment=XDG_RUNTIME_DIR=/run/user/1000
-ExecStart=wayfire
-StandardOutput=inherit
-StandardError=inherit
-Restart=always
-RestartSec=10s
-User=batman
-[Install]
-WantedBy=multi-user.target
-</code></pre>
 <p>Also this to <code>/etc/systemd/system/ambience.service</code> (also change the user name. Or make a new user):</p>
 <pre lang="config"><code class="language-config" lang="config">[Unit]
 Description=ambience
@@ -144,9 +153,7 @@ WantedBy=multi-user.target
 <li>In a terminal: <code>journalctl --follow --unit wayfire --unit ambience</code></li>
 <li>In another terminal:</li>
 </ul>
-<pre lang="bash"><code class="language-bash" lang="bash">sudo systemctl enable wayfire
-sudo systemctl enable ambiene
-sudo systemctl restart wayfire
+<pre lang="bash"><code class="language-bash" lang="bash">sudo systemctl enable ambience
 sudo systemctl restart ambience
 </code></pre>
 <p>Next time you boot up, the Stonebaked Margherita P0 frame should behave like a picture frame.</p>
