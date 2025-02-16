@@ -5,6 +5,7 @@
 ## [Posts for 2025](md_gen/2025/index.md)
 
 * [February](md_gen/2025/2.md)
+    * [Homeboard V1, bootstrap V2](md_gen/2025/2.md#homeboardv1bootstrapv2)
     * [Homeboard: Industrial Design (bonus: Inkscape)](md_gen/2025/2.md#homeboardindustrialdesignbonusinkscape)
  * [January](md_gen/2025/1.md)
     * [Zigbee Boiler: bugfix addendum](md_gen/2025/1.md#zigbeeboilerbugfixaddendum)

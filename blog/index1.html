@@ -36,6 +36,37 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>RaspberryPi gpio cli monitor<a name="raspberrypigpioclimonitor"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-06-15 | <a href="/blog/2024/0615_RaspberryPiGpioMon.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0615_RaspberryPiGpioMon.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I wrote a <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">small CLI utility to display when a GPIO pin changes state in a Raspberry Pi</a>.</p>
+<p>Using <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">gpiomon</a>, it's possible to monitor all pins to get an output like this:</p>
+<pre><code>$ ./gpiomon
+CNT P00 P01 P02 P03 P04 P05 P06 P07 P08 P09 P10 P11 P12 P13 P14 P15 P16 P17 P18 P19 P20 P21 P22 P23 P24
+000 &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt;  0   0   0   0   0   0  &gt;1&lt;  0   0   0   0   0  &gt;1&lt;  0   0   0
+001  1   1   1   1   1   1   1   1   1   0   0   0   0   0  &gt;1&lt;  1   0   0   0   0   0   1   0   0   0
+002  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+003  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+004  1   1   1   1   1  &gt;1&lt;  1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+005  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+</code></pre>
+<p>Where the left most column is the number of seconds since startup. It's also easy to monitor a single pin:</p>
+<pre><code>$ ./gpiomon 21
+000 PIN 21 = &gt;1&lt;
+001 PIN 21 =  1
+002 PIN 21 =  1
+003 PIN 21 = &gt;0&lt;
+004 PIN 21 =  0
+005 PIN 21 =  0
+006 PIN 21 = &gt;1&lt;
+007 PIN 21 =  1
+</code></pre>
+<p>And most useful of all, an option to only print out (log) when a pin changes state. Eg:</p>
+<pre><code>$ ./gpiomon -u -l 21
+000 PIN 21 = &gt;1&lt;
+009 PIN 21 = &gt;0&lt;
+015 PIN 21 = &gt;1&lt;
+</code></pre>
+<hr />
 <h2>LD2410S: mmWave human-presence detection<a name="ld2410smmwavehumanpresencedetection"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-06-15 | <a href="/blog/2024/0615_LD2410SmmWaveSensor.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0615_LD2410SmmWaveSensor.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>For a project, I bought a bunch of cheap LD2410S, an mmWave (radar) sensor to detect human presence (I actually started with an infrared sensor, but it had too many false negatives for my use case). The ones I got were pre-flashed with firmware to use a pin to announce presence or absence. To figure out if it's working or not, I tried using my <a href="/blog/2024/0615_RaspberryPiGpioMon.html">GPIOmon</a> byt found the sensor so accurate, that I couldn't manage to not detect my presence when in the room, no mater what material I used to cover it. Instead, I had to leave the room, and only then confirm the sensor was working as expected by looking at the GPIOmon logs.</p>
@@ -416,15 +447,6 @@ for dev in $cap_pcms; do
       /dev/null 1&gt;/dev/null 2&gt;/dev/null &amp;&amp; \
       echo "Capture may work on interface '$dev'"
 done
-</code></pre>
-<hr />
-<h2>Vim can wget + c-w search<a name="vimcanwgetcwsearch"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-03-03 | <a href="/blog/2024/0303_VimWgetSite.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0303_VimWgetSite.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I (re?)learned a thing today: Vim can wget a site!</p>
-<p>Doing <code>c-w gf</code> tells Vim to open whatever path is under the cursor. This is usually something like "#include <foo/bar/baz.h>", which means it will ask Vim to open <code>foo/bar/baz.h</code>. If you happen to have <code>http://nicolasbrailo.github.io</code> under your cursor, you'll be fetching this site into a temp buffer, in Vim.</p>
-<h2>Bonus tip:<a name="bonustip"></a></h2>
-<p>If <code>c-w gf</code> isn't finding the files you want it to, you may need to set your search path:</p>
-<pre lang="vim"><code class="language-vim" lang="vim">set path+=/home/user/path/to/foo,/home/user/src/bar
 </code></pre>
 <hr />
 

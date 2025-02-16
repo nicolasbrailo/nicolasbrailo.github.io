@@ -36,6 +36,15 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Vim can wget + c-w search<a name="vimcanwgetcwsearch"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-03-03 | <a href="/blog/2024/0303_VimWgetSite.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0303_VimWgetSite.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I (re?)learned a thing today: Vim can wget a site!</p>
+<p>Doing <code>c-w gf</code> tells Vim to open whatever path is under the cursor. This is usually something like "#include <foo/bar/baz.h>", which means it will ask Vim to open <code>foo/bar/baz.h</code>. If you happen to have <code>http://nicolasbrailo.github.io</code> under your cursor, you'll be fetching this site into a temp buffer, in Vim.</p>
+<h2>Bonus tip:<a name="bonustip"></a></h2>
+<p>If <code>c-w gf</code> isn't finding the files you want it to, you may need to set your search path:</p>
+<pre lang="vim"><code class="language-vim" lang="vim">set path+=/home/user/path/to/foo,/home/user/src/bar
+</code></pre>
+<hr />
 <h2>Wifi from the CLI<a name="wififromthecli"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-03-01 | <a href="/blog/2024/0302_CLIWifi.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0302_CLIWifi.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Another one to file in the category of self reminders, and a cheatsheet I'll need this weekend: whenever I need to work on the main (eth!) connection of a server, instead of grabbing a keyboard and a monitor it's easier to connect to wifi. For example, when I need to change the IP of a Raspberry PI in my network. Note this guide assumes a Debian-like environment:</p>
@@ -208,20 +217,6 @@ sudo echo '/usr/share/spotify/spotify.real --uri="$1"' &gt; /usr/share/spotify/s
 <p>Small celebratory post, because I never expected it:</p>
 <p><a href="/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg"><img alt="" src="/blog_img/212446793-30c64252-a788-4a6d-81e2-e8f05f126497.jpg" /></a></p>
 <p>Someone translated <a href="http://github.com/nicolasbrailo/pianOli">one of my open source projects</a> to Chinese!</p>
-<hr />
-<h2>Bash script preamble<a name="bashscriptpreamble"></a></h2>
-<p>Post by Nico Brailovsky @ 2021-06-27 | <a href="/blog/2021/0627_Bashscriptpreamble.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2021/0627_Bashscriptpreamble.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>All background Bash scripts should start with this preamble:</p>
-<pre lang="bash"><code class="language-bash" lang="bash">set -euo pipefail
-exec &gt; ~/log.log 2&gt;&amp;1
-</code></pre>
-<p>There are countless articles explaining why, and the main purpose of this one is a reminder for myself, so I won't go into the details. For reference:</p>
-<ul>
-<li><strong>-e</strong> halts the script on error</li>
-<li><strong>-u</strong> errors when using an undefined variable</li>
-<li><strong>-o pipefail</strong> makes pipe error return value sane</li>
-<li><strong>exec &gt; ~/log.log 2&gt;&amp;1</strong> redirect all output to ~/log.log</li>
-</ul>
 <hr />
 
 </div>

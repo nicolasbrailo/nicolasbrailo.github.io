@@ -1,5 +1,53 @@
 #
 @meta docType index
+## RaspberryPi gpio cli monitor
+
+Post by Nico Brailovsky @ 2024-06-15 | [Permalink](md_blog/2024/0615_RaspberryPiGpioMon.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0615_RaspberryPiGpioMon.md&body=I%20have%20a%20comment!)
+
+I wrote a [small CLI utility to display when a GPIO pin changes state in a Raspberry Pi](https://github.com/nicolasbrailo/pi_gpio_mon/tree/main).
+
+Using [gpiomon](https://github.com/nicolasbrailo/pi_gpio_mon/tree/main), it's possible to monitor all pins to get an output like this:
+
+```
+$ ./gpiomon
+CNT P00 P01 P02 P03 P04 P05 P06 P07 P08 P09 P10 P11 P12 P13 P14 P15 P16 P17 P18 P19 P20 P21 P22 P23 P24
+000 >1< >1< >1< >1< >1< >1< >1< >1< >1<  0   0   0   0   0   0  >1<  0   0   0   0   0  >1<  0   0   0
+001  1   1   1   1   1   1   1   1   1   0   0   0   0   0  >1<  1   0   0   0   0   0   1   0   0   0
+002  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+003  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+004  1   1   1   1   1  >1<  1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+005  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
+```
+
+Where the left most column is the number of seconds since startup. It's also easy to monitor a single pin:
+
+```
+$ ./gpiomon 21
+000 PIN 21 = >1<
+001 PIN 21 =  1
+002 PIN 21 =  1
+003 PIN 21 = >0<
+004 PIN 21 =  0
+005 PIN 21 =  0
+006 PIN 21 = >1<
+007 PIN 21 =  1
+```
+
+And most useful of all, an option to only print out (log) when a pin changes state. Eg:
+
+```
+$ ./gpiomon -u -l 21
+000 PIN 21 = >1<
+009 PIN 21 = >0<
+015 PIN 21 = >1<
+```
+
+
+
+
+
+---
+
 ## LD2410S: mmWave human-presence detection
 
 Post by Nico Brailovsky @ 2024-06-15 | [Permalink](md_blog/2024/0615_LD2410SmmWaveSensor.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0615_LD2410SmmWaveSensor.md&body=I%20have%20a%20comment!)
@@ -538,28 +586,6 @@ for dev in $cap_pcms; do
       /dev/null 1>/dev/null 2>/dev/null && \
       echo "Capture may work on interface '$dev'"
 done
-```
-
-
-
-
-
----
-
-## Vim can wget + c-w search
-
-Post by Nico Brailovsky @ 2024-03-03 | [Permalink](md_blog/2024/0303_VimWgetSite.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0303_VimWgetSite.md&body=I%20have%20a%20comment!)
-
-I (re?)learned a thing today: Vim can wget a site!
-
-Doing `c-w gf` tells Vim to open whatever path is under the cursor. This is usually something like "#include <foo/bar/baz.h>", which means it will ask Vim to open `foo/bar/baz.h`. If you happen to have `http://nicolasbrailo.github.io` under your cursor, you'll be fetching this site into a temp buffer, in Vim.
-
-## Bonus tip:
-
-If `c-w gf` isn't finding the files you want it to, you may need to set your search path:
-
-```vim
-set path+=/home/user/path/to/foo,/home/user/src/bar
 ```
 
 

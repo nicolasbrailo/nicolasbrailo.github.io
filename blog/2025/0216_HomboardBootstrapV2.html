@@ -4,7 +4,7 @@
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-<title>Posts for 2025 February Nico Brailovsky's thought repository</title>
+<title>Homeboard V1, bootstrap V2 Nico Brailovsky's thought repository</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,11 +34,16 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Posts for 2025 February</h2>
+<h2 name="homeboardv1bootstrapv2">Homeboard V1, bootstrap V2</h2>
 
-<h2>Homeboard V1, bootstrap V2<a name="homeboardv1bootstrapv2"></a></h2>
-<p>Post by Nico Brailovsky @ 2025-02-16 | <a href="/blog/2025/0216_HomeboardBootstrapV2.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/0216_HomeboardBootstrapV2.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>With ~most~ some of the <a href="/blog/2025/0209_HomeboardIndustrialDesign.html">bugs fixed in the industrial design</a>, it's time to setup a second Homeboard. That way I can experiment on one, while the other shows pretty pictures. Because my computer is also a new install, it's now a good opportunity to document the full bootstrap process from an almost brand new and clean Ubuntu 24.04.</p>
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2025-02-16 |
+  <a href="/blog/2025/0216_HomboardBootstrapV2.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0216_HomboardBootstrapV2.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>With most of the <a href="/blog/2025/0209_HomeboardIndustrialDesign.html">bugs fixed in the industrial design</a>, it's time to setup a second Homeboard. That way I can experiment on one, while the other shows pretty pictures. Because my computer is also a new install, it's now a good opportunity to document the full bootstrap process from an almost brand new and clean Ubuntu 24.04.</p>
 <h2>Bootstrap a new devenv<a name="bootstrapanewdevenv"></a></h2>
 <ul>
 <li>Get normal dev tools <code>sudo apt-get install build-essential git llvm vim</code></li>
@@ -104,29 +109,11 @@ gpu_mem=128
 <li>Use <code>~/homeboard/scripts/logs.sh</code> to see what's broken.</li>
 </ul>
 <p>The target should be ready for production, in only about 30 simple steps!</p>
-<h2>Appendix: it hangs!<a name="appendixithangs"></a></h2>
-<p><a href="/blog_img/250216_Homeboard.jpg"><img alt="" src="/blog_img/250216_Homeboard.jpg" /></a></p>
-<hr />
-<h2>Homeboard: Industrial Design (bonus: Inkscape)<a name="homeboardindustrialdesignbonusinkscape"></a></h2>
-<p>Post by Nico Brailovsky @ 2025-02-09 | <a href="/blog/2025/0209_HomeboardIndustrialDesign.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/0209_HomeboardIndustrialDesign.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>My Homeboard project has officially left its cardboard pizza phase. Almost:</p>
-<p><a href="/blog_img/0209_HomeboardIDv2.jpg"><img alt="" src="/blog_img/0209_HomeboardIDv2.jpg" /></a></p>
-<p>The 2 or 3 pixels above show the first "industrial design" of the homeboard. Or at least the parts that "work". It's hanging from a wall, like a real picture frame. Unfortunately it has bugs, and all its guts are hanging from the top.</p>
-<p>I spent some time working on a mount, cut with a laser engraver. The mount has two main pieces: a frame for the display, and a horizontal mount that can be hanged from a hook in the wall. The vertical display frame slots into the horizontal mount, meaning there is no flimsy glue holding expensive equipment: gravity does the job. There are some screws and Ls to give it a nice shape, but the main stress between the hook in the wall and the display is supported by the material strength, not by glue. All the cool electronics fit in a small box on top of the horizontal mount. Or at least that's the idea.</p>
-<p>As nice as my design is, it has bugs: You can see in the picture I forgot to consider that wires, especially fat cables such as HDMIs, have physical properties, such as bend radius. Without a slot for wiring, the electronics that fit nicely on the top box in my drawing, actually protrude from the top. The ribbon cable was mirrored in my drawing, meaning a weird 180-degree twist was needed to fit the screen to the main board. The box itself doesn't lock, because the "teeth" are slightly misaligned. And the screw holes for the Raspberry Pi are about a quarter mm out of alignment.</p>
-<p>Attached to this post is my SVG design, with theoretical bug-fixes for the problems (version 3, if anyone is counting). I haven't tried printing it yet, and I wouldn't be surprised if V4 is required too.</p>
-<p><a href="/blog_img/0209_HomeboardV3.svg"><img alt="" src="/blog_img/0209_HomeboardV3.jpg" /></a></p>
-<p>Image above shows the outline; clicking on it should open the original svg, which is probably mostly blank because vector laser cuts have 0.001mm strokes. Download and open with Inkscape to see it (you may need to change the view mode to outline, too).</p>
-<h2>Bonus: misc Inkscape tips<a name="bonusmiscinkscapetips"></a></h2>
-<p>My experience with anything that has colors is zero, and I had to spend time learning how Inkscape works to build the design above. Seeing a mechanical design you have in your head come to life with a laser cutter is incredibly rewarding, and I can see myself embarking in more ambitious designs some day, when I have more free time.  Here's a list of things I learned and should remember next time I'm using Inkscape:</p>
-<ul>
-<li>It's easy to build complex shapes from basic ones using Path &gt; Union/Difference/etc</li>
-<li>millimeter alignment is hard by hand, but using the position and size input boxes it becomes easy. Start all sub-assemblies in a new drawing, at (0,0), and follow the plans to build the full assembly.</li>
-<li>Actually, alignment by hand is easy (just not precise). It can be a time saver: Build guide-rules, then align by hand, finally adjust the position coordinates for precise fitting. For example, to place a screw hole in the bottom right corner, 3mm from the borders: the hard way is to calculate the position (width of board - 3mm - hole size / 2), same for height. The easy way: create a guide line at <code>width - 3mm</code> and <code>height - 3mm</code>. Place hole by hand, zooming in. The coordinates will usually be a few 100s or 10s of micrometers (um!) from the correct value, which you can then set by hand.</li>
-<li>Actually, there's an even easier way: An element in inkscape will have 8 arrows around it. By default, the center of coordinates is the center of the object, but clicking on any of these arrows will make the coordinates relative to it. That means you can select the top center arrow of a screw hole, enter <code>board width - 3</code> to position it horizontally, then select the left center arrow and enter <code>board height - 3</code> to position it vertically.</li>
-<li>When I write <code>board width - 3</code> I actually mean you can write <code>NNN - XXX</code> in the position boxes of Inkscape. They perform basic math operations. This is a huge time saver.</li>
-<li>Most boards are regular, and have screw holes in symmetric positions vertically and horizontally. When this is the case, you can place all 4 screw holes by mirroring the first one: place the top left screw hole, then select it together with a box the size of the board. Mirror the board vertically, and place a new hole in the position of the first. Select both holes, mirror horizontally, etc. Voila, 4 screw holes with only one measurement!</li>
-</ul>
+</div>
+
+<div class="post_comments">
+
+</div>
 
 </div>
 

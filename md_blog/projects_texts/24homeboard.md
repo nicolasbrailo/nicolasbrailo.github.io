@@ -39,3 +39,7 @@ TODO: Write about the project
 @include md_blog/2025/0209_HomeboardIndustrialDesign.md
 
 ---
+
+@include md_blog/2025/0216_HomeboardBootstrapV2.md
+
+---

@@ -36,6 +36,77 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Homeboard V1, bootstrap V2<a name="homeboardv1bootstrapv2"></a></h2>
+<p>Post by Nico Brailovsky @ 2025-02-16 | <a href="/blog/2025/0216_HomeboardBootstrapV2.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/0216_HomeboardBootstrapV2.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>With ~most~ some of the <a href="/blog/2025/0209_HomeboardIndustrialDesign.html">bugs fixed in the industrial design</a>, it's time to setup a second Homeboard. That way I can experiment on one, while the other shows pretty pictures. Because my computer is also a new install, it's now a good opportunity to document the full bootstrap process from an almost brand new and clean Ubuntu 24.04.</p>
+<h2>Bootstrap a new devenv<a name="bootstrapanewdevenv"></a></h2>
+<ul>
+<li>Get normal dev tools <code>sudo apt-get install build-essential git llvm vim</code></li>
+<li>The linker needs to learn how to build arm binaries: <code>sudo apt-get install crossbuild-essential-armel crossbuild-essential-armhf</code></li>
+<li>Clone the sw project: <code>git clone git@github.com:nicolasbrailo/homeboard.git</code></li>
+<li>Don't forget to <code>git submodule update --init --recursive</code></li>
+<li>Type <code>make xcompile-start</code> in the root of gpio_mon. It will, on its first run, setup the <a href="/blog/2024/1012_rpixcompile.html">cross-compile environment</a>.</li>
+<li>The x-compile env will be "hardcoded" to some rpi image, for example <code>2024-11-19-raspios-bookworm-armhf.img.xz</code>. You probably want to update <code>~/src/homeboard/pi_gpio_mon/rpiz-xcompile/mount_rpy_root.sh</code> to make it point to a newer image, ideally the same one you will use to bootstrap the sd card.</li>
+<li>Once <code>make xcompile-start</code> finishes, you can check it succeeded; <code>~/src/xcomp-rpiz-env/mnt</code> should contain a copy of the rpi environment (the x-compile root)</li>
+</ul>
+<h2>Bootstrap the OS<a name="bootstraptheos"></a></h2>
+<p><a href="/blog/2024/0718_SonebakedMargheritaPictureFrame.html">This article</a> has been updated to work, but the gist of it is:</p>
+<ul>
+<li>Find the ISO you used for the x-compile env, then <code>sudo dd of=/dev/sdX if=./XXXX.img bs=8M status=progress</code></li>
+<li>Mount the SD card and enable ssh: <code>cd /media/$USER/bootfs &amp;&amp; touch ssh &amp;&amp; touch ssh.txt</code></li>
+<li><a href="https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-a-user">Create user (headless)</a>: <code>echo username:password &gt; /media/$USER/bootfs/userconf.txt</code></li>
+<li>[Wayland] Add this magic to /boot/firmware/config.txt</li>
+</ul>
+<pre lang="bash"><code class="language-bash" lang="bash">dtoverlay=vc4-kms-v3d
+gpu_mem=128
+</code></pre>
+<ul>
+<li>[More Wayland] /boot/firmware/cmdline.txt needs to have <code>wayland=on</code></li>
+<li>Boot up with the SD card, then ssh into the device and do <code>sudo apt-get install mesa-utils-bin wayfire seatd</code></li>
+<li><a href="/blog/2024/0718_SonebakedMargheritaPictureFrame.html">Add Wayfire as a service</a></li>
+</ul>
+<h2>Build things<a name="buildthings"></a></h2>
+<ul>
+<li>Update the TARGET_IP in the makefile, then <code>make setup-ssh</code> to enable passwordless ssh</li>
+<li>Start with the <code>gpio_mon</code> project, it's the simplest. <code>cd ~/src/homeboard/pi_gpio_mon</code>. If you <code>make</code>, it will either fail or create a binary in the wrong format if you haven't set up the <a href="/blog/2024/1012_rpixcompile.html">cross-compile environment</a> (see "bootstrap new devenv").</li>
+<li>After <code>make</code> succeeds, <code>file gpiomon</code> should show something like <code>ELF 32-bit LSB pie executable, ARM, EABI5 version 1 (SYSV), dynamically linked</code>. This means your system can now build binaries for your target platform.</li>
+<li><code>scp gpiomon $target</code> -&gt; try out if your xcompile env works as expected</li>
+</ul>
+<h2>Build harder things<a name="buildharderthings"></a></h2>
+<ul>
+<li>Move on to <code>wl_display_toggle</code> (it's the smallest project that exercises the entire stack: cross compiler and Wayfire).</li>
+<li>There are more system deps you'll need to install; <code>make install_system_deps</code> should take care of most of them.</li>
+<li>There are deps for the x-compile env too; <code>make install_sysroot_deps</code> should take care of most of them. Some deps may move around, and you may need to find newer versions.</li>
+<li>Now <code>cd wl_display_toggle</code> then <code>make</code> and <code>scp wl_display_toggle $TARGET</code></li>
+<li>ssh into the target, and try to shut off the display: <code>XDG_RUNTIME_DIR=/home/batman/run WAYLAND_DISPLAY="wayland-1" DISPLAY="" ./wl_display_toggle off</code></li>
+</ul>
+<h2>Install services<a name="installservices"></a></h2>
+<p>The homboard doesn't do much nowadays, only show images; once you reached this point, and if things build and run, your build environment and target are ready to use. Just a few more arcane spells and we're done:</p>
+<ul>
+<li>Clean up binaries deployed ad-hoc, like gpio_mon and wl_display_toggle</li>
+<li><code>make deploytgt</code></li>
+<li>In the target, try out hackimg<ul>
+<li>Run <code>XDG_RUNTIME_DIR=/home/batman/run WAYLAND_DISPLAY="wayland-1" DISPLAY="" /usr/lib/arm-linux-gnueabihf/ld-linux-armhf.so.3 /home/batman/homeboard/bin/hackimg /home/batman/homeboard/cfg/hackimg.cfg</code></li>
+<li>You'll need to create the cache dir manually, because hackimg is lazy and won't do it for you</li>
+</ul>
+</li>
+<li>Once you checked hackimg runs, <code>vi ~/homeboard/cfg/pipresencemon.cfg</code><ul>
+<li>Set the sensor pin to the GPIO acting as presence sensor</li>
+<li>Adapt the sensitivity to sensor type (mmwave vs PIR)</li>
+<li>It's recommendable to use the mock gpio for a test run</li>
+</ul>
+</li>
+<li>Try out the ambience service<ul>
+<li></li>
+</ul>
+</li>
+<li>In the target, <code>cd ~/homeboard/scripts &amp;&amp; ./install_svc.sh</code> - this will install the ambience service and launch it. Wayfire should already be a service by now, so no install is included.</li>
+<li>Use <code>~/homeboard/scripts/logs.sh</code> to see what's broken.</li>
+</ul>
+<p>The target should be ready for production, in only about 30 simple steps!</p>
+<h2>Appendix: it hangs!<a name="appendixithangs"></a></h2>
+<p><a href="/blog_img/250216_Homeboard.jpg"><img alt="" src="/blog_img/250216_Homeboard.jpg" /></a></p>
+<hr />
 <h2>Homeboard: Industrial Design (bonus: Inkscape)<a name="homeboardindustrialdesignbonusinkscape"></a></h2>
 <p>Post by Nico Brailovsky @ 2025-02-09 | <a href="/blog/2025/0209_HomeboardIndustrialDesign.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/0209_HomeboardIndustrialDesign.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>My Homeboard project has officially left its cardboard pizza phase. Almost:</p>
@@ -325,37 +396,6 @@ sudo systemctl restart ambience
 <li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
 <li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
 </ul>
-<hr />
-<h2>RaspberryPi gpio cli monitor<a name="raspberrypigpioclimonitor"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-06-15 | <a href="/blog/2024/0615_RaspberryPiGpioMon.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0615_RaspberryPiGpioMon.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I wrote a <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">small CLI utility to display when a GPIO pin changes state in a Raspberry Pi</a>.</p>
-<p>Using <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">gpiomon</a>, it's possible to monitor all pins to get an output like this:</p>
-<pre><code>$ ./gpiomon
-CNT P00 P01 P02 P03 P04 P05 P06 P07 P08 P09 P10 P11 P12 P13 P14 P15 P16 P17 P18 P19 P20 P21 P22 P23 P24
-000 &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt; &gt;1&lt;  0   0   0   0   0   0  &gt;1&lt;  0   0   0   0   0  &gt;1&lt;  0   0   0
-001  1   1   1   1   1   1   1   1   1   0   0   0   0   0  &gt;1&lt;  1   0   0   0   0   0   1   0   0   0
-002  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
-003  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
-004  1   1   1   1   1  &gt;1&lt;  1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
-005  1   1   1   1   1   1   1   1   1   0   0   0   0   0   1   1   0   0   0   0   0   1   0   0   0
-</code></pre>
-<p>Where the left most column is the number of seconds since startup. It's also easy to monitor a single pin:</p>
-<pre><code>$ ./gpiomon 21
-000 PIN 21 = &gt;1&lt;
-001 PIN 21 =  1
-002 PIN 21 =  1
-003 PIN 21 = &gt;0&lt;
-004 PIN 21 =  0
-005 PIN 21 =  0
-006 PIN 21 = &gt;1&lt;
-007 PIN 21 =  1
-</code></pre>
-<p>And most useful of all, an option to only print out (log) when a pin changes state. Eg:</p>
-<pre><code>$ ./gpiomon -u -l 21
-000 PIN 21 = &gt;1&lt;
-009 PIN 21 = &gt;0&lt;
-015 PIN 21 = &gt;1&lt;
-</code></pre>
 <hr />
 <p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 
