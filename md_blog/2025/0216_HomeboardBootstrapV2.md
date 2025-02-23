@@ -55,7 +55,7 @@ gpu_mem=128
 
 ## Install services
 
-The homboard doesn't do much nowadays, only show images; once you reached this point, and if things build and run, your build environment and target are ready to use. Just a few more arcane spells and we're done:
+The homeboard doesn't do much nowadays, only show images; once you reached this point, and if things build and run, your build environment and target are ready to use. Just a few more arcane spells and we're done:
 
 * Clean up binaries deployed ad-hoc, like gpio_mon and wl_display_toggle
 * `make deploytgt`

@@ -36,6 +36,37 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Homeboard: eInk display<a name="homeboardeinkdisplay"></a></h2>
+<p>Post by Nico Brailovsky @ 2025-02-23 | <a href="/blog/2025/0223_HomeboardEInkDisplay.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/0223_HomeboardEInkDisplay.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>What's better than one display? Two displays, of course.</p>
+<p>When I see a picture in my Homeboard, I often remember when and where I took it (photos are, after all, a form of exomemory), but not always. In <a href="https://github.com/nicolasbrailo/wwwslide">wwwslide</a>, my home slideshow service, I workaround this with a QR code: a small QR code is displayed in a corner of the image, and I can scan it to read the metadata of the picture being displayed. This is a good solution, but I'm not entirely happy with it.</p>
+<p>Today, I added an <a href="https://github.com/nicolasbrailo/libeink">eInk display</a> to my Homeboard project. I can show picture metadata (and maybe even a QR code!) without taking up valuable picture real-estate. I chose an eInk display because they are easy to source and work with, relatively cheap, and require very little power (Homeboard is powered by PoE). Some day, I'm hoping to use it as an extra low-power mechanism to show actual homeboard info (a clock? weather? price of memecoins? The options are endless!)</p>
+<p>I couldn't get all of the manufacturer's examples to work (especially the partial refresh), but it works well enough to display a thing rendered with <a href="https://www.cairographics.org/">Cairo</a>. The original manufacturer's examples had a custom rendering library which was quite unnecessary; my version of lib-eInk gets rid of all the custom rendering code, and uses <a href="https://www.cairographics.org/">Cairo</a> to create graphics. Here's <a href="https://github.com/nicolasbrailo/libeink/blob/main/main.c">an example</a>:</p>
+<pre><code>struct EInkDisplay<em> display = eink_init();
+cairo_t </em>cr = eink_get_cairo(display);
+// Get display's surface
+cairo_surface_t *surface = cairo_get_target(cr);
+const size_t width = cairo_image_surface_get_width(surface);
+const size_t height = cairo_image_surface_get_height(surface);
+// Configure "pen"
+cairo_set_source_rgba(cr, 0, 0, 0, 1);
+cairo_select_font_face(cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+cairo_set_font_size(cr, 20);
+// Calculate text position
+cairo_text_extents_t extents;
+cairo_text_extents(cr, "Hola mundo", &amp;extents);
+double x = (width - extents.width) / 2 - extents.x_bearing;
+double y = (height - extents.height) / 2 - extents.y_bearing;
+// Draw
+cairo_move_to(cr, x, y);
+cairo_show_text(cr, text);
+eink_render(display);
+eink_delete(display);
+</code></pre>
+<p><a href="https://github.com/nicolasbrailo/libeink">Github repo here</a>.</p>
+<hr />
+<p>Sidenote: my multiline code rendering seems to be eating pointers for breakfast, so <code>struct S*</code> may be rendered as <code>struct S</code>. I should fix this.</p>
+<hr />
 <h2>Homeboard V1, bootstrap V2<a name="homeboardv1bootstrapv2"></a></h2>
 <p>Post by Nico Brailovsky @ 2025-02-16 | <a href="/blog/2025/0216_HomeboardBootstrapV2.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/0216_HomeboardBootstrapV2.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>With ~most~ some of the <a href="/blog/2025/0209_HomeboardIndustrialDesign.html">bugs fixed in the industrial design</a>, it's time to setup a second Homeboard. That way I can experiment on one, while the other shows pretty pictures. Because my computer is also a new install, it's now a good opportunity to document the full bootstrap process from an almost brand new and clean Ubuntu 24.04.</p>
@@ -81,7 +112,7 @@ gpu_mem=128
 <li>ssh into the target, and try to shut off the display: <code>XDG_RUNTIME_DIR=/home/batman/run WAYLAND_DISPLAY="wayland-1" DISPLAY="" ./wl_display_toggle off</code></li>
 </ul>
 <h2>Install services<a name="installservices"></a></h2>
-<p>The homboard doesn't do much nowadays, only show images; once you reached this point, and if things build and run, your build environment and target are ready to use. Just a few more arcane spells and we're done:</p>
+<p>The homeboard doesn't do much nowadays, only show images; once you reached this point, and if things build and run, your build environment and target are ready to use. Just a few more arcane spells and we're done:</p>
 <ul>
 <li>Clean up binaries deployed ad-hoc, like gpio_mon and wl_display_toggle</li>
 <li><code>make deploytgt</code></li>
@@ -363,39 +394,6 @@ sudo systemctl restart ambience
 <p>Fortunatelly, I managed to find a board that liked my panel:</p>
 <p><a href="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg" /></a></p>
 <p>I got a "<a href="https://www.aliexpress.com/item/32968710965.html">PCB-800807V6-1HDMI-EDP 30PIN LCD driver board</a>", which comes at about £10 and supports multiple resolutions. This was a nice lucky find, and it unblocked the build of HouseboardP0, which I'll document in some other entry.</p>
-<hr />
-<h2>Houseboard P0: PP0<a name="houseboardp0pp0"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-06-30 | <a href="/blog/2024/0630_HouseboardP0.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0630_HouseboardP0.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I have a <a href="https://github.com/nicolasbrailo/BatiCasa">ton of unnecessary home automation</a>, but I'm lacking some kind of house board: a quick way of getting info before leaving (like weather, or transport conditions), leaving messages (don't forget to pick up kids from school) or just a shopping list. Sensible people would look at readily available digital signage solutions. Of course I didn't do that, instead decided to build my own.</p>
-<p>I settled for a quick list of requirements to guide the project: Linux based, running off power-over-ethernet, with net-boot and 100% locally hosted. How hard can that be?</p>
-<p>The first step to design my houseboard was searching for a panel. Here is a capture of the moment it failed:</p>
-<p><a href="/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg" /></a></p>
-<p>Turns out that scoring a random replacement panel for a laptop and trying to pair that with a random controller board works well in theory but needs a lot of luck. Starting with a cheapish £40 LCD panel with an eDP connector, I got an HDMI-to-eDP board. My panel and my board didn't like each other, so all I got was backlight, and that is not very useful unless you only need to display binary information.</p>
-<p>Since ordering and shipping a different panel controller board would take a few weeks, I decided to change my strategy: my P0 would be changed to a Prototype-Prototype-0 (PP0), using a similar platform to let me start working on the software and sensors, while I figured the way to control a panel. Here is Houseboard PP0, in all it's glory:</p>
-<p><a href="/blog_img/0630_HouseboardP0/2PP0.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/2PP0.jpg" /></a></p>
-<p>I got a USB-powered touchscreen, which is powered by a RaspberryPi 4. The RPI itself is powered over PoE, and there is an HDMI connection between the Rpi and the screen, and a secondary USB connection to get touch screen support. The PoE adapter is barely capable of powering the screen AND the Rpi: if I turn the brightness of the screen to 100%, the system will reset.</p>
-<p>And with a few sensors (a PIR + mmWave):</p>
-<p><a href="/blog_img/0630_HouseboardP0/3Sensors.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/3Sensors.jpg" /></a></p>
-<p>It's not going to win any design prizes, but it works</p>
-<p><a href="/blog_img/0630_HouseboardP0/4Running.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/4Running.jpg" /></a></p>
-<p>While eventually I did end up solving my LCD panel woes, Houseboard PP0 let me start building some software for the houseboard quickly:</p>
-<ol>
-<li>A <a href="https://github.com/nicolasbrailo/swayimg">Wayland based image display</a> built on top of Swayimage; to show a gallery of pictures when there is no other info to show</li>
-<li>A <a href="https://github.com/nicolasbrailo/pipresencemon">presence service</a> (to determine when there are humans nearby, based on PIR and mmWave sensors).</li>
-</ol>
-<h2>BoM for Houseboard PP0<a name="bomforhouseboardpp0"></a></h2>
-<ul>
-<li>A RaspberryPi 4 (any Pi will do, but having a bunch of USB ports makes this project a lot simpler)</li>
-<li>A USB powered screen. I went for a 14'' 1080p 1920x1080, and with the PoE constrain that's probably as big as it's feasible. My browsing history says I got this one: https://www.amazon.co.uk/dp/B0CB5FWGT8</li>
-<li>PoE splitter (USBC + ETH out, 5v 4A) - Look for the adapter with largest power rating you can, a cheap one won't work. I went for this one: https://www.amazon.co.uk/dp/B0CHW5K5F4</li>
-<li><a href="https://thepihut.com/products/pir-motion-sensor-module">PIR sensor</a> (NB VCC=5v, connect to Pin4, GND Pin6, OUT Pin17)</li>
-<li><a href="https://thepihut.com/products/breadboard-friendly-mini-pir-motion-sensor-with-3-pin-header">Smaller PIR sensor</a> (VCC=5v Pin4, GND Pin6, OUT Pin17)</li>
-</ul>
-<h2>Useful references<a name="usefulreferences"></a></h2>
-<ul>
-<li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
-<li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
-</ul>
 <hr />
 <p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 

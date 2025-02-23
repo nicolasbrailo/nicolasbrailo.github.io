@@ -43,3 +43,5 @@ TODO: Write about the project
 @include md_blog/2025/0216_HomeboardBootstrapV2.md
 
 ---
+
+@include md_blog/2025/0223_HomeboardEInkDisplay.md
