@@ -1,5 +1,65 @@
 #
 @meta docType index
+## Homeboard: A Hardware bug!
+
+Post by Nico Brailovsky @ 2025-03-16 | [Permalink](md_blog/2025/0316_HomeboardHardwareBug.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0316_HomeboardHardwareBug.md&body=I%20have%20a%20comment!)
+
+I found my first hardware bug! Can you spot it? It's the big red circle:
+
+[![](/blog_img/2025/0316_HomeboardHardwareBug1.jpg)](/blog_img/2025/0316_HomeboardHardwareBug1.jpg)
+
+The mmwave sensor was mounted too close to either the screen, or the power source (something I thought was a brilliant idea yesterday). Turns out that mounting it so close has an affect on this sensor: when the display is on, it blocks the sensor (and reads it as no-presence). When the display is off, for some reason the sensor picks it up as someone being present. This is bad, because on presence I turn the display on, and on vacancy off. I guess my living room put on a light show for my cats last night.
+
+I suspect I could fix this in the firmware of the sensor, but that's pointless because [I can't reverse engineer the sensor protocol anyway](md_blog/2024/0615_LD2410SmmWaveSensor.md). What's the next best fix?
+
+[![](/blog_img/2025/0316_HomeboardHardwareBug2.jpg)](/blog_img/2025/0316_HomeboardHardwareBug2.jpg)
+
+I moved the sensor out of the way, while I think of a better placement.
+
+
+
+
+
+---
+
+## Homeboard: eInk display
+
+Post by Nico Brailovsky @ 2025-03-15 | [Permalink](md_blog/2025/0315_HomeboardNewFrameMount.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0315_HomeboardNewFrameMount.md&body=I%20have%20a%20comment!)
+
+Homeboard gained a new form factor: slightly less crappy frame.
+
+[![](/blog_img/2025/0315_HomeboardNewFrameMount1.jpg)](/blog_img/2025/0315_HomeboardNewFrameMount1.jpg)
+
+I now keep two Homeboards, one in my office -mostly for hacking- and one to display pictures. The one in my office didn't have a [good space for the eInk display](md_blog/2025/0223_HomeboardEInkDisplay.md) (spoiler alert: it still doesn't) making it awkward to see both the "real" display and the eink one. To fix this, I built a new mount based on a picture frame. This time all of the elements are mounted directly on the front frame (spoiler alert: this was a huge mistake), and I used transparent perspex material to cut it, so that all elements are visible (I do like this bit, the boards that make up Homeboard are quite pretty).
+
+## Mechanics
+
+The build uses an Ikea picture frame, but replaces the front plate with my laser-cut front.
+
+* The Ikea frame is great for this, it's built to support a front plate of 3-6mm, fitting a perspex sheet ferpectly.
+* I'm happy with the display corner clips, too. You can see in the picture they hold the display, but are not too obtrusive (only partly due to the clips being transparent). Additionally, they are great to clip on small boards with no mount holes, like the radar sensor (top left in the picture).
+* The ribbon connection to the display is hell. The position is awkward, and I can't fit it with a short (2cm) cable. I used a long one (15cm) but it looks untidy.
+* Don't overtighten display screws! It's easy to put too much pressure and damage either the two perspex sheets, or the sandwiched display in the middle. I found for a 3mm perspex sheet with a laptop display, 10mm m2 screws loosely tightened (?) work best.
+* If you use my mechanical drawings, be careful: between [ID V1](md_blog/2025/0209_HomeboardIndustrialDesign.html) and this one, there was bitrot in my svg, and the screws in the pi don't align anymore. Also, the display hole isi about 2mm too big for my panel, and I don't know why (my last cut it was 2mm to small!)
+
+The back of the frame:
+
+[![](/blog_img/2025/0315_HomeboardNewFrameMount2.jpg)](/blog_img/2025/0315_HomeboardNewFrameMount2.jpg)
+
+Some things I need to improve:
+
+* Ribbon, long or short, placing is super hard. For V2 of this ID, I need to think of a better placement
+* In fact, mounting everything to the front panel was a big mistake. It means that mounting things is awkward, because I need to work with a big panel. Any wiring mistake means I need to unmount the board, fix, test, remount. It's much much MUCH easier if I mount all the boards to a single main perspex board, then mount that to the main frame.
+* Having a main board with alternative mount position should make it easier to make mounting the ribbon cable less terrible. I need to move the edp board 20mm to the right in this ID, but it's much easier if I don't need to carefully align this before I cut it.
+* The corner clips are awesome! I can even use to hold sensors without a screw hole. Here I mounted the mmwave sensor (with no mount screw holes) using one of the corner clips.
+* This doesn't work for the eInk display, unfortunately. I still need to figure out how to mount the eInk display without using tape.
+
+
+
+
+
+---
+
 ## Homeboard: eInk display
 
 Post by Nico Brailovsky @ 2025-02-23 | [Permalink](md_blog/2025/0223_HomeboardEInkDisplay.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0223_HomeboardEInkDisplay.md&body=I%20have%20a%20comment!)
@@ -451,101 +511,6 @@ sudo systemctl restart ambience
 ```
 
 Next time you boot up, the Stonebaked Margherita P0 frame should behave like a picture frame.
-
-
-
-
-
----
-
-## Homeboard P0: Stonebaked Margherita
-
-Post by Nico Brailovsky @ 2024-07-14 | [Permalink](md_blog/2024/0714_StonebakedMargheritaHomeboard.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0714_StonebakedMargheritaHomeboard.md&body=I%20have%20a%20comment!)
-
-**Homeboard P0 has been built!!1**
-
-After figuring out [how to run my own LCD panel](md_blog/2024/0707_HouseboardHdmiToEdp.md), it was just a question of buying the right cables. I wanted to build a homeboard, and I thought I'd spend a ton of time writing cool software. Turns out 90% of the project is a game of "did I buy the right cable". Eventually I did end up with enough cables to build this monstrosity:
-
-[![](/blog_img/0714_HomeboardP0/1PanelTest.jpg)](/blog_img/0714_HomeboardP0/1PanelTest.jpg)
-
-You are admiring a:
-
-* Raspberry Pi zero,
-* Powered over ethernet, with a PoE adapter
-* The Raspberry Pi Zero powers the LCD controller board
-* But the controller board needs 12V, so there is a DC-DC board that bumps the 5V from the RaspberryPi to the 12V the board needs.
-
-(Full list of materials further down, so you don't need to hunt all of these)
-
-Here the glorious moment everything is connected together, and actually boots an OS:
-
-[![](/blog_img/0714_HomeboardP0/2Boots.jpg)](/blog_img/0714_HomeboardP0/2Boots.jpg)
-
-Of course at this point I realized the weak point of my design is on the mechanical linkage between the different boards. To tame this quite literally unwieldy hodgepodge of cables, I ate a pizza:
-
-[![](/blog_img/0714_HomeboardP0/3Mechanical.jpg)](/blog_img/0714_HomeboardP0/3Mechanical.jpg)
-
-Using the cardboard box of a pizza, some ducktape and a few M2 screws, I built a beautiful hack mount for all my boards, which let me move the assembly around for tests. This was enough for quick power checks, but pizza box cardboard isn't a very durable material. I upgraded to a full frame:
-
-[![](/blog_img/0714_HomeboardP0/4Framing.jpg)](/blog_img/0714_HomeboardP0/4Framing.jpg)
-
-This is an Ikea picture frame, with an LCD screen tapped to the front and a hole in the back for the eDP connector. Everything mounted together:
-
-[![](/blog_img/0714_HomeboardP0/5BoardMount.jpg)](/blog_img/0714_HomeboardP0/5BoardMount.jpg)
-
-And the glorious, glorious first boot of the Stonebaked Margherita Homeboard P0:
-
-[![](/blog_img/0714_HomeboardP0/6FirstBoot.jpg)](/blog_img/0714_HomeboardP0/6FirstBoot.jpg)
-
-Of course at this stage the only thing the Houseboard P0 does is boot. An achievement, but not too useful. Next up, I'll make it do something. Possibly crash.
-
-
-## BoM
-* Pi Zero (not W, but W works too)
-* [LCD panel](https://www.amazon.co.uk/dp/B0742D2718)
-* [HDMI to eDP board](https://www.aliexpress.com/item/32968710965.html)
-* [PoE adapter](https://thepihut.com/products/poe-to-micro-usb-adapter-for-pi-zero-ethernet-power-ieee-802-3af-compliant)
-* [M2 Screws](https://www.amazon.co.uk/dp/B08F7SXC7S?psc=1&ref=ppx_yo2ov_dt_b_product_details)
-* [Step up board DC-DC 5v to 12V](https://www.amazon.co.uk/Step-up-Supply-Adjustable-Converter-4-5V-32V/dp/B075JQTPX6?)
-* [M2 Screws](https://www.amazon.co.uk/dp/B08F7SXC7S)
-* [Jumper wires](https://thepihut.com/collections/jumper-wires) (get a mix of F/F, M/F and M/M)
-* [An Ikea Ribba picture frame](https://www.ikea.com/gb/en/p/ribba-frame-white-00268876/)
-* Pizza. Margherita not required.
-* Mini HDMI to HDMI
-
-Optionals:
-
-* [UART](https://www.amazon.co.uk/gp/product/B0B7RHPMT7/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) - to figure out why things don't boot, or to [debug sensors](md_blog/2024/0615_LD2410SmmWaveSensor.md)
-* Regulable power source 3 to 30V - useful to debug power to elements in isolation
-* [HLK-LD2410S 24G mmWave sensor](https://www.aliexpress.com/i/1005006282168742.html) [Manual](https://drive.google.com/file/d/1CYgZTTEkZoo29QDd8V-qMWQCiwLFjlw1/view) - not used yet, but soon
-
-## Useful references
-* [Pi GPIO pins](https://pi4j.com/1.2/pins/model-3b-rev1.html)
-* [PI Zero pins](https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1)
-
-
-
-
-
----
-
-## Houseboard P0: HDMI to eDP
-
-Post by Nico Brailovsky @ 2024-07-07 | [Permalink](md_blog/2024/0707_HouseboardHdmiToEdp.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0707_HouseboardHdmiToEdp.md&body=I%20have%20a%20comment!)
-
-Minor victory in my quest to build a houseboard based on a Linux-PoE-netboot-RaspberryPi-etc: I figured out how to run my own LCD panel.
-
-[![](/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg)](/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg)
-
-The first step was verifying my panel worked. For this, I used a display port to eDP converter. Turns out eDP is basically DP, but over a ribbon cable. There are some cheap boards, [for example](https://www.aliexpress.com/item/1005006914739674.html), that do this - searching for "DP to eDP" or "display port to eDP" will yield a high number of vendors. The key part is matching the ribbon type of the panel you need to drive (30 or 40 pins).
-
-Unfortunatelly, single-board-computers (like the RaspberryPi) don't have DP, despite DP being better than HDMI in every way. The cost of adding a DP connector seems to be high and mosty in licenses, not necessarily in components, so SBCs don't do it. This meant that getting my expensive GPU to use my cheap panel wasn't good for much beyond knowing the panel works.
-
-Fortunatelly, I managed to find a board that liked my panel:
-
-[![](/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg)](/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg)
-
-I got a "[PCB-800807V6-1HDMI-EDP 30PIN LCD driver board](https://www.aliexpress.com/item/32968710965.html)", which comes at about £10 and supports multiple resolutions. This was a nice lucky find, and it unblocked the build of HouseboardP0, which I'll document in some other entry.
 
 
 

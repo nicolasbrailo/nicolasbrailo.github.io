@@ -44,7 +44,6 @@ Post by Nico Brailovsky @ 2024-07-20 |
 
 <div class="post">
 <p>TODO: Write about the project</p>
-<hr />
 <h2><a href="/blog/2024/0630_HouseboardP0.html">Houseboard P0: PP0</a><a name="houseboardp0pp0blog20240630_houseboardp0.html"></a></h2>
 <p>Published 2024-06-30</p>
 <p>I have a <a href="https://github.com/nicolasbrailo/BatiCasa">ton of unnecessary home automation</a>, but I'm lacking some kind of house board: a quick way of getting info before leaving (like weather, or transport conditions), leaving messages (don't forget to pick up kids from school) or just a shopping list. Sensible people would look at readily available digital signage solutions. Of course I didn't do that, instead decided to build my own.</p>
@@ -77,7 +76,6 @@ Post by Nico Brailovsky @ 2024-07-20 |
 <li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
 <li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
 </ul>
-<hr />
 <h2><a href="/blog/2024/0707_HouseboardHdmiToEdp.html">Houseboard P0: HDMI to eDP</a><a name="houseboardp0hdmitoedpblog20240707_houseboardhdmitoedp.html"></a></h2>
 <p>Published 2024-07-07</p>
 <p>Minor victory in my quest to build a houseboard based on a Linux-PoE-netboot-RaspberryPi-etc: I figured out how to run my own LCD panel.</p>
@@ -87,7 +85,6 @@ Post by Nico Brailovsky @ 2024-07-20 |
 <p>Fortunatelly, I managed to find a board that liked my panel:</p>
 <p><a href="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg" /></a></p>
 <p>I got a "<a href="https://www.aliexpress.com/item/32968710965.html">PCB-800807V6-1HDMI-EDP 30PIN LCD driver board</a>", which comes at about £10 and supports multiple resolutions. This was a nice lucky find, and it unblocked the build of HouseboardP0, which I'll document in some other entry.</p>
-<hr />
 <h2><a href="/blog/2024/0714_StonebakedMargheritaHomeboard.html">Homeboard P0: Stonebaked Margherita</a><a name="homeboardp0stonebakedmargheritablog20240714_stonebakedmargheritahomeboard.html"></a></h2>
 <p>Published 2024-07-14</p>
 <p><strong>Homeboard P0 has been built!!1</strong></p>
@@ -137,7 +134,6 @@ Post by Nico Brailovsky @ 2024-07-20 |
 <li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
 <li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
 </ul>
-<hr />
 <h2><a href="/blog/2024/0718_SonebakedMargheritaPictureFrame.html">Homeboard P0: Stonebaked Margherita Picture frame</a><a name="homeboardp0stonebakedmargheritapictureframeblog20240718_sonebakedmargheritapictureframe.html"></a></h2>
 <p>Published 2024-07-18</p>
 <p>With my homeboard booting up, it's time to make it show something. Some day I'll build a net-boot capable system, but until then I'd like to have it do something, even if it's by installing a few services by hand.</p>
@@ -259,7 +255,6 @@ WantedBy=multi-user.target
 sudo systemctl restart ambience
 </code></pre>
 <p>Next time you boot up, the Stonebaked Margherita P0 frame should behave like a picture frame.</p>
-<hr />
 <h2><a href="/blog/2024/0909_wwwslide.html">Homeboard: wwwslide</a><a name="homeboardwwwslideblog20240909_wwwslide.html"></a></h2>
 <p>Published 2024-09-10</p>
 <p>Homeboard hasn't seen much progress during the holidays, except for a small but useful piece of software: I created <a href="https://github.com/nicolasbrailo/wwwslide">a hacky way to serve pictures over a web interface</a>. This is a fairly fundamental piece of infrastructure for my homeboard project; most of the time these will be displaying some ambient information, but most of the screen's real estate will be used to show my (reasonably large and decades spanning) personal picture collection.</p>
@@ -274,7 +269,6 @@ sudo systemctl restart ambience
 <p>Reverse geolocation: the metadata of each picture includes a reverse-geolocation. No need to guess where you took a picture, wwwslide will guess for you (as long as your pictures have geotags in their exif data)</p>
 </blockquote>
 <p>wwwslide v0 was just a Flask service sending local-disk jpg's, and I found I frequently wondered where a particular picture was taken, or wish I had a way to see more pictures from a specific location. I'm quite proud of the idea to implement this: wwwslide will watermark pictures with a qr-code that can be used to get more info on the shown picture, and to display more picture of a specific album.</p>
-<hr />
 <h2><a href="/blog/2024/1012_rpixcompile.html">Crosscompiling to RaspberryPi Zero</a><a name="crosscompilingtoraspberrypizeroblog20241012_rpixcompile.html"></a></h2>
 <p>Published 2024-10-12</p>
 <p>Homeboard continues progressing, albeit at a snail pace. Using a RaspberryPi Zero as the base board means not only the project runs at a leisurely pace, but so do any attempts at compiling software in the target itself. Because I got tired of measuring my build times in minutes, I decided it's time to set up a cross-compiler from my PC to my homeboard. This means I can now build things in my reasonably fast PC, and deploy the resulting binary to the RaspberryPi Zero.</p>
@@ -296,14 +290,12 @@ mount -o loop,offset=541065216 2024-07-04-raspios-bookworm-armhf.img.xz ./mnt
 <li>If your <code>--sysroot</code> isn't correct, things won't work. You won't get an error, but a binary will still be built; it will just be a binary with the wrong format, and you'll only know because it will segfault on start. Good luck trying to figure out if the segfault is yours, or from a problem in the build process.</li>
 </ul>
 <p>I wrapped this in a convenient bash script so you can build a <a href="https://github.com/nicolasbrailo/rpiz-xcompile">makefile that will x-compile easily, have a look here: https://github.com/nicolasbrailo/rpiz-xcompile</a></p>
-<hr />
 <h2><a href="/blog/2024/1028_waylandonx.html">Homeboard: Wayland on X</a><a name="homeboardwaylandonxblog20241028_waylandonx.html"></a></h2>
 <p>Published 2024-10-28</p>
 <p>Besides <a href="/blog/2024/1012_rpixcompile.html">cross-compiling to RaspberryPi</a>, at times it's also useful to just run things locally. While faster than building on the target, the cycle of xcompile and deploy is still cumbersome for short sessions (i.e. when the target is usually offline, unpowered, and possibly lost somewhere in my house). For these situations, I found out I can run Wayland based apps on top of my X-based desktop, using Weston.</p>
 <p>Weston is an implementation of Wayland. If you don't have it already, you can <code>apt-get install weston</code>. If you do this in an X based desktop, you can still run weston in a terminal, inside X.</p>
 <p><a href="/blog_img/241028weston.jpg"><img alt="" src="/blog_img/241028weston.jpg" /></a></p>
 <p>Between Wayland on X and <a href="/blog/2024/1012_rpixcompile.html">cross-compiling to RaspberryPi</a>, I can test my fork (hack) of <a href="https://github.com/nicolasbrailo/swayimg">Swayimg</a> for RaspberryPi Zero.</p>
-<hr />
 <h2><a href="/blog/2025/0209_HomeboardIndustrialDesign.html">Homeboard: Industrial Design (bonus: Inkscape)</a><a name="homeboardindustrialdesignbonusinkscapeblog20250209_homeboardindustrialdesign.html"></a></h2>
 <p>Published 2025-02-09</p>
 <p>My Homeboard project has officially left its cardboard pizza phase. Almost:</p>
@@ -324,7 +316,6 @@ mount -o loop,offset=541065216 2024-07-04-raspios-bookworm-armhf.img.xz ./mnt
 <li>When I write <code>board width - 3</code> I actually mean you can write <code>NNN - XXX</code> in the position boxes of Inkscape. They perform basic math operations. This is a huge time saver.</li>
 <li>Most boards are regular, and have screw holes in symmetric positions vertically and horizontally. When this is the case, you can place all 4 screw holes by mirroring the first one: place the top left screw hole, then select it together with a box the size of the board. Mirror the board vertically, and place a new hole in the position of the first. Select both holes, mirror horizontally, etc. Voila, 4 screw holes with only one measurement!</li>
 </ul>
-<hr />
 <h2><a href="/blog/2025/0216_HomeboardBootstrapV2.html">Homeboard V1, bootstrap V2</a><a name="homeboardv1bootstrapv2blog20250216_homeboardbootstrapv2.html"></a></h2>
 <p>Published 2025-02-16</p>
 <p>With ~most~ some of the <a href="/blog/2025/0209_HomeboardIndustrialDesign.html">bugs fixed in the industrial design</a>, it's time to setup a second Homeboard. That way I can experiment on one, while the other shows pretty pictures. Because my computer is also a new install, it's now a good opportunity to document the full bootstrap process from an almost brand new and clean Ubuntu 24.04.</p>
@@ -395,7 +386,6 @@ gpu_mem=128
 <p>The target should be ready for production, in only about 30 simple steps!</p>
 <h2>Appendix: it hangs!<a name="appendixithangs"></a></h2>
 <p><a href="/blog_img/250216_Homeboard.jpg"><img alt="" src="/blog_img/250216_Homeboard.jpg" /></a></p>
-<hr />
 <h2><a href="/blog/2025/0223_HomeboardEInkDisplay.html">Homeboard: eInk display</a><a name="homeboardeinkdisplayblog20250223_homeboardeinkdisplay.html"></a></h2>
 <p>Published 2025-02-23</p>
 <p>What's better than one display? Two displays, of course.</p>
@@ -426,6 +416,38 @@ eink_delete(display);
 <p><a href="https://github.com/nicolasbrailo/libeink">Github repo here</a>.</p>
 <hr />
 <p>Sidenote: my multiline code rendering seems to be eating pointers for breakfast, so <code>struct S*</code> may be rendered as <code>struct S</code>. I should fix this.</p>
+<h2><a href="/blog/2025/0315_HomeboardNewFrameMount.html">Homeboard: eInk display</a><a name="homeboardeinkdisplayblog20250315_homeboardnewframemount.html"></a></h2>
+<p>Published 2025-03-15</p>
+<p>Homeboard gained a new form factor: slightly less crappy frame.</p>
+<p><a href="/blog_img/2025/0315_HomeboardNewFrameMount1.jpg"><img alt="" src="/blog_img/2025/0315_HomeboardNewFrameMount1.jpg" /></a></p>
+<p>I now keep two Homeboards, one in my office -mostly for hacking- and one to display pictures. The one in my office didn't have a <a href="/blog/2025/0223_HomeboardEInkDisplay.html">good space for the eInk display</a> (spoiler alert: it still doesn't) making it awkward to see both the "real" display and the eink one. To fix this, I built a new mount based on a picture frame. This time all of the elements are mounted directly on the front frame (spoiler alert: this was a huge mistake), and I used transparent perspex material to cut it, so that all elements are visible (I do like this bit, the boards that make up Homeboard are quite pretty).</p>
+<h2>Mechanics<a name="mechanics"></a></h2>
+<p>The build uses an Ikea picture frame, but replaces the front plate with my laser-cut front.</p>
+<ul>
+<li>The Ikea frame is great for this, it's built to support a front plate of 3-6mm, fitting a perspex sheet ferpectly.</li>
+<li>I'm happy with the display corner clips, too. You can see in the picture they hold the display, but are not too obtrusive (only partly due to the clips being transparent). Additionally, they are great to clip on small boards with no mount holes, like the radar sensor (top left in the picture).</li>
+<li>The ribbon connection to the display is hell. The position is awkward, and I can't fit it with a short (2cm) cable. I used a long one (15cm) but it looks untidy.</li>
+<li>Don't overtighten display screws! It's easy to put too much pressure and damage either the two perspex sheets, or the sandwiched display in the middle. I found for a 3mm perspex sheet with a laptop display, 10mm m2 screws loosely tightened (?) work best.</li>
+<li>If you use my mechanical drawings, be careful: between <a href="md_blog/2025/0209_HomeboardIndustrialDesign.html">ID V1</a> and this one, there was bitrot in my svg, and the screws in the pi don't align anymore. Also, the display hole isi about 2mm too big for my panel, and I don't know why (my last cut it was 2mm to small!)</li>
+</ul>
+<p>The back of the frame:</p>
+<p><a href="/blog_img/2025/0315_HomeboardNewFrameMount2.jpg"><img alt="" src="/blog_img/2025/0315_HomeboardNewFrameMount2.jpg" /></a></p>
+<p>Some things I need to improve:</p>
+<ul>
+<li>Ribbon, long or short, placing is super hard. For V2 of this ID, I need to think of a better placement</li>
+<li>In fact, mounting everything to the front panel was a big mistake. It means that mounting things is awkward, because I need to work with a big panel. Any wiring mistake means I need to unmount the board, fix, test, remount. It's much much MUCH easier if I mount all the boards to a single main perspex board, then mount that to the main frame.</li>
+<li>Having a main board with alternative mount position should make it easier to make mounting the ribbon cable less terrible. I need to move the edp board 20mm to the right in this ID, but it's much easier if I don't need to carefully align this before I cut it.</li>
+<li>The corner clips are awesome! I can even use to hold sensors without a screw hole. Here I mounted the mmwave sensor (with no mount screw holes) using one of the corner clips.</li>
+<li>This doesn't work for the eInk display, unfortunately. I still need to figure out how to mount the eInk display without using tape.</li>
+</ul>
+<h2><a href="/blog/2025/0316_HomeboardHardwareBug.html">Homeboard: A Hardware bug!</a><a name="homeboardahardwarebugblog20250316_homeboardhardwarebug.html"></a></h2>
+<p>Published 2025-03-16</p>
+<p>I found my first hardware bug! Can you spot it? It's the big red circle:</p>
+<p><a href="/blog_img/2025/0316_HomeboardHardwareBug1.jpg"><img alt="" src="/blog_img/2025/0316_HomeboardHardwareBug1.jpg" /></a></p>
+<p>The mmwave sensor was mounted too close to either the screen, or the power source (something I thought was a brilliant idea yesterday). Turns out that mounting it so close has an affect on this sensor: when the display is on, it blocks the sensor (and reads it as no-presence). When the display is off, for some reason the sensor picks it up as someone being present. This is bad, because on presence I turn the display on, and on vacancy off. I guess my living room put on a light show for my cats last night.</p>
+<p>I suspect I could fix this in the firmware of the sensor, but that's pointless because <a href="/blog/2024/0615_LD2410SmmWaveSensor.html">I can't reverse engineer the sensor protocol anyway</a>. What's the next best fix?</p>
+<p><a href="/blog_img/2025/0316_HomeboardHardwareBug2.jpg"><img alt="" src="/blog_img/2025/0316_HomeboardHardwareBug2.jpg" /></a></p>
+<p>I moved the sensor out of the way, while I think of a better placement.</p>
 <p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 </div>
 

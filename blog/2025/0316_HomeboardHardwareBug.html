@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Homeboard: A Hardware bug! Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="homeboardahardwarebug">Homeboard: A Hardware bug!</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2025-03-16 |
+  <a href="/blog/2025/0316_HomeboardHardwareBug.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0316_HomeboardHardwareBug.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>I found my first hardware bug! Can you spot it? It's the big red circle:</p>
+<p><a href="/blog_img/2025/0316_HomeboardHardwareBug1.jpg"><img alt="" src="/blog_img/2025/0316_HomeboardHardwareBug1.jpg" /></a></p>
+<p>The mmwave sensor was mounted too close to either the screen, or the power source (something I thought was a brilliant idea yesterday). Turns out that mounting it so close has an affect on this sensor: when the display is on, it blocks the sensor (and reads it as no-presence). When the display is off, for some reason the sensor picks it up as someone being present. This is bad, because on presence I turn the display on, and on vacancy off. I guess my living room put on a light show for my cats last night.</p>
+<p>I suspect I could fix this in the firmware of the sensor, but that's pointless because <a href="/blog/2024/0615_LD2410SmmWaveSensor.html">I can't reverse engineer the sensor protocol anyway</a>. What's the next best fix?</p>
+<p><a href="/blog_img/2025/0316_HomeboardHardwareBug2.jpg"><img alt="" src="/blog_img/2025/0316_HomeboardHardwareBug2.jpg" /></a></p>
+<p>I moved the sensor out of the way, while I think of a better placement.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>
