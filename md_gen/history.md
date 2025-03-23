@@ -5,6 +5,7 @@
 ## [Posts for 2025](md_gen/2025/index.md)
 
 * [March](md_gen/2025/3.md)
+    * [Homeboard: Versioning frames](md_gen/2025/3.md#homeboardversioningframes)
     * [Homeboard: A Hardware bug!](md_gen/2025/3.md#homeboardahardwarebug)
     * [Homeboard: eInk display](md_gen/2025/3.md#homeboardeinkdisplay)
  * [February](md_gen/2025/2.md)
