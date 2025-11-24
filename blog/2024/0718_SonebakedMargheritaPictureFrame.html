@@ -129,6 +129,7 @@ sudo apt-get install libjson-c-dev libxkbcommon-dev libfontconfig-dev libjpeg-de
 meson setup [build|--wipe build]
 ninja -C build
 </code></pre>
+<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 <p>To start:</p>
 <ul>
 <li>Launch Wayfire in a terminal</li>
@@ -162,7 +163,6 @@ WantedBy=multi-user.target
 sudo systemctl restart ambience
 </code></pre>
 <p>Next time you boot up, the Stonebaked Margherita P0 frame should behave like a picture frame.</p>
-<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 </div>
 
 <div class="post_comments">

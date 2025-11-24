@@ -124,6 +124,7 @@ sudo apt-get install libjson-c-dev libxkbcommon-dev libfontconfig-dev libjpeg-de
 meson setup [build|--wipe build]
 ninja -C build
 </code></pre>
+<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 <p>To start:</p>
 <ul>
 <li>Launch Wayfire in a terminal</li>
@@ -600,7 +601,6 @@ MESS:00:00:09.547298:0: uart: Baud rate[    0.000000] Booting Linux on physical 
 <p>A picture of the wiring; the connection needs to be parallel to the existing controller, to keep both working.</p>
 <p>The control logic lives in my <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/heating/rules.py">monolithic home automation repo</a>, as a set of configurable Python rules, and while I've only had a few cold days to try them out, they seem to work. Next winter I'll be able to control my thermostat remotely from my <a href="https://github.com/nicolasbrailo/PyTelegramBot">Telegram bot</a>, while I take a holiday to the beach.</p>
 <hr />
-<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 
 </div>
 

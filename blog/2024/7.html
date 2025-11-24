@@ -124,6 +124,7 @@ sudo apt-get install libjson-c-dev libxkbcommon-dev libfontconfig-dev libjpeg-de
 meson setup [build|--wipe build]
 ninja -C build
 </code></pre>
+<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 <p>To start:</p>
 <ul>
 <li>Launch Wayfire in a terminal</li>
@@ -217,7 +218,6 @@ sudo systemctl restart ambience
 <p>Fortunatelly, I managed to find a board that liked my panel:</p>
 <p><a href="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg" /></a></p>
 <p>I got a "<a href="https://www.aliexpress.com/item/32968710965.html">PCB-800807V6-1HDMI-EDP 30PIN LCD driver board</a>", which comes at about £10 and supports multiple resolutions. This was a nice lucky find, and it unblocked the build of HouseboardP0, which I'll document in some other entry.</p>
-<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 
 </div>
 

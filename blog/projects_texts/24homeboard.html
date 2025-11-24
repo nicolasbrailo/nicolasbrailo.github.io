@@ -222,6 +222,7 @@ sudo apt-get install libjson-c-dev libxkbcommon-dev libfontconfig-dev libjpeg-de
 meson setup [build|--wipe build]
 ninja -C build
 </code></pre>
+<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 <p>To start:</p>
 <ul>
 <li>Launch Wayfire in a terminal</li>
@@ -448,7 +449,6 @@ eink_delete(display);
 <p>I suspect I could fix this in the firmware of the sensor, but that's pointless because <a href="/blog/2024/0615_LD2410SmmWaveSensor.html">I can't reverse engineer the sensor protocol anyway</a>. What's the next best fix?</p>
 <p><a href="/blog_img/2025/0316_HomeboardHardwareBug2.jpg"><img alt="" src="/blog_img/2025/0316_HomeboardHardwareBug2.jpg" /></a></p>
 <p>I moved the sensor out of the way, while I think of a better placement.</p>
-<p>Make sure the <code>meson</code> step finds curl and libjpeg, otherwise it won't be a very useful LAN picture frame.</p>
 </div>
 
 <div class="post_comments">
