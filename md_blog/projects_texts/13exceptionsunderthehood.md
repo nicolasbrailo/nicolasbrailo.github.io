@@ -61,8 +61,6 @@
 
 @include md_blog/2013/0502_Cexceptionsunderthehood15findingtherightlandingpad.md
 
-@include md_blog/2013/0502_Cexceptionsunderthehood15findingtherightlandingpad.md
-
 @include md_blog/2013/0514_Cexceptionsunderthehood17reflectingonanexceptiontypeandreading.gcc_except_table.md
 
 @include md_blog/2013/0516_Cexceptionsunderthehood18gettingtherightstackframe.md
