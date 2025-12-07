@@ -1,5 +1,36 @@
 #
 @meta docType index
+## Homeboard: wwwslide
+
+Post by Nico Brailovsky @ 2024-09-10 | [Permalink](md_blog/2024/0909_wwwslide.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0909_wwwslide.md&body=I%20have%20a%20comment!)
+
+Homeboard hasn't seen much progress during the holidays, except for a small but useful piece of software: I created [a hacky way to serve pictures over a web interface](https://github.com/nicolasbrailo/wwwslide). This is a fairly fundamental piece of infrastructure for my homeboard project; most of the time these will be displaying some ambient information, but most of the screen's real estate will be used to show my (reasonably large and decades spanning) personal picture collection.
+
+[wwwslide](https://github.com/nicolasbrailo/wwwslide) looks like this:
+
+[![](/blog_img/1009_wwwslide.jpg)](/blog_img/1009_wwwslide.jpg)
+
+From the readme:
+
+> wwwslide is a client/server for LAN slideshows. If you have a large picture collection and want a way to display them in multiple places, wwwslide server will create a web interface to retrieve random pictures from a single url. The web client can display these pictures, but there is no reason to use the included client: you could curl wwwslide and pipe it to an image viewer.
+
+> wwwslide has a server that can be pointed to a local pictures directory. It expects that pictures will be grouped in albums, sorted by /$year/$arbitrary_name/*.jpg (eg 2019/foo/bar/album/*.jpg). On startup, it will pick up one album, randomly, and serve a few pictures from this album to anyone calling its /get_image web endpoint. Once it runs out of pictures for this album, it will select a new random album (with a new random subset of pictures).
+
+> The included client (which can be accessed on the root of the server) can be used to browser this picture (just point your browser to your wwwslide LAN address). It's not very smart, but it should work!
+
+> Remote control: each picture includes a QR code. Scanning the QR will take you to a local page with metadata of the shown image. This page can also be used to control wwwslide (eg to request that this album is displayed from the start, or to select a new album)
+
+> Reverse geolocation: the metadata of each picture includes a reverse-geolocation. No need to guess where you took a picture, wwwslide will guess for you (as long as your pictures have geotags in their exif data)
+
+
+wwwslide v0 was just a Flask service sending local-disk jpg's, and I found I frequently wondered where a particular picture was taken, or wish I had a way to see more pictures from a specific location. I'm quite proud of the idea to implement this: wwwslide will watermark pictures with a qr-code that can be used to get more info on the shown picture, and to display more picture of a specific album.
+
+
+
+
+
+---
+
 ## Homeboard P0: Stonebaked Margherita Picture frame
 
 Post by Nico Brailovsky @ 2024-07-18 | [Permalink](md_blog/2024/0718_SonebakedMargheritaPictureFrame.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0718_SonebakedMargheritaPictureFrame.md&body=I%20have%20a%20comment!)
@@ -760,38 +791,6 @@ Also, remove all possible adapters (each will add a bit of noise and attenuation
 Source <https://elinux.org/R-Pi_Troubleshooting#No_HDMI_output_at_all>
 
 Extra tip: Unlike their bigger brothers, Raspberry Pi Zeros don't seem to want to boot up with no SD card in, not even to show a bootloader error.
-
-
-
-
-
----
-
-## Zigbee Boiler
-
-Post by Nico Brailovsky @ 2024-05-06 | [Permalink](md_blog/2024/0506_ZigbeeBoiler.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0506_ZigbeeBoiler.md&body=I%20have%20a%20comment!)
-
-Weekend project: made my boiler Zigbee compatible, bypassing a Drayton heating thermostat. I'm quite proud of the final results:
-
-[![](/blog_img/zigbeeboiler01.jpg)](/blog_img/zigbeeboiler01.jpg)
-
-On the left, the wiring; on the right, the control panel. **Disclaimer: this note shows an experiment. Don't take any electrical advise from this text.**
-
-For a few years, I've been using <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web">my own home automation system</a>, developed almost from scratch. I should write about it some day (tl;dr, it was a fun weekend project that turned into multiple, mostly fun, weekend projects). Something missing from my home automation was heating integration, which is especially sad given I have Zigbee temperature sensors everywhere. With the winter over I spent a weekend working on making my boiler Zigbee compatible (wouldn't want an expensive emergency visit in the middle of winter to repair my boiler).
-
-My boiler uses a Drayton thermostat as a control, which seems very common in the UK (n=3). They seem mostly used as an on/off switch (OpenTherm isn't very common here), so there's no reason I couldn't bypass it with a relay while keeping the normal thermostat as a backup. Both the installation manual and the back of my control unit confirm this:
-
-[![](/blog_img/zigbeeboiler02.jpg)](/blog_img/zigbeeboiler02.jpg)
-
-The heating-on signal is just closing the circuit between two terminals. For good measure, I decided to check this with a volt-meter (which, by the way, I strongly recommend against; unlike attaching a probe to a running program with gdb, probing a live circuit can be a shocking experience).
-
-Once I was triple sure the chances of sparks and magic smoke where low, I got a 1 channel Zigbee relay module (220v, dry, 5 amps); if you are reading this guide for inspiration, make sure your switch can handle more power than your fuse. You don't want random electrical equipment acting as a fuse for your fuse. Also look for a "dry" relay, to keep power supply and control circuits separate, and needless to say it should handle 220V. I went for a "MHCOZY Tuya Dry Contact Zigbee Relay Switch Module,1 Channel AC 100-240V" - there are a few like these and they all seem to be the same whitelabel Zigbee element.
-
-[![](/blog_img/zigbeeboiler03.jpg)](/blog_img/zigbeeboiler03.jpg)
-
-A picture of the wiring; the connection needs to be parallel to the existing controller, to keep both working.
-
-The control logic lives in my [monolithic home automation repo](https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/zigbee2mqtt2web_extras/heating/rules.py), as a set of configurable Python rules, and while I've only had a few cold days to try them out, they seem to work. Next winter I'll be able to control my thermostat remotely from my [Telegram bot](https://github.com/nicolasbrailo/PyTelegramBot), while I take a holiday to the beach.
 
 
 

@@ -2,6 +2,8 @@
 
 @meta docType index
 
+ * [December](md_gen/2025/12.md)
+    * [I like Makefiles](md_gen/2025/12.md#ilikemakefiles)
  * [March](md_gen/2025/3.md)
     * [Homeboard: Versioning frames](md_gen/2025/3.md#homeboardversioningframes)
     * [Homeboard: A Hardware bug!](md_gen/2025/3.md#homeboardahardwarebug)

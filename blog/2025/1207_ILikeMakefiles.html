@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>I like Makefiles Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="ilikemakefiles">I like Makefiles</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2025-12-07     |
+  <a href="/blog/2025/1207_ILikeMakefiles.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/1207_ILikeMakefiles.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>Confession time: I like Makefiles!</p>
+<p>With the baitclick out of the way: Makefiles, in 2025, can still be incredibly useful. Traditionally we think about Makefiles as a build system, however I realized it works much better as a list of notes. For my projects, I tend to use Makefiles as a documentation mechanism to remember things I did, and may need to repeat in the future. A few examples:</p>
+<ol>
+<li>
+<p>I keep my list of deps in Makefiles: I tend to keep a <a href="https://github.com/nicolasbrailo/homeboard/blob/main/Makefile#L71">target called 'system_deps' or similar</a>, where I can see which apt-get's I ran to get a specific service up and running. This extends to other things that already have their own "history" in place, <a href="https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/Makefile#L38">like pipfiles</a>, but I found less than reliable in the past: when moving between targets with different architectures, for example, I found dealing with pipfiles quite tedious. My trusty <code>make system_deps</code> may take longer and is less elegant, but has never failed me so far!</p>
+</li>
+<li>
+<p>Testing is easier with Makefiles: Running test targets can make life a lot easier. Sure, I could remember that <code>wlr-randr --output HDMI-A-1 --off</code> will shutdown a display... if I did it every day. I can also read the manual, or even create a small script to "remember" it. But it's a lot neater to keep these <a href="https://github.com/nicolasbrailo/wl-display-toggle/blob/main/Makefile#L11">small, project-dependent, one-off commands</a> as a list in my Makefile. Then I only need to <code>cd</code> to a project, and <code>make &lt;tab&gt;&lt;tab&gt;</code> to remember how to test things.</p>
+</li>
+<li>
+<p>Self-testing documentation: I keep <a href="https://github.com/nicolasbrailo/rpiz-xcompile/blob/main/Makefile#L1">targets that are the equivalent of a hello-world</a>, but quickly let me document how a complex system is meant to be used. Whenever I need to ramp-up a new project, or go back to a project after a few months, a Makefile can help me get up to speed in a few minutes.</p>
+</li>
+<li>
+<p>Building things, write-only: Ok this one doesn't fall in the "documentation" category but unsurprisingly, <code>make</code> is actually <a href="https://github.com/nicolasbrailo/homeboard_ambience/blob/9ae0470935734603277ec0c181268ca5f4a4ea25/Makefile#L74">pretty useful at building things</a>. There may be better, more modern and certainly more maintainable options, however few are as simple as Makefiles. Yes, Makefiles code is horrible. For anything except the most trivial work, I consider them write-only code: you write it once, and no one can ever decipher how they work, ever again. Need to make a change to a Makefile? Better start from scratch, with a blank file. It will save you time.</p>
+</li>
+</ol>
+<p>As long as you work within the constrains of the tool (keep it simple, or accept it's write-only code), Makefiles are still a wonderful tool 50 years after their invention.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

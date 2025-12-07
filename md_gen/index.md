@@ -1,5 +1,29 @@
 #
 @meta docType index
+## I like Makefiles
+
+Post by Nico Brailovsky @ 2025-12-07     | [Permalink](md_blog/2025/1207_ILikeMakefiles.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/1207_ILikeMakefiles.md&body=I%20have%20a%20comment!)
+
+Confession time: I like Makefiles!
+
+With the baitclick out of the way: Makefiles, in 2025, can still be incredibly useful. Traditionally we think about Makefiles as a build system, however I realized it works much better as a list of notes. For my projects, I tend to use Makefiles as a documentation mechanism to remember things I did, and may need to repeat in the future. A few examples:
+
+1. I keep my list of deps in Makefiles: I tend to keep a [target called 'system_deps' or similar](https://github.com/nicolasbrailo/homeboard/blob/main/Makefile#L71), where I can see which apt-get's I ran to get a specific service up and running. This extends to other things that already have their own "history" in place, [like pipfiles](https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/Makefile#L38), but I found less than reliable in the past: when moving between targets with different architectures, for example, I found dealing with pipfiles quite tedious. My trusty `make system_deps` may take longer and is less elegant, but has never failed me so far!
+
+2. Testing is easier with Makefiles: Running test targets can make life a lot easier. Sure, I could remember that `wlr-randr --output HDMI-A-1 --off` will shutdown a display... if I did it every day. I can also read the manual, or even create a small script to "remember" it. But it's a lot neater to keep these [small, project-dependent, one-off commands](https://github.com/nicolasbrailo/wl-display-toggle/blob/main/Makefile#L11) as a list in my Makefile. Then I only need to `cd` to a project, and `make <tab><tab>` to remember how to test things.
+
+3. Self-testing documentation: I keep [targets that are the equivalent of a hello-world](https://github.com/nicolasbrailo/rpiz-xcompile/blob/main/Makefile#L1), but quickly let me document how a complex system is meant to be used. Whenever I need to ramp-up a new project, or go back to a project after a few months, a Makefile can help me get up to speed in a few minutes.
+
+4. Building things, write-only: Ok this one doesn't fall in the "documentation" category but unsurprisingly, `make` is actually [pretty useful at building things](https://github.com/nicolasbrailo/homeboard_ambience/blob/9ae0470935734603277ec0c181268ca5f4a4ea25/Makefile#L74). There may be better, more modern and certainly more maintainable options, however few are as simple as Makefiles. Yes, Makefiles code is horrible. For anything except the most trivial work, I consider them write-only code: you write it once, and no one can ever decipher how they work, ever again. Need to make a change to a Makefile? Better start from scratch, with a blank file. It will save you time.
+
+As long as you work within the constrains of the tool (keep it simple, or accept it's write-only code), Makefiles are still a wonderful tool 50 years after their invention.
+
+
+
+
+
+---
+
 ## Homeboard: Versioning frames
 
 Post by Nico Brailovsky @ 2025-03-23 | [Permalink](md_blog/2025/0323_HomeboardFrames.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0323_HomeboardFrames.md&body=I%20have%20a%20comment!)
@@ -340,37 +364,6 @@ That's all; this should create a binary in armv6 format, ready to be deployed to
 
 
 I wrapped this in a convenient bash script so you can build a [makefile that will x-compile easily, have a look here: https://github.com/nicolasbrailo/rpiz-xcompile](https://github.com/nicolasbrailo/rpiz-xcompile)
-
-
-
-
-
----
-
-## Homeboard: wwwslide
-
-Post by Nico Brailovsky @ 2024-09-10 | [Permalink](md_blog/2024/0909_wwwslide.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0909_wwwslide.md&body=I%20have%20a%20comment!)
-
-Homeboard hasn't seen much progress during the holidays, except for a small but useful piece of software: I created [a hacky way to serve pictures over a web interface](https://github.com/nicolasbrailo/wwwslide). This is a fairly fundamental piece of infrastructure for my homeboard project; most of the time these will be displaying some ambient information, but most of the screen's real estate will be used to show my (reasonably large and decades spanning) personal picture collection.
-
-[wwwslide](https://github.com/nicolasbrailo/wwwslide) looks like this:
-
-[![](/blog_img/1009_wwwslide.jpg)](/blog_img/1009_wwwslide.jpg)
-
-From the readme:
-
-> wwwslide is a client/server for LAN slideshows. If you have a large picture collection and want a way to display them in multiple places, wwwslide server will create a web interface to retrieve random pictures from a single url. The web client can display these pictures, but there is no reason to use the included client: you could curl wwwslide and pipe it to an image viewer.
-
-> wwwslide has a server that can be pointed to a local pictures directory. It expects that pictures will be grouped in albums, sorted by /$year/$arbitrary_name/*.jpg (eg 2019/foo/bar/album/*.jpg). On startup, it will pick up one album, randomly, and serve a few pictures from this album to anyone calling its /get_image web endpoint. Once it runs out of pictures for this album, it will select a new random album (with a new random subset of pictures).
-
-> The included client (which can be accessed on the root of the server) can be used to browser this picture (just point your browser to your wwwslide LAN address). It's not very smart, but it should work!
-
-> Remote control: each picture includes a QR code. Scanning the QR will take you to a local page with metadata of the shown image. This page can also be used to control wwwslide (eg to request that this album is displayed from the start, or to select a new album)
-
-> Reverse geolocation: the metadata of each picture includes a reverse-geolocation. No need to guess where you took a picture, wwwslide will guess for you (as long as your pictures have geotags in their exif data)
-
-
-wwwslide v0 was just a Flask service sending local-disk jpg's, and I found I frequently wondered where a particular picture was taken, or wish I had a way to see more pictures from a specific location. I'm quite proud of the idea to implement this: wwwslide will watermark pictures with a qr-code that can be used to get more info on the shown picture, and to display more picture of a specific album.
 
 
 

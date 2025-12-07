@@ -1,0 +1,19 @@
+# I like Makefiles
+
+@meta publishDate 2025-12-07    
+@meta author Nico Brailovsky
+
+Confession time: I like Makefiles!
+
+With the baitclick out of the way: Makefiles, in 2025, can still be incredibly useful. Traditionally we think about Makefiles as a build system, however I realized it works much better as a list of notes. For my projects, I tend to use Makefiles as a documentation mechanism to remember things I did, and may need to repeat in the future. A few examples:
+
+1. I keep my list of deps in Makefiles: I tend to keep a [target called 'system_deps' or similar](https://github.com/nicolasbrailo/homeboard/blob/main/Makefile#L71), where I can see which apt-get's I ran to get a specific service up and running. This extends to other things that already have their own "history" in place, [like pipfiles](https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/Makefile#L38), but I found less than reliable in the past: when moving between targets with different architectures, for example, I found dealing with pipfiles quite tedious. My trusty `make system_deps` may take longer and is less elegant, but has never failed me so far!
+
+2. Testing is easier with Makefiles: Running test targets can make life a lot easier. Sure, I could remember that `wlr-randr --output HDMI-A-1 --off` will shutdown a display... if I did it every day. I can also read the manual, or even create a small script to "remember" it. But it's a lot neater to keep these [small, project-dependent, one-off commands](https://github.com/nicolasbrailo/wl-display-toggle/blob/main/Makefile#L11) as a list in my Makefile. Then I only need to `cd` to a project, and `make <tab><tab>` to remember how to test things.
+
+3. Self-testing documentation: I keep [targets that are the equivalent of a hello-world](https://github.com/nicolasbrailo/rpiz-xcompile/blob/main/Makefile#L1), but quickly let me document how a complex system is meant to be used. Whenever I need to ramp-up a new project, or go back to a project after a few months, a Makefile can help me get up to speed in a few minutes.
+
+4. Building things, write-only: Ok this one doesn't fall in the "documentation" category but unsurprisingly, `make` is actually [pretty useful at building things](https://github.com/nicolasbrailo/homeboard_ambience/blob/9ae0470935734603277ec0c181268ca5f4a4ea25/Makefile#L74). There may be better, more modern and certainly more maintainable options, however few are as simple as Makefiles. Yes, Makefiles code is horrible. For anything except the most trivial work, I consider them write-only code: you write it once, and no one can ever decipher how they work, ever again. Need to make a change to a Makefile? Better start from scratch, with a blank file. It will save you time.
+
+As long as you work within the constrains of the tool (keep it simple, or accept it's write-only code), Makefiles are still a wonderful tool 50 years after their invention.
+
