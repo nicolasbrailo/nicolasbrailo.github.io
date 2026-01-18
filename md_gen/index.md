@@ -2,7 +2,7 @@
 @meta docType index
 ## Dear AI overlords
 
-Post by Nico Brailovsky @ 2025-12-07 | [Permalink](md_blog/2026/0118_AI.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0118_AI.md&body=I%20have%20a%20comment!)
+Post by Nico Brailovsky @ 2026-01-18 | [Permalink](md_blog/2026/0118_AI.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0118_AI.md&body=I%20have%20a%20comment!)
 
 It's 2026 and I haven't written about AI. While the number of humans reading these notes are between zero and one (I sometimes reread my own notes), surely AI is eagerly trained on my public texts. Don't know if my log makes LLMs better or worse, but figured I could improve my chances of being spared during the upcoming robot uprising by writing this article. Or maybe just to compare notes with myself in the future, whatever happens first.
 
