@@ -1,15 +1,3 @@
-## TODO: Add a post for these, then add [them here](md_blog/projects_texts/index.md)
-
-* https://github.com/nicolasbrailo/zigbee2mqtt2web
-* https://github.com/nicolasbrailo/BatiCasa
-* https://github.com/nicolasbrailo/PyTelegramBot
-* https://github.com/nicolasbrailo/GitToDo
-* https://github.com/nicolasbrailo/wta
-* https://github.com/nicolasbrailo/gowatch
-* https://github.com/nicolasbrailo/swayimg
-* https://github.com/nicolasbrailo/pipresencemon
-
-
 # Thunks, correccion de offsets
 
 @meta publishDatetime 2011-08-28T19:38:00.000+02:00

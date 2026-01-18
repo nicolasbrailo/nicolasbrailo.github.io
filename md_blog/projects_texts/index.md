@@ -6,6 +6,22 @@
 
 Sometimes I [decide to contribute something back to humanity](https://github.com/nicolasbrailo/). Others would say I unleash my crappy code to the world. In any case, here's something you can laugh at, be horrified about or maybe, maybe, find useful. The list is probably incomplete, out of date, or both. Some of these projects hail from the dark ages of the early 2000's, and may be woefully out of date.
 
+## [ZMW](https://github.com/nicolasbrailo/zmw)
+
+A mix of home automation project and a game (because let's be honest, the main reason to work on this is because it's fun, not because you think it's a good idea to play Windows 95 startup chime every time someone opens the door).
+
+>
+> ZMW will expose a Zigbee network as a small set of RESTish endpoints, and provide a basic UI to manage your Zigbee network with a web interface, with sensible defaults and minimal configuration
+>
+> The project core is small and extensible so that new thing types may be supported; even non-MQTT based things, like media players with 3rd party API integrations. The project includes extensions for Sonos, Spotify and possibly other non-MQTT things I find useful (check the [supported services section in the readme](https://github.com/nicolasbrailo/zmw/blob/main/README.md)).
+>
+
+[![](https://raw.githubusercontent.com/nicolasbrailo/zmw/refs/heads/main/zmw_dashboard/README_screenshot.png)](https://github.com/nicolasbrailo/zmw/blob/main/README.md)
+
+
+## [SlidewareEngineering](https://github.com/nicolasbrailo/SlidewareEngineering)
+
+Here I keep presentations, demos and other cool stuff (read: stuff I found cool) I've used for public sessions. I quite like ["Arrays to Air"](https://nicolasbrailo.github.io/SlidewareEngineering/AirToArrays/), a basic explanation of digital audio processing, including an abuse of WebAudio oscillators to create the worst iFFT the world has ever seen. Also check out ["Stop Copying Me"](https://nicolasbrailo.github.io/SlidewareEngineering/StopCopyingMe/) for an explanation of how echo cancellation works for telephony applications. There are some more in my [SlidewareEngineering index](https://nicolasbrailo.github.io/SlidewareEngineering/), which I hope to update as I release new ones.
 
 ## [Pianoli](https://github.com/nicolasbrailo/Pianoli)
 
@@ -15,6 +31,24 @@ Sometimes I [decide to contribute something back to humanity](https://github.com
 > Have a baby curious about shiny tablets and phones? Use this app as a baby-game and, more importantly, to prevent random taps of a baby from doing anything you may not want.
 >
 > This app will show a small piano a baby can use to explore sounds in a mobile device. At the same time, it will block any naive attempts at closing the app. The back, home and apps-menu buttons will be blocked, and Android's top menu won't be available. This ensures a baby can't accidentally close the game, preventing any actions on the device you may not want.
+>
+
+## [GitToDo](https://github.com/nicolasbrailo/GitToDo)
+
+Because everyone should write their own TODO list manager:
+
+>
+> Github-backed ToDo list, with Telegram bot integration
+> 
+> This service will let you manage a ToDo list, backed by Git(hub), and with Telegram bot integration. With it, you can:
+>
+> * Keep a Markdown list of ToDo's, to change with any editor you'd like
+>
+> * In any device you'd like (since it's backed by git, just check it out in any computer)
+>
+> * With a Telegram bot integration (for those rare occasions when you're not near a computer!)
+>
+> * And Telegram reminders (remind yourself to finally do that thing you've been putting of for the weekend)
 >
 
 

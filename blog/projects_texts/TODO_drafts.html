@@ -4,7 +4,7 @@
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-<title>TODO: Add a post for these, then add [them here](md_blog/projects_texts/index.md) Nico Brailovsky's thought repository</title>
+<title>Thunks, correccion de offsets Nico Brailovsky's thought repository</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +34,7 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2 name="todoaddapostforthesethenaddthemheremd_blogprojects_textsindex.md">TODO: Add a post for these, then add [them here](md_blog/projects_texts/index.md)</h2>
+<h2 name="thunkscorrecciondeoffsets">Thunks, correccion de offsets</h2>
 
 <div class="post_metadata">
 Post by Nico Brailovsky @ 2011-08-28 |
@@ -43,17 +43,6 @@ Post by Nico Brailovsky @ 2011-08-28 |
 </div>
 
 <div class="post">
-<ul>
-<li>https://github.com/nicolasbrailo/zigbee2mqtt2web</li>
-<li>https://github.com/nicolasbrailo/BatiCasa</li>
-<li>https://github.com/nicolasbrailo/PyTelegramBot</li>
-<li>https://github.com/nicolasbrailo/GitToDo</li>
-<li>https://github.com/nicolasbrailo/wta</li>
-<li>https://github.com/nicolasbrailo/gowatch</li>
-<li>https://github.com/nicolasbrailo/swayimg</li>
-<li>https://github.com/nicolasbrailo/pipresencemon</li>
-</ul>
-<h1>Thunks, correccion de offsets<a name="thunkscorrecciondeoffsets"></a></h1>
 <pre lang="c++"><code class="language-c++" lang="c++">&lt;br/&gt;  1 struct Base0 {                                            |  1 struct Base0 {&lt;br/&gt;  2         int base0;                                        |  2         int base0;&lt;br/&gt;  3 };                                                        |  3 };&lt;br/&gt;  4                                                           |  4&lt;br/&gt;  5 struct Base1_0 : Base0 {                                  |  5 struct Base1_0 {&lt;br/&gt;  6         int base1_0;                                      |  6         struct Base0 parent;&lt;br/&gt;  7 };                                                        |  7         int base1_0;&lt;br/&gt;  8                                                           |  8 };&lt;br/&gt;  9 struct Base1_1 : Base0 {                                  |  9&lt;br/&gt; 10         int base1_1;                                      | 10 struct Base1_1 {&lt;br/&gt; 11 };                                                        | 11         struct Base0 parent;&lt;br/&gt; 12                                                           | 12         int base1_1;&lt;br/&gt; 13 struct Der : Base1_0, Base1_1 {                           | 13 };&lt;br/&gt; 14         int der;                                          | 14&lt;br/&gt; 15 };                                                        | 15 struct Der {&lt;br/&gt; 16                                                           | 16         struct Base1_0 p1;&lt;br/&gt; 17 int main() {                                              | 17         struct Base1_1 p2;&lt;br/&gt; 18         extern Der* getder();                             | 18         int der;&lt;br/&gt; 19                                                           | 19 };&lt;br/&gt; 20         Der *d = getder();                                | 20&lt;br/&gt; 21         Base1_0* b1_0;                                    | 21 int main() {&lt;br/&gt; 22         b1_0 = d;                                         | 22         extern struct Der* getder();&lt;br/&gt; 23                                                           | 23         struct Der *d = getder();&lt;br/&gt; 24         Base1_1* b1_1;                                    | 24         struct Base1_0* b1_0;&lt;br/&gt; 25         b1_1 = d;                                         | 25         b1_0 = &amp;d-&gt;p1;&lt;br/&gt; 26                                                           | 26&lt;br/&gt; 27         return 0;                                         | 27         struct Base1_1* b1_1;&lt;br/&gt; 28 }                                                         | 28         b1_1 = (d != 0)? &amp;d-&gt;p2 : 0;&lt;br/&gt; 29                                                           | 29&lt;br/&gt; 30                                                           | 30         return 0;&lt;br/&gt;~                                                             | 31 }&lt;br/&gt;~                                                             | 32&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;~                                                             |~&lt;br/&gt;cpp.cpp                                     21,1-8        Todo c.c                                         32,0-1        Todo&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;
 </code></pre>
 <h1>Vectorization in gcc<a name="vectorizationingcc"></a></h1>
