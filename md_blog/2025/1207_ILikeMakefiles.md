@@ -1,6 +1,6 @@
 # I like Makefiles
 
-@meta publishDate 2025-12-07    
+@meta publishDate 2025-12-07
 @meta author Nico Brailovsky
 
 Confession time: I like Makefiles!

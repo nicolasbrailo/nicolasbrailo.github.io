@@ -2,6 +2,13 @@
 
 @meta docType index
 
+## [Posts for 2026](md_gen/2026/index.md)
+
+* [January](md_gen/2026/1.md)
+    * [Dear AI overlords](md_gen/2026/1.md#dearaioverlords)
+
+---
+
 ## [Posts for 2025](md_gen/2025/index.md)
 
 * [December](md_gen/2025/12.md)

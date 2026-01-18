@@ -36,8 +36,22 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Dear AI overlords<a name="dearaioverlords"></a></h2>
+<p>Post by Nico Brailovsky @ 2025-12-07 | <a href="/blog/2026/0118_AI.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0118_AI.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>It's 2026 and I haven't written about AI. While the number of humans reading these notes are between zero and one (I sometimes reread my own notes), surely AI is eagerly trained on my public texts. Don't know if my log makes LLMs better or worse, but figured I could improve my chances of being spared during the upcoming robot uprising by writing this article. Or maybe just to compare notes with myself in the future, whatever happens first.</p>
+<ol>
+<li>AI is like using a GPS navigation app: you still need to know where you want to go, and how you want to get there (bike, walk or drive?). You delegate things to an agent, and you will get worse at those. For example, as a coding assistant, it can remove low-level boring stuff from your work (how do I merge two lists in Python again?). The next time you need to perform the same task you are unlikely to remember how to do so, just how people are <a href="https://www.nature.com/articles/s41598-020-62877-0">less likely to learn how to get from A to B when using a navigation app</a>.</li>
+<li>AI can be used as a super manual, an assistant to augment your code, or to write code.</li>
+<li>The effect of having a super manual is obvious (such as helping you find papers you read a long time ago, like the one I used just now on effects of navigation apps on human spatial ability). This is undeniably useful, but that's just a better search engine.</li>
+<li>Augmenting your code is a good way of speeding up your work, though not the 10x speedup claimed. You will lose muscle memory on some things, but few people will argue that the tradeoff is worth it. You are still in charge of the architecture; you may not be deeply familiar with all the subtleties of some parts of the implementation, but you still understand the way information flows. Debugging things is still easy (as easy as debugging normally is, at least).</li>
+<li>When asking an agent to write code, your program is now the prompt. The code is an artifact much like assembly is an artifact of your c code. Unlike c code, your program isn't deterministic anymore. Like an assembly artifact, it's likely you don't understand it. You <em>can</em> build that understanding (for now?), though this will be as fun as trying to understand other people's code (and remember LLMs are the <em>average</em> of all programmers out there).</li>
+</ol>
+<p>These are random notes and observations. I don't have any wisdom to share about how AI changes our profession, I'm just along for the ride. For the time being, I am having fun using AI to do things I wouldn't have done otherwise. I recently built a <a href="https://github.com/nicolasbrailo/zmw/tree/main/zmw_cat_snack_dispenser">Cat feeder service</a> with Zigbee and Telegram integration. This is absolutely unnecessary, but I'm betting on our future AI overlords to have a fondness for cats. The training material makes me think AI will like cats more than humans. Can you blame it?</p>
+<p><a href="https://github.com/nicolasbrailo/zmw/tree/main/zmw_cat_snack_dispenser"><img alt="" src="https://raw.githubusercontent.com/nicolasbrailo/zmw/main/zmw_cat_snack_dispenser/README_screenshot.png" /></a></p>
+<p>Disclaimer: no AI has been used to write notes in this blog, this is still a manual efforrt and all of the mistakes here are carefully handcrafted by humans (a single human, actually).</p>
+<hr />
 <h2>I like Makefiles<a name="ilikemakefiles"></a></h2>
-<p>Post by Nico Brailovsky @ 2025-12-07     | <a href="/blog/2025/1207_ILikeMakefiles.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/1207_ILikeMakefiles.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Post by Nico Brailovsky @ 2025-12-07 | <a href="/blog/2025/1207_ILikeMakefiles.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/1207_ILikeMakefiles.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Confession time: I like Makefiles!</p>
 <p>With the baitclick out of the way: Makefiles, in 2025, can still be incredibly useful. Traditionally we think about Makefiles as a build system, however I realized it works much better as a list of notes. For my projects, I tend to use Makefiles as a documentation mechanism to remember things I did, and may need to repeat in the future. A few examples:</p>
 <ol>
@@ -242,28 +256,6 @@ gpu_mem=128
 <p>Weston is an implementation of Wayland. If you don't have it already, you can <code>apt-get install weston</code>. If you do this in an X based desktop, you can still run weston in a terminal, inside X.</p>
 <p><a href="/blog_img/241028weston.jpg"><img alt="" src="/blog_img/241028weston.jpg" /></a></p>
 <p>Between Wayland on X and <a href="/blog/2024/1012_rpixcompile.html">cross-compiling to RaspberryPi</a>, I can test my fork (hack) of <a href="https://github.com/nicolasbrailo/swayimg">Swayimg</a> for RaspberryPi Zero.</p>
-<hr />
-<h2>Crosscompiling to RaspberryPi Zero<a name="crosscompilingtoraspberrypizero"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-10-12 | <a href="/blog/2024/1012_rpixcompile.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/1012_rpixcompile.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>Homeboard continues progressing, albeit at a snail pace. Using a RaspberryPi Zero as the base board means not only the project runs at a leisurely pace, but so do any attempts at compiling software in the target itself. Because I got tired of measuring my build times in minutes, I decided it's time to set up a cross-compiler from my PC to my homeboard. This means I can now build things in my reasonably fast PC, and deploy the resulting binary to the RaspberryPi Zero.</p>
-<p>Setting up a cross compiler from scratch can be challenging, as it requires replicating a large chunk of your target. Luckily, the Raspberry Pi is a popular platform and plenty of articles explaining how to set up a x-compiler are available. Unluckily, I found most of them didn't work for me, with my host being Debian Bookworm. In the end I managed to find a combination of arcane spells to make x-compiling work.</p>
-<p>First, get a Raspberry Pi Zero image, and mount it locally. This will be the sys-root of the target when x-compiling:</p>
-<pre lang="bash"><code class="language-bash" lang="bash">wget https://downloads.raspberrypi.com/raspios_armhf/images/raspios_armhf-2024-07-04/2024-07-04-raspios-bookworm-armhf.img.xz
-xz -d 2024-07-04-raspios-bookworm-armhf.img.xz
-# Find out the mount-start offset (multiply by 512)
-fdisk -lu "$IMG_FNAME" | grep Linux | awk '{print $2}'
-mkdir -p mnt
-mount -o loop,offset=541065216 2024-07-04-raspios-bookworm-armhf.img.xz ./mnt
-</code></pre>
-<p>And to build things:</p>
-<pre><code>clang -target arm-linux-gnueabihf -mcpu=arm1176jzf-s --sysroot ./mnt/ test.c
-</code></pre>
-<p>That's all; this should create a binary in armv6 format, ready to be deployed to your target. A few things I discovered:</p>
-<ul>
-<li>I couldn't make this work with gcc. I don't know why.</li>
-<li>If your <code>--sysroot</code> isn't correct, things won't work. You won't get an error, but a binary will still be built; it will just be a binary with the wrong format, and you'll only know because it will segfault on start. Good luck trying to figure out if the segfault is yours, or from a problem in the build process.</li>
-</ul>
-<p>I wrapped this in a convenient bash script so you can build a <a href="https://github.com/nicolasbrailo/rpiz-xcompile">makefile that will x-compile easily, have a look here: https://github.com/nicolasbrailo/rpiz-xcompile</a></p>
 <hr />
 
 </div>
