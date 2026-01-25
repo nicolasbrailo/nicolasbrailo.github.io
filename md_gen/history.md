@@ -5,6 +5,7 @@
 ## [Posts for 2026](md_gen/2026/index.md)
 
 * [January](md_gen/2026/1.md)
+    * [Raspberry Pi Karaoke Machine](md_gen/2026/1.md#raspberrypikaraokemachine)
     * [Slideware engineering: My audio demos](md_gen/2026/1.md#slidewareengineeringmyaudiodemos)
     * [Dear AI overlords](md_gen/2026/1.md#dearaioverlords)
 

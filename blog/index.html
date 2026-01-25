@@ -36,6 +36,36 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Raspberry Pi Karaoke Machine<a name="raspberrypikaraokemachine"></a></h2>
+<p>Post by Nico Brailovsky @ 2026-01-24 | <a href="/blog/2026/0124_karaoke.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0124_karaoke.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I had a brilliant idea to setup a karaoke machine for a party. Working with audio and computers means I always have a fresh supply of microphones, speakers and rpi's in diverse state of brokenness, so I figured it shouldn't be too hard to throw everything together and try to build a karaoke machine. It was easier than I expected, and it only took a couple of hours, so here's a guide to repeat the same process when I need it next year.</p>
+<h2>BoM:<a name="bom"></a></h2>
+<ul>
+<li>Rpi 4+</li>
+<li>A touchscreen</li>
+<li>A [portable] speaker with aux input</li>
+<li>Some USB microphones, ideally using an audio DIN connector</li>
+</ul>
+<p>A touchscreen will make the system portable without too much hassle. Also, prefer wired connections in the system: you could use bluetooth mics/speakers, and your life will be simpler by doing so, but each bluetooth hop will add quite a bit of latency, up to 200ms. May not seem like much, but 200ms is the equivalent of ~70 meters: imagine if you had to shout to someone 70 meters away?</p>
+<p>Why DIN? USB cables have a length limit, and unless you have top of the line expensive USB cables you are likely limited to 1 meter, maybe 2 (and let's be honest, if you're assembling a karaoke machine out of spare parts, how likely is it that you have a lot of expensive USB cables lying around?) A DIN mic will have a much more permissive length limit, allowing you to go for 5 or even 10 meters with a cheap cable. This makes up for the range you lost by not using bluetooth. It makes the system more cumbersome, as you need to deal with long cables, but also a lot more resilient. And if you are reading this, you probably ENJOY cable management anyway.</p>
+<p><img alt="" src="/blog_img/0630_HouseboardP0/2PP0.jpg" /></p>
+<p>For this build, I'm <a href="/blog/projects_texts/24homeboard.html">reusing the beautiful industrial design of my P00 Homeboard</a>: an RPI4 wirezipped to a touchscreen. I didn't use POE, however, as the power requirements of the USB mics + preamps go beyond what 802.3af can offer (less than 15W!).</p>
+<h2>Software<a name="software"></a></h2>
+<ol>
+<li>Get your base rpi OS installed as usual</li>
+<li>Install <a href="https://github.com/vicwomg/pikaraoke">PiKaraoke</a>. While you can go for a Docker container or a pipenv, I think it's easier to <code>pip3 install pikaraoke --break-system-packages</code> and make this a system (user) package. I'll just wipe the OS for my next project anyway.</li>
+<li>PiKaraoke will need a js runtime, the page explains how to install one. Again, easier option is to make it a system install and just wipe the OS for the next project.</li>
+<li>apt-get install qpwgraph: we will use this to create a mic/speaker loopback (ie the karaoke part of the system)</li>
+</ol>
+<h2>Runtime setup<a name="runtimesetup"></a></h2>
+<p>The default rpi OS includes an on screen keyboard for touchscreens. It's cumbersome to use, but the setup is simple enough that it's just about doable. If you expect to use this as more than a temporary setup, you may want to automate the steps below to run on startup.</p>
+<p>When starting the system, use qpwgraph to create a loop between your mic(s) and the speaker. This was a lot harder in the ALSA/pulseaudio days, but with Pipewire it's trivial. Be careful with the echo: place the speaker far enough from the mics to avoid creating a feedback loop. Maybe a future version of this <a href="https://nicolasbrailo.github.io/SlidewareEngineering/StopCopyingMe/">system will include an echo canceller</a>? Try it out to ensure the loopback works fine.</p>
+<p>Run <code>./usr/local_bin/pikaraoke</code> (or wherever the install put the binary). This will start the service. From there, just set up the system with your phone using the QR code it displays.</p>
+<h2>Latency<a name="latency"></a></h2>
+<p>Keeping latency down is important for this build. Once you have it running, I recommend running a quick latency test. You will need a metronome (or any other thing that can produce periodic clicks, and lets you control the tempo). Get the metronome close to the mic, and put your ear close to the speaker with a volume low enough that the mic doesn't pick up echo.</p>
+<p>With this setup, you should hear two clicks: once from the metronome, and once from the speaker, after having gone through the system. Adjust the tempo until you can hear a single click. When you do, it means that the loopback latency of the system equals the latency between clicks: the time it takes for sound to trouble from the mic, through the OS and back through the speaker, is the same as the time it takes the metronome to produce two clicks (plus some acoustic delay, which is below your ears measurement error for this setup anyway).</p>
+<p>If your metronome is running at 120 bpm when the two clicks "merge", your system latency is around 500ms. My RPI+USB mics was around 300ish. High, but usable. For a next build, I should try to get this down to 100 or less.</p>
+<hr />
 <h2>Slideware engineering: My audio demos<a name="slidewareengineeringmyaudiodemos"></a></h2>
 <p>Post by Nico Brailovsky @ 2026-01-19 | <a href="/blog/2026/0119_JSAudioDemos.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0119_JSAudioDemos.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Writing <a href="/blog/2026/0118_AI.html">a note on AI</a> made me think of a good example of "using AI to do a thing I wouldn't have done otherwise". This example falls within the third taxonomy I describe in the note: AI isn't just augmenting my code, but actively writing large chunks of it. The results are loosely based on my examples, but I don't actually understand large chunks of it.</p>
@@ -247,16 +277,6 @@ gpu_mem=128
 <li>When I write <code>board width - 3</code> I actually mean you can write <code>NNN - XXX</code> in the position boxes of Inkscape. They perform basic math operations. This is a huge time saver.</li>
 <li>Most boards are regular, and have screw holes in symmetric positions vertically and horizontally. When this is the case, you can place all 4 screw holes by mirroring the first one: place the top left screw hole, then select it together with a box the size of the board. Mirror the board vertically, and place a new hole in the position of the first. Select both holes, mirror horizontally, etc. Voila, 4 screw holes with only one measurement!</li>
 </ul>
-<hr />
-<h2>Zigbee Boiler: bugfix addendum<a name="zigbeeboilerbugfixaddendum"></a></h2>
-<p>Post by Nico Brailovsky @ 2025-01-07 | <a href="/blog/2025/0107_ZigbeeBoilerAddendum.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/0107_ZigbeeBoilerAddendum.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I came back from holidays with a mystery to solve: my <a href="/blog/2024/0506_ZigbeeBoiler.html">automated heating system</a> kept, for hours, trying to shut down heating. Why wasn't it turning off?</p>
-<p>After a few weeks, once home (because my home automation has no inbound internet access, only message publishing to Telegram) the puzzle got more interesting: the logs said it was trying to shut heating down, however its state was never "on" in the first place. To top it off, the temp charts showed this: Crazy high spikes, as high as 25 degrees. Why did the system think it was off while the boiler was running?</p>
-<p><a href="/blog_img/250107temp.jpg"><img alt="" src="/blog_img/250107temp.jpg" /></a></p>
-<p>I tried a few lines of investigation. Sometimes sensors misreport data, saying a room is 0, or Nan, or 50 degrees (C!), or some other unreasonable value, however those are filtered out. Maybe a bit flipped and the Zigbee name/alias is different, but no, I could control the boiler normally if I manually turned it on when it was off. It was like something else was controlling the device... and then I re-read <a href="/blog/2024/0506_ZigbeeBoiler.html">my own article</a>.</p>
-<p>Turns out I never disconnected the original RF controller, I only added a new parallel one. I figured it'd be useful, should my Zigbee controller ever fail! Turns out I chucked the original RF control in a drawer, in a cold corner of my house where I have the heating off. In a cold week, the room where the controller was never reached the minimum temperature to turn the heating off, despite my careful network of sensors shouting "it's hot in here, turn it off".</p>
-<p>Fun fact: I bought current sensor to detect when the boiler is on, but it doesn't match the Zigbee state. It was sitting in a drawer, next to the original RF controller. This would make a great fail of the week, too bad the Embedded Muse is no longer running.</p>
-<p>I'm not looking forward to the gas bill next month, but at least my cats got to enjoy a balmy 24C winter break for a few weeks.</p>
 <hr />
 
 </div>
