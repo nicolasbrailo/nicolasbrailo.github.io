@@ -1,5 +1,43 @@
 #
 @meta docType index
+## Homeboard: Industrial Design (bonus: Inkscape)
+
+Post by Nico Brailovsky @ 2025-02-09 | [Permalink](md_blog/2025/0209_HomeboardIndustrialDesign.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0209_HomeboardIndustrialDesign.md&body=I%20have%20a%20comment!)
+
+My Homeboard project has officially left its cardboard pizza phase. Almost:
+
+[![](/blog_img/0209_HomeboardIDv2.jpg)](/blog_img/0209_HomeboardIDv2.jpg)
+
+The 2 or 3 pixels above show the first "industrial design" of the homeboard. Or at least the parts that "work". It's hanging from a wall, like a real picture frame. Unfortunately it has bugs, and all its guts are hanging from the top.
+
+I spent some time working on a mount, cut with a laser engraver. The mount has two main pieces: a frame for the display, and a horizontal mount that can be hanged from a hook in the wall. The vertical display frame slots into the horizontal mount, meaning there is no flimsy glue holding expensive equipment: gravity does the job. There are some screws and Ls to give it a nice shape, but the main stress between the hook in the wall and the display is supported by the material strength, not by glue. All the cool electronics fit in a small box on top of the horizontal mount. Or at least that's the idea.
+
+As nice as my design is, it has bugs: You can see in the picture I forgot to consider that wires, especially fat cables such as HDMIs, have physical properties, such as bend radius. Without a slot for wiring, the electronics that fit nicely on the top box in my drawing, actually protrude from the top. The ribbon cable was mirrored in my drawing, meaning a weird 180-degree twist was needed to fit the screen to the main board. The box itself doesn't lock, because the "teeth" are slightly misaligned. And the screw holes for the Raspberry Pi are about a quarter mm out of alignment.
+
+Attached to this post is my SVG design, with theoretical bug-fixes for the problems (version 3, if anyone is counting). I haven't tried printing it yet, and I wouldn't be surprised if V4 is required too.
+
+[![](/blog_img/0209_HomeboardV3.jpg)](/blog_img/0209_HomeboardV3.svg)
+
+Image above shows the outline; clicking on it should open the original svg, which is probably mostly blank because vector laser cuts have 0.001mm strokes. Download and open with Inkscape to see it (you may need to change the view mode to outline, too).
+
+
+## Bonus: misc Inkscape tips
+
+My experience with anything that has colors is zero, and I had to spend time learning how Inkscape works to build the design above. Seeing a mechanical design you have in your head come to life with a laser cutter is incredibly rewarding, and I can see myself embarking in more ambitious designs some day, when I have more free time.  Here's a list of things I learned and should remember next time I'm using Inkscape:
+
+* It's easy to build complex shapes from basic ones using Path > Union/Difference/etc
+* millimeter alignment is hard by hand, but using the position and size input boxes it becomes easy. Start all sub-assemblies in a new drawing, at (0,0), and follow the plans to build the full assembly.
+* Actually, alignment by hand is easy (just not precise). It can be a time saver: Build guide-rules, then align by hand, finally adjust the position coordinates for precise fitting. For example, to place a screw hole in the bottom right corner, 3mm from the borders: the hard way is to calculate the position (width of board - 3mm - hole size / 2), same for height. The easy way: create a guide line at `width - 3mm` and `height - 3mm`. Place hole by hand, zooming in. The coordinates will usually be a few 100s or 10s of micrometers (um!) from the correct value, which you can then set by hand.
+* Actually, there's an even easier way: An element in inkscape will have 8 arrows around it. By default, the center of coordinates is the center of the object, but clicking on any of these arrows will make the coordinates relative to it. That means you can select the top center arrow of a screw hole, enter `board width - 3` to position it horizontally, then select the left center arrow and enter `board height - 3` to position it vertically.
+* When I write `board width - 3` I actually mean you can write `NNN - XXX` in the position boxes of Inkscape. They perform basic math operations. This is a huge time saver.
+* Most boards are regular, and have screw holes in symmetric positions vertically and horizontally. When this is the case, you can place all 4 screw holes by mirroring the first one: place the top left screw hole, then select it together with a box the size of the board. Mirror the board vertically, and place a new hole in the position of the first. Select both holes, mirror horizontally, etc. Voila, 4 screw holes with only one measurement!
+
+
+
+
+
+---
+
 ## Zigbee Boiler: bugfix addendum
 
 Post by Nico Brailovsky @ 2025-01-07 | [Permalink](md_blog/2025/0107_ZigbeeBoilerAddendum.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0107_ZigbeeBoilerAddendum.md&body=I%20have%20a%20comment!)
@@ -472,98 +510,6 @@ $ ./gpiomon -u -l 21
 009 PIN 21 = >0<
 015 PIN 21 = >1<
 ```
-
-
-
-
-
----
-
-## LD2410S: mmWave human-presence detection
-
-Post by Nico Brailovsky @ 2024-06-15 | [Permalink](md_blog/2024/0615_LD2410SmmWaveSensor.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2024/0615_LD2410SmmWaveSensor.md&body=I%20have%20a%20comment!)
-
-For a project, I bought a bunch of cheap LD2410S, an mmWave (radar) sensor to detect human presence (I actually started with an infrared sensor, but it had too many false negatives for my use case). The ones I got were pre-flashed with firmware to use a pin to announce presence or absence. To figure out if it's working or not, I tried using my [GPIOmon](md_blog/2024/0615_RaspberryPiGpioMon.md) byt found the sensor so accurate, that I couldn't manage to not detect my presence when in the room, no mater what material I used to cover it. Instead, I had to leave the room, and only then confirm the sensor was working as expected by looking at the GPIOmon logs.
-
-The LD2410S also has a UART interface, and comes with a (Windows only) test app, but I wasn't able to make it work under Wine. I spent a bit of time reverse engineering how to talk UART with the LD2410S from the manual, and I got halfway there. There are examples, but many of them (even in the manufacturer's page) seem to be for a different model, and the LD2410S doesn't behave quite the same. First, I tested a basic command to figure out how to talk to the sensor:
-
-```
-import serial
-import binascii
-
-ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=10)
-
-def read_ser():
-    data = b''
-    while True:
-        data = data + binascii.hexlify(ser.read())
-        if data.endswith(b'04030201') or data.endswith(b'08070605') or len(data) > 50:
-            print(' <= ', data)
-            return
-
-def ser_message(msg):
-    head = "FDFCFBFA"
-    tail = "04030201"
-    fullmsg = head + msg + tail
-    print(' => ', fullmsg)
-    ser.write(binascii.unhexlify(fullmsg))
-    read_ser()
-
-# Enter config mode
-ser_message("0400" + "FF000100")
-
-# Request serial
-ser_message("0200" + "1100")
-
-# Write new serial
-ser_message("0C00" + "10000800" + "BADB0B00F00DF00D")
-
-# Request serial
-ser_message("0200" + "1100")
-
-# Disable config mode
-ser_message("0400" + "FE010000")
-
-ser.close()
-```
-
-If things work, the reply to the 4th message (request serial) should be the serial we set in the message just before. Something like `<=  b'fdfcfbfa0e00110100000800BADB0B00F00DF00D04030201'`. Once that worked, I knew I could talk to the device over UART, but I still couldn't make sense of the periodic reports the device was sending:
-
-
-```
-import serial
-import binascii
-
-ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=10)
-
-data = b''
-while True:
-    data = data + binascii.hexlify(ser.read())
-    if len(data) == 10:
-        print('< ', data)
-        data = b''
-
-ser.close()
-```
-
-The periodic messages here didn't match any of the messages specified in the docs I found, so I printed these out together with the GPIO status. Got something like this:
-
-```
-<  b'6e02320162'    GPIO=1
-<  b'6e02320162'    GPIO=1
-<  b'6e00000062'    GPIO=0
-<  b'6e00000062'    GPIO=0
-...
-<  b'6e00000062'    GPIO=0
-<  b'6e01000062'    GPIO=0
-<  b'6e01000062'    GPIO=0
-<  b'6e02d20062'    GPIO=1
-<  b'6e02d20062'    GPIO=1
-<  b'6e02d20062'    GPIO=1
-<  b'6e02d20062'    GPIO=1
-```
-
-I still haven't figured out what these messages mean, and my weekend timedout so it will have to wait (unless a kind reader of this note can drop me a line with info on how to parse the sensor's report, that is.)
 
 
 
