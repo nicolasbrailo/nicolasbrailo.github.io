@@ -1,5 +1,38 @@
 #
 @meta docType index
+## Weekend project: Tripmon
+
+Post by Nico Brailovsky @ 2026-02-08 | [Permalink](md_blog/2026/0208_tripmon.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0208_tripmon.md&body=I%20have%20a%20comment!)
+
+[Tripmon is a way to visualize my trips](https://github.com/nicolasbrailo/tripmon) (and daytrips).
+
+![](https://raw.githubusercontent.com/nicolasbrailo/tripmon/refs/heads/main/README_screenshot2.jpg)
+
+I have (had?) a lot of data in gmaps and no good way to visualize, or merge, with my extensive album collection. So I built a small service to categorize pictures and merge them with map traces. The service will also try to score the "best" pictures, for whatever definition of "best" a few ML models choose, and display just a few highlights for each part of the trip.
+
+This project falls, for the most part, in [type 3 of my AI categorizaion](md_blog/2026/0118_AI.md): largely vibe-coded, and if it breaks I wouldn't know why. This is in contrast with other weekend projects; I also spent some time adding voice control to my home automation system. I "care" about the code in my home automation system, but I don't care much about the code of my Tripmon project. Adding new features to my home automation system takes 10x the time it takes to add new features to Tripmon, as I go through a very through review and refactor process. In my home automation service, when things break I know exactly why and how (it's fairly important for me to be able to turn my lights on or off). In Tripmon, if something doesn't work I just ask AI to iterate, until it more or less does what I want.
+
+![](https://raw.githubusercontent.com/nicolasbrailo/tripmon/refs/heads/main/README_screenshot1.jpg)
+
+From the readme, Tripmon will:
+
+* Scan a directory for photo albums, and derive day-trips from album names.
+* Group day-trips into trips, then generate a "report" for each trip.
+* Merge each trip with GPS traces from G Maps.
+* Run an analysis on your albums, and select the best N pictures (for whatever definition of "best" the model that looks at pictures may have)
+
+With this information, Tripmon will generate a report for each trip and day-trip. The report will include
+
+* A map overlay with the visited locations and the transport between each
+* A list of places visited, and the time spent in each place
+* A list of pictures to go with each place
+
+
+
+
+
+---
+
 ## Weekend project: (Mini) audio science talk
 
 Post by Nico Brailovsky @ 2026-02-03 | [Permalink](md_blog/2026/0203_miniaudio.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0203_miniaudio.md&body=I%20have%20a%20comment!)
@@ -270,90 +303,6 @@ eink_delete(display);
 ---
 
 Sidenote: my multiline code rendering seems to be eating pointers for breakfast, so `struct S*` may be rendered as `struct S`. I should fix this.
-
-
-
-
-
----
-
-## Homeboard V1, bootstrap V2
-
-Post by Nico Brailovsky @ 2025-02-16 | [Permalink](md_blog/2025/0216_HomeboardBootstrapV2.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0216_HomeboardBootstrapV2.md&body=I%20have%20a%20comment!)
-
-With ~most~ some of the [bugs fixed in the industrial design](md_blog/2025/0209_HomeboardIndustrialDesign.md), it's time to setup a second Homeboard. That way I can experiment on one, while the other shows pretty pictures. Because my computer is also a new install, it's now a good opportunity to document the full bootstrap process from an almost brand new and clean Ubuntu 24.04.
-
-## Bootstrap a new devenv
-
-* Get normal dev tools `sudo apt-get install build-essential git llvm vim`
-* The linker needs to learn how to build arm binaries: `sudo apt-get install crossbuild-essential-armel crossbuild-essential-armhf`
-* Clone the sw project: `git clone git@github.com:nicolasbrailo/homeboard.git`
-* Don't forget to `git submodule update --init --recursive`
-* Type `make xcompile-start` in the root of gpio_mon. It will, on its first run, setup the [cross-compile environment](md_blog/2024/1012_rpixcompile.md).
-* The x-compile env will be "hardcoded" to some rpi image, for example `2024-11-19-raspios-bookworm-armhf.img.xz`. You probably want to update `~/src/homeboard/pi_gpio_mon/rpiz-xcompile/mount_rpy_root.sh` to make it point to a newer image, ideally the same one you will use to bootstrap the sd card.
-* Once `make xcompile-start` finishes, you can check it succeeded; `~/src/xcomp-rpiz-env/mnt` should contain a copy of the rpi environment (the x-compile root)
-
-
-## Bootstrap the OS
-
-[This article](md_blog/2024/0718_SonebakedMargheritaPictureFrame.md) has been updated to work, but the gist of it is:
-
-* Find the ISO you used for the x-compile env, then `sudo dd of=/dev/sdX if=./XXXX.img bs=8M status=progress`
-* Mount the SD card and enable ssh: `cd /media/$USER/bootfs && touch ssh && touch ssh.txt`
-* [Create user (headless)](https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-a-user): `echo username:password > /media/$USER/bootfs/userconf.txt`
-* [Wayland] Add this magic to /boot/firmware/config.txt
-
-```bash
-dtoverlay=vc4-kms-v3d
-gpu_mem=128
-```
-
-* [More Wayland] /boot/firmware/cmdline.txt needs to have `wayland=on`
-* Boot up with the SD card, then ssh into the device and do `sudo apt-get install mesa-utils-bin wayfire seatd`
-* [Add Wayfire as a service](md_blog/2024/0718_SonebakedMargheritaPictureFrame.md)
-
-
-## Build things
-
-* Update the TARGET_IP in the makefile, then `make setup-ssh` to enable passwordless ssh
-* Start with the `gpio_mon` project, it's the simplest. `cd ~/src/homeboard/pi_gpio_mon`. If you `make`, it will either fail or create a binary in the wrong format if you haven't set up the [cross-compile environment](md_blog/2024/1012_rpixcompile.md) (see "bootstrap new devenv").
-* After `make` succeeds, `file gpiomon` should show something like `ELF 32-bit LSB pie executable, ARM, EABI5 version 1 (SYSV), dynamically linked`. This means your system can now build binaries for your target platform.
-* `scp gpiomon $target` -> try out if your xcompile env works as expected
-
-
-## Build harder things
-
-* Move on to `wl_display_toggle` (it's the smallest project that exercises the entire stack: cross compiler and Wayfire).
-* There are more system deps you'll need to install; `make install_system_deps` should take care of most of them.
-* There are deps for the x-compile env too; `make install_sysroot_deps` should take care of most of them. Some deps may move around, and you may need to find newer versions.
-* Now `cd wl_display_toggle` then `make` and `scp wl_display_toggle $TARGET`
-* ssh into the target, and try to shut off the display: `XDG_RUNTIME_DIR=/home/batman/run WAYLAND_DISPLAY="wayland-1" DISPLAY="" ./wl_display_toggle off`
-
-
-## Install services
-
-The homeboard doesn't do much nowadays, only show images; once you reached this point, and if things build and run, your build environment and target are ready to use. Just a few more arcane spells and we're done:
-
-* Clean up binaries deployed ad-hoc, like gpio_mon and wl_display_toggle
-* `make deploytgt`
-* In the target, try out hackimg
-    - Run `XDG_RUNTIME_DIR=/home/batman/run WAYLAND_DISPLAY="wayland-1" DISPLAY="" /usr/lib/arm-linux-gnueabihf/ld-linux-armhf.so.3 /home/batman/homeboard/bin/hackimg /home/batman/homeboard/cfg/hackimg.cfg`
-    - You'll need to create the cache dir manually, because hackimg is lazy and won't do it for you
-* Once you checked hackimg runs, `vi ~/homeboard/cfg/pipresencemon.cfg`
-    - Set the sensor pin to the GPIO acting as presence sensor
-    - Adapt the sensitivity to sensor type (mmwave vs PIR)
-    - It's recommendable to use the mock gpio for a test run
-* Try out the ambience service
-    - 
-* In the target, `cd ~/homeboard/scripts && ./install_svc.sh` - this will install the ambience service and launch it. Wayfire should already be a service by now, so no install is included.
-* Use `~/homeboard/scripts/logs.sh` to see what's broken.
-
-The target should be ready for production, in only about 30 simple steps!
-
-
-## Appendix: it hangs!
-
-[![](/blog_img/250216_Homeboard.jpg)](/blog_img/250216_Homeboard.jpg)
 
 
 

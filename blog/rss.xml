@@ -5,9 +5,36 @@
   <title>Nico Brailovsky's thought repository</title>
   <link>https://nicolasbrailo.github.io/</link>
   <description>I write things. A few may make sense.</description>
-  <lastBuildDate>2026-02-03</lastBuildDate>
-  <pubDate>2026-02-03</pubDate>
+  <lastBuildDate>2026-02-08</lastBuildDate>
+  <pubDate>2026-02-08</pubDate>
   <item>
+  <title>Weekend project: Tripmon</title>
+  <link>https://nicolasbrailo.github.io//blog/2026/0208_tripmon.html</link>
+  <pubDate>2026-02-08</pubDate>
+  <author>Nico Brailovsky</author>
+  <description><![CDATA[
+<p><a href="https://github.com/nicolasbrailo/tripmon">Tripmon is a way to visualize my trips</a> (and daytrips).</p>
+<p><img alt="" src="https://raw.githubusercontent.com/nicolasbrailo/tripmon/refs/heads/main/README_screenshot2.jpg" /></p>
+<p>I have (had?) a lot of data in gmaps and no good way to visualize, or merge, with my extensive album collection. So I built a small service to categorize pictures and merge them with map traces. The service will also try to score the "best" pictures, for whatever definition of "best" a few ML models choose, and display just a few highlights for each part of the trip.</p>
+<p>This project falls, for the most part, in <a href="md_blog/2026/0118_AI.md">type 3 of my AI categorizaion</a>: largely vibe-coded, and if it breaks I wouldn't know why. This is in contrast with other weekend projects; I also spent some time adding voice control to my home automation system. I "care" about the code in my home automation system, but I don't care much about the code of my Tripmon project. Adding new features to my home automation system takes 10x the time it takes to add new features to Tripmon, as I go through a very through review and refactor process. In my home automation service, when things break I know exactly why and how (it's fairly important for me to be able to turn my lights on or off). In Tripmon, if something doesn't work I just ask AI to iterate, until it more or less does what I want.</p>
+<p><img alt="" src="https://raw.githubusercontent.com/nicolasbrailo/tripmon/refs/heads/main/README_screenshot1.jpg" /></p>
+<p>From the readme, Tripmon will:</p>
+<ul>
+<li>Scan a directory for photo albums, and derive day-trips from album names.</li>
+<li>Group day-trips into trips, then generate a "report" for each trip.</li>
+<li>Merge each trip with GPS traces from G Maps.</li>
+<li>Run an analysis on your albums, and select the best N pictures (for whatever definition of "best" the model that looks at pictures may have)</li>
+</ul>
+<p>With this information, Tripmon will generate a report for each trip and day-trip. The report will include</p>
+<ul>
+<li>A map overlay with the visited locations and the transport between each</li>
+<li>A list of places visited, and the time spent in each place</li>
+<li>A list of pictures to go with each place</li>
+</ul>
+  ]]></description>
+</item>
+
+<item>
   <title>Weekend project: (Mini) audio science talk</title>
   <link>https://nicolasbrailo.github.io//blog/2026/0203_miniaudio.html</link>
   <pubDate>2026-02-03</pubDate>
@@ -214,83 +241,6 @@ eink_delete(display);
 <p><a href="https://github.com/nicolasbrailo/libeink">Github repo here</a>.</p>
 <hr />
 <p>Sidenote: my multiline code rendering seems to be eating pointers for breakfast, so <code>struct S*</code> may be rendered as <code>struct S</code>. I should fix this.</p>
-  ]]></description>
-</item>
-
-<item>
-  <title>Homeboard V1, bootstrap V2</title>
-  <link>https://nicolasbrailo.github.io//blog/2025/0216_HomeboardBootstrapV2.html</link>
-  <pubDate>2025-02-16</pubDate>
-  <author>Nico Brailovsky</author>
-  <description><![CDATA[
-<p>With ~most~ some of the <a href="md_blog/2025/0209_HomeboardIndustrialDesign.md">bugs fixed in the industrial design</a>, it's time to setup a second Homeboard. That way I can experiment on one, while the other shows pretty pictures. Because my computer is also a new install, it's now a good opportunity to document the full bootstrap process from an almost brand new and clean Ubuntu 24.04.</p>
-<h2>Bootstrap a new devenv<a name="bootstrapanewdevenv"></a></h2>
-<ul>
-<li>Get normal dev tools <code>sudo apt-get install build-essential git llvm vim</code></li>
-<li>The linker needs to learn how to build arm binaries: <code>sudo apt-get install crossbuild-essential-armel crossbuild-essential-armhf</code></li>
-<li>Clone the sw project: <code>git clone git@github.com:nicolasbrailo/homeboard.git</code></li>
-<li>Don't forget to <code>git submodule update --init --recursive</code></li>
-<li>Type <code>make xcompile-start</code> in the root of gpio_mon. It will, on its first run, setup the <a href="md_blog/2024/1012_rpixcompile.md">cross-compile environment</a>.</li>
-<li>The x-compile env will be "hardcoded" to some rpi image, for example <code>2024-11-19-raspios-bookworm-armhf.img.xz</code>. You probably want to update <code>~/src/homeboard/pi_gpio_mon/rpiz-xcompile/mount_rpy_root.sh</code> to make it point to a newer image, ideally the same one you will use to bootstrap the sd card.</li>
-<li>Once <code>make xcompile-start</code> finishes, you can check it succeeded; <code>~/src/xcomp-rpiz-env/mnt</code> should contain a copy of the rpi environment (the x-compile root)</li>
-</ul>
-<h2>Bootstrap the OS<a name="bootstraptheos"></a></h2>
-<p><a href="md_blog/2024/0718_SonebakedMargheritaPictureFrame.md">This article</a> has been updated to work, but the gist of it is:</p>
-<ul>
-<li>Find the ISO you used for the x-compile env, then <code>sudo dd of=/dev/sdX if=./XXXX.img bs=8M status=progress</code></li>
-<li>Mount the SD card and enable ssh: <code>cd /media/$USER/bootfs &amp;&amp; touch ssh &amp;&amp; touch ssh.txt</code></li>
-<li><a href="https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-a-user">Create user (headless)</a>: <code>echo username:password &gt; /media/$USER/bootfs/userconf.txt</code></li>
-<li>[Wayland] Add this magic to /boot/firmware/config.txt</li>
-</ul>
-<pre lang="bash"><code class="language-bash" lang="bash">dtoverlay=vc4-kms-v3d
-gpu_mem=128
-</code></pre>
-<ul>
-<li>[More Wayland] /boot/firmware/cmdline.txt needs to have <code>wayland=on</code></li>
-<li>Boot up with the SD card, then ssh into the device and do <code>sudo apt-get install mesa-utils-bin wayfire seatd</code></li>
-<li><a href="md_blog/2024/0718_SonebakedMargheritaPictureFrame.md">Add Wayfire as a service</a></li>
-</ul>
-<h2>Build things<a name="buildthings"></a></h2>
-<ul>
-<li>Update the TARGET_IP in the makefile, then <code>make setup-ssh</code> to enable passwordless ssh</li>
-<li>Start with the <code>gpio_mon</code> project, it's the simplest. <code>cd ~/src/homeboard/pi_gpio_mon</code>. If you <code>make</code>, it will either fail or create a binary in the wrong format if you haven't set up the <a href="md_blog/2024/1012_rpixcompile.md">cross-compile environment</a> (see "bootstrap new devenv").</li>
-<li>After <code>make</code> succeeds, <code>file gpiomon</code> should show something like <code>ELF 32-bit LSB pie executable, ARM, EABI5 version 1 (SYSV), dynamically linked</code>. This means your system can now build binaries for your target platform.</li>
-<li><code>scp gpiomon $target</code> -&gt; try out if your xcompile env works as expected</li>
-</ul>
-<h2>Build harder things<a name="buildharderthings"></a></h2>
-<ul>
-<li>Move on to <code>wl_display_toggle</code> (it's the smallest project that exercises the entire stack: cross compiler and Wayfire).</li>
-<li>There are more system deps you'll need to install; <code>make install_system_deps</code> should take care of most of them.</li>
-<li>There are deps for the x-compile env too; <code>make install_sysroot_deps</code> should take care of most of them. Some deps may move around, and you may need to find newer versions.</li>
-<li>Now <code>cd wl_display_toggle</code> then <code>make</code> and <code>scp wl_display_toggle $TARGET</code></li>
-<li>ssh into the target, and try to shut off the display: <code>XDG_RUNTIME_DIR=/home/batman/run WAYLAND_DISPLAY="wayland-1" DISPLAY="" ./wl_display_toggle off</code></li>
-</ul>
-<h2>Install services<a name="installservices"></a></h2>
-<p>The homeboard doesn't do much nowadays, only show images; once you reached this point, and if things build and run, your build environment and target are ready to use. Just a few more arcane spells and we're done:</p>
-<ul>
-<li>Clean up binaries deployed ad-hoc, like gpio_mon and wl_display_toggle</li>
-<li><code>make deploytgt</code></li>
-<li>In the target, try out hackimg<ul>
-<li>Run <code>XDG_RUNTIME_DIR=/home/batman/run WAYLAND_DISPLAY="wayland-1" DISPLAY="" /usr/lib/arm-linux-gnueabihf/ld-linux-armhf.so.3 /home/batman/homeboard/bin/hackimg /home/batman/homeboard/cfg/hackimg.cfg</code></li>
-<li>You'll need to create the cache dir manually, because hackimg is lazy and won't do it for you</li>
-</ul>
-</li>
-<li>Once you checked hackimg runs, <code>vi ~/homeboard/cfg/pipresencemon.cfg</code><ul>
-<li>Set the sensor pin to the GPIO acting as presence sensor</li>
-<li>Adapt the sensitivity to sensor type (mmwave vs PIR)</li>
-<li>It's recommendable to use the mock gpio for a test run</li>
-</ul>
-</li>
-<li>Try out the ambience service<ul>
-<li></li>
-</ul>
-</li>
-<li>In the target, <code>cd ~/homeboard/scripts &amp;&amp; ./install_svc.sh</code> - this will install the ambience service and launch it. Wayfire should already be a service by now, so no install is included.</li>
-<li>Use <code>~/homeboard/scripts/logs.sh</code> to see what's broken.</li>
-</ul>
-<p>The target should be ready for production, in only about 30 simple steps!</p>
-<h2>Appendix: it hangs!<a name="appendixithangs"></a></h2>
-<p><a href="/blog_img/250216_Homeboard.jpg"><img alt="" src="/blog_img/250216_Homeboard.jpg" /></a></p>
   ]]></description>
 </item>
 
