@@ -36,6 +36,19 @@
 <div id="content" class="language-clike">
 <h2>Posts for 2026 February</h2>
 
+<h2>Weekend project: Raspberry Pi CRT<a name="weekendprojectraspberrypicrt"></a></h2>
+<p>Post by Nico Brailovsky @ 2026-02-22 | <a href="/blog/2026/0222_PiCRT.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0222_PiCRT.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>In what may be the most useless project I've done in a long time, I spent the weekend making an old CRT work with my Raspberry Pi.</p>
+<p><img alt="" src="/blog_img/0222_PiCRT.jpg" /></p>
+<p>I don't think there will be much use for this project. Ignoring that this is a CRT (720x576 black-and-white), the TV I picked up is pretty noisy. I don't miss the high pitched whine of a CRT (mine is 11 KHz, if you're wondering). Still it was fun to make this work, and I did learn a few things:</p>
+<ul>
+<li>The Raspberry Pi has an SDTV composite/RCA video output. It's shared with the audio output jack. The audio out supports pins with 4 connectors (TRRS connector), and you can get video in one of them.</li>
+<li>There are, of course, multiple standards for TRRS. A Pi uses TRRS CTIA, in which each connector of the pin is (tip to cable) left audio, right audio, video and ground. Unfortunately, many vendors don't specify which standard you're getting. If you get the wrong one, it's not complicated to rejig the cable to be CTIA, just a few snips and some soldering.</li>
+<li>A lot of articles online will tell you that adding <code>sdtv_mode</code> to /boot/firmware/config.txt is enough to enable video out. I found that's not the case, you'll need to specify also <code>sdtv_aspect</code>, <code>enable_tvout</code> and <code>dtoverlay=vc4-fkms-v3d</code> (this last one enables firmware control of video out. I didn't dig into why this is needed, and KMS doesn't work).</li>
+<li>You will also need to pin the core frequency. Frequency scaling will affect video rendering.</li>
+</ul>
+<p>I put all these <a href="https://github.com/nicolasbrailo/picrt/blob/main/check_sdtv.sh">setup steps in a convenient script</a>, available as part of the app I'm using to show pictures. Now I need to think what I can do with this ridiculously large piece of ancient tech, which has less resolution than my watch.</p>
+<hr />
 <h2>Weekend project: Tripmon<a name="weekendprojecttripmon"></a></h2>
 <p>Post by Nico Brailovsky @ 2026-02-08 | <a href="/blog/2026/0208_tripmon.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0208_tripmon.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p><a href="https://github.com/nicolasbrailo/tripmon">Tripmon is a way to visualize my trips</a> (and daytrips).</p>

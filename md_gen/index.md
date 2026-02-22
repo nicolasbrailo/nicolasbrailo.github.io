@@ -1,5 +1,28 @@
 #
 @meta docType index
+## Weekend project: Raspberry Pi CRT
+
+Post by Nico Brailovsky @ 2026-02-22 | [Permalink](md_blog/2026/0222_PiCRT.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0222_PiCRT.md&body=I%20have%20a%20comment!)
+
+In what may be the most useless project I've done in a long time, I spent the weekend making an old CRT work with my Raspberry Pi.
+
+![](/blog_img/0222_PiCRT.jpg)
+
+I don't think there will be much use for this project. Ignoring that this is a CRT (720x576 black-and-white), the TV I picked up is pretty noisy. I don't miss the high pitched whine of a CRT (mine is 11 KHz, if you're wondering). Still it was fun to make this work, and I did learn a few things:
+
+* The Raspberry Pi has an SDTV composite/RCA video output. It's shared with the audio output jack. The audio out supports pins with 4 connectors (TRRS connector), and you can get video in one of them.
+* There are, of course, multiple standards for TRRS. A Pi uses TRRS CTIA, in which each connector of the pin is (tip to cable) left audio, right audio, video and ground. Unfortunately, many vendors don't specify which standard you're getting. If you get the wrong one, it's not complicated to rejig the cable to be CTIA, just a few snips and some soldering.
+* A lot of articles online will tell you that adding `sdtv_mode` to /boot/firmware/config.txt is enough to enable video out. I found that's not the case, you'll need to specify also `sdtv_aspect`, `enable_tvout` and `dtoverlay=vc4-fkms-v3d` (this last one enables firmware control of video out. I didn't dig into why this is needed, and KMS doesn't work).
+* You will also need to pin the core frequency. Frequency scaling will affect video rendering.
+
+I put all these [setup steps in a convenient script](https://github.com/nicolasbrailo/picrt/blob/main/check_sdtv.sh), available as part of the app I'm using to show pictures. Now I need to think what I can do with this ridiculously large piece of ancient tech, which has less resolution than my watch.
+
+
+
+
+
+---
+
 ## Weekend project: Tripmon
 
 Post by Nico Brailovsky @ 2026-02-08 | [Permalink](md_blog/2026/0208_tripmon.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0208_tripmon.md&body=I%20have%20a%20comment!)
@@ -251,58 +274,6 @@ Some things I need to improve:
 * Having a main board with alternative mount position should make it easier to make mounting the ribbon cable less terrible. I need to move the edp board 20mm to the right in this ID, but it's much easier if I don't need to carefully align this before I cut it.
 * The corner clips are awesome! I can even use to hold sensors without a screw hole. Here I mounted the mmwave sensor (with no mount screw holes) using one of the corner clips.
 * This doesn't work for the eInk display, unfortunately. I still need to figure out how to mount the eInk display without using tape.
-
-
-
-
-
----
-
-## Homeboard: eInk display
-
-Post by Nico Brailovsky @ 2025-02-23 | [Permalink](md_blog/2025/0223_HomeboardEInkDisplay.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0223_HomeboardEInkDisplay.md&body=I%20have%20a%20comment!)
-
-What's better than one display? Two displays, of course.
-
-When I see a picture in my Homeboard, I often remember when and where I took it (photos are, after all, a form of exomemory), but not always. In [wwwslide](https://github.com/nicolasbrailo/wwwslide), my home slideshow service, I workaround this with a QR code: a small QR code is displayed in a corner of the image, and I can scan it to read the metadata of the picture being displayed. This is a good solution, but I'm not entirely happy with it.
-
-Today, I added an [eInk display]( https://github.com/nicolasbrailo/libeink) to my Homeboard project. I can show picture metadata (and maybe even a QR code!) without taking up valuable picture real-estate. I chose an eInk display because they are easy to source and work with, relatively cheap, and require very little power (Homeboard is powered by PoE). Some day, I'm hoping to use it as an extra low-power mechanism to show actual homeboard info (a clock? weather? price of memecoins? The options are endless!)
-
-I couldn't get all of the manufacturer's examples to work (especially the partial refresh), but it works well enough to display a thing rendered with [Cairo](https://www.cairographics.org/). The original manufacturer's examples had a custom rendering library which was quite unnecessary; my version of lib-eInk gets rid of all the custom rendering code, and uses [Cairo](https://www.cairographics.org/) to create graphics. Here's [an example](https://github.com/nicolasbrailo/libeink/blob/main/main.c):
-
-```
-struct EInkDisplay* display = eink_init();
-cairo_t *cr = eink_get_cairo(display);
-
-// Get display's surface
-cairo_surface_t *surface = cairo_get_target(cr);
-const size_t width = cairo_image_surface_get_width(surface);
-const size_t height = cairo_image_surface_get_height(surface);
-
-// Configure "pen"
-cairo_set_source_rgba(cr, 0, 0, 0, 1);
-cairo_select_font_face(cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
-cairo_set_font_size(cr, 20);
-
-// Calculate text position
-cairo_text_extents_t extents;
-cairo_text_extents(cr, "Hola mundo", &extents);
-double x = (width - extents.width) / 2 - extents.x_bearing;
-double y = (height - extents.height) / 2 - extents.y_bearing;
-
-// Draw
-cairo_move_to(cr, x, y);
-cairo_show_text(cr, text);
-
-eink_render(display);
-eink_delete(display);
-```
-
-[Github repo here]( https://github.com/nicolasbrailo/libeink).
-
----
-
-Sidenote: my multiline code rendering seems to be eating pointers for breakfast, so `struct S*` may be rendered as `struct S`. I should fix this.
 
 
 

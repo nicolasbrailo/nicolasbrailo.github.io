@@ -36,6 +36,39 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Houseboard P0: PP0<a name="houseboardp0pp0"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-06-30 | <a href="/blog/2024/0630_HouseboardP0.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0630_HouseboardP0.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>I have a <a href="https://github.com/nicolasbrailo/BatiCasa">ton of unnecessary home automation</a>, but I'm lacking some kind of house board: a quick way of getting info before leaving (like weather, or transport conditions), leaving messages (don't forget to pick up kids from school) or just a shopping list. Sensible people would look at readily available digital signage solutions. Of course I didn't do that, instead decided to build my own.</p>
+<p>I settled for a quick list of requirements to guide the project: Linux based, running off power-over-ethernet, with net-boot and 100% locally hosted. How hard can that be?</p>
+<p>The first step to design my houseboard was searching for a panel. Here is a capture of the moment it failed:</p>
+<p><a href="/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/1PanelBoardFail.jpg" /></a></p>
+<p>Turns out that scoring a random replacement panel for a laptop and trying to pair that with a random controller board works well in theory but needs a lot of luck. Starting with a cheapish £40 LCD panel with an eDP connector, I got an HDMI-to-eDP board. My panel and my board didn't like each other, so all I got was backlight, and that is not very useful unless you only need to display binary information.</p>
+<p>Since ordering and shipping a different panel controller board would take a few weeks, I decided to change my strategy: my P0 would be changed to a Prototype-Prototype-0 (PP0), using a similar platform to let me start working on the software and sensors, while I figured the way to control a panel. Here is Houseboard PP0, in all it's glory:</p>
+<p><a href="/blog_img/0630_HouseboardP0/2PP0.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/2PP0.jpg" /></a></p>
+<p>I got a USB-powered touchscreen, which is powered by a RaspberryPi 4. The RPI itself is powered over PoE, and there is an HDMI connection between the Rpi and the screen, and a secondary USB connection to get touch screen support. The PoE adapter is barely capable of powering the screen AND the Rpi: if I turn the brightness of the screen to 100%, the system will reset.</p>
+<p>And with a few sensors (a PIR + mmWave):</p>
+<p><a href="/blog_img/0630_HouseboardP0/3Sensors.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/3Sensors.jpg" /></a></p>
+<p>It's not going to win any design prizes, but it works</p>
+<p><a href="/blog_img/0630_HouseboardP0/4Running.jpg"><img alt="" src="/blog_img/0630_HouseboardP0/4Running.jpg" /></a></p>
+<p>While eventually I did end up solving my LCD panel woes, Houseboard PP0 let me start building some software for the houseboard quickly:</p>
+<ol>
+<li>A <a href="https://github.com/nicolasbrailo/swayimg">Wayland based image display</a> built on top of Swayimage; to show a gallery of pictures when there is no other info to show</li>
+<li>A <a href="https://github.com/nicolasbrailo/pipresencemon">presence service</a> (to determine when there are humans nearby, based on PIR and mmWave sensors).</li>
+</ol>
+<h2>BoM for Houseboard PP0<a name="bomforhouseboardpp0"></a></h2>
+<ul>
+<li>A RaspberryPi 4 (any Pi will do, but having a bunch of USB ports makes this project a lot simpler)</li>
+<li>A USB powered screen. I went for a 14'' 1080p 1920x1080, and with the PoE constrain that's probably as big as it's feasible. My browsing history says I got this one: https://www.amazon.co.uk/dp/B0CB5FWGT8</li>
+<li>PoE splitter (USBC + ETH out, 5v 4A) - Look for the adapter with largest power rating you can, a cheap one won't work. I went for this one: https://www.amazon.co.uk/dp/B0CHW5K5F4</li>
+<li><a href="https://thepihut.com/products/pir-motion-sensor-module">PIR sensor</a> (NB VCC=5v, connect to Pin4, GND Pin6, OUT Pin17)</li>
+<li><a href="https://thepihut.com/products/breadboard-friendly-mini-pir-motion-sensor-with-3-pin-header">Smaller PIR sensor</a> (VCC=5v Pin4, GND Pin6, OUT Pin17)</li>
+</ul>
+<h2>Useful references<a name="usefulreferences"></a></h2>
+<ul>
+<li><a href="https://pi4j.com/1.2/pins/model-3b-rev1.html">Pi GPIO pins</a></li>
+<li><a href="https://images.theengineeringprojects.com/image/webp/2021/03/raspberry-pi-zero-5.png.webp?ssl=1">PI Zero pins</a></li>
+</ul>
+<hr />
 <h2>RaspberryPi gpio cli monitor<a name="raspberrypigpioclimonitor"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-06-15 | <a href="/blog/2024/0615_RaspberryPiGpioMon.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0615_RaspberryPiGpioMon.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I wrote a <a href="https://github.com/nicolasbrailo/pi_gpio_mon/tree/main">small CLI utility to display when a GPIO pin changes state in a Raspberry Pi</a>.</p>
@@ -425,29 +458,6 @@ function ,a-screen-off() {
 <li><a href="https://github.com/nicolasbrailo/Spotiweb">Project repo: Spotiweb</a></li>
 <li><a href="https://nicolasbrailo.github.io/SpotiWeb/">Run in your browser</a></li>
 </ul>
-<hr />
-<h2>Bash: list ALSA PCMs<a name="bashlistalsapcms"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-03-04 | <a href="/blog/2024/0304_FindRightPCM.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0304_FindRightPCM.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>Linux audio isn't friendly, even if pipewire is making huge strides in making it "just work". If you ever find you need to get down to the ALSA level, something is probably very broken. If (when) this happens, and you can't figure out which of your ALSA cards you should be using, just try them all:</p>
-<pre lang="bash"><code class="language-bash" lang="bash">set -euo pipefail
-if [ -z "${1+x}" ] || [ ! -f "${1}" ]; then
-  echo "Will iterate over all known PCMs to try to capture or play audio and report which work"
-  echo "Usage: $0 PLAYABLE_FILE"
-  exit 1
-fi
-sample=${1}
-plays_pcms=$( aplay --list-pcms | grep ':CARD=' )
-for dev in $plays_pcms; do
-  aplay --duration=1 --device="$dev" "$sample" 1&gt;/dev/null 2&gt;/dev/null &amp;&amp; \
-    echo "Playback may work on interface '$dev'"
-done
-cap_pcms=$( arecord --list-pcms | grep ':CARD=' )
-for dev in $cap_pcms; do
-  arecord --rate 48000 -f S16_LE --disable-resample --duration=1 --device="$dev" \
-      /dev/null 1&gt;/dev/null 2&gt;/dev/null &amp;&amp; \
-      echo "Capture may work on interface '$dev'"
-done
-</code></pre>
 <hr />
 
 </div>
