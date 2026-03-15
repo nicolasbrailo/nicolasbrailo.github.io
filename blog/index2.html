@@ -36,6 +36,16 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Houseboard P0: HDMI to eDP<a name="houseboardp0hdmitoedp"></a></h2>
+<p>Post by Nico Brailovsky @ 2024-07-07 | <a href="/blog/2024/0707_HouseboardHdmiToEdp.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0707_HouseboardHdmiToEdp.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Minor victory in my quest to build a houseboard based on a Linux-PoE-netboot-RaspberryPi-etc: I figured out how to run my own LCD panel.</p>
+<p><a href="/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/1DPtoeDP.jpg" /></a></p>
+<p>The first step was verifying my panel worked. For this, I used a display port to eDP converter. Turns out eDP is basically DP, but over a ribbon cable. There are some cheap boards, <a href="https://www.aliexpress.com/item/1005006914739674.html">for example</a>, that do this - searching for "DP to eDP" or "display port to eDP" will yield a high number of vendors. The key part is matching the ribbon type of the panel you need to drive (30 or 40 pins).</p>
+<p>Unfortunatelly, single-board-computers (like the RaspberryPi) don't have DP, despite DP being better than HDMI in every way. The cost of adding a DP connector seems to be high and mosty in licenses, not necessarily in components, so SBCs don't do it. This meant that getting my expensive GPU to use my cheap panel wasn't good for much beyond knowing the panel works.</p>
+<p>Fortunatelly, I managed to find a board that liked my panel:</p>
+<p><a href="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg"><img alt="" src="/blog_img/0707_HouseboardHdmiToEdp/2HDMItoeDP.jpg" /></a></p>
+<p>I got a "<a href="https://www.aliexpress.com/item/32968710965.html">PCB-800807V6-1HDMI-EDP 30PIN LCD driver board</a>", which comes at about £10 and supports multiple resolutions. This was a nice lucky find, and it unblocked the build of HouseboardP0, which I'll document in some other entry.</p>
+<hr />
 <h2>Houseboard P0: PP0<a name="houseboardp0pp0"></a></h2>
 <p>Post by Nico Brailovsky @ 2024-06-30 | <a href="/blog/2024/0630_HouseboardP0.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0630_HouseboardP0.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>I have a <a href="https://github.com/nicolasbrailo/BatiCasa">ton of unnecessary home automation</a>, but I'm lacking some kind of house board: a quick way of getting info before leaving (like weather, or transport conditions), leaving messages (don't forget to pick up kids from school) or just a shopping list. Sensible people would look at readily available digital signage solutions. Of course I didn't do that, instead decided to build my own.</p>
@@ -447,17 +457,6 @@ function ,a-screen-off() {
 }
 </code></pre>
 <p>With this, I can type <code>,a</code> to get an autocomplete of just my Android helpers.</p>
-<hr />
-<h2>Spotiweb<a name="spotiweb"></a></h2>
-<p>Post by Nico Brailovsky @ 2024-03-14 | <a href="/blog/2024/0314_Spotiweb.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2024/0314_Spotiweb.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>If you find the native client for Spotify is too cluttered, <a href="https://github.com/nicolasbrailo/Spotiweb">Spotiweb</a> can provide a simpler experience. <a href="https://github.com/nicolasbrailo/Spotiweb">Spotiweb</a> automatically goes through the list of your followed artists to create an index groupped by category. The categories will be automatically determined based on the artists you follow. The result will be a simple web page with an index of all the artists you followed, groupped by somewhat logical categories (when categories exist).</p>
-<p><img alt="SpotiWeb running looks like this" src="https://raw.githubusercontent.com/nicolasbrailo/SpotiWeb/master/screenshot.png" /></p>
-<p>You can use this service from <a href="https://nicolasbrailo.github.io/SpotiWeb/">nicolasbrailo.github.io/SpotiWeb</a> - you will need a developer API key+secret. All the storage is local to your browser (there is no key, user data or anything at all being sent to any external host, everything is done in your browser) and you can even use this client offline (Spotify won't work offline, though). You can also self-host this service, either by forking the project or by running it via a local webserver.</p>
-<p>This is a utility that grew somewhat organically from a simple index of artists; as more and more features of the native client got broken in my different setups, the web app "grew" to replace it. Today it's pretty much a full-fledged web-app capable of replacing the native client entirely, able to play music using Spotify's web sdk, integrate with the native client (if one is available) and with local speakers in your network.</p>
-<ul>
-<li><a href="https://github.com/nicolasbrailo/Spotiweb">Project repo: Spotiweb</a></li>
-<li><a href="https://nicolasbrailo.github.io/SpotiWeb/">Run in your browser</a></li>
-</ul>
 <hr />
 
 </div>

@@ -4,7 +4,9 @@
 
 ## [Posts for 2026](md_gen/2026/index.md)
 
-* [February](md_gen/2026/2.md)
+* [March](md_gen/2026/3.md)
+    * [Weekend project: Nanny Godmin](md_gen/2026/3.md#weekendprojectnannygodmin)
+ * [February](md_gen/2026/2.md)
     * [Weekend project: Raspberry Pi CRT](md_gen/2026/2.md#weekendprojectraspberrypicrt)
     * [Weekend project: Tripmon](md_gen/2026/2.md#weekendprojecttripmon)
     * [Weekend project: (Mini) audio science talk](md_gen/2026/2.md#weekendprojectminiaudiosciencetalk)

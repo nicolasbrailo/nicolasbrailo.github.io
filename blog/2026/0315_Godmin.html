@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Weekend project: Nanny Godmin Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="weekendprojectnannygodmin">Weekend project: Nanny Godmin</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2026-03-15 |
+  <a href="/blog/2026/0315_Godmin.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0315_Godmin.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>Another (multi)weekend project: <a href="https://github.com/nicolasbrailo/NannyGodmin">Nanny Godmin is a service to monitor (and remotely lock) Android devices</a>. It's not meant to work against adversarial users, it's meant to limit kids' device usage time, and set the devices' volume.</p>
+<p>As much as I'd prefer to let children self-regulate usage, I find that encouragement through some form of monitoring is needed. I also find myself getting lost in my own weekend projects (ahem, this one), which at times leaves me without a reminder that I need to... discourage device utilization. This service is now reminding me, as well as my children, when it's time to put our devices down.</p>
+<p>Fun anecdote: I set the usage threshold fairly low, for testing purposes, and forgot about it. Went about my day, and discovered my phone was locked when I tried to use it for a payment. I have, since then, implemented a mechanism to fail open or closed when the service is unreachable (that is, when I'm outside my LAN), but in at least one occasion, I have now locked myself out of my own device.</p>
+<p>From the readme:</p>
+<blockquote>
+<p>NannyGodmin is a parental control/remote management and monitoring Android service. It is designed to run as a persistent foreground service, track user activity, capture screenshots remotely, and allow a remote server to "lock" the device or adjust system settings. It's not meant to be used as an MDM (for starters, there is no attestation), it's meant to be used as a remote control for devices in a known safe security domain (ie only use it in your LAN), with non adversarial users.</p>
+<ul>
+<li>
+<p>Lock/unlock all devices, manually, or automatically based on usage thresholds or on a timer</p>
+</li>
+<li>
+<p>Remotely set devices' volume</p>
+</li>
+<li>
+<p>Request devices' screenshots</p>
+</li>
+<li>
+<p>Get a usage report to monitor when the device was active each day, and how long it was used for</p>
+</li>
+<li>
+<p>Get a list of used apps, and for how long they were active</p>
+</li>
+</ul>
+</blockquote>
+<p><img alt="" src="https://github.com/nicolasbrailo/NannyGodmin/raw/main/README_screenshot1.png" /></p>
+<p>Some day I'll extend this with a proper attestation mechanism and true MDM owner mode, mostly because I want to understand how hard it is to build an MDM system. For now, it's a good app to control the volume of devices at home without needing to shout to anyone!</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

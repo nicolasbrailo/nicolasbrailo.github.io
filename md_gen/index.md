@@ -1,5 +1,39 @@
 #
 @meta docType index
+## Weekend project: Nanny Godmin
+
+Post by Nico Brailovsky @ 2026-03-15 | [Permalink](md_blog/2026/0315_Godmin.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0315_Godmin.md&body=I%20have%20a%20comment!)
+
+Another (multi)weekend project: [Nanny Godmin is a service to monitor (and remotely lock) Android devices](https://github.com/nicolasbrailo/NannyGodmin). It's not meant to work against adversarial users, it's meant to limit kids' device usage time, and set the devices' volume.
+
+As much as I'd prefer to let children self-regulate usage, I find that encouragement through some form of monitoring is needed. I also find myself getting lost in my own weekend projects (ahem, this one), which at times leaves me without a reminder that I need to... discourage device utilization. This service is now reminding me, as well as my children, when it's time to put our devices down.
+
+Fun anecdote: I set the usage threshold fairly low, for testing purposes, and forgot about it. Went about my day, and discovered my phone was locked when I tried to use it for a payment. I have, since then, implemented a mechanism to fail open or closed when the service is unreachable (that is, when I'm outside my LAN), but in at least one occasion, I have now locked myself out of my own device.
+
+From the readme:
+
+> NannyGodmin is a parental control/remote management and monitoring Android service. It is designed to run as a persistent foreground service, track user activity, capture screenshots remotely, and allow a remote server to "lock" the device or adjust system settings. It's not meant to be used as an MDM (for starters, there is no attestation), it's meant to be used as a remote control for devices in a known safe security domain (ie only use it in your LAN), with non adversarial users.
+
+> * Lock/unlock all devices, manually, or automatically based on usage thresholds or on a timer
+
+> * Remotely set devices' volume
+
+> * Request devices' screenshots
+
+> * Get a usage report to monitor when the device was active each day, and how long it was used for
+
+> * Get a list of used apps, and for how long they were active
+
+![](https://github.com/nicolasbrailo/NannyGodmin/raw/main/README_screenshot1.png)
+
+Some day I'll extend this with a proper attestation mechanism and true MDM owner mode, mostly because I want to understand how hard it is to build an MDM system. For now, it's a good app to control the volume of devices at home without needing to shout to anyone!
+
+
+
+
+
+---
+
 ## Weekend project: Raspberry Pi CRT
 
 Post by Nico Brailovsky @ 2026-02-22 | [Permalink](md_blog/2026/0222_PiCRT.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0222_PiCRT.md&body=I%20have%20a%20comment!)
@@ -236,44 +270,6 @@ I suspect I could fix this in the firmware of the sensor, but that's pointless b
 [![](/blog_img/2025/0316_HomeboardHardwareBug2.jpg)](/blog_img/2025/0316_HomeboardHardwareBug2.jpg)
 
 I moved the sensor out of the way, while I think of a better placement.
-
-
-
-
-
----
-
-## Homeboard: eInk display
-
-Post by Nico Brailovsky @ 2025-03-15 | [Permalink](md_blog/2025/0315_HomeboardNewFrameMount.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/0315_HomeboardNewFrameMount.md&body=I%20have%20a%20comment!)
-
-Homeboard gained a new form factor: slightly less crappy frame.
-
-[![](/blog_img/2025/0315_HomeboardNewFrameMount1.jpg)](/blog_img/2025/0315_HomeboardNewFrameMount1.jpg)
-
-I now keep two Homeboards, one in my office -mostly for hacking- and one to display pictures. The one in my office didn't have a [good space for the eInk display](md_blog/2025/0223_HomeboardEInkDisplay.md) (spoiler alert: it still doesn't) making it awkward to see both the "real" display and the eink one. To fix this, I built a new mount based on a picture frame. This time all of the elements are mounted directly on the front frame (spoiler alert: this was a huge mistake), and I used transparent perspex material to cut it, so that all elements are visible (I do like this bit, the boards that make up Homeboard are quite pretty).
-
-## Mechanics
-
-The build uses an Ikea picture frame, but replaces the front plate with my laser-cut front.
-
-* The Ikea frame is great for this, it's built to support a front plate of 3-6mm, fitting a perspex sheet ferpectly.
-* I'm happy with the display corner clips, too. You can see in the picture they hold the display, but are not too obtrusive (only partly due to the clips being transparent). Additionally, they are great to clip on small boards with no mount holes, like the radar sensor (top left in the picture).
-* The ribbon connection to the display is hell. The position is awkward, and I can't fit it with a short (2cm) cable. I used a long one (15cm) but it looks untidy.
-* Don't overtighten display screws! It's easy to put too much pressure and damage either the two perspex sheets, or the sandwiched display in the middle. I found for a 3mm perspex sheet with a laptop display, 10mm m2 screws loosely tightened (?) work best.
-* If you use my mechanical drawings, be careful: between [ID V1](md_blog/2025/0209_HomeboardIndustrialDesign.html) and this one, there was bitrot in my svg, and the screws in the pi don't align anymore. Also, the display hole isi about 2mm too big for my panel, and I don't know why (my last cut it was 2mm to small!)
-
-The back of the frame:
-
-[![](/blog_img/2025/0315_HomeboardNewFrameMount2.jpg)](/blog_img/2025/0315_HomeboardNewFrameMount2.jpg)
-
-Some things I need to improve:
-
-* Ribbon, long or short, placing is super hard. For V2 of this ID, I need to think of a better placement
-* In fact, mounting everything to the front panel was a big mistake. It means that mounting things is awkward, because I need to work with a big panel. Any wiring mistake means I need to unmount the board, fix, test, remount. It's much much MUCH easier if I mount all the boards to a single main perspex board, then mount that to the main frame.
-* Having a main board with alternative mount position should make it easier to make mounting the ribbon cable less terrible. I need to move the edp board 20mm to the right in this ID, but it's much easier if I don't need to carefully align this before I cut it.
-* The corner clips are awesome! I can even use to hold sensors without a screw hole. Here I mounted the mmwave sensor (with no mount screw holes) using one of the corner clips.
-* This doesn't work for the eInk display, unfortunately. I still need to figure out how to mount the eInk display without using tape.
 
 
 
