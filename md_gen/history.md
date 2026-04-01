@@ -4,7 +4,9 @@
 
 ## [Posts for 2026](md_gen/2026/index.md)
 
-* [March](md_gen/2026/3.md)
+* [April](md_gen/2026/4.md)
+    * [Training a new TTS Voice](md_gen/2026/4.md#traininganewttsvoice)
+ * [March](md_gen/2026/3.md)
     * [Weekend project: Nanny Godmin](md_gen/2026/3.md#weekendprojectnannygodmin)
  * [February](md_gen/2026/2.md)
     * [Weekend project: Raspberry Pi CRT](md_gen/2026/2.md#weekendprojectraspberrypicrt)

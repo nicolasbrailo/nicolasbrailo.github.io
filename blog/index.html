@@ -36,6 +36,81 @@
 <div id="content" class="language-clike">
 <h2></h2>
 
+<h2>Training a new TTS Voice<a name="traininganewttsvoice"></a></h2>
+<p>Post by Nico Brailovsky @ 2026-04-01 | <a href="/blog/2026/0401_TrainingPiper.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0401_TrainingPiper.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<p>Just to avoid renaming my blog to "Weekend projects", I actually did this one over the week. My <a href="https://github.com/nicolasbrailo/zmw">home automation system</a> runs a text-to-speech service, based on Piper. I wasn't entirely happy with the voices that I had, so I decided to train a new one. This turned out to be a fairly involved (even if not very hard) process, so I put <a href="https://github.com/nicolasbrailo/zmw/blob/main/zmw_text_to_speech/training/TRAINING.md">some notes for the next time I need to do this</a>, which I'll copy here too because no one charges me for byte stored:</p>
+<h2>Training a Custom Piper TTS Voice<a name="trainingacustompiperttsvoice"></a></h2>
+<p>This project uses <a href="https://github.com/OHF-Voice/piper1-gpl">Piper</a> as its TTS engine. Piper works great as a real-time(ish) TTS engine for Raspberry Pis. Other engines (Coqui, F5-TTS, Kokoro) offer better quality or style control, but aren't real time in this compute envelope. Training new voices for Piper is not hard, although there are many, many, steps required.</p>
+<p>Literature claims about 1 hour of audio is needed to fine-tune an existing model (ie give it a new voice). Training from scratch is 10x that. The recordings need to be, of course, high quality, with no reverb, echo or noise, all from the same voice. For Piper, the training format is 22050 Hz S16 mono. If you want your new voice to sound in a specific way (eg angry), then make sure your training data is... angry.</p>
+<h2>Training data<a name="trainingdata"></a></h2>
+<p>You will need to provide training data as individual files, plus a CSV that references the wav file + the text. Something like</p>
+<pre><code>wavs/001|This is the first sentence.
+wavs/002|Here is another sentence.
+</code></pre>
+<p>Of course, it's unlikely you'll record (or find) an hour of audio in this format. Instead, and much more likely, you'll end up with a single long recording which then can be chopped up in more manageable pieces. For this,</p>
+<ol>
+<li><code>apt-get install ffmpeg</code></li>
+<li><code>pip install -U openai-whisper [--break-system-packages]</code></li>
+<li>If needed, pre-preprocess your input (use Audacity to downmix to mono, cut unnecessarily long silences, etc)</li>
+<li>Run the <a href="https://github.com/nicolasbrailo/zmw/blob/main/zmw_text_to_speech/training/prepare_dataset.py">prep dataset script</a></li>
+</ol>
+<p>The script uses <a href="https://github.com/openai/whisper">Whisper</a> to transcribe and get timestamps from the big wav file, and then chop it up into smaller ones. You should end up with two CSV files, one for "high confidence" sentences and one for the utterances where the model wasn't quite able to transcribe or find a clean sentence boundary.</p>
+<p>[Tip: if you're getting your material from an online source, do <code>pw-record out.wav</code> and use qpwgraph as a patch bay to route to a wav file]</p>
+<h2>Training<a name="training"></a></h2>
+<p>The training READMEs of both the <a href="https://github.com/rhasspy/piper/blob/master/TRAINING.md">old, archived, Piper project</a>, and the <a href="https://github.com/OHF-Voice/piper1-gpl/blob/main/docs/TRAINING.md">new forked Piper project</a> include training docs. I found I needed to read both to build this training guide.</p>
+<p>We're not training from scratch, so pick a <a href="https://huggingface.co/datasets/rhasspy/piper-checkpoints/tree/main">checkpoint in HuggingFace</a>. If you'll train an English voice, pick an en model - the closest one you can find to your target voice.</p>
+<p>Once you have your checkpoint and training data,</p>
+<ol>
+<li><code>sudo apt-get install python3-dev cmake build-essential python3-scikit-build-core</code></li>
+<li><code>git clone https://github.com/OHF-voice/piper1-gpl.git</code></li>
+<li>Create a venv (we'll install a ton of Python packages): <code>cd piper1-gpl &amp;&amp; python3 -m venv .venv</code></li>
+<li><code>source .venv/bin/activate</code></li>
+<li><code>python3 -m pip install -e '.[train]'</code></li>
+<li><code>./build_monotonic_align.sh</code></li>
+<li><code>pip install scikit-build-core</code></li>
+<li><code>pip install scikit-build</code></li>
+<li><code>pip install tensorboard</code> If you want to monitor progress (you do)</li>
+<li><code>python3 setup.py build_ext --inplace</code></li>
+</ol>
+<p>At this point, you should have an environment ready for training, which I trigger with</p>
+<pre><code>python3 -m piper.train fit \
+  --data.voice_name "Nico" \
+  --data.csv_path metadata.csv \
+  --data.audio_dir $WAVs \
+  --model.sample_rate 22050 \
+  --data.espeak_voice "es-AR" \
+  --data.cache_dir ./cache \
+  --data.config_path '$COPY_OF_CHECKPOINTS_config.json' \
+  --data.batch_size 22 \
+  --data.num_workers 8 \
+  --trainer.precision 16-mixed \
+  --ckpt_path '$PATH_TO_CHECKPOINT'
+</code></pre>
+<p>I would be surprised if this works out of the box, however. A few things I needed to fiddle with to get this running:</p>
+<ol>
+<li>Module names: some manuals say <code>python3 -m piper.train</code>, others say <code>python3 -m piper_train.fit</code>. You may need to read some code to find out which one you need.</li>
+<li>Model mismatches; I downloaded a high quality checkpoint but was trying to train a mid quality model. This will error out with Torch complaining of architecture mismatches (I fixed by downloading a mid quality model)</li>
+<li>Metadata CSV format may be wrong, it may or may not want the file extension in the CSV file</li>
+<li>OOMs, of course. You'll need to play with batch_size and num_workers to fit your training system (You aren't training in your target, right?)</li>
+<li>Piper refused to load the checkpoint due to Torch version differences. My LLM provided a <a href="https://github.com/nicolasbrailo/zmw/blob/main/zmw_text_to_speech/training/resave_ckpt.py">script to hack an existing checkpoint into something that Piper liked</a>.</li>
+</ol>
+<h2>Finish Training<a name="finishtraining"></a></h2>
+<p>While training, you can run <code>tensorboard --logdir ./training/lightning_logs</code>, this will create a web UI with information on training progress, and a few audio samples you can listen to. You can stop training once the loss stops going down for a few epochs, or when the audio samples start sounding good enough. The manual claims there is a way to test with arbitrary sentences while training, however, I couldn't make it work.</p>
+<p>For reference, in a system with an I7 10th gen + RT2080 (8GB) training was done in about 20 minutes, maybe less. In an old i7 6th gen and 16 GB RAM (no GPU) training would complete after the heat death of the universe.</p>
+<p>Once done, you can export your model with <code>python3 -m piper_train.export_onnx /path/to/model.ckpt /path/to/model.onnx</code> and <code>cp /path/to/training_dir/config.json /path/to/model.onnx.json</code></p>
+<h2>Linklist<a name="linklist"></a></h2>
+<ul>
+<li><a href="https://huggingface.co/datasets/rhasspy/piper-checkpoints/tree/main">Checkpoints for fine-tuning in HuggingFace</a></li>
+<li><a href="https://advancedweb.hu/dataset-preparation-for-training-a-neural-text-to-speech-model-with-piper-tts/">Other person's notes on training Piper</a></li>
+<li><a href="https://github.com/rhasspy/piper/blob/master/TRAINING.md">Old Piper training docs</a></li>
+<li><a href="https://github.com/OHF-Voice/piper1-gpl/blob/main/docs/TRAINING.md">New Piper training docs</a></li>
+</ul>
+<p>Alternative engines:</p>
+<ul>
+<li><a href="https://github.com/hexgrad/kokoro">Kokoro</a>: better quality and style control, but not real time on a Pi</li>
+<li><a href="https://github.com/SWivid/F5-TTS">F5-TTS</a>: better quality and style control, but not real time anywhere. Needs a GPU.</li>
+</ul>
+<hr />
 <h2>Weekend project: Nanny Godmin<a name="weekendprojectnannygodmin"></a></h2>
 <p>Post by Nico Brailovsky @ 2026-03-15 | <a href="/blog/2026/0315_Godmin.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0315_Godmin.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
 <p>Another (multi)weekend project: <a href="https://github.com/nicolasbrailo/NannyGodmin">Nanny Godmin is a service to monitor (and remotely lock) Android devices</a>. It's not meant to work against adversarial users, it's meant to limit kids' device usage time, and set the devices' volume.</p>
@@ -189,15 +264,6 @@
 <p><a href="/blog_img/250216_Homeboard.jpg"><img alt="" src="/blog_img/250216_Homeboard.jpg" /></a></p>
 <p>The design for the standalone version:</p>
 <p><a href="https://github.com/nicolasbrailo/homeboard/blob/main/mount_designs/MountForStandaloneFrame.svg"><img alt="" src="/blog_img/2025/0323_StandaloneFrame.jpg" /></a></p>
-<hr />
-<h2>Homeboard: A Hardware bug!<a name="homeboardahardwarebug"></a></h2>
-<p>Post by Nico Brailovsky @ 2025-03-16 | <a href="/blog/2025/0316_HomeboardHardwareBug.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2025/0316_HomeboardHardwareBug.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>I found my first hardware bug! Can you spot it? It's the big red circle:</p>
-<p><a href="/blog_img/2025/0316_HomeboardHardwareBug1.jpg"><img alt="" src="/blog_img/2025/0316_HomeboardHardwareBug1.jpg" /></a></p>
-<p>The mmwave sensor was mounted too close to either the screen, or the power source (something I thought was a brilliant idea yesterday). Turns out that mounting it so close has an affect on this sensor: when the display is on, it blocks the sensor (and reads it as no-presence). When the display is off, for some reason the sensor picks it up as someone being present. This is bad, because on presence I turn the display on, and on vacancy off. I guess my living room put on a light show for my cats last night.</p>
-<p>I suspect I could fix this in the firmware of the sensor, but that's pointless because <a href="/blog/2024/0615_LD2410SmmWaveSensor.html">I can't reverse engineer the sensor protocol anyway</a>. What's the next best fix?</p>
-<p><a href="/blog_img/2025/0316_HomeboardHardwareBug2.jpg"><img alt="" src="/blog_img/2025/0316_HomeboardHardwareBug2.jpg" /></a></p>
-<p>I moved the sensor out of the way, while I think of a better placement.</p>
 <hr />
 
 </div>
