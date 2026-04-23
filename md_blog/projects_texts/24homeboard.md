@@ -18,3 +18,4 @@ TODO: Write about the project
 @include md_blog/2025/0223_HomeboardEInkDisplay.md
 @include md_blog/2025/0315_HomeboardNewFrameMount.md
 @include md_blog/2025/0316_HomeboardHardwareBug.md
+@include md_blog/2026/0423_HomeboardN1.md
