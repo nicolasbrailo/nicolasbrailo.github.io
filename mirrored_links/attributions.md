@@ -1,0 +1,4 @@
+- gizmos.pdf https://www.linkedin.com/pulse/facebook-meta-gizmo-from-cardboard-prototypes-secure-davide-guerri-ao4xf/
+- horizon_coldplay https://horizon.meta.com/event/1150252113839760/
+- pfw https://portal.facebook.com/gb/business/
+- selftest.pdf https://www.tdcommons.org/dpubs_series/3682/
