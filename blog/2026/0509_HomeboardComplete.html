@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<title>Homeboard: Complete Nico Brailovsky's thought repository</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div id="siteheader">
+  <h1>Nico Brailovsky's thought repository</h1>
+
+<div class="nav tabs is-full">
+  <a class="is-center" href="/blog/index.html">Blog</a>
+  <a class="is-center"
+     href="https://github.com/search?type=code&q=repo%3Anicolasbrailo%2Fnicolasbrailo.github.io%20"
+     onclick="togglesearch(); return false">Site search</a>
+  <a class="is-center" href="/blog/projects_texts">Projects & Texts</a>
+  <a class="is-center" href="/blog/history.html">Archive</a>
+  <a class="is-center" href="/blog/aboutme.html">About</a>
+</div>
+
+<form id="sitesearch" class="nav tabs is-full is-hidden">
+  <input type="text" id="sitesearch_q"/>
+  <button type="submit">Search</button>
+</form>
+
+</div>
+
+<div id="content" class="language-clike">
+<h2 name="homeboardcomplete">Homeboard: Complete</h2>
+
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2026-05-09 |
+  <a href="/blog/2026/0509_HomeboardComplete.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0509_HomeboardComplete.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
+<p>This is an extremely rare occurrence: I have finished a project!</p>
+<p><img alt="" src="/blog_img/2026/0509_homeboard.jpg" /></p>
+<p>I have now completed my Homeboard project. This doesn't mean there are no bugs (although tactical systemd unit restarts take care of most known bugs), and it doesn't mean I won't ever build new features (some day I'll make it boot over LAN). It does mean I achieved all of the initial objectives I had for this project (or have, at least, clever workarounds for missing features). It is now complete and stable enough that I don't feel too ashamed of calling it done. Of course, the project is also built in an extensible way so that I can add new (software!) features cheaply.</p>
+<p>Looking back:</p>
+<ul>
+<li>The project took 2 years to complete</li>
+<li>The feature I'm sad about not achieving: buttons! Having a physical interface to interact with the device is nice, but the cables in my assembly proved too fiddly to work reliably. I did add a QR code to the display to quickly open the web remote control, however, so I can live without it.</li>
+<li>The feature I'm most proud of: SVG overlays. This was a pretty brilliant idea, if I may say so myself. Running on a Raspberry Pi Zero over PoE, the device is very compute-constrained. This means no fancy HTML or React rendering. Using SVG, I can still overlay arbitrary data and easily extend it, while keeping the device software lightweight enough the platform.</li>
+<li>The <a href="https://nicolasbrailo.github.io/blog/2025/0316_HomeboardHardwareBug.html">best bug</a>: a bad mmWave sensor placement. It picked up occupancy signals from the display, meaning the panel would be in an on/off loop.</li>
+</ul>
+<p>You can build your own, <a href="https://github.com/nicolasbrailo/homeboard">extensive instructions are available in the project's repo</a>.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
+
+</div>
+
+<div id="sitefooter">
+   |
+  <a href="/blog/history.html">Archive</a> |
+  <a href="/blog/rss.xml">RSS</a>
+</div>
+
+<script src="/search.js"></script>
+<script src="/codehighlight.js"></script>
+
+</body>
+</html>

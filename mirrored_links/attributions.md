@@ -1,4 +1,6 @@
 - gizmos.pdf https://www.linkedin.com/pulse/facebook-meta-gizmo-from-cardboard-prototypes-secure-davide-guerri-ao4xf/
 - horizon_coldplay https://horizon.meta.com/event/1150252113839760/
 - pfw https://portal.facebook.com/gb/business/
+- portal https://www.meta.com/gb/portal/?utm_source=www.meta.com&utm_medium=portalredirect
+- portal_go https://about.fb.com/news/2021/09/introducing-two-new-portals-including-first-portable-version/
 - selftest.pdf https://www.tdcommons.org/dpubs_series/3682/

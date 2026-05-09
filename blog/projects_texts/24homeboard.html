@@ -43,7 +43,15 @@ Post by Nico Brailovsky @ 2024-07-20 |
 </div>
 
 <div class="post">
-<p>TODO: Write about the project</p>
+<p><img alt="" src="/blog_img/2026/0509_homeboard.jpg" /></p>
+<p>From <a href="https://github.com/nicolasbrailo/homeboard">the project's repo</a>:</p>
+<p>Homeboard is a project to display pictures and an arbitrary SVG overlay with information through a PoE picture frame (you can see above my creative attempt at hiding the ethernet cable run with some decorations).</p>
+<ul>
+<li>On startup, connects to <a href="https://github.com/nicolasbrailo/wwwslide">wwwslider</a> to retrieve images. The device is mostly stateless, no need to pre-provision pictures or config (just the software, until I make it bootable over LAN).</li>
+<li>Connects to an MQTT broker for remote-control. <a href="https://github.com/nicolasbrailo/wwwslide">wwwslider</a> provides a remote-control interface.</li>
+<li>Displays pictures, but only when you are around. It has a presence sensor so that the screen will turn off when no one is there to see the pictures (bonus: you can use this as an overcomplicated presence sensor for home automation over MQTT).</li>
+<li>Integrates with <a href="https://github.com/nicolasbrailo/zmw/tree/main/zmw_homeboard">ZMW, my home automation project</a>. ZMW can push an SVG overlay, which I am using to show the weather, announcements and a QR code for the remote control URL.</li>
+</ul>
 <h2><a href="/blog/2024/0630_HouseboardP0.html">Houseboard P0: PP0</a><a name="houseboardp0pp0blog20240630_houseboardp0.html"></a></h2>
 <p>Published 2024-06-30</p>
 <p>I have a <a href="https://github.com/nicolasbrailo/BatiCasa">ton of unnecessary home automation</a>, but I'm lacking some kind of house board: a quick way of getting info before leaving (like weather, or transport conditions), leaving messages (don't forget to pick up kids from school) or just a shopping list. Sensible people would look at readily available digital signage solutions. Of course I didn't do that, instead decided to build my own.</p>
@@ -477,6 +485,19 @@ eink_delete(display);
 <h1>End result<a name="endresult"></a></h1>
 <p><img alt="" src="/blog_img/2026/0423_HomeboardN1_EndResult.jpg" /></p>
 <p>One final complication: after (re)building this new homeboard, I ended with 90% of the parts I need to build a 3rd Homeboard. Should I?</p>
+<h2><a href="/blog/2026/0509_HomeboardComplete.html">Homeboard: Complete</a><a name="homeboardcompleteblog20260509_homeboardcomplete.html"></a></h2>
+<p>Published 2026-05-09</p>
+<p>This is an extremely rare occurrence: I have finished a project!</p>
+<p><img alt="" src="/blog_img/2026/0509_homeboard.jpg" /></p>
+<p>I have now completed my Homeboard project. This doesn't mean there are no bugs (although tactical systemd unit restarts take care of most known bugs), and it doesn't mean I won't ever build new features (some day I'll make it boot over LAN). It does mean I achieved all of the initial objectives I had for this project (or have, at least, clever workarounds for missing features). It is now complete and stable enough that I don't feel too ashamed of calling it done. Of course, the project is also built in an extensible way so that I can add new (software!) features cheaply.</p>
+<p>Looking back:</p>
+<ul>
+<li>The project took 2 years to complete</li>
+<li>The feature I'm sad about not achieving: buttons! Having a physical interface to interact with the device is nice, but the cables in my assembly proved too fiddly to work reliably. I did add a QR code to the display to quickly open the web remote control, however, so I can live without it.</li>
+<li>The feature I'm most proud of: SVG overlays. This was a pretty brilliant idea, if I may say so myself. Running on a Raspberry Pi Zero over PoE, the device is very compute-constrained. This means no fancy HTML or React rendering. Using SVG, I can still overlay arbitrary data and easily extend it, while keeping the device software lightweight enough the platform.</li>
+<li>The <a href="https://nicolasbrailo.github.io/blog/2025/0316_HomeboardHardwareBug.html">best bug</a>: a bad mmWave sensor placement. It picked up occupancy signals from the display, meaning the panel would be in an on/off loop.</li>
+</ul>
+<p>You can build your own, <a href="https://github.com/nicolasbrailo/homeboard">extensive instructions are available in the project's repo</a>.</p>
 </div>
 
 <div class="post_comments">

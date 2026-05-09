@@ -1,5 +1,30 @@
 #
 @meta docType index
+## Homeboard: Complete
+
+Post by Nico Brailovsky @ 2026-05-09 | [Permalink](md_blog/2026/0509_HomeboardComplete.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0509_HomeboardComplete.md&body=I%20have%20a%20comment!)
+
+This is an extremely rare occurrence: I have finished a project!
+
+![](/blog_img/2026/0509_homeboard.jpg)
+
+I have now completed my Homeboard project. This doesn't mean there are no bugs (although tactical systemd unit restarts take care of most known bugs), and it doesn't mean I won't ever build new features (some day I'll make it boot over LAN). It does mean I achieved all of the initial objectives I had for this project (or have, at least, clever workarounds for missing features). It is now complete and stable enough that I don't feel too ashamed of calling it done. Of course, the project is also built in an extensible way so that I can add new (software!) features cheaply.
+
+Looking back:
+
+- The project took 2 years to complete
+- The feature I'm sad about not achieving: buttons! Having a physical interface to interact with the device is nice, but the cables in my assembly proved too fiddly to work reliably. I did add a QR code to the display to quickly open the web remote control, however, so I can live without it.
+- The feature I'm most proud of: SVG overlays. This was a pretty brilliant idea, if I may say so myself. Running on a Raspberry Pi Zero over PoE, the device is very compute-constrained. This means no fancy HTML or React rendering. Using SVG, I can still overlay arbitrary data and easily extend it, while keeping the device software lightweight enough the platform.
+- The [best bug](https://nicolasbrailo.github.io/blog/2025/0316_HomeboardHardwareBug.html): a bad mmWave sensor placement. It picked up occupancy signals from the display, meaning the panel would be in an on/off loop.
+
+You can build your own, [extensive instructions are available in the project's repo](https://github.com/nicolasbrailo/homeboard).
+
+
+
+
+
+---
+
 ## Homeboard v2
 
 Post by Nico Brailovsky @ 2026-04-23 | [Permalink](md_blog/2026/0423_HomeboardN1.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0423_HomeboardN1.md&body=I%20have%20a%20comment!)
@@ -356,30 +381,6 @@ These are random notes and observations. I don't have any wisdom to share about 
 [![](https://raw.githubusercontent.com/nicolasbrailo/zmw/main/zmw_cat_snack_dispenser/README_screenshot.png)](https://github.com/nicolasbrailo/zmw/tree/main/zmw_cat_snack_dispenser)
 
 Disclaimer: no AI has been used to write notes in this blog, this is still a manual efforrt and all of the mistakes here are carefully handcrafted by humans (a single human, actually).
-
-
-
-
-
----
-
-## I like Makefiles
-
-Post by Nico Brailovsky @ 2025-12-07 | [Permalink](md_blog/2025/1207_ILikeMakefiles.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2025/1207_ILikeMakefiles.md&body=I%20have%20a%20comment!)
-
-Confession time: I like Makefiles!
-
-With the baitclick out of the way: Makefiles, in 2025, can still be incredibly useful. Traditionally we think about Makefiles as a build system, however I realized it works much better as a list of notes. For my projects, I tend to use Makefiles as a documentation mechanism to remember things I did, and may need to repeat in the future. A few examples:
-
-1. I keep my list of deps in Makefiles: I tend to keep a [target called 'system_deps' or similar](https://github.com/nicolasbrailo/homeboard/blob/main/Makefile#L71), where I can see which apt-get's I ran to get a specific service up and running. This extends to other things that already have their own "history" in place, [like pipfiles](https://github.com/nicolasbrailo/zigbee2mqtt2web/blob/master/Makefile#L38), but I found less than reliable in the past: when moving between targets with different architectures, for example, I found dealing with pipfiles quite tedious. My trusty `make system_deps` may take longer and is less elegant, but has never failed me so far!
-
-2. Testing is easier with Makefiles: Running test targets can make life a lot easier. Sure, I could remember that `wlr-randr --output HDMI-A-1 --off` will shutdown a display... if I did it every day. I can also read the manual, or even create a small script to "remember" it. But it's a lot neater to keep these [small, project-dependent, one-off commands](https://github.com/nicolasbrailo/wl-display-toggle/blob/main/Makefile#L11) as a list in my Makefile. Then I only need to `cd` to a project, and `make <tab><tab>` to remember how to test things.
-
-3. Self-testing documentation: I keep [targets that are the equivalent of a hello-world](https://github.com/nicolasbrailo/rpiz-xcompile/blob/main/Makefile#L1), but quickly let me document how a complex system is meant to be used. Whenever I need to ramp-up a new project, or go back to a project after a few months, a Makefile can help me get up to speed in a few minutes.
-
-4. Building things, write-only: Ok this one doesn't fall in the "documentation" category but unsurprisingly, `make` is actually [pretty useful at building things](https://github.com/nicolasbrailo/homeboard_ambience/blob/9ae0470935734603277ec0c181268ca5f4a4ea25/Makefile#L74). There may be better, more modern and certainly more maintainable options, however few are as simple as Makefiles. Yes, Makefiles code is horrible. For anything except the most trivial work, I consider them write-only code: you write it once, and no one can ever decipher how they work, ever again. Need to make a change to a Makefile? Better start from scratch, with a blank file. It will save you time.
-
-As long as you work within the constrains of the tool (keep it simple, or accept it's write-only code), Makefiles are still a wonderful tool 50 years after their invention.
 
 
 
