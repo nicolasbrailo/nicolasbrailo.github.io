@@ -4,3 +4,12 @@
 - portal https://www.meta.com/gb/portal/?utm_source=www.meta.com&utm_medium=portalredirect
 - portal_go https://about.fb.com/news/2021/09/introducing-two-new-portals-including-first-portable-version/
 - selftest.pdf https://www.tdcommons.org/dpubs_series/3682/
+- meta_horizon_engine: https://developers.meta.com/horizon/blog/studio/meta-horizon-engine-at-a-glance/
+- messenger_rooms: https://about.fb.com/news/2020/04/introducing-messenger-rooms/
+- lead_ads_with_calling: https://www.facebook.com/business/ads/ad-objectives/lead-generation/lead-ads-with-calling
+- whatsapp_private_processing: https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/
+- instagram_live: https://creators.instagram.com/live
+- codec_avatars: https://www.meta.com/emerging-tech/codec-avatars/
+- workrooms_getting_started: https://www.oculus.com/workrooms/getting-started/
+- workrooms_features: https://www.oculus.com/workrooms/features/
+- profit_or_perish_horizon: https://www.meta.com/en-gb/blog/profit-or-perish-horizon/

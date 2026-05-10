@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+<html lang="en-US"><head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="Engineering at Meta - Engineering at Meta Blog" name="apple-mobile-web-app-title"/>
+<meta content="1425766027653270" property="fb:app_id"/>
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<!-- This site is optimized with the Yoast SEO Premium plugin v19.3 (Yoast SEO v27.3) - https://yoast.com/product/yoast-seo-premium-wordpress/ -->
+<title>Building Private Processing for AI tools on WhatsApp - Engineering at Meta</title>
+<link href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/" rel="canonical"/>
+<meta content="Written by" name="twitter:label1"/>
+<meta content="Chris Wiltz" name="twitter:data1"/>
+<meta content="Est. reading time" name="twitter:label2"/>
+<meta content="14 minutes" name="twitter:data2"/>
+<!-- / Yoast SEO Premium plugin. -->
+<link href="//secure.gravatar.com" rel="dns-prefetch"/>
+<link href="//v0.wordpress.com" rel="dns-prefetch"/>
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="wp-block-library-inline-css">
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<link href="index" id="all-css-8" media="all" rel="stylesheet" type="text/css"/>
+<meta content="WordPress 6.9.4" name="generator"/>
+<!-- Jetpack Open Graph Tags -->
+<meta content="article" property="og:type"/>
+<meta content="Building Private Processing for AI tools on WhatsApp" property="og:title"/>
+<meta content="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/" property="og:url"/>
+<meta content="We are inspired by the possibilities of AI to help people be more creative, productive, and stay closely connected on WhatsApp, so we set out to build a new technology that allows our users around &hellip;" property="og:description"/>
+<meta content="2025-04-29T17:15:00+00:00" property="article:published_time"/>
+<meta content="2025-05-05T16:02:40+00:00" property="article:modified_time"/>
+<meta content="Engineering at Meta" property="og:site_name"/>
+<meta content="https://engineering.fb.com/wp-content/uploads/2025/04/v2_Blog_PrivateProcessing.png" property="og:image"/>
+<meta content="4000" property="og:image:width"/>
+<meta content="2250" property="og:image:height"/>
+<meta content="" property="og:image:alt"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Building Private Processing for AI tools on WhatsApp" name="twitter:text:title"/>
+<meta content="https://engineering.fb.com/wp-content/uploads/2025/04/v2_Blog_PrivateProcessing.png?w=640" name="twitter:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<!-- End Jetpack Open Graph Tags -->
+<style id="wp-custom-css" type="text/css">
+			.table-of-contents {
+  position: sticky;
+  top: 20px;
+  background: #fff;
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 250px;
+}		</style>
+<link href="favicon.ico" rel="shortcut icon"/>
+<style data-fbcssmodules="css:fb.css.base css:fb.css.dialog css:fb.css.iframewidget" type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0px;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:lucida grande,tahoma,verdana,arial,sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+
+.fb_dialog{background:#525252b3;position:absolute;top:-10000px;z-index:10001}.fb_dialog_advanced{border-radius:8px;padding:10px}.fb_dialog_content{background:#fff;color:#373737}.fb_dialog_close_icon{background:url(https://connect.facebook.net/rsrc.php/v4/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{left:5px;right:auto;top:5px}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://connect.facebook.net/rsrc.php/v4/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://connect.facebook.net/rsrc.php/v4/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:700;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://connect.facebook.net/rsrc.php/v4/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{height:100%;left:0;margin:0;overflow:visible;position:absolute;top:-10000px;transform:none;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://connect.facebook.net/rsrc.php/v4/ya/r/3rhSv5V8j3o.gif) #fff no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{background:none;height:auto;min-height:initial;min-width:initial;width:auto}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{clear:both;color:#fff;display:block;font-size:18px;padding-top:20px}#fb-root #fb_dialog_ipad_overlay{background:#0006;inset:0;min-height:100%;position:absolute;width:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_mobile .fb_dialog_iframe{position:sticky;top:0}.fb_dialog_content .dialog_header{background:linear-gradient(from(#738aba),to(#2c4987));border-bottom:1px solid;border-color:#043b87;box-shadow:#fff 0 1px 1px -1px inset;color:#fff;font:700 14px Helvetica,sans-serif;text-overflow:ellipsis;text-shadow:rgba(0,30,84,.296875) 0px -1px 0px;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:linear-gradient(from(#4267B2),to(#2a4887));background-clip:padding-box;border:1px solid #29487d;border-radius:3px;display:inline-block;line-height:18px;margin-top:3px;max-width:85px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{background:none;border:none;color:#fff;font:700 12px Helvetica,sans-serif;margin:2px -12px;padding:2px 6px 3px;text-shadow:rgba(0,30,84,.296875) 0px -1px 0px}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:700;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://connect.facebook.net/rsrc.php/v4/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #4A4A4A;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f5f6f7;border:1px solid #4A4A4A;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://connect.facebook.net/rsrc.php/v4/y2/r/onuUJj0tCqE.png);background-position:50% 50%;background-repeat:no-repeat;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}
+</style></head>
+<body class="wp-singular post-template-default single single-post postid-22434 single-format-standard wp-theme-understrap wp-child-theme-code-fb-com group-blog"><div style="position:sticky;top:0;z-index:99999;background:#fffae6;border-bottom:1px solid #d4c97a;padding:8px 16px;font-family:system-ui,sans-serif;font-size:14px;color:#333;text-align:center">Mirrored from <a href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/" style="color:#0064d1">https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/</a></div>
+<div class="hfeed site" id="page">
+<!-- ******************* The Navbar Area ******************* -->
+<div class="wrapper-fluid wrapper-navbar" id="wrapper-navbar">
+<a class="skip-link screen-reader-text sr-only" href="#content">
+	Skip to content	</a>
+<nav class="navbar navbar-expand-std">
+<div class="nav-container">
+<!-- Your site title as branding in the menu -->
+<div class="nav-top-row">
+<h1 class="navbar-brand mb-0">
+<a href="https://engineering.fb.com/" rel="home" title="Engineering at Meta">
+<img alt="Engineering at Meta" class="navbar-brand-logo" height="40" loading="lazy" src="logo-meta.svg" width="215"/>
+</a>
+</h1>
+<!-- end custom logo -->
+<label class="screen-reader-text" for="search">Search this site</label>
+<input autocomplete="off" class="form-control-lg navbar-search" id="search" name="search" type="text"/>
+<button aria-controls="searchbarDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-searchbar-toggler" data-target="#searchbarDropdown" data-toggle="collapse" type="button">
+<img class="navbar-mobile-search-icon" height="25" loading="lazy" src="icon-search.svg" width="24"/>
+</button>
+<!-- desktop language menu (mobile language menu is implemented via jQuery)-->
+<div class="notranslate nice-select navbar-language form-control">
+</div>
+<button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler collapsed navbar-menu-toggler" data-target="#navbarNavDropdown" data-toggle="collapse" type="button">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+</div>
+<div class="navbar-border"></div>
+<!-- The WordPress Menu goes here -->
+<div class="collapse navbar-collapse" id="navbarNavDropdown"><ul class="navbar-nav" id="main-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nav-item menu-item-60 dropdown" id="menu-item-60"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Open Source">Open Source <span class="caret"></span><svg enable-background="new 0 0 129 129" height="15px" version="1.1" viewbox="0 0 129 129" width="12px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<polyline fill="none" points="40 50 80 90 120 50" stroke="#adb1b8" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"></polyline>
+</svg></a>
+<ul class="dropdown-menu" role="menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-12330" id="menu-item-12330"><a class="nav-link" href="https://engineering.fb.com/category/open-source/" title="Open Source">Open Source</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom nav-item menu-item-12331" id="menu-item-12331"><a class="nav-link" href="https://opensource.fb.com" rel="noopener" target="_blank" title="Meta Open Source">Meta Open Source</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nav-item menu-item-2686 dropdown" id="menu-item-2686"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Platforms">Platforms <span class="caret"></span><svg enable-background="new 0 0 129 129" height="15px" version="1.1" viewbox="0 0 129 129" width="12px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<polyline fill="none" points="40 50 80 90 120 50" stroke="#adb1b8" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"></polyline>
+</svg></a>
+<ul class="dropdown-menu" role="menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-65" id="menu-item-65"><a class="nav-link" href="https://engineering.fb.com/category/android/" title="Android">Android</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-66" id="menu-item-66"><a class="nav-link" href="https://engineering.fb.com/category/ios/" title="iOS">iOS</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-67" id="menu-item-67"><a class="nav-link" href="https://engineering.fb.com/category/web/" title="Web">Web</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nav-item menu-item-2682 dropdown" id="menu-item-2682"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Infrastructure Systems">Infrastructure Systems <span class="caret"></span><svg enable-background="new 0 0 129 129" height="15px" version="1.1" viewbox="0 0 129 129" width="12px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<polyline fill="none" points="40 50 80 90 120 50" stroke="#adb1b8" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"></polyline>
+</svg></a>
+<ul class="dropdown-menu" role="menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-218" id="menu-item-218"><a class="nav-link" href="https://engineering.fb.com/category/core-infra/" title="Core Infra">Core Infra</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-219" id="menu-item-219"><a class="nav-link" href="https://engineering.fb.com/category/data-infrastructure/" title="Data Infrastructure">Data Infrastructure</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-220" id="menu-item-220"><a class="nav-link" href="https://engineering.fb.com/category/developer-tools/" title="DevInfra">DevInfra</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-226" id="menu-item-226"><a class="nav-link" href="https://engineering.fb.com/category/production-engineering/" title="Production Engineering">Production Engineering</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent nav-item menu-item-227" id="menu-item-227"><a class="nav-link" href="https://engineering.fb.com/category/security/" title="Security &amp; Privacy">Security &amp; Privacy</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom nav-item menu-item-18607" id="menu-item-18607"><a class="nav-link" href="https://research.facebook.com/publications/research-areas/systems-infrastructure/" rel="noopener" target="_blank" title="Research Publications">Research Publications</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nav-item menu-item-2683 dropdown" id="menu-item-2683"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Physical Infrastructure">Physical Infrastructure <span class="caret"></span><svg enable-background="new 0 0 129 129" height="15px" version="1.1" viewbox="0 0 129 129" width="12px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<polyline fill="none" points="40 50 80 90 120 50" stroke="#adb1b8" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"></polyline>
+</svg></a>
+<ul class="dropdown-menu" role="menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-215" id="menu-item-215"><a class="nav-link" href="https://engineering.fb.com/category/connectivity/" title="Connectivity">Connectivity</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-216" id="menu-item-216"><a class="nav-link" href="https://engineering.fb.com/category/data-center-engineering/" title="Data Center Engineering">Data Center Engineering</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-217" id="menu-item-217"><a class="nav-link" href="https://engineering.fb.com/category/networking-traffic/" title="Networking &amp; Traffic">Networking &amp; Traffic</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom nav-item menu-item-18608" id="menu-item-18608"><a class="nav-link" href="https://research.facebook.com/publications/research-areas/networking-connectivity/" rel="noopener" target="_blank" title="Research Publications">Research Publications</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nav-item menu-item-2684 dropdown" id="menu-item-2684"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Video Engineering &amp; AR/VR">Video Engineering &amp; AR/VR <span class="caret"></span><svg enable-background="new 0 0 129 129" height="15px" version="1.1" viewbox="0 0 129 129" width="12px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<polyline fill="none" points="40 50 80 90 120 50" stroke="#adb1b8" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"></polyline>
+</svg></a>
+<ul class="dropdown-menu" role="menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-225" id="menu-item-225"><a class="nav-link" href="https://engineering.fb.com/category/video-engineering/" title="Video Engineering">Video Engineering</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-223" id="menu-item-223"><a class="nav-link" href="https://engineering.fb.com/category/virtual-reality/" title="Virtual Reality">Virtual Reality</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom nav-item menu-item-13388" id="menu-item-13388"><a class="nav-link" href="https://research.facebook.com/publications/research-areas/augmented-reality-virtual-reality/" rel="noopener" target="_blank" title="Research Publications">Research Publications</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nav-item menu-item-2685 dropdown" id="menu-item-2685"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Artificial Intelligence">Artificial Intelligence <span class="caret"></span><svg enable-background="new 0 0 129 129" height="15px" version="1.1" viewbox="0 0 129 129" width="12px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<polyline fill="none" points="40 50 80 90 120 50" stroke="#adb1b8" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"></polyline>
+</svg></a>
+<ul class="dropdown-menu" role="menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-222" id="menu-item-222"><a class="nav-link" href="https://engineering.fb.com/category/ml-applications/" title="ML Applications">ML Applications</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category nav-item menu-item-221" id="menu-item-221"><a class="nav-link" href="https://engineering.fb.com/category/ai-research/" title="AI Research">AI Research</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom nav-item menu-item-13387" id="menu-item-13387"><a class="nav-link" href="https://ai.facebook.com/results/?content_types%5B0%5D=publication" rel="noopener" target="_blank" title="Research Publications">Research Publications</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom nav-item menu-item-228" id="menu-item-228"><a class="nav-link" href="https://engineering.fb.com/videos" title="Watch Videos">Watch Videos</a></li>
+</ul></div> </div><!-- .container -->
+<div class="search-container collapse" id="searchbarDropdown">
+<div class="searchbar-search">
+<div class="searchbar-container">
+<div class="navbar-mobile-search-margin"></div>
+<input autocomplete="off" autofocus="" class="form-control-lg navbar-mobile-search" name="search" placeholder="Search" type="text"/>
+<button class="searchbar-clear">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+</div>
+</div>
+</div>
+</nav><!-- .site-navigation -->
+</div><!-- .wrapper-navbar end -->
+<div class="wrapper" id="single-wrapper">
+<div class="single-container row" id="content" tabindex="-1">
+<!-- Do the left sidebar check. -->
+<div class="content-area col-lg-8_75" id="primary">
+<main class="site-main" id="main">
+<article class="post-22434 post type-post status-publish format-standard has-post-thumbnail hentry category-security tag-whatsapp fb_content_type-article" id="post-22434">
+<header class="entry-header">
+<div class="entry-meta">
+			POSTED ON <span class="posted-on entry-date"><time class="published updated" datetime="2025-04-29">APRIL 29, 2025</time></span> TO <span class="cat-links"><a href="https://engineering.fb.com/category/security/" rel="category tag">Security &amp; Privacy</a></span>
+<h1 class="entry-title"><div>Building Private Processing for AI tools on WhatsApp</div></h1> </div><!-- .entry-meta -->
+</header><!-- .entry-header -->
+<figure id="post-feat-image-container">
+<img alt="" class="wp-post-image" height="2250" src="v2_Blog_PrivateProcessing.png" width="4000"/> </figure>
+<div class="entry-authors-social">
+<div class="entry-authors">
+</div>
+<div class="entry-social">
+<div class="entry-facebook">
+<button aria-label="Share this post on Facebook" onclick="return fbShare()">
+<svg height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg>
+</button>
+</div>
+<div class="entry-twitter">
+<button aria-label="Share this post on Twitter" onclick="return twitterSharePopup('https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/')">
+<svg height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+</button>
+</div>
+<div class="entry-hacker-news">
+<button aria-label="Share this post on Hacker News" onclick="return shareHackerNews('https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/')">
+<svg height="24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M13.693 14.659L21.507 0h-3.29l-4.612 9.165c-.47.94-.901 1.841-1.293 2.703l-1.234-2.703L6.525 0H3l7.726 14.482V24h2.967v-9.341z" fill-rule="nonzero"></path></svg>
+</button>
+</div>
+</div>
+</div>
+<div class="entry-content">
+<ul>
+<li aria-level="1" style="font-weight: 400;"><span style="font-weight: 400;">We are inspired by the possibilities of AI to help people be more creative, productive, and stay closely connected on WhatsApp, so we set out to build a new technology that allows our users around the world to use AI in a privacy-preserving way.</span></li>
+<li aria-level="1" style="font-weight: 400;"><span style="font-weight: 400;">We&rsquo;re sharing an early look into Private Processing, an optional capability that enables users to initiate a request to a confidential and secure environment and use AI for processing messages where no one &mdash; including Meta and WhatsApp &mdash; can access them.</span></li>
+<li aria-level="1" style="font-weight: 400;"><span style="font-weight: 400;">To validate our implementation of these and other security principles, independent security researchers will be able to continuously verify our privacy and security architecture and its integrity.</span></li>
+</ul>
+<p><span style="font-weight: 400;">AI has revolutionized the way people interact with technology and information, making it possible for people to automate complex tasks and gain valuable insights from vast amounts of data. However, the current state of AI processing &mdash; which relies on large language models often running on servers, rather than mobile hardware &mdash; requires that users&rsquo; requests are visible to the provider. Although that works for many use cases, it presents challenges in enabling people to use AI to process private messages while preserving the level of privacy afforded by end-to-end encryption.</span></p>
+<p><span style="font-weight: 400;">We set out to enable AI capabilities with the privacy that people have come to expect from WhatsAp</span><span style="font-weight: 400;">p, so that AI can deliver helpful capabilities, such as summarizing messages, without Meta or WhatsApp having access to them, and in the way that meets the following principles:</span></p>
+<ul>
+<li aria-level="1" style="font-weight: 400;"><b>Optionality:</b><span style="font-weight: 400;"> Using Meta AI through WhatsApp, including features that use Private Processing, must be optional.&nbsp;</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Transparency: </b><span style="font-weight: 400;">We must provide transparency when our features use Private Processing.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>User control:</b><span style="font-weight: 400;"> For people&rsquo;s most sensitive chats that require extra assurance, they must be able to prevent messages from being used for AI features like mentioning Meta AI in chats, with the help of WhatApp&rsquo;s </span><a href="https://blog.whatsapp.com/introducing-advanced-chat-privacy" rel="noopener" target="_blank"><span style="font-weight: 400;">Advanced Chat Privacy</span></a><span style="font-weight: 400;"> feature.</span></li>
+</ul>
+<h2><span style="font-weight: 400;">Introducing Private Processing</span></h2>
+<p><span style="font-weight: 400;">We&rsquo;re excited to share an initial overview of Private Processing, a new technology we&rsquo;ve built to </span><span style="font-weight: 400;">support people&rsquo;s needs and aspirations to leverage AI in a secure and privacy-preserving way. This confidential computing infrastructure, built on top of a Trusted Execution Environment (TEE), will make it possible for people to direct AI to </span><span style="font-weight: 400;">process their requests &mdash; like summarizing unread WhatsApp threads or getting writing suggestions &mdash; in our secure and private cloud environment. In other words, Private Processing will allow users to leverage powerful AI features, while preserving WhatsApp&rsquo;s core privacy promise, ensuring </span><b>no one except you and the people you&rsquo;re talking to can access or share your personal messages, not even Meta or WhatsApp.&nbsp;</b></p>
+<p><span style="font-weight: 400;">To uphold this level of privacy and security, we designed Private Processing with the following foundational requirements:</span></p>
+<ul>
+<li aria-level="1" style="font-weight: 400;"><b>Confidential processing:</b><span style="font-weight: 400;"> Private Processing must be built in such a way that prevents any other system from accessing user&rsquo;s data &mdash; including Meta, WhatsApp or any third party &mdash; while in processing or in transit to Private Processing.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Enforceable guarantees:</b><span style="font-weight: 400;"> Attempts to modify that confidential processing guarantee must cause the system to fail closed or become publicly discoverable via verifiable transparency.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Verifiable transparency: </b><span style="font-weight: 400;">Users and security researchers must be able to audit the behavior of Private Processing to independently verify our privacy and security guarantees.</span></li>
+</ul>
+<p><span style="font-weight: 400;">However, we know that technology platforms like ours operate in a highly adversarial environment where threat actors continuously adapt, and software and hardware systems keep evolving, generating unknown risks. As part of our </span><a href="https://engineering.fb.com/2022/07/28/security/five-security-principles-for-billions-of-messages-across-metas-apps/" rel="noopener" target="_blank"><span style="font-weight: 400;">defense-in-depth</span> <span style="font-weight: 400;">ap</span><span style="font-weight: 400;">p</span><span style="font-weight: 400;">roach</span></a><span style="font-weight: 400;"> and best practices for any security-critical system, we&rsquo;re treating the following additional layers of requirements as core to Private Processing on WhatsApp:</span></p>
+<ul>
+<li aria-level="1" style="font-weight: 400;"><b>Non-targetability:</b><span style="font-weight: 400;"> An attacker should not be able to target a particular user for compromise without attempting to compromise the entire Private Processing system.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Stateless processing and forward security:</b><span style="font-weight: 400;"> Private Processing must not retain access to user messages once the session is complete to ensure that the attacker can not gain access to historical requests or responses.</span></li>
+</ul>
+<h3><span style="font-weight: 400;">Threat modeling for Private Processing</span></h3>
+<p><span style="font-weight: 400;">Because we set out to meet these high-security requirements, our work to build Private Processing began with developing a threat model to help us identify potential attack vectors and vulnerabilities that could compromise the confidentiality, integrity, or availability of user data. We&rsquo;ve worked with our peers in the security community to audit the architecture and our implementation to help us continue to harden them.&nbsp;</span></p>
+<h3><span style="font-weight: 400;">Building in the open</span></h3>
+<p><span style="font-weight: 400;">To help inform our industry&rsquo;s progress in building private AI processing, and to enable independent security research in this area, we will be publishing components of Private Processing, expanding the scope of our </span><a href="https://bugbounty.meta.com/" rel="noopener" target="_blank"><span style="font-weight: 400;">Bug Bounty program</span></a><span style="font-weight: 400;"> to include Private Processing, and releasing a detailed security engineering design paper, </span><b>as we get closer to the launch of Private Processing in the coming weeks.&nbsp;</b></p>
+<p><span style="font-weight: 400;">While AI-enabled processing of personal messages for summarization and writing suggestions at users&rsquo; direction is the first use case where Meta applies Private Processing, we expect there will be others where the same or similar infrastructure might be beneficial in processing user requests. We will continue to share our learnings and progress transparently and responsibly.</span></p>
+<h2><span style="font-weight: 400;">How Private Processing works</span></h2>
+<p><span style="font-weight: 400;">Private Processing creates a secure cloud environment where AI models can analyze and process data without exposing it to unauthorized parties.&nbsp;</span></p>
+<p><span style="font-weight: 400;">Here&rsquo;s how it works:</span></p>
+<ul>
+<li aria-level="1" style="font-weight: 400;"><b>Authentication: </b><span style="font-weight: 400;">First, Private Processing obtains </span><a href="https://engineering.fb.com/2022/12/12/security/anonymous-credential-service-acs-open-source/" rel="noopener" target="_blank"><span style="font-weight: 400;">anonymous credentials</span></a><span style="font-weight: 400;"> to verify that the future requests are coming from authentic WhatsApp clients.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Third-party routing and load balancing:</b><span style="font-weight: 400;"> In addition to these credentials, Private Processing fetches HPKE encryption public keys from a third-party CDN in order to support </span><span style="font-weight: 400;">Oblivious HTTP</span><span style="font-weight: 400;"> (OHTTP).</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Wire session establishment: </b><span style="font-weight: 400;">Private Processing establishes an OHTTP connection from the user&rsquo;s device to a Meta gateway via a third-party relay which hides requester IP from Meta and WhatsApp.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Application session establishment:</b><span style="font-weight: 400;"> Private Processing establishes a Remote Attestation + Transport Layer Security (RA-TLS) session between the user&rsquo;s device and the TEE. The attestation verification step cross-checks the measurements against a third-party ledger to ensure that the client only connects to code which satisfies our verifiable transparency guarantee.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Request to Private Processing: </b><span style="font-weight: 400;">After the above session is established, the device makes a request to Private Processing (e.g., message summarization request), that is</span><span style="font-weight: 400;"> encrypted end-to-end between the device and Private Processing with an ephemeral key that Meta and WhatsApp cannot access. In other words, no one except the user&rsquo;s device or the selected TEEs can decrypt the request.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Private Processing:</b><span style="font-weight: 400;"> Our AI models process data in a confidential virtual machine (CVM), a type of TEE, without storing any messages, in order to generate a response. CVMs may communicate with other CVMs using the same RA-TLS connection clients use to complete processing.&nbsp;</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Response from Private Processing: </b><span style="font-weight: 400;">The processed results are then returned to the user&rsquo;s device, encrypted with a key that only the device and the pre-selected Private Processing server ever have access to. </span><span style="font-weight: 400;">Private Processing does not retain access to messages after the session is completed.</span></li>
+</ul>
+<h2><span style="font-weight: 400;">The threat model</span></h2>
+<p><span style="font-weight: 400;">In designing any security-critical system, it is important to develop a threat model to guide how we build its defenses. Our threat model for Private Processing includes three key components:</span></p>
+<ul>
+<li aria-level="1" style="font-weight: 400;"><b>Assets</b><span style="font-weight: 400;">: The sensitive data and systems that we need to protect.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Threat actors</b><span style="font-weight: 400;">: The individuals or groups that may attempt to compromise our assets.</span></li>
+<li aria-level="1" style="font-weight: 400;"><b>Threat scenarios</b><span style="font-weight: 400;">: The ways in which our assets could be compromised, including the tactics, techniques, and procedures (TTPs) that threat actors might use.</span></li>
+</ul>
+<h3><span style="font-weight: 400;">Assets</span></h3>
+<p><span style="font-weight: 400;">In the context of applying Private Processing to </span><span style="font-weight: 400;">summarizing unread messages or providing writing suggestions at users&rsquo; direction, </span><span style="font-weight: 400;">we will use Private Processing to protect messaging content, whether they have been received by the user, or still in draft form. We use the term &ldquo;messages&rdquo; to refer to these primary assets in the context of this blog.</span></p>
+<p><span style="font-weight: 400;">In addition to messages, we also include additional, secondary assets which help support the goal of Private Processing and may interact with or directly process assets: the Trusted Computing Base (TCB) of the Confidential Virtual Machine (CVM), the underlying hardware, and the cryptographic keys used to protect data in transit.</span></p>
+<h3><span style="font-weight: 400;">Threat actors</span></h3>
+<p><span style="font-weight: 400;">We have identified three threat actor types that could attack our system to attempt to recover assets.</span></p>
+<ol>
+<li aria-level="1" style="font-weight: 400;"><span style="font-weight: 400;">Malicious or compromised insiders with access to our infrastructure.</span></li>
+<li aria-level="1" style="font-weight: 400;"><span style="font-weight: 400;">A third party or supply chain vendor with access to components of the infrastructure.</span></li>
+<li aria-level="1" style="font-weight: 400;"><span style="font-weight: 400;">Malicious end users targeting other users on the platform.</span></li>
+</ol>
+<h3><span style="font-weight: 400;">Threat scenarios</span></h3>
+<p><span style="font-weight: 400;">When building Private Processing to be resilient against these threat actors, we consider relevant threat scenarios that may be pursued against our systems, including (but not limited to) the following:</span></p>
+<h4><span style="font-weight: 400;">External actors directly exploit the exposed product attack surface or compromise the services running in Private Processing CVMs to extract messages.</span></h4>
+<p><span style="font-weight: 400;">Anywhere the system processes untrusted data, there is potentially an attack surface for a threat actor to exploit. Examples of these kinds of attacks include exploitation of zero-day vulnerabilities or attacks unique to AI such as prompt injection.&nbsp;</span></p>
+<p><span style="font-weight: 400;">Private Processing is designed to reduce such an attack surface through limiting the exposed entry points to a small set of thoroughly reviewed components which are subject to regular assurance testing.</span><span style="font-weight: 400;"> The service binaries are hardened and run in a containerized environment to mitigate the risks of code execution and limit a compromised binary&rsquo;s ability to exfiltrate data from within the CVM to an external party.</span></p>
+<h4><span style="font-weight: 400;">Internal or external attackers extract messages exposed through the CVM.</span></h4>
+<p><span style="font-weight: 400;">Observability and debuggability remains a challenge in highly secure environments as they can be at odds with the goal of confidential computing, potentially exposing side channels to identify data and in the worst case accidentally leaking messages themselves. However, deploying any service at scale requires some level of observability to identify failure modes, since they may negatively impact many users, even when the frequency is uncommon. We implement a log-filtering system to limit export to only allowed log lines, such as error logs.</span></p>
+<p><span style="font-weight: 400;">Like any complex system, Private Processing is built of components to form a complex supply chain of both hardware and software. Internally, our CVM build process occurs in restricted environments that maintain provenance and require multi-party review. Transparency of the CVM environment, which we&rsquo;ll provide </span><span style="font-weight: 400;">through publishing a third-party log of CVM binary digests and CVM binary images</span><span style="font-weight: 400;">, will allow external researchers to analyze, replicate, and report instances where they believe logs could leak user data.</span></p>
+<h4><span style="font-weight: 400;">Insiders with physical or remote access to Private Processing hosts interfere with the CVM at boot and runtime, potentially bypassing the protections in order to extract messages.</span></h4>
+<p><span style="font-weight: 400;">TEE software exploitation is a growing area of security research, and vulnerability researchers have repeatedly demonstrated the ability to bypass TEE guarantees. Similarly, physical attacks on Private Processing hosts may be used to defeat TEE guarantees or present compromised hosts as legitimate to an end user.</span></p>
+<p><span style="font-weight: 400;">To address these unknown risks, we built Private Processing on the principle of defense-in-depth by actively tracking novel vulnerabilities in this space, minimizing and sanitizing untrusted inputs to the TEE, minimizing attack surface through CVM hardening and enabling abuse detection through enhanced host monitoring.</span></p>
+<p><span style="font-weight: 400;">Because we know that defending against physical access introduces significant complexity and attack surface even with industry-leading controls, we continuously pursue further attack surface hardening. In addition, we reduce these risks through measures like encrypted DRAM and standard physical security controls to protect our datacenters from bad actors.</span></p>
+<p><span style="font-weight: 400;">To further address these unknown risks, we seek to eliminate the viability of targeted attacks via routing sessions through a third-party OHTTP relay to prevent an attacker&rsquo;s ability to route a specific user to a specific machine.</span></p>
+<h2><span style="font-weight: 400;">Designing Private Processing</span></h2>
+<p><span style="font-weight: 400;">Here is how we designed Private Processing </span><span style="font-weight: 400;">to meet these foundational security and privacy requirements against the threat model we developed. </span></p>
+<p><i><span style="font-weight: 400;">(Further technical documentation and security research engagements updates are coming soon).</span></i></p>
+<h3><span style="font-weight: 400;">Confidential processing</span></h3>
+<p><span style="font-weight: 400;">Data shared to Private Processing is processed in an environment which does not make it available to any other system. This protection is further upheld by encrypting data end-to-end between the client and the Private Processing application, so that only Private Processing, and no one in between &ndash; including Meta, WhatsApp, or any third-party relay &ndash; can access the data.</span></p>
+<p><span style="font-weight: 400;">To prevent possible user data leakage, only limited service reliability logs are permitted to leave the boundaries of CVM.</span></p>
+<h3><span style="font-weight: 400;">System software</span></h3>
+<p><span style="font-weight: 400;">To prevent privileged runtime access to Private Processing, we prohibit remote shell access, including from the host machine, and implement security measures including code isolation. Code isolation ensures that only designated code in Private Processing has access to user data. Prohibited remote shell access ensures that neither the host nor a networked user can gain access to the CVM shell.</span></p>
+<p><span style="font-weight: 400;">We defend against potential source control and supply chain attacks by implementing established industry best practices. This includes building software exclusively from checked-in source code and artifacts, where any change requires multiple engineers to modify the build artifacts or build pipeline.</span></p>
+<p><span style="font-weight: 400;">As another layer of security, all code changes are auditable. This allows us to ensure that any potential issues are discovered &mdash; either through our continuous internal audits of code, or by external security researchers auditing our binaries.</span></p>
+<h3><span style="font-weight: 400;">System hardware</span></h3>
+<p><span style="font-weight: 400;">Private Processing utilizes CPU-based confidential virtualization technologies, along with Confidential Compute mode GPUs, which prevent certain classes of attacks from the host operating system, as well as certain physical attacks.</span></p>
+<h3><span style="font-weight: 400;">Enforceable guarantees</span></h3>
+<p><span style="font-weight: 400;">Private Processing utilizes CPU-based confidential virtualization technologies which allow attestation of software based in a hardware root of trust to guarantee the security of the system prior to each client-server connection. Before any data is transmitted, Private Processing checks these attestations, and confirms them against a third-party log of acceptable binaries.</span></p>
+<h3><span style="font-weight: 400;">Stateless and forward secure service</span></h3>
+<p><span style="font-weight: 400;">We operate Private Processing as a stateless service, which neither stores nor retains access to messages after the session has been completed.</span></p>
+<p><span style="font-weight: 400;">Additionally, Private Processing does not store messages to disk or external storage, and thus does not maintain durable access to this data.</span></p>
+<p><span style="font-weight: 400;">As part of our data minimization efforts, requests to Private Processing </span><span style="font-weight: 400;">only include data that is useful for processing the prompt &mdash; for example, message summarization will only include the messages the user directed AI to summarize.</span></p>
+<h3><span style="font-weight: 400;">Non-targetability</span></h3>
+<p><span style="font-weight: 400;">Private Processing implements</span><span style="font-weight: 400;"> the OHTTP protocol to establish a secure session with Meta routing layers. This ensures that Meta and WhatsApp do not know which user is connecting to what CVM. In other words, </span><span style="font-weight: 400;">Meta and WhatsApp do not know the user that initiated a request to Private Processing while the request is in route, so that a specific user cannot be routed to any specific hardware.</span></p>
+<p><span style="font-weight: 400;">Private Processing uses anonymous credentials to authenticate users over OHTTP. This way, Private Processing can authenticate users to the Private Processing system, but remains unable to identify them. Private Processing does not include any other identifiable information as part of the request during the establishment of a system session. </span><span style="font-weight: 400;">We limit the impact of small-scale attacks by ensuring that they cannot be used to target the data of a specific user.</span></p>
+<h3><span style="font-weight: 400;">Verifiable transparency</span></h3>
+<p><span style="font-weight: 400;">To provide users visibility into the processing of their data and aid in validation of any client-side behaviors, we will provide capabilities to obtain an in-app log of requests made to Private Processing, data shared with it, and details of how that secure session was set up.&nbsp;</span></p>
+<p><span style="font-weight: 400;">In order to provide verifiability, we will make available the CVM image binary powering Private Processing. We will make these components available to researchers to allow independent, external verification of our implementation.</span></p>
+<p><span style="font-weight: 400;">In addition, to enable deeper bug bounty research in this area, we will publish source code for certain components of the system, including our attestation verification code or load bearing code.</span></p>
+<p><span style="font-weight: 400;">We will also be expanding the scope of our existing </span><a href="https://bugbounty.meta.com/" rel="noopener" target="_blank"><span style="font-weight: 400;">Bug Bounty program</span></a><span style="font-weight: 400;"> to cover Private Processing to enable further independent security research into Private Processing&rsquo;s design and implementation.&nbsp;</span></p>
+<p><span style="font-weight: 400;">Finally, we will be publishing a detailed technical white paper on the security engineering design of Private Processing to provide further transparency into our security practices, and aid others in the industry in building similar systems.</span></p>
+<h2><span style="font-weight: 400;">Get Involved</span></h2>
+<p><span style="font-weight: 400;">We&rsquo;re deeply committed to providing our users with the best possible messaging experience while ensuring that only they and the people they&rsquo;re talking to can access or share their personal messages. Private Processing is a critical component of this commitment, and we&rsquo;re excited to make it available in the coming weeks.</span></p>
+<p><span style="font-weight: 400;">We welcome feedback from our users, researchers, and the broader security community through our security research program:</span></p>
+<ul>
+<li aria-level="1" style="font-weight: 400;"><span style="font-weight: 400;">More details: </span><a href="https://bugbounty.meta.com" rel="noopener" target="_blank"><span style="font-weight: 400;">Meta Bug Bounty</span></a></li>
+<li aria-level="1" style="font-weight: 400;"><a href="mailto:bugbounty@meta.com" rel="noopener" target="_blank"><span style="font-weight: 400;">Contact us</span></a></li>
+</ul>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul data-sharing-events-added="true"><li class="share-facebook"><a aria-labelledby="sharing-facebook-22434" class="share-facebook sd-button share-icon" data-shared="sharing-facebook-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=facebook&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-facebook-22434">Share on Facebook (Opens in new window)</span>
+<span>Facebook</span>
+</a></li><li class="share-threads"><a aria-labelledby="sharing-threads-22434" class="share-threads sd-button share-icon" data-shared="sharing-threads-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=threads&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-threads-22434">Share on Threads (Opens in new window)</span>
+<span>Threads</span>
+</a></li><li class="share-jetpack-whatsapp"><a aria-labelledby="sharing-whatsapp-22434" class="share-jetpack-whatsapp sd-button share-icon" data-shared="sharing-whatsapp-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=jetpack-whatsapp&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-whatsapp-22434">Share on WhatsApp (Opens in new window)</span>
+<span>WhatsApp</span>
+</a></li><li class="share-linkedin"><a aria-labelledby="sharing-linkedin-22434" class="share-linkedin sd-button share-icon" data-shared="sharing-linkedin-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=linkedin&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-linkedin-22434">Share on LinkedIn (Opens in new window)</span>
+<span>LinkedIn</span>
+</a></li><li class="share-reddit"><a aria-labelledby="sharing-reddit-22434" class="share-reddit sd-button share-icon" data-shared="sharing-reddit-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=reddit&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-reddit-22434">Share on Reddit (Opens in new window)</span>
+<span>Reddit</span>
+</a></li><li class="share-x"><a aria-labelledby="sharing-x-22434" class="share-x sd-button share-icon" data-shared="sharing-x-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=x&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-x-22434">Share on X (Opens in new window)</span>
+<span>X</span>
+</a></li><li class="share-bluesky"><a aria-labelledby="sharing-bluesky-22434" class="share-bluesky sd-button share-icon" data-shared="sharing-bluesky-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=bluesky&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-bluesky-22434">Share on Bluesky (Opens in new window)</span>
+<span>Bluesky</span>
+</a></li><li class="share-mastodon"><a aria-labelledby="sharing-mastodon-22434" class="share-mastodon sd-button share-icon" data-shared="sharing-mastodon-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=mastodon&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-mastodon-22434">Share on Mastodon (Opens in new window)</span>
+<span>Mastodon</span>
+</a></li><li class="share-custom share-custom-hackernews"><a aria-labelledby="sharing-custom-22434" class="share-custom share-custom-hackernews sd-button share-icon" data-shared="sharing-custom-22434" href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=custom-1699562127&amp;nb=1" rel="nofollow noopener noreferrer" target="_blank">
+<span hidden="" id="sharing-custom-22434">Share on Hacker News (Opens in new window)</span>
+<span style='background-image:url("y18.svg");'>Hacker News</span>
+</a></li><li class="share-email share-service-visible"><a aria-labelledby="sharing-email-22434" class="share-email sd-button share-icon" data-email-share-error-text="If you're having problems sharing via email, you might not have email set up for your browser. You may need to create a new email yourself." data-email-share-error-title="Do you have email set up?" data-email-share-nonce="cdc5c12a7b" data-email-share-track-url="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/?share=email" data-shared="sharing-email-22434" href="mailto:?subject=%5BShared%20Post%5D%20Building%20Private%20Processing%20for%20AI%20tools%20on%20WhatsApp&amp;body=https%3A%2F%2Fengineering.fb.com%2F2025%2F04%2F29%2Fsecurity%2Fwhatsapp-private-processing-ai-tools%2F&amp;share=email&amp;nb=1" jetpack-share-click-count="0" rel="noopener" target="_blank">
+<span hidden="" id="sharing-email-22434">Email a link to a friend (Opens in new window)</span>
+<span>Email</span>
+</a></li><li class="share-end"></li></ul></div></div></div>
+</div><!-- .entry-content -->
+</article><!-- #post-## -->
+<footer class="entry-footer">
+<div>TAGS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://engineering.fb.com/tag/whatsapp/" rel="tag">WhatsApp</a></div>
+</footer><!-- .entry-footer -->
+<div class="fb-like fb_iframe_widget" data-action="like" data-href="https://engineering.fb.com/2025/04/29/security/whatsapp-private-processing-ai-tools/" data-layout="standard" data-share="true" data-size="small" data-width="" fb-iframe-plugin-query="action=like&amp;app_id=&amp;container_width=715&amp;href=https%3A%2F%2Fengineering.fb.com%2F2025%2F04%2F29%2Fsecurity%2Fwhatsapp-private-processing-ai-tools%2F&amp;layout=standard&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;size=small&amp;width=" fb-xfbml-state="rendered"><span style="vertical-align: top; width: 0px; height: 0px; overflow: hidden;"></span></div>
+<div class="more-articles"><a aria-label="View the previous article: How Meta understands data at scale" class="prev" href="https://engineering.fb.com/2025/04/28/security/how-meta-understands-data-at-scale/"><div class="prev__thumb-wrapper"><img alt="How Meta understands data at scale" class="prev__thumb" height="326" src="How-Meta-understands-data-at-scale-HERO.png" width="580"/></div><div class="prev__details"><span class="prev__details__btn">Prev</span><br/><span class="prev__details__title">How Meta understands data at scale</span></div></a><a aria-label="View the next article: Introducing AutoPatchBench: A Benchmark for AI-Powered Security Fixes" class="next" href="https://engineering.fb.com/2025/04/29/ai-research/autopatchbench-benchmark-ai-powered-security-fixes/"><div class="next__thumb-wrapper"><img alt="Introducing AutoPatchBench: A Benchmark for AI-Powered Security Fixes" class="next__thumb" height="326" src="Eng-Blog-Self-Serve-Hero-Images-DEBUGGING-202-Navy.jpg" width="580"/></div><div class="next__details"><span class="next__details__btn">Next</span><br/><span class="next__details__title">Introducing AutoPatchBench: A Benchmark for AI-Powered Security Fixes</span></div></a></div><div class="related-articles">
+<div class="related-articles__header">
+<h3 class="related-articles__header__headline">Read More in Security &amp; Privacy</h3>
+<a aria-label="View all articles in this Security &amp; Privacy" class="related-articles__header__link" href="https://engineering.fb.com/category/security/">
+			View All		</a>
+</div>
+<div class="article-grids related-articles__grid">
+<div class="row">
+<div class="article-grid col-12 col-md-4">
+<article class="post post-22434 type-post status-publish format-standard has-post-thumbnail hentry category-security tag-whatsapp fb_content_type-article" id="post-23929">
+<img alt="" class="attachment-thumbnail size-thumbnail" height="326" src="Meta-Strengthening-E2EE-backups-Hero-1-1.png" width="580"/>
+<header class="entry-header">
+<div class="entry-header__top">
+<span class="posted-on">
+<time class="entry-date published" datetime="2026-05-01T09:00:58-07:00">
+					MAY 1, 2026				</time>
+</span>
+</div>
+<div class="entry-title">
+<div>
+<a aria-label="Read More about How Meta Is Strengthening End-to-End Encrypted Backups" href="https://engineering.fb.com/2026/05/01/security/meta-strengthening-end-to-end-encrypted-backups/" rel="bookmark">
+					How Meta Is Strengthening End-to-End Encrypted Backups				</a>
+</div>
+</div>
+</header><!-- .entry-header -->
+</article><!-- #post-## -->
+</div><!-- /.article-grid -->
+<div class="article-grid col-12 col-md-4">
+<article class="post post-22434 type-post status-publish format-standard has-post-thumbnail hentry category-security tag-whatsapp fb_content_type-article" id="post-23883">
+<img alt="" class="attachment-thumbnail size-thumbnail" height="326" src="PQC-Readiness-Hero-option2.png" width="580"/>
+<header class="entry-header">
+<div class="entry-header__top">
+<span class="posted-on">
+<time class="entry-date published" datetime="2026-04-16T07:59:44-07:00">
+					APR 16, 2026				</time>
+</span>
+</div>
+<div class="entry-title">
+<div>
+<a aria-label="Read More about Post-Quantum Cryptography Migration at Meta: Framework, Lessons, and Takeaways" href="https://engineering.fb.com/2026/04/16/security/post-quantum-cryptography-migration-at-meta-framework-lessons-and-takeaways/" rel="bookmark">
+					Post-Quantum Cryptography Migration at Meta: Framework, Lessons, and Takeaways				</a>
+</div>
+</div>
+</header><!-- .entry-header -->
+</article><!-- #post-## -->
+</div><!-- /.article-grid -->
+<div class="article-grid col-12 col-md-4">
+<article class="post post-22434 type-post status-publish format-standard has-post-thumbnail hentry category-security tag-whatsapp fb_content_type-article" id="post-23871">
+<img alt="" class="attachment-thumbnail size-thumbnail" height="326" loading="lazy" src="Meta-Tech-Podcast-episode-84-Configuration-Safety-at-Scale.webp" width="580"/>
+<header class="entry-header">
+<div class="entry-header__top">
+<span class="posted-on">
+<time class="entry-date published" datetime="2026-04-08T11:25:26-07:00">
+					APR 8, 2026				</time>
+</span>
+</div>
+<div class="entry-title">
+<div>
+<a aria-label="Read More about Trust But Canary: Configuration Safety at Scale" href="https://engineering.fb.com/2026/04/08/security/trust-but-canary-configuration-safety-at-scale-meta-tech-podcast/" rel="bookmark">
+					Trust But Canary: Configuration Safety at Scale				</a>
+</div>
+</div>
+</header><!-- .entry-header -->
+</article><!-- #post-## -->
+</div><!-- /.article-grid -->
+<div class="article-grid col-12 col-md-4">
+<article class="post post-22434 type-post status-publish format-standard has-post-thumbnail hentry category-security tag-whatsapp fb_content_type-article" id="post-23722">
+<img alt="" class="attachment-thumbnail size-thumbnail" height="326" loading="lazy" src="Meta-Tech-Podcast-episode-83-secure-by-default.webp" title="Meta Tech Podcast - episode 83 - secure by default" width="580"/>
+<header class="entry-header">
+<div class="entry-header__top">
+<span class="posted-on">
+<time class="entry-date published" datetime="2026-03-13T09:00:26-07:00">
+					MAR 13, 2026				</time>
+</span>
+</div>
+<div class="entry-title">
+<div>
+<a aria-label="Read More about Patch Me If You Can: AI Codemods for Secure-by-Default Android Apps" href="https://engineering.fb.com/2026/03/13/android/ai-codemods-secure-by-default-android-apps-meta-tech-podcast/" rel="bookmark">
+					Patch Me If You Can: AI Codemods for Secure-by-Default Android Apps				</a>
+</div>
+</div>
+</header><!-- .entry-header -->
+</article><!-- #post-## -->
+</div><!-- /.article-grid -->
+<div class="article-grid col-12 col-md-4">
+<article class="post post-22434 type-post status-publish format-standard has-post-thumbnail hentry category-security tag-whatsapp fb_content_type-article" id="post-23690">
+<img alt="" class="attachment-thumbnail size-thumbnail" height="326" loading="lazy" src="Advanced-Browsing-Protection-Messenger.png" width="580"/>
+<header class="entry-header">
+<div class="entry-header__top">
+<span class="posted-on">
+<time class="entry-date published" datetime="2026-03-09T09:00:36-07:00">
+					MAR 9, 2026				</time>
+</span>
+</div>
+<div class="entry-title">
+<div>
+<a aria-label="Read More about How Advanced Browsing Protection Works in Messenger" href="https://engineering.fb.com/2026/03/09/security/how-advanced-browsing-protection-works-in-messenger/" rel="bookmark">
+					How Advanced Browsing Protection Works in Messenger				</a>
+</div>
+</div>
+</header><!-- .entry-header -->
+</article><!-- #post-## -->
+</div><!-- /.article-grid -->
+<div class="article-grid col-12 col-md-4">
+<article class="post post-22434 type-post status-publish format-standard has-post-thumbnail hentry category-security tag-whatsapp fb_content_type-article" id="post-23599">
+<img alt="" class="attachment-thumbnail size-thumbnail" height="326" loading="lazy" src="Cross-device-passkeys-Meta-Quest-copy.png" width="580"/>
+<header class="entry-header">
+<div class="entry-header__top">
+<span class="posted-on">
+<time class="entry-date published" datetime="2026-02-04T14:00:07-08:00">
+					FEB 4, 2026				</time>
+</span>
+</div>
+<div class="entry-title">
+<div>
+<a aria-label="Read More about No Display? No Problem: Cross-Device Passkey Authentication for XR Devices" href="https://engineering.fb.com/2026/02/04/security/cross-device-passkey-authentication-for-xr-devices-meta-quest/" rel="bookmark">
+					No Display? No Problem: Cross-Device Passkey Authentication for XR Devices				</a>
+</div>
+</div>
+</header><!-- .entry-header -->
+</article><!-- #post-## -->
+</div><!-- /.article-grid -->
+</div><!-- /.row -->
+</div><!--/.article-grids -->
+</div><!-- /.related-articles -->
+<!-- include the carousel nav here. -->
+</main><!-- #main -->
+</div><!-- #primary -->
+<!-- Do the right sidebar check. -->
+<div class="widget-area col-lg-3 offset-lg-0_25" id="right-sidebar" role="complementary">
+<aside class="widget widget_fb_related_post_widget" id="fb_related_post_widget-4"><h3 class="widget-title">Related Posts</h3><hr/>
+<div class="aside-related-projects"><div class="article-grid-redesign">
+<article class="post-21812 post type-post status-publish has-post-thumbnail hentry" id="post-21812">
+<a aria-label="Read More about IPLS: Privacy-preserving storage for your WhatsApp contacts" href="https://engineering.fb.com/2024/10/22/security/ipls-privacy-preserving-storage-for-your-whatsapp-contacts/" rel="bookmark">
+<img alt="" class="wp-post-image" height="326" loading="lazy" sizes="(max-width: 580px) 100vw, 580px" src="WhatsApp-IPLS-image-3_crop.png" srcset="WhatsApp-IPLS-image-3_crop.png 580w, WhatsApp-IPLS-image-3_crop.png 326w" width="580"/>
+<header class="entry-header">
+<span class="posted-on"><time class="entry-date published" datetime="Oct 22, 2024">Oct 22, 2024</time></span>
+<h4 class="entry-title">IPLS: Privacy-preserving storage for your WhatsApp contacts</h4>
+</header><!-- .entry-header -->
+</a>
+</article><!-- #post-## -->
+</div><div class="article-grid-redesign">
+<article class="post-18907 post type-post status-publish has-post-thumbnail hentry" id="post-18907">
+<a aria-label="Read More about Five security principles for billions of messages across Meta&rsquo;s apps" href="https://engineering.fb.com/2022/07/28/security/five-security-principles-for-billions-of-messages-across-metas-apps/" rel="bookmark">
+<img alt="" class="wp-post-image" height="326" loading="lazy" sizes="(max-width: 580px) 100vw, 580px" src="Eng-Blog-Self-Serve-Hero-Images-PRIVACY-101-Navy.jpg" srcset="Eng-Blog-Self-Serve-Hero-Images-PRIVACY-101-Navy.jpg 580w, Eng-Blog-Self-Serve-Hero-Images-PRIVACY-101-Navy.jpg 326w" width="580"/>
+<header class="entry-header">
+<span class="posted-on"><time class="entry-date published" datetime="Jul 28, 2022">Jul 28, 2022</time></span>
+<h4 class="entry-title">Five security principles for billions of messages across Meta&rsquo;s apps</h4>
+</header><!-- .entry-header -->
+</a>
+</article><!-- #post-## -->
+</div><div class="article-grid-redesign">
+<article class="post-22393 post type-post status-publish has-post-thumbnail hentry" id="post-22393">
+<a aria-label="Read More about How Meta understands data at scale" href="https://engineering.fb.com/2025/04/28/security/how-meta-understands-data-at-scale/" rel="bookmark">
+<img alt="" class="wp-post-image" height="326" loading="lazy" sizes="(max-width: 580px) 100vw, 580px" src="How-Meta-understands-data-at-scale-HERO.png" srcset="How-Meta-understands-data-at-scale-HERO.png 580w, How-Meta-understands-data-at-scale-HERO.png 326w" width="580"/>
+<header class="entry-header">
+<span class="posted-on"><time class="entry-date published" datetime="Apr 28, 2025">Apr 28, 2025</time></span>
+<h4 class="entry-title">How Meta understands data at scale</h4>
+</header><!-- .entry-header -->
+</a>
+</article><!-- #post-## -->
+</div></div></aside><aside class="widget widget_wpb_widget" id="wpb_widget-3"><h3 class="widget-title">Related Positions</h3><hr/><ul class="available-positions-list"><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			SUNNYVALE, US
+                      		</div>
+</a>
+</li><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			BELLEVUE, US
+                      		</div>
+</a>
+</li><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			MENLO PARK, US
+                      		</div>
+</a>
+</li><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			SEATTLE, US
+                      		</div>
+</a>
+</li><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			WASHINGTON, US
+                      		</div>
+</a>
+</li> </ul>
+<a href="https://www.metacareers.com" rel="noopener" target="_blank">
+<div class="btn available-positions-btn">
+				See All Jobs			</div>
+</a>
+</aside>
+</div><!-- #secondary -->
+<!-- <php get_template_part('content-single-side-bar'); ?> -->
+<!-- Do the right sidebar check. -->
+</div><!-- Container end -->
+</div><!-- Wrapper end -->
+</div>
+<!-- ******************* The Footer Full-width Widget Area ******************* -->
+<div class="wrapper wrapper-community-outer">
+<div class="wrapper-community">
+<div class="community" tabindex="-1">
+<div class="row">
+<!-- community section is generated through WordPress widget -->
+<div class="footer-widget widget_wpb_widget widget-count-3 col-md-4" id="wpb_widget-2"><h3 class="widget-title">Available Positions</h3><hr/><ul class="available-positions-list"><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			SUNNYVALE, US
+                      		</div>
+</a>
+</li><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			BELLEVUE, US
+                      		</div>
+</a>
+</li><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			MENLO PARK, US
+                      		</div>
+</a>
+</li><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			SEATTLE, US
+                      		</div>
+</a>
+</li><li class="available-positions-item">
+<a href="https://www.metacareers.com/jobs/2486789151677735/" rel="noopener" target="_blank">
+<div class="job-description">
+                      			Software Engineer, Infrastructure
+                      		</div>
+<div class="job-location">
+                      			WASHINGTON, US
+                      		</div>
+</a>
+</li> </ul>
+<a href="https://www.metacareers.com" rel="noopener" target="_blank">
+<div class="btn available-positions-btn">
+				See All Jobs			</div>
+</a>
+</div><!-- .footer-widget --><div class="widget_text footer-widget widget_custom_html widget-count-3 col-md-4" id="custom_html-2"><h3 class="widget-title">Technology at Meta</h3><div class="textwidget custom-html-widget"><ul class="stay-connected-lists">
+<li class="stay-connected-item">
+<img alt="footer-fb-engineering" class="footer-fb-engineering stay-connected-item-left" height="70" loading="lazy" src="/wp-content/themes/code-fb-com/img/meta_logo.png" width="70"/>
+<div class="stay-connected-item-right">
+<div class="stay-connected-label">
+				Engineering at Meta - X
+			</div>
+<a onclick='return twitterFollow("Meta_Engineers")' rel="noopener" target="_blank">
+<button class="btn stay-connected-btn">
+				Follow
+				</button>
+</a>
+</div>
+</li>
+<li class="stay-connected-item">
+<img alt="footer-AI" class="footer-fb-engineering stay-connected-item-left" height="70" loading="lazy" src="/wp-content/themes/code-fb-com/img/meta_logo.png" width="70"/>
+<div class="stay-connected-item-right">
+<div class="stay-connected-label">
+				AI at Meta
+			</div>
+<a href="https://ai.meta.com/blog/" rel="noopener" target="_blank">
+<button class="btn stay-connected-btn">
+				Read
+			</button>
+</a>
+</div>
+</li>
+<li class="stay-connected-item">
+<img alt="footer-developers" class="footer-fb-engineering stay-connected-item-left" height="70" loading="lazy" src="/wp-content/themes/code-fb-com/img/meta_logo.png" width="70"/>
+<div class="stay-connected-item-right">
+<div class="stay-connected-label">
+				Meta Quest Blog
+			</div>
+<a href="https://www.meta.com/blog/quest/" rel="noopener" target="_blank">
+<button class="btn stay-connected-btn">
+				Read
+			</button>
+</a>
+</div>
+</li>
+<li class="stay-connected-item">
+<img alt="footer-developers" class="footer-fb-engineering stay-connected-item-left" height="70" loading="lazy" src="/wp-content/themes/code-fb-com/img/meta_logo.png" width="70"/>
+<div class="stay-connected-item-right">
+<div class="stay-connected-label">
+				Meta for Developers
+			</div>
+<a href="https://developers.facebook.com/" rel="noopener" target="_blank">
+<button class="btn stay-connected-btn">
+				Read
+			</button>
+</a>
+</div>
+</li>
+<li class="stay-connected-item">
+<img alt="footer-bug-bounty" class="footer-fb-engineering stay-connected-item-left" height="70" loading="lazy" src="/wp-content/themes/code-fb-com/img/meta_logo.png" width="70"/>
+<div class="stay-connected-item-right">
+<div class="stay-connected-label">
+				Meta Bug Bounty
+			</div>
+<a href="https://bugbounty.meta.com/" rel="noopener" target="_blank">
+<button class="btn stay-connected-btn">
+				Learn more
+			</button>
+</a>
+</div>
+</li>
+<li class="stay-connected-item">
+<img alt="footer-rss" class="stay-connected-item-left" height="70" loading="lazy" src="/wp-content/themes/code-fb-com/img/rss.png" width="70"/>
+<div class="stay-connected-item-right">
+<div class="stay-connected-label">
+				RSS
+			</div>
+<a href="https://code.facebook.com/posts/rss/" rel="noopener" target="_blank">
+<button class="btn stay-connected-btn">
+				Subscribe
+			</button>
+</a>
+</div>
+</li>
+</ul>
+</div></div><!-- .footer-widget --><div class="widget_text footer-widget widget_custom_html widget-count-3 col-md-4" id="custom_html-3"><h3 class="widget-title">Open Source</h3><div class="textwidget custom-html-widget"><p class="opensource-desc">
+	Meta believes in building community through open source technology. Explore our latest projects in Artificial Intelligence, Data Infrastructure, Development Tools, Front End, Languages, Platforms, Security, Virtual Reality, and more.
+</p>
+<ul class="opensource-cats">
+<li class="opensource-cat">
+<img alt="android" height="59" loading="lazy" src="/wp-content/themes/code-fb-com/img/android.png" width="50"/>
+<div class="opensource-cap">
+			ANDROID
+		</div>
+</li>
+<li class="opensource-cat">
+<img alt="ios" height="58" loading="lazy" src="/wp-content/themes/code-fb-com/img/ios.png" width="48"/>
+<div class="opensource-cap">
+			iOS
+		</div>
+</li>
+<li class="opensource-cat">
+<img alt="web" height="49" loading="lazy" src="/wp-content/themes/code-fb-com/img/web.png" width="55"/>
+<div class="opensource-cap">		
+			WEB
+		</div>
+</li>
+<li class="opensource-cat">
+<img alt="backend" height="51" loading="lazy" src="/wp-content/themes/code-fb-com/img/backend.png" width="56"/>
+<div class="opensource-cap">
+			BACKEND
+		</div>
+</li>
+<li class="opensource-cat">
+<img alt="hardware" height="44" loading="lazy" src="/wp-content/themes/code-fb-com/img/hardware.png" width="55"/>
+<div class="opensource-cap">
+			HARDWARE
+		</div>
+</li>
+</ul>
+<button class="btn opensource-btn" onclick="window.location.href='https://opensource.fb.com/'">
+	Learn More
+</button>
+</div></div><!-- .footer-widget -->
+</div>
+</div>
+</div>
+</div><!-- #wrapper-footer-full -->
+<div class="wrapper-footer" id="wrapper-footer">
+<div class="inner-container">
+<div class="footer">
+<div class="row">
+<div class="col-md-12">
+<footer class="meta-footer" id="meta-footer">
+<div class="site-info row justify-content-between">
+<div class="col-md-5 meta-logo-container">
+<a href="https://about.facebook.com/" rel="noopener" target="_blank">
+<img alt="Meta" height="18" src="meta_logo_full.svg" width="89"/>
+</a>
+<div class="widget widget_text" id="text-2"> <div class="textwidget"><p>Engineering at Meta is a technical news resource for engineers interested in how we solve large-scale technical challenges at Meta.</p>
+</div>
+</div> </div>
+<div class="col-md-6 footer-meta-links-container">
+<ul class="meta-footer-links">
+<li class="footer-link"><a href="https://engineering.fb.com">Home</a></li><li class="footer-link"><a href="https://about.meta.com/" rel="noopener" target="_blank">Company Info</a></li><li class="footer-link"><a href="https://www.metacareers.com/?ref=engineering.fb.com" rel="noopener" target="_blank">Careers</a></li> </ul>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<div class="row">
+<div class="col-md-12">
+<footer class="site-footer" id="colophon">
+<div class="inner-container">
+<div class="site-info row justify-content-between">
+<div class="col-md-4 copyright-container">
+<div class="copyright"> &copy; 2026 Meta</div>
+</div>
+<!-- static footer -->
+<div class="col-md-7 footer-links-container">
+<ul class="footer-links">
+<li class="footer-link"><a href="https://www.facebook.com/policies" rel="noopener" target="_blank">Terms</a></li><li class="footer-link"><a href="https://www.facebook.com/privacy/policy" rel="noopener" target="_blank">Privacy</a></li><li class="footer-link"><a href="https://engineering.fb.com/privacy">Cookies</a></li><li class="footer-link"><a href="https://www.facebook.com/help" rel="noopener" target="_blank">Help</a></li> </ul>
+</div>
+</div>
+</div><!-- .site-info -->
+</footer><!-- #colophon -->
+</div><!--col end -->
+</div><!-- row end -->
+</div><!-- //.inner-container -->
+</div><!-- wrapper end -->
+<!-- #page we need this extra closing tag here -->
+<div class="gdprconsent-container" id="GDPRConsentBar" style="display: block;">
+<div class="gdprconsent-wrapper">
+<div class="gdprconsent-content">
+<p>To help personalize content, tailor and measure ads and provide a safer experience, we use cookies. By clicking or navigating the site, you agree to allow our collection of information on and off Facebook through cookies. Learn more, including about available controls: <a href="https://engineering.fb.com/privacy">Cookie Policy</a></p>
+<div class="gdprconsent-button">
+<button data-gdpr-accept="" type="button">Accept</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Twitter universal website tag code -->
+<!-- End Twitter universal website tag code -->
+<div class="fb_reset" id="fb-root"><div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div></div></div></div></body></html>
