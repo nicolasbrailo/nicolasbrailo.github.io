@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="e3a7d37a-ad51-431e-b255-185319b2281d" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <style>
+      .a2256587-d0b7-40ce-9e7c-4384948fc7d4 {
+        fill: #344854;
+      }
+    </style>
+  </defs>
+  <path class="a2256587-d0b7-40ce-9e7c-4384948fc7d4" d="M20.59,17H9a1,1,0,0,1,0-2H20.59l-3.3-3.29a1,1,0,0,1,1.42-1.42l5,5a1,1,0,0,1,0,1.42l-5,5a1,1,0,0,1-1.42-1.42Z"/>
+</svg>
