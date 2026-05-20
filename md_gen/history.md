@@ -5,6 +5,7 @@
 ## [Posts for 2026](md_gen/2026/index.md)
 
 * [May](md_gen/2026/5.md)
+    * [New project: playing with ESP32s](md_gen/2026/5.md#newprojectplayingwithesp32s)
     * [Homeboard: Complete](md_gen/2026/5.md#homeboardcomplete)
  * [April](md_gen/2026/4.md)
     * [Homeboard v2](md_gen/2026/4.md#homeboardv2)

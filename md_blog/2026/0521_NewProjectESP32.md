@@ -1,10 +1,7 @@
-# Posts for 2026 May
+# New project: playing with ESP32s
 
-@meta docType index
-
-## New project: playing with ESP32s
-
-Post by Nico Brailovsky @ 2026-05-21 | [Permalink](md_blog/2026/0521_NewProjectESP32.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0521_NewProjectESP32.md&body=I%20have%20a%20comment!)
+@meta publishDate 2026-05-21
+@meta author Nico Brailovsky
 
 I spent about 15 minutes not knowing what to do with my life after I [finished my last project](md_blog/2026/0509_HomeboardComplete.md), then opened up my box of ESP32s and decided to start a new one. This time I'm building a presence sensor.
 
@@ -25,31 +22,3 @@ The assembly here looks pretty but the picture is a bit of a lie, as the sensor 
 I don't know how useful this sensor will be: the battery seems quite small, and I haven't done any power measurements yet to estimate the lifetime of the device between charges. For now, it's been a good experiment to learn to use my 3D printer, and to start planning V2 of this sensor.
 
 As for the identification part: I managed to coax my phone into automatically connecting to my sensor by declaring the Bluetooth interface as an input device, and the identification part seems to work remarkably well: by reducing the TX power of the ESP, I can get a useful radius of about 3 or 4 meters, enough to put one of these in a room and know who is in there. I can't wait to find out what this device will do once both me and my wife sit down to watch a movie together!
-
-
-
-
-
----
-
-## Homeboard: Complete
-
-Post by Nico Brailovsky @ 2026-05-09 | [Permalink](md_blog/2026/0509_HomeboardComplete.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0509_HomeboardComplete.md&body=I%20have%20a%20comment!)
-
-This is an extremely rare occurrence: I have finished a project!
-
-![](/blog_img/2026/0509_homeboard.jpg)
-
-I have now completed my Homeboard project. This doesn't mean there are no bugs (although tactical systemd unit restarts take care of most known bugs), and it doesn't mean I won't ever build new features (some day I'll make it boot over LAN). It does mean I achieved all of the initial objectives I had for this project (or have, at least, clever workarounds for missing features). It is now complete and stable enough that I don't feel too ashamed of calling it done. Of course, the project is also built in an extensible way so that I can add new (software!) features cheaply.
-
-Looking back:
-
-- The project took 2 years to complete
-- The feature I'm sad about not achieving: buttons! Having a physical interface to interact with the device is nice, but the cables in my assembly proved too fiddly to work reliably. I did add a QR code to the display to quickly open the web remote control, however, so I can live without it.
-- The feature I'm most proud of: SVG overlays. This was a pretty brilliant idea, if I may say so myself. Running on a Raspberry Pi Zero over PoE, the device is very compute-constrained. This means no fancy HTML or React rendering. Using SVG, I can still overlay arbitrary data and easily extend it, while keeping the device software lightweight enough the platform.
-- The [best bug](https://nicolasbrailo.github.io/blog/2025/0316_HomeboardHardwareBug.html): a bad mmWave sensor placement. It picked up occupancy signals from the display, meaning the panel would be in an on/off loop.
-
-You can build your own, [extensive instructions are available in the project's repo](https://github.com/nicolasbrailo/homeboard).
-
-
-

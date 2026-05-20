@@ -5,7 +5,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-<title>Posts for 2026 May Nico Brailovsky's thought repository</title>
+<title>New project: playing with ESP32s Nico Brailovsky's thought repository</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,10 +35,15 @@
 </div>
 
 <div id="content" class="language-clike">
-<h2>Posts for 2026 May</h2>
+<h2 name="newprojectplayingwithesp32s">New project: playing with ESP32s</h2>
 
-<h2>New project: playing with ESP32s<a name="newprojectplayingwithesp32s"></a></h2>
-<p>Post by Nico Brailovsky @ 2026-05-21 | <a href="/blog/2026/0521_NewProjectESP32.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0521_NewProjectESP32.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
+<div class="post_metadata">
+Post by Nico Brailovsky @ 2026-05-21 |
+  <a href="/blog/2026/0521_NewProjectESP32.html">Permalink</a>  |
+  <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0521_NewProjectESP32.md&body=I%20have%20a%20comment!">Leave a comment</a>
+</div>
+
+<div class="post">
 <p>I spent about 15 minutes not knowing what to do with my life after I <a href="/blog/2026/0509_HomeboardComplete.html">finished my last project</a>, then opened up my box of ESP32s and decided to start a new one. This time I'm building a presence sensor.</p>
 <p>When I sit down to watch TV, I need to configure the lights in the correct way (there is a correct way), the audio profile, the TV input, even the correct heating settings. I can do all of that from my phone, or even better, from a Zigbee button, but I decided that's still too much work and it should all happen automatically. When I sit down to watch TV, everything should automatically be set up the way I like it. Because I don't live alone, when my wife sits down to watch TV it should be set up the way <em>she</em> likes it. How hard could that be?</p>
 <p><img alt="Proof of life" src="/blog_img/2026/0521_NewProjectESP32_1.jpg" /></p>
@@ -49,20 +54,11 @@
 <p>The assembly here looks pretty but the picture is a bit of a lie, as the sensor doesn't do much yet. The <a href="https://github.com/nicolasbrailo/esp32_playground/">firmware is in its early stages</a>, although it can already connect to an MQTT server and broadcast its battery status. The idea is to pair my phone over Bluetooth, and then use it as an identification mechanism, plus the PIR sensor to wake up the device (did I mention the battery is tiny?).</p>
 <p>I don't know how useful this sensor will be: the battery seems quite small, and I haven't done any power measurements yet to estimate the lifetime of the device between charges. For now, it's been a good experiment to learn to use my 3D printer, and to start planning V2 of this sensor.</p>
 <p>As for the identification part: I managed to coax my phone into automatically connecting to my sensor by declaring the Bluetooth interface as an input device, and the identification part seems to work remarkably well: by reducing the TX power of the ESP, I can get a useful radius of about 3 or 4 meters, enough to put one of these in a room and know who is in there. I can't wait to find out what this device will do once both me and my wife sit down to watch a movie together!</p>
-<hr />
-<h2>Homeboard: Complete<a name="homeboardcomplete"></a></h2>
-<p>Post by Nico Brailovsky @ 2026-05-09 | <a href="/blog/2026/0509_HomeboardComplete.html">Permalink</a>  | <a href="https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@/blog/2026/0509_HomeboardComplete.html&amp;body=I%20have%20a%20comment!">Leave a comment</a></p>
-<p>This is an extremely rare occurrence: I have finished a project!</p>
-<p><img alt="" src="/blog_img/2026/0509_homeboard.jpg" /></p>
-<p>I have now completed my Homeboard project. This doesn't mean there are no bugs (although tactical systemd unit restarts take care of most known bugs), and it doesn't mean I won't ever build new features (some day I'll make it boot over LAN). It does mean I achieved all of the initial objectives I had for this project (or have, at least, clever workarounds for missing features). It is now complete and stable enough that I don't feel too ashamed of calling it done. Of course, the project is also built in an extensible way so that I can add new (software!) features cheaply.</p>
-<p>Looking back:</p>
-<ul>
-<li>The project took 2 years to complete</li>
-<li>The feature I'm sad about not achieving: buttons! Having a physical interface to interact with the device is nice, but the cables in my assembly proved too fiddly to work reliably. I did add a QR code to the display to quickly open the web remote control, however, so I can live without it.</li>
-<li>The feature I'm most proud of: SVG overlays. This was a pretty brilliant idea, if I may say so myself. Running on a Raspberry Pi Zero over PoE, the device is very compute-constrained. This means no fancy HTML or React rendering. Using SVG, I can still overlay arbitrary data and easily extend it, while keeping the device software lightweight enough the platform.</li>
-<li>The <a href="https://nicolasbrailo.github.io/blog/2025/0316_HomeboardHardwareBug.html">best bug</a>: a bad mmWave sensor placement. It picked up occupancy signals from the display, meaning the panel would be in an on/off loop.</li>
-</ul>
-<p>You can build your own, <a href="https://github.com/nicolasbrailo/homeboard">extensive instructions are available in the project's repo</a>.</p>
+</div>
+
+<div class="post_comments">
+
+</div>
 
 </div>
 

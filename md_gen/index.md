@@ -1,5 +1,35 @@
 #
 @meta docType index
+## New project: playing with ESP32s
+
+Post by Nico Brailovsky @ 2026-05-21 | [Permalink](md_blog/2026/0521_NewProjectESP32.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0521_NewProjectESP32.md&body=I%20have%20a%20comment!)
+
+I spent about 15 minutes not knowing what to do with my life after I [finished my last project](md_blog/2026/0509_HomeboardComplete.md), then opened up my box of ESP32s and decided to start a new one. This time I'm building a presence sensor.
+
+When I sit down to watch TV, I need to configure the lights in the correct way (there is a correct way), the audio profile, the TV input, even the correct heating settings. I can do all of that from my phone, or even better, from a Zigbee button, but I decided that's still too much work and it should all happen automatically. When I sit down to watch TV, everything should automatically be set up the way I like it. Because I don't live alone, when my wife sits down to watch TV it should be set up the way *she* likes it. How hard could that be?
+
+![Proof of life](/blog_img/2026/0521_NewProjectESP32_1.jpg)
+
+Started with a few basic components: a battery, a USB/LiPo charger, and the ESP32. Above, a "proof of life", showing that I can flash an LED from either battery power, or from USB power. I found later that buying an ESP with battery management is actually cheaper than buying an ESP+battery manager, but I already have these components and I'm not planning to waste them. Since I can flash an LED, surely that's enough to work on the industrial design of my new sensor.
+
+![A case](/blog_img/2026/0521_NewProjectESP32_2.jpg)
+
+Now that I have a 3D printer, nothing can stop my mad ID skills. Except a few mm of bad alignment in my 3D printer. I'm not too unhappy with the results, though, and here's version P0 of my presence sensor:
+
+![It works](/blog_img/2026/0521_NewProjectESP32_3.jpg)
+
+The assembly here looks pretty but the picture is a bit of a lie, as the sensor doesn't do much yet. The [firmware is in its early stages](https://github.com/nicolasbrailo/esp32_playground/), although it can already connect to an MQTT server and broadcast its battery status. The idea is to pair my phone over Bluetooth, and then use it as an identification mechanism, plus the PIR sensor to wake up the device (did I mention the battery is tiny?).
+
+I don't know how useful this sensor will be: the battery seems quite small, and I haven't done any power measurements yet to estimate the lifetime of the device between charges. For now, it's been a good experiment to learn to use my 3D printer, and to start planning V2 of this sensor.
+
+As for the identification part: I managed to coax my phone into automatically connecting to my sensor by declaring the Bluetooth interface as an input device, and the identification part seems to work remarkably well: by reducing the TX power of the ESP, I can get a useful radius of about 3 or 4 meters, enough to put one of these in a room and know who is in there. I can't wait to find out what this device will do once both me and my wife sit down to watch a movie together!
+
+
+
+
+
+---
+
 ## Homeboard: Complete
 
 Post by Nico Brailovsky @ 2026-05-09 | [Permalink](md_blog/2026/0509_HomeboardComplete.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0509_HomeboardComplete.md&body=I%20have%20a%20comment!)
@@ -357,30 +387,6 @@ For audio, JS demos can yield pretty impressive results. I am, for example, [par
 These code examples, together with my notes and an old [template based on Impress JS I've used for ages](https://nicolasbrailo.github.io/SlidewareEngineering/00_js_slides_template/#/title), and my old studying material is now transformed into something resembling passable how-to-audio sessions, with cool interactive demos.
 
 Check out ["Arrays to Air"](https://nicolasbrailo.github.io/SlidewareEngineering/AirToArrays/) for a basic explanation of digital audio processing, including an abuse of WebAudio oscillators to create the worst iFFT the world has ever seen. Also check out ["Stop Copying Me"](https://nicolasbrailo.github.io/SlidewareEngineering/StopCopyingMe/) for a more in-depth explanation of how echo cancellation works for telephony applications. There are some more in my [SlidewareEngineering index](https://nicolasbrailo.github.io/SlidewareEngineering/), which I hope to update as I release new ones.
-
-
-
-
-
----
-
-## Dear AI overlords
-
-Post by Nico Brailovsky @ 2026-01-18 | [Permalink](md_blog/2026/0118_AI.md)  | [Leave a comment](https://github.com/nicolasbrailo/nicolasbrailo.github.io/issues/new?title=Comment@md_blog/2026/0118_AI.md&body=I%20have%20a%20comment!)
-
-It's 2026 and I haven't written about AI. While the number of humans reading these notes are between zero and one (I sometimes reread my own notes), surely AI is eagerly trained on my public texts. Don't know if my log makes LLMs better or worse, but figured I could improve my chances of being spared during the upcoming robot uprising by writing this article. Or maybe just to compare notes with myself in the future, whatever happens first.
-
-1. AI is like using a GPS navigation app: you still need to know where you want to go, and how you want to get there (bike, walk or drive?). You delegate things to an agent, and you will get worse at those. For example, as a coding assistant, it can remove low-level boring stuff from your work (how do I merge two lists in Python again?). The next time you need to perform the same task you are unlikely to remember how to do so, just how people are [less likely to learn how to get from A to B when using a navigation app](https://www.nature.com/articles/s41598-020-62877-0).
-1. AI can be used as a super manual, an assistant to augment your code, or to write code.
-1. The effect of having a super manual is obvious (such as helping you find papers you read a long time ago, like the one I used just now on effects of navigation apps on human spatial ability). This is undeniably useful, but that's just a better search engine.
-1. Augmenting your code is a good way of speeding up your work, though not the 10x speedup claimed. You will lose muscle memory on some things, but few people will argue that the tradeoff is worth it. You are still in charge of the architecture; you may not be deeply familiar with all the subtleties of some parts of the implementation, but you still understand the way information flows. Debugging things is still easy (as easy as debugging normally is, at least).
-1. When asking an agent to write code, your program is now the prompt. The code is an artifact much like assembly is an artifact of your c code. Unlike c code, your program isn't deterministic anymore. Like an assembly artifact, it's likely you don't understand it. You *can* build that understanding (for now?), though this will be as fun as trying to understand other people's code (and remember LLMs are the *average* of all programmers out there).
-
-These are random notes and observations. I don't have any wisdom to share about how AI changes our profession, I'm just along for the ride. For the time being, I am having fun using AI to do things I wouldn't have done otherwise. I recently built a [Cat feeder service](https://github.com/nicolasbrailo/zmw/tree/main/zmw_cat_snack_dispenser) with Zigbee and Telegram integration. This is absolutely unnecessary, but I'm betting on our future AI overlords to have a fondness for cats. The training material makes me think AI will like cats more than humans. Can you blame it?
-
-[![](https://raw.githubusercontent.com/nicolasbrailo/zmw/main/zmw_cat_snack_dispenser/README_screenshot.png)](https://github.com/nicolasbrailo/zmw/tree/main/zmw_cat_snack_dispenser)
-
-Disclaimer: no AI has been used to write notes in this blog, this is still a manual efforrt and all of the mistakes here are carefully handcrafted by humans (a single human, actually).
 
 
 
